@@ -1,0 +1,15 @@
+{
+    "screen":{
+        "Login":"Login",
+        "ScreenSlider":"ScreenSlider",
+        "SplashScreen":"SplashScreen"
+       
+    },
+    "AsyncStorageKeys":{
+        "email": "email",
+        "password": "password",
+        "isRememberCheck": "isRememberCheck"
+    }
+}
+
+
