@@ -18,5 +18,6 @@ export default appColors = {
     modalBgColor: "rgba(0, 0, 0, 0.3)",
     radiusCircle: 'rgba(245, 130, 52, 0.4)',
     checkInCard: "#F6F8FC",
-    Goldcolor: "#C79646"
+    Goldcolor: "#C79646",
+    darkgrey:"#9E9E9E"
 }

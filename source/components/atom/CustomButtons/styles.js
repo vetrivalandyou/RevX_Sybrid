@@ -10,7 +10,7 @@ container:{
     width:'100%',
     alignItems:'center',
     paddingVertical:18,
-    bottom:20
+    bottom:20,
 },
 btnText:{
     color:AppColors.White

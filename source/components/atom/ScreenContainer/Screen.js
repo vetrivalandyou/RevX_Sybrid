@@ -5,42 +5,36 @@ import { useTheme } from '@react-navigation/native';
 import appColors from '../../../AppConstants/appColors';
 
 
-const Screen = (props) => {
+const Screen = ({ scrollable, animated,hidden, translucent, statusBarColor, scrollViewContentStyle, children, viewStyle, style }) => {
   const { colors } = useTheme();
 
   const appMode = Appearance.getColorScheme()
 
   return (
-    <SafeAreaView style={[styles.safeAreaView, props.style]}>
-
+    <SafeAreaView style={{ flex: 1,backgroundColor:'red' }}>
       <StatusBar
-        hidden={props.hidden}
-        // barStyle="default"
+        hidden={hidden}
         barStyle={appMode == "dark" ? "light-content" : "dark-content"}
-        translucent={props.translucent}
-        backgroundColor={props.statusBarColor ? props.statusBarColor : colors.screenTab}
+        translucent={translucent}
+        backgroundColor={statusBarColor ? statusBarColor : colors.screenTab}
+        animated={animated}
       />
-
-
       {
-        props.scrollable ?
+        scrollable ?
           <ScrollView
             style={styles.scrollView}
             showsVerticalScrollIndicator={false}
-            contentContainerStyle={[styles.scrollViewContent, props.scrollViewContentStyle]}
+            contentContainerStyle={[styles.scrollViewContent, scrollViewContentStyle]}
             keyboardShouldPersistTaps="handled"
           >
-            {props.children}
+            {children}
           </ScrollView>
           :
-
-          <View style={[styles.view, props.viewStyle]}>
-            {props.children}
+          <View style={[styles.view, viewStyle]}>
+            {children}
           </View>
       }
-
     </SafeAreaView>
-
   )
 }
 

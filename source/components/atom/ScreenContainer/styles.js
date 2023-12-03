@@ -7,7 +7,7 @@ export default styles = StyleSheet.create({
         flex: 1
     },
     view: {
-        padding: 15,
+        // padding: 15,
         flex: 1,
         // backgroundColor: colors.White
     },

@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import {Text,View,StyleSheet,Image} from "react-native";
+import { Text, View, StyleSheet, Image } from "react-native";
 import { AppImages } from "../../AppConstants/AppImages";
 import Screen from "../../components/atom/ScreenContainer/Screen";
 import ScreenSlider from "../ScreenSlider";
@@ -7,38 +7,37 @@ import constants from "../../AppConstants/Constants.json"
 import { useNavigation } from "@react-navigation/native";
 
 
-const SplashScreen =({navigation})=>{
+const SplashScreen = ({ navigation }) => {
   // const navigation =useNavigation();
 
 
-    useEffect(()=>{
-        setTimeout(() => {
-          navigation.navigate(constants.screen.ScreenSlider)
-        }, 1000);
-    },[])
- 
-return(
-    
-  <Screen
-  viewStyle={{justifyContent:'center',alignItems:'center', }}
-  translucent={true}
-  statusBarColor="transparent"
-   
-  style={styles.container}>
-   <Image style={styles.imageStyle} source={AppImages.splash}/>
+  useEffect(() => {
+    setTimeout(() => {
+      navigation.navigate(constants.screen.ScreenSlider)
+    }, 1000);
+  }, [])
 
-  </Screen>
-)
+  return (
+
+    <Screen
+      viewStyle={{ justifyContent: 'center', alignItems: 'center', }}
+      translucent={true}
+      statusBarColor="transparent"
+      style={styles.container}>
+      <Image style={styles.imageStyle} source={AppImages.splash} />
+
+    </Screen>
+  )
 }
 export default SplashScreen;
 
-const styles =StyleSheet.create({
-    container:{
-       // flex:1,    
-    },
-    imageStyle:{
-      height:200,
-      width:200,
-      resizeMode:'contain'
-    }
+const styles = StyleSheet.create({
+  container: {
+    // flex:1,    
+  },
+  imageStyle: {
+    height: 200,
+    width: 200,
+    resizeMode: 'contain'
+  }
 })
