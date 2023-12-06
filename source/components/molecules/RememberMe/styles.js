@@ -5,10 +5,10 @@ export default StyleSheet.create({
 
    ReIcon: { 
      backgroundColor: appColors.Goldcolor, 
-     borderRadius: 8,
+     borderRadius: 50,
      justifyContent: 'center',
      alignItems: 'center',
-     width: 15 ,
+     width: 18,
     },
     rememeberText:  { 
         color: appColors.White,

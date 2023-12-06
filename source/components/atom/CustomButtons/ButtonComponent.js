@@ -10,10 +10,9 @@ const ButtonComponent=({onPress,title,style})=>{
         style={[styles.container,style]}
          onPress={onPress}
         >
-            <Text style={styles.btnText}
-            title={title} > 
-            Get Started
-            </Text>
+            <Text style={styles.btnText} > 
+            {title}
+          </Text>
 
         </TouchableOpacity>
        

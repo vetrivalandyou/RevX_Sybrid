@@ -3,11 +3,12 @@ import { Text, View, TouchableOpacity, SafeAreaView, StatusBar } from "react-nat
 import CustomIcon, { Icons } from "../CustomIcon/CustomIcon";
 import AppColors from "../../../AppConstants/appColors";
 import styles from "./styles";
+import appColors from "../../../AppConstants/appColors";
 
-const RememberMe = ({ RememberTex, ForgetPasswordText, onPress }) => {
+const RememberMe = ({ RememberTex, ForgetPasswordText, onPress,onPressFP}) => {
 
     return (
-        <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+        <View style={{ flexDirection: 'row', justifyContent: 'space-between'}}>
 
             <View style={{ flexDirection: 'row', }}>
                 <TouchableOpacity
@@ -29,8 +30,10 @@ const RememberMe = ({ RememberTex, ForgetPasswordText, onPress }) => {
 
             </View>
 
-            <TouchableOpacity>
-                <Text style={{ color: appColors.Goldcolor }}>
+            <TouchableOpacity
+            onPress={onPressFP}
+            >
+                <Text style={{ color:appColors.Goldcolor }}>
                     {ForgetPasswordText}
                 </Text>
 

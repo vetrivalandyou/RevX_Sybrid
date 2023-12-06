@@ -19,5 +19,8 @@ export default appColors = {
     radiusCircle: 'rgba(245, 130, 52, 0.4)',
     checkInCard: "#F6F8FC",
     Goldcolor: "#C79646",
-    darkgrey:"#9E9E9E"
+    darkgrey:"#252525",
+    lightBlack:'#292929',
+
+
 }

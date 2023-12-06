@@ -6,15 +6,15 @@ import styles from "./styles";
 import appColors from "../../../AppConstants/appColors";
 import CustomIcon, { Icons } from "../CustomIcon/CustomIcon";
 
-const SimpleTextField=({placeholder,keyboardType,value,onChangeText,onPressIcon,eyeOpen,secureTextEntry})=>{
+const SimpleTextField=({placeholderTextColor,placeholder,keyboardType,value,onChangeText,onPressIcon,eyeOpen,secureTextEntry})=>{
   return (
     
      <View style={styles.mainContainer}>
       <View style={styles.innerContainner}>
         <TextInput
-         style={{flex:1,}}
+         style={{flex:1,color:AppColors.White}}
           placeholder={placeholder}
-          placeholderTextColor={appColors.darkgrey}
+          placeholderTextColor={placeholderTextColor}
           value={value}
           keyboardType={keyboardType}
           onChangeText={onChangeText}
@@ -22,9 +22,9 @@ const SimpleTextField=({placeholder,keyboardType,value,onChangeText,onPressIcon,
         />
         <TouchableOpacity
         onPress={onPressIcon}
-        style={{}}
         >
-          <CustomIcon type={Icons.Ionicons} 
+          <CustomIcon
+            type={Icons.Ionicons}
             name={eyeOpen ? 'eye-outline' : 'eye-off-outline'}
             color={appColors.White}/>
 

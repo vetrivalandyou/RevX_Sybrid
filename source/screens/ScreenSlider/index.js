@@ -45,7 +45,8 @@ setCurrentImageIndex(index);
   <Text style={styles.CarouselText}>{imageData[currentImageIndex].text}</Text>
        
   <View style={{alignItems:'center'}}>
-  <ButtonComponent style={{width:"90%"}}
+  <ButtonComponent style={{width:"90%",position:'absolute',bottom:20}}
+  title={"Get Start"}
   onPress={()=>navigation.navigate(constants.screen.Login)}
   />
 

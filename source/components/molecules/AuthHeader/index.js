@@ -6,30 +6,30 @@ import AppColors from "../../../AppConstants/appColors";
 import Screen from "../../atom/ScreenContainer/Screen";
 import ButtonComponent from "../../atom/CustomButtons/ButtonComponent";
 
-const AuthHeader = ({ title, onPress, heading, subheading }) => {
+const AuthHeader = ({ logIn, onPress, heading, subheading ,style}) => {
 
     return (
-        <View style={styles.authView}>
+        <View style={[styles.authView,style]}>
             <View style={[styles.header]}>
-                <View style={{ flex: 0.2, justifyContent:'center', alignItems:'center'}}>
+                <View style={{ flex: 0.1,  alignItems:'center',justifyContent:'center',backgroundColor:'green'}}>
                     <TouchableOpacity
                         onPress={onPress}
                     >
                         <CustomIcon type={Icons.Ionicons} name={"chevron-back"} color={AppColors.White} style={{}} size={22} />
                     </TouchableOpacity>
                 </View>
-                <View style={{ flex: 0.9,  justifyContent:'center', alignItems:'center'}}>
-                    <Text style={styles.titleText}>{title}</Text>
+                <View style={{ flex: 0.8,justifyContent:'center',backgroundColor:'blue' }}>
+                    <Text style={styles.titleText}>{logIn}</Text>
                 </View>
             </View>
-            <View style={{ flex: 0.4,marginLeft:18,}}>
+            <View style={{flex:0.39,backgroundColor:'brown'}}>
                 <Text style={styles.headindText}>
                     {heading}
                 </Text>
-
                 <Text style={styles.subHeadindText}>
                     {subheading}
                 </Text>
+               
             </View>
         </View>
     )

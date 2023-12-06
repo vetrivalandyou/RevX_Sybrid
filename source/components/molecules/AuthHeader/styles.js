@@ -9,29 +9,33 @@ export default StyleSheet.create({
 
   authView: {
     backgroundColor: AppColors.Goldcolor,
-    flex: 0.30,
+    flex: 0.29,
   },
   header: {
-    flex: 0.6,
+    flex: 0.4,
     // marginTop:60,
     flexDirection: 'row',
+    backgroundColor:'red'
+   
   },
   titleText: {
     textAlign: 'center',
     color: AppColors.White,
     fontWeight: '500',
-    fontSize: 15
+    fontSize: 16,
   },
   headindText: {
     color: AppColors.White,
-    fontWeight: '500',
+    fontWeight: '400',
     fontSize: 40,
-    //marginLeft:15,
+    marginLeft:15,
     // marginTop:20
   },
   subHeadindText: {
     color: AppColors.White,
-    fontSize: 15
+    fontSize: 15,
+    marginLeft:15,
+
     // marginLeft:15
   }
 

@@ -12,7 +12,7 @@ import ButtonComponent from "../../components/atom/CustomButtons/ButtonComponent
 import RememberMe from "../../components/molecules/RememberMe";
 import SocailLogin from "../../components/molecules/SocailLogin";
 
-const Login = ({ navigation }) => {
+const CreateAccount = ({ navigation }) => {
     const [isEye, setIsEye] = React.useState(false);
 
     return (
@@ -23,64 +23,75 @@ const Login = ({ navigation }) => {
         >
             <AuthHeader
                 logIn={"Log In"}
-                heading={"Welcome Back!"}
+                heading={"Create Account"}
                 subheading={"Please Login your account, Enter your details."}
                 onPress={() => navigation.navigate(constants.screen.ScreenSlider)}
             />
 
-            <View style={{ backgroundColor: "white", flex: 0.8, padding: 15, backgroundColor: appColors.Black }}>
+            <View style={{ backgroundColor: "white", flex: 0.70, padding: 15, backgroundColor: appColors.Black }}>
 
-                <View style={{ flex: 0.29,justifyContent:'center'}}>
+                <View style={{ flex: 0.5, justifyContent: 'center' }}>
 
-                  
+
                     <View style={{ flex: 0.4, justifyContent: 'center' }}>
                         <SimpleTextField
-                         placeholder={"Enter Your Email"}
-                         placeholderTextColor={appColors.White}
+                            placeholder={"Enter Full Name"}
+                            placeholderTextColor={appColors.White}
                         />
 
                     </View>
-                    <View style={{ flex: 0.4, justifyContent: 'center'}}>
-                        <SimpleTextField 
-                        placeholder={"Enter Your Password"}
-                         eyeOpen={isEye}
-                         onPressIcon={() => setIsEye(!isEye)}
-                        secureTextEntry={true}
-                        placeholderTextColor={appColors.White}
-                        
+                    <View style={{ flex: 0.4, justifyContent: 'center' }}>
+                        <SimpleTextField
+                            placeholder={"Enter Email Address"}
+                            placeholderTextColor={appColors.White}
+                        />
+
+                    </View>
+
+                    <View style={{ flex: 0.4, justifyContent: 'center', borderStartColor: 'red' }}>
+                        <SimpleTextField
+                            placeholder={"Enter Your Password"}
+                            eyeOpen={isEye}
+                            onPressIcon={() => setIsEye(!isEye)}
+                            secureTextEntry={true}
+                            placeholderTextColor={appColors.White}
+
+                        />
+
+                    </View>
+                    <View style={{ flex: 0.4, justifyContent: 'center' }}>
+                        <SimpleTextField
+                            placeholder={"Contact Number"}
+                            placeholderTextColor={appColors.White}
                         />
 
                     </View>
 
 
                 </View>
-                {/* <View style={{ flex: 0.1, justifyContent: 'center' ,backgroundColor:'purple'}}> */}
+                <View style={{ flex: 0.1, justifyContent: 'center' }}>
                     <RememberMe
                         RememberTex={"Remember me"}
-                        ForgetPasswordText={"Forget Password"}
-                        onPressFP={()=>navigation.navigate(constants.screen.ForgotPassword)}
+                        ForgetPasswordText={"Terms & Conditions"}
                     />
 
-                {/* </View> */}
-                <View style={{ flex: 0.2,alignItems:'center',justifyContent:'center' }}>
-                    <ButtonComponent 
-                    title={"Sign In"}
-                    onPress={()=>navigation.navigate(constants.screen.BottomTabNavigation)}
-                    />
+                </View>
+                <View style={{ flex: 0.2 }}>
+                    <ButtonComponent title={"Create Account"} />
                 </View>
 
                 <View style={{ flex: 0.1, flexDirection: 'row', justifyContent: 'center' }}>
                     <TouchableOpacity>
                         <Text style={{ color: appColors.GrayColor }}>
-                            Not register yet?
+                            Already have an Account ?
                         </Text>
                     </TouchableOpacity>
 
                     <TouchableOpacity
-                    onPress={()=>navigation.navigate(constants.screen.CreateAccount)}
+                        onPress={() => navigation.navigate(constants.screen.Login)}
                     >
                         <Text style={{ color: appColors.Goldcolor }}>
-                            Create an account
+                            Login
                         </Text>
                     </TouchableOpacity>
 
@@ -105,5 +116,5 @@ const Login = ({ navigation }) => {
         </Screen>
     )
 }
-export default Login;
+export default CreateAccount;
 

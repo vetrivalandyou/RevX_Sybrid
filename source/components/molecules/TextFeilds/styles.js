@@ -6,8 +6,9 @@ export default StyleSheet.create({
 
     mainContainer:{
       //  flex: 0.15,
-        // backgroundColor:'red',
-        justifyContent:'flex-end'
+       //  backgroundColor:'red',
+        justifyContent:'flex-end',
+        color:AppColors.White
         // marginTop:20,
     },
     innerContainner: {

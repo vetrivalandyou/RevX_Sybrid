@@ -5,12 +5,13 @@ export default StyleSheet.create({
 
 container:{
     backgroundColor:AppColors.Goldcolor,
-    position:'absolute',
-    borderRadius:25,
+   // position:'absolute',
+    borderRadius:30,
     width:'100%',
     alignItems:'center',
-    paddingVertical:18,
-    bottom:20,
+    paddingVertical:16,
+    bottom:0,
+    
 },
 btnText:{
     color:AppColors.White

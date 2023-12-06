@@ -2,7 +2,17 @@
     "screen":{
         "Login":"Login",
         "ScreenSlider":"ScreenSlider",
-        "SplashScreen":"SplashScreen"
+        "SplashScreen":"SplashScreen",
+        "CreateAccount":"CreateAccount",
+        "Successfull":"Successfull",
+        "ForgotPassword":"ForgotPassword",
+        "BarberSpecialist":"BarberSpecialist",
+        "HomeScreen":"HomeScreen",
+        "BottomTabNavigation":"BottomTabNavigation",
+        "ProfileScreen":"ProfileScreen",
+        "InboxScreen":"InboxScreen",
+        "Booking":"Booking",
+        "LocationScreen":"LocationScreen"
        
     },
     "AsyncStorageKeys":{
