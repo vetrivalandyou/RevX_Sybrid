@@ -11,18 +11,18 @@ const AuthHeader = ({ logIn, onPress, heading, subheading ,style}) => {
     return (
         <View style={[styles.authView,style]}>
             <View style={[styles.header]}>
-                <View style={{ flex: 0.1,  alignItems:'center',justifyContent:'center',backgroundColor:'green'}}>
+                <View style={{ flex: 0.1,  alignItems:'center',justifyContent:'center'}}>
                     <TouchableOpacity
                         onPress={onPress}
                     >
                         <CustomIcon type={Icons.Ionicons} name={"chevron-back"} color={AppColors.White} style={{}} size={22} />
                     </TouchableOpacity>
                 </View>
-                <View style={{ flex: 0.8,justifyContent:'center',backgroundColor:'blue' }}>
+                <View style={{ flex: 0.8,justifyContent:'center' }}>
                     <Text style={styles.titleText}>{logIn}</Text>
                 </View>
             </View>
-            <View style={{flex:0.39,backgroundColor:'brown'}}>
+            <View style={{flex:0.39}}>
                 <Text style={styles.headindText}>
                     {heading}
                 </Text>

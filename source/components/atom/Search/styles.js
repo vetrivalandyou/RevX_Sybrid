@@ -11,7 +11,7 @@ export default StyleSheet.create({
     fontSize: Sizes.xxLarge - 6,
     marginHorizontal:Sizes.small,
     color: color,
-    marginTop: top,
+   // marginTop: top,
   //  backgroundColor: 'red',
   }),
   searchContainer: {
@@ -22,7 +22,7 @@ export default StyleSheet.create({
    // marginVertical:16,
    // marginLeft:10,
     borderWidth:1,
-    borderBlockColor:appColors.Goldcolor
+    borderBlockColor:appColors.darkgrey
  
     //backgroundColor:'red'
 

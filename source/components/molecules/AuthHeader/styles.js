@@ -15,7 +15,7 @@ export default StyleSheet.create({
     flex: 0.4,
     // marginTop:60,
     flexDirection: 'row',
-    backgroundColor:'red'
+   
    
   },
   titleText: {

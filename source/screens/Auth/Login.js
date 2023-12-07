@@ -30,17 +30,15 @@ const Login = ({ navigation }) => {
 
             <View style={{ backgroundColor: "white", flex: 0.8, padding: 15, backgroundColor: appColors.Black }}>
 
-                <View style={{ flex: 0.29,justifyContent:'center'}}>
+                <View style={{ flex: 0.3,justifyContent:'center'}}>
 
                   
-                    <View style={{ flex: 0.4, justifyContent: 'center' }}>
                         <SimpleTextField
                          placeholder={"Enter Your Email"}
                          placeholderTextColor={appColors.White}
+                        
                         />
 
-                    </View>
-                    <View style={{ flex: 0.4, justifyContent: 'center'}}>
                         <SimpleTextField 
                         placeholder={"Enter Your Password"}
                          eyeOpen={isEye}
@@ -50,7 +48,6 @@ const Login = ({ navigation }) => {
                         
                         />
 
-                    </View>
 
 
                 </View>

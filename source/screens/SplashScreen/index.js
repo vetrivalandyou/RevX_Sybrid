@@ -5,6 +5,7 @@ import Screen from "../../components/atom/ScreenContainer/Screen";
 import ScreenSlider from "../ScreenSlider";
 import constants from "../../AppConstants/Constants.json"
 import { useNavigation } from "@react-navigation/native";
+import appColors from "../../AppConstants/appColors";
 
 
 const SplashScreen = ({ navigation }) => {
@@ -20,8 +21,8 @@ const SplashScreen = ({ navigation }) => {
   return (
 
     <Screen
-      viewStyle={{ justifyContent: 'center', alignItems: 'center', }}
-      translucent={true}
+      viewStyle={{ justifyContent: 'center', alignItems: 'center',backgroundColor:appColors.White }}
+     // translucent={true}
       statusBarColor="transparent"
       style={styles.container}>
       <Image style={styles.imageStyle} source={AppImages.splash} />
