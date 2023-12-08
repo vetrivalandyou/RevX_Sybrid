@@ -1,25 +1,24 @@
 {
-    "screen":{
-        "Login":"Login",
-        "ScreenSlider":"ScreenSlider",
-        "SplashScreen":"SplashScreen",
-        "CreateAccount":"CreateAccount",
-        "Successfull":"Successfull",
-        "ForgotPassword":"ForgotPassword",
-        "BarberSpecialist":"BarberSpecialist",
-        "HomeScreen":"HomeScreen",
-        "BottomTabNavigation":"BottomTabNavigation",
-        "ProfileScreen":"ProfileScreen",
-        "InboxScreen":"InboxScreen",
-        "Booking":"Booking",
-        "LocationScreen":"LocationScreen"
-       
+    "screen": {
+        "Login": "Login",
+        "ScreenSlider": "ScreenSlider",
+        "SplashScreen": "SplashScreen",
+        "CreateAccount": "CreateAccount",
+        "Successfull": "Successfull",
+        "ForgotPassword": "ForgotPassword",
+        "ForgotCheckEmail": "ForgotCheckEmail",
+        "NewPassword": "NewPassword",
+        "BarberSpecialist": "BarberSpecialist",
+        "HomeScreen": "HomeScreen",
+        "BottomTabNavigation": "BottomTabNavigation",
+        "ProfileScreen": "ProfileScreen",
+        "InboxScreen": "InboxScreen",
+        "Booking": "Booking",
+        "LocationScreen": "LocationScreen"
     },
-    "AsyncStorageKeys":{
+    "AsyncStorageKeys": {
         "email": "email",
         "password": "password",
         "isRememberCheck": "isRememberCheck"
     }
 }
-
-
