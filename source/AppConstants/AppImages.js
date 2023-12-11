@@ -15,6 +15,4 @@ export const AppImages = {
 
   splash:require(`${path}splash.png`)
 
-
- 
 };

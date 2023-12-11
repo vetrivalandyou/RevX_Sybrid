@@ -1,6 +1,5 @@
-import { StyleSheet } from "react-native";
-import AppColors from "../../../AppConstants/appColors";
-
+import {StyleSheet} from 'react-native';
+import AppColors from '../../../AppConstants/appColors';
 
 export default StyleSheet.create({
   // container: {
@@ -15,8 +14,6 @@ export default StyleSheet.create({
     flex: 0.4,
     // marginTop:60,
     flexDirection: 'row',
-   
-   
   },
   titleText: {
     textAlign: 'center',
@@ -28,16 +25,14 @@ export default StyleSheet.create({
     color: AppColors.White,
     fontWeight: '400',
     fontSize: 40,
-    marginLeft:15,
+    marginLeft: 15,
     // marginTop:20
   },
   subHeadindText: {
     color: AppColors.White,
     fontSize: 15,
-    marginLeft:15,
+    marginLeft: 15,
 
     // marginLeft:15
-  }
-
-
-})
+  },
+});
