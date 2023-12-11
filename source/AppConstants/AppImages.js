@@ -9,10 +9,6 @@ export const AppImages = {
   bb1:require(`${path}barberImage1.png`),
   mapImg:require(`${path}mapImg.png`),
   profile:require(`${path}profile.png`),
-
-
-
-
   splash:require(`${path}splash.png`)
 
 };
