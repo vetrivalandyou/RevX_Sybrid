@@ -2,7 +2,7 @@ import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import constants from '../AppConstants/Constants.json'
-import { BarberSpecialist, CreateAccount, ForgotPassword, Login, ScreenSlider, SplashScreen, Successfull } from "../screens";
+import { AppointmentDate, BarberEarnings, BarberSpecialist, CreateAccount, ForgotPassword, Login, ScreenSlider, SplashScreen, Successfull } from "../screens";
 import BottomTabNavigation from "./BottomTabNavigation";
 
 
@@ -48,6 +48,16 @@ const Main =()=>{
             <Stack.Screen
             name={constants.screen.ForgotPassword}
             component={ForgotPassword}
+            options={{headerShown:false}}
+            />    
+             <Stack.Screen
+            name={constants.screen.AppointmentDate}
+            component={AppointmentDate}
+            options={{headerShown:false}}
+            />    
+             <Stack.Screen
+            name={constants.screen.BarberEarnings}
+            component={BarberEarnings}
             options={{headerShown:false}}
             />    
             

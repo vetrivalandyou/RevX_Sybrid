@@ -14,7 +14,7 @@ const SplashScreen = ({ navigation }) => {
 
   useEffect(() => {
     setTimeout(() => {
-      navigation.navigate(constants.screen.Login)
+      navigation.navigate(constants.screen.BottomTabNavigation)
     }, 1000);
   }, [])
 

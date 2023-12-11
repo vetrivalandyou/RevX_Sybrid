@@ -5,6 +5,7 @@ import Screen from "../../../components/atom/ScreenContainer/Screen";
 import AuthHeader from "../../../components/molecules/AuthHeader";
 
 
+
 const ForgotPassword = () => {
 
     return (

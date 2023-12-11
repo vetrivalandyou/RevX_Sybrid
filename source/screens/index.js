@@ -9,6 +9,8 @@ import HomeScreen from "./HomeScreen";
 import ProfileScreen from "./ProfileScreen";
 import InboxScreen from "./InboxScreen";
 import Booking from "./Booking";
+import AppointmentDate from "./AppointmentDate";
+import BarberEarnings from "./BarberEarnings";
 export{
     SplashScreen,
     ScreenSlider,
@@ -20,6 +22,9 @@ export{
     HomeScreen,
     ProfileScreen,
     InboxScreen,
-    Booking
+    Booking,
+    AppointmentDate,
+    BarberEarnings
+    
     
 }

@@ -17,7 +17,7 @@ const Login = ({ navigation }) => {
 
     return (
         <Screen statusBarColor={appColors.Goldcolor}
-            translucent={true}
+           // translucent={true}
             barStyle="light-content"
 
         >

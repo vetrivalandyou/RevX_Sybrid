@@ -12,7 +12,9 @@
         "ProfileScreen":"ProfileScreen",
         "InboxScreen":"InboxScreen",
         "Booking":"Booking",
-        "LocationScreen":"LocationScreen"
+        "LocationScreen":"LocationScreen",
+        "AppointmentDate":"AppointmentDate",
+        "BarberEarnings":"BarberEarnings"
        
     },
     "AsyncStorageKeys":{

@@ -8,6 +8,8 @@ export const AppImages = {
   success: require(`${path}svg.png`),
   bb1:require(`${path}barberImage1.png`),
   mapImg:require(`${path}mapImg.png`),
+  profile:require(`${path}profile.png`),
+
 
 
 
