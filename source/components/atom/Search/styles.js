@@ -9,49 +9,45 @@ export default StyleSheet.create({
   welcomeText: (color, top) => ({
     fontWeight: 'bold',
     fontSize: Sizes.xxLarge - 6,
-    marginHorizontal:Sizes.small,
+    marginHorizontal: Sizes.small,
     color: color,
-   // marginTop: top,
-  //  backgroundColor: 'red',
+    // marginTop: top,
+    //  backgroundColor: 'red',
   }),
   searchContainer: {
-    borderRadius:60,
-    flexDirection:'row',
-   // justifyContent:'center',
-    alignItems:'center',
-   // marginVertical:16,
-   // marginLeft:10,
-    borderWidth:1,
-    borderBlockColor:appColors.darkgrey
- 
-    //backgroundColor:'red'
-
+    borderRadius: 60,
+    flexDirection: 'row',
+    alignItems: 'center',
+    borderWidth: 1,
+    paddingVertical: 5,
+    paddingHorizontal: 15,
+    borderLeftColor: appColors.GrayColor,
+    borderRightColor: appColors.GrayColor,
+    borderBlockColor: appColors.GrayColor,
   },
-  searchIcon:{
-    marginHorizontal:Sizes.small,
-    color:appColors.White,
+  searchIcon: {
+    marginHorizontal: Sizes.small,
+    color: appColors.White,
   },
-  search:{
-    marginHorizontal:Sizes.small,
-    color:appColors.AppGray,
+  search: {
+    marginHorizontal: Sizes.small,
+    color: appColors.AppGray,
   },
-  searchWrapper:{
-  flex:1,
-  //backgroundColor:'green',
-  marginRight:Sizes.small,
-  borderRadius:Sizes.small,
+  searchWrapper: {
+    flex: 1,
+    //backgroundColor:'green',
+    marginRight: Sizes.small,
+    borderRadius: Sizes.small,
   },
-  searchInput:{
-color:appColors.White
+  searchInput: {
+    color: appColors.White,
   },
-  searchBtn:{
-    width:50,
-    height:'100%',
-    backgroundColor:appColors.Black,
-    borderRadius:16,
-    justifyContent:'center',
-    alignItems:'center'
-
-  }
-
+  searchBtn: {
+    width: 50,
+    height: '100%',
+    backgroundColor: appColors.Black,
+    borderRadius: 16,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
 });

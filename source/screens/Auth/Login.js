@@ -19,7 +19,6 @@ const Login = ({navigation}) => {
   const [passwordValue, setPasswordValue] = React.useState('');
   const [isPasswordVisible, setIsPasswordVisible] = React.useState(false);
 
-
   return (
     <Screen
       statusBarColor={appColors.Goldcolor}

@@ -44,6 +44,11 @@ const BottomTabNavigation = () => {
               type={Icons.Feather}
               name="home"
               color={focused ? appColors.Black : appColors.White}
+              backgroundColor={focused ? 'white' : 'transparent'}
+              style={{
+                padding: 14,
+                borderRadius: 20,
+              }}
             />
           ),
         }}
@@ -59,6 +64,11 @@ const BottomTabNavigation = () => {
               type={Icons.SimpleLineIcons}
               name="notebook"
               color={focused ? appColors.Black : appColors.White}
+              backgroundColor={focused ? 'white' : 'transparent'}
+              style={{
+                padding: 14,
+                borderRadius: 20,
+              }}
             />
           ),
         }}
@@ -74,10 +84,16 @@ const BottomTabNavigation = () => {
               name={'map-marker-circle'}
               type={Icons.MaterialCommunityIcons}
               color={focused ? appColors.Black : appColors.White}
+              backgroundColor={focused ? 'white' : 'transparent'}
+              style={{
+                padding: 14,
+                borderRadius: 20,
+              }}
             />
           ),
         }}
       />
+
       <Tab.Screen
         name={constants.screen.InboxScreen}
         component={InboxScreen}
@@ -89,6 +105,11 @@ const BottomTabNavigation = () => {
               name={'message1'}
               type={Icons.AntDesign}
               color={focused ? appColors.Black : appColors.White}
+              backgroundColor={focused ? 'white' : 'transparent'}
+              style={{
+                padding: 14,
+                borderRadius: 20,
+              }}
             />
           ),
         }}
@@ -104,6 +125,11 @@ const BottomTabNavigation = () => {
               name={'person-outline'}
               type={Icons.Ionicons}
               color={focused ? appColors.Black : appColors.White}
+              backgroundColor={focused ? 'white' : 'transparent'}
+              style={{
+                padding: 14,
+                borderRadius: 20,
+              }}
             />
           ),
         }}

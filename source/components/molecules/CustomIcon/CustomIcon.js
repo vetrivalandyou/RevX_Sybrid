@@ -29,19 +29,30 @@ export const Icons = {
   Fontisto,
 };
 
-const CustomIcon = ({type, name, color, size, style, onPress}) => {
+const CustomIcon = ({
+  type,
+  name,
+  color,
+  size,
+  style,
+  onPress,
+  backgroundColor,
+}) => {
   const Tag = type;
   return (
     <>
       {type && (
-        <Tag name={name} size={size ? size : 24} color={color} style={style} onPress={onPress}/>
+        <Tag
+          name={name}
+          size={size ? size : 24}
+          color={color}
+          style={style}
+          onPress={onPress}
+          backgroundColor={backgroundColor}
+        />
       )}
     </>
   );
 };
 
-
 export default CustomIcon;
-
-
-

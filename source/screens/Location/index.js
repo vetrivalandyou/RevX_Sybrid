@@ -16,7 +16,7 @@ const LocationScreen = () => {
       <Header
         lefttIcoType={Icons.Ionicons}
         leftIcoName={'chevron-back'}
-        headerText={'Successfull'}
+        headerText={'Location'}
         rightIcoName={'bell'}
         rightIcoType={Icons.SimpleLineIcons}
         logIn={'success'}
