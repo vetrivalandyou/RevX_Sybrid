@@ -16,7 +16,10 @@
         "AppointmentDate":"AppointmentDate",
         "BarberEarnings":"BarberEarnings",
         "ForgotCheckEmail":"ForgotCheckEmail",
-        "NewPassword":"NewPassword"
+        "NewPassword":"NewPassword",
+        "Services":"Services",
+        "ServicesDetails":"ServicesDetails"
+       
        
 
     },

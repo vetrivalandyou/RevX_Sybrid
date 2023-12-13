@@ -1,12 +1,14 @@
 import {StyleSheet} from "react-native";
-import { ScreenSize } from "../../components/atom/ScreenSize";
+import appColors from "../../AppConstants/appColors";
+import { screenSize } from "../../components/atom/ScreenSize";
 
 
 export default StyleSheet.create({
 
     headerComponent:{
-        height:ScreenSize.height/6,
-        backgroundColor:'green'
+        height:screenSize/9,
+        backgroundColor:'green',
+        backgroundColor:appColors.Black
 
     }
 })

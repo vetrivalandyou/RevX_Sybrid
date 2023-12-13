@@ -13,7 +13,9 @@ import {
   CreateAccount,
   ForgotPassword,
   ForgotCheckEmail,
-  NewPassword
+  NewPassword,
+  Services,
+  ServicesDetails
 } from '../screens';
 import BottomTabNavigation from './BottomTabNavigation';
 
@@ -87,6 +89,17 @@ const Main = () => {
         <Stack.Screen
           name={constants.screen.BarberSpecialist}
           component={BarberSpecialist}
+          options={{ headerShown: false }}
+        />
+        
+        <Stack.Screen
+          name={constants.screen.Services}
+          component={Services}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name={constants.screen.ServicesDetails}
+          component={ServicesDetails}
           options={{ headerShown: false }}
         />
       </Stack.Navigator>

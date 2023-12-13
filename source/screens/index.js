@@ -13,6 +13,8 @@ import ForgotCheckEmail from "./Auth/ForgotPassword/ForgotCheckEmail";
 import ForgotPassword from "./Auth/ForgotPassword/ForgotPassword";
 import NewPassword from "./Auth/ForgotPassword/NewPassword";
 import CreateAccount from "./Auth/CreateAccount";
+import Services from "./ServicesScreen/Services";
+import ServicesDetails from "./ServicesDetailScreen/ServicesDetails";
 export{
     SplashScreen,
     ScreenSlider,
@@ -28,8 +30,8 @@ export{
     ForgotCheckEmail,
     ForgotPassword,
     NewPassword,
-    CreateAccount
-
-    
+    CreateAccount,
+    Services,
+    ServicesDetails
     
 }

@@ -9,6 +9,16 @@ import ButtonComponent from "../../components/atom/CustomButtons/ButtonComponent
 
 
 const AppointmentDate = () => {
+
+    const originalData = [
+        {  time: '10.00 AM' },
+        {  time: '10.00 AM' },
+        {  time: '10.00 AM' },
+        {  time: '10.00 AM' },
+        {  time: '10.00 AM' },
+
+       
+      ];
     const [selected, setSelected] = React.useState('');
 
     return (
@@ -70,12 +80,54 @@ const AppointmentDate = () => {
                     </Text>
 
                 </View>
-                <View style={{backgroundColor:'pink',flex:0.3,justifyContent:'center'}}>
-                    <View style={{borderWidth:1,borderColor:appColors.darkgrey,flex:0.1}}>
-                        <Text>
-                            kjdk
+                <View style={{flex:0.3,flexWrap:'wrap',padding:5}}>
+                    <View style={{borderWidth:1,borderColor:appColors.darkgrey,borderRadius:10,padding:10,width:'45%',justifyContent:'center',alignItems:'center'}}>
+                        <Text style={{color:appColors.White}}>
+                            10.00 AM
                         </Text>
                     </View>
+                    <View style={{borderWidth:1,borderColor:appColors.darkgrey,borderRadius:10,padding:10,marginTop:10,width:'45%',alignItems:'center'}}>
+                        <Text style={{color:appColors.White}}>
+                            10.00 AM
+                        </Text>
+                    </View>
+                    <View style={{borderWidth:1,borderColor:appColors.darkgrey,borderRadius:10,padding:10,marginTop:10,width:'45%',alignItems:'center'}}>
+                        <Text style={{color:appColors.White}}>
+                            10.00 AM
+                        </Text>
+                    </View>
+                    <View style={{borderWidth:1,borderColor:appColors.darkgrey,borderRadius:10,padding:10,marginTop:10,width:'45%',alignItems:'center'}}>
+                        <Text style={{color:appColors.White}}>
+                            10.00 AM
+                        </Text>
+                    </View>
+                    <View style={{borderWidth:1,borderColor:appColors.darkgrey,borderRadius:10,padding:10,width:'45%',alignItems:'center'}}>
+                        <Text style={{color:appColors.White}}>
+                            10.00 AM
+                        </Text>
+                        
+                    </View>
+                    <View style={{borderWidth:1,borderColor:appColors.darkgrey,borderRadius:10,padding:10,marginTop:10,width:'45%',alignItems:'center'}}>
+                        <Text style={{color:appColors.White}}>
+                            10.00 AM
+                        </Text>
+                        
+                    </View>
+                    <View style={{borderWidth:1,borderColor:appColors.darkgrey,borderRadius:10,padding:10,marginTop:10,width:'45%',alignItems:'center'}}>
+                        <Text style={{color:appColors.White}}>
+                            10.00 AM
+                        </Text>
+                        
+                    </View>
+                    <View style={{borderWidth:1,borderColor:appColors.darkgrey,borderRadius:10,padding:10,marginTop:10,width:'45%',alignItems:'center'}}>
+                        <Text style={{color:appColors.White}}>
+                            10.00 AM
+                        </Text>
+                        
+                    </View>
+                    
+                    
+                    
 
                 </View>
                 <View style={{flex:0.13,justifyContent:'center'}}>

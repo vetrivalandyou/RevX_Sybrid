@@ -66,7 +66,7 @@ const Login = ({navigation}) => {
           <ButtonComponent
             title={'Sign In'}
             onPress={() =>
-              navigation.navigate(constants.screen.BottomTabNavigation)
+              navigation.navigate(constants.screen.Successfull)
             }
           />
         </View>
