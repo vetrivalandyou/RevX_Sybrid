@@ -18,6 +18,9 @@ import {
   ServicesDetails,
   AboutUs,
   TermsOfService,
+  PaymentMethod,
+  PaymentDetails,
+  Notification,
 } from '../screens';
 import BottomTabNavigation from './BottomTabNavigation';
 import PrivacyPolicy from '../screens/ProfileScreen/Aboutus/PrivacyPolicy';
@@ -127,6 +130,21 @@ const Main = () => {
         <Stack.Screen
           name={constants.screen.ServicesDetails}
           component={ServicesDetails}
+          options={{ headerShown: false }}
+        />
+         <Stack.Screen
+          name={constants.screen.PaymentMethod}
+          component={PaymentMethod}
+          options={{ headerShown: false }}
+        />
+          <Stack.Screen
+          name={constants.screen.PaymentDetails}
+          component={PaymentDetails}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name={constants.screen.Notification}
+          component={Notification}
           options={{ headerShown: false }}
         />
       </Stack.Navigator>

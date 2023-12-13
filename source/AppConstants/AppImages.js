@@ -18,4 +18,14 @@ export const AppImages = {
   chatfour: require(`${path}chatfour.png`),
   chatfive: require(`${path}chatfive.png`),
   chatsix: require(`${path}chatsix.png`),
+  creditcard: require(`${path}creditcard.png`),
+  applepay: require(`${path}applepay.png`),
+  paypal: require(`${path}paypal.png`),
+  notification: require(`${path}notification.png`),
+
+
+
+ 
+
+
 };

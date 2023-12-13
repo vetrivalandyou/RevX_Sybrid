@@ -15,6 +15,13 @@ import NewPassword from "./Auth/ForgotPassword/NewPassword";
 import CreateAccount from "./Auth/CreateAccount";
 import Services from "./ServicesScreen/Services";
 import ServicesDetails from "./ServicesDetailScreen/ServicesDetails";
+import AboutUs from "./ProfileScreen/Aboutus/AboutUs";
+import TermsOfService from "./ProfileScreen/Aboutus/TermsOfService";
+import License from "./ProfileScreen/Aboutus/License";
+import PrivacyPolicy from "./ProfileScreen/Aboutus/PrivacyPolicy";
+import PaymentMethod from "./PaymentMethodScreen/PaymentMethod";
+import PaymentDetails from "./PaymentDetailsScreen/PaymentDetails";
+import Notification from "./Notification/Notification";
 export{
     SplashScreen,
     ScreenSlider,
@@ -32,6 +39,14 @@ export{
     NewPassword,
     CreateAccount,
     Services,
-    ServicesDetails
+    ServicesDetails,
+    AboutUs,
+    TermsOfService,
+    License,
+    PrivacyPolicy,
+    PaymentMethod,
+    PaymentDetails,
+    Notification
+
     
 }

@@ -11,14 +11,13 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Entypo from 'react-native-vector-icons/Entypo';
 import React, {useState} from 'react';
 import { screenSize } from "../../components/atom/ScreenSize";
+import constants from "../../AppConstants/Constants.json"
 
 const ServicesDetails = ({navigation}) => {
   const data = [
     {
       id: 1,
-
       name: 'Hair Cut',
-
       price: '$40.00',
       title: '44 types',
       icon: <Entypo name="controller-play" size={17} color={'orange'} />,
@@ -26,7 +25,6 @@ const ServicesDetails = ({navigation}) => {
     {
       id: 2,
       name: 'Hair Coloring',
-
       price: '$40.00',
       title: '44 types',
       icon: <Entypo name="controller-play" size={17} color={'orange'} />,
@@ -114,7 +112,7 @@ const ServicesDetails = ({navigation}) => {
       </View>
 
       <TouchableOpacity
-        onPress={() => navigation.navigate('PaymentMethod')}
+        onPress={() => navigation.navigate(constants.screen.AppointmentDate)}
         style={styles.ApplyNOWButton}>
         <Text style={{fontWeight: '700', fontSize: 13}}> Book Now / $120</Text>
       </TouchableOpacity>

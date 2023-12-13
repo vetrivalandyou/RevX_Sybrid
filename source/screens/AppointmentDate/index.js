@@ -6,9 +6,10 @@ import Screen from "../../components/atom/ScreenContainer/Screen";
 import { Icons } from "../../components/molecules/CustomIcon/CustomIcon";
 import appColors from "../../AppConstants/appColors";
 import ButtonComponent from "../../components/atom/CustomButtons/ButtonComponent";
+import constants from "../../AppConstants/Constants.json"
 
 
-const AppointmentDate = () => {
+const AppointmentDate = ({navigation}) => {
 
     const originalData = [
         {  time: '10.00 AM' },
@@ -31,7 +32,7 @@ const AppointmentDate = () => {
             <Header
                 lefttIcoType={Icons.Ionicons}
                 leftIcoName={"chevron-back"}
-                headerText={"Succeddfull"}
+                headerText={"Appointment Date"}
                 rightIcoName={"bell"}
                 rightIcoType={Icons.SimpleLineIcons}
                 logIn={"Appointment Date"}
@@ -131,7 +132,7 @@ const AppointmentDate = () => {
 
                 </View>
                 <View style={{flex:0.13,justifyContent:'center'}}>
-                    <ButtonComponent title={'Continue'}/>
+                    <ButtonComponent title={'Continue'} onPress={()=>navigation.navigate(constants.screen.PaymentMethod)}/>
 
                 </View>
 

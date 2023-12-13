@@ -22,7 +22,10 @@
         "ForgotCheckEmail": "ForgotCheckEmail",
         "NewPassword": "NewPassword",
         "Services":"Services",
-        "ServicesDetails":"ServicesDetails"
+        "ServicesDetails":"ServicesDetails",
+        "PaymentMethod":"PaymentMethod",
+        "PaymentDetails":"PaymentDetails",
+        "Notification":"Notification"
     },
     "AsyncStorageKeys": {
         "email": "email",
