@@ -12,8 +12,10 @@ const LocationScreen = () => {
     <Screen
       statusBarColor={appColors.Black}
       barStyle="light-content"
-      viewStyle={{backgroundColor: appColors.Black}}>
-      <Header
+      viewStyle={{backgroundColor: appColors.Black}}
+      >
+
+        <Header
         lefttIcoType={Icons.Ionicons}
         leftIcoName={'chevron-back'}
         headerText={'Location'}
@@ -30,7 +32,9 @@ const LocationScreen = () => {
           alignItems: 'center',
         }}
       />
-      <View style={{flex: 0.9, backgroundColor: appColors.Black, padding: 15}}>
+
+     
+      <View style={{flex: 0.8, backgroundColor: appColors.Black, padding: 15}}>
         <Search />
         <View style={{flex: 1, borderRadius: 30, marginTop: 10}}>
           <ImageBackground

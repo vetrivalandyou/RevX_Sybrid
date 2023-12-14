@@ -15,15 +15,13 @@ export default StyleSheet.create({
     //  backgroundColor: 'red',
   }),
   searchContainer: {
-    borderRadius: 60,
+    borderRadius: 50,
     flexDirection: 'row',
     alignItems: 'center',
     borderWidth: 1,
-    paddingVertical: 5,
-    paddingHorizontal: 15,
-    borderLeftColor: appColors.GrayColor,
-    borderRightColor: appColors.GrayColor,
-    borderBlockColor: appColors.GrayColor,
+    borderColor:appColors.darkgrey
+   
+   
   },
   searchIcon: {
     marginHorizontal: Sizes.small,

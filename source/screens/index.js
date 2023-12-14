@@ -22,6 +22,7 @@ import PrivacyPolicy from "./ProfileScreen/Aboutus/PrivacyPolicy";
 import PaymentMethod from "./PaymentMethodScreen/PaymentMethod";
 import PaymentDetails from "./PaymentDetailsScreen/PaymentDetails";
 import Notification from "./Notification/Notification";
+import ReviewSummary from "./ReviewSummaryScreen/ReviewSummary";
 export{
     SplashScreen,
     ScreenSlider,
@@ -46,7 +47,8 @@ export{
     PrivacyPolicy,
     PaymentMethod,
     PaymentDetails,
-    Notification
+    Notification,
+    ReviewSummary
 
     
 }

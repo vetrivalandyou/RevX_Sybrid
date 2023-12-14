@@ -29,7 +29,7 @@ const BottomTabNavigation = () => {
     <Tab.Navigator
       screenOptions={{
         unmountOnBlur: true,
-        tabBarShowLabel: false,
+       tabBarShowLabel: false,
         tabBarStyle: {...styles.BottomBarContainer},
         tabBarHideOnKeyboard: true,
         headerShown: false,
@@ -149,6 +149,7 @@ const styles = StyleSheet.create({
     bottom: 2,
     height: 70,
     margin: 10,
+  
     // shadowColor: appColors.AppBlue,
     // botton: 0,
     // elevation: 0,

@@ -4,7 +4,7 @@ import appColors from '../../../AppConstants/appColors';
 export default StyleSheet.create({
   headerView: {
     flex: 0.1,
-    //  backgroundColor: 'blue',
+   // backgroundColor: 'blue',
     justifyContent: 'center',
   },
   header: {

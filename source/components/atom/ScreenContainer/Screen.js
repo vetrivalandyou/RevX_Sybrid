@@ -14,7 +14,6 @@ const Screen = ({
   scrollable,
   animated,
   hidden,
-  translucent,
   statusBarColor,
   scrollViewContentStyle,
   children,
@@ -29,10 +28,10 @@ const Screen = ({
     <SafeAreaView style={{flex: 1, backgroundColor: appColors.Black}}>
       <StatusBar
         hidden={hidden}
-        barStyle={appMode == 'dark' ? 'dark-content' : 'content'}
-        // translucent={translucent}
+        barStyle={appMode == 'dark' ? 'dark-content' : 'light-content'}
         backgroundColor={statusBarColor ? statusBarColor : colors.screenTab}
         animated={animated}
+    
       />
       {scrollable ? (
         <ScrollView

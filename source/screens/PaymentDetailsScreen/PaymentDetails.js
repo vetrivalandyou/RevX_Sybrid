@@ -12,6 +12,7 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import CustomModal from '../../components/molecules/CustomModal/CustomModal';
 import { screenSize } from '../../components/atom/ScreenSize';
+import constants from "../../AppConstants/Constants.json"
 
 
 const PaymentDetails = ({navigation}) => {
@@ -132,7 +133,7 @@ const PaymentDetails = ({navigation}) => {
 
 
       <TouchableOpacity
-        onPress={() => navigation.navigate('ReviewSummary')}
+        onPress={() => navigation.navigate(constants.screen.ReviewSummary)}
         style={styles.Button}>
         <Text style={{fontWeight: '700', fontSize: 13}}> Continue</Text>
       </TouchableOpacity>

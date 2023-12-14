@@ -25,7 +25,8 @@
         "ServicesDetails":"ServicesDetails",
         "PaymentMethod":"PaymentMethod",
         "PaymentDetails":"PaymentDetails",
-        "Notification":"Notification"
+        "Notification":"Notification",
+        "ReviewSummary":"ReviewSummary"
     },
     "AsyncStorageKeys": {
         "email": "email",
