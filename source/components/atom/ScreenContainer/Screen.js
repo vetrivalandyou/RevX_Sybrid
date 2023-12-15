@@ -31,7 +31,6 @@ const Screen = ({
         barStyle={appMode == 'dark' ? 'dark-content' : 'light-content'}
         backgroundColor={statusBarColor ? statusBarColor : colors.screenTab}
         animated={animated}
-    
       />
       {scrollable ? (
         <ScrollView
