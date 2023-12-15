@@ -103,7 +103,7 @@ const HomeScreen = ({ navigation }) => {
                 <View style={{ flex: 1, width: "100%" }}>
 
                     <View style={{ flex: 0.6, borderRadius: 30 }}>
-                        
+
                         <ImageBackground style={{ flex: 1 }} source={item.Imagesource} resizeMode="contain"  >
 
                         </ImageBackground>
@@ -157,7 +157,7 @@ const HomeScreen = ({ navigation }) => {
 
                 <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between', }}>
 
-                    <View style={{ flex: 0.2, alignItems: 'center',justifyContent:'center'}}>
+                    <View style={{ flex: 0.2, alignItems: 'center', justifyContent: 'center' }}>
                         <Image source={source} />
                     </View>
 
@@ -168,7 +168,7 @@ const HomeScreen = ({ navigation }) => {
                         <View style={{ flex: 0.6, }}>
 
                             <View style={{ flex: 0.6, justifyContent: 'center' }}>
-                                <Text style={{ fontSize: 24, color: appColors.White,  }}>
+                                <Text style={{ fontSize: 24, color: appColors.White, }}>
                                     {heading}
                                 </Text>
                             </View>
@@ -216,11 +216,11 @@ const HomeScreen = ({ navigation }) => {
 
         <Screen
             statusBarColor={appColors.Black}
-            viewStyle={{ padding: 15,flex:0.9 }}
+            viewStyle={{ padding: 15, flex: 0.9 }}
 
         >
 
-            <View style={{ flex: 0.1,}}>
+            <View style={{ flex: 0.1, }}>
                 <HomeHeader
                     heading={'Jonna Emma'}
                     sunHeading={"Washington DC"}
@@ -235,62 +235,62 @@ const HomeScreen = ({ navigation }) => {
                 <Search />
 
             </View>
-            <ScrollView style={{flex:0.7}}>
+            <ScrollView style={{ flex: 0.7 }}>
 
-                <View style={{height:screenSize.height}}>
-                <View style={{ flex: 0.1, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
-                <Text style={{ fontSize: 22, color: appColors.White }}>
-                    Our Services
-                </Text>
-                <TouchableOpacity
-                    onPress={() => navigation.navigate(constants.screen.Services)}
-                    style={{}}
-                >
-                    <Text style={{ color: appColors.Goldcolor, fontSize: 16 }}>
-                        See all
-                    </Text>
-                </TouchableOpacity>
-
-
-            </View>
-            <View style={{ flex: 0.2}}>
-                <FlatList
-                    data={OurServicesData}
-                    renderItem={({ item }) => <OurServices item={item} />}
-                    keyExtractor={item => item.id}
-                    horizontal={true}
-                />
-
-            </View>
-
-            <View style={{ flex: 0.1, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
-                <Text style={{ fontSize: 22, color: appColors.White }}>
-                    Nearby Barbers
-                </Text>
-                <TouchableOpacity
-                    onPress={() => navigation.navigate(constants.screen.BarberSpecialist)}
-                    style={{}}
-                >
-                    <Text style={{ color: appColors.Goldcolor, fontSize: 16 }}>
-                        See all
-                    </Text>
-                </TouchableOpacity>
+                <View style={{ height: screenSize.height }}>
+                    <View style={{ flex: 0.1, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
+                        <Text style={{ fontSize: 22, color: appColors.White }}>
+                            Our Services
+                        </Text>
+                        <TouchableOpacity
+                            onPress={() => navigation.navigate(constants.screen.Services)}
+                            style={{}}
+                        >
+                            <Text style={{ color: appColors.Goldcolor, fontSize: 16 }}>
+                                See all
+                            </Text>
+                        </TouchableOpacity>
 
 
-            </View>
+                    </View>
+                    <View style={{ flex: 0.2 }}>
+                        <FlatList
+                            data={OurServicesData}
+                            renderItem={({ item }) => <OurServices item={item} />}
+                            keyExtractor={item => item.id}
+                            horizontal={true}
+                        />
 
-            <View style={{ flex: 0.4 }}>
-                <FlatList
-                    data={NearbyBarbersData}
-                    renderItem={({ item }) => <NearbyBarbers item={item} />}
-                    keyExtractor={item => item.id}
-                    horizontal={true}
-                />
+                    </View>
 
-            </View>
+                    <View style={{ flex: 0.1, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
+                        <Text style={{ fontSize: 22, color: appColors.White }}>
+                            Nearby Barbers
+                        </Text>
+                        <TouchableOpacity
+                            onPress={() => navigation.navigate(constants.screen.BarberSpecialist)}
+                            style={{}}
+                        >
+                            <Text style={{ color: appColors.Goldcolor, fontSize: 16 }}>
+                                See all
+                            </Text>
+                        </TouchableOpacity>
+
+
+                    </View>
+
+                    <View style={{ flex: 0.4 }}>
+                        <FlatList
+                            data={NearbyBarbersData}
+                            renderItem={({ item }) => <NearbyBarbers item={item} />}
+                            keyExtractor={item => item.id}
+                            horizontal={true}
+                        />
+
+                    </View>
                 </View>
-                
-           
+
+
 
             </ScrollView>
 
