@@ -20,6 +20,10 @@ import {
 import BottomTabNavigation from './BottomTabNavigation';
 import PrivacyPolicy from '../screens/ProfileScreen/Aboutus/PrivacyPolicy';
 import License from '../screens/ProfileScreen/Aboutus/License';
+// import MyBooking from '../screens/Booking/MyBooking';
+// import PreBooking from '../screens/Booking/PreBooking';
+// import Bookingcompleted from '../screens/Booking/Bookingcompleted';
+// import Bookingcancelled from '../screens/Booking/Bookingcancelled';
 
 const Main = () => {
   const Stack = createNativeStackNavigator();
@@ -116,6 +120,30 @@ const Main = () => {
           component={License}
           options={{headerShown: false}}
         />
+
+        {/* <Stack.Screen
+          name={constants.screen.MyBooking}
+          component={MyBooking}
+          options={{headerShown: false}}
+        /> */}
+
+        {/* <Stack.Screen
+          name={constants.screen.PreBooking}
+          component={PreBooking}
+          options={{headerShown: false}}
+        />
+
+        <Stack.Screen
+          name={constants.screen.Bookingcompleted}
+          component={Bookingcompleted}
+          options={{headerShown: false}}
+        />
+
+        <Stack.Screen
+          name={constants.screen.Bookingcancelled}
+          component={Bookingcancelled}
+          options={{headerShown: false}}
+        /> */}
       </Stack.Navigator>
     </NavigationContainer>
   );

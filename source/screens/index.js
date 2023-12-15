@@ -8,7 +8,10 @@ import ProfileScreen from './ProfileScreen';
 import AboutUs from './ProfileScreen/Aboutus/AboutUs';
 import TermsOfService from './ProfileScreen/Aboutus/TermsOfService';
 import InboxScreen from './InboxScreen';
-import Booking from './Booking';
+// import MyBooking from './Booking/MyBooking';
+// import PreBooking from './Booking/PreBooking';
+// import Bookingcompleted from './Booking/Bookingcompleted';
+// import Bookingcancelled from './Booking/Bookingcancelled';
 import AppointmentDate from './AppointmentDate';
 import BarberEarnings from './BarberEarnings';
 import ForgotCheckEmail from './Auth/ForgotPassword/ForgotCheckEmail';
@@ -26,7 +29,10 @@ export {
   AboutUs,
   TermsOfService,
   InboxScreen,
-  Booking,
+  // MyBooking,
+  // PreBooking,
+  // Bookingcompleted,
+  // Bookingcancelled,
   AppointmentDate,
   BarberEarnings,
   ForgotCheckEmail,

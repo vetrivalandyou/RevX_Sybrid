@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {
   View,
   Text,
@@ -6,6 +6,8 @@ import {
   FlatList,
   AppRegistry,
   TouchableOpacity,
+  Modal,
+  Alert,
 } from 'react-native';
 import Screen from '../../components/atom/ScreenContainer/Screen';
 import appColors from '../../AppConstants/appColors';
@@ -20,6 +22,8 @@ import profile from '../../assets/profile.png';
 import constants from '../../AppConstants/Constants.json';
 
 const ProfileScreen = ({navigation}) => {
+  const [isSignOutModalVisible, setIsSignOutModalVisible] = useState(false);
+
   const BarberList = [
     {
       id: 1,
@@ -64,15 +68,22 @@ const ProfileScreen = ({navigation}) => {
     },
   ];
 
+  const handleSignOut = () => {
+    setIsSignOutModalVisible(false);
+  };
+
   const handleNavigation = index => {
-    // Use the index to navigate to different screens or perform any action based on the index
     switch (index) {
       case 0:
         navigation.navigate(constants.screen.AboutUs);
         break;
-      // Add more cases as per your requirement
+      // case 6:
+      //   navigation.navigate(constants.screen.AboutUs);
+      //   break;
+      case 7: // Index of 'Sign Out' item
+        setIsSignOutModalVisible(true);
+        break;
       default:
-        // Default navigation or action for other indices
         break;
     }
   };
@@ -116,10 +127,77 @@ const ProfileScreen = ({navigation}) => {
       statusBarColor={appColors.Black}
       barStyle="light-content"
       viewStyle={{backgroundColor: 'appColors.Black'}}>
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={isSignOutModalVisible}
+        onRequestClose={() => setIsSignOutModalVisible(false)}>
+        <View
+          style={{
+            flex: 1,
+            justifyContent: 'flex-end',
+            alignItems: 'center',
+            backgroundColor: 'rgba(0, 0, 0, 0.5)',
+          }}>
+          <View
+            style={{
+              backgroundColor: '#252525',
+              // padding: 60,
+              paddingHorizontal: 20,
+              width: 410,
+              paddingVertical: 40,
+              borderRadius: 10,
+              borderTopEndRadius: 30,
+              borderTopStartRadius: 30,
+            }}>
+            <Text style={{fontSize: 20, fontWeight: 500, color: 'white'}}>
+              Logout?
+            </Text>
+            <Text style={{fontSize: 15, fontWeight: 500, color: '#9E9E9E'}}>
+              Are you sure you want to logout from the app?
+            </Text>
+            <View
+              style={{
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                marginTop: 15,
+              }}>
+              <TouchableOpacity onPress={() => setIsSignOutModalVisible(false)}>
+                <Text
+                  style={{
+                    borderWidth: 1,
+                    paddingVertical: 15,
+                    paddingHorizontal: 60,
+                    fontSize: 16,
+                    borderRadius: 30,
+                    color: appColors.White,
+                    borderColor: appColors.White,
+                  }}>
+                  Cancel
+                </Text>
+              </TouchableOpacity>
+              <TouchableOpacity onPress={handleSignOut}>
+                <Text
+                  style={{
+                    borderWidth: 1,
+                    paddingVertical: 15,
+                    paddingHorizontal: 60,
+                    fontSize: 16,
+                    borderRadius: 30,
+                    color: appColors.White,
+                    borderColor: appColors.Red,
+                    backgroundColor: appColors.Red,
+                  }}>
+                  Log Out
+                </Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </View>
+      </Modal>
       <View
         style={{
           flex: 0.07,
-          // backgroundColor: appColors.Black,
           flexDirection: 'row',
           justifyContent: 'space-between',
           alignItems: 'center',
@@ -176,37 +254,19 @@ const ProfileScreen = ({navigation}) => {
           borderStyle: 'dotted',
           marginBottom: 20,
           borderColor: appColors.White,
-
-          // backgroundColor: 'pink',
         }}></View>
 
-      {/* <Header
-        lefttIcoType={Icons.Ionicons}
-        leftIcoName={'chevron-back'}
-        headerText={'Barber Earnings'}
-        rightIcoName={'bell'}
-        rightIcoType={Icons.SimpleLineIcons}
-        logIn={'success'}
-        rightIcoSize={20}
-        leftIcoStyle={{
-          backgroundColor: appColors.lightBlack,
-          borderRadius: 50,
-          height: 50,
-          width: 50,
-          justifyContent: 'center',
-          alignItems: 'center',
-        }}
-      /> */}
       <View style={{flex: 0.9, padding: 10, backgroundColor: appColors.Black}}>
         {BarberList.map((item, index) => (
           <ProfileContainer
             key={index}
             item={item}
-            onPress={() => handleNavigation(index)} // Pass the index to handleNavigation function
+            onPress={() => handleNavigation(index)}
           />
         ))}
       </View>
     </Screen>
   );
 };
+
 export default ProfileScreen;
