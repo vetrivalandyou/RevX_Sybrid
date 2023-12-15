@@ -14,8 +14,14 @@ import {
   ForgotPassword,
   ForgotCheckEmail,
   NewPassword,
+  Services,
+  ServicesDetails,
   AboutUs,
   TermsOfService,
+  PaymentMethod,
+  PaymentDetails,
+  Notification,
+  ReviewSummary,
 } from '../screens';
 import BottomTabNavigation from './BottomTabNavigation';
 import PrivacyPolicy from '../screens/ProfileScreen/Aboutus/PrivacyPolicy';
@@ -121,29 +127,36 @@ const Main = () => {
           options={{headerShown: false}}
         />
 
-        {/* <Stack.Screen
-          name={constants.screen.MyBooking}
-          component={MyBooking}
-          options={{headerShown: false}}
-        /> */}
-
-        {/* <Stack.Screen
-          name={constants.screen.PreBooking}
-          component={PreBooking}
+        <Stack.Screen
+          name={constants.screen.Services}
+          component={Services}
           options={{headerShown: false}}
         />
-
         <Stack.Screen
-          name={constants.screen.Bookingcompleted}
-          component={Bookingcompleted}
+          name={constants.screen.ServicesDetails}
+          component={ServicesDetails}
           options={{headerShown: false}}
         />
-
         <Stack.Screen
-          name={constants.screen.Bookingcancelled}
-          component={Bookingcancelled}
+          name={constants.screen.PaymentMethod}
+          component={PaymentMethod}
           options={{headerShown: false}}
-        /> */}
+        />
+        <Stack.Screen
+          name={constants.screen.PaymentDetails}
+          component={PaymentDetails}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name={constants.screen.Notification}
+          component={Notification}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name={constants.screen.ReviewSummary}
+          component={ReviewSummary}
+          options={{headerShown: false}}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );

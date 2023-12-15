@@ -23,7 +23,13 @@
         "AppointmentDate": "AppointmentDate",
         "BarberEarnings": "BarberEarnings",
         "ForgotCheckEmail": "ForgotCheckEmail",
-        "NewPassword": "NewPassword"
+        "NewPassword": "NewPassword",
+        "Services":"Services",
+        "ServicesDetails":"ServicesDetails",
+        "PaymentMethod":"PaymentMethod",
+        "PaymentDetails":"PaymentDetails",
+        "Notification":"Notification",
+        "ReviewSummary":"ReviewSummary"
     },
     "AsyncStorageKeys": {
         "email": "email",

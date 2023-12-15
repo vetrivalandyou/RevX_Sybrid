@@ -1,8 +1,10 @@
 import React from 'react';
-import {Text, TouchableOpacity, View} from 'react-native';
-import CustomIcon, {Icons} from '../CustomIcon/CustomIcon';
+import { Text, TouchableOpacity, View } from 'react-native';
+import CustomIcon, { Icons } from '../CustomIcon/CustomIcon';
 import appColors from '../../../AppConstants/appColors';
 import styles from './styles';
+import constants from "../../../AppConstants/Constants.json"
+import { useNavigation } from '@react-navigation/native';
 
 const Header = ({
   leftIcoStyle,
@@ -15,7 +17,9 @@ const Header = ({
   lefttIcoType,
   leftIcoName,
   leftIcoSize,
-}) => {
+  }) => {
+    const navigation = useNavigation();
+ 
   return (
     <View style={styles.headerView}>
       <View style={styles.header}>
@@ -29,7 +33,9 @@ const Header = ({
         </TouchableOpacity>
         <Text style={styles.headerText}>{headerText}</Text>
 
-        <TouchableOpacity onPress={onPressRightIcon} style={leftIcoStyle}>
+        <TouchableOpacity
+         onPress={()=>navigation.navigate(constants.screen.Notification)}        
+         style={leftIcoStyle}>
           <CustomIcon
             type={rightIcoType}
             name={rightIcoName}

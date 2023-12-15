@@ -56,6 +56,7 @@ const Successfull = ({ navigation }) => {
                 </View>
                 <View style={{  alignItems: 'center', flex: 0.14, justifyContent: 'center' }}>
                     <ButtonComponent
+                    onPress={()=>navigation.navigate(constants.screen.BottomTabNavigation)}
                         style={{ width: '50%' }}
                         title={"Srart Booking"}
 
