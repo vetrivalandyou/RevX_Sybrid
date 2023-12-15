@@ -21,20 +21,22 @@ const Successfull = ({ navigation }) => {
         <Screen
             statusBarColor={appColors.Black}
             barStyle="light-content"
-            viewStyle={{ backgroundColor: appColors.Black, }}
+            viewStyle={{ }}
         >
-
+          <View style={{flex:0.15,justifyContent:'center'}}>
             <Header
-                lefttIcoType={Icons.Ionicons}
-                leftIcoName={"chevron-back"}
-                headerText={"Succeddfull"}
-                // rightIcoName={"bell"}
-                // rightIcoType={Icons.SimpleLineIcons}
-                // logIn={"success"}
-                // rightIcoSize={20}
-             //   leftIcoStyle={{ backgroundColor: appColors.lightBlack, borderRadius: 50, height: 50, width: 50, justifyContent: 'center', alignItems: 'center' }}
-            />
-            <View style={{  flex: 0.9, backgroundColor: appColors.Black, justifyContent: 'center' }}>
+                    lefttIcoType={Icons.Ionicons}
+                    leftIcoName={"chevron-back"}
+                    headerText={"Succeddfull"}
+                    // rightIcoName={"bell"}
+                    // rightIcoType={Icons.SimpleLineIcons}
+                    // logIn={"success"}
+                    // rightIcoSize={20}
+                //   leftIcoStyle={{ backgroundColor: appColors.lightBlack, borderRadius: 50, height: 50, width: 50, justifyContent: 'center', alignItems: 'center' }}
+                />
+          </View>
+           
+            <View style={{  flex: 0.85, backgroundColor: appColors.Black, justifyContent: 'center' }}>
                 <View style={{ flex: 0.34, alignItems: "center", justifyContent: 'center',}}>
                     <Image
                         style={{ height: 300, width: 300 }}

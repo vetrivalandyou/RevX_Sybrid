@@ -10,14 +10,14 @@ import {
 } from 'react-native';
 import Search from '../../components/atom/Search/Search';
 import Header from '../../components/molecules/Header';
-import {Icons} from '../../components/molecules/CustomIcon/CustomIcon';
+import { Icons } from '../../components/molecules/CustomIcon/CustomIcon';
 import Screen from '../../components/atom/ScreenContainer/Screen';
 import appColors from '../../AppConstants/appColors';
 import profile from '../../assets/barberImage1.png';
 
-import {AppImages} from '../../AppConstants/AppImages';
+import { AppImages } from '../../AppConstants/AppImages';
 
-const InboxScreen = ({navigation}) => {
+const InboxScreen = ({ navigation }) => {
   chat = [
     {
       id: 1,
@@ -80,43 +80,43 @@ const InboxScreen = ({navigation}) => {
     <Screen
       statusBarColor={appColors.Black}
       barStyle="light-content"
-      viewStyle={{backgroundColor: appColors.Black}}>
-      <Header
-        lefttIcoType={Icons.Ionicons}
-        onPressLeftIcon={() => navigation.goBack()}
-        leftIcoName={'chevron-back'}
-        headerText={'Inbox'}
-        rightIcoName={'bell'}
-        rightIcoType={Icons.SimpleLineIcons}
-        logIn={'success'}
-        rightIcoSize={20}
-        leftIcoStyle={{
-          backgroundColor: appColors.lightBlack,
-          borderRadius: 50,
-          height: 50,
-          width: 50,
-          justifyContent: 'center',
-          alignItems: 'center',
-        }}
-      />
-      <View style={{flex: 0.8, backgroundColor: appColors.Black, padding: 14}}>
-        <View style={{flex: 0.13}}>
-          <Search />
-        </View>
-        <View style={{flex: 1}}>
-          <FlatList
-            data={chat}
-            renderItem={({item}) => <Messages item={item} />}
-          />
-        </View>
+      viewStyle={{ backgroundColor: appColors.Black, padding: 15 }}>
+      <View style={{ flex: 0.15 }}>
+        <Header
+          lefttIcoType={Icons.Ionicons}
+          onPressLeftIcon={() => navigation.goBack()}
+          leftIcoName={'chevron-back'}
+          headerText={'Inbox'}
+          rightIcoName={'bell'}
+          rightIcoType={Icons.SimpleLineIcons}
+          logIn={'success'}
+          rightIcoSize={20}
+          leftIcoStyle={{
+            backgroundColor: appColors.lightBlack,
+            borderRadius: 50,
+            height: 50,
+            width: 50,
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}
+        />
+      </View>
+      <View style={{ flex: 0.1 }}>
+        <Search />
+      </View>
+      <View style={{ flex: 1 }}>
+        <FlatList
+          data={chat}
+          renderItem={({ item }) => <Messages item={item} />}
+        />
       </View>
     </Screen>
   );
 };
 
-const Messages = ({item}) => {
+const Messages = ({ item }) => {
   return (
-    <View style={{flex: 1, marginTop: 20}}>
+    <View style={{ flex: 1, marginTop: 20 }}>
       <TouchableOpacity
         style={{
           flex: 1,
@@ -128,15 +128,15 @@ const Messages = ({item}) => {
           paddingHorizontal: 20,
           paddingVertical: 10,
         }}>
-        <View style={{flex: 0.1}}>
+        <View style={{ flex: 0.1 }}>
           <Image
             source={item.profileimage}
             resizeMode="cover"
-            style={{width: 56, height: 56}}
+            style={{ width: 56, height: 56 }}
           />
         </View>
 
-        <View style={{flex: 0.6, flexDirection: 'column'}}>
+        <View style={{ flex: 0.6, flexDirection: 'column' }}>
           <Text
             style={{
               color: 'white',
@@ -146,7 +146,7 @@ const Messages = ({item}) => {
             }}>
             {item.name}
           </Text>
-          <Text style={{color: 'white', fontSize: 14, fontWeight: 400}}>
+          <Text style={{ color: 'white', fontSize: 14, fontWeight: 400 }}>
             {item.message}
           </Text>
         </View>

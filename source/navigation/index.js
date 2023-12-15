@@ -22,6 +22,7 @@ import {
   PaymentDetails,
   Notification,
   ReviewSummary,
+  LocationBottom,
 } from '../screens';
 import BottomTabNavigation from './BottomTabNavigation';
 import PrivacyPolicy from '../screens/ProfileScreen/Aboutus/PrivacyPolicy';
@@ -151,6 +152,11 @@ const Main = () => {
          <Stack.Screen
           name={constants.screen.ReviewSummary}
           component={ReviewSummary}
+          options={{ headerShown: false }}
+        />
+         <Stack.Screen
+          name={constants.screen.LocationBottom}
+          component={LocationBottom}
           options={{ headerShown: false }}
         />
       </Stack.Navigator>

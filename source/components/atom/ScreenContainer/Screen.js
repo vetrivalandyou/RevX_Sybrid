@@ -25,12 +25,13 @@ const Screen = ({
   const appMode = Appearance.getColorScheme();
 
   return (
-    <SafeAreaView style={{flex: 1, backgroundColor: appColors.Black}}>
+    <SafeAreaView  style={{flex: 1, backgroundColor: appColors.Black, }}>
       <StatusBar
-        hidden={hidden}
+        // hidden={hidden}
         barStyle={appMode == 'dark' ? 'dark-content' : 'light-content'}
         backgroundColor={statusBarColor ? statusBarColor : colors.screenTab}
-        animated={animated}
+        // animated={animated}
+        translucent={false}
     
       />
       {scrollable ? (

@@ -126,10 +126,11 @@ const BarberSpecialist = () => {
     return (
         <Screen
             statusBarColor={appColors.Black}
-            // translucent={true}
             barStyle="light-content"
+            viewStyle={{padding:15}}
 
         >
+            <View style={{flex:0.15}}>
             <Header
                 lefttIcoType={Icons.Ionicons}
                 leftIcoName={"chevron-back"}
@@ -140,7 +141,9 @@ const BarberSpecialist = () => {
                 rightIcoSize={20}
                 leftIcoStyle={{ backgroundColor: appColors.lightBlack, borderRadius: 50, height: 50, width: 50, justifyContent: 'center', alignItems: 'center' }}
             />
-            <View style={{ flex: 0.9, padding: 10 }}>
+            </View>
+           
+            <View style={{ flex: 0.75}}>
                 <FlatList
                     data={BarberList}
                     renderItem={({ item }) => <BarberSpecialistContainer item={item} />}

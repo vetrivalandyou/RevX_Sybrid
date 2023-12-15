@@ -23,6 +23,7 @@ import PaymentMethod from "./PaymentMethodScreen/PaymentMethod";
 import PaymentDetails from "./PaymentDetailsScreen/PaymentDetails";
 import Notification from "./Notification/Notification";
 import ReviewSummary from "./ReviewSummaryScreen/ReviewSummary";
+import LocationBottom from "./LocationBottom";
 export{
     SplashScreen,
     ScreenSlider,
@@ -48,7 +49,9 @@ export{
     PaymentMethod,
     PaymentDetails,
     Notification,
-    ReviewSummary
+    ReviewSummary,
+    LocationBottom
+    
 
     
 }

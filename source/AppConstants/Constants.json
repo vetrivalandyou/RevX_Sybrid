@@ -26,7 +26,8 @@
         "PaymentMethod":"PaymentMethod",
         "PaymentDetails":"PaymentDetails",
         "Notification":"Notification",
-        "ReviewSummary":"ReviewSummary"
+        "ReviewSummary":"ReviewSummary",
+        "LocationBottom":"LocationBottom"
     },
     "AsyncStorageKeys": {
         "email": "email",

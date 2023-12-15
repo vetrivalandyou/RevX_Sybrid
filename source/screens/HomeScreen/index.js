@@ -103,7 +103,7 @@ const HomeScreen = ({ navigation }) => {
                 <View style={{ flex: 1, width: "100%" }}>
 
                     <View style={{ flex: 0.6, borderRadius: 30 }}>
-                        {/* <Image /> */}
+                        
                         <ImageBackground style={{ flex: 1 }} source={item.Imagesource} resizeMode="contain"  >
 
                         </ImageBackground>
@@ -157,7 +157,7 @@ const HomeScreen = ({ navigation }) => {
 
                 <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between', }}>
 
-                    <View style={{ flex: 0.2, alignItems: 'center', justifyContent: 'center' }}>
+                    <View style={{ flex: 0.2, alignItems: 'center',justifyContent:'center'}}>
                         <Image source={source} />
                     </View>
 
@@ -168,7 +168,7 @@ const HomeScreen = ({ navigation }) => {
                         <View style={{ flex: 0.6, }}>
 
                             <View style={{ flex: 0.6, justifyContent: 'center' }}>
-                                <Text style={{ fontSize: 24, color: appColors.White, marginTop: 15 }}>
+                                <Text style={{ fontSize: 24, color: appColors.White,  }}>
                                     {heading}
                                 </Text>
                             </View>
@@ -216,11 +216,11 @@ const HomeScreen = ({ navigation }) => {
 
         <Screen
             statusBarColor={appColors.Black}
-            viewStyle={{ padding: 15 }}
+            viewStyle={{ padding: 15,flex:0.9 }}
 
         >
 
-            <View style={{ flex: 0.15 }}>
+            <View style={{ flex: 0.1,}}>
                 <HomeHeader
                     heading={'Jonna Emma'}
                     sunHeading={"Washington DC"}
@@ -235,8 +235,10 @@ const HomeScreen = ({ navigation }) => {
                 <Search />
 
             </View>
+            <ScrollView style={{flex:0.7}}>
 
-            <View style={{ flex: 0.1, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
+                <View style={{height:screenSize.height}}>
+                <View style={{ flex: 0.1, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
                 <Text style={{ fontSize: 22, color: appColors.White }}>
                     Our Services
                 </Text>
@@ -251,7 +253,7 @@ const HomeScreen = ({ navigation }) => {
 
 
             </View>
-            <View style={{ flex: 0.2 }}>
+            <View style={{ flex: 0.2}}>
                 <FlatList
                     data={OurServicesData}
                     renderItem={({ item }) => <OurServices item={item} />}
@@ -286,6 +288,12 @@ const HomeScreen = ({ navigation }) => {
                 />
 
             </View>
+                </View>
+                
+           
+
+            </ScrollView>
+
 
 
 

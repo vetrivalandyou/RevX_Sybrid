@@ -17,32 +17,39 @@ const Header = ({
   lefttIcoType,
   leftIcoName,
   leftIcoSize,
-  }) => {
-    const navigation = useNavigation();
- 
+}) => {
+  const navigation = useNavigation();
+
   return (
     <View style={styles.headerView}>
       <View style={styles.header}>
-        <TouchableOpacity onPress={onPressLeftIcon}>
-          <CustomIcon
-            type={lefttIcoType}
-            name={leftIcoName}
-            size={leftIcoSize}
-            color={appColors.White}
-          />
-        </TouchableOpacity>
-        <Text style={styles.headerText}>{headerText}</Text>
+        <View style={{ flex: 0.1,justifyContent: 'center' }}>
+          <TouchableOpacity onPress={onPressLeftIcon}>
+            <CustomIcon
+              type={lefttIcoType}
+              name={leftIcoName}
+              size={leftIcoSize}
+              color={appColors.White}
+            />
+          </TouchableOpacity>
+        </View>
+        <View style={{ flex: 0.7, justifyContent:'center',alignItems:'center' }}>
+          <Text style={styles.headerText}>{headerText}</Text>
+        </View>
 
-        <TouchableOpacity
-         onPress={()=>navigation.navigate(constants.screen.Notification)}        
-         style={leftIcoStyle}>
-          <CustomIcon
-            type={rightIcoType}
-            name={rightIcoName}
-            size={rightIcoSize}
-            color={appColors.White}
-          />
-        </TouchableOpacity>
+        <View style={{ flex: 0.1,justifyContent:'center' }}>
+          <TouchableOpacity
+            onPress={() => navigation.navigate(constants.screen.Notification)}
+            style={leftIcoStyle}>
+            <CustomIcon
+              type={rightIcoType}
+              name={rightIcoName}
+              size={rightIcoSize}
+              color={appColors.White}
+            />
+          </TouchableOpacity>
+        </View>
+
       </View>
     </View>
   );
