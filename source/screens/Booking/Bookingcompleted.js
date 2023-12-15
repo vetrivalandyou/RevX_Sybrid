@@ -1,6 +1,6 @@
 import {View, Text, StyleSheet, Image, FlatList} from 'react-native';
 import Bookingbutton from '../../components/atom/BookingButtons/Bookingbutton';
-import {ScreenSize} from '../../components/atom/ScreenSize';
+import {ScreenSize, screenSize} from '../../components/atom/ScreenSize';
 import React from 'react';
 import Completedbutton from '../../components/atom/BookingButtons/Completedbutton';
 import AntDesign from 'react-native-vector-icons/AntDesign';
@@ -126,8 +126,8 @@ const Bookingcompleted = ({data}) => {
 
 const styles = StyleSheet.create({
   Containerstyle: {
-    height: ScreenSize.height / 2.8,
-    width: ScreenSize.width / 1.13,
+    height: screenSize.height / 2.8,
+    width: screenSize.width / 1.13,
     marginBottom: 10,
     backgroundColor: '#252525',
     borderWidth: 1,
@@ -136,8 +136,8 @@ const styles = StyleSheet.create({
     marginHorizontal: 10,
   },
   Ratingbox: {
-    height: ScreenSize.height / 28,
-    width: ScreenSize.width / 7.1,
+    height: screenSize.height / 28,
+    width: screenSize.width / 7.1,
     justifyContent: 'center',
     borderWidth: 0.75,
     borderRadius: 7,

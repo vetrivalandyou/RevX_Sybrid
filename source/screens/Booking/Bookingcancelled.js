@@ -1,5 +1,5 @@
 import {View, Text, StyleSheet, Image, FlatList} from 'react-native';
-import {ScreenSize} from '../../components/atom/ScreenSize';
+import {ScreenSize, screenSize} from '../../components/atom/ScreenSize';
 import React from 'react';
 import Completedbutton from '../../components/atom/BookingButtons/Completedbutton';
 
@@ -99,8 +99,8 @@ const Bookingcancelled = ({data}) => {
 
 const styles = StyleSheet.create({
   Containerstyle: {
-    height: ScreenSize.height / 3.7,
-    width: ScreenSize.width / 1.13,
+    height: screenSize.height / 3.7,
+    width: screenSize.width / 1.13,
     marginBottom: 10,
     backgroundColor: '#252525',
     borderWidth: 1,
