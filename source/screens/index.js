@@ -33,7 +33,6 @@ export{
     HomeScreen,
     ProfileScreen,
     InboxScreen,
-    Booking,
     AppointmentDate,
     BarberEarnings,
     ForgotCheckEmail,

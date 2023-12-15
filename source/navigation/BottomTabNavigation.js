@@ -14,6 +14,7 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {StyleSheet} from 'react-native';
 import {useTheme} from '@react-navigation/native';
 import LocationScreen from '../screens/Location';
+import MyBooking from '../screens/Booking/MyBooking';
 
 const Tab = createBottomTabNavigator();
 
@@ -55,8 +56,8 @@ const BottomTabNavigation = () => {
       />
 
       <Tab.Screen
-        name={constants.screen.Booking}
-        component={Booking}
+        name={constants.screen.MyBooking}
+        component={MyBooking}
         options={{
           tabBarIcon: ({focused}) => (
             <CustomIcon

@@ -27,6 +27,10 @@ import {
 import BottomTabNavigation from './BottomTabNavigation';
 import PrivacyPolicy from '../screens/ProfileScreen/Aboutus/PrivacyPolicy';
 import License from '../screens/ProfileScreen/Aboutus/License';
+// import MyBooking from '../screens/Booking/MyBooking';
+// import PreBooking from '../screens/Booking/PreBooking';
+// import Bookingcompleted from '../screens/Booking/Bookingcompleted';
+// import Bookingcancelled from '../screens/Booking/Bookingcancelled';
 
 const Main = () => {
   const Stack = createNativeStackNavigator();
@@ -123,36 +127,36 @@ const Main = () => {
           component={License}
           options={{headerShown: false}}
         />
-        
+
         <Stack.Screen
           name={constants.screen.Services}
           component={Services}
-          options={{ headerShown: false }}
+          options={{headerShown: false}}
         />
         <Stack.Screen
           name={constants.screen.ServicesDetails}
           component={ServicesDetails}
-          options={{ headerShown: false }}
+          options={{headerShown: false}}
         />
-         <Stack.Screen
+        <Stack.Screen
           name={constants.screen.PaymentMethod}
           component={PaymentMethod}
-          options={{ headerShown: false }}
+          options={{headerShown: false}}
         />
-          <Stack.Screen
+        <Stack.Screen
           name={constants.screen.PaymentDetails}
           component={PaymentDetails}
-          options={{ headerShown: false }}
+          options={{headerShown: false}}
         />
         <Stack.Screen
           name={constants.screen.Notification}
           component={Notification}
-          options={{ headerShown: false }}
+          options={{headerShown: false}}
         />
-         <Stack.Screen
+        <Stack.Screen
           name={constants.screen.ReviewSummary}
           component={ReviewSummary}
-          options={{ headerShown: false }}
+          options={{headerShown: false}}
         />
          <Stack.Screen
           name={constants.screen.LocationBottom}
