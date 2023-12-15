@@ -6,7 +6,7 @@ import BarberSpecialist from "./BarberSpecialist";
 import HomeScreen from "./HomeScreen";
 import ProfileScreen from "./ProfileScreen";
 import InboxScreen from "./InboxScreen";
-import Booking from "./Booking";
+import Booking from "./Booking/MyBooking";
 import AppointmentDate from "./AppointmentDate";
 import BarberEarnings from "./BarberEarnings";
 import ForgotCheckEmail from "./Auth/ForgotPassword/ForgotCheckEmail";
@@ -33,6 +33,7 @@ export{
     HomeScreen,
     ProfileScreen,
     InboxScreen,
+    Booking,
     AppointmentDate,
     BarberEarnings,
     ForgotCheckEmail,
