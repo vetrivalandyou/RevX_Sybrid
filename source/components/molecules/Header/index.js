@@ -1,10 +1,11 @@
 import React from 'react';
-import {Text, TouchableOpacity, View} from 'react-native';
+import {Text, TouchableOpacity, View, Image} from 'react-native';
 import CustomIcon, {Icons} from '../CustomIcon/CustomIcon';
 import appColors from '../../../AppConstants/appColors';
 import styles from './styles';
 import constants from '../../../AppConstants/Constants.json';
 import {useNavigation} from '@react-navigation/native';
+import {AppImages} from '../../../AppConstants/AppImages';
 
 const Header = ({
   leftIcoStyle,
@@ -17,28 +18,37 @@ const Header = ({
   lefttIcoType,
   leftIcoName,
   leftIcoSize,
+  image,
+  headerTextViewStyle,
+  headerTextt,
 }) => {
   const navigation = useNavigation();
 
   return (
     <View style={styles.headerView}>
       <View style={styles.header}>
-        <View style={{flex: 0.1, justifyContent: 'center'}}>
-          <TouchableOpacity onPress={onPressLeftIcon}>
-            <CustomIcon
-              type={lefttIcoType}
-              name={leftIcoName}
-              size={leftIcoSize}
-              color={appColors.White}
+        <View style={{flex: 0.15, justifyContent: 'center'}}>
+          {image ? (
+            <Image
+              source={AppImages.SuperAdmin}
+              style={{width: 50, height: 50}}
             />
-          </TouchableOpacity>
+          ) : (
+            <TouchableOpacity onPress={onPressLeftIcon}>
+              <CustomIcon
+                type={lefttIcoType}
+                name={leftIcoName}
+                size={leftIcoSize}
+                color={appColors.White}
+              />
+            </TouchableOpacity>
+          )}
         </View>
-        <View
-          style={{flex: 0.7, justifyContent: 'center', alignItems: 'center'}}>
-          <Text style={styles.headerText}>{headerText}</Text>
+        <View style={[styles.headerTextView, headerTextViewStyle]}>
+          <Text style={[styles.headerText, headerTextt]}>{headerText}</Text>
         </View>
 
-        <View style={{flex: 0.1, justifyContent: 'center', marginRight: 20}}>
+        <View style={{flex: 0.15, justifyContent: 'center'}}>
           <TouchableOpacity
             onPress={() => navigation.navigate(constants.screen.Notification)}
             style={leftIcoStyle}>

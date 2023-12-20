@@ -116,26 +116,20 @@ const HomeScreen = ({navigation}) => {
           height: screenSize.height / 3,
           width: screenSize.width / 2,
           alignItems: 'center',
-          borderRadius: 30,
+          borderRadius: 10,
           borderWidth: 2,
           borderColor: appColors.darkgrey,
           padding: 10,
         }}>
         <View style={{flex: 1, width: '100%'}}>
-          <View style={{flex: 0.8, borderRadius: 30}}>
+          <View style={{flex: 0.6, borderRadius: 30}}>
             <ImageBackground
               style={{flex: 1}}
               source={item.Imagesource}
               resizeMode="contain"></ImageBackground>
           </View>
-          <View style={{flex: 0.2, justifyContent: 'center'}}>
-            <Text
-              style={{
-                color: appColors.White,
-                fontSize: 20,
-                // paddingVertical: 10,
-                // marginVertical: 6,
-              }}>
+          <View style={{flex: 0.15, justifyContent: 'center'}}>
+            <Text style={{color: appColors.White, fontSize: 20}}>
               {item.title}
             </Text>
           </View>
@@ -146,7 +140,6 @@ const HomeScreen = ({navigation}) => {
                 type={Icons.Feather}
                 name={'map-pin'}
                 color={appColors.White}
-                size={16}
               />
               <Text style={{color: appColors.White, marginLeft: 5}}>0.8km</Text>
             </View>
@@ -155,7 +148,6 @@ const HomeScreen = ({navigation}) => {
                 type={Icons.AntDesign}
                 name={'staro'}
                 color={appColors.Goldcolor}
-                size={16}
               />
               <Text style={{color: appColors.White, marginLeft: 5}}>0.8km</Text>
             </View>
@@ -200,7 +192,7 @@ const HomeScreen = ({navigation}) => {
             }}>
             <View style={{flex: 0.6}}>
               <View style={{flex: 0.6, justifyContent: 'center'}}>
-                <Text style={{fontSize: 22, color: appColors.White}}>
+                <Text style={{fontSize: 24, color: appColors.White}}>
                   {heading}
                 </Text>
               </View>
@@ -209,7 +201,7 @@ const HomeScreen = ({navigation}) => {
                   type={Icons.Feather}
                   name={'map-pin'}
                   color={appColors.White}
-                  size={18}
+                  size={20}
                 />
 
                 <Text
@@ -232,7 +224,6 @@ const HomeScreen = ({navigation}) => {
                   borderRadius: 50,
                   height: 50,
                   width: 50,
-                  marginRight: 10,
                   justifyContent: 'center',
                   alignItems: 'center',
                 }}>
@@ -240,7 +231,6 @@ const HomeScreen = ({navigation}) => {
                   type={Icons.FontAwesome5}
                   name={'bell'}
                   color={appColors.White}
-                  size={20}
                 />
               </TouchableOpacity>
               <TouchableOpacity
@@ -256,7 +246,6 @@ const HomeScreen = ({navigation}) => {
                   type={Icons.Feather}
                   name={'filter'}
                   color={appColors.White}
-                  size={20}
                 />
               </TouchableOpacity>
             </View>
@@ -278,36 +267,31 @@ const HomeScreen = ({navigation}) => {
         />
       </View>
 
-      <View
-        style={{
-          flex: 0.1,
-          justifyContent: 'center',
-          //   backgroundColor: 'green',
-          marginTop: 10,
-        }}>
+      <View style={{flex: 0.15, justifyContent: 'center'}}>
         <Search />
       </View>
-      <ScrollView style={{flex: 0.7}}>
-        <View style={{height: screenSize.height}}>
+
+      <ScrollView style={{flex: 0.75, backgroundColor: 'red'}}>
+        <View style={{}}>
           <View
             style={{
-              flex: 0.08,
+              flex: 0.1,
               flexDirection: 'row',
               justifyContent: 'space-between',
               alignItems: 'center',
-              //   backgroundColor: 'orange',
             }}>
-            <Text style={{fontSize: 20, color: appColors.White}}>
+            <Text style={{fontSize: 22, color: appColors.White}}>
               Our Services
             </Text>
             <TouchableOpacity
-              onPress={() => navigation.navigate(constants.screen.Services)}>
+              onPress={() => navigation.navigate(constants.screen.Services)}
+              style={{}}>
               <Text style={{color: appColors.Goldcolor, fontSize: 16}}>
                 See all
               </Text>
             </TouchableOpacity>
           </View>
-          <View style={{flex: 0.16}}>
+          <View style={{flex: 0.2}}>
             <FlatList
               data={OurServicesData}
               renderItem={({item}) => <OurServices item={item} />}
@@ -323,7 +307,7 @@ const HomeScreen = ({navigation}) => {
               justifyContent: 'space-between',
               alignItems: 'center',
             }}>
-            <Text style={{fontSize: 20, color: appColors.White}}>
+            <Text style={{fontSize: 22, color: appColors.White}}>
               Nearby Barbers
             </Text>
             <TouchableOpacity

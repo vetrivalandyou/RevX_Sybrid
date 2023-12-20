@@ -30,7 +30,13 @@
         "PaymentDetails":"PaymentDetails",
         "Notification":"Notification",
         "ReviewSummary":"ReviewSummary",
-        "LocationBottom":"LocationBottom"
+        "LogoutBottom":"LogoutBottom",
+        "LocationBottom":"LocationBottom",
+        "ReferFriendsSheet":"ReferFriendsSheet",
+        "HomeSuperAdmin":"HomeSuperAdmin",
+        "AdminBottomTabNavigation":"AdminBottomTabNavigation",
+        "AdminBarberEarnings":"AdminBarberEarnings",
+        "BarberEarnReport":"BarberEarnReport"
     },
     "AsyncStorageKeys": {
         "email": "email",

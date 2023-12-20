@@ -22,6 +22,34 @@ export const AppImages = {
   applepay: require(`${path}applepay.png`),
   paypal: require(`${path}paypal.png`),
   notification: require(`${path}notification.png`),
+  bottomsheetimg: require(`${path}bottomsheetimg.png`),
+  Whatsapp: require(`${path}Whatsapp.png`),
+  Instagram: require(`${path}Instagram.png`),
+  Facebook: require(`${path}Facebook.png`),
+  Youtube: require(`${path}Youtube.png`),
+  Linkedin: require(`${path}Linkedin.png`),
+  Snapchat: require(`${path}Snapchat.png`),
+  Transfer: require(`${path}Transfer.png`),
+  Transaction: require(`${path}Transaction.png`),
+  Report: require(`${path}Report.png`),
+  UserPage: require(`${path}UserPage.png`),
+  SuperAdmin: require(`${path}SuperAdmin.png`),
+  visaimg: require(`${path}visaimg.png`),
+  barberearbreport: require(`${path}barberearnreport.png`),
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
 
 
 

@@ -23,14 +23,19 @@ import PaymentMethod from "./PaymentMethodScreen/PaymentMethod";
 import PaymentDetails from "./PaymentDetailsScreen/PaymentDetails";
 import Notification from "./Notification/Notification";
 import ReviewSummary from "./ReviewSummaryScreen/ReviewSummary";
+// import LocationBottom from "./LocationBottom";
+import LogoutBottom from "./LogoutBottom";
 import LocationBottom from "./LocationBottom";
+import ReferFriendsSheet from "./ReferFriendsSheet";
+import HomeSuperAdmin from "./AdminBoard/HomeSuperAdmin";
+import AdminBarberEarnings from "./AdminBoard/AdminBarberEarnings";
+import BarberEarnReport from "./AdminBoard/BarberEarnReport";
 export{
     SplashScreen,
     ScreenSlider,
     Login,
     Successfull,
-    BarberSpecialist,
-    HomeScreen,
+    BarberSpecialist,    HomeScreen,
     ProfileScreen,
     InboxScreen,
     Booking,
@@ -50,7 +55,13 @@ export{
     PaymentDetails,
     Notification,
     ReviewSummary,
-    LocationBottom
+    LogoutBottom,
+    LocationBottom,
+    ReferFriendsSheet,
+    HomeSuperAdmin,
+    AdminBarberEarnings,
+    BarberEarnReport
+  
     
 
     

@@ -15,5 +15,12 @@ export default StyleSheet.create({
   headerText: {
     color: appColors.White,
     fontSize: 18,
+    fontWeight:'500'
   },
+  headerTextView:{
+    flex: 0.7, 
+    justifyContent: 'center', 
+    // alignItems: 'center',
+   //  backgroundColor:"green"
+  }
 });
