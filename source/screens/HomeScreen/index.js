@@ -231,13 +231,14 @@ const HomeScreen = ({ navigation }) => {
 
 
 
-            <View style={{ flex: 0.1, justifyContent: 'center' }}>
+            <View style={{ flex: 0.15, justifyContent: 'center' }}>
                 <Search />
 
             </View>
-            <ScrollView style={{ flex: 0.7 }}>
 
-                <View style={{ height: screenSize.height }}>
+            <ScrollView style={{ flex: 0.75,backgroundColor:'red' }}>
+
+                <View style={{ }}>
                     <View style={{ flex: 0.1, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
                         <Text style={{ fontSize: 22, color: appColors.White }}>
                             Our Services

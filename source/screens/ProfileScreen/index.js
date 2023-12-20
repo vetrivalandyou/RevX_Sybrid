@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState,useRef} from 'react';
 import {
   View,
   Text,
@@ -20,9 +20,14 @@ import ButtonComponent from '../../components/atom/CustomButtons/ButtonComponent
 import Entypo from 'react-native-vector-icons/Entypo';
 import profile from '../../assets/profile.png';
 import constants from '../../AppConstants/Constants.json';
+import BottomSheet from '../../components/molecules/BottomSheetContent/BottomSheet';
+import LogoutBottom from '../LogoutBottom';
+import { screenSize } from '../../components/atom/ScreenSize';
 
 const ProfileScreen = ({navigation}) => {
   const [isSignOutModalVisible, setIsSignOutModalVisible] = useState(false);
+  const refRBSheet = useRef();
+
 
   const BarberList = [
     {
@@ -81,7 +86,8 @@ const ProfileScreen = ({navigation}) => {
       //   navigation.navigate(constants.screen.AboutUs);
       //   break;
       case 7: // Index of 'Sign Out' item
-        setIsSignOutModalVisible(true);
+        // setIsSignOutModalVisible(true);
+        refRBSheet.current.open()
         break;
       default:
         break;
@@ -127,6 +133,13 @@ const ProfileScreen = ({navigation}) => {
       statusBarColor={appColors.Black}
       barStyle="light-content"
       viewStyle={{backgroundColor: 'appColors.Black'}}>
+        
+      {/* <BottomSheet ref={refRBSheet} Height={screenSize.height - 452}>
+        <LocationBottom refRBSheet={refRBSheet} />
+      </BottomSheet> */}
+      <BottomSheet ref={refRBSheet} Height={screenSize.height / 4}>
+        <LogoutBottom refRBSheet={refRBSheet}/>
+      </BottomSheet>
       <Modal
         animationType="slide"
         transparent={true}
@@ -176,7 +189,8 @@ const ProfileScreen = ({navigation}) => {
                   Cancel
                 </Text>
               </TouchableOpacity>
-              <TouchableOpacity onPress={handleSignOut}>
+              <TouchableOpacity>
+
                 <Text
                   style={{
                     borderWidth: 1,
@@ -261,8 +275,7 @@ const ProfileScreen = ({navigation}) => {
           <ProfileContainer
             key={index}
             item={item}
-            onPress={() => handleNavigation(index)}
-          />
+            onPress={() => handleNavigation(index)} />
         ))}
       </View>
     </Screen>

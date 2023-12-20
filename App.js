@@ -1,10 +1,10 @@
 import React from 'react';
 import {Text, View} from 'react-native';
-import Main from './source/navigation';
+import AdminStack from './source/navigation/AdminBoardNavigation';
 
 function App() {
   return (
-    <Main/>
+    <AdminStack/>
   );
 }
 

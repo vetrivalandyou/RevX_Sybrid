@@ -1,13 +1,13 @@
 import React from "react";
 import { View, Text, Image, FlatList, AppRegistry } from "react-native";
-import Screen from "../../components/atom/ScreenContainer/Screen";
-import appColors from "../../AppConstants/appColors";
-import Header from "../../components/molecules/Header";
-import { Icons } from "../../components/molecules/CustomIcon/CustomIcon";
-import { AppImages } from "../../AppConstants/AppImages";
-import ButtonComponent from "../../components/atom/CustomButtons/ButtonComponent";
+import Screen from "../../../components/atom/ScreenContainer/Screen";
+import appColors from "../../../AppConstants/appColors";
+import Header from "../../../components/molecules/Header";
+import { Icons } from "../../../components/molecules/CustomIcon/CustomIcon";
+import { AppImages } from "../../../AppConstants/AppImages";
+import ButtonComponent from "../../../components/atom/CustomButtons/ButtonComponent";
 
-const BarberSpecialist = () => {
+const AdminBarberEarnings = () => {
     const BarberList = [
         {
             id: 1,
@@ -111,23 +111,24 @@ const BarberSpecialist = () => {
         <Screen
             statusBarColor={appColors.Black}
             barStyle="light-content"
-            viewStyle={{ padding: 15 }}
+            viewStyle={{ padding: 0.9}}
 
         >
-            <View style={{ flex: 0.15 }}>
+            <View style={{ flex: 0.1 }}>
                 <Header
                     lefttIcoType={Icons.Ionicons}
                     leftIcoName={"chevron-back"}
-                    headerText={"Succeddfull"}
+                    headerText={"Barber Earnings"}
                     rightIcoName={"bell"}
                     rightIcoType={Icons.SimpleLineIcons}
                     logIn={"success"}
                     rightIcoSize={20}
                     leftIcoStyle={{ backgroundColor: appColors.lightBlack, borderRadius: 50, height: 50, width: 50, justifyContent: 'center', alignItems: 'center' }}
+                    headerTextViewStyle={{alignItems:'center'}}
                 />
             </View>
 
-            <View style={{ flex: 0.75 }}>
+            <View style={{ flex: 0.8 }}>
                 <FlatList
                     data={BarberList}
                     renderItem={({ item }) => <BarberSpecialistContainer item={item} />}
@@ -139,4 +140,4 @@ const BarberSpecialist = () => {
 
     )
 }
-export default BarberSpecialist;
+export default AdminBarberEarnings;
