@@ -8,6 +8,7 @@ import {useTheme} from '@react-navigation/native';
 import {
   AdminBarberEarnings,
   BarberEarnReport,
+  HomeBarber,
   HomeSuperAdmin,
 } from '../../screens';
 import CustomIcon, {
@@ -22,7 +23,7 @@ const Tab = createBottomTabNavigator();
 //   tabBarHideOnKeyboard: true,
 //   tabBarStyle: { styles.BottomBarContainer, backgroundColor: colors.BottomTab },
 // };
-const AdminBottomTabNavigation = () => {
+const BarberBottomTabNavigation = () => {
   const {colors} = useTheme();
   return (
     <Tab.Navigator
@@ -34,8 +35,8 @@ const AdminBottomTabNavigation = () => {
         headerShown: false,
       }}>
       <Tab.Screen
-        name={constants.screen.HomeSuperAdmin}
-        component={HomeSuperAdmin}
+        name={constants.screen.HomeBarber}
+        component={HomeBarber}
         options={{
           tabBarIcon: ({focused}) => (
             <CustomIcon
@@ -52,7 +53,27 @@ const AdminBottomTabNavigation = () => {
           ),
         }}
       />
-      <Tab.Screen
+
+      {/* <Tab.Screen
+        name={constants.screen.HomeBarber}
+        component={HomeBarber}
+        options={{
+          tabBarIcon: ({focused}) => (
+            <CustomIcon
+              //style={{backgroundColor:'red'}}
+              type={Icons.Feather}
+              name="home"
+              color={focused ? appColors.Black : appColors.White}
+              backgroundColor={focused ? 'white' : 'transparent'}
+              style={{
+                padding: 14,
+                borderRadius: 20,
+              }}
+            />
+          ),
+        }}
+      /> */}
+      {/* <Tab.Screen
         name={constants.screen.BarberEarnReport}
         component={BarberEarnReport}
         options={{
@@ -70,7 +91,7 @@ const AdminBottomTabNavigation = () => {
             />
           ),
         }}
-      />
+      /> */}
 
       {/* <Tab.Screen
         name={constants.screen.MyBooking}
@@ -156,7 +177,7 @@ const AdminBottomTabNavigation = () => {
   );
 };
 
-export default AdminBottomTabNavigation;
+export default BarberBottomTabNavigation;
 
 const styles = StyleSheet.create({
   BottomBarContainer: {

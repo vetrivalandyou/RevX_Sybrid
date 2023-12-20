@@ -12,7 +12,7 @@ import Header from '../../../components/molecules/Header';
 import Search from '../../../components/atom/Search/Search';
 import {AppImages} from '../../../AppConstants/AppImages';
 
-const HomeSuperAdmin = () => {
+const HomeBarber = () => {
   const BarberEarnings = [
     {
       id: 1,
@@ -55,7 +55,7 @@ const HomeSuperAdmin = () => {
       <View style={{flex: 0.1}}>
         <Header
           image={true}
-          headerText={'Super Admin'}
+          headerText={'Barber Board'}
           rightIcoName={'bell'}
           rightIcoType={Icons.SimpleLineIcons}
           logIn={'success'}
@@ -82,8 +82,11 @@ const HomeSuperAdmin = () => {
       <View style={styles.searchBarContainer}>
         <Search />
       </View>
+      <View>
+        <Text style={{color: 'white'}}>sad</Text>
+      </View>
 
-      <View style={styles.CardContainer}>
+      {/* <View style={styles.CardContainer}>
         <View style={styles.visaCardImageView}>
           <Image source={AppImages.visaimg} style={{flex: 1}} />
         </View>
@@ -114,79 +117,12 @@ const HomeSuperAdmin = () => {
             </View>
           </View>
         </View>
-      </View>
-
-      <View
-        style={{
-          flex: 0.15,
-          flexDirection: 'row',
-          alignItems: 'center',
-          justifyContent: 'center',
-        }}>
-        <View
-          style={{flex: 0.2, justifyContent: 'center', alignItems: 'center'}}>
-          <Image source={AppImages.Transfer} />
-          <Text style={{color: appColors.White}}>Transfer</Text>
-        </View>
-        <View
-          style={{flex: 0.2, justifyContent: 'center', alignItems: 'center'}}>
-          <Image source={AppImages.Transaction} />
-          <Text style={{color: appColors.White}}>Transfer</Text>
-        </View>
-        <View
-          style={{flex: 0.2, justifyContent: 'center', alignItems: 'center'}}>
-          <Image source={AppImages.Report} />
-          <Text style={{color: appColors.White}}>Transfer</Text>
-        </View>
-        <View
-          style={{flex: 0.2, justifyContent: 'center', alignItems: 'center'}}>
-          <Image source={AppImages.Transfer} />
-          <Text style={{color: appColors.White}}>Transfer</Text>
-        </View>
-        <View
-          style={{flex: 0.2, justifyContent: 'center', alignItems: 'center'}}>
-          <Image source={AppImages.UserPage} />
-          <Text style={{color: appColors.White}}>Transfer</Text>
-        </View>
-      </View>
-
-      <View
-        style={{
-          flex: 0.1,
-          justifyContent: 'center',
-          flexDirection: 'row',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-        }}>
-        <View style={{flex: 0.5}}>
-          <Text
-            style={{fontWeight: '400', fontSize: 22, color: appColors.White}}>
-            Barber Earnings
-          </Text>
-        </View>
-        <View
-          style={{flex: 0.5, justifyContent: 'flex-end', flexDirection: 'row'}}>
-          <Text style={{color: appColors.Goldcolor, fontSize: 10}}>
-            View All
-          </Text>
-          <CustomIcon
-            type={Icons.Ionicons}
-            name={'chevron-forward'}
-            size={12}
-            color={appColors.Goldcolor}
-          />
-        </View>
-      </View>
-
-      <View style={{flex: 0.3, justifyContent: 'center'}}>
-        {BarberEarnings.map(item => (
-          <BarberEarningsContainer key={item.id} item={item} />
-        ))}
-      </View>
+      </View> */}
     </Screen>
   );
 };
-export default HomeSuperAdmin;
+
+export default HomeBarber;
 
 const styless = StyleSheet.create({
   container: {

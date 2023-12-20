@@ -1,11 +1,9 @@
 import React from 'react';
 import {Text, View} from 'react-native';
-import AdminStack from './source/navigation/AdminBoardNavigation';
+import BarberStack from './source/navigation/BarberBoardNavigation';
 
 function App() {
-  return (
-    <AdminStack/>
-  );
+  return <BarberStack />;
 }
 
 export default App;
