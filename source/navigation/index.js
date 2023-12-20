@@ -158,10 +158,10 @@ const Main = () => {
           component={ReviewSummary}
           options={{headerShown: false}}
         />
-         <Stack.Screen
+        <Stack.Screen
           name={constants.screen.LocationBottom}
           component={LocationBottom}
-          options={{ headerShown: false }}
+          options={{headerShown: false}}
         />
       </Stack.Navigator>
     </NavigationContainer>

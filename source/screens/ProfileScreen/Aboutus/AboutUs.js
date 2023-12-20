@@ -14,35 +14,36 @@ const AboutUs = ({navigation}) => {
       statusBarColor={appColors.Black}
       barStyle="light-content"
       viewStyle={{backgroundColor: appColors.Black, padding: 10}}>
-      <Header
-        lefttIcoType={Icons.Ionicons}
-        onPressLeftIcon={() => navigation.goBack()}
-        leftIcoName={'chevron-back'}
-        headerText={'About Us'}
-        rightIcoName={'bell'}
-        rightIcoType={Icons.SimpleLineIcons}
-        logIn={'success'}
-        rightIcoSize={20}
-        leftIcoStyle={{
-          backgroundColor: appColors.lightBlack,
-          borderRadius: 50,
-          height: 50,
-          width: 50,
-          justifyContent: 'center',
-          alignItems: 'center',
-        }}
-      />
+      <View style={{flex: 0.1}}>
+        <Header
+          lefttIcoType={Icons.Ionicons}
+          onPressLeftIcon={() => navigation.goBack()}
+          leftIcoName={'chevron-back'}
+          headerText={'About Us'}
+          rightIcoName={'bell'}
+          rightIcoType={Icons.SimpleLineIcons}
+          logIn={'success'}
+          rightIcoSize={20}
+          leftIcoStyle={{
+            backgroundColor: appColors.lightBlack,
+            borderRadius: 50,
+            height: 50,
+            width: 50,
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}
+        />
+      </View>
 
       <View
         style={{
-          flex: 0.3,
-          // backgroundColor: appColors.Black,
+          flex: 1,
           flexDirection: 'column',
-          padding: 10,
+          padding: 8,
         }}>
         <TouchableOpacity
           style={{
-            flex: 0.9,
+            flex: 0.1,
             backgroundColor: appColors.AppGray,
             borderRadius: 16,
             marginBottom: 20,
@@ -65,7 +66,7 @@ const AboutUs = ({navigation}) => {
 
         <TouchableOpacity
           style={{
-            flex: 0.9,
+            flex: 0.1,
             backgroundColor: appColors.AppGray,
             borderRadius: 16,
             marginBottom: 20,
@@ -87,7 +88,7 @@ const AboutUs = ({navigation}) => {
         </TouchableOpacity>
         <TouchableOpacity
           style={{
-            flex: 0.9,
+            flex: 0.1,
             backgroundColor: appColors.AppGray,
             borderRadius: 16,
             marginBottom: 20,

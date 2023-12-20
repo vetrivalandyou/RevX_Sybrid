@@ -197,7 +197,7 @@ const ProfileScreen = ({navigation}) => {
       </Modal>
       <View
         style={{
-          flex: 0.07,
+          flex: 0.09,
           flexDirection: 'row',
           justifyContent: 'space-between',
           alignItems: 'center',
@@ -249,14 +249,15 @@ const ProfileScreen = ({navigation}) => {
 
       <View
         style={{
-          flex: 0.02,
-          borderBottomWidth: 5,
+          flex: 0.03,
+          borderBottomWidth: 3,
           borderStyle: 'dotted',
           marginBottom: 20,
           borderColor: appColors.White,
+          marginHorizontal: 20,
         }}></View>
 
-      <View style={{flex: 0.9, padding: 10, backgroundColor: appColors.Black}}>
+      <View style={{flex: 0.9, padding: 2, backgroundColor: appColors.Black}}>
         {BarberList.map((item, index) => (
           <ProfileContainer
             key={index}

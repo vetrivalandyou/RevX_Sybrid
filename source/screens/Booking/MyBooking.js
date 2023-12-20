@@ -15,6 +15,8 @@ import Bookingcompleted from './Bookingcompleted';
 import Bookingcancelled from './Bookingcancelled';
 import {useEffect, useRef, useState} from 'react';
 import PreBooking from './PreBooking';
+import Header from '../../components/molecules/Header';
+import {Icons} from '../../components/molecules/CustomIcon/CustomIcon';
 
 const MyBooking = ({navigation}) => {
   const activeButton = useRef('1');
@@ -96,22 +98,25 @@ const MyBooking = ({navigation}) => {
 
   return (
     <View style={{backgroundColor: 'black', flex: 1, paddingHorizontal: 10}}>
-      <View
-        style={{
-          flexDirection: 'row',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-
-          flex: 0.1,
-        }}>
-        <AntDesign name={'left'} size={15} color={'white'} />
-
-        <Text style={{fontWeight: '500', color: 'white', fontSize: 17}}>
-          My Booking
-        </Text>
-        <View style={styles.NoticationContainer}>
-          <FontAwesome name={'bell'} size={15} color={'white'} />
-        </View>
+      <View style={{flex: 0.1}}>
+        <Header
+          lefttIcoType={Icons.Ionicons}
+          onPressLeftIcon={() => navigation.goBack()}
+          leftIcoName={'chevron-back'}
+          headerText={'Booking'}
+          rightIcoName={'bell'}
+          rightIcoType={Icons.SimpleLineIcons}
+          logIn={'success'}
+          rightIcoSize={20}
+          leftIcoStyle={{
+            backgroundColor: appColors.lightBlack,
+            borderRadius: 50,
+            height: 50,
+            width: 50,
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}
+        />
       </View>
 
       <View
