@@ -9,82 +9,62 @@ import {
   Modal,
   Alert,
 } from 'react-native';
-import Screen from '../../components/atom/ScreenContainer/Screen';
-import appColors from '../../AppConstants/appColors';
-import Header from '../../components/molecules/Header';
+import Screen from '../../../components/atom/ScreenContainer/Screen';
+import appColors from '../../../AppConstants/appColors';
+import Header from '../../../components/molecules/Header';
 import CustomIcon, {
   Icons,
-} from '../../components/molecules/CustomIcon/CustomIcon';
+} from '../../../components/molecules/CustomIcon/CustomIcon';
 import {AppImages} from '../../AppConstants/AppImages';
-import ButtonComponent from '../../components/atom/CustomButtons/ButtonComponent';
+import ButtonComponent from '../../../components/atom/CustomButtons/ButtonComponent';
 import Entypo from 'react-native-vector-icons/Entypo';
-import profile from '../../assets/profile.png';
-import constants from '../../AppConstants/Constants.json';
-import BottomSheet from '../../components/molecules/BottomSheetContent/BottomSheet';
-import LogoutBottom from '../LogoutBottom';
-import {screenSize} from '../../components/atom/ScreenSize';
+import profile from '../../../assets/chatfive.png';
+import constants from '../../../AppConstants/Constants.json';
+import BottomSheet from '../../../components/molecules/BottomSheetContent/BottomSheet';
+import LogoutBottom from '../../LogoutBottom';
+import {screenSize} from '../../../components/atom/ScreenSize';
 
-const ProfileScreen = ({navigation}) => {
-  const [isSignOutModalVisible, setIsSignOutModalVisible] = useState(false);
+const BaberProfileScreen = ({navigation}) => {
   const refRBSheet = useRef();
 
   const BarberList = [
     {
       id: 1,
-      title: 'About Us',
+      title: 'Profile',
       icon: Icons.Entypo,
     },
 
     {
       id: 2,
-      title: 'Appointment',
+      title: 'Share On Social Media',
       icon: Icons.Entypo,
     },
     {
       id: 3,
-      title: 'Nearby Vans',
-      icon: Icons.Entypo,
-    },
-    {
-      id: 4,
-      title: 'Profile',
-      icon: Icons.Entypo,
-    },
-    {
-      id: 5,
-      title: 'Loyalty Points',
-      icon: Icons.Entypo,
-    },
-    {
-      id: 6,
       title: 'Notification',
       icon: Icons.Entypo,
     },
     {
-      id: 7,
-      title: 'Refer a Friend',
+      id: 4,
+      title: 'Manage Services',
       icon: Icons.Entypo,
     },
     {
-      id: 8,
+      id: 5,
       title: 'Sign Out',
       icon: Icons.Entypo,
     },
   ];
 
-  const handleSignOut = () => {
-    setIsSignOutModalVisible(false);
-  };
-
   const handleNavigation = index => {
     switch (index) {
       case 0:
-        navigation.navigate(constants.screen.AboutUs);
+        // navigation.navigate(constants.screen.AboutUs);
         break;
       // case 6:
       //   navigation.navigate(constants.screen.AboutUs);
       //   break;
-      case 7: // Index of 'Sign Out' item
+      case 4: // Index of 'Sign Out' item
         // setIsSignOutModalVisible(true);
         refRBSheet.current.open();
         break;
@@ -135,77 +115,10 @@ const ProfileScreen = ({navigation}) => {
       {/* <BottomSheet ref={refRBSheet} Height={screenSize.height - 452}>
         <LocationBottom refRBSheet={refRBSheet} />
       </BottomSheet> */}
-      <BottomSheet ref={refRBSheet} Height={screenSize.height / 4}>
+      <BottomSheet ref={refRBSheet} Height={screenSize.height / 5}>
         <LogoutBottom refRBSheet={refRBSheet} />
       </BottomSheet>
-      <Modal
-        animationType="slide"
-        transparent={true}
-        visible={isSignOutModalVisible}
-        onRequestClose={() => setIsSignOutModalVisible(false)}>
-        <View
-          style={{
-            flex: 1,
-            justifyContent: 'flex-end',
-            alignItems: 'center',
-            backgroundColor: 'rgba(0, 0, 0, 0.5)',
-          }}>
-          <View
-            style={{
-              backgroundColor: '#252525',
-              // padding: 60,
-              paddingHorizontal: 20,
-              width: 410,
-              paddingVertical: 40,
-              borderRadius: 10,
-              borderTopEndRadius: 30,
-              borderTopStartRadius: 30,
-            }}>
-            <Text style={{fontSize: 20, fontWeight: 500, color: 'white'}}>
-              Logout?
-            </Text>
-            <Text style={{fontSize: 15, fontWeight: 500, color: '#9E9E9E'}}>
-              Are you sure you want to logout from the app?
-            </Text>
-            <View
-              style={{
-                flexDirection: 'row',
-                justifyContent: 'space-between',
-                marginTop: 15,
-              }}>
-              <TouchableOpacity onPress={() => setIsSignOutModalVisible(false)}>
-                <Text
-                  style={{
-                    borderWidth: 1,
-                    paddingVertical: 15,
-                    paddingHorizontal: 60,
-                    fontSize: 16,
-                    borderRadius: 30,
-                    color: appColors.White,
-                    borderColor: appColors.White,
-                  }}>
-                  Cancel
-                </Text>
-              </TouchableOpacity>
-              <TouchableOpacity>
-                <Text
-                  style={{
-                    borderWidth: 1,
-                    paddingVertical: 15,
-                    paddingHorizontal: 60,
-                    fontSize: 16,
-                    borderRadius: 30,
-                    color: appColors.White,
-                    borderColor: appColors.Red,
-                    backgroundColor: appColors.Red,
-                  }}>
-                  Log Out
-                </Text>
-              </TouchableOpacity>
-            </View>
-          </View>
-        </View>
-      </Modal>
+
       <View
         style={{
           flex: 0.09,
@@ -223,15 +136,14 @@ const ProfileScreen = ({navigation}) => {
         </View>
         <View style={{flex: 0.7, flexDirection: 'column'}}>
           <Text style={{color: 'white', fontSize: 24, fontWeight: 400}}>
-            Jonna Emma
+            Michel Smith
           </Text>
           <Text style={{color: 'white', fontSize: 14, fontWeight: 400}}>
-            danielaustin@gmail.com
+            Michelsmith@gmail.com{' '}
           </Text>
         </View>
         <View>
-          <TouchableOpacity
-            onPress={() => navigation.navigate(constants.screen.CreateAccount)}>
+          <TouchableOpacity onPress={() => navigation.navigate('')}>
             <View
               style={{
                 paddingHorizontal: 12,
@@ -281,4 +193,4 @@ const ProfileScreen = ({navigation}) => {
   );
 };
 
-export default ProfileScreen;
+export default BaberProfileScreen;

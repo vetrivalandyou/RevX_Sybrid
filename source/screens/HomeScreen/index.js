@@ -192,7 +192,7 @@ const HomeScreen = ({navigation}) => {
             }}>
             <View style={{flex: 0.6}}>
               <View style={{flex: 0.6, justifyContent: 'center'}}>
-                <Text style={{fontSize: 24, color: appColors.White}}>
+                <Text style={{fontSize: 22, color: appColors.White}}>
                   {heading}
                 </Text>
               </View>
@@ -226,6 +226,8 @@ const HomeScreen = ({navigation}) => {
                   width: 50,
                   justifyContent: 'center',
                   alignItems: 'center',
+
+                  marginRight: 10,
                 }}>
                 <CustomIcon
                   type={Icons.FontAwesome5}
@@ -271,7 +273,7 @@ const HomeScreen = ({navigation}) => {
         <Search />
       </View>
 
-      <ScrollView style={{flex: 0.75, backgroundColor: 'red'}}>
+      <ScrollView style={{flex: 0.75}}>
         <View style={{}}>
           <View
             style={{

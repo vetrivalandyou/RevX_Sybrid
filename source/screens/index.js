@@ -30,7 +30,14 @@ import ReferFriendsSheet from './ReferFriendsSheet';
 import HomeSuperAdmin from './AdminBoard/HomeSuperAdmin';
 import AdminBarberEarnings from './AdminBoard/AdminBarberEarnings';
 import HomeBarber from './BarberBoard/HomeBarber';
+import EReceipt from './BarberBoard/HomeBarber/EReceipt';
+
+import BarberEReceipt from './BarberBoard/BarberBooking/BarberEReceipt';
+import BaberProfileScreen from './BarberBoard/BarberProfile/BaberProfileScreen';
+import BarberChatScreen from './BarberBoard/BarberChat/BarberChatScreen';
+import NotificationScreen from './BarberBoard/BarberNotification/NotificationScreen';
 import BarberEarnReport from './AdminBoard/BarberEarnReport';
+import MyBooking from './BarberBoard/BarberBooking/MyBooking';
 export {
   SplashScreen,
   ScreenSlider,
@@ -62,6 +69,12 @@ export {
   ReferFriendsSheet,
   HomeSuperAdmin,
   HomeBarber,
+  EReceipt,
+  BarberEReceipt,
+  BaberProfileScreen,
+  BarberChatScreen,
+  NotificationScreen,
   AdminBarberEarnings,
   BarberEarnReport,
+  MyBooking,
 };

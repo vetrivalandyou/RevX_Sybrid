@@ -19,9 +19,7 @@ export default StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     borderWidth: 1,
-    borderColor:appColors.darkgrey
-   
-   
+    borderColor: appColors.darkgrey,
   },
   searchIcon: {
     marginHorizontal: Sizes.small,
@@ -39,6 +37,7 @@ export default StyleSheet.create({
   },
   searchInput: {
     color: appColors.White,
+    placeholderTextColor: appColors.White,
   },
   searchBtn: {
     width: 50,

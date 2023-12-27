@@ -36,9 +36,17 @@
         "HomeSuperAdmin": "HomeSuperAdmin",
         "AdminBottomTabNavigation": "AdminBottomTabNavigation",
         "AdminBarberEarnings": "AdminBarberEarnings",
-        "BarberEarnReport": "BarberEarnReport",
+        "BarberEarnReport": "BarberEarnReport"
+    },
+    "BarberScreen": {
+        "BarberBottomTabNavigation": "BarberBottomTabNavigation",
         "HomeBarber": "HomeBarber",
-        "BarberBottomTabNavigation": "BarberBottomTabNavigation"
+        "EReceipt": "EReceipt",
+        "BarberEReceipt": "BarberEReceipt",
+        "BaberProfileScreen": "BaberProfileScreen",
+        "BarberChatScreen": "BarberChatScreen",
+        "MyBooking": "MyBooking",
+        "NotificationScreen": "NotificationScreen"
     },
     "AsyncStorageKeys": {
         "email": "email",

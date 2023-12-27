@@ -2,16 +2,12 @@ export default appColors = {
   PrimaryColor: '#FF4B2D',
   Orange: '#F58234',
   Green: '#00FF00',
-  
-  
+
   Red: '#E81F1C',
   LightGray: '#9E9E9E',
   darkgrey: '#252525',
   Goldcolor: '#C79646',
-  Gray:"#3A3A3A",
-
-
-
+  Gray: '#3A3A3A',
 
   GrayColor: '#808080',
 
@@ -22,7 +18,7 @@ export default appColors = {
   AppBlue: '#0055FF',
   AppLightGreen: '#40C2A3',
   White: '#FFFFFF',
-  Black: '#000000',
+  Black: '#0C0C0D',
   LightOrange: 'rgba(245, 130, 52, 0.3)',
   BottomTabColor: '#F0F0F0',
   modalBgColor: 'rgba(0, 0, 0, 0.3)',

@@ -10,28 +10,6 @@ import {Icons} from '../../components/molecules/CustomIcon/CustomIcon';
 const Notification = ({navigation}) => {
   return (
     <View style={{height: screenSize.height, backgroundColor: 'black'}}>
-      {/* <View
-        style={{
-          flexDirection: 'row',
-          justifyContent: 'space-between',
-          marginHorizontal: 12,
-          alignItems: 'center',
-          marginVertical: 14,
-        }}>
-        <View style={{width: screenSize.width / 4}}>
-          <AntDesign name={'left'} size={15} color={'white'} />
-        </View>
-        <View style={{width: screenSize.width / 2.5, alignItems: 'center'}}>
-          <Text style={{fontWeight: '500', color: 'white', fontSize: 17}}>
-            Notification
-          </Text>
-        </View>
-        <View style={{width: screenSize.width / 4, alignItems: 'flex-end'}}>
-          <View style={styles.NoticationContainer}>
-            <FontAwesome name={'bell'} size={13} color={'white'} />
-          </View>
-        </View>
-      </View> */}
       <View style={{flex: 0.6}}>
         <Header
           lefttIcoType={Icons.Ionicons}

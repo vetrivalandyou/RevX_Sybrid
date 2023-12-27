@@ -1,10 +1,13 @@
 import {StyleSheet, Text, View, TouchableOpacity} from 'react-native';
 import React from 'react';
+import {screenSize} from '../../../components/atom/ScreenSize';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import {screenSize} from '../../components/atom/ScreenSize';
+import Screen from '../../../components/atom/ScreenContainer/Screen';
+import Header from '../../../components/molecules/Header';
+import {Icons} from '../../../components/molecules/CustomIcon/CustomIcon';
 
-const ReviewSummary = () => {
+const EReceipt = ({navigation}) => {
   const data = [
     {
       id: '1',
@@ -62,30 +65,27 @@ const ReviewSummary = () => {
   ];
 
   return (
-    <View style={{height: screenSize.height, backgroundColor: 'black'}}>
-      <View
-        style={{
-          flexDirection: 'row',
-          justifyContent: 'space-between',
-          marginHorizontal: 12,
-          alignItems: 'center',
-          marginVertical: 14,
-        }}>
-        <View style={{width: screenSize.width / 4}}>
-          <AntDesign name={'left'} size={15} color={'white'} />
-        </View>
-        <View style={{width: screenSize.width / 2.5, alignItems: 'center'}}>
-          <Text style={{fontWeight: '500', color: 'white', fontSize: 17}}>
-            Review Summary
-          </Text>
-        </View>
-        <View style={{width: screenSize.width / 4, alignItems: 'flex-end'}}>
-          <View style={styles.NoticationContainer}>
-            <FontAwesome name={'bell'} size={13} color={'white'} />
-          </View>
-        </View>
+    <Screen statusBarColor={appColors.Black} viewStyle={styles.MianContainer}>
+      <View style={{flex: 0.3}}>
+        <Header
+          lefttIcoType={Icons.Ionicons}
+          onPressLeftIcon={() => navigation.goBack()}
+          leftIcoName={'chevron-back'}
+          headerText={'E-Receipt'}
+          rightIcoName={'bell'}
+          rightIcoType={Icons.SimpleLineIcons}
+          logIn={'success'}
+          rightIcoSize={20}
+          leftIcoStyle={{
+            backgroundColor: appColors.lightBlack,
+            borderRadius: 50,
+            height: 50,
+            width: 50,
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}
+        />
       </View>
-      <View></View>
 
       <View style={styles.Containerstyle}>
         {data.map(item => (
@@ -121,15 +121,13 @@ const ReviewSummary = () => {
         </View>
       </View>
 
-      <TouchableOpacity
-        onPress={() => navigation.navigate('PreBooking')} //notification
-        style={styles.Button}>
+      <TouchableOpacity style={styles.Button}>
         <Text style={{fontWeight: '700', fontSize: 13, color: 'white'}}>
           {' '}
-          Confirm Payment
+          Download E-Receipt
         </Text>
       </TouchableOpacity>
-    </View>
+    </Screen>
   );
 };
 
@@ -181,7 +179,7 @@ const Pricedetails = ({item}) => {
   );
 };
 
-export default ReviewSummary;
+export default EReceipt;
 
 const styles = StyleSheet.create({
   NoticationContainer: {
