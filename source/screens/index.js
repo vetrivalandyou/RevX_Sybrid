@@ -23,7 +23,6 @@ import PaymentMethod from './PaymentMethodScreen/PaymentMethod';
 import PaymentDetails from './PaymentDetailsScreen/PaymentDetails';
 import Notification from './Notification/Notification';
 import ReviewSummary from './ReviewSummaryScreen/ReviewSummary';
-// import LocationBottom from "./LocationBottom";
 import LogoutBottom from './LogoutBottom';
 import LocationBottom from './LocationBottom';
 import ReferFriendsSheet from './ReferFriendsSheet';
@@ -31,13 +30,17 @@ import HomeSuperAdmin from './AdminBoard/HomeSuperAdmin';
 import AdminBarberEarnings from './AdminBoard/AdminBarberEarnings';
 import HomeBarber from './BarberBoard/HomeBarber';
 import EReceipt from './BarberBoard/HomeBarber/EReceipt';
-
 import BarberEReceipt from './BarberBoard/BarberBooking/BarberEReceipt';
 import BaberProfileScreen from './BarberBoard/BarberProfile/BaberProfileScreen';
 import BarberChatScreen from './BarberBoard/BarberChat/BarberChatScreen';
 import NotificationScreen from './BarberBoard/BarberNotification/NotificationScreen';
 import BarberEarnReport from './AdminBoard/BarberEarnReport';
 import MyBooking from './BarberBoard/BarberBooking/MyBooking';
+import Servicesboard from './BarberBoard/BarberServices';
+import Addservices from './BarberBoard/BarberServices/Addservices';
+import DeleteServices from './BarberBoard/BarberServices/DeleteServices';
+import Editservices from './BarberBoard/BarberServices/Editservices';
+
 export {
   SplashScreen,
   ScreenSlider,
@@ -77,4 +80,8 @@ export {
   AdminBarberEarnings,
   BarberEarnReport,
   MyBooking,
+  Servicesboard,
+  Addservices,
+  DeleteServices,
+  Editservices,
 };

@@ -19,7 +19,7 @@ const Bookingcompleted = ({data}) => {
               flexDirection: 'row',
               flex: 0.2,
               justifyContent: 'space-between',
-              marginHorizontal: 15,
+              marginHorizontal: 20,
               marginTop: 5,
             }}>
             <View style={{flex: 0.6, justifyContent: 'center'}}>
@@ -161,7 +161,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#252525',
     borderWidth: 1,
     borderRadius: 20,
-    marginHorizontal: 10,
+    marginHorizontal: 20,
   },
   Ratingbox: {
     height: screenSize.height / 28,

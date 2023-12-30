@@ -23,8 +23,11 @@ import constants from '../../../AppConstants/Constants.json';
 import BottomSheet from '../../../components/molecules/BottomSheetContent/BottomSheet';
 import LogoutBottom from '../../LogoutBottom';
 import {screenSize} from '../../../components/atom/ScreenSize';
+import {useNavigation} from '@react-navigation/native';
 
-const BaberProfileScreen = ({navigation}) => {
+const BaberProfileScreen = () => {
+  const navigation = useNavigation();
+
   const refRBSheet = useRef();
 
   const BarberList = [
@@ -58,12 +61,12 @@ const BaberProfileScreen = ({navigation}) => {
 
   const handleNavigation = index => {
     switch (index) {
-      case 0:
-        // navigation.navigate(constants.screen.AboutUs);
-        break;
-      // case 6:
+      // case 0:
       //   navigation.navigate(constants.screen.AboutUs);
       //   break;
+      case 3:
+        navigation.navigate(constants.BarberScreen.Servicesboard);
+        break;
       case 4: // Index of 'Sign Out' item
         // setIsSignOutModalVisible(true);
         refRBSheet.current.open();

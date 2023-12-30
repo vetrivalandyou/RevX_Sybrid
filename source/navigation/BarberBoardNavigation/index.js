@@ -8,9 +8,13 @@ import {
   BarberChatScreen,
   BaberProfileScreen,
   NotificationScreen,
+  Servicesboard,
+  Addservices,
+  Editservices,
 } from '../../screens';
 
 import BarberBottomTabNavigation from './BarberBottomTabNavigation';
+import DeleteServices from '../../screens/BarberBoard/BarberServices/DeleteServices';
 
 const BarberStack = () => {
   const Stack = createNativeStackNavigator();
@@ -45,6 +49,28 @@ const BarberStack = () => {
         <Stack.Screen
           name={constants.BarberScreen.NotificationScreen}
           component={NotificationScreen}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name={constants.BarberScreen.Servicesboard}
+          component={Servicesboard}
+          options={{headerShown: false}}
+        />
+
+        <Stack.Screen
+          name={constants.BarberScreen.Addservices}
+          component={Addservices}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name={constants.BarberScreen.DeleteServices}
+          component={DeleteServices}
+          options={{headerShown: false}}
+        />
+
+        <Stack.Screen
+          name={constants.BarberScreen.Editservices}
+          component={Editservices}
           options={{headerShown: false}}
         />
       </Stack.Navigator>

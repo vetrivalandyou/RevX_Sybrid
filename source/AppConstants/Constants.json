@@ -46,7 +46,11 @@
         "BaberProfileScreen": "BaberProfileScreen",
         "BarberChatScreen": "BarberChatScreen",
         "MyBooking": "MyBooking",
-        "NotificationScreen": "NotificationScreen"
+        "NotificationScreen": "NotificationScreen",
+        "Servicesboard": "Servicesboard",
+        "Addservices": "Addservices",
+        "DeleteServices": "DeleteServices",
+        "Editservices": "Editservices"
     },
     "AsyncStorageKeys": {
         "email": "email",

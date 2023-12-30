@@ -14,6 +14,7 @@ import {Icons} from '../../../components/molecules/CustomIcon/CustomIcon';
 import Screen from '../../../components/atom/ScreenContainer/Screen';
 import appColors from '../../../AppConstants/appColors';
 import profile from '../../../assets/barberImage1.png';
+import constants from '../../../AppConstants/Constants.json';
 
 import {AppImages} from '../../../AppConstants/AppImages';
 
@@ -88,6 +89,9 @@ const BarberChatScreen = ({navigation}) => {
           leftIcoName={'chevron-back'}
           headerText={'Inbox'}
           rightIcoName={'bell'}
+          onPressRightIcon={() =>
+            navigation.navigate(constants.BarberScreen.NotificationScreen)
+          }
           rightIcoType={Icons.SimpleLineIcons}
           logIn={'success'}
           rightIcoSize={20}

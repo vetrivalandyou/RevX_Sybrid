@@ -17,8 +17,12 @@ import {useEffect, useRef, useState} from 'react';
 import PreBooking from './PreBooking';
 import Header from '../../../components/molecules/Header';
 import {Icons} from '../../../components/molecules/CustomIcon/CustomIcon';
+import constants from '../../../AppConstants/Constants.json';
+import {useNavigation} from '@react-navigation/native';
+import Screen from '../../../components/atom/ScreenContainer/Screen';
 
-const MyBooking = ({navigation}) => {
+const MyBooking = () => {
+  const navigation = useNavigation();
   const activeButton = useRef('1');
   const [tabState, setTabState] = useState(false);
 
@@ -97,7 +101,10 @@ const MyBooking = ({navigation}) => {
   useEffect(() => {}, [activeButton]);
 
   return (
-    <View style={{backgroundColor: 'black', flex: 1, paddingHorizontal: 10}}>
+    <Screen
+      statusBarColor={appColors.Black}
+      barStyle="light-content"
+      viewStyle={{backgroundColor: 'appColors.Black'}}>
       <View style={{flex: 0.1}}>
         <Header
           lefttIcoType={Icons.Ionicons}
@@ -105,6 +112,9 @@ const MyBooking = ({navigation}) => {
           leftIcoName={'chevron-back'}
           headerText={'My Booking'}
           rightIcoName={'bell'}
+          onPressRightIcon={() =>
+            navigation.navigate(constants.BarberScreen.NotificationScreen)
+          }
           rightIcoType={Icons.SimpleLineIcons}
           logIn={'success'}
           rightIcoSize={20}
@@ -124,7 +134,7 @@ const MyBooking = ({navigation}) => {
           flexDirection: 'row',
           justifyContent: 'space-evenly',
           alignItems: 'center',
-
+          marginHorizontal: 8,
           flex: 0.09,
         }}>
         <TouchableOpacity
@@ -160,7 +170,7 @@ const MyBooking = ({navigation}) => {
       </View>
 
       <View style={{flex: 0.7}}>{renderComponent(activeButton)}</View>
-    </View>
+    </Screen>
   );
 };
 

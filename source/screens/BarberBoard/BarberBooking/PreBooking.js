@@ -18,7 +18,7 @@ const PreBooking = ({data}) => {
           backgroundColor: '#252525',
           borderWidth: 1,
           borderRadius: 20,
-          marginHorizontal: 10,
+          marginHorizontal: 20,
         }}>
         <View style={{flex: 1, borderRadius: 20}}>
           <View
@@ -27,7 +27,7 @@ const PreBooking = ({data}) => {
               flex: 0.2,
               justifyContent: 'space-between',
               alignItems: 'center',
-              marginHorizontal: 15,
+              marginHorizontal: 20,
               marginTop: 5,
             }}>
             <View style={{flex: 0.6}}>

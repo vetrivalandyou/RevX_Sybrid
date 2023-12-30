@@ -6,6 +6,7 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Screen from '../../../components/atom/ScreenContainer/Screen';
 import Header from '../../../components/molecules/Header';
 import {Icons} from '../../../components/molecules/CustomIcon/CustomIcon';
+import constants from '../../../AppConstants/Constants.json';
 
 const BarberEReceipt = ({navigation}) => {
   const data = [
@@ -73,6 +74,9 @@ const BarberEReceipt = ({navigation}) => {
           leftIcoName={'chevron-back'}
           headerText={'E-Receipt'}
           rightIcoName={'bell'}
+          onPressRightIcon={() =>
+            navigation.navigate(constants.BarberScreen.NotificationScreen)
+          }
           rightIcoType={Icons.SimpleLineIcons}
           logIn={'success'}
           rightIcoSize={20}
