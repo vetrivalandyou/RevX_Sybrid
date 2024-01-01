@@ -33,11 +33,25 @@
         "LogoutBottom":"LogoutBottom",
         "LocationBottom":"LocationBottom",
         "ReferFriendsSheet":"ReferFriendsSheet",
-        "HomeSuperAdmin":"HomeSuperAdmin",
         "AdminBottomTabNavigation":"AdminBottomTabNavigation",
-        "AdminBarberEarnings":"AdminBarberEarnings",
-        "BarberEarnReport":"BarberEarnReport"
+  
+      
+       
+        "AdminChat":"AdminChat",
+        "AdminInbox":"AdminInbox",
+        "RecentTransactionsMain":"RecentTransactionsMain"
     },
+    "AdminScreens":{
+        "HomeSuperAdmin":"HomeSuperAdmin",
+        "AdminBarberEarnings":"AdminBarberEarnings",
+        "BarberEarnReport":"BarberEarnReport",
+        "Report":"Report",
+        "AdminPaymentMethod":"AdminPaymentMethod"
+
+
+
+    },
+
     "AsyncStorageKeys": {
         "email": "email",
         "password": "password",

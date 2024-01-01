@@ -27,15 +27,22 @@ import ReviewSummary from "./ReviewSummaryScreen/ReviewSummary";
 import LogoutBottom from "./LogoutBottom";
 import LocationBottom from "./LocationBottom";
 import ReferFriendsSheet from "./ReferFriendsSheet";
-import HomeSuperAdmin from "./AdminBoard/HomeSuperAdmin";
 import AdminBarberEarnings from "./AdminBoard/AdminBarberEarnings";
 import BarberEarnReport from "./AdminBoard/BarberEarnReport";
+import Report from "./AdminBoard/Report";
+import AdminPaymentMethod from "./AdminBoard/AdminPaymentMethod";
+import AdminInbox from "./AdminBoard/AdminInbox";
+import AdminChat from "./AdminBoard/AdminChat";
+import RecentTransactionsMain from "./AdminBoard/RecentTransactionMain";
+import HomeSuperAdmin from "./AdminBoard/HomeSuperAdmin";
+
 export{
     SplashScreen,
     ScreenSlider,
     Login,
     Successfull,
-    BarberSpecialist,    HomeScreen,
+    BarberSpecialist,  
+    HomeScreen,
     ProfileScreen,
     InboxScreen,
     Booking,
@@ -58,11 +65,14 @@ export{
     LogoutBottom,
     LocationBottom,
     ReferFriendsSheet,
-    HomeSuperAdmin,
     AdminBarberEarnings,
-    BarberEarnReport
-  
-    
+    BarberEarnReport,
+    Report,
+    AdminPaymentMethod,
+    AdminInbox,
+    AdminChat,
+    RecentTransactionsMain,
+    HomeSuperAdmin
 
     
 }

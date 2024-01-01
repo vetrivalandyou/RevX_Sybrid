@@ -1,42 +1,78 @@
 import React from 'react';
-import {Text, View, TouchableOpacity, TextInput} from 'react-native';
-import CustomIcon, {Icons} from '../../molecules/CustomIcon/CustomIcon';
+import { Text, View, TouchableOpacity, TextInput, StyleSheet } from 'react-native';
+import CustomIcon, { Icons } from '../../molecules/CustomIcon/CustomIcon';
 import Screen from '../ScreenContainer/Screen';
-import styles from './styles';
 import appColors from '../../../AppConstants/appColors';
 
-const Search = () => {
+const Search = ({ leaftIconType, leftIconName, onPressRightIcon, onpressLeftIcon }) => {
   return (
-    <View>
-      <View style={styles.searchContainer}>
-        <TouchableOpacity>
-          <CustomIcon
-            type={Icons.Feather}
-            name={'search'}
-            style={styles.searchIcon}
-          />
-        </TouchableOpacity>
-        <View style={styles.searchWrapper}>
-          <TextInput
-            style={styles.searchInput}
-            placeholder="search"
-            onPressIn={() => {
-              // navigation.navigate(constants.screen.Search);
-            }}
-          />
-        </View>
 
-        <TouchableOpacity>
+    <View style={styles.searchContainer}>
+
+      <TouchableOpacity
+        onPress={onPressRightIcon}
+        style={styles.rightIconContainer}
+      >
           <CustomIcon
-            type={Icons.MaterialIcons}
-            name={'multitrack-audio'}
-            style={styles.searchIcon}
-            color={appColors.Goldcolor}
+            type={Icons.AntDesign}
+            name={'search1'}
+            color={appColors.White}
+            size={25}
+            style={{ marginLeft: 15 }}
+
           />
-        </TouchableOpacity>
+      </TouchableOpacity>
+      <View style={{ flex: 0.7 }}>
+        <TextInput
+          style={{ flex: 1 }}
+          placeholder="Search"
+          placeholderTextColor={appColors.LightGray}
+
+          onPressIn={() => {
+            // navigation.navigate(constants.screen.Search);
+          }}
+        />
       </View>
+      <TouchableOpacity
+        onPress={onpressLeftIcon}
+        style={styles.leftIconContainer}
+      >
+        <CustomIcon
+          type={leaftIconType}
+          name={leftIconName}
+          size={25}
+          color={appColors.Goldcolor}
+
+        />
+      </TouchableOpacity>
     </View>
+
   );
 };
 
 export default Search;
+
+const styles = StyleSheet.create({
+  searchContainer: {
+    flex: 1,
+    borderRadius: 50,
+    flexDirection: 'row',
+    alignItems: 'center',
+    borderWidth: 1,
+    borderColor: appColors.darkgrey,
+    marginVertical: 8,
+  },
+  rightIconContainer: {
+    flex: 0.15,
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  leftIconContainer: {
+    flex: 0.15,
+    alignItems: 'center'
+
+
+
+  }
+
+})

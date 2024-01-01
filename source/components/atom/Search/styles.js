@@ -15,17 +15,14 @@ export default StyleSheet.create({
     //  backgroundColor: 'red',
   }),
   searchContainer: {
-    borderRadius: 50,
-    flexDirection: 'row',
-    alignItems: 'center',
-    borderWidth: 1,
-    borderColor:appColors.darkgrey
+   
    
    
   },
   searchIcon: {
     marginHorizontal: Sizes.small,
     color: appColors.White,
+    backgroundColor:'blue',
   },
   search: {
     marginHorizontal: Sizes.small,
@@ -36,9 +33,12 @@ export default StyleSheet.create({
     //backgroundColor:'green',
     marginRight: Sizes.small,
     borderRadius: Sizes.small,
+    backgroundColor:'green'
   },
   searchInput: {
     color: appColors.White,
+    fontSize:14
+
   },
   searchBtn: {
     width: 50,

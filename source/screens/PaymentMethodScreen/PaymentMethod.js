@@ -82,7 +82,9 @@ const PaymentMethod = ({navigation}) => {
 };
 
 const PaymentCard = ({item, onPress, selected}) => {
+
   return (
+    
     <TouchableOpacity onPress={onPress}>
       <View style={styles.container}>
         <View

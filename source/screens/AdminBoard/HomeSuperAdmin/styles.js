@@ -5,11 +5,25 @@ export default StyleSheet.create({
    MianContainer:{
     flex:0.9,
     padding:15
-   }  ,
+    },
+
+    headerView:{
+      flex: 0.1 
+    },
+    headerleftIcoStyle:{
+      backgroundColor: appColors.lightBlack,
+      borderRadius: 50,
+      height: 50,
+      width: 50,
+      justifyContent: 'center',
+      alignItems: 'center',
+    },
+
+
    searchBarContainer:{
     flex: 0.1,
-    // backgroundColor: 'red',
-     justifyContent: 'center'
+ 
+    
 
    }  
    ,

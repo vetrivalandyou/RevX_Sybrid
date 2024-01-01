@@ -5,7 +5,7 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {StyleSheet} from 'react-native';
 import {useTheme} from '@react-navigation/native';
 
-import { AdminBarberEarnings, BarberEarnReport, HomeSuperAdmin } from '../../screens';
+import { AdminBarberEarnings, AdminInbox, BarberEarnReport, HomeSuperAdmin } from '../../screens';
 import CustomIcon,{Icons} from '../../components/molecules/CustomIcon/CustomIcon';
 
 const Tab = createBottomTabNavigator();
@@ -28,7 +28,7 @@ const AdminBottomTabNavigation = () => {
         headerShown: false,
       }}>
       <Tab.Screen
-        name={constants.screen.HomeSuperAdmin}
+        name={constants.AdminScreens.HomeSuperAdmin}
         component={HomeSuperAdmin}
         options={{
           tabBarIcon: ({focused}) => (
@@ -47,14 +47,14 @@ const AdminBottomTabNavigation = () => {
         }}
       />
        <Tab.Screen
-        name={constants.screen.BarberEarnReport}
-        component={BarberEarnReport}
+        name={constants.screen.AdminInbox}
+        component={AdminInbox}
         options={{
           tabBarIcon: ({focused}) => (
             <CustomIcon
               //style={{backgroundColor:'red'}}
-              type={Icons.Feather}
-              name="home"
+              name={'message1'}
+              type={Icons.AntDesign}
               color={focused ? appColors.Black : appColors.White}
               backgroundColor={focused ? 'white' : 'transparent'}
               style={{

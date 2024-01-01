@@ -76,6 +76,7 @@ const HomeScreen = ({ navigation }) => {
     ]
     const OurServices = ({ item }) => {
         return (
+            
             <View style={{ marginHorizontal: 3, height: screenSize.height / 5, width: screenSize.width / 3, alignItems: 'center' }}>
                 <View style={{ flex: 1, width: '100%' }}>
                     <View style={{ flex: 0.7, justifyContent: 'center', alignItems: 'center' }}>
@@ -238,7 +239,7 @@ const HomeScreen = ({ navigation }) => {
 
             <ScrollView style={{ flex: 0.75,backgroundColor:'red' }}>
 
-                <View style={{ }}>
+                <View style={{ height: screenSize.height }}>
                     <View style={{ flex: 0.1, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
                         <Text style={{ fontSize: 22, color: appColors.White }}>
                             Our Services

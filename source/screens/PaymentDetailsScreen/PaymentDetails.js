@@ -20,6 +20,7 @@ const PaymentDetails = ({navigation}) => {
   const [password, onChangePassword] = React.useState('');
   const [isEnabled, setIsEnabled] = useState(false);
   const [modalVisible, setModalVisible] = useState(false); 
+  
   const toggleModal = () => {
     setModalVisible(!modalVisible);
   };

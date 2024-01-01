@@ -31,3 +31,9 @@ export default appColors = {
   lightBlack: '#292929',
   middBlack: '#0C0C0D',
 };
+
+
+
+
+
+
