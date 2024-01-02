@@ -1,8 +1,10 @@
 import React from 'react';
-import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { AdminBarberEarnings, AdminChat, AdminInbox, AdminPaymentMethod, BarberEarnReport, HomeSuperAdmin,  RecentTransactionsMain,  Report } from '../../screens';
 import constants from "../../AppConstants/Constants.json"
+import {NavigationContainer} from '@react-navigation/native';
+import {HomeSuperAdmin} from '../../screens';
+import constants from '../../AppConstants/Constants.json';
 import AdminBottomTabNavigation from './AdminBottomTabNavigation';
 
 const AdminStack = () => {
@@ -11,6 +13,7 @@ const AdminStack = () => {
     <NavigationContainer >
       <Stack.Navigator screenOptions={{ animation: 'slide_from_right' }} initialRouteName={constants.screen.HomeSuperAdmin}>
 
+   
         <Stack.Screen
           name={constants.screen.AdminBottomTabNavigation}
           component={AdminBottomTabNavigation}

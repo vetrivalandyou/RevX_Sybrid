@@ -1,3 +1,4 @@
+
 import ScreenSlider from "./ScreenSlider";
 import Login from "./Auth/Login";
 import SplashScreen from "./SplashScreen";
@@ -35,6 +36,18 @@ import AdminInbox from "./AdminBoard/AdminInbox";
 import AdminChat from "./AdminBoard/AdminChat";
 import RecentTransactionsMain from "./AdminBoard/RecentTransactionMain";
 import HomeSuperAdmin from "./AdminBoard/HomeSuperAdmin";
+import HomeBarber from './BarberBoard/HomeBarber';
+import EReceipt from './BarberBoard/HomeBarber/EReceipt';
+import BarberEReceipt from './BarberBoard/BarberBooking/BarberEReceipt';
+import BaberProfileScreen from './BarberBoard/BarberProfile/BaberProfileScreen';
+import BarberChatScreen from './BarberBoard/BarberChat/BarberChatScreen';
+import NotificationScreen from './BarberBoard/BarberNotification/NotificationScreen';
+import BarberEarnReport from './AdminBoard/BarberEarnReport';
+import MyBooking from './BarberBoard/BarberBooking/MyBooking';
+import Servicesboard from './BarberBoard/BarberServices';
+import Addservices from './BarberBoard/BarberServices/Addservices';
+import DeleteServices from './BarberBoard/BarberServices/DeleteServices';
+import Editservices from './BarberBoard/BarberServices/Editservices';
 
 export{
     SplashScreen,
@@ -72,7 +85,20 @@ export{
     AdminInbox,
     AdminChat,
     RecentTransactionsMain,
-    HomeSuperAdmin
-
-    
+    HomeSuperAdmin,
+    HomeBarber,
+    EReceipt,
+    BarberEReceipt,
+    BaberProfileScreen,
+    BarberChatScreen,
+    NotificationScreen,
+    AdminBarberEarnings,
+    BarberEarnReport,
+    MyBooking,
+    Servicesboard,
+    Addservices,
+    DeleteServices,
+    Editservices,
 }
+
+

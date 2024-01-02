@@ -36,24 +36,4 @@ export const AppImages = {
   SuperAdmin: require(`${path}SuperAdmin.png`),
   visaimg: require(`${path}visaimg.png`),
   barberearbreport: require(`${path}barberearnreport.png`),
-
-
-  
-
-
-
-
-
-
-
-
-
-
-
-
-
-
- 
-
-
 };

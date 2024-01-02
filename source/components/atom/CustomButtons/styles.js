@@ -12,6 +12,7 @@ export default StyleSheet.create({
     bottom: 0,
   },
   btnText: {
-    color: AppColors.White,
+    color: AppColors.Black,
+    fontSize: 14,
   },
 });

@@ -25,7 +25,7 @@ import {
   LocationBottom,
   LogoutBottom,
   ReferFriendsSheet,
-  HomeSuperAdmin
+  HomeSuperAdmin,
 } from '../screens';
 import BottomTabNavigation from './BottomTabNavigation';
 import PrivacyPolicy from '../screens/ProfileScreen/Aboutus/PrivacyPolicy';
@@ -161,27 +161,27 @@ const Main = () => {
           component={ReviewSummary}
           options={{headerShown: false}}
         />
-         <Stack.Screen
+        <Stack.Screen
           name={constants.screen.LogoutBottom}
           component={LogoutBottom}
           options={{headerShown: false}}
         />
-         <Stack.Screen
+        <Stack.Screen
           name={constants.screen.LocationBottom}
           component={LocationBottom}
           options={{headerShown: false}}
         />
-         <Stack.Screen
+        <Stack.Screen
           name={constants.screen.ReferFriendsSheet}
           component={ReferFriendsSheet}
           options={{headerShown: false}}
         />
-         {/* <Stack.Screen
+        {/* <Stack.Screen
           name={constants.screen.HomeSuperAdmin}
           component={HomeSuperAdmin}
           options={{headerShown: false}}
         /> */}
-         {/* <Stack.Screen
+        {/* <Stack.Screen
           name={constants.screen.LocationBottom}
           component={LocationBottom}
           options={{ headerShown: false }}

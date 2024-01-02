@@ -39,7 +39,24 @@
        
         "AdminChat":"AdminChat",
         "AdminInbox":"AdminInbox",
-        "RecentTransactionsMain":"RecentTransactionsMain"
+        "RecentTransactionsMain":"RecentTransactionsMain",
+
+        "AdminBarberEarnings": "AdminBarberEarnings",
+        "BarberEarnReport": "BarberEarnReport"
+    },
+    "BarberScreen": {
+        "BarberBottomTabNavigation": "BarberBottomTabNavigation",
+        "HomeBarber": "HomeBarber",
+        "EReceipt": "EReceipt",
+        "BarberEReceipt": "BarberEReceipt",
+        "BaberProfileScreen": "BaberProfileScreen",
+        "BarberChatScreen": "BarberChatScreen",
+        "MyBooking": "MyBooking",
+        "NotificationScreen": "NotificationScreen",
+        "Servicesboard": "Servicesboard",
+        "Addservices": "Addservices",
+        "DeleteServices": "DeleteServices",
+        "Editservices": "Editservices"
     },
     "AdminScreens":{
         "HomeSuperAdmin":"HomeSuperAdmin",

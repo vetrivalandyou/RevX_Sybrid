@@ -1,12 +1,19 @@
 import React from 'react';
 import appColors from '../../AppConstants/appColors';
 import constants from '../../AppConstants/Constants.json';
-import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import {StyleSheet} from 'react-native';
-import {useTheme} from '@react-navigation/native';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { StyleSheet } from 'react-native';
+import { useTheme } from '@react-navigation/native';
 
-import { AdminBarberEarnings, AdminInbox, BarberEarnReport, HomeSuperAdmin } from '../../screens';
-import CustomIcon,{Icons} from '../../components/molecules/CustomIcon/CustomIcon';
+import {
+  AdminBarberEarnings,
+  BarberEarnReport,
+  HomeSuperAdmin,
+  AdminInbox
+} from '../../screens';
+import CustomIcon, {
+  Icons,
+} from '../../components/molecules/CustomIcon/CustomIcon';
 
 const Tab = createBottomTabNavigator();
 
@@ -17,13 +24,13 @@ const Tab = createBottomTabNavigator();
 //   tabBarStyle: { styles.BottomBarContainer, backgroundColor: colors.BottomTab },
 // };
 const AdminBottomTabNavigation = () => {
-  const {colors} = useTheme();
+  const { colors } = useTheme();
   return (
     <Tab.Navigator
       screenOptions={{
         unmountOnBlur: true,
-       tabBarShowLabel: false,
-        tabBarStyle: {...styles.BottomBarContainer},
+        tabBarShowLabel: false,
+        tabBarStyle: { ...styles.BottomBarContainer },
         tabBarHideOnKeyboard: true,
         headerShown: false,
       }}>
@@ -31,7 +38,7 @@ const AdminBottomTabNavigation = () => {
         name={constants.AdminScreens.HomeSuperAdmin}
         component={HomeSuperAdmin}
         options={{
-          tabBarIcon: ({focused}) => (
+          tabBarIcon: ({ focused }) => (
             <CustomIcon
               //style={{backgroundColor:'red'}}
               type={Icons.Feather}
@@ -46,11 +53,14 @@ const AdminBottomTabNavigation = () => {
           ),
         }}
       />
-       <Tab.Screen
+      <Tab.Screen
         name={constants.screen.AdminInbox}
-        component={AdminInbox}
+        component={AdminInbox} />
+      <Tab.Screen
+        name={constants.screen.BarberEarnReport}
+        component={BarberEarnReport}
         options={{
-          tabBarIcon: ({focused}) => (
+          tabBarIcon: ({ focused }) => (
             <CustomIcon
               //style={{backgroundColor:'red'}}
               name={'message1'}
@@ -105,7 +115,7 @@ const AdminBottomTabNavigation = () => {
           ),
         }}
       /> */}
-{/* 
+      {/* 
       <Tab.Screen
         name={constants.screen.InboxScreen}
         component={InboxScreen}
@@ -161,7 +171,7 @@ const styles = StyleSheet.create({
     bottom: 2,
     height: 70,
     margin: 10,
-  
+
     // shadowColor: appColors.AppBlue,
     // botton: 0,
     // elevation: 0,

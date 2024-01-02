@@ -21,24 +21,27 @@ const License = ({navigation}) => {
       statusBarColor={appColors.Black}
       barStyle="light-content"
       viewStyle={{backgroundColor: appColors.Black, padding: 10}}>
-      <Header
-        lefttIcoType={Icons.Ionicons}
-        onPressLeftIcon={() => navigation.goBack()}
-        leftIcoName={'chevron-back'}
-        headerText={'License'}
-        rightIcoName={'bell'}
-        rightIcoType={Icons.SimpleLineIcons}
-        logIn={'success'}
-        rightIcoSize={20}
-        leftIcoStyle={{
-          backgroundColor: appColors.lightBlack,
-          borderRadius: 50,
-          height: 50,
-          width: 50,
-          justifyContent: 'center',
-          alignItems: 'center',
-        }}
-      />
+      <View style={{flex: 0.1}}>
+        <Header
+          lefttIcoType={Icons.Ionicons}
+          onPressLeftIcon={() => navigation.goBack()}
+          leftIcoName={'chevron-back'}
+          headerText={'License'}
+          rightIcoName={'bell'}
+          rightIcoType={Icons.SimpleLineIcons}
+          logIn={'success'}
+          rightIcoSize={20}
+          leftIcoStyle={{
+            backgroundColor: appColors.lightBlack,
+            borderRadius: 50,
+            height: 50,
+            width: 50,
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}
+        />
+      </View>
+
       <View
         style={{
           flex: 1,

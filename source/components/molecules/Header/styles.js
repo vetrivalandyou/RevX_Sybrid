@@ -5,27 +5,23 @@ export default StyleSheet.create({
   headerView: {
     flex: 1,
     justifyContent: 'center',
-   //backgroundColor:'brown'
   },
   header: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginHorizontal: 5,
-  //  backgroundColor: appColors.pink,
+    marginHorizontal: 12,
     flex: 1,
- //   alignItems: 'center',
-    
-    // backgroundColor:'brown',
   },
   headerText: {
     color: appColors.White,
-    fontSize: 18,
-    fontWeight:'500'
+    fontSize: 20,
+    fontWeight: '500',
+    textAlign: 'center',
   },
-  headerTextView:{
-    flex: 0.7, 
-    justifyContent: 'center', 
+  headerTextView: {
+    flex: 0.7,
+    justifyContent: 'center',
     // alignItems: 'center',
-   //  backgroundColor:"green"
-  }
+    //  backgroundColor:"green"
+  },
 });

@@ -15,10 +15,14 @@ import Bookingcompleted from './Bookingcompleted';
 import Bookingcancelled from './Bookingcancelled';
 import {useEffect, useRef, useState} from 'react';
 import PreBooking from './PreBooking';
-import Header from '../../components/molecules/Header';
-import {Icons} from '../../components/molecules/CustomIcon/CustomIcon';
+import Header from '../../../components/molecules/Header';
+import {Icons} from '../../../components/molecules/CustomIcon/CustomIcon';
+import constants from '../../../AppConstants/Constants.json';
+import {useNavigation} from '@react-navigation/native';
+import Screen from '../../../components/atom/ScreenContainer/Screen';
 
-const MyBooking = ({navigation}) => {
+const MyBooking = () => {
+  const navigation = useNavigation();
   const activeButton = useRef('1');
   const [tabState, setTabState] = useState(false);
 
@@ -29,7 +33,7 @@ const MyBooking = ({navigation}) => {
       name: 'Barberella Inova',
       title: '38947 Madeshow valley terrace services',
       label: 'Gulf Haircut, Thin Shampoo, Alovevera Shampo, Hair wash',
-      Imagesource: require('../../assets/rectangle2.png'),
+      Imagesource: require('../../../assets/rectangle2.png'),
       Booking: 'Cancel Booking',
       Receipt: 'View E-Receipt',
       ratingicon: <AntDesign name={'staro'} size={12} color={'#c79647'} />,
@@ -41,7 +45,7 @@ const MyBooking = ({navigation}) => {
       name: 'Barberella Inova',
       title: '38947 Madeshow valley terrace services',
       label: 'Gulf Haircut, Thin Shampoo, Alovevera Shampo, Hair wash',
-      Imagesource: require('../../assets/rectangle2.png'),
+      Imagesource: require('../../../assets/rectangle2.png'),
       Booking: 'Cancel Booking',
       Receipt: 'View E-Receipt',
       ratingicon: <AntDesign name={'staro'} size={12} color={'#c79647'} />,
@@ -53,7 +57,7 @@ const MyBooking = ({navigation}) => {
       name: 'Barberella Inova',
       title: '38947 Madeshow valley terrace services',
       label: 'Gulf Haircut, Thin Shampoo, Alovevera Shampo, Hair wash',
-      Imagesource: require('../../assets/rectangle2.png'),
+      Imagesource: require('../../../assets/rectangle2.png'),
       Booking: 'Cancel Booking',
       Receipt: 'View E-Receipt',
       ratingicon: <AntDesign name={'staro'} size={12} color={'#c79647'} />,
@@ -65,7 +69,7 @@ const MyBooking = ({navigation}) => {
       name: 'Barberella Inova',
       title: '38947 Madeshow valley terrace services',
       label: 'Gulf Haircut, Thin Shampoo, Alovevera Shampo, Hair wash',
-      Imagesource: require('../../assets/rectangle2.png'),
+      Imagesource: require('../../../assets/rectangle2.png'),
       Booking: 'Cancel Booking',
       Receipt: 'View E-Receipt',
       ratingicon: <AntDesign name={'staro'} size={12} color={'#c79647'} />,
@@ -97,14 +101,20 @@ const MyBooking = ({navigation}) => {
   useEffect(() => {}, [activeButton]);
 
   return (
-    <View style={{backgroundColor: 'black', flex: 1, paddingHorizontal: 10}}>
+    <Screen
+      statusBarColor={appColors.Black}
+      barStyle="light-content"
+      viewStyle={{backgroundColor: 'appColors.Black'}}>
       <View style={{flex: 0.1}}>
         <Header
           lefttIcoType={Icons.Ionicons}
           onPressLeftIcon={() => navigation.goBack()}
           leftIcoName={'chevron-back'}
-          headerText={'Booking'}
+          headerText={'My Booking'}
           rightIcoName={'bell'}
+          onPressRightIcon={() =>
+            navigation.navigate(constants.BarberScreen.NotificationScreen)
+          }
           rightIcoType={Icons.SimpleLineIcons}
           logIn={'success'}
           rightIcoSize={20}
@@ -124,7 +134,7 @@ const MyBooking = ({navigation}) => {
           flexDirection: 'row',
           justifyContent: 'space-evenly',
           alignItems: 'center',
-
+          marginHorizontal: 8,
           flex: 0.09,
         }}>
         <TouchableOpacity
@@ -133,8 +143,8 @@ const MyBooking = ({navigation}) => {
             activeButton.current === '1' && {backgroundColor: '#c79647'}, // Change color based on active button
           ]}
           onPress={() => handleButtonPress('1')}>
-          <Text style={{fontWeight: '500', fontSize: 13, color: 'white'}}>
-            Pre Booking
+          <Text style={{fontWeight: '500', fontSize: 14, color: 'white'}}>
+            Upcoming
           </Text>
         </TouchableOpacity>
         <TouchableOpacity
@@ -143,7 +153,7 @@ const MyBooking = ({navigation}) => {
             activeButton.current === '2' && {backgroundColor: '#c79647'},
           ]}
           onPress={() => handleButtonPress('2')}>
-          <Text style={{fontWeight: '500', fontSize: 13, color: 'white'}}>
+          <Text style={{fontWeight: '500', fontSize: 14, color: 'white'}}>
             Completed
           </Text>
         </TouchableOpacity>
@@ -153,14 +163,14 @@ const MyBooking = ({navigation}) => {
             activeButton.current === '3' && {backgroundColor: '#c79647'},
           ]}
           onPress={() => handleButtonPress('3')}>
-          <Text style={{fontWeight: '500', fontSize: 13, color: 'white'}}>
+          <Text style={{fontWeight: '500', fontSize: 14, color: 'white'}}>
             Cancelled
           </Text>
         </TouchableOpacity>
       </View>
 
       <View style={{flex: 0.7}}>{renderComponent(activeButton)}</View>
-    </View>
+    </Screen>
   );
 };
 
@@ -173,7 +183,6 @@ const styles = StyleSheet.create({
     marginHorizontal: 2,
     alignItems: 'center',
     justifyContent: 'center',
-    // backgroundColor:'green'
   },
   Button: {
     flex: 0.3,

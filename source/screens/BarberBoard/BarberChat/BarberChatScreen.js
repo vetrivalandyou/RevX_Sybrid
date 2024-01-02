@@ -8,16 +8,17 @@ import {
   TouchableOpacity,
   FlatList,
 } from 'react-native';
-import Search from '../../components/atom/Search/Search';
-import Header from '../../components/molecules/Header';
-import {Icons} from '../../components/molecules/CustomIcon/CustomIcon';
-import Screen from '../../components/atom/ScreenContainer/Screen';
-import appColors from '../../AppConstants/appColors';
-import profile from '../../assets/barberImage1.png';
+import Search from '../../../components/atom/Search/Search';
+import Header from '../../../components/molecules/Header';
+import {Icons} from '../../../components/molecules/CustomIcon/CustomIcon';
+import Screen from '../../../components/atom/ScreenContainer/Screen';
+import appColors from '../../../AppConstants/appColors';
+import profile from '../../../assets/barberImage1.png';
+import constants from '../../../AppConstants/Constants.json';
 
-import {AppImages} from '../../AppConstants/AppImages';
+import {AppImages} from '../../../AppConstants/AppImages';
 
-const InboxScreen = ({navigation}) => {
+const BarberChatScreen = ({navigation}) => {
   chat = [
     {
       id: 1,
@@ -88,6 +89,9 @@ const InboxScreen = ({navigation}) => {
           leftIcoName={'chevron-back'}
           headerText={'Inbox'}
           rightIcoName={'bell'}
+          onPressRightIcon={() =>
+            navigation.navigate(constants.BarberScreen.NotificationScreen)
+          }
           rightIcoType={Icons.SimpleLineIcons}
           logIn={'success'}
           rightIcoSize={20}
@@ -177,7 +181,7 @@ const Messages = ({item}) => {
           <Text
             style={{
               color: appColors.White,
-              fontSize: 18,
+              fontSize: 14,
               marginLeft: 5,
             }}>
             {item.messagetime}
@@ -193,4 +197,4 @@ const Messages = ({item}) => {
   );
 };
 
-export default InboxScreen;
+export default BarberChatScreen;
