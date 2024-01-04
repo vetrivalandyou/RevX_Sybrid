@@ -10,9 +10,12 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Entypo from 'react-native-vector-icons/Entypo';
 import React, {useState} from 'react';
-import { AppImages } from '../../AppConstants/AppImages';
-import { screenSize } from '../../components/atom/ScreenSize';
-import constants from "../../AppConstants/Constants.json"
+import {AppImages} from '../../AppConstants/AppImages';
+import {screenSize} from '../../components/atom/ScreenSize';
+import constants from '../../AppConstants/Constants.json';
+import Header from '../../components/molecules/Header';
+import {Icons} from '../../components/molecules/CustomIcon/CustomIcon';
+import ButtonComponent from '../../components/atom/CustomButtons/ButtonComponent';
 
 const PaymentMethod = ({navigation}) => {
   const [selectedItem, setSelectedItem] = useState(null);
@@ -30,35 +33,33 @@ const PaymentMethod = ({navigation}) => {
     },
     {
       id: 3,
-      Imagesource:AppImages.applepay,
+      Imagesource: AppImages.applepay,
       title: 'Apple Pay',
     },
   ];
   return (
     <View style={{height: screenSize.height, backgroundColor: 'black'}}>
-      <View
-        style={{
-          flexDirection: 'row',
-          justifyContent: 'space-between',
-          marginHorizontal: 10,
-          alignItems: 'center',
-          marginVertical: 6,
-        }}>
-        <View style={{width: screenSize.width / 4}}>
-          <AntDesign name={'left'} size={15} color={'white'} />
-        </View>
-        <View style={{width: screenSize.width / 2.5, alignItems: 'center'}}>
-          <Text style={{fontWeight: '500', color: 'white', fontSize: 17}}>
-            Payment Method
-          </Text>
-        </View>
-        <View style={{width: screenSize.width / 4, alignItems: 'flex-end'}}>
-          <View style={styles.NoticationContainer}>
-            <FontAwesome name={'bell'} size={13} color={'white'} />
-          </View>
-        </View>
+      <View style={{flex: 0.1}}>
+        <Header
+          lefttIcoType={Icons.Ionicons}
+          onPressLeftIcon={() => navigation.goBack()}
+          leftIcoName={'chevron-back'}
+          headerText={'Payment Method'}
+          rightIcoName={'bell'}
+          rightIcoType={Icons.SimpleLineIcons}
+          logIn={'success'}
+          rightIcoSize={20}
+          leftIcoStyle={{
+            backgroundColor: appColors.lightBlack,
+            borderRadius: 50,
+            height: 50,
+            width: 50,
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}
+        />
       </View>
-      <View>
+      <View style={{flex: 0.8}}>
         <FlatList
           data={data}
           renderItem={({item}) => (
@@ -72,19 +73,28 @@ const PaymentMethod = ({navigation}) => {
         />
       </View>
 
-      <TouchableOpacity
+      {/* <TouchableOpacity
         onPress={() => navigation.navigate(constants.screen.PaymentDetails)}
         style={styles.Button}>
         <Text style={{fontWeight: '700', fontSize: 13}}> Continue</Text>
-      </TouchableOpacity>
+      </TouchableOpacity> */}
+
+      <View
+        style={{
+          flex: 0.1,
+          // backgroundColor: 'green',
+        }}>
+        <ButtonComponent
+          title={'Continue'}
+          onPress={() => navigation.navigate(constants.screen.PaymentDetails)}
+        />
+      </View>
     </View>
   );
 };
 
 const PaymentCard = ({item, onPress, selected}) => {
-
   return (
-    
     <TouchableOpacity onPress={onPress}>
       <View style={styles.container}>
         <View
@@ -120,7 +130,6 @@ export default PaymentMethod;
 const styles = StyleSheet.create({
   container: {
     width: screenSize.width / 1.07,
-
     borderWidth: 1,
     borderRadius: 15,
     backgroundColor: '#252525',
@@ -130,7 +139,7 @@ const styles = StyleSheet.create({
 
   NoticationContainer: {
     height: screenSize.height / 18.5,
-    width: screenSize.width / 9,
+    width: screenSize.width / 9.2,
     borderRadius: 40,
     backgroundColor: '#252525',
     marginHorizontal: 2,
@@ -142,6 +151,7 @@ const styles = StyleSheet.create({
   },
 
   Button: {
+    backgroundColor: 'green',
     alignItems: 'center',
     backgroundColor: '#c79647',
     paddingVertical: 15,
@@ -149,7 +159,7 @@ const styles = StyleSheet.create({
     borderRadius: 40,
     position: 'absolute',
     bottom: 5,
-    width:screenSize.width/1.07,
+    width: screenSize.width / 1.07,
   },
   imagecontainer: {
     width: screenSize.width / 9.5,
@@ -159,7 +169,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'lightgray',
     justifyContent: 'center',
     alignItems: 'center',
-    marginVertical: 8,
+    marginVertical: 14,
   },
   OuterCircle: {
     height: screenSize.height / 35,

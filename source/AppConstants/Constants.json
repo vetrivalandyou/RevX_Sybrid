@@ -24,25 +24,15 @@
         "BarberEarnings": "BarberEarnings",
         "ForgotCheckEmail": "ForgotCheckEmail",
         "NewPassword": "NewPassword",
-        "Services":"Services",
-        "ServicesDetails":"ServicesDetails",
-        "PaymentMethod":"PaymentMethod",
-        "PaymentDetails":"PaymentDetails",
-        "Notification":"Notification",
-        "ReviewSummary":"ReviewSummary",
-        "LogoutBottom":"LogoutBottom",
-        "LocationBottom":"LocationBottom",
-        "ReferFriendsSheet":"ReferFriendsSheet",
-        "AdminBottomTabNavigation":"AdminBottomTabNavigation",
-  
-      
-       
-        "AdminChat":"AdminChat",
-        "AdminInbox":"AdminInbox",
-        "RecentTransactionsMain":"RecentTransactionsMain",
-
-        "AdminBarberEarnings": "AdminBarberEarnings",
-        "BarberEarnReport": "BarberEarnReport"
+        "Services": "Services",
+        "ServicesDetails": "ServicesDetails",
+        "PaymentMethod": "PaymentMethod",
+        "PaymentDetails": "PaymentDetails",
+        "Notification": "Notification",
+        "ReviewSummary": "ReviewSummary",
+        "LogoutBottom": "LogoutBottom",
+        "LocationBottom": "LocationBottom",
+        "ReferFriendsSheet": "ReferFriendsSheet"
     },
     "BarberScreen": {
         "BarberBottomTabNavigation": "BarberBottomTabNavigation",
@@ -58,17 +48,17 @@
         "DeleteServices": "DeleteServices",
         "Editservices": "Editservices"
     },
-    "AdminScreens":{
-        "HomeSuperAdmin":"HomeSuperAdmin",
-        "AdminBarberEarnings":"AdminBarberEarnings",
-        "BarberEarnReport":"BarberEarnReport",
-        "Report":"Report",
-        "AdminPaymentMethod":"AdminPaymentMethod"
-
-
-
+    "AdminScreens": {
+        "AdminBottomTabNavigation": "AdminBottomTabNavigation",
+        "HomeSuperAdmin": "HomeSuperAdmin",
+        "AdminBarberEarnings": "AdminBarberEarnings",
+        "BarberEarnReport": "BarberEarnReport",
+        "Report": "Report",
+        "AdminPaymentMethod": "AdminPaymentMethod",
+        "AdminChat": "AdminChat",
+        "AdminInbox": "AdminInbox",
+        "RecentTransactionsMain": "RecentTransactionsMain"
     },
-
     "AsyncStorageKeys": {
         "email": "email",
         "password": "password",

@@ -80,7 +80,7 @@ const InboxScreen = ({navigation}) => {
     <Screen
       statusBarColor={appColors.Black}
       barStyle="light-content"
-      viewStyle={{backgroundColor: appColors.Black, padding: 15}}>
+      viewStyle={{backgroundColor: appColors.Black, padding: 15, flex: 0.9}}>
       <View style={{flex: 0.1}}>
         <Header
           lefttIcoType={Icons.Ionicons}
@@ -101,10 +101,10 @@ const InboxScreen = ({navigation}) => {
           }}
         />
       </View>
-      <View style={{flex: 0.09}}>
-        <Search />
+      <View style={{flex: 0.1}}>
+        <Search style={{marginVertical: 10}} />
       </View>
-      <View style={{flex: 0.7}}>
+      <View style={{flex: 0.8}}>
         <FlatList
           data={chat}
           renderItem={({item}) => <Messages item={item} />}

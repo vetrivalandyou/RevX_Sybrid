@@ -65,8 +65,8 @@ const LicenseData = ({item}) => {
     <View
       style={{
         flex: 0.9,
-        backgroundColor: appColors.AppGray,
-        borderRadius: 16,
+        backgroundColor: appColors.darkgrey,
+        borderRadius: 20,
         marginBottom: 20,
         flexDirection: 'column',
         alignContent: 'center',

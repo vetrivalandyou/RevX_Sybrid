@@ -1,5 +1,6 @@
 import {StyleSheet} from 'react-native';
 import AppColors from '../../../AppConstants/appColors';
+import appColors from '../../../AppConstants/appColors';
 
 export default StyleSheet.create({
   container: {
@@ -12,7 +13,7 @@ export default StyleSheet.create({
     bottom: 0,
   },
   btnText: {
-    color: AppColors.Black,
+    color: appColors.White,
     fontSize: 14,
   },
 });

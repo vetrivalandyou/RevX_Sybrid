@@ -1,9 +1,12 @@
 import {StyleSheet, Text, View, Modal, TouchableOpacity} from 'react-native';
 import React from 'react';
 import {Dimensions} from 'react-native';
+import {useNavigation} from '@react-navigation/native';
+import constants from '../../../AppConstants/Constants.json';
 const {height, width} = Dimensions.get('window');
 
 const CustomModal = ({visible, onRequestClose, label, onYes, onNo}) => {
+  const navigation = useNavigation();
   return (
     <Modal
       animationType="slide"
@@ -19,12 +22,12 @@ const CustomModal = ({visible, onRequestClose, label, onYes, onNo}) => {
         <View style={styles.modalstyle}>
           <Text
             style={{
-              fontSize: 20,
+              fontSize: 28,
               color: 'black',
               fontWeight: '600',
               textAlign: 'center',
             }}>
-            {label}
+            {'Do You Want to Save The Information For Later Use'}
           </Text>
           <View
             style={{
@@ -34,12 +37,18 @@ const CustomModal = ({visible, onRequestClose, label, onYes, onNo}) => {
               alignItems: 'center',
             }}>
             <View style={styles.modalbutton}>
-              <TouchableOpacity onPress={onYes}>
+              <TouchableOpacity
+                onPress={() =>
+                  navigation.navigate(constants.screen.ReviewSummary)
+                }>
                 <Text style={{color: 'white', fontWeight: '700'}}>Yes</Text>
               </TouchableOpacity>
             </View>
             <View style={styles.modalbutton2}>
-              <TouchableOpacity onPress={onNo}>
+              <TouchableOpacity
+                onPress={() => {
+                  onRequestClose(); // Call the onRequestClose prop to close the modal
+                }}>
                 <Text style={{color: 'black', fontWeight: '700'}}>No</Text>
               </TouchableOpacity>
             </View>
@@ -65,6 +74,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 25,
     borderColor: 'black',
+    paddingHorizontal: 20,
   },
   modalbutton: {
     alignItems: 'center',

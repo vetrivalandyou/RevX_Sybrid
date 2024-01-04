@@ -1,10 +1,27 @@
 import {StyleSheet, Text, View, TouchableOpacity} from 'react-native';
-import React from 'react';
+import React, {useState} from 'react';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import {screenSize} from '../../components/atom/ScreenSize';
+import Header from '../../components/molecules/Header';
+import {Icons} from '../../components/molecules/CustomIcon/CustomIcon';
+import Screen from '../../components/atom/ScreenContainer/Screen';
+import {useNavigation} from '@react-navigation/native';
+import PaymentModal from '../../components/molecules/PaymentModal/PaymentModal';
 
 const ReviewSummary = () => {
+  const navigation = useNavigation();
+  const [modalVisible, setModalVisible] = useState(false);
+
+  const handleConfirmPayment = () => {
+    // Open the modal when the button is pressed
+    setModalVisible(true);
+  };
+
+  const handleModalClose = () => {
+    // Close the modal
+    setModalVisible(false);
+  };
   const data = [
     {
       id: '1',
@@ -62,74 +79,84 @@ const ReviewSummary = () => {
   ];
 
   return (
-    <View style={{height: screenSize.height, backgroundColor: 'black'}}>
-      <View
-        style={{
-          flexDirection: 'row',
-          justifyContent: 'space-between',
-          marginHorizontal: 12,
-          alignItems: 'center',
-          marginVertical: 14,
-        }}>
-        <View style={{width: screenSize.width / 4}}>
-          <AntDesign name={'left'} size={15} color={'white'} />
-        </View>
-        <View style={{width: screenSize.width / 2.5, alignItems: 'center'}}>
-          <Text style={{fontWeight: '500', color: 'white', fontSize: 17}}>
-            Review Summary
-          </Text>
-        </View>
-        <View style={{width: screenSize.width / 4, alignItems: 'flex-end'}}>
-          <View style={styles.NoticationContainer}>
-            <FontAwesome name={'bell'} size={13} color={'white'} />
-          </View>
-        </View>
-      </View>
-      <View></View>
-
-      <View style={styles.Containerstyle}>
-        {data.map(item => (
-          <Barberdetails key={item.id} item={item} />
-        ))}
-      </View>
-
-      <View style={styles.Containerstyle2}>
-        {data2.map(item => (
-          <Pricedetails key={item.id} item={item} />
-        ))}
-        <View
-          style={{
-            backgroundColor: '#c79647',
-            fontSize: 25,
-            marginHorizontal: 14,
-            borderBottomWidth: 2,
-            borderStyle: 'dotted',
-            marginTop: 10,
-            marginBottom: 5,
-          }}></View>
-
-        <View
-          style={{
-            flexDirection: 'row',
-            justifyContent: 'space-between',
+    <Screen viewStyle={{padding: 15}}>
+      <View style={{flex: 0.1}}>
+        <Header
+          lefttIcoType={Icons.Ionicons}
+          onPressLeftIcon={() => navigation.goBack()}
+          leftIcoName={'chevron-back'}
+          headerText={'Review Summary'}
+          rightIcoName={'bell'}
+          rightIcoType={Icons.SimpleLineIcons}
+          logIn={'success'}
+          rightIcoSize={20}
+          leftIcoStyle={{
+            backgroundColor: appColors.lightBlack,
+            borderRadius: 50,
+            height: 50,
+            width: 50,
+            justifyContent: 'center',
             alignItems: 'center',
-            marginHorizontal: 20,
-            marginTop: 5,
-          }}>
-          <Text style={{color: 'white', fontWeight: '700'}}>Total</Text>
-          <Text style={{color: '#c79647', fontWeight: '700'}}>$120.00</Text>
+          }}
+        />
+      </View>
+      <View style={{flex: 0.8}}>
+        <View style={styles.Containerstyle}>
+          {data.map(item => (
+            <Barberdetails key={item.id} item={item} />
+          ))}
+        </View>
+
+        <View style={styles.Containerstyle2}>
+          {data2.map(item => (
+            <Pricedetails key={item.id} item={item} />
+          ))}
+          <View
+            style={{
+              backgroundColor: '#c79647',
+              fontSize: 25,
+              marginHorizontal: 14,
+              borderBottomWidth: 2,
+              borderStyle: 'dotted',
+              marginTop: 10,
+              marginBottom: 5,
+            }}></View>
+
+          <View
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              marginHorizontal: 20,
+              marginTop: 5,
+            }}>
+            <Text style={{color: 'white', fontWeight: '700'}}>Total</Text>
+            <Text style={{color: '#c79647', fontWeight: '700'}}>$120.00</Text>
+          </View>
         </View>
       </View>
 
       <TouchableOpacity
-        onPress={() => navigation.navigate('PreBooking')} //notification
+        onPress={handleConfirmPayment} //notification
         style={styles.Button}>
         <Text style={{fontWeight: '700', fontSize: 13, color: 'white'}}>
           {' '}
           Confirm Payment
         </Text>
       </TouchableOpacity>
-    </View>
+      <PaymentModal
+        visible={modalVisible}
+        showImage={true}
+        showLable={true}
+        showLable1={true}
+        showViewEReciptButton={true}
+        onRequestClose={handleModalClose}
+        title={'Payment Successful!'}
+        lable1={'Your booking has been successfully done'}
+        onPress={() => navigation.goBack()}
+        // showLable1={'sadad'}
+      />
+    </Screen>
   );
 };
 
@@ -200,12 +227,11 @@ const styles = StyleSheet.create({
     height: screenSize.height / 2.95,
     width: screenSize.width / 1.1,
     paddingVertical: 17,
-    marginTop: 5,
+
     backgroundColor: '#252525',
     borderWidth: 1,
     borderRadius: 20,
     borderColor: 'black',
-    marginHorizontal: 17,
   },
   Containerstyle2: {
     height: screenSize.height / 4.1,
@@ -217,7 +243,6 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 20,
     borderColor: 'black',
-    marginHorizontal: 17,
   },
   Button: {
     alignItems: 'center',

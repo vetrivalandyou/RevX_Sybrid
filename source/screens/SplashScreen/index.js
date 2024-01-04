@@ -13,7 +13,7 @@ const SplashScreen = ({navigation}) => {
 
   useEffect(() => {
     setTimeout(() => {
-      navigation.navigate(constants.screen.HomeBarber);
+      navigation.navigate(constants.screen.ScreenSlider);
     }, 1000);
   }, []);
 

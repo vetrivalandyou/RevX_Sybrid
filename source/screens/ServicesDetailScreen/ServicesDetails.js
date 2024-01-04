@@ -10,8 +10,10 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Entypo from 'react-native-vector-icons/Entypo';
 import React, {useState} from 'react';
-import { screenSize } from "../../components/atom/ScreenSize";
-import constants from "../../AppConstants/Constants.json"
+import {screenSize} from '../../components/atom/ScreenSize';
+import constants from '../../AppConstants/Constants.json';
+import Header from '../../components/molecules/Header';
+import {Icons} from '../../components/molecules/CustomIcon/CustomIcon';
 
 const ServicesDetails = ({navigation}) => {
   const data = [
@@ -81,27 +83,25 @@ const ServicesDetails = ({navigation}) => {
   ];
   return (
     <View style={{height: screenSize.height, backgroundColor: 'black'}}>
-      <View
-        style={{
-          flexDirection: 'row',
-          justifyContent: 'space-between',
-          marginHorizontal: 10,
-          alignItems: 'center',
-          marginVertical: 6,
-        }}>
-        <View style={{width: screenSize.width / 3.5}}>
-          <AntDesign name={'left'} size={15} color={'white'} />
-        </View>
-        <View style={{width: screenSize.width / 3.5, alignItems: 'center'}}>
-          <Text style={{fontWeight: '500', color: 'white', fontSize: 17}}>
-            Our Services
-          </Text>
-        </View>
-        <View style={{width: screenSize.width / 3.5, alignItems: 'flex-end'}}>
-          <View style={styles.NoticationContainer}>
-            <FontAwesome name={'bell'} size={13} color={'white'} />
-          </View>
-        </View>
+      <View style={{flex: 0.6}}>
+        <Header
+          lefttIcoType={Icons.Ionicons}
+          onPressLeftIcon={() => navigation.goBack()}
+          leftIcoName={'chevron-back'}
+          headerText={'Our Services'}
+          rightIcoName={'bell'}
+          rightIcoType={Icons.SimpleLineIcons}
+          logIn={'success'}
+          rightIcoSize={20}
+          leftIcoStyle={{
+            backgroundColor: appColors.lightBlack,
+            borderRadius: 50,
+            height: 50,
+            width: 50,
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}
+        />
       </View>
       <View>
         <FlatList
@@ -114,7 +114,10 @@ const ServicesDetails = ({navigation}) => {
       <TouchableOpacity
         onPress={() => navigation.navigate(constants.screen.AppointmentDate)}
         style={styles.ApplyNOWButton}>
-        <Text style={{fontWeight: '700', fontSize: 13}}> Book Now / $120</Text>
+        <Text style={{fontWeight: '700', fontSize: 13, color: 'white'}}>
+          {' '}
+          Book Now / $120
+        </Text>
       </TouchableOpacity>
     </View>
   );
@@ -131,7 +134,9 @@ const Barberinfo = ({item}) => {
           paddingHorizontal: 20,
         }}>
         <View style={{width: screenSize.width / 4}}>
-          <Text style={{fontWeight: '400', fontSize: 15}}>{item.name}</Text>
+          <Text style={{fontWeight: '400', fontSize: 15, color: 'white'}}>
+            {item.name}
+          </Text>
         </View>
 
         <View style={{width: screenSize.width / 5}}>
@@ -147,7 +152,7 @@ const Barberinfo = ({item}) => {
             alignItems: 'center',
             width: screenSize.width / 4.5,
           }}>
-          <Text style={{fontWeight: '500'}}>{item.title}</Text>
+          <Text style={{fontWeight: '500', color: 'white'}}>{item.title}</Text>
 
           <Text style={{fontWeight: '200'}}>{item.icon}</Text>
         </View>

@@ -49,7 +49,12 @@ const Header = ({
         </View>
 
         <View style={{flex: 0.15, justifyContent: 'center'}}>
-          <TouchableOpacity onPress={onPressRightIcon} style={leftIcoStyle}>
+          <TouchableOpacity
+            onPress={onPressRightIcon}
+            style={leftIcoStyle}
+            onPressIn={() =>
+              navigation.navigate(constants.screen.Notification)
+            }>
             <CustomIcon
               type={rightIcoType}
               name={rightIcoName}

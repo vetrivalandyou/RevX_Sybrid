@@ -1,15 +1,15 @@
 import React from 'react';
 import appColors from '../../AppConstants/appColors';
 import constants from '../../AppConstants/Constants.json';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { StyleSheet } from 'react-native';
-import { useTheme } from '@react-navigation/native';
+import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import {StyleSheet} from 'react-native';
+import {useTheme} from '@react-navigation/native';
 
 import {
   AdminBarberEarnings,
   BarberEarnReport,
   HomeSuperAdmin,
-  AdminInbox
+  AdminInbox,
 } from '../../screens';
 import CustomIcon, {
   Icons,
@@ -24,13 +24,13 @@ const Tab = createBottomTabNavigator();
 //   tabBarStyle: { styles.BottomBarContainer, backgroundColor: colors.BottomTab },
 // };
 const AdminBottomTabNavigation = () => {
-  const { colors } = useTheme();
+  const {colors} = useTheme();
   return (
     <Tab.Navigator
       screenOptions={{
         unmountOnBlur: true,
         tabBarShowLabel: false,
-        tabBarStyle: { ...styles.BottomBarContainer },
+        tabBarStyle: {...styles.BottomBarContainer},
         tabBarHideOnKeyboard: true,
         headerShown: false,
       }}>
@@ -38,7 +38,7 @@ const AdminBottomTabNavigation = () => {
         name={constants.AdminScreens.HomeSuperAdmin}
         component={HomeSuperAdmin}
         options={{
-          tabBarIcon: ({ focused }) => (
+          tabBarIcon: ({focused}) => (
             <CustomIcon
               //style={{backgroundColor:'red'}}
               type={Icons.Feather}
@@ -54,13 +54,14 @@ const AdminBottomTabNavigation = () => {
         }}
       />
       <Tab.Screen
-        name={constants.screen.AdminInbox}
-        component={AdminInbox} />
+        name={constants.AdminScreens.AdminInbox}
+        component={AdminInbox}
+      />
       <Tab.Screen
-        name={constants.screen.BarberEarnReport}
+        name={constants.AdminScreens.BarberEarnReport}
         component={BarberEarnReport}
         options={{
-          tabBarIcon: ({ focused }) => (
+          tabBarIcon: ({focused}) => (
             <CustomIcon
               //style={{backgroundColor:'red'}}
               name={'message1'}

@@ -31,9 +31,12 @@ export const AppImages = {
   Snapchat: require(`${path}Snapchat.png`),
   Transfer: require(`${path}Transfer.png`),
   Transaction: require(`${path}Transaction.png`),
+  Atmcard: require(`${path}AtmCard.png`),
   Report: require(`${path}Report.png`),
   UserPage: require(`${path}UserPage.png`),
   SuperAdmin: require(`${path}SuperAdmin.png`),
   visaimg: require(`${path}visaimg.png`),
   barberearbreport: require(`${path}barberearnreport.png`),
+  ourservices2: require(`${path}ourservices2.png`),
+  ourservices3: require(`${path}ourservices3.png`),
 };

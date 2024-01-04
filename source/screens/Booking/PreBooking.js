@@ -99,7 +99,8 @@ const PreBooking = ({data}) => {
               justifyContent: 'space-evenly',
             }}>
             <Bookingbutton
-              // style={{backgroundColor:'red'}}
+              // stylebtn={{color: 'White'}}
+              // style={{backgroundColor: 'red'}}
               title={'Cancel Booking'}
             />
             <Bookingbutton

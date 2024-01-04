@@ -8,7 +8,7 @@ const Bookingbutton = ({onPress, title, style, stylebtn}) => {
     <TouchableOpacity
       style={[Styles.bookingcontainer, style]}
       onPress={onPress}>
-      <Text style={(Styles.btnText, stylebtn)}>{title}</Text>
+      <Text style={[Styles.btnText, stylebtn]}>{title}</Text>
     </TouchableOpacity>
   );
 };

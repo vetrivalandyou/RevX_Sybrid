@@ -10,7 +10,7 @@ import ButtonComponent from '../../../components/atom/CustomButtons/ButtonCompon
 
 const ForgotCheckEmail = ({navigation}) => {
   return (
-    <Screen>
+    <Screen statusBarColor={appColors.Black}>
       <AuthHeader
         style={{
           backgroundColor: 'black',

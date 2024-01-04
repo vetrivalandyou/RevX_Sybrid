@@ -44,7 +44,7 @@ const AboutUs = ({navigation}) => {
         <TouchableOpacity
           style={{
             flex: 0.1,
-            backgroundColor: appColors.AppGray,
+            backgroundColor: appColors.darkgrey,
             borderRadius: 16,
             marginBottom: 20,
             flexDirection: 'row',
@@ -67,7 +67,7 @@ const AboutUs = ({navigation}) => {
         <TouchableOpacity
           style={{
             flex: 0.1,
-            backgroundColor: appColors.AppGray,
+            backgroundColor: appColors.darkgrey,
             borderRadius: 16,
             marginBottom: 20,
             flexDirection: 'row',
@@ -89,7 +89,7 @@ const AboutUs = ({navigation}) => {
         <TouchableOpacity
           style={{
             flex: 0.1,
-            backgroundColor: appColors.AppGray,
+            backgroundColor: appColors.darkgrey,
             borderRadius: 16,
             marginBottom: 20,
             flexDirection: 'row',

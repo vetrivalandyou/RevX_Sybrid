@@ -11,7 +11,6 @@ import {useTheme} from '@react-navigation/native';
 import appColors from '../../../AppConstants/appColors';
 
 const Screen = ({
-  
   scrollable,
   animated,
   hidden,
