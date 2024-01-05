@@ -1,6 +1,13 @@
-import React from 'react';
+import React, {useState} from 'react';
 
-import {Text, View, Image, TouchableOpacity, StyleSheet} from 'react-native';
+import {
+  Text,
+  View,
+  Image,
+  TouchableOpacity,
+  StyleSheet,
+  FlatList,
+} from 'react-native';
 import Screen from '../../../components/atom/ScreenContainer/Screen';
 import styles from './styles';
 import Header from '../../../components/molecules/Header';
@@ -8,121 +15,174 @@ import {Icons} from '../../../components/molecules/CustomIcon/CustomIcon';
 import appColors from '../../../AppConstants/appColors';
 import {AppImages} from '../../../AppConstants/AppImages';
 import ButtonComponent from '../../../components/atom/CustomButtons/ButtonComponent';
+import {screenSize} from '../../../components/atom/ScreenSize';
+import constants from '../../../AppConstants/Constants.json';
 
 const AdminPaymentMethod = ({navigation}) => {
-  const [isPressedCreditCard, setIsPressedCreditCard] = React.useState(false);
-  const [isPressedPayPal, setIsPressedPayPal] = React.useState(false);
-  const [isPressedApplePay, setIsPressedApplePay] = React.useState(false);
+  const [selectedItem, setSelectedItem] = useState(null);
 
-  const handlePressCreditCrad = () => {
-    setIsPressedCreditCard(!isPressedCreditCard);
-  };
-
-  const handlePressPaypal = () => {
-    setIsPressedPayPal(!isPressedPayPal);
-  };
-  const handlePressApplePay = () => {
-    setIsPressedApplePay(!isPressedApplePay);
-  };
-
-  const PaymentMethodContainer = ({
-    onPress,
-    isPressed,
-    outerColor,
-    innerColor,
-    source,
-    title,
-  }) => {
-    return (
-      <View style={styles.PaymentMethodContainerView}>
-        <View style={styles.ImgStyle}>
-          <Image source={source} />
-        </View>
-
-        <View style={styles.PaymentMethodInnerContainer}>
-          <View style={{flex: 0.8}}>
-            <Text style={styles.PaymentTextStyle}>{title}</Text>
-          </View>
-
-          <View style={{flex: 0.2}}>
-            <TouchableOpacity
-              style={[
-                styles.outerCircle,
-                isPressed && {backgroundColor: outerColor},
-              ]}
-              onPress={onPress}
-              underlayColor="transparent">
-              <View
-                style={[
-                  styles.innerCircle,
-                  isPressed && {backgroundColor: innerColor},
-                ]}
-              />
-            </TouchableOpacity>
-          </View>
-        </View>
-      </View>
-    );
-  };
+  const data = [
+    {
+      id: 1,
+      Imagesource: AppImages.creditcard,
+      title: 'Credit card',
+    },
+    {
+      id: 2,
+      Imagesource: AppImages.paypal,
+      title: 'Paypal',
+    },
+    {
+      id: 3,
+      Imagesource: AppImages.applepay,
+      title: 'Apple Pay',
+    },
+  ];
 
   return (
-    <Screen viewStyle={styles.mainContainer}>
-      {/* Header View */}
-      <View style={styles.HeaderView}>
+    <View style={{height: screenSize.height, backgroundColor: 'black'}}>
+      <View style={{flex: 0.1}}>
         <Header
           lefttIcoType={Icons.Ionicons}
+          onPressLeftIcon={() => navigation.goBack()}
           leftIcoName={'chevron-back'}
           headerText={'Payment Method'}
-          rightIcoName={'bell-fill'}
-          rightIcoType={Icons.Octicons}
-          leftIcoStyle={styles.headerleftIcoStyle}
+          rightIcoName={'bell'}
+          rightIcoType={Icons.SimpleLineIcons}
+          logIn={'success'}
           rightIcoSize={20}
-          headerTextViewStyle={{alignItems: 'center'}}
-          onPressLeftIcon={() => navigation.goBack()}
+          leftIcoStyle={{
+            backgroundColor: appColors.lightBlack,
+            borderRadius: 50,
+            height: 50,
+            width: 50,
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}
+          onPressRightIcon={() =>
+            navigation.navigate(constants.AdminScreens.AdminNotification)
+          }
         />
       </View>
+      <View style={{flex: 0.8}}>
+        <FlatList
+          data={data}
+          renderItem={({item}) => (
+            <PaymentCard
+              item={item}
+              selected={selectedItem === item.id}
+              onPress={() => setSelectedItem(item.id)}
+            />
+          )}
+          keyExtractor={item => item.id}
+        />
+      </View>
+      <View
+        style={{
+          flex: 0.1,
+          // backgroundColor: 'green',
+        }}>
+        <ButtonComponent
+          title={'Continue'}
+          onPress={() =>
+            navigation.navigate(constants.AdminScreens.PaymentCheckOut)
+          }
+        />
+      </View>
+    </View>
+  );
+};
 
-      {/* Cards Container View */}
-
-      <View style={styles.balanceView}>
-        <View style={{flex: 0.15}}>
-          <PaymentMethodContainer
-            title={'Credit card'}
-            source={AppImages.creditcard}
-            onPress={handlePressCreditCrad}
-            isPressed={isPressedCreditCard}
-            outerColor={appColors.Goldcolor}
-            innerColor={appColors.White}
-          />
-        </View>
-
-        <View style={{flex: 0.15}}>
-          <PaymentMethodContainer
-            title={'Paypal'}
-            source={AppImages.paypal}
-            onPress={handlePressPaypal}
-            isPressed={isPressedPayPal}
-            outerColor={appColors.Goldcolor}
-            innerColor={appColors.White}
-          />
-        </View>
-        <View style={{flex: 0.15}}>
-          <PaymentMethodContainer
-            title={'Apple Pay'}
-            source={AppImages.applepay}
-            onPress={handlePressApplePay}
-            isPressed={isPressedApplePay}
-            outerColor={appColors.Goldcolor}
-            // innerColor={appColors.White}
-          />
+const PaymentCard = ({item, onPress, selected}) => {
+  return (
+    <TouchableOpacity onPress={onPress}>
+      <View style={styless.container}>
+        <View
+          style={{
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            paddingHorizontal: 15,
+          }}>
+          <View style={styless.imagecontainer}>
+            <Image source={item.Imagesource} style={{height: 20, width: 22}} />
+          </View>
+          <View style={{width: screenSize.width / 1.6}}>
+            <Text style={{fontWeight: '500', fontSize: 15, color: 'white'}}>
+              {item.title}
+            </Text>
+          </View>
+          <View
+            style={[
+              styless.OuterCircle,
+              selected && {backgroundColor: '#c79647'},
+            ]}>
+            {selected && <View style={styless.innerCircle}></View>}
+          </View>
         </View>
       </View>
-
-      {/* Button View */}
-      <View style={styles.btnViewStyle}>
-        <ButtonComponent title={'Continue'} />
-      </View>
-    </Screen>
+    </TouchableOpacity>
   );
 };
 export default AdminPaymentMethod;
+
+const styless = StyleSheet.create({
+  container: {
+    width: screenSize.width / 1.07,
+    borderWidth: 1,
+    borderRadius: 15,
+    backgroundColor: '#252525',
+    marginHorizontal: 12,
+    marginVertical: 8,
+  },
+
+  NoticationContainer: {
+    height: screenSize.height / 18.5,
+    width: screenSize.width / 9.2,
+    borderRadius: 40,
+    backgroundColor: '#252525',
+    marginHorizontal: 2,
+
+    alignItems: 'center',
+    justifyContent: 'center',
+
+    // backgroundColor:'green'
+  },
+
+  Button: {
+    backgroundColor: 'green',
+    alignItems: 'center',
+    backgroundColor: '#c79647',
+    paddingVertical: 15,
+    marginHorizontal: 15,
+    borderRadius: 40,
+    position: 'absolute',
+    bottom: 5,
+    width: screenSize.width / 1.07,
+  },
+  imagecontainer: {
+    width: screenSize.width / 9.5,
+    paddingVertical: 8,
+    borderWidth: 1,
+    borderRadius: 5,
+    backgroundColor: 'lightgray',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginVertical: 14,
+  },
+  OuterCircle: {
+    height: screenSize.height / 35,
+    width: screenSize.width / 17,
+    borderRadius: 40,
+    backgroundColor: 'lightgrey',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  innerCircle: {
+    height: screenSize.height / 90,
+    width: screenSize.width / 43,
+    borderRadius: 40,
+    backgroundColor: 'lightgray',
+    position: 'absolute',
+  },
+});

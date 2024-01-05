@@ -4,9 +4,12 @@ import {
   AdminBarberEarnings,
   AdminChat,
   AdminInbox,
+  AdminNotification,
   AdminPaymentMethod,
   BarberEarnReport,
   HomeSuperAdmin,
+  PaymentCheckOut,
+  RecentTransactions,
   RecentTransactionsMain,
   Report,
 } from '../../screens';
@@ -50,6 +53,11 @@ const AdminStack = () => {
           options={{headerShown: false}}
         />
         <Stack.Screen
+          name={constants.AdminScreens.RecentTransactions}
+          component={RecentTransactions}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
           name={constants.AdminScreens.AdminBarberEarnings}
           component={AdminBarberEarnings}
           options={{headerShown: false}}
@@ -57,6 +65,17 @@ const AdminStack = () => {
         <Stack.Screen
           name={constants.AdminScreens.BarberEarnReport}
           component={BarberEarnReport}
+          options={{headerShown: false}}
+        />
+
+        <Stack.Screen
+          name={constants.AdminScreens.AdminNotification}
+          component={AdminNotification}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name={constants.AdminScreens.PaymentCheckOut}
+          component={PaymentCheckOut}
           options={{headerShown: false}}
         />
       </Stack.Navigator>

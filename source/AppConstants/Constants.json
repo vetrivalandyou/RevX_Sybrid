@@ -57,7 +57,10 @@
         "AdminPaymentMethod": "AdminPaymentMethod",
         "AdminChat": "AdminChat",
         "AdminInbox": "AdminInbox",
-        "RecentTransactionsMain": "RecentTransactionsMain"
+        "RecentTransactionsMain": "RecentTransactionsMain",
+        "RecentTransactions": "RecentTransactions",
+        "AdminNotification": "AdminNotification",
+        "PaymentCheckOut": "PaymentCheckOut"
     },
     "AsyncStorageKeys": {
         "email": "email",

@@ -53,13 +53,13 @@ const AdminBottomTabNavigation = () => {
           ),
         }}
       />
+      {/* <Tab.Screen
+        name={constants.AdminScreens.AdminInbox}
+        component={AdminInbox}
+      /> */}
       <Tab.Screen
         name={constants.AdminScreens.AdminInbox}
         component={AdminInbox}
-      />
-      <Tab.Screen
-        name={constants.AdminScreens.BarberEarnReport}
-        component={BarberEarnReport}
         options={{
           tabBarIcon: ({focused}) => (
             <CustomIcon
@@ -96,6 +96,7 @@ const AdminBottomTabNavigation = () => {
           ),
         }}
       /> */}
+
       {/* <Tab.Screen
         name={constants.screen.LocationScreen}
         component={LocationScreen}

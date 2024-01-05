@@ -18,8 +18,10 @@ import Header from '../../../components/molecules/Header';
 import Search from '../../../components/atom/Search/Search';
 import {AppImages} from '../../../AppConstants/AppImages';
 import constants from '../../../AppConstants/Constants.json';
+import {useNavigation} from '@react-navigation/native';
 
-const HomeSuperAdmin = ({navigation}) => {
+const HomeSuperAdmin = () => {
+  const navigation = useNavigation();
   const BarberEarnings = [
     {
       id: 1,
@@ -65,6 +67,9 @@ const HomeSuperAdmin = ({navigation}) => {
         <Header
           image={true}
           headerText={'Super Admin'}
+          onPressRightIcon={() =>
+            navigation.navigate(constants.AdminScreens.AdminNotification)
+          }
           rightIcoName={'bell-fill'}
           rightIcoType={Icons.Octicons}
           logIn={'success'}
@@ -80,10 +85,10 @@ const HomeSuperAdmin = ({navigation}) => {
 
       {/* Search Bar View */}
       <View style={styles.searchBarContainer}>
-        <Search />
+        <Search style={{marginVertical: 10}} />
       </View>
 
-      <View style={styles.visaCardDetailsView}>
+      {/* <View style={styles.visaCardDetailsView}>
         <View
           style={{
             flex: 0.7,
@@ -118,6 +123,30 @@ const HomeSuperAdmin = ({navigation}) => {
             </Text>
           </View>
         </View>
+      </View> */}
+
+      <View style={styles.cardContainer}>
+        <View style={styles.imgContainer}>
+          <Image source={AppImages.visaimg} style={{flex: 1}} />
+        </View>
+
+        <View style={styles.cardInnerContainer}>
+          <View style={styles.AvailableBalancetTextViewStyle}>
+            <Text style={styles.AvailableBalanceTextStyle}>
+              Available Balance
+            </Text>
+          </View>
+
+          <View style={styles.balanceMainViewStyle}>
+            <View style={styles.balanceViewStyle}>
+              <Text style={styles.balanceTextStyle}>$XXXX.XX</Text>
+            </View>
+
+            <View style={styles.ExViewStyle}>
+              <Text style={styles.ExTextStyle}>EX 06/24</Text>
+            </View>
+          </View>
+        </View>
       </View>
 
       <View
@@ -141,7 +170,10 @@ const HomeSuperAdmin = ({navigation}) => {
           </View>
         </TouchableOpacity>
         <TouchableOpacity
-          style={{flex: 0.2, justifyContent: 'center', alignItems: 'center'}}>
+          style={{flex: 0.2, justifyContent: 'center', alignItems: 'center'}}
+          onPress={() =>
+            navigation.navigate(constants.AdminScreens.RecentTransactionsMain)
+          }>
           <View
             style={{
               flex: 0.7,
