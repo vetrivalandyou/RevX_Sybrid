@@ -48,6 +48,15 @@ import Editservices from './BarberBoard/BarberServices/Editservices';
 import AdminNotification from '../screens/AdminBoard/AdminNotification/index';
 import PaymentCheckOut from '../screens/AdminBoard/PaymentCheckOut/index';
 import RecentTransactions from '../screens/AdminBoard/RecentTransactionMain/RecentTransactions';
+import AdminManageContent from './AdminBoard/AdminManageContent/AdminManageContent';
+import AdminTermsofServices from './AdminBoard/AdminTermsofServices';
+import AdminPrivacypolicy from './AdminBoard/AdminprivacyPolicy/AdminPrivacypolicy';
+import AdminEditPrivacypolicy from './AdminBoard/AdminprivacyPolicy/AdminEditPrivacypolicy';
+import AdminLicensee from './AdminBoard/Adminlicense/AdminLicensee';
+import AdminEditLicense from './AdminBoard/Adminlicense/AdminEditLicense';
+import AdminUserDetails from './AdminBoard/AdminUserDetails';
+import AdminProfile from './AdminBoard/AdminProfile/AdminProfile';
+import AdminViewUsers from './AdminBoard/AdminViewUsers';
 
 export {
   SplashScreen,
@@ -100,4 +109,14 @@ export {
   AdminNotification,
   PaymentCheckOut,
   RecentTransactions,
+  AdminManageContent,
+  AdminTermsofServices,
+  AdminPrivacypolicy,
+  AdminEditPrivacypolicy,
+  AdminLicensee,
+  AdminEditLicense,
+  AdminUserDetails,
+  AdminProfile,
+  AdminViewUsers
+  
 };

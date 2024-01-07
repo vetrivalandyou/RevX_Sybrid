@@ -5,7 +5,7 @@ import Main from './source/navigation/index';
 import AdminStack from './source/navigation/AdminBoardNavigation/index';
 
 function App() {
-  return <AdminStack />;
+  return <AdminStack/>;
 }
 
 export default App;

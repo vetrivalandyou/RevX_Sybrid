@@ -53,7 +53,7 @@ const Header = ({
             onPress={onPressRightIcon}
             style={leftIcoStyle}
             onPressIn={() =>
-              navigation.navigate(constants.screen.Notification)
+              navigation.navigate(constants.AdminScreens.AdminNotification)
             }>
             <CustomIcon
               type={rightIcoType}

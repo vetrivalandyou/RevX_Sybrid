@@ -86,7 +86,7 @@ const RecentTransactionsMain = () => {
       {/* Recent Transaction View */}
 
       <View style={styles.RecentTransactionMainView}>
-        <View style={{flex: 0.5}}>
+        <View style={{flex: 0.7}}>
           <Text style={styles.BarberEarningsTextStyle}>Recent Transaction</Text>
         </View>
 

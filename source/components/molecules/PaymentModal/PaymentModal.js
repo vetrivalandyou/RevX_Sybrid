@@ -6,7 +6,6 @@ import {
   TouchableOpacity,
   Image,
 } from 'react-native';
-// import {screenSize} from '../Utills/AppConstants';
 import React from 'react';
 import ButtonComponent from '../../../components/atom/CustomButtons/ButtonComponent';
 import {screenSize} from '../../atom/ScreenSize';

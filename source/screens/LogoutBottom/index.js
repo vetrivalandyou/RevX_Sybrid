@@ -62,7 +62,7 @@ const LogoutBottom = ({refRBSheet}) => {
               alignItems: 'flex-end',
             }}>
             <ButtonComponent
-              title={'cancel'}
+              title={'Cancel'}
               onPress={() => refRBSheet.current.close()}
               btnTextColor={{color: appColors.White}}
               style={{

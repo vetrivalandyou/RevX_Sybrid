@@ -1,21 +1,21 @@
-import {Image, ScrollView, Text, TouchableOpacity, View} from 'react-native';
-import React, {useRef, useState} from 'react';
-import {screenSize} from '../../../components/atom/ScreenSize';
+import { Image, ScrollView, Text, TouchableOpacity, View } from 'react-native';
+import React, { useRef, useState } from 'react';
+import { screenSize } from '../../../components/atom/ScreenSize';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Entypo from 'react-native-vector-icons/Entypo';
 import ButtonComponent from '../../../components/atom/CustomButtons/ButtonComponent';
 import styles from './styles';
-import {useNavigation} from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
 // import BottomSheet from '../../components/atom/BottomSheet';
 
 import Screen from '../../../components/atom/ScreenContainer/Screen';
 import constants from '../../../AppConstants/Constants.json';
 import Header from '../../../components/molecules/Header';
-import {Icons} from '../../../components/molecules/CustomIcon/CustomIcon';
+import { Icons } from '../../../components/molecules/CustomIcon/CustomIcon';
 import DeleteServices from './DeleteServices';
 import BottomSheet from '../../../components/molecules/BottomSheetContent/BottomSheet';
 
-const Servicesboard = ({navigation}) => {
+const Servicesboard = ({ navigation }) => {
   const [selectedItem, setSelectedItem] = useState(null);
   const data = [
     {
@@ -57,8 +57,8 @@ const Servicesboard = ({navigation}) => {
     },
   ];
   return (
-    <Screen viewStyle={{padding: 15}}>
-      <View style={{flex: 0.1}}>
+    <Screen viewStyle={{ padding: 15 }}>
+      <View style={{ flex: 0.1 }}>
         <Header
           lefttIcoType={Icons.Ionicons}
           onPressLeftIcon={() => navigation.goBack()}
@@ -68,7 +68,7 @@ const Servicesboard = ({navigation}) => {
         />
       </View>
 
-      <ScrollView style={{flex: 0.8}}>
+      <ScrollView style={{ flex: 0.8 }}>
         {data?.map(item => (
           <Servicelist
             key={item.id}
@@ -87,7 +87,7 @@ const Servicesboard = ({navigation}) => {
             bottom: 1,
             position: 'absolute',
           }}
-          btnTextColor={{color: 'white'}}
+          btnTextColor={{ color: 'white' }}
           title={'Add Services'}
           onPress={() =>
             navigation.navigate(constants.BarberScreen.Addservices)
@@ -98,7 +98,7 @@ const Servicesboard = ({navigation}) => {
   );
 };
 
-const Servicelist = ({item, onPress, selected}) => {
+const Servicelist = ({ item, onPress, selected }) => {
   const refRBSheet = useRef();
   const navigation = useNavigation();
   const handleEditPress = () => {
@@ -112,7 +112,7 @@ const Servicelist = ({item, onPress, selected}) => {
       <View
         style={[
           styles.container,
-          selected && {borderColor: '#c79647', borderWidth: 1.25},
+          selected && { borderColor: '#c79647', borderWidth: 1.25 },
         ]}>
         <View style={styles.Subcontainer}>
           <View style={styles.textView}>

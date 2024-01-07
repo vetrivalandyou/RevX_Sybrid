@@ -10,6 +10,8 @@ import {
   BarberEarnReport,
   HomeSuperAdmin,
   AdminInbox,
+  MyBooking,
+  AdminProfile
 } from '../../screens';
 import CustomIcon, {
   Icons,
@@ -53,6 +55,26 @@ const AdminBottomTabNavigation = () => {
           ),
         }}
       />
+       <Tab.Screen
+        name={constants.screen.MyBooking}
+        component={MyBooking}
+        options={{
+          tabBarIcon: ({focused}) => (
+            <CustomIcon
+              //style={{backgroundColor:'red'}}
+              type={Icons.SimpleLineIcons}
+              name="notebook"
+              color={focused ? appColors.Black : appColors.White}
+              backgroundColor={focused ? 'white' : 'transparent'}
+              style={{
+                padding: 14,
+                borderRadius: 20,
+              }}
+            />
+          ),
+        }}
+      />
+
       {/* <Tab.Screen
         name={constants.AdminScreens.AdminInbox}
         component={AdminInbox}
@@ -76,7 +98,27 @@ const AdminBottomTabNavigation = () => {
           ),
         }}
       />
+        <Tab.Screen
+        name={constants.AdminScreens.AdminProfile}
+        component={AdminProfile}
+        options={{
+          // tabBarLabel: 'Home',
+          tabBarIcon: ({focused}) => (
+            //   <MaterialCommunityIcons name="home" color={color} size={size} />
+            <CustomIcon
+              name={'person-outline'}
+              type={Icons.Ionicons}
+              color={focused ? appColors.Black : appColors.White}
+              backgroundColor={focused ? 'white' : 'transparent'}
+              style={{
+                padding: 14,
 
+                borderRadius: 20,
+              }}
+            />
+          ),
+        }}
+      />
       {/* <Tab.Screen
         name={constants.screen.MyBooking}
         component={MyBooking}

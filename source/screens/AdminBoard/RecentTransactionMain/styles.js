@@ -80,9 +80,9 @@ export default StyleSheet.create({
         color: appColors.White
     },
     ViewAllMainView: {
-        flex: 0.5,
+        flex: 0.3,
         justifyContent: 'flex-end',
-        flexDirection: 'row'
+        flexDirection: 'row',
 
     },
     ViewAllTextStyle: {
@@ -95,7 +95,7 @@ export default StyleSheet.create({
         backgroundColor: appColors.darkgrey,
         borderRadius: 8,
         flexDirection: 'row',
-        marginVertical: 5
+        marginVertical: 5,
     }
 
 

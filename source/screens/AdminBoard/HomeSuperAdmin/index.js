@@ -38,6 +38,7 @@ const HomeSuperAdmin = () => {
       Imagesource: AppImages.chatfour,
     },
   ];
+
   const BarberEarningsContainer = ({item}) => {
     return (
       <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
@@ -63,6 +64,7 @@ const HomeSuperAdmin = () => {
   return (
     <Screen statusBarColor={appColors.Black} viewStyle={styles.MianContainer}>
       {/* Header View */}
+
       <View style={styles.headerView}>
         <Header
           image={true}
@@ -76,7 +78,7 @@ const HomeSuperAdmin = () => {
           rightIcoSize={16}
           leftIcoStyle={styles.headerleftIcoStyle}
           headerTextt={{
-            marginLeft: 6,
+            marginLeft: 10,
             fontSize: Sizes.medium,
             textAlign: 'left',
           }}
@@ -84,7 +86,9 @@ const HomeSuperAdmin = () => {
       </View>
 
       {/* Search Bar View */}
+
       <View style={styles.searchBarContainer}>
+        
         <Search style={{marginVertical: 10}} />
       </View>
 
@@ -126,6 +130,7 @@ const HomeSuperAdmin = () => {
       </View> */}
 
       <View style={styles.cardContainer}>
+
         <View style={styles.imgContainer}>
           <Image source={AppImages.visaimg} style={{flex: 1}} />
         </View>
@@ -208,7 +213,10 @@ const HomeSuperAdmin = () => {
         </TouchableOpacity>
 
         <TouchableOpacity
-          style={{flex: 0.2, justifyContent: 'center', alignItems: 'center'}}>
+          onPress={() =>
+            navigation.navigate(constants.AdminScreens.AdminManageContent)
+          }
+          style={{flex: 0.2, justifyContent: 'center', alignItems: 'center',}}>
           <View
             style={{
               flex: 0.7,
@@ -226,6 +234,8 @@ const HomeSuperAdmin = () => {
         </TouchableOpacity>
 
         <TouchableOpacity
+           onPress={() => navigation.navigate(constants.AdminScreens.AdminUserDetails)}
+        
           style={{flex: 0.2, justifyContent: 'center', alignItems: 'center'}}>
           <View
             style={{
@@ -251,6 +261,7 @@ const HomeSuperAdmin = () => {
           justifyContent: 'space-between',
           alignItems: 'center',
         }}>
+
         <View style={{flex: 0.5}}>
           <Text
             style={{fontWeight: '400', fontSize: 22, color: appColors.White}}>

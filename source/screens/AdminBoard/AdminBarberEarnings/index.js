@@ -99,6 +99,7 @@ const AdminBarberEarnings = ({navigation}) => {
         <Image source={item.Imagesource} style={{}} />
 
         <View style={{flex: 1, flexDirection: 'row'}}>
+          
           <View style={{flex: 0.85, justifyContent: 'center'}}>
             <Text style={{color: appColors.White, fontSize: 18, marginLeft: 5}}>
               {item.title}

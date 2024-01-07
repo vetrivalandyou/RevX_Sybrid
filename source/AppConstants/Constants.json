@@ -60,7 +60,20 @@
         "RecentTransactionsMain": "RecentTransactionsMain",
         "RecentTransactions": "RecentTransactions",
         "AdminNotification": "AdminNotification",
-        "PaymentCheckOut": "PaymentCheckOut"
+        "PaymentCheckOut": "PaymentCheckOut",
+        "AdminManageContent":"AdminManageContent",
+        "AdminTermsofServices":"AdminTermsofServices",
+        "AdminEditTermsOfServices":"AdminEditTermsOfServices",
+        "AdminPrivacypolicy":"AdminPrivacypolicy",
+        "AdminEditPrivacypolicy":"AdminEditPrivacypolicy",
+        "AdminLicensee":"AdminLicensee",
+        "AdminEditLicense":"AdminEditLicense",
+        "AdminUserDetails":"AdminUserDetails",
+        "MyBooking": "MyBooking",
+        "AdminProfile":"AdminProfile",
+        "AdminViewUsers":"AdminViewUsers"
+
+
     },
     "AsyncStorageKeys": {
         "email": "email",

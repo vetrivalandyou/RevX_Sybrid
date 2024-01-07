@@ -27,7 +27,7 @@ const AdminInbox = () => {
     {
       id: 2,
       name: 'Barbella Inova',
-      profileimage: AppImages.chatone,
+      profileimage: AppImages.chatfive,
       message: 'Awesome!',
       messagecount: '2',
       messagetime: '20:00',
@@ -35,7 +35,7 @@ const AdminInbox = () => {
     {
       id: 3,
       name: 'Barbella Inova',
-      profileimage: AppImages.chatone,
+      profileimage: AppImages.chatsix,
       message: 'Awesome!',
       messagecount: '2',
       messagetime: '20:00',
@@ -43,7 +43,7 @@ const AdminInbox = () => {
     {
       id: 4,
       name: 'Barbella Inova',
-      profileimage: AppImages.chatone,
+      profileimage: AppImages.chatthree,
       message: 'Awesome!',
       messagecount: '2',
       messagetime: '20:00',
@@ -51,7 +51,7 @@ const AdminInbox = () => {
     {
       id: 5,
       name: 'Barbella Inova',
-      profileimage: AppImages.chatone,
+      profileimage: AppImages.chatfour,
       message: 'Awesome!',
       messagecount: '2',
       messagetime: '20:00',
@@ -59,7 +59,7 @@ const AdminInbox = () => {
     {
       id: 6,
       name: 'Barbella Inova',
-      profileimage: AppImages.chatone,
+      profileimage: AppImages.chattwo,
       message: 'Awesome!',
       messagecount: '2',
       messagetime: '20:00',
@@ -72,6 +72,22 @@ const AdminInbox = () => {
       messagecount: '2',
       messagetime: '20:00',
     },
+    {
+      id: 8,
+      name: 'Barbella Inova',
+      profileimage: AppImages.chatthree,
+      message: 'Awesome!',
+      messagecount: '2',
+      messagetime: '20:00',
+    },
+    {
+      id: 9,
+      name: 'Barbella Inova',
+      profileimage: AppImages.chatfour,
+      message: 'Awesome!',
+      messagecount: '2',
+      messagetime: '20:00',
+    },
   ];
 
   const ChatContainer = ({item, onPress}) => {
@@ -80,7 +96,7 @@ const AdminInbox = () => {
         style={{
           backgroundColor: appColors.darkgrey,
           borderRadius: 50,
-          height: screenSize.height / 9,
+          height: screenSize.height / 10.5,
           marginVertical: 8,
         }}
         onPress={onPress}>
@@ -124,7 +140,7 @@ const AdminInbox = () => {
                     borderRadius: 50,
                     height: '50%',
                     backgroundColor: appColors.Goldcolor,
-                    width: '40%',
+                    width: '35%',
                     alignItems: 'center',
                     marginTop: 15,
                     justifyContent: 'center',
@@ -183,7 +199,7 @@ const AdminInbox = () => {
 
       {/* Search Bar View */}
       <View style={styles.searchBarView}>
-        <Search />
+        <Search  style={{marginVertical:8}}/>
       </View>
 
       {/* FlatList  View */}
