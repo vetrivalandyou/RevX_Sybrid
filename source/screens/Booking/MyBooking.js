@@ -17,6 +17,7 @@ import {useEffect, useRef, useState} from 'react';
 import PreBooking from './PreBooking';
 import Header from '../../components/molecules/Header';
 import {Icons} from '../../components/molecules/CustomIcon/CustomIcon';
+import constants from '../../AppConstants/Constants.json';
 
 const MyBooking = ({navigation}) => {
   const activeButton = useRef('1');
@@ -106,6 +107,9 @@ const MyBooking = ({navigation}) => {
           headerText={'Booking'}
           rightIcoName={'bell'}
           rightIcoType={Icons.SimpleLineIcons}
+          onPressRightIcon={() =>
+            navigation.navigate(constants.screen.Notification)
+          }
           logIn={'success'}
           rightIcoSize={20}
           leftIcoStyle={{

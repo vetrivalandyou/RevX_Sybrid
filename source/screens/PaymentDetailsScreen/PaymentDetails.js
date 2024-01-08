@@ -46,6 +46,9 @@ const PaymentDetails = ({navigation}) => {
           rightIcoType={Icons.SimpleLineIcons}
           logIn={'success'}
           rightIcoSize={20}
+          onPressRightIcon={() =>
+            navigation.navigate(constants.screen.Notification)
+          }
           leftIcoStyle={{
             backgroundColor: appColors.lightBlack,
             borderRadius: 50,

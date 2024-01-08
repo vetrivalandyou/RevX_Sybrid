@@ -22,6 +22,7 @@ export const AppImages = {
   applepay: require(`${path}applepay.png`),
   paypal: require(`${path}paypal.png`),
   notification: require(`${path}notification.png`),
+  notificationone: require(`${path}notification.png`),
   bottomsheetimg: require(`${path}bottomsheetimg.png`),
   Whatsapp: require(`${path}Whatsapp.png`),
   Instagram: require(`${path}Instagram.png`),

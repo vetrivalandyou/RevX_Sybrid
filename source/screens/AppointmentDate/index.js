@@ -93,6 +93,9 @@ const AppointmentDate = ({navigation}) => {
           rightIcoName={'bell'}
           rightIcoType={Icons.SimpleLineIcons}
           logIn={'Appointment Date'}
+          onPressRightIcon={() =>
+            navigation.navigate(constants.screen.Notification)
+          }
           rightIcoSize={20}
           leftIcoStyle={{
             backgroundColor: appColors.lightBlack,

@@ -10,8 +10,8 @@ import {
   BarberEarnReport,
   HomeSuperAdmin,
   AdminInbox,
-  MyBooking,
-  AdminProfile
+  AdminBooking,
+  AdminProfile,
 } from '../../screens';
 import CustomIcon, {
   Icons,
@@ -55,9 +55,9 @@ const AdminBottomTabNavigation = () => {
           ),
         }}
       />
-       <Tab.Screen
-        name={constants.screen.MyBooking}
-        component={MyBooking}
+      <Tab.Screen
+        name={constants.AdminScreens.MyBooking}
+        component={AdminBooking}
         options={{
           tabBarIcon: ({focused}) => (
             <CustomIcon
@@ -98,7 +98,7 @@ const AdminBottomTabNavigation = () => {
           ),
         }}
       />
-        <Tab.Screen
+      <Tab.Screen
         name={constants.AdminScreens.AdminProfile}
         component={AdminProfile}
         options={{

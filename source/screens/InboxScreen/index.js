@@ -14,6 +14,7 @@ import {Icons} from '../../components/molecules/CustomIcon/CustomIcon';
 import Screen from '../../components/atom/ScreenContainer/Screen';
 import appColors from '../../AppConstants/appColors';
 import profile from '../../assets/barberImage1.png';
+import constants from '../../AppConstants/Constants.json';
 
 import {AppImages} from '../../AppConstants/AppImages';
 
@@ -89,6 +90,9 @@ const InboxScreen = ({navigation}) => {
           headerText={'Inbox'}
           rightIcoName={'bell'}
           rightIcoType={Icons.SimpleLineIcons}
+          onPressRightIcon={() =>
+            navigation.navigate(constants.screen.Notification)
+          }
           logIn={'success'}
           rightIcoSize={20}
           leftIcoStyle={{

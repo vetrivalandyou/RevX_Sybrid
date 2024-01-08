@@ -6,6 +6,7 @@ import Header from '../../../components/molecules/Header';
 import CustomIcon, {
   Icons,
 } from '../../../components/molecules/CustomIcon/CustomIcon';
+import constants from '../../../AppConstants/Constants.json';
 
 const TermsOfService = ({navigation}) => {
   data = [
@@ -31,6 +32,9 @@ const TermsOfService = ({navigation}) => {
           rightIcoType={Icons.SimpleLineIcons}
           logIn={'success'}
           rightIcoSize={20}
+          onPressRightIcon={() =>
+            navigation.navigate(constants.screen.Notification)
+          }
           leftIcoStyle={{
             backgroundColor: appColors.lightBlack,
             borderRadius: 50,

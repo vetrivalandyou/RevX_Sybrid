@@ -92,6 +92,9 @@ const ServicesDetails = ({navigation}) => {
           rightIcoName={'bell'}
           rightIcoType={Icons.SimpleLineIcons}
           logIn={'success'}
+          onPressRightIcon={() =>
+            navigation.navigate(constants.screen.Notification)
+          }
           rightIcoSize={20}
           leftIcoStyle={{
             backgroundColor: appColors.lightBlack,

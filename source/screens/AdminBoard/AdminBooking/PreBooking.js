@@ -1,6 +1,6 @@
 import {View, Text, StyleSheet, Image, FlatList} from 'react-native';
-import Bookingbutton from '../../components/atom/BookingButtons/Bookingbutton';
-import {ScreenSize, screenSize} from '../../components/atom/ScreenSize';
+import Bookingbutton from '../../../components/atom/BookingButtons/Bookingbutton';
+import {ScreenSize, screenSize} from '../../../components/atom/ScreenSize';
 import React from 'react';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 

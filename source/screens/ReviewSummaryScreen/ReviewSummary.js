@@ -8,6 +8,7 @@ import {Icons} from '../../components/molecules/CustomIcon/CustomIcon';
 import Screen from '../../components/atom/ScreenContainer/Screen';
 import {useNavigation} from '@react-navigation/native';
 import PaymentModal from '../../components/molecules/PaymentModal/PaymentModal';
+import constants from '../../AppConstants/Constants.json';
 
 const ReviewSummary = () => {
   const navigation = useNavigation();
@@ -90,6 +91,9 @@ const ReviewSummary = () => {
           rightIcoType={Icons.SimpleLineIcons}
           logIn={'success'}
           rightIcoSize={20}
+          onPressRightIcon={() =>
+            navigation.navigate(constants.screen.Notification)
+          }
           leftIcoStyle={{
             backgroundColor: appColors.lightBlack,
             borderRadius: 50,

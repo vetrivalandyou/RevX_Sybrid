@@ -1,9 +1,9 @@
 import {View, Text, StyleSheet, Image, FlatList} from 'react-native';
-import Bookingbutton from '../../components/atom/BookingButtons/Bookingbutton';
-import {ScreenSize, screenSize} from '../../components/atom/ScreenSize';
+import {ScreenSize, screenSize} from '../../../components/atom/ScreenSize';
 import React from 'react';
-import Completedbutton from '../../components/atom/BookingButtons/Completedbutton';
 import AntDesign from 'react-native-vector-icons/AntDesign';
+import Bookingbutton from '../../../components/atom/BookingButtons/Bookingbutton';
+import Completedbutton from '../../../components/atom/BookingButtons/Completedbutton';
 const Bookingcompleted = ({data}) => {
   const ListBookingCompleted = item => {
     return (

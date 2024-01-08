@@ -6,6 +6,7 @@ import Header from '../../components/molecules/Header';
 import {Icons} from '../../components/molecules/CustomIcon/CustomIcon';
 import {AppImages} from '../../AppConstants/AppImages';
 import ButtonComponent from '../../components/atom/CustomButtons/ButtonComponent';
+import constants from '../../AppConstants/Constants.json';
 
 const BarberSpecialist = ({navigation}) => {
   const BarberList = [
@@ -115,6 +116,9 @@ const BarberSpecialist = ({navigation}) => {
           rightIcoName={'bell'}
           rightIcoType={Icons.SimpleLineIcons}
           logIn={'success'}
+          onPressRightIcon={() =>
+            navigation.navigate(constants.screen.Notification)
+          }
           rightIcoSize={20}
           leftIcoStyle={{
             backgroundColor: appColors.lightBlack,

@@ -24,6 +24,8 @@ const Header = ({
 }) => {
   const navigation = useNavigation();
 
+  console.log(onPressRightIcon);
+
   return (
     <View style={styles.headerView}>
       <View style={styles.header}>
@@ -50,11 +52,16 @@ const Header = ({
 
         <View style={{flex: 0.15, justifyContent: 'center'}}>
           <TouchableOpacity
-            onPress={onPressRightIcon}
-            style={leftIcoStyle}
-            onPressIn={() =>
-              navigation.navigate(constants.AdminScreens.AdminNotification)
-            }>
+            onPress={
+              onPressRightIcon
+                ? onPressRightIcon
+                : () => {
+                    navigation.navigate(
+                      constants.AdminScreens.AdminNotification,
+                    );
+                  }
+            }
+            style={leftIcoStyle}>
             <CustomIcon
               type={rightIcoType}
               name={rightIcoName}
