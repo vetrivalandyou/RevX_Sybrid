@@ -16,18 +16,18 @@ const Notification = ({navigation}) => {
           onPressLeftIcon={() => navigation.goBack()}
           leftIcoName={'chevron-back'}
           headerText={'Notification'}
-          rightIcoName={'bell'}
-          rightIcoType={Icons.SimpleLineIcons}
+          // rightIcoName={'bell'}
+          // rightIcoType={Icons.SimpleLineIcons}
           logIn={'success'}
-          rightIcoSize={20}
-          leftIcoStyle={{
-            backgroundColor: appColors.lightBlack,
-            borderRadius: 50,
-            height: 50,
-            width: 50,
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}
+          // rightIcoSize={20}
+          // leftIcoStyle={{
+          //   backgroundColor: appColors.lightBlack,
+          //   borderRadius: 50,
+          //   height: 50,
+          //   width: 50,
+          //   justifyContent: 'center',
+          //   alignItems: 'center',
+          // }}
         />
       </View>
       <View></View>

@@ -57,6 +57,7 @@ import AdminEditLicense from './AdminBoard/Adminlicense/AdminEditLicense';
 import AdminUserDetails from './AdminBoard/AdminUserDetails';
 import AdminProfile from './AdminBoard/AdminProfile/AdminProfile';
 import AdminViewUsers from './AdminBoard/AdminViewUsers';
+import AdminBooking from './AdminBoard/AdminBooking/MyBooking';
 
 export {
   SplashScreen,
@@ -117,6 +118,6 @@ export {
   AdminEditLicense,
   AdminUserDetails,
   AdminProfile,
-  AdminViewUsers
-  
+  AdminViewUsers,
+  AdminBooking,
 };

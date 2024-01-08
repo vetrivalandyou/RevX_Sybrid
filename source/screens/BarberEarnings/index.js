@@ -136,7 +136,7 @@ const BarberEarnings = () => {
         headerText={'Barber Earnings'}
         rightIcoName={'bell'}
         rightIcoType={Icons.SimpleLineIcons}
-        logIn={'success'} 
+        logIn={'success'}
         rightIcoSize={20}
         leftIcoStyle={{
           backgroundColor: appColors.lightBlack,

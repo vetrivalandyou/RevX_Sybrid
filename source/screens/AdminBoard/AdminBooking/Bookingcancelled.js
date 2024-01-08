@@ -1,7 +1,7 @@
 import {View, Text, StyleSheet, Image, FlatList} from 'react-native';
-import {ScreenSize, screenSize} from '../../components/atom/ScreenSize';
+import {ScreenSize, screenSize} from '../../../components/atom/ScreenSize';
 import React from 'react';
-import Completedbutton from '../../components/atom/BookingButtons/Completedbutton';
+import Completedbutton from '../../../components/atom/BookingButtons/Completedbutton';
 
 const Bookingcancelled = ({data}) => {
   const ListBookingCanceled = item => {

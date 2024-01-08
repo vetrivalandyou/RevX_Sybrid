@@ -15,8 +15,9 @@ import Bookingcompleted from './Bookingcompleted';
 import Bookingcancelled from './Bookingcancelled';
 import {useEffect, useRef, useState} from 'react';
 import PreBooking from './PreBooking';
-import Header from '../../components/molecules/Header';
-import {Icons} from '../../components/molecules/CustomIcon/CustomIcon';
+import Header from '../../../components/molecules/Header';
+import {Icons} from '../../../components/molecules/CustomIcon/CustomIcon';
+import constants from '../../../AppConstants/Constants.json';
 
 const MyBooking = ({navigation}) => {
   const activeButton = useRef('1');
@@ -29,7 +30,7 @@ const MyBooking = ({navigation}) => {
       name: 'Barberella Inova',
       title: '38947 Madeshow valley terrace services',
       label: 'Gulf Haircut, Thin Shampoo, Alovevera Shampo, Hair wash',
-      Imagesource: require('../../assets/rectangle2.png'),
+      Imagesource: require('../../../assets/rectangle2.png'),
       Booking: 'Cancel Booking',
       Receipt: 'View E-Receipt',
       ratingicon: <AntDesign name={'staro'} size={12} color={'#c79647'} />,
@@ -41,7 +42,7 @@ const MyBooking = ({navigation}) => {
       name: 'Barberella Inova',
       title: '38947 Madeshow valley terrace services',
       label: 'Gulf Haircut, Thin Shampoo, Alovevera Shampo, Hair wash',
-      Imagesource: require('../../assets/rectangle2.png'),
+      Imagesource: require('../../../assets/rectangle2.png'),
       Booking: 'Cancel Booking',
       Receipt: 'View E-Receipt',
       ratingicon: <AntDesign name={'staro'} size={12} color={'#c79647'} />,
@@ -53,7 +54,7 @@ const MyBooking = ({navigation}) => {
       name: 'Barberella Inova',
       title: '38947 Madeshow valley terrace services',
       label: 'Gulf Haircut, Thin Shampoo, Alovevera Shampo, Hair wash',
-      Imagesource: require('../../assets/rectangle2.png'),
+      Imagesource: require('../../../assets/rectangle2.png'),
       Booking: 'Cancel Booking',
       Receipt: 'View E-Receipt',
       ratingicon: <AntDesign name={'staro'} size={12} color={'#c79647'} />,
@@ -65,7 +66,7 @@ const MyBooking = ({navigation}) => {
       name: 'Barberella Inova',
       title: '38947 Madeshow valley terrace services',
       label: 'Gulf Haircut, Thin Shampoo, Alovevera Shampo, Hair wash',
-      Imagesource: require('../../assets/rectangle2.png'),
+      Imagesource: require('../../../assets/rectangle2.png'),
       Booking: 'Cancel Booking',
       Receipt: 'View E-Receipt',
       ratingicon: <AntDesign name={'staro'} size={12} color={'#c79647'} />,
@@ -108,6 +109,9 @@ const MyBooking = ({navigation}) => {
           rightIcoType={Icons.SimpleLineIcons}
           logIn={'success'}
           rightIcoSize={20}
+          onPressRightIcon={() =>
+            navigation.navigate(constants.AdminScreens.AdminNotification)
+          }
           leftIcoStyle={{
             backgroundColor: appColors.lightBlack,
             borderRadius: 50,

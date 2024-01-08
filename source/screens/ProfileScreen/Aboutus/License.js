@@ -6,6 +6,7 @@ import Header from '../../../components/molecules/Header';
 import CustomIcon, {
   Icons,
 } from '../../../components/molecules/CustomIcon/CustomIcon';
+import constants from '../../../AppConstants/Constants.json';
 
 const License = ({navigation}) => {
   data = [
@@ -30,6 +31,9 @@ const License = ({navigation}) => {
           rightIcoName={'bell'}
           rightIcoType={Icons.SimpleLineIcons}
           logIn={'success'}
+          onPressRightIcon={() =>
+            navigation.navigate(constants.screen.Notification)
+          }
           rightIcoSize={20}
           leftIcoStyle={{
             backgroundColor: appColors.lightBlack,

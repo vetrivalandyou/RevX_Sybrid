@@ -13,6 +13,8 @@ import RBSheet from 'react-native-raw-bottom-sheet';
 import { screenSize } from '../../components/atom/ScreenSize';
 import BottomSheet from '../../components/molecules/BottomSheetContent/BottomSheet';
 import LocationBottom from '../LocationBottom';
+import constants from '../../AppConstants/Constants.json';
+
 import ReferFriendsSheet from '../ReferFriendsSheet';
 import LogoutBottom from '../LogoutBottom';
 import constants from "../../AppConstants/Constants.json"
@@ -46,6 +48,9 @@ const LocationScreen = () => {
 
 
           rightIcoSize={20}
+          onPressRightIcon={() =>
+            navigation.navigate(constants.screen.Notification)
+          }
           leftIcoStyle={{
             backgroundColor: appColors.lightBlack,
             borderRadius: 50,

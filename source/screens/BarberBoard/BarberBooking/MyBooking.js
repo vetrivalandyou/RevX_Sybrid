@@ -22,7 +22,6 @@ import {useNavigation} from '@react-navigation/native';
 import Screen from '../../../components/atom/ScreenContainer/Screen';
 
 const MyBooking = () => {
-  
   const navigation = useNavigation();
   const activeButton = useRef('1');
   const [tabState, setTabState] = useState(false);

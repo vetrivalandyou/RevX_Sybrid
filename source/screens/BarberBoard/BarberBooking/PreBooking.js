@@ -34,7 +34,7 @@ const PreBooking = ({data}) => {
               <Text
                 style={{
                   color: 'white',
-                  fontSize: 16,
+                  fontSize: 14,
                 }}>
                 {item.item.date}
               </Text>
