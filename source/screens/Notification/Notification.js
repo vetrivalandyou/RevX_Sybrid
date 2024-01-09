@@ -7,11 +7,12 @@ import {screenSize} from '../../components/atom/ScreenSize';
 import Header from '../../components/molecules/Header';
 import {Icons} from '../../components/molecules/CustomIcon/CustomIcon';
 import Screen from '../../components/atom/ScreenContainer/Screen';
+import appColors from '../../AppConstants/appColors';
 
 const Notification = ({navigation}) => {
   return (
     <Screen statusBarColor={appColors.Black}>
-      <View style={{height: screenSize.height, backgroundColor: 'black'}}>
+      <View style={{height: screenSize.height, backgroundColor: appColors.Black}}>
         <View style={{flex: 0.6}}>
           <Header
             lefttIcoType={Icons.Ionicons}

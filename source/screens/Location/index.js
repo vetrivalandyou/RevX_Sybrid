@@ -16,7 +16,7 @@ import LocationBottom from '../LocationBottom';
 
 import ReferFriendsSheet from '../ReferFriendsSheet';
 import LogoutBottom from '../LogoutBottom';
-import { useNavigation } from '@react-navigation/native';
+import {useNavigation} from '@react-navigation/native';
 import constants from '../../AppConstants/Constants.json';
 
 const LocationScreen = () => {
@@ -28,13 +28,14 @@ const LocationScreen = () => {
     <Screen
       statusBarColor={appColors.Black}
       barStyle="light-content"
-      viewStyle={{backgroundColor: appColors.Black, padding: 15, flex: 0.9}}>
+      viewStyle={{backgroundColor: appColors.Black, padding: 10, flex: 0.9}}>
       <BottomSheet ref={refRBSheet} Height={screenSize.height - 452}>
         <LocationBottom refRBSheet={refRBSheet} />
       </BottomSheet>
 
       <View style={{flex: 0.1}}>
         <Header
+          headerSubView={{marginHorizontal: 5}}
           lefttIcoType={Icons.Ionicons}
           onPressLeftIcon={() => navigation.goBack()}
           leftIcoName={'chevron-back'}
@@ -54,7 +55,7 @@ const LocationScreen = () => {
             justifyContent: 'center',
             alignItems: 'center',
           }}
-          headerTextViewStyle={{ alignItems: 'center' }}
+          headerTextViewStyle={{alignItems: 'center'}}
           // onPressRightIcon={() => navigation.navigate(constants.screen.Notification)}
         />
       </View>
