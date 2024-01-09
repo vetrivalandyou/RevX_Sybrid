@@ -185,7 +185,7 @@ const Barberinfo = ({item, onPress, selected}) => {
             </Text>
             <TouchableOpacity
               onPress={() =>
-                navigation.navigate(constants.screen.ServicesDetails)
+                navigation.navigate(constants.screen.ServiceSpecialist)
               }>
               <Text style={{fontWeight: '200'}}>{item.icon}</Text>
             </TouchableOpacity>

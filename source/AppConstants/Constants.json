@@ -32,7 +32,8 @@
         "ReviewSummary": "ReviewSummary",
         "LogoutBottom": "LogoutBottom",
         "LocationBottom": "LocationBottom",
-        "ReferFriendsSheet": "ReferFriendsSheet"
+        "ReferFriendsSheet": "ReferFriendsSheet",
+        "ServiceSpecialist": "ServiceSpecialist"
     },
     "BarberScreen": {
         "BarberBottomTabNavigation": "BarberBottomTabNavigation",
