@@ -181,7 +181,7 @@ const HomeScreen = ({navigation}) => {
           <View style={{flex: 0.2}}>
             <ButtonComponent
               title={'View Barber Profile'}
-              style={{paddingVertical: 10}}
+              style={{paddingVertical: 9}}
             />
           </View>
         </View>
