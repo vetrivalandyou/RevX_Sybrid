@@ -149,7 +149,7 @@ const AdminBarberEarnings = ({navigation}) => {
         />
       </View>
 
-      <View style={{flex: 0.8}}>
+      <View style={{flex: 0.9}}>
         <FlatList
           data={BarberList}
           renderItem={({item}) => <BarberSpecialistContainer item={item} />}
