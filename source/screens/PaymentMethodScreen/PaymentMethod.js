@@ -108,7 +108,7 @@ const PaymentCard = ({item, onPress, selected}) => {
             paddingHorizontal: 15,
           }}>
           <View style={styles.imagecontainer}>
-            <Image source={item.Imagesource} style={{height: 20, width: 22}} />
+            <Image source={item.Imagesource} style={{height: 48, width: 48}} />
           </View>
           <View style={{width: screenSize.width / 1.6}}>
             <Text style={{fontWeight: '500', fontSize: 15, color: 'white'}}>
@@ -166,10 +166,10 @@ const styles = StyleSheet.create({
   },
   imagecontainer: {
     width: screenSize.width / 9.5,
-    paddingVertical: 8,
-    borderWidth: 1,
-    borderRadius: 5,
-    backgroundColor: 'lightgray',
+    // paddingVertical: 8,
+    // borderWidth: 1,
+    // borderRadius: 5,
+    // backgroundColor: 'lightgray',
     justifyContent: 'center',
     alignItems: 'center',
     marginVertical: 14,

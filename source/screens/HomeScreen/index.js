@@ -300,6 +300,7 @@ const HomeScreen = ({navigation}) => {
         }}>
         <Search leaftIconType={Icons.Ionicons} leftIconName={'filter'} />
       </View>
+
       <ScrollView style={{flex: 0.8}}>
         <View style={{height: screenSize.height}}>
           <View

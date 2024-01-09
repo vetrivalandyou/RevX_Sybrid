@@ -43,7 +43,7 @@ const Bookingcompleted = ({data}) => {
               </View>
             </View>
             <View style={{flex: 0.2, justifyContent: 'center'}}>
-              <Completedbutton title={'completed'} />
+              <Completedbutton title={'Completed'} />
             </View>
           </View>
 
