@@ -16,6 +16,7 @@ import Header from '../../components/molecules/Header';
 import {Icons} from '../../components/molecules/CustomIcon/CustomIcon';
 import Screen from '../../components/atom/ScreenContainer/Screen';
 import SimpleTextField from '../../components/molecules/TextFeilds/SimpleTextField';
+import appColors from '../../AppConstants/appColors';
 
 const PaymentDetails = ({navigation}) => {
   const [Name, onChangeName] = React.useState('');
@@ -38,6 +39,7 @@ const PaymentDetails = ({navigation}) => {
     <Screen viewStyle={{padding: 15}}>
       <View style={{flex: 0.1}}>
         <Header
+          headerSubView={{marginHorizontal: 0}}
           lefttIcoType={Icons.Ionicons}
           onPressLeftIcon={() => navigation.goBack()}
           leftIcoName={'chevron-back'}
@@ -71,25 +73,30 @@ const PaymentDetails = ({navigation}) => {
       <View style={{flex: 0.1}}>
         <SimpleTextField
           placeholder={'Enter Card Holder Name'}
-          Customtextiput={{color: appColors.Goldcolor}}
           placeholderTextColor={appColors.White}
           onChangeText={onChangeName}
-          innerCustomstyle={{
+          textUpperView={{
+            paddingVertical: 3,
             borderColor: appColors.Gray,
+            borderWidth: 1,
           }}
           value={Name}
         />
       </View>
       <View style={{flex: 0.1}}>
         <SimpleTextField
-          placeholder={'Enter Card No'}
-          Customtextiput={{color: appColors.Goldcolor}}
-          placeholderTextColor={appColors.White}
+          placeholder={'*** **** *** **** 6580'}
+          placeholderTextColor={appColors.Goldcolor}
           onChangeText={onChangePassword}
           keyboardType={'numeric'}
           maxLength={16}
+          textUpperView={{
+            paddingVertical: 3,
+            borderColor: appColors.Gray,
+            borderWidth: 1,
+          }}
+          textStyle={{color: appColors.Goldcolor}}
           value={password.replace(/\d(?=\d{4})/g, '*')}
-          innerCustomstyle={{borderColor: appColors.Gray}}
         />
       </View>
       <View style={{flex: 0.1, justifyContent: 'center'}}>
@@ -117,7 +124,6 @@ const PaymentDetails = ({navigation}) => {
 
             <SimpleTextField
               placeholder={'MM/YY'}
-              Customtextiput={{color: appColors.Goldcolor}}
               placeholderTextColor={appColors.Gray}
               keyboardType={'numeric'}
               innerCustomstyle={{marginTop: 7, width: '96%'}}
@@ -135,7 +141,6 @@ const PaymentDetails = ({navigation}) => {
             </Text>
             <SimpleTextField
               placeholder={'000'}
-              Customtextiput={{color: appColors.Goldcolor}}
               placeholderTextColor={appColors.Gray}
               innerCustomstyle={{
                 marginTop: 7,

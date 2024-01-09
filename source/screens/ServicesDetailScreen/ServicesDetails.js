@@ -14,6 +14,7 @@ import {screenSize} from '../../components/atom/ScreenSize';
 import constants from '../../AppConstants/Constants.json';
 import Header from '../../components/molecules/Header';
 import {Icons} from '../../components/molecules/CustomIcon/CustomIcon';
+import Screen from '../../components/atom/ScreenContainer/Screen';
 
 const ServicesDetails = ({navigation}) => {
   const data = [
@@ -82,47 +83,49 @@ const ServicesDetails = ({navigation}) => {
     },
   ];
   return (
-    <View style={{height: screenSize.height, backgroundColor: 'black'}}>
-      <View style={{flex: 0.6}}>
-        <Header
-          lefttIcoType={Icons.Ionicons}
-          onPressLeftIcon={() => navigation.goBack()}
-          leftIcoName={'chevron-back'}
-          headerText={'Our Services'}
-          rightIcoName={'bell'}
-          rightIcoType={Icons.SimpleLineIcons}
-          logIn={'success'}
-          onPressRightIcon={() =>
-            navigation.navigate(constants.screen.Notification)
-          }
-          rightIcoSize={20}
-          leftIcoStyle={{
-            backgroundColor: appColors.lightBlack,
-            borderRadius: 50,
-            height: 50,
-            width: 50,
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}
-        />
-      </View>
-      <View>
-        <FlatList
-          data={data}
-          renderItem={({item}) => <Barberinfo item={item} />}
-          keyExtractor={item => item.id}
-        />
-      </View>
+    <Screen statusBarColor={appColors.Black}>
+      <View style={{height: screenSize.height, backgroundColor: 'black'}}>
+        <View style={{flex: 0.6}}>
+          <Header
+            lefttIcoType={Icons.Ionicons}
+            onPressLeftIcon={() => navigation.goBack()}
+            leftIcoName={'chevron-back'}
+            headerText={'Our Services'}
+            rightIcoName={'bell'}
+            rightIcoType={Icons.SimpleLineIcons}
+            logIn={'success'}
+            onPressRightIcon={() =>
+              navigation.navigate(constants.screen.Notification)
+            }
+            rightIcoSize={20}
+            leftIcoStyle={{
+              backgroundColor: appColors.lightBlack,
+              borderRadius: 50,
+              height: 50,
+              width: 50,
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}
+          />
+        </View>
+        <View>
+          <FlatList
+            data={data}
+            renderItem={({item}) => <Barberinfo item={item} />}
+            keyExtractor={item => item.id}
+          />
+        </View>
 
-      <TouchableOpacity
-        onPress={() => navigation.navigate(constants.screen.AppointmentDate)}
-        style={styles.ApplyNOWButton}>
-        <Text style={{fontWeight: '700', fontSize: 13, color: 'white'}}>
-          {' '}
-          Book Now / $120
-        </Text>
-      </TouchableOpacity>
-    </View>
+        <TouchableOpacity
+          onPress={() => navigation.navigate(constants.screen.AppointmentDate)}
+          style={styles.ApplyNOWButton}>
+          <Text style={{fontWeight: '700', fontSize: 13, color: 'white'}}>
+            {' '}
+            Book Now / $120
+          </Text>
+        </TouchableOpacity>
+      </View>
+    </Screen>
   );
 };
 

@@ -1,30 +1,14 @@
-// import React from "react";
-// import {Text,View} from "react-native";
-
-// const LocationBottom =()=>{
-//     return(
-//      <Text>
-//         LocationBottom
-//      </Text>
-//     )
-// }
-// export default LocationBottom;
-
 import React from 'react';
 import {Text, View, KeyboardAvoidingView, StyleSheet} from 'react-native';
-// import {
-//   appColors,
-//   fontWeight,
-//   screenSize,
-//   sizes,
-// } from '../../AppConstant/AppColors';
-// import SmallButton from '../../Components/Button/SmallButton';
-
+import {useNavigation} from '@react-navigation/native';
 import ButtonComponent from '../../components/atom/CustomButtons/ButtonComponent';
 import {screenSize} from '../../components/atom/ScreenSize';
 import appColors from '../../AppConstants/appColors';
+import constants from '../../AppConstants/Constants.json';
 
 const LogoutBottom = ({refRBSheet}) => {
+  const navigation = useNavigation();
+
   const onLogOut = () => {
     refRBSheet?.current?.close();
   };
@@ -75,6 +59,7 @@ const LogoutBottom = ({refRBSheet}) => {
           </View>
           <View style={{flex: 0.5, justifyContent: 'center'}}>
             <ButtonComponent
+              onPress={() => navigation.navigate(constants.screen.Login)}
               title={'Logout'}
               btnTextColor={{color: appColors.White}}
               style={{

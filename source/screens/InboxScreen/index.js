@@ -81,9 +81,10 @@ const InboxScreen = ({navigation}) => {
     <Screen
       statusBarColor={appColors.Black}
       barStyle="light-content"
-      viewStyle={{backgroundColor: appColors.Black, padding: 15, flex: 0.9}}>
+      viewStyle={{backgroundColor: appColors.Black, padding: 10, flex: 0.9}}>
       <View style={{flex: 0.1}}>
         <Header
+          headerSubView={{marginHorizontal: 5}}
           lefttIcoType={Icons.Ionicons}
           onPressLeftIcon={() => navigation.goBack()}
           leftIcoName={'chevron-back'}
@@ -144,7 +145,7 @@ const Messages = ({item}) => {
           <Text
             style={{
               color: 'white',
-              fontSize: 20,
+              fontSize: 18,
               fontWeight: 400,
               marginBottom: 5,
             }}>
@@ -181,7 +182,7 @@ const Messages = ({item}) => {
           <Text
             style={{
               color: appColors.White,
-              fontSize: 18,
+              fontSize: 14,
               marginLeft: 5,
             }}>
             {item.messagetime}

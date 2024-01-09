@@ -15,6 +15,7 @@ import NewPassword from './Auth/ForgotPassword/NewPassword';
 import CreateAccount from './Auth/CreateAccount';
 import Services from './ServicesScreen/Services';
 import ServicesDetails from './ServicesDetailScreen/ServicesDetails';
+import ServiceSpecialist from './ServiceSpecialist/index';
 import AboutUs from './ProfileScreen/Aboutus/AboutUs';
 import TermsOfService from './ProfileScreen/Aboutus/TermsOfService';
 import License from './ProfileScreen/Aboutus/License';
@@ -77,6 +78,7 @@ export {
   CreateAccount,
   Services,
   ServicesDetails,
+  ServiceSpecialist,
   AboutUs,
   TermsOfService,
   License,

@@ -43,7 +43,7 @@ const Bookingcompleted = ({data}) => {
               </View>
             </View>
             <View style={{flex: 0.2, justifyContent: 'center'}}>
-              <Completedbutton title={'completed'} />
+              <Completedbutton title={'Completed'} />
             </View>
           </View>
 
@@ -127,13 +127,13 @@ const Bookingcompleted = ({data}) => {
 const styles = StyleSheet.create({
   Containerstyle: {
     height: screenSize.height / 2.8,
-    width: screenSize.width / 1.13,
+    width: screenSize.width / 1.05,
     marginBottom: 10,
     backgroundColor: '#252525',
     borderWidth: 1,
     borderRadius: 20,
     borderColor: 'black',
-    marginHorizontal: 10,
+    // marginHorizontal: 10,
   },
   Ratingbox: {
     height: screenSize.height / 28,

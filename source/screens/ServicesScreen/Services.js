@@ -16,6 +16,7 @@ import constants from '../../AppConstants/Constants.json';
 import {useNavigation} from '@react-navigation/native';
 import Header from '../../components/molecules/Header';
 import {Icons} from '../../components/molecules/CustomIcon/CustomIcon';
+import Screen from '../../components/atom/ScreenContainer/Screen';
 
 const Services = () => {
   const navigation = useNavigation();
@@ -90,53 +91,55 @@ const Services = () => {
     },
   ];
   return (
-    <View style={{height: screenSize.height, backgroundColor: 'black'}}>
-      <View style={{flex: 0.6}}>
-        <Header
-          lefttIcoType={Icons.Ionicons}
-          onPressLeftIcon={() => navigation.goBack()}
-          leftIcoName={'chevron-back'}
-          headerText={'Our Services'}
-          rightIcoName={'bell'}
-          rightIcoType={Icons.SimpleLineIcons}
-          logIn={'success'}
-          onPressRightIcon={() =>
-            navigation.navigate(constants.screen.Notification)
-          }
-          rightIcoSize={20}
-          leftIcoStyle={{
-            backgroundColor: appColors.lightBlack,
-            borderRadius: 50,
-            height: 50,
-            width: 50,
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}
-        />
-      </View>
-      <View>
-        <FlatList
-          data={data}
-          renderItem={({item}) => (
-            <Barberinfo
-              item={item}
-              selected={selectedItem === item.id}
-              onPress={() => setSelectedItem(item.id)}
-            />
-          )}
-          keyExtractor={item => item.id}
-        />
-      </View>
+    <Screen statusBarColor={appColors.Black}>
+      <View style={{height: screenSize.height, backgroundColor: 'black'}}>
+        <View style={{flex: 0.6}}>
+          <Header
+            lefttIcoType={Icons.Ionicons}
+            onPressLeftIcon={() => navigation.goBack()}
+            leftIcoName={'chevron-back'}
+            headerText={'Our Services'}
+            rightIcoName={'bell'}
+            rightIcoType={Icons.SimpleLineIcons}
+            logIn={'success'}
+            onPressRightIcon={() =>
+              navigation.navigate(constants.screen.Notification)
+            }
+            rightIcoSize={20}
+            leftIcoStyle={{
+              backgroundColor: appColors.lightBlack,
+              borderRadius: 50,
+              height: 50,
+              width: 50,
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}
+          />
+        </View>
+        <View>
+          <FlatList
+            data={data}
+            renderItem={({item}) => (
+              <Barberinfo
+                item={item}
+                selected={selectedItem === item.id}
+                onPress={() => setSelectedItem(item.id)}
+              />
+            )}
+            keyExtractor={item => item.id}
+          />
+        </View>
 
-      <TouchableOpacity
-        // onPress={() => navigation.navigate('ServicesDetails')}
-        style={styles.ApplyNOWButton}>
-        <Text style={{fontWeight: '600', fontSize: 13, color: 'white'}}>
-          {' '}
-          Book Now
-        </Text>
-      </TouchableOpacity>
-    </View>
+        <TouchableOpacity
+          // onPress={() => navigation.navigate('ServicesDetails')}
+          style={styles.ApplyNOWButton}>
+          <Text style={{fontWeight: '600', fontSize: 13, color: 'white'}}>
+            {' '}
+            Book Now
+          </Text>
+        </TouchableOpacity>
+      </View>
+    </Screen>
   );
 };
 
@@ -182,7 +185,7 @@ const Barberinfo = ({item, onPress, selected}) => {
             </Text>
             <TouchableOpacity
               onPress={() =>
-                navigation.navigate(constants.screen.ServicesDetails)
+                navigation.navigate(constants.screen.ServiceSpecialist)
               }>
               <Text style={{fontWeight: '200'}}>{item.icon}</Text>
             </TouchableOpacity>

@@ -25,7 +25,7 @@ const Bookingcancelled = ({data}) => {
 
             <View style={{flex: 0.25}}>
               <Completedbutton
-                title={'cancel'}
+                title={'Cancel'}
                 style={{backgroundColor: '#e81f1c'}}
                 textstyle={{color: 'white'}}
               />
@@ -100,13 +100,13 @@ const Bookingcancelled = ({data}) => {
 const styles = StyleSheet.create({
   Containerstyle: {
     height: screenSize.height / 3.7,
-    width: screenSize.width / 1.13,
+    width: screenSize.width / 1.05,
     marginBottom: 10,
     backgroundColor: '#252525',
     borderWidth: 1,
     borderRadius: 20,
     borderColor: 'black',
-    marginHorizontal: 10,
+    // marginHorizontal: 10,
   },
 });
 

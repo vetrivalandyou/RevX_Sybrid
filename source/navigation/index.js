@@ -25,6 +25,7 @@ import {
   LocationBottom,
   LogoutBottom,
   ReferFriendsSheet,
+  ServiceSpecialist,
 } from '../screens';
 import BottomTabNavigation from './BottomTabNavigation';
 import PrivacyPolicy from '../screens/ProfileScreen/Aboutus/PrivacyPolicy';
@@ -169,6 +170,11 @@ const Main = () => {
         <Stack.Screen
           name={constants.screen.ReferFriendsSheet}
           component={ReferFriendsSheet}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name={constants.screen.ServiceSpecialist}
+          component={ServiceSpecialist}
           options={{headerShown: false}}
         />
         {/* <Stack.Screen

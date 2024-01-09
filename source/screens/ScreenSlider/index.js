@@ -5,8 +5,9 @@ import { AppImages } from '../../AppConstants/AppImages';
 import { screenSize } from '../../components/atom/ScreenSize';
 import appColors from '../../AppConstants/appColors';
 import ButtonComponent from '../../components/atom/CustomButtons/ButtonComponent';
+import constants from "../../AppConstants/Constants.json"
 
-const ScreenSlider  = () => {
+const ScreenSlider  = ({navigation}) => {
   const [activeSlide, setActiveSlide] = useState(0);
 
   // const data = [

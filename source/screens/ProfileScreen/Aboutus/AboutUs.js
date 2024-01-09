@@ -16,6 +16,7 @@ const AboutUs = ({navigation}) => {
       viewStyle={{backgroundColor: appColors.Black, padding: 10}}>
       <View style={{flex: 0.1}}>
         <Header
+        headerSubView={{marginHorizontal: 5}}
           lefttIcoType={Icons.Ionicons}
           onPressLeftIcon={() => navigation.goBack()}
           leftIcoName={'chevron-back'}
@@ -42,7 +43,7 @@ const AboutUs = ({navigation}) => {
         style={{
           flex: 1,
           flexDirection: 'column',
-          padding: 8,
+          padding: 3,
         }}>
         <TouchableOpacity
           style={{
@@ -56,7 +57,7 @@ const AboutUs = ({navigation}) => {
             paddingHorizontal: 20,
           }}
           onPress={() => navigation.navigate(constants.screen.TermsOfService)}>
-          <Text style={{color: 'white', fontSize: 20, fontWeight: 400}}>
+          <Text style={{color: 'white', fontSize: 17, fontWeight: 400}}>
             Terms of Services
           </Text>
           <CustomIcon
@@ -79,7 +80,7 @@ const AboutUs = ({navigation}) => {
             paddingHorizontal: 20,
           }}
           onPress={() => navigation.navigate(constants.screen.PrivacyPolicy)}>
-          <Text style={{color: 'white', fontSize: 20, fontWeight: 400}}>
+          <Text style={{color: 'white', fontSize: 17, fontWeight: 400}}>
             Privacy Policy
           </Text>
           <CustomIcon
@@ -101,7 +102,7 @@ const AboutUs = ({navigation}) => {
             paddingHorizontal: 20,
           }}
           onPress={() => navigation.navigate(constants.screen.License)}>
-          <Text style={{color: 'white', fontSize: 20, fontWeight: 400}}>
+          <Text style={{color: 'white', fontSize: 17, fontWeight: 400}}>
             License
           </Text>
           <CustomIcon
