@@ -52,12 +52,12 @@ const LocationBottom = ({refRBSheet}) => {
           See all barbers
         </Text>
       </View>
-      <View style={{flex: 0.1, justifyContent: 'center'}}>
+      <View style={{flex: 0.1, justifyContent: 'center',}}>
         <View style={{height: 1, backgroundColor: appColors.LightGray}} />
       </View>
 
       <View
-        style={{flex: 0.3, backgroundColor: appColors.Gray, borderRadius: 20}}>
+        style={{flex: 0.3, backgroundColor: appColors.Gray, borderRadius: 20,}}>
         <View
           style={{
             flex: 1,
@@ -157,11 +157,12 @@ const LocationBottom = ({refRBSheet}) => {
           </View>
         </View>
       </View>
-      <View style={{flex: 0.2, justifyContent: 'center'}}>
+      <View style={{flex: 0.5,}}>
         <ButtonComponent
           title={'Get direction'}
-          style={{backgroundColor: appColors.Gray}}
+          style={{backgroundColor: appColors.Gray,marginTop:10}}
           onPress={() => onLogOut()}
+          
         />
       </View>
 
@@ -196,7 +197,7 @@ const LocationBottom = ({refRBSheet}) => {
 
 const logoutStyle = StyleSheet.create({
   container: {
-    flex: 1,
+    height:screenSize.height/1.99,
     backgroundColor: appColors.darkgrey,
     borderTopEndRadius: 15,
     borderTopLeftRadius: 15,
@@ -228,7 +229,6 @@ const logoutStyle = StyleSheet.create({
     height: screenSize.height / 12,
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: 'blue',
   },
   buttonLeftView: {
     width: screenSize.width / 2,

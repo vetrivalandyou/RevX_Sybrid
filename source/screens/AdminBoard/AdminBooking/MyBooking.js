@@ -18,6 +18,7 @@ import PreBooking from './PreBooking';
 import Header from '../../../components/molecules/Header';
 import {Icons} from '../../../components/molecules/CustomIcon/CustomIcon';
 import constants from '../../../AppConstants/Constants.json';
+import Screen from '../../../components/atom/ScreenContainer/Screen';
 
 const MyBooking = ({navigation}) => {
   const activeButton = useRef('1');
@@ -98,15 +99,15 @@ const MyBooking = ({navigation}) => {
   useEffect(() => {}, [activeButton]);
 
   return (
-    <View style={{backgroundColor: 'black', flex: 1, paddingHorizontal: 10}}>
+    <Screen viewStyle={{padding:15}} statusBarColor={appColors.Black}>
       <View style={{flex: 0.1}}>
         <Header
           lefttIcoType={Icons.Ionicons}
           onPressLeftIcon={() => navigation.goBack()}
           leftIcoName={'chevron-back'}
           headerText={'Booking'}
-          rightIcoName={'bell'}
-          rightIcoType={Icons.SimpleLineIcons}
+          rightIcoName={'bell-fill'}
+          rightIcoType={Icons.Octicons}
           logIn={'success'}
           rightIcoSize={20}
           onPressRightIcon={() =>
@@ -164,7 +165,7 @@ const MyBooking = ({navigation}) => {
       </View>
 
       <View style={{flex: 0.7}}>{renderComponent(activeButton)}</View>
-    </View>
+    </Screen>
   );
 };
 

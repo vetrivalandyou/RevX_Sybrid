@@ -25,8 +25,8 @@ const AdminLicensee = ({ navigation, }) => {
           onPressLeftIcon={() => navigation.goBack()}
           leftIcoName={'chevron-back'}
           headerText={'License'}
-          rightIcoName={'bell'}
-          rightIcoType={Icons.SimpleLineIcons}
+          rightIcoName={'bell-fill'}
+          rightIcoType={Icons.Octicons}
           logIn={'success'}
           rightIcoSize={20}
           onPressRightIcon={() =>

@@ -40,8 +40,8 @@ const [Termsdescription , setTermdescription] = useState('Lorem ipsum dolor sit 
           onPressLeftIcon={() => navigation.goBack()}
           leftIcoName={'chevron-back'}
           headerText={'Privacy Policy'}
-          rightIcoName={'bell'}
-          rightIcoType={Icons.SimpleLineIcons}
+          rightIcoName={'bell-fill'}
+          rightIcoType={Icons.Octicons}
           logIn={'success'}
           rightIcoSize={20}
           onPressRightIcon={() =>

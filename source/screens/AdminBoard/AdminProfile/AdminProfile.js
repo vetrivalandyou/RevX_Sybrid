@@ -68,7 +68,7 @@ const AdminProfile = () => {
         navigation.navigate(constants.AdminScreens.AdminUserDetails);
         break;
       case 2:
-        navigation.navigate(constants.screen.Notification);
+        navigation.navigate(constants.AdminScreens.AdminNotification);
         break;
         case 3:
           navigation.navigate(constants.AdminScreens.AdminManageContent);

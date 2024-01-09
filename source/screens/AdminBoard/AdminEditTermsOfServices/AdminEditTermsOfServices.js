@@ -23,8 +23,8 @@ const AdminEditTermsOfServices = ({ route, navigation }) => {
           onPressLeftIcon={() => navigation.goBack()}
           leftIcoName={'chevron-back'}
           headerText={'Terms of Service'}
-          rightIcoName={'bell'}
-          rightIcoType={Icons.SimpleLineIcons}
+          rightIcoName={'bell-fill'}
+          rightIcoType={Icons.Octicons}
           logIn={'success'}
           rightIcoSize={20}
           onPressRightIcon={() =>

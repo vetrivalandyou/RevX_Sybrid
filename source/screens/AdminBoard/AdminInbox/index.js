@@ -171,7 +171,7 @@ const AdminInbox = () => {
   };
 
   return (
-    <Screen viewStyle={styles.mainContainer}>
+    <Screen viewStyle={styles.mainContainer} statusBarColor={appColors.Black}>
       {/* Header View */}
       <View style={styles.HeaderView}>
         <Header

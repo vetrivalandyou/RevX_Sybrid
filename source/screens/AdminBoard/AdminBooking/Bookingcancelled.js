@@ -25,7 +25,7 @@ const Bookingcancelled = ({data}) => {
 
             <View style={{flex: 0.25}}>
               <Completedbutton
-                title={'cancel'}
+                title={'Cancel'}
                 style={{backgroundColor: '#e81f1c'}}
                 textstyle={{color: 'white'}}
               />
