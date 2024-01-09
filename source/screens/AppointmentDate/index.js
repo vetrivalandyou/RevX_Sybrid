@@ -46,32 +46,32 @@ const AppointmentDate = ({navigation}) => {
       <View style={{flexDirection: 'row', marginVertical: 5}}>
         <View
           style={{
-            marginHorizontal: 10,
+            marginHorizontal: 5,
             borderWidth: 1,
             borderColor: appColors.darkgrey,
             borderRadius: 10,
-            padding: 10,
-            width: '45%',
+            padding: 8,
+            width: '48%',
             justifyContent: 'center',
             alignItems: 'center',
           }}>
-          <Text style={{color: 'white', fontSize: 13.5, fontWeight: '400'}}>
+          <Text style={{color: appColors.AppLightGray, fontSize: 13.5, fontWeight: '400'}}>
             {item.title}
           </Text>
         </View>
 
         <View
           style={{
-            marginHorizontal: 10,
+            marginHorizontal: 5,
             borderWidth: 1,
             borderColor: appColors.darkgrey,
             borderRadius: 10,
-            padding: 10,
-            width: '45%',
+            padding: 8,
+            width: '48%',
             justifyContent: 'center',
             alignItems: 'center',
           }}>
-          <Text style={{color: 'white', fontSize: 13.5, fontWeight: '400'}}>
+          <Text style={{color: appColors.AppLightGray, fontSize: 13.5, fontWeight: '400'}}>
             {item.title2}
           </Text>
         </View>
@@ -83,7 +83,7 @@ const AppointmentDate = ({navigation}) => {
     <Screen
       statusBarColor={appColors.Black}
       barStyle="light-content"
-      viewStyle={{backgroundColor: appColors.Black, padding: 15}}>
+      viewStyle={{backgroundColor: appColors.Black, padding: 5}}>
       <View style={{flex: 0.1}}>
         <Header
           lefttIcoType={Icons.Ionicons}
@@ -108,19 +108,19 @@ const AppointmentDate = ({navigation}) => {
         />
       </View>
 
-      <View style={{borderRadius: 50, flex: 0.4, backgroundColor: 'red'}}>
+      <View style={{flex: 0.42}}>
         <Calendar
+          hideExtraDays={false}
+          showSixWeeks={true}
           style={{
-            // borderWidth: 1,
-            // borderColor: 'gray',
-            // height: 200,
             borderRadius: 20,
             backgroundColor: appColors.darkgrey,
-            //   backgroundColor:appColors.Goldcolor
-            height: 300,
+            height: 'auto',
+            width: 'auto',
+            paddingBottom: 10,
           }}
           theme={{
-            backgroundColor: appColors.darkgrey,
+            arrowColor: 'white',
             calendarBackground: appColors.darkgrey,
             textSectionTitleColor: appColors.White,
             selectedDayBackgroundColor: appColors.Goldcolor,
@@ -128,6 +128,28 @@ const AppointmentDate = ({navigation}) => {
             todayTextColor: appColors.White,
             dayTextColor: appColors.White,
             textDisabledColor: appColors.White,
+            textDayFontSize: 11,
+            textMonthFontSize: 15,
+            textDayHeaderFontSize: 13,
+            textMonthFontWeight: 'bold',
+            textDayFontWeight:'bold',
+            monthTextColor: appColors.White,
+            'stylesheet.day.basic': {
+              base: {
+                width: 22,
+                marginBottom: 0,
+                justifyContent: 'center',
+                alignItems: 'center',
+                borderRadius: 100,
+              },
+            },
+            'stylesheet.calendar.header': {
+              monthText: {
+                margin: 5,
+                color: appColors.White,
+                fontSize: 14
+              },
+            },
           }}
           onDayPress={day => {
             setSelected(day.dateString);
@@ -145,9 +167,11 @@ const AppointmentDate = ({navigation}) => {
       <View
         style={{
           flexDirection: 'row',
-          flex: 0.1,
+          flex: 0.08,
           justifyContent: 'space-between',
-          alignItems: 'center',
+          alignItems: 'flex-end',
+          // backgroundColor:'red'
+          marginHorizontal: 10
         }}>
         <Text style={{color: appColors.White, fontSize: 20}}>
           Selected Hours
