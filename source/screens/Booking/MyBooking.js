@@ -98,7 +98,7 @@ const MyBooking = ({navigation}) => {
   useEffect(() => {}, [activeButton]);
 
   return (
-    <View style={{backgroundColor: 'black', flex: 1, paddingHorizontal: 10}}>
+    <View style={{backgroundColor: '#0C0C0D', flex: 1, paddingHorizontal: 10}}>
       <View style={{flex: 0.1}}>
         <Header
           lefttIcoType={Icons.Ionicons}

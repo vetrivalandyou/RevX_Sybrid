@@ -33,7 +33,7 @@ const Bookingcompleted = ({data}) => {
                 justifyContent: 'center',
                 // backgroundColor: 'red',
               }}>
-              <Completedbutton title={'completed'} />
+              <Completedbutton title={'Completed'} />
             </View>
             <View
               style={{
