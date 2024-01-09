@@ -17,7 +17,6 @@ import constants from '../../AppConstants/Constants.json';
 
 import ReferFriendsSheet from '../ReferFriendsSheet';
 import LogoutBottom from '../LogoutBottom';
-import constants from "../../AppConstants/Constants.json"
 import { useNavigation } from '@react-navigation/native';
 
 const LocationScreen = () => {
@@ -46,11 +45,9 @@ const LocationScreen = () => {
           rightIcoType={Icons.SimpleLineIcons}
           logIn={'success'}
 
-
+          onPressRightIcon={() => navigation.navigate(constants.screen.Notification)}
           rightIcoSize={20}
-          onPressRightIcon={() =>
-            navigation.navigate(constants.screen.Notification)
-          }
+         
           leftIcoStyle={{
             backgroundColor: appColors.lightBlack,
             borderRadius: 50,
@@ -60,7 +57,7 @@ const LocationScreen = () => {
             alignItems: 'center',
           }}
           headerTextViewStyle={{ alignItems: 'center' }}
-          onPressRightIcon={() => navigation.navigate(constants.screen.Notification)}
+         
         />
       </View>
 

@@ -14,129 +14,91 @@ import CustomIcon, {
   Icons,
 } from '../../../components/molecules/CustomIcon/CustomIcon';
 import { AppImages } from '../../../AppConstants/AppImages';
-import ButtonComponent from '../../../components/atom/CustomButtons/ButtonComponent';
-import constants from '../../../AppConstants/Constants.json';
 import { BarChart, LineChart, PieChart, PopulationPyramid } from "react-native-gifted-charts";
 import { screenSize } from '../../../components/atom/ScreenSize';
+
 const BarberEarnReport = ({ navigation }) => {
 
-  const data = [
-    {
-      value: 2500,
-      frontColor: '#006DFF',
-      gradientColor: '#009FFF',
-      spacing: 6,
-      label: 'Jan',
-    },
-    { value: 2400, frontColor: '#3BE9DE', gradientColor: '#93FCF8' },
 
-    {
-      value: 3500,
-      frontColor: '#006DFF',
-      gradientColor: '#009FFF',
-      spacing: 6,
-      label: 'Feb',
-    },
-    { value: 3000, frontColor: '#3BE9DE', gradientColor: '#93FCF8' },
-
-    {
-      value: 4500,
-      frontColor: '#006DFF',
-      gradientColor: '#009FFF',
-      spacing: 6,
-      label: 'Mar',
-    },
-    { value: 4000, frontColor: '#3BE9DE', gradientColor: '#93FCF8' },
-
-    {
-      value: 5200,
-      frontColor: '#006DFF',
-      gradientColor: '#009FFF',
-      spacing: 6,
-      label: 'Apr',
-    },
-    { value: 4900, frontColor: '#3BE9DE', gradientColor: '#93FCF8' },
-
-    {
-      value: 3000,
-      frontColor: '#006DFF',
-      gradientColor: '#009FFF',
-      color:appColors.White,
-      spacing: 6,
-      label: 'May',
-    },
-    { value: 2800, frontColor: '#3BE9DE', gradientColor: '#93FCF8' },
-  ];
   const stackData = [
     {
       stacks: [
-        { value: 10, color: 'orange' },
-        { value: 20, color:appColors.LightGray, marginBottom: 5 },
+        { value: 20, color:appColors.Goldcolor },
+        { value: 10, color: '#292929', marginBottom: 5 },
       ],
       label: 'Jan',
     },
+
     {
       stacks: [
-        { value: 10, color: '#4ABFF4' },
-        { value: 11, color: 'orange', marginBottom: 2 },
-        { value: 1, color: '#28B2B3', marginBottom: 2 },
-      ],
-      label: 'Mar',
-    },
-    {
-      stacks: [
-        { value: 14, color: 'orange' },
-        { value: 18, color: '#4ABFF4', marginBottom: 2 },
+        { value: 14, color: '#9A72F5' },
+        { value: 18, color: '#292929', marginBottom: 5},
       ],
       label: 'Feb',
     },
     {
       stacks: [
-        { value: 7, color: '#4ABFF4' },
-        { value: 11, color: 'orange', marginBottom: 2 },
-        { value: 10, color: '#28B2B3', marginBottom: 2 },
+        { value: 20, color:appColors.Goldcolor },
+        { value: 10, color: '#292929', marginBottom: 5 },
       ],
       label: 'Mar',
     },
     {
       stacks: [
-        { value: 7, color: '#4ABFF4' },
-        { value: 11, color: 'orange', marginBottom: 2 },
-        { value: 10, color: '#28B2B3', marginBottom: 2 },
+        { value: 14, color: '#9A72F5' },
+        { value: 18, color: '#292929', marginBottom: 5},
       ],
-      label: 'Mar',
+      label: 'Apr',
     },
     {
       stacks: [
-        { value: 7, color: '#4ABFF4' },
-        { value: 11, color: 'orange', marginBottom: 2 },
-        { value: 10, color: '#28B2B3', marginBottom: 2 },
+        { value: 20, color:appColors.Goldcolor },
+        { value: 10, color: '#292929', marginBottom: 5 },
       ],
-      label: 'Mar',
+      label: 'May',
     },
     {
       stacks: [
-        { value: 7, color: '#4ABFF4' },
-        { value: 11, color: 'orange', marginBottom: 2 },
-        { value: 10, color: '#28B2B3', marginBottom: 2 },
+        { value: 14, color: '#9A72F5' },
+        { value: 18, color: '#292929', marginBottom: 5},
       ],
-      label: 'Mar',
+      label: 'Jun',
     },
     {
       stacks: [
-        { value: 7, color: '#4ABFF4' },
-        { value: 11, color: 'orange', marginBottom: 2 },
-        { value: 10, color: '#28B2B3', marginBottom: 2 },
+        { value: 20, color:appColors.Goldcolor },
+        { value: 10, color: '#292929', marginBottom: 5 },
       ],
-      label: 'Mar',
+      label: 'Jul',
+    },
+
+    {
+      stacks: [
+        { value: 14, color: '#9A72F5' },
+        { value: 18, color: '#292929', marginBottom: 5},
+      ],
+      label: 'Aug',
     },
     {
       stacks: [
-        { value: 7, color: '#4ABFF4' },
-        { value: 11, color: 'orange', marginBottom: 2 },
-        { value: 10, color: '#28B2B3', marginBottom: 2 },
+        { value: 20, color:appColors.Goldcolor },
+        { value: 10, color: '#292929', marginBottom: 5 },
       ],
-      label: 'Mar',
+      label: 'Sep',
+    },
+    {
+      stacks: [
+        { value: 14, color: '#9A72F5' },
+        { value: 18, color: '#292929', marginBottom: 5},
+      ],
+      label: 'Oct',
+    },
+    {
+      stacks: [
+        { value: 20, color:appColors.Goldcolor },
+        { value: 10, color: '#292929', marginBottom: 5 },
+      ],
+      label: 'Nov',
     },
   ];
 
@@ -222,13 +184,25 @@ const BarberEarnReport = ({ navigation }) => {
           stackBorderRadius={50}
           stackData={stackData}
           barWidth={20}
+          yAxisSuffix=""
+          yAxisLabelTexts=''
+          yAxisLabel=''
+          yAxisLabelWidth={0}
+          //  yAxisInterval= {2}
+          xAxisLabelTextStyle={{ color: 'lightgray', }}
           //stacks={5}
           // showValuesAsTopLabel
-        
+          hideYAxisText={true}
+          hideAxesAndRules={true}
+          hideOrigin={true}
+          hideRules={true}
+          yAxisOffset={false}
           pointerConfig={{
             initialPointerIndex: 0,
             stripBehindBars: true,
             pointerStripHeight: 150,
+
+
 
             pointerLabelComponent: items => {
               return (

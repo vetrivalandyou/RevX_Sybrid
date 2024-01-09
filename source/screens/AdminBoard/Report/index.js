@@ -36,6 +36,8 @@ const Report = ({navigation}) => {
   const handleDayButtonClick = () => {
     setIsDayClicked(!isDayClicked);
     setIsMonthClicked(false);
+    setIsYearClicked(false);
+
   };
   const handleMonthButtonClick = () => {
     setIsMonthClicked(!isMonthClicked);
@@ -45,7 +47,7 @@ const Report = ({navigation}) => {
   const handlYaerButtonClick = () => {
     setIsYearClicked(!isYearClicked);
     setIsMonthClicked(false);
-    setIsMonthClicked(false);
+    setIsDayClicked(false);
   };
 
   const getDataForInterval = interval => {

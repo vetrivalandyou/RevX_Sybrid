@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   StyleSheet,
   FlatList,
+  
 } from 'react-native';
 import Screen from '../../../components/atom/ScreenContainer/Screen';
 import styles from './styles';
@@ -17,7 +18,6 @@ import {AppImages} from '../../../AppConstants/AppImages';
 import ButtonComponent from '../../../components/atom/CustomButtons/ButtonComponent';
 import {screenSize} from '../../../components/atom/ScreenSize';
 import constants from '../../../AppConstants/Constants.json';
-
 const AdminPaymentMethod = ({navigation}) => {
   const [selectedItem, setSelectedItem] = useState(null);
 
@@ -40,15 +40,15 @@ const AdminPaymentMethod = ({navigation}) => {
   ];
 
   return (
-    <View style={{height: screenSize.height, backgroundColor: 'black'}}>
+    <Screen viewStyle={{padding:15}}>
       <View style={{flex: 0.1}}>
         <Header
           lefttIcoType={Icons.Ionicons}
           onPressLeftIcon={() => navigation.goBack()}
           leftIcoName={'chevron-back'}
           headerText={'Payment Method'}
-          rightIcoName={'bell'}
-          rightIcoType={Icons.SimpleLineIcons}
+          rightIcoName={'bell-fill'}
+          rightIcoType={Icons.Octicons}
           logIn={'success'}
           rightIcoSize={20}
           leftIcoStyle={{
@@ -89,7 +89,7 @@ const AdminPaymentMethod = ({navigation}) => {
           }
         />
       </View>
-    </View>
+    </Screen>
   );
 };
 
@@ -99,16 +99,17 @@ const PaymentCard = ({item, onPress, selected}) => {
       <View style={styless.container}>
         <View
           style={{
+            width:screenSize.width/1.10,
             flexDirection: 'row',
             justifyContent: 'space-between',
             alignItems: 'center',
             paddingHorizontal: 15,
           }}>
           <View style={styless.imagecontainer}>
-            <Image source={item.Imagesource} style={{height: 20, width: 22}} />
+            <Image source={item.Imagesource} style={{}} />
           </View>
-          <View style={{width: screenSize.width / 1.6}}>
-            <Text style={{fontWeight: '500', fontSize: 15, color: 'white'}}>
+          <View style={{width: screenSize.width / 1.67}}>
+            <Text style={{fontWeight: '500', fontSize: 15, color: 'white',marginLeft:7}}>
               {item.title}
             </Text>
           </View>
@@ -116,6 +117,7 @@ const PaymentCard = ({item, onPress, selected}) => {
             style={[
               styless.OuterCircle,
               selected && {backgroundColor: '#c79647'},
+             
             ]}>
             {selected && <View style={styless.innerCircle}></View>}
           </View>
@@ -128,47 +130,19 @@ export default AdminPaymentMethod;
 
 const styless = StyleSheet.create({
   container: {
-    width: screenSize.width / 1.07,
+   // width: screenSize.width,
     borderWidth: 1,
     borderRadius: 15,
-    backgroundColor: '#252525',
-    marginHorizontal: 12,
+    backgroundColor:appColors.darkgrey,
+    //marginHorizontal: 12,
     marginVertical: 8,
+    height:screenSize.height/10,
+    justifyContent:'center'
   },
 
-  NoticationContainer: {
-    height: screenSize.height / 18.5,
-    width: screenSize.width / 9.2,
-    borderRadius: 40,
-    backgroundColor: '#252525',
-    marginHorizontal: 2,
-
-    alignItems: 'center',
-    justifyContent: 'center',
-
-    // backgroundColor:'green'
-  },
-
-  Button: {
-    backgroundColor: 'green',
-    alignItems: 'center',
-    backgroundColor: '#c79647',
-    paddingVertical: 15,
-    marginHorizontal: 15,
-    borderRadius: 40,
-    position: 'absolute',
-    bottom: 5,
-    width: screenSize.width / 1.07,
-  },
   imagecontainer: {
-    width: screenSize.width / 9.5,
-    paddingVertical: 8,
-    borderWidth: 1,
-    borderRadius: 5,
-    backgroundColor: 'lightgray',
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginVertical: 14,
+    width: screenSize.width / 8.5,
+  
   },
   OuterCircle: {
     height: screenSize.height / 35,

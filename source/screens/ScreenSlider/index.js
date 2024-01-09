@@ -1,62 +1,85 @@
-import React, {useEffect} from 'react';
-import {Text, View, StatusBar, StyleSheet} from 'react-native';
-import Carousel from '../../components/atom/Carousel/cerousel';
-import Screen from '../../components/atom/ScreenContainer/Screen';
+import React, { useState } from 'react';
+import { View, Text, StyleSheet ,Image,StatusBar} from 'react-native';
+import Carousel, { Pagination ,ParallaxImage} from 'react-native-snap-carousel';
+import { AppImages } from '../../AppConstants/AppImages';
+import { screenSize } from '../../components/atom/ScreenSize';
+import appColors from '../../AppConstants/appColors';
 import ButtonComponent from '../../components/atom/CustomButtons/ButtonComponent';
-import {AppImages} from '../../AppConstants/AppImages';
-import AppColors from '../../AppConstants/appColors';
-import {useNavigation} from '@react-navigation/native';
-import constants from '../../AppConstants/Constants.json';
 
-const ScreenSlider = ({navigation}) => {
-  const imageData = [
+const ScreenSlider  = () => {
+  const [activeSlide, setActiveSlide] = useState(0);
+
+  // const data = [
+  //   {
+  //     image: AppImages.slider1,
+  //     text: 'Find Barber & Salons Easily in Your Hands',
+  //   },
+  //   {
+  //     image: AppImages.slider2,
+  //     text: 'Book Your Favorite Barber & Salon Quickly',
+  //   },
+  //   {
+  //     image: AppImages.slider3,
+  //     text: 'Schedule the Appointment in the best Salon',
+  //   },
+  // ];
+  const ENTRIES1 = [
     {
-      image: AppImages.slider1,
-      text: 'Find Barber & Salons Easily in Your Hands',
+      title: 'Find Barber & Salons Easily in Your Hands',
+      illustration: AppImages.slider1
     },
     {
-      image: AppImages.slider2,
-      text: 'Book Your Favorite Barber & Salon Quickly',
+      title: 'Book Your Favorite Barber & Salon Quickly',
+      illustration: AppImages.slider2
     },
     {
-      image: AppImages.slider3,
-      text: 'Schedule the Appointment in the best Salon',
+      title: 'Schedule the Appointment in the best Salon',
+      illustration: AppImages.slider3
     },
+   
+   
   ];
-  const [currentImageIndex, setCurrentImageIndex] = React.useState(0);
-  // const [displayText, setDisplayText] = React.useState(imageData[0].text);
+  
 
-  const onCurrentImagePressed = index => {
-    // Handle logic when the current image is pressed
-    console.log('Current image pressed!');
 
-    // Update the text based on the current image index
-    setCurrentImageIndex(index);
+  const renderItem = ({ item, index }, parallaxProps) => {
+    return (
+      <View style={styles.slide}>
+        <Image source={item.illustration} style={styles.image} />
+        <Text style={styles.title}>{item.title}</Text>
+      </View>
+    );
   };
-  //  console.log(displayText)
-  //   console.log("test>>>>>>>",displayText)
+
   return (
     <View style={styles.container}>
-      <StatusBar
+        <StatusBar
         translucent
         backgroundColor="transparent"
         barStyle="light-content"
       />
       <Carousel
-        images={imageData.map(item => item.image)}
-        onCurrentImagePressed={index => onCurrentImagePressed(index)}
-        currentImageEmitter={index => setCurrentImageIndex(index)}
-        ImageComponentStyle={{width: '100%', height: '100%'}}
-        paginationBoxVerticalPadding={100}
+    //  ref={carouselRef}
+        data={ENTRIES1}
+        renderItem={renderItem}
+        onSnapToItem={(index) => setActiveSlide(index)}
+        sliderWidth={screenSize.width}
+        itemWidth={screenSize.width}
+        autoplay={true}
       />
-
-      <Text style={styles.CarouselText}>
-        {imageData[currentImageIndex].text}
-      </Text>
-
-      <View style={{alignItems: 'center'}}>
+      <Pagination
+        dotsLength={ENTRIES1.length}
+        activeDotIndex={activeSlide}
+        containerStyle={styles.paginationContainer}
+        dotStyle={styles.dotStyle}
+        inactiveDotStyle={styles.inactiveDotStyle}
+        inactiveDotOpacity={0.6}
+        inactiveDotScale={0.8}
+       
+      />
+       <View style={{alignItems: 'center'}}>
         <ButtonComponent
-          style={{width: '90%', position: 'absolute', bottom: 20}}
+          style={{width: '90%', position: 'absolute', bottom:20}}
           title={'Get Start'}
           onPress={() => navigation.navigate(constants.screen.Login)}
         />
@@ -64,22 +87,56 @@ const ScreenSlider = ({navigation}) => {
     </View>
   );
 };
-export default ScreenSlider;
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    //alignItems:'center',
-    //  backgroundColor:'red',
-    //justifyContent:'flex-end'
+   
   },
-
-  CarouselText: {
+  slide: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'lightblue',
+    borderRadius: 10,
+  },
+  title: {
     position: 'absolute',
     fontWeight: '600',
-    color: AppColors.White,
+    color: appColors.White,
     fontSize: 45,
     bottom: 130,
     marginLeft: 12,
   },
+  paginationContainer: {
+   // marginTop: -20,
+   position:'absolute',
+   bottom:60,
+  // backgroundColor:'red',
+   alignSelf:'center'
+  },
+  dotStyle: {
+    width: 10,
+    height: 10,
+    borderRadius: 5,
+    backgroundColor: appColors.Goldcolor
+  },
+  inactiveDotStyle: {
+    width: 10,
+    height: 10,
+    borderRadius: 5,
+    backgroundColor:appColors.darkgrey
+  },
+  imageContainer: {
+    flex: 1,
+    marginBottom: Platform.select({ ios: 0, android: 1 }), // Prevent a random Android rendering issue
+    backgroundColor: 'white',
+    borderRadius: 8,
+  },
+  image: {
+    ...StyleSheet.absoluteFillObject,
+    resizeMode: 'cover',
+  },
 });
+
+export default ScreenSlider ;
