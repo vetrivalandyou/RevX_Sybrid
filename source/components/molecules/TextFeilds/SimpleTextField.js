@@ -18,6 +18,8 @@ const SimpleTextField = ({
   keyboardType,
   value,
   onChangeText,
+  textUpperView,
+  textStyle,
   // onPressIcon,
   // eyeOpen,
   secureTextEntry,
@@ -29,9 +31,9 @@ const SimpleTextField = ({
 
   return (
     <View style={styles.mainContainer}>
-      <View style={styles.innerContainner}>
+      <View style={[styles.innerContainner, textUpperView]}>
         <TextInput
-          style={{flex: 1, color: AppColors.White}}
+          style={[ {flex: 1, color: AppColors.White}]}
           placeholder={placeholder}
           placeholderTextColor={placeholderTextColor}
           value={value}

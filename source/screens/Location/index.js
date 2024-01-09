@@ -16,8 +16,8 @@ import LocationBottom from '../LocationBottom';
 
 import ReferFriendsSheet from '../ReferFriendsSheet';
 import LogoutBottom from '../LogoutBottom';
+import { useNavigation } from '@react-navigation/native';
 import constants from '../../AppConstants/Constants.json';
-import {useNavigation} from '@react-navigation/native';
 
 const LocationScreen = () => {
   const navigation = useNavigation();
@@ -54,7 +54,8 @@ const LocationScreen = () => {
             justifyContent: 'center',
             alignItems: 'center',
           }}
-          headerTextViewStyle={{alignItems: 'center'}}
+          headerTextViewStyle={{ alignItems: 'center' }}
+          // onPressRightIcon={() => navigation.navigate(constants.screen.Notification)}
         />
       </View>
 

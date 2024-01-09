@@ -1,97 +1,134 @@
-import {StyleSheet, Text, View, Modal, TouchableOpacity} from 'react-native';
+import {StyleSheet, Text, View, Modal, Image} from 'react-native';
 import React from 'react';
-import {Dimensions} from 'react-native';
-import {useNavigation} from '@react-navigation/native';
-import constants from '../../../AppConstants/Constants.json';
-const {height, width} = Dimensions.get('window');
+import ButtonComponent from '../../../components/atom/CustomButtons/ButtonComponent';
+import {screenSize} from '../../atom/ScreenSize';
 
-const CustomModal = ({visible, onRequestClose, label, onYes, onNo}) => {
-  const navigation = useNavigation();
+const CustomModal = ({
+  visible,
+  onRequestClose,
+  modalHeight,
+  label,
+  onYes,
+  title,
+  Customlablestyle,
+  lable1,
+  showYesNoButton,
+  showViewEReciptButton,
+  showImage,
+  showLable,
+  showLable1,
+}) => {
   return (
     <Modal
       animationType="slide"
       transparent={true}
       visible={visible}
       onRequestClose={onRequestClose}>
-      <View
-        style={{
-          height: height,
-          justifyContent: 'center',
-          alignItems: 'center',
-        }}>
-        <View style={styles.modalstyle}>
-          <Text
-            style={{
-              fontSize: 28,
-              color: 'black',
-              fontWeight: '600',
-              textAlign: 'center',
-            }}>
-            {'Do You Want to Save The Information For Later Use'}
-          </Text>
-          <View
-            style={{
-              flexDirection: 'row',
-              justifyContent: 'space-evenly',
-              marginTop: 20,
-              alignItems: 'center',
-            }}>
-            <View style={styles.modalbutton}>
-              <TouchableOpacity
-                onPress={() =>
-                  navigation.navigate(constants.screen.ReviewSummary)
-                }>
-                <Text style={{color: 'white', fontWeight: '700'}}>Yes</Text>
-              </TouchableOpacity>
+      <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+        <View style={[styles.modalstyle, modalHeight]}>
+          {showImage && (
+            <View style={{flex: 0.4, alignItems: 'center', paddingTop: 10}}>
+              {/* <Image
+                source={require('../../assets/Frame.png')}
+                style={{height: '100%', width: '75%'}}
+              /> */}
             </View>
-            <View style={styles.modalbutton2}>
-              <TouchableOpacity
-                onPress={() => {
-                  onRequestClose(); // Call the onRequestClose prop to close the modal
+          )}
+          {showLable && (
+            <View style={{flex: 0.2}}>
+              <Text style={[styles.Labelstyle, Customlablestyle]}>{label}</Text>
+              <Text
+                style={{fontSize: 11.5, color: 'black', textAlign: 'center'}}>
+                {title}
+              </Text>
+            </View>
+          )}
+          {showLable1 && (
+            <View style={{flex: 0.4}}>
+              <Text
+                style={{
+                  fontSize: 20,
+                  color: 'black',
+                  fontWeight: '600',
+                  textAlign: 'center',
                 }}>
-                <Text style={{color: 'black', fontWeight: '700'}}>No</Text>
-              </TouchableOpacity>
+                {lable1}
+              </Text>
             </View>
-          </View>
+          )}
+          {showYesNoButton && (
+            <View
+              style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+                flex: 0.27,
+                justifyContent: 'space-between',
+              }}>
+              <View style={{flex: 0.45, alignItems: 'flex-end'}}>
+                <ButtonComponent
+                  style={{
+                    backgroundColor: '#C79646',
+                    width: '80%',
+                    paddingVertical: 12,
+                    borderWidth: 1.5,
+                    borderColor: '#C79646',
+                  }}
+                  title={'Yes'}
+                  onPress={onYes}
+                />
+              </View>
+              <View style={{flex: 0.45, alignItems: 'flex-start'}}>
+                <ButtonComponent
+                  style={{
+                    backgroundColor: 'white',
+                    width: '80%',
+                    borderWidth: 1.5,
+                    paddingVertical: 12,
+                  }}
+                  btnTextColor={{color: 'black'}}
+                  title={'No'}
+                  onPress={onYes}
+                />
+              </View>
+            </View>
+          )}
+          {showViewEReciptButton && (
+            <View style={{flex: 0.16, alignItems: 'center'}}>
+              <ButtonComponent
+                style={{
+                  backgroundColor: '#C79646',
+                  bottom: 1,
+                  position: 'absolute',
+                  width: '65%',
+                }}
+                title={'View E-Recipt'}
+                onPress={onYes}
+              />
+            </View>
+          )}
         </View>
       </View>
     </Modal>
   );
 };
-
-//Do You Want To Save The Information For Later Use
-
 export default CustomModal;
 
 const styles = StyleSheet.create({
   modalstyle: {
-    height: height / 3.9,
-    width: width / 1.3,
+    height: screenSize.height / 2,
+    width: screenSize.width / 1.3,
     justifyContent: 'center',
     // alignItems:'center',
-    marginTop: 5,
+
     backgroundColor: 'white',
     borderWidth: 1,
     borderRadius: 25,
     borderColor: 'black',
-    paddingHorizontal: 20,
   },
-  modalbutton: {
-    alignItems: 'center',
-    backgroundColor: '#c79647',
-    borderRadius: 40,
-    justifyContent: 'center',
-    height: height / 17,
-    width: width / 3.9,
-  },
-  modalbutton2: {
-    alignItems: 'center',
-    backgroundColor: 'white',
-    borderRadius: 40,
-    borderColor: 'black',
-    borderWidth: 1.7,
-    justifyContent: 'center',
-    height: height / 17,
-    width: width / 3.9,
+  Labelstyle: {
+    fontSize: 23,
+    color: 'black',
+    fontWeight: '600',
+    textAlign: 'center',
   },
 });

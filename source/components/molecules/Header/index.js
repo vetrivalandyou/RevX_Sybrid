@@ -21,6 +21,7 @@ const Header = ({
   image,
   headerTextViewStyle,
   headerTextt,
+  headerSubView,
 }) => {
   const navigation = useNavigation();
   console.log('test', onPressRightIcon);
@@ -29,8 +30,8 @@ const Header = ({
 
   return (
     <View style={styles.headerView}>
-      <View style={styles.header}>
-        <View style={{flex: 0.15, justifyContent: 'center'}}>
+      <View style={[styles.header, headerSubView]}>
+        <View style={{ flex: 0.15, justifyContent: 'center' }}>
           {image ? (
             <Image
               source={AppImages.SuperAdmin}
