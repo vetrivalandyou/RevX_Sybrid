@@ -32,8 +32,6 @@ const Notification = ({navigation}) => {
             // }}
           />
         </View>
-        <View></View>
-
         <Text
           style={{
             color: 'white',
