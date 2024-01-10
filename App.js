@@ -1,11 +1,17 @@
 import React from 'react';
-import {Text, View} from 'react-native';
-import Main from './source/navigation/index';
-import BarberStack from './source/navigation/BarberBoardNavigation/index';
-import AdminStack from './source/navigation/AdminBoardNavigation/index';
+import {store, persistor} from './source/redux/Store/index';
+import {Provider} from 'react-redux';
+import {PersistGate} from 'redux-persist/integration/react';
+import MainNavigation from './source/navigation/MainNavigation';
 
 function App() {
-  return <Main />;
+  return (
+    <Provider store={store}>
+      <PersistGate loading={null} persistor={persistor}>
+        <MainNavigation />
+      </PersistGate>
+    </Provider>
+  );
 }
 
 export default App;

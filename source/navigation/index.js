@@ -35,8 +35,10 @@ const Main = () => {
   const Stack = createNativeStackNavigator();
   return (
     <NavigationContainer>
-      <Stack.Navigator screenOptions={{animation: 'slide_from_right'}}>
-        <Stack.Screen
+      <Stack.Navigator
+        // initialRouteName={constants.screen.SplashScreen}
+        screenOptions={{animation: 'slide_from_right'}}>
+        {/* <Stack.Screen
           name={constants.screen.SplashScreen}
           component={SplashScreen}
           options={{headerShown: false}}
@@ -49,11 +51,6 @@ const Main = () => {
         <Stack.Screen
           name={constants.screen.Login}
           component={Login}
-          options={{headerShown: false}}
-        />
-        <Stack.Screen
-          name={constants.screen.BottomTabNavigation}
-          component={BottomTabNavigation}
           options={{headerShown: false}}
         />
 
@@ -83,6 +80,11 @@ const Main = () => {
         <Stack.Screen
           name={constants.screen.NewPassword}
           component={NewPassword}
+          options={{headerShown: false}}
+        /> */}
+        <Stack.Screen
+          name={constants.screen.BottomTabNavigation}
+          component={BottomTabNavigation}
           options={{headerShown: false}}
         />
 

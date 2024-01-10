@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@gorhom/bottom-sheet": "4",
+    "@react-native-async-storage/async-storage": "^1.21.0",
     "@react-navigation/bottom-tabs": "^6.5.11",
     "@react-navigation/native": "^6.1.9",
     "@react-navigation/native-stack": "^6.9.17",
@@ -27,7 +28,9 @@
     "react-native-screens": "^3.27.0",
     "react-native-snap-carousel": "4.0.0-beta.6",
     "react-native-svg": "^14.1.0",
-    "react-native-vector-icons": "^10.0.2"
+    "react-native-vector-icons": "^10.0.2",
+    "react-redux": "^9.0.4",
+    "redux-persist": "^6.0.0"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",

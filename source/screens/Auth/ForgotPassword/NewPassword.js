@@ -73,7 +73,7 @@ const NewPassword = ({navigation}) => {
           }}>
           <ButtonComponent
             title={'Reset Password'}
-            onPress={() => navigation.navigate(constants.screen.Login)}
+            onPress={() => navigation.navigate(constants.AuthScreen.Login)}
           />
         </View>
       </View>

@@ -26,7 +26,7 @@ const CreateAccount = ({navigation}) => {
         logIn={'Log In'}
         heading={'Create Account'}
         subheading={'Please Login your account, Enter your details.'}
-        onPress={() => navigation.navigate(constants.screen.ScreenSlider)}
+        onPress={() => navigation.goBack()}
       />
 
       <View
@@ -90,7 +90,7 @@ const CreateAccount = ({navigation}) => {
           </TouchableOpacity>
 
           <TouchableOpacity
-            onPress={() => navigation.navigate(constants.screen.Login)}>
+            onPress={() => navigation.navigate(constants.AuthScreen.Login)}>
             <Text style={{color: appColors.Goldcolor}}> Login</Text>
           </TouchableOpacity>
         </View>

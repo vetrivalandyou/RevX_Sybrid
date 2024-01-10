@@ -28,7 +28,7 @@ const Screen = ({
     <SafeAreaView style={{flex: 1, backgroundColor: appColors.Black}}>
       <StatusBar
         // hidden={hidden}
-        barStyle={appMode == 'dark' ? 'dark-content' : 'light-content'}
+        barStyle={'light-content'}
         backgroundColor={statusBarColor ? statusBarColor : colors.screenTab}
         // animated={animated}
         translucent={false}

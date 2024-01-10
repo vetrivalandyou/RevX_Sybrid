@@ -71,7 +71,7 @@ const ForgotCheckEmail = ({navigation}) => {
           }}>
           <ButtonComponent
             title={'Sign In Again'}
-            onPress={() => navigation.navigate(constants.screen.NewPassword)}
+            onPress={() => navigation.navigate(constants.AuthScreen.NewPassword)}
           />
         </View>
 

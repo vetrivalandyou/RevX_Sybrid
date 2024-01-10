@@ -49,7 +49,7 @@ const ForgotPassword = ({navigation}) => {
           <ButtonComponent
             title={'Reset Password'}
             onPress={() =>
-              navigation.navigate(constants.screen.ForgotCheckEmail)
+              navigation.navigate(constants.AuthScreen.ForgotCheckEmail)
             }
           />
         </View>

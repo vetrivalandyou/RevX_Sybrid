@@ -4,10 +4,12 @@ import {useNavigation} from '@react-navigation/native';
 import ButtonComponent from '../../components/atom/CustomButtons/ButtonComponent';
 import {screenSize} from '../../components/atom/ScreenSize';
 import appColors from '../../AppConstants/appColors';
-import constants from '../../AppConstants/Constants.json';
+import {useDispatch} from 'react-redux';
+import {LogOut} from '../../redux/Action/AuthAction';
 
 const LogoutBottom = ({refRBSheet}) => {
   const navigation = useNavigation();
+  const dispatch = useDispatch();
 
   const onLogOut = () => {
     refRBSheet?.current?.close();
@@ -59,7 +61,9 @@ const LogoutBottom = ({refRBSheet}) => {
           </View>
           <View style={{flex: 0.5, justifyContent: 'center'}}>
             <ButtonComponent
-              onPress={() => navigation.navigate(constants.screen.Login)}
+              onPress={() => {
+                dispatch(LogOut());
+              }}
               title={'Logout'}
               btnTextColor={{color: appColors.White}}
               style={{
