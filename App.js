@@ -5,7 +5,7 @@ import BarberStack from './source/navigation/BarberBoardNavigation/index';
 import AdminStack from './source/navigation/AdminBoardNavigation/index';
 
 function App() {
-  return <Main/>;
+  return <Main />;
 }
 
 export default App;

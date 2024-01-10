@@ -278,7 +278,7 @@ const HomeBarber = ({navigation}) => {
             </View>
             <View
               style={{
-                flex: 0.6,
+                flex: 0.4,
                 alignItems: 'flex-end',
               }}>
               <View
@@ -295,7 +295,7 @@ const HomeBarber = ({navigation}) => {
                     height: 27,
                     flex: 0.8,
                   }}
-                  stylebtn={{color: 'white'}}
+                  stylebtn={{color: 'white', fontSize: 13}}
                   onPress={() =>
                     navigation.navigate(constants.BarberScreen.EReceipt)
                   }

@@ -6,28 +6,29 @@ import {AppImages} from '../../../AppConstants/AppImages';
 import {screenSize} from '../../../components/atom/ScreenSize';
 import Header from '../../../components/molecules/Header';
 import {Icons} from '../../../components/molecules/CustomIcon/CustomIcon';
+import appColors from '../../../AppConstants/appColors';
 
 const AdminNotification = ({navigation}) => {
   return (
-    <View style={{height: screenSize.height, backgroundColor: 'black'}}>
+    <View style={{height: screenSize.height, backgroundColor: appColors.Black}}>
       <View style={{flex: 0.6}}>
         <Header
           lefttIcoType={Icons.Ionicons}
           onPressLeftIcon={() => navigation.goBack()}
           leftIcoName={'chevron-back'}
           headerText={'Notification'}
-          rightIcoName={'bell'}
+          // rightIcoName={'bell'}
           rightIcoType={Icons.SimpleLineIcons}
           logIn={'success'}
           rightIcoSize={20}
-          leftIcoStyle={{
-            backgroundColor: appColors.lightBlack,
-            borderRadius: 50,
-            height: 50,
-            width: 50,
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}
+          // leftIcoStyle={{
+          //   backgroundColor: appColors.lightBlack,
+          //   borderRadius: 50,
+          //   height: 50,
+          //   width: 50,
+          //   justifyContent: 'center',
+          //   alignItems: 'center',
+          // }}
         />
       </View>
       <View></View>

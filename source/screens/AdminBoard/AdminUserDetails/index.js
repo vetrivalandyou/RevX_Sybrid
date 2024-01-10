@@ -58,10 +58,11 @@ const AdminUserDetails = ({ navigation }) => {
     },
   ];
   return (
-    <Screen viewStyle={{ padding: 15, flex: 0.9 }}
+    <Screen viewStyle={{ padding: 15, flex: 1 }}
     >
       <View style={{ flex: 0.1 }}>
         <Header
+        headerSubView={{ marginHorizontal: 5}}
           lefttIcoType={Icons.Ionicons}
           onPressLeftIcon={() => navigation.goBack()}
           leftIcoName={'chevron-back'}

@@ -84,6 +84,7 @@ const BarberChatScreen = ({navigation}) => {
       viewStyle={{backgroundColor: appColors.Black, padding: 15}}>
       <View style={{flex: 0.1}}>
         <Header
+          headerSubView={{marginHorizontal: 5}}
           lefttIcoType={Icons.Ionicons}
           onPressLeftIcon={() => navigation.goBack()}
           leftIcoName={'chevron-back'}
@@ -144,7 +145,7 @@ const Messages = ({item}) => {
           <Text
             style={{
               color: 'white',
-              fontSize: 20,
+              fontSize: 18,
               fontWeight: 400,
               marginBottom: 5,
             }}>

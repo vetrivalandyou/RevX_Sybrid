@@ -190,7 +190,7 @@ const HomeScreen = ({navigation}) => {
   };
   const HomeHeader = ({heading, sunHeading, source}) => {
     return (
-      <View style={{flex: 1, justifyContent: 'center'}}>
+      <View style={{flex: 1, justifyContent: 'center',}}>
         <View
           style={{
             flex: 1,
@@ -301,7 +301,7 @@ const HomeScreen = ({navigation}) => {
         <Search leaftIconType={Icons.Ionicons} leftIconName={'filter'} />
       </View>
 
-      <ScrollView style={{flex: 0.8}}>
+      <ScrollView showsVerticalScrollIndicator={false} style={{flex: 0.8}}>
         <View style={{height: screenSize.height}}>
           <View
             style={{

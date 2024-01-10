@@ -21,7 +21,7 @@ const Bookingcancelled = ({data}) => {
               marginTop: 5,
             }}>
             <View style={{flex: 0.6}}>
-              <Text style={{color: 'white', fontSize: 16}}>
+              <Text style={{color: 'white', fontSize: 14}}>
                 {item.item.date}
               </Text>
             </View>

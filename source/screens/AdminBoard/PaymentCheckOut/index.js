@@ -16,14 +16,15 @@ import Header from '../../../components/molecules/Header';
 import {Icons} from '../../../components/molecules/CustomIcon/CustomIcon';
 import Screen from '../../../components/atom/ScreenContainer/Screen';
 import SimpleTextField from '../../../components/molecules/TextFeilds/SimpleTextField';
+import appColors from '../../../AppConstants/appColors';
 import PaymentModal from '../../../components/molecules/PaymentModal/PaymentModal';
 
-const PaymentCheckOut = ({navigation}) => {
+const PaymentDetails = ({navigation}) => {
   const [Name, onChangeName] = React.useState('');
   const [password, onChangePassword] = React.useState('');
   const [isEnabled, setIsEnabled] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
-  const [modalPaymentVisible, setModalPaymentVisible] = useState(false);
+  const [modalPaymentVisible, setModalPaymentVisible] = useState(false)
 
   const handleConfirmPayment = () => {
     // Open the modal when the button is pressed
@@ -50,6 +51,7 @@ const PaymentCheckOut = ({navigation}) => {
     <Screen viewStyle={{padding: 15}}>
       <View style={{flex: 0.1}}>
         <Header
+          headerSubView={{marginHorizontal: 0}}
           lefttIcoType={Icons.Ionicons}
           onPressLeftIcon={() => navigation.goBack()}
           leftIcoName={'chevron-back'}
@@ -58,6 +60,9 @@ const PaymentCheckOut = ({navigation}) => {
           rightIcoType={Icons.Octicons}
           logIn={'success'}
           rightIcoSize={20}
+          onPressRightIcon={() =>
+            navigation.navigate(constants.screen.Notification)
+          }
           leftIcoStyle={{
             backgroundColor: appColors.lightBlack,
             borderRadius: 50,
@@ -66,9 +71,6 @@ const PaymentCheckOut = ({navigation}) => {
             justifyContent: 'center',
             alignItems: 'center',
           }}
-          onPressRightIcon={() =>
-            navigation.navigate(constants.AdminScreens.AdminNotification)
-          }
         />
       </View>
       <Text
@@ -83,25 +85,30 @@ const PaymentCheckOut = ({navigation}) => {
       <View style={{flex: 0.1}}>
         <SimpleTextField
           placeholder={'Enter Card Holder Name'}
-          Customtextiput={{color: appColors.Goldcolor}}
           placeholderTextColor={appColors.White}
           onChangeText={onChangeName}
-          innerCustomstyle={{
+          textUpperView={{
+            paddingVertical: 3,
             borderColor: appColors.Gray,
+            borderWidth: 1,
           }}
           value={Name}
         />
       </View>
       <View style={{flex: 0.1}}>
         <SimpleTextField
-          placeholder={'Enter Card No'}
-          Customtextiput={{color: appColors.Goldcolor}}
-          placeholderTextColor={appColors.White}
+          placeholder={'*** **** *** **** 6580'}
+          placeholderTextColor={appColors.Goldcolor}
           onChangeText={onChangePassword}
           keyboardType={'numeric'}
           maxLength={16}
+          textUpperView={{
+            paddingVertical: 3,
+            borderColor: appColors.Gray,
+            borderWidth: 1,
+          }}
+          textStyle={{color: appColors.Goldcolor}}
           value={password.replace(/\d(?=\d{4})/g, '*')}
-          innerCustomstyle={{borderColor: appColors.Gray}}
         />
       </View>
       <View style={{flex: 0.1, justifyContent: 'center'}}>
@@ -129,7 +136,6 @@ const PaymentCheckOut = ({navigation}) => {
 
             <SimpleTextField
               placeholder={'MM/YY'}
-              Customtextiput={{color: appColors.Goldcolor}}
               placeholderTextColor={appColors.Gray}
               keyboardType={'numeric'}
               innerCustomstyle={{marginTop: 7, width: '96%'}}
@@ -147,7 +153,6 @@ const PaymentCheckOut = ({navigation}) => {
             </Text>
             <SimpleTextField
               placeholder={'000'}
-              Customtextiput={{color: appColors.Goldcolor}}
               placeholderTextColor={appColors.Gray}
               innerCustomstyle={{
                 marginTop: 7,
@@ -201,22 +206,11 @@ const PaymentCheckOut = ({navigation}) => {
         onPress={() => navigation.goBack()}
         // showLable1={'sadad'}
       />
-
-      {/* <CustomModal
-        visible={modalVisible}
-        onRequestClose={toggleModal}
-        lable1={'Do You Want To Save The Information For Later Use'}
-        showLable1={true}
-        modalHeight={{height: screenSize.height / 4}}
-        onYes={toggleModal}
-        showYesNoButton={true}
-        onNo={toggleModal}
-      /> */}
     </Screen>
   );
 };
 
-export default PaymentCheckOut;
+export default PaymentDetails;
 
 const styles = StyleSheet.create({
   container: {

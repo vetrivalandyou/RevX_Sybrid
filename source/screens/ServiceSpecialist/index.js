@@ -17,6 +17,7 @@ import {screenSize} from '../../components/atom/ScreenSize';
 import Header from '../../components/molecules/Header';
 import {Icons} from '../../components/molecules/CustomIcon/CustomIcon';
 import constants from '../../AppConstants/Constants.json';
+import appColors from '../../AppConstants/appColors';
 
 const ServiceSpecialist = () => {
   const navigation = useNavigation();
@@ -67,7 +68,7 @@ const ServiceSpecialist = () => {
   ];
   return (
     <Screen statusBarColor={appColors.Black}>
-      <View style={{height: screenSize.height, backgroundColor: 'black'}}>
+      <View style={{height: screenSize.height, backgroundColor: appColors.Black}}>
         <View style={{flex: 0.6}}>
           <Header
             lefttIcoType={Icons.Ionicons}
@@ -101,7 +102,7 @@ const ServiceSpecialist = () => {
         </View>
 
         <TouchableOpacity
-          onPress={() => navigation.navigate(constants.screen.ServicesDetails)}
+          onPress={() => navigation.navigate(constants.screen.Services)}
           style={styles.ApplyNOWButton}>
           <Text style={{fontWeight: '600', fontSize: 13, color: '#fff'}}>
             {' '}

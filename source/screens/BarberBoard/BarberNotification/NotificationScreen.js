@@ -18,6 +18,7 @@ import CustomIcon, {
 import Screen from '../../../components/atom/ScreenContainer/Screen';
 import Bookingbutton from '../../../components/atom/BookingButtons/Bookingbutton';
 import constants from '../../../AppConstants/Constants.json';
+import appColors from '../../../AppConstants/appColors';
 
 const Notification = ({navigation}) => {
   const data = [
@@ -85,14 +86,14 @@ const Notification = ({navigation}) => {
               <Text
                 style={{
                   color: 'white',
-                  fontSize: 16,
+                  fontSize: 15,
                 }}>
                 {item.item.date}
               </Text>
             </View>
             <View
               style={{
-                flex: 0.6,
+                flex: 0.4,
                 alignItems: 'flex-end',
               }}>
               <View
@@ -109,7 +110,7 @@ const Notification = ({navigation}) => {
                     height: 27,
                     flex: 0.8,
                   }}
-                  stylebtn={{color: 'white'}}
+                  stylebtn={{color: appColors.White, fontSize: 12}}
                   onPress={() =>
                     navigation.navigate(constants.BarberScreen.BarberEReceipt)
                   }
@@ -217,6 +218,7 @@ const Notification = ({navigation}) => {
     <Screen statusBarColor={appColors.Black} viewStyle={styles.MianContainer}>
       <View style={{flex: 0.1}}>
         <Header
+          headerSubView={{marginHorizontal: 15}}
           lefttIcoType={Icons.Ionicons}
           onPressLeftIcon={() => navigation.goBack()}
           leftIcoName={'chevron-back'}

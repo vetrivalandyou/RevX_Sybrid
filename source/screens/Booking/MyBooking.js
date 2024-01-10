@@ -18,6 +18,7 @@ import PreBooking from './PreBooking';
 import Header from '../../components/molecules/Header';
 import {Icons} from '../../components/molecules/CustomIcon/CustomIcon';
 import constants from '../../AppConstants/Constants.json';
+import appColors from '../../AppConstants/appColors';
 
 const MyBooking = ({navigation}) => {
   const activeButton = useRef('1');
@@ -98,9 +99,10 @@ const MyBooking = ({navigation}) => {
   useEffect(() => {}, [activeButton]);
 
   return (
-    <View style={{backgroundColor: '#0C0C0D', flex: 1, paddingHorizontal: 10}}>
+    <View style={{backgroundColor: appColors.Black, flex: 1, paddingHorizontal: 10}}>
       <View style={{flex: 0.1}}>
         <Header
+        headerSubView={{marginHorizontal: 5}}
           lefttIcoType={Icons.Ionicons}
           onPressLeftIcon={() => navigation.goBack()}
           leftIcoName={'chevron-back'}

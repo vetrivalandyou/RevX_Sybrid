@@ -143,6 +143,7 @@ const Report = ({navigation}) => {
     <Screen viewStyle={styles.mainContainer}>
       <View style={styles.HeaderView}>
         <Header
+          headerSubView={{ marginHorizontal: 5 }}
           lefttIcoType={Icons.Ionicons}
           leftIcoName={'chevron-back'}
           headerText={'Report'}

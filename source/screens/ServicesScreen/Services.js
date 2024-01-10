@@ -92,7 +92,7 @@ const Services = () => {
   ];
   return (
     <Screen statusBarColor={appColors.Black}>
-      <View style={{height: screenSize.height, backgroundColor: 'black'}}>
+      <View style={{height: screenSize.height, backgroundColor: appColors.Black}}>
         <View style={{flex: 0.6}}>
           <Header
             lefttIcoType={Icons.Ionicons}
@@ -131,7 +131,7 @@ const Services = () => {
         </View>
 
         <TouchableOpacity
-          // onPress={() => navigation.navigate('ServicesDetails')}
+          onPress={() => navigation.navigate(constants.screen.AppointmentDate)}
           style={styles.ApplyNOWButton}>
           <Text style={{fontWeight: '600', fontSize: 13, color: 'white'}}>
             {' '}

@@ -107,7 +107,7 @@ const RecentTransactions = () => {
       </View>
 
       <View style={{flex: 0.07, justifyContent: 'center'}}>
-        <Text style={{color: 'white', fontSize: 21, paddingLeft: 5}}>
+        <Text style={{color: 'white', fontSize: 18, paddingLeft: 5}}>
           Recent Transactions
         </Text>
       </View>
