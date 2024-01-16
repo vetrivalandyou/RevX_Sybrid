@@ -25,7 +25,7 @@ const Screen = ({
   const appMode = Appearance.getColorScheme();
 
   return (
-    <SafeAreaView style={{flex: 1, backgroundColor: statusBarColor}}>
+    <SafeAreaView style={{flex: 1, backgroundColor: appColors.Black}}>
       <StatusBar
         // hidden={hidden}
         barStyle={'light-content'}
