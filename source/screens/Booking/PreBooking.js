@@ -1,8 +1,9 @@
-import {View, Text, StyleSheet, Image, FlatList} from 'react-native';
+import {View, Text, StyleSheet, Image, FlatList, Platform} from 'react-native';
 import Bookingbutton from '../../components/atom/BookingButtons/Bookingbutton';
 import {ScreenSize, screenSize} from '../../components/atom/ScreenSize';
 import React from 'react';
 import AntDesign from 'react-native-vector-icons/AntDesign';
+import appColors from '../../AppConstants/appColors';
 
 const PreBooking = ({data}) => {
   const ListPrebooking = item => {
@@ -41,14 +42,18 @@ const PreBooking = ({data}) => {
             </View>
           </View>
 
-          <View
+          <View style={{ position:'relative', marginHorizontal: 15 }}>
+            <View style={{ position: 'absolute', top: 0, bottom: 0, left: 0, right: 0, borderWidth: 1, borderColor: appColors.Goldcolor, borderStyle: 'dashed', backgroundColor:'transparent'  }}></View>
+          </View>
+
+          {/* <View
             style={{
               fontSize: 25,
               marginHorizontal: 14,
               borderBottomWidth: 2,
-              borderStyle: 'dashed',
+              borderStyle: Platform.OS == 'ios' ? 'solid' : 'dashed',
               borderBottomColor: '#c79647',
-            }}></View>
+            }}></View> */}
 
           <View
             style={{
