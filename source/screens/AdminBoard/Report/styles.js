@@ -4,8 +4,9 @@ import Sizes from '../../../AppConstants/Sizes';
 
 export default StyleSheet.create({
   mainContainer: {
-    // flex: 0.9,
+    flex: 1,
     padding: 15,
+    backgroundColor: appColors.Black
   },
   HeaderView: {
     flex: 0.1,
@@ -55,6 +56,7 @@ export default StyleSheet.create({
     flex: 0.3,
     //  backgroundColor:'green',
     justifyContent: 'center',
+    alignItems:'center'
   },
   btnStyle: {
     backgroundColor: appColors.Goldcolor,

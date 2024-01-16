@@ -5,6 +5,7 @@ import {
   TouchableOpacity,
   TextInput,
   Switch,
+  Platform,
 } from 'react-native';
 import React, {useState} from 'react';
 import AntDesign from 'react-native-vector-icons/AntDesign';
@@ -36,7 +37,7 @@ const PaymentDetails = ({navigation}) => {
   };
 
   return (
-    <Screen viewStyle={{padding: 15}}>
+    <Screen viewStyle={{ flex: 1, backgroundColor: appColors.Black, padding: 15}} statusBarColor={appColors.Black}>
       <View style={{flex: 0.1}}>
         <Header
           headerSubView={{marginHorizontal: 0}}
@@ -61,29 +62,31 @@ const PaymentDetails = ({navigation}) => {
           }}
         />
       </View>
+      <View style={{ flex: 0.8}}>
+      <View style={{ flex: 0.06,}}>
       <Text
         style={{
           color: 'white',
           fontSize: 15,
           marginLeft: 5,
-          flex: 0.07,
         }}>
         Enter The Details To Add A New Card
       </Text>
-      <View style={{flex: 0.1}}>
+      </View>
+      <View style={{flex: 0.15, }}>
         <SimpleTextField
           placeholder={'Enter Card Holder Name'}
           placeholderTextColor={appColors.White}
           onChangeText={onChangeName}
           textUpperView={{
-            paddingVertical: 3,
+            paddingVertical: 20,
             borderColor: appColors.Gray,
             borderWidth: 1,
           }}
           value={Name}
         />
       </View>
-      <View style={{flex: 0.1}}>
+      <View style={{flex: 0.15}}>
         <SimpleTextField
           placeholder={'*** **** *** **** 6580'}
           placeholderTextColor={appColors.Goldcolor}
@@ -91,7 +94,7 @@ const PaymentDetails = ({navigation}) => {
           keyboardType={'numeric'}
           maxLength={16}
           textUpperView={{
-            paddingVertical: 3,
+            paddingVertical: 20,
             borderColor: appColors.Gray,
             borderWidth: 1,
           }}
@@ -175,7 +178,10 @@ const PaymentDetails = ({navigation}) => {
           </Text>
         </View>
       </View>
+      </View>
+      
 
+      <View style={{ flex: 0.1, alignItems:'center'}}>
       <TouchableOpacity
         onPress={() => navigation.navigate('ReviewSummary')}
         style={styles.Button}>
@@ -184,6 +190,7 @@ const PaymentDetails = ({navigation}) => {
           Continue
         </Text>
       </TouchableOpacity>
+      </View>
       <CustomModal
         visible={modalVisible}
         onRequestClose={toggleModal}
@@ -227,7 +234,7 @@ const styles = StyleSheet.create({
   Button: {
     alignItems: 'center',
     backgroundColor: '#c79647',
-    paddingVertical: 15,
+    paddingVertical: Platform.OS == 'ios' ? 18 : 15,
     marginHorizontal: 15,
     borderRadius: 40,
     position: 'absolute',

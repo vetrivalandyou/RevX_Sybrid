@@ -8,6 +8,7 @@ import { screenSize } from '../../../components/atom/ScreenSize';
 import Header from '../../../components/molecules/Header';
 import { Icons } from '../../../components/molecules/CustomIcon/CustomIcon';
 import constants from "../../../AppConstants/Constants.json"
+import appColors from '../../../AppConstants/appColors';
 
 
 
@@ -58,7 +59,7 @@ const AdminUserDetails = ({ navigation }) => {
     },
   ];
   return (
-    <Screen viewStyle={{ padding: 15, flex: 1 }}
+    <Screen viewStyle={{ padding: 15, flex: 1 , backgroundColor: appColors.Black}} statusBarColor={appColors.Black}
     >
       <View style={{ flex: 0.1 }}>
         <Header

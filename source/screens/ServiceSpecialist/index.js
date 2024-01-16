@@ -67,9 +67,8 @@ const ServiceSpecialist = () => {
     },
   ];
   return (
-    <Screen statusBarColor={appColors.Black}>
-      <View style={{height: screenSize.height, backgroundColor: appColors.Black}}>
-        <View style={{flex: 0.6}}>
+    <Screen viewStyle={{ flex: 1 }} statusBarColor={appColors.Black}>
+        <View style={{flex: 0.1}}>
           <Header
             lefttIcoType={Icons.Ionicons}
             onPressLeftIcon={() => navigation.goBack()}
@@ -93,7 +92,7 @@ const ServiceSpecialist = () => {
           />
         </View>
 
-        <View>
+        <View style={{ flex: 0.8}}>
           <FlatList
             data={data}
             renderItem={({item}) => <Barberinfo item={item} />}
@@ -101,6 +100,7 @@ const ServiceSpecialist = () => {
           />
         </View>
 
+        <View style={{ flex: 0.1, justifyContent:'center'}}>
         <TouchableOpacity
           onPress={() => navigation.navigate(constants.screen.Services)}
           style={styles.ApplyNOWButton}>
@@ -109,7 +109,7 @@ const ServiceSpecialist = () => {
             Apply Now
           </Text>
         </TouchableOpacity>
-      </View>
+        </View>
     </Screen>
   );
 };
@@ -225,10 +225,8 @@ const styles = StyleSheet.create({
   ApplyNOWButton: {
     alignItems: 'center',
     backgroundColor: '#c79647',
-    paddingVertical: 15,
+    paddingVertical: Platform.OS == 'ios' ? 20 : 15,
     marginHorizontal: 12,
     borderRadius: 40,
-    marginTop: 13,
-    marginBottom: 17,
   },
 });

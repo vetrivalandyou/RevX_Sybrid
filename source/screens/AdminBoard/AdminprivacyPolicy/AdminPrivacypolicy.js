@@ -1,4 +1,4 @@
-import {FlatList, StyleSheet, Text, View} from 'react-native';
+import {FlatList, Platform, StyleSheet, Text, View} from 'react-native';
 import React, {useState} from 'react';
 
 import Screen from '../../../components/atom/ScreenContainer/Screen';
@@ -7,6 +7,7 @@ import ButtonComponent from '../../../components/atom/CustomButtons/ButtonCompon
 import Header from '../../../components/molecules/Header';
 import {Icons} from '../../../components/molecules/CustomIcon/CustomIcon';
 import constants from '../../../AppConstants/Constants.json';
+import appColors from '../../../AppConstants/appColors';
 
 const AdminPrivacypolicy = ({navigation}) => {
   const [Termsdescription, setTermdescription] = useState(
@@ -32,7 +33,7 @@ const AdminPrivacypolicy = ({navigation}) => {
     },
   ];
   return (
-    <Screen viewStyle={{padding: 15}}>
+    <Screen viewStyle={{ flex: 1, backgroundColor: appColors.Black, padding: 15}} statusBarColor={appColors.Black}>
       <View style={{flex: 0.1}}>
         <Header
          headerSubView={{ marginHorizontal: 5}}
@@ -60,7 +61,7 @@ const AdminPrivacypolicy = ({navigation}) => {
 
       <View
         style={{
-          flex: 0.9,
+          flex: 0.8,
 
           paddingVertical: 5,
         }}>
@@ -73,7 +74,7 @@ const AdminPrivacypolicy = ({navigation}) => {
         <ButtonComponent
           style={{
             backgroundColor: '#C79646',
-            paddingVertical: 13,
+            paddingVertical: Platform.OS == 'ios' ? 18:  13,
             bottom: 1,
             position: 'absolute',
           }}

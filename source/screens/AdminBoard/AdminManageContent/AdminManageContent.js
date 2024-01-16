@@ -5,10 +5,11 @@ import {screenSize} from '../../../components/atom/ScreenSize';
 import Header from '../../../components/molecules/Header';
 import {Icons} from '../../../components/molecules/CustomIcon/CustomIcon';
 import constants from '../../../AppConstants/Constants.json';
+import appColors from '../../../AppConstants/appColors';
 
 const AdminManageContent = ({navigation}) => {
   return (
-    <Screen viewStyle={{padding: 15}}>
+    <Screen viewStyle={{ flex: 1, backgroundColor: appColors.Black, padding: 15}} statusBarColor={appColors.Black}>
       <View style={{flex: 0.1}}>
         <Header
           headerSubView={{marginHorizontal: 5}}
@@ -35,7 +36,7 @@ const AdminManageContent = ({navigation}) => {
       </View>
       <View style={{flex: 0.9}}>
         <View
-          style={{flex: 0.1, alignItems: 'center', justifyContent: 'center'}}>
+          style={{flex: 0.12, alignItems: 'center', justifyContent: 'center'}}>
           <View style={styles.container}>
             <View style={{flexDirection: 'row', flex: 1}}>
               <View
@@ -65,7 +66,7 @@ const AdminManageContent = ({navigation}) => {
           </View>
         </View>
         <View
-          style={{flex: 0.1, alignItems: 'center', justifyContent: 'center'}}>
+          style={{flex: 0.12, alignItems: 'center', justifyContent: 'center'}}>
           <View style={styles.container}>
             <View style={{flexDirection: 'row', flex: 1}}>
               <View
@@ -94,7 +95,7 @@ const AdminManageContent = ({navigation}) => {
         </View>
 
         <View
-          style={{flex: 0.1, alignItems: 'center', justifyContent: 'center'}}>
+          style={{flex: 0.12, alignItems: 'center', justifyContent: 'center'}}>
           <View style={styles.container}>
             <View style={{flexDirection: 'row', flex: 1}}>
               <View

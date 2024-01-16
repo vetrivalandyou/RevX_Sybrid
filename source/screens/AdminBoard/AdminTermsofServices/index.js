@@ -1,4 +1,4 @@
-import { FlatList, StyleSheet, Text, View } from 'react-native'
+import { FlatList, Platform, StyleSheet, Text, View } from 'react-native'
 import React, { useState } from 'react'
 
 import { screenSize } from '../../../components/atom/ScreenSize';
@@ -7,6 +7,7 @@ import ButtonComponent from '../../../components/atom/CustomButtons/ButtonCompon
 import Header from '../../../components/molecules/Header';
 import { Icons } from '../../../components/molecules/CustomIcon/CustomIcon';
 import constants from "../../../AppConstants/Constants.json"
+import appColors from '../../../AppConstants/appColors';
 
 const AdminTermsofServices = ({ navigation, }) => {
 
@@ -23,7 +24,7 @@ const AdminTermsofServices = ({ navigation, }) => {
   ];
   return (
 
-    <Screen viewStyle={{ padding: 15 }}>
+    <Screen viewStyle={{ flex: 1, backgroundColor: appColors.Black, padding: 15 }} statusBarColor={appColors.Black}>
 
       <View style={{ flex: 0.1, }}>
         <Header
@@ -53,8 +54,7 @@ const AdminTermsofServices = ({ navigation, }) => {
 
       <View
         style={{
-          flex: 0.9,
-
+          flex: 0.8,
           paddingVertical: 5,
         }}>
 
@@ -66,7 +66,7 @@ const AdminTermsofServices = ({ navigation, }) => {
       </View>
       <View style={styles.buttonView}>
         <ButtonComponent
-          style={{ backgroundColor: '#C79646', paddingVertical: 13, bottom: 1, position: 'absolute' }}
+          style={{ backgroundColor: '#C79646', paddingVertical: Platform.OS == 'ios' ? 18 : 13, bottom: 1, position: 'absolute' }}
           title={'Edit'}
           onPress={() =>
             navigation.navigate(constants.AdminScreens.AdminEditTermsOfServices, {

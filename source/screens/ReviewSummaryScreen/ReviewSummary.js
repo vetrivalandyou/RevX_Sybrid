@@ -1,4 +1,4 @@
-import {StyleSheet, Text, View, TouchableOpacity} from 'react-native';
+import {StyleSheet, Text, View, TouchableOpacity, Platform} from 'react-native';
 import React, {useState} from 'react';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
@@ -9,6 +9,7 @@ import Screen from '../../components/atom/ScreenContainer/Screen';
 import {useNavigation} from '@react-navigation/native';
 import PaymentModal from '../../components/molecules/PaymentModal/PaymentModal';
 import constants from '../../AppConstants/Constants.json';
+import appColors from '../../AppConstants/appColors';
 
 const ReviewSummary = () => {
   const navigation = useNavigation();
@@ -80,7 +81,7 @@ const ReviewSummary = () => {
   ];
 
   return (
-    <Screen viewStyle={{padding: 15}}>
+    <Screen viewStyle={{ flex: 1, padding: 15}} statusBarColor={appColors.Black}>
       <View style={{flex: 0.1}}>
         <Header
           headerSubView={{marginHorizontal: 5}}
@@ -252,7 +253,7 @@ const styles = StyleSheet.create({
   Button: {
     alignItems: 'center',
     backgroundColor: '#c79647',
-    paddingVertical: 15,
+    paddingVertical: Platform.OS == 'ios' ? 18 : 15,
     marginHorizontal: 13,
     borderRadius: 40,
     position: 'absolute',

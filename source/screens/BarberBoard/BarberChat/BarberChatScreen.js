@@ -109,8 +109,9 @@ const BarberChatScreen = ({navigation}) => {
       <View style={{flex: 0.09}}>
         <Search />
       </View>
-      <View style={{flex: 0.7}}>
+      <View style={{flex: 0.71}}>
         <FlatList
+        showsVerticalScrollIndicator={false}
           data={chat}
           renderItem={({item}) => <Messages item={item} />}
         />
@@ -160,38 +161,39 @@ const Messages = ({item}) => {
           style={{
             paddingHorizontal: 12,
             flexDirection: 'column',
-            // marginVertical: 5,
             justifyContent: 'space-between',
             alignItems: 'center',
+            // backgroundColor: 'red'
           }}>
-          <Text
-            style={{
-              color: appColors.White,
-              fontSize: 14,
-              marginLeft: 5,
-              backgroundColor: appColors.Goldcolor,
-              borderRadius: 60,
-              paddingHorizontal: 10,
-              paddingVertical: 4,
-              marginBottom: 4,
+          <View style={{
+            backgroundColor: appColors.Goldcolor,
+            borderRadius: 60,
+            paddingHorizontal: 8,
+            paddingVertical: 4,
+            marginBottom: 4,
+          }}>
+            <Text
+              style={{
+                color: appColors.White,
+                fontSize: 12,
+              }}>
+              {item.messagecount}
+            </Text>
+          </View>
 
-              // paddingHorizontal: 10,
-            }}>
-            {item.messagecount}
-          </Text>
           <Text
             style={{
               color: appColors.White,
-              fontSize: 14,
+              fontSize: 12,
               marginLeft: 5,
             }}>
             {item.messagetime}
           </Text>
           {/* <Entypo
-                name="chevron-right"
-                size={20}
-                color={appColors.Goldcolor}
-              /> */}
+                  name="chevron-right"
+                  size={20}
+                  color={appColors.Goldcolor}
+                /> */}
         </View>
       </TouchableOpacity>
     </View>

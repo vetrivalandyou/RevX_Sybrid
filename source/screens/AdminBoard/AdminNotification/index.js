@@ -7,349 +7,369 @@ import {screenSize} from '../../../components/atom/ScreenSize';
 import Header from '../../../components/molecules/Header';
 import {Icons} from '../../../components/molecules/CustomIcon/CustomIcon';
 import appColors from '../../../AppConstants/appColors';
+import Screen from '../../../components/atom/ScreenContainer/Screen';
 
 const AdminNotification = ({navigation}) => {
   return (
-    <View style={{height: screenSize.height, backgroundColor: appColors.Black}}>
-      <View style={{flex: 0.6}}>
-        <Header
-          lefttIcoType={Icons.Ionicons}
-          onPressLeftIcon={() => navigation.goBack()}
-          leftIcoName={'chevron-back'}
-          headerText={'Notification'}
-          // rightIcoName={'bell'}
-          rightIcoType={Icons.SimpleLineIcons}
-          logIn={'success'}
-          rightIcoSize={20}
-          // leftIcoStyle={{
-          //   backgroundColor: appColors.lightBlack,
-          //   borderRadius: 50,
-          //   height: 50,
-          //   width: 50,
-          //   justifyContent: 'center',
-          //   alignItems: 'center',
-          // }}
-        />
-      </View>
-      <View></View>
-
-      <Text
-        style={{
-          color: 'white',
-          marginHorizontal: 12,
-          marginVertical: 5,
-          fontSize: 13,
-        }}>
-        Today
-      </Text>
-      <View style={styles.container}>
-        <View
+    <Screen viewStyle={{ flex: 1, backgroundColor: appColors.Black}} statusBarColor={appColors.Black}>
+        <View style={{flex: 0.1}}>
+          <Header
+            lefttIcoType={Icons.Ionicons}
+            onPressLeftIcon={() => navigation.goBack()}
+            leftIcoName={'chevron-back'}
+            headerText={'Notification'}
+            // rightIcoName={'bell'}
+            // rightIcoType={Icons.SimpleLineIcons}
+            logIn={'success'}
+            // rightIcoSize={20}
+            // leftIcoStyle={{
+            //   backgroundColor: appColors.lightBlack,
+            //   borderRadius: 50,
+            //   height: 50,
+            //   width: 50,
+            //   justifyContent: 'center',
+            //   alignItems: 'center',
+            // }}
+          />
+        </View>
+        <View style={{ flex: 0.9,}}>
+        <Text
           style={{
-            flexDirection: 'column',
+            color: 'white',
+            marginHorizontal: 12,
+            marginVertical: 5,
+            fontSize: 13,
           }}>
+          Today
+        </Text>
+        <View style={styles.container}>
           <View
             style={{
-              flexDirection: 'row',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-              paddingHorizontal: 10,
+              flexDirection: 'column',
             }}>
-            <View style={{paddingVertical: 8}}>
-              <Image
-                source={AppImages.notification}
-                style={{
-                  height: screenSize.height / 12,
-                  width: screenSize.width / 6,
-                  borderRadius: 40,
-                }}
-              />
-            </View>
-
             <View
-              style={{flexDirection: 'column', width: screenSize.width / 1.47}}>
-              <Text
-                style={{
-                  color: 'white',
-                  fontWeight: '400',
-                  fontSize: 20,
-                }}>
-                Payment Successful!
-              </Text>
+              style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                paddingHorizontal: 10,
+              }}>
+              <View style={{paddingVertical: 8}}>
+                <Image
+                  source={AppImages.notification}
+                  style={{
+                    height: 70,
+                    width: 70,
+                    borderRadius: 40,
+                  }}
+                />
+              </View>
 
-              <View>
+              <View
+                style={{
+                  flexDirection: 'column',
+                  width: screenSize.width / 1.47,
+                }}>
                 <Text
                   style={{
                     color: 'white',
-                    fontSize: 12,
+                    fontWeight: '400',
+                    fontSize: 20,
                   }}>
-                  You have made a salon payment
+                  Payment Successful!
                 </Text>
+
+                <View>
+                  <Text
+                    style={{
+                      color: 'white',
+                      fontSize: 12,
+                    }}>
+                    You have made a salon payment
+                  </Text>
+                </View>
               </View>
             </View>
           </View>
         </View>
-      </View>
 
-      <Text
-        style={{
-          color: 'white',
-          marginHorizontal: 12,
-          marginTop: 20,
-          marginBottom: 5,
-          fontSize: 13,
-        }}>
-        Yesterday
-      </Text>
-      <View style={styles.container}>
-        <View
+        <Text
           style={{
-            flexDirection: 'column',
+            color: 'white',
+            marginHorizontal: 12,
+            marginTop: 20,
+            marginBottom: 5,
+            fontSize: 13,
           }}>
+          Yesterday
+        </Text>
+        <View style={styles.container}>
           <View
             style={{
-              flexDirection: 'row',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-              paddingHorizontal: 10,
+              flexDirection: 'column',
             }}>
-            <View style={{paddingVertical: 8}}>
-              <Image
-                source={AppImages.notification}
-                style={{
-                  height: screenSize.height / 12,
-                  width: screenSize.width / 6,
-                  borderRadius: 40,
-                }}
-              />
-            </View>
-
             <View
-              style={{flexDirection: 'column', width: screenSize.width / 1.47}}>
-              <Text
-                style={{
-                  color: 'white',
-                  fontWeight: '400',
-                  fontSize: 19,
-                }}>
-                New Services Available!
-              </Text>
+              style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                paddingHorizontal: 10,
+              }}>
+              <View style={{paddingVertical: 8}}>
+                <Image
+                  source={AppImages.notification}
+                  style={{
+                    height: 70,
+                    width: 70,
+                    borderRadius: 40,
+                  }}
+                />
+              </View>
 
-              <View>
+              <View
+                style={{
+                  flexDirection: 'column',
+                  width: screenSize.width / 1.47,
+                }}>
                 <Text
                   style={{
                     color: 'white',
-                    fontSize: 11.5,
+                    fontWeight: '400',
+                    fontSize: 19,
                   }}>
-                  Now you can search the nearest salon
+                  New Services Available!
                 </Text>
+
+                <View>
+                  <Text
+                    style={{
+                      color: 'white',
+                      fontSize: 11.5,
+                    }}>
+                    Now you can search the nearest salon
+                  </Text>
+                </View>
               </View>
             </View>
           </View>
         </View>
-      </View>
 
-      <View style={styles.container}>
-        <View
-          style={{
-            flexDirection: 'column',
-          }}>
+        <View style={styles.container}>
           <View
             style={{
-              flexDirection: 'row',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-              paddingHorizontal: 10,
+              flexDirection: 'column',
             }}>
-            <View style={{paddingVertical: 8}}>
-              <Image
-                source={AppImages.notification}
-                style={{
-                  height: screenSize.height / 12,
-                  width: screenSize.width / 6,
-                  borderRadius: 40,
-                }}
-              />
-            </View>
-
             <View
-              style={{flexDirection: 'column', width: screenSize.width / 1.47}}>
-              <Text
-                style={{
-                  color: 'white',
-                  fontWeight: '400',
-                  fontSize: 20,
-                }}>
-                Credit Card Connected
-              </Text>
+              style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                paddingHorizontal: 10,
+              }}>
+              <View style={{paddingVertical: 8}}>
+                <Image
+                  source={AppImages.notification}
+                  style={{
+                    height: 70,
+                    width: 70,
+                    borderRadius: 40,
+                  }}
+                />
+              </View>
 
-              <View>
+              <View
+                style={{
+                  flexDirection: 'column',
+                  width: screenSize.width / 1.47,
+                }}>
                 <Text
                   style={{
                     color: 'white',
-                    fontSize: 12,
+                    fontWeight: '400',
+                    fontSize: 20,
                   }}>
-                  Now you can search the nearest salon
+                  Credit Card Connected
                 </Text>
+
+                <View>
+                  <Text
+                    style={{
+                      color: 'white',
+                      fontSize: 12,
+                    }}>
+                    Now you can search the nearest salon
+                  </Text>
+                </View>
               </View>
             </View>
           </View>
         </View>
-      </View>
 
-      <Text
-        style={{
-          color: 'white',
-          marginHorizontal: 12,
-          marginTop: 20,
-          marginBottom: 5,
-          fontSize: 13,
-        }}>
-        December 11, 2024
-      </Text>
-      <View style={styles.container}>
-        <View
+        <Text
           style={{
-            flexDirection: 'column',
+            color: 'white',
+            marginHorizontal: 12,
+            marginTop: 20,
+            marginBottom: 5,
+            fontSize: 13,
           }}>
+          December 11, 2024
+        </Text>
+        <View style={styles.container}>
           <View
             style={{
-              flexDirection: 'row',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-              paddingHorizontal: 10,
+              flexDirection: 'column',
             }}>
-            <View style={{paddingVertical: 8}}>
-              <Image
-                source={AppImages.notification}
-                style={{
-                  height: screenSize.height / 12,
-                  width: screenSize.width / 6,
-                  borderRadius: 40,
-                }}
-              />
-            </View>
-
             <View
-              style={{flexDirection: 'column', width: screenSize.width / 1.47}}>
-              <Text
-                style={{
-                  color: 'white',
-                  fontWeight: '400',
-                  fontSize: 20,
-                }}>
-                Today' s Special Offer
-              </Text>
+              style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                paddingHorizontal: 10,
+              }}>
+              <View style={{paddingVertical: 8}}>
+                <Image
+                  source={AppImages.notification}
+                  style={{
+                    height: 70,
+                    width: 70,
+                    borderRadius: 40,
+                  }}
+                />
+              </View>
 
-              <View>
+              <View
+                style={{
+                  flexDirection: 'column',
+                  width: screenSize.width / 1.47,
+                }}>
                 <Text
                   style={{
                     color: 'white',
-                    fontSize: 12,
+                    fontWeight: '400',
+                    fontSize: 20,
                   }}>
-                  Now you can search the nearest salon
+                  Today' s Special Offer
                 </Text>
+
+                <View>
+                  <Text
+                    style={{
+                      color: 'white',
+                      fontSize: 12,
+                    }}>
+                    Now you can search the nearest salon
+                  </Text>
+                </View>
               </View>
             </View>
           </View>
         </View>
-      </View>
 
-      <View style={styles.container}>
-        <View
-          style={{
-            flexDirection: 'column',
-          }}>
+        <View style={styles.container}>
           <View
             style={{
-              flexDirection: 'row',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-              paddingHorizontal: 10,
+              flexDirection: 'column',
             }}>
-            <View style={{paddingVertical: 8}}>
-              <Image
-                source={AppImages.notification}
-                style={{
-                  height: screenSize.height / 12,
-                  width: screenSize.width / 6,
-                  borderRadius: 40,
-                }}
-              />
-            </View>
-
             <View
-              style={{flexDirection: 'column', width: screenSize.width / 1.47}}>
-              <Text
-                style={{
-                  color: 'white',
-                  fontWeight: '400',
-                  fontSize: 20,
-                }}>
-                Credit Card Connected
-              </Text>
+              style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                paddingHorizontal: 10,
+              }}>
+              <View style={{paddingVertical: 8}}>
+                <Image
+                  source={AppImages.notification}
+                  style={{
+                    height: 70,
+                    width: 70,
+                    borderRadius: 40,
+                  }}
+                />
+              </View>
 
-              <View>
+              <View
+                style={{
+                  flexDirection: 'column',
+                  width: screenSize.width / 1.47,
+                }}>
                 <Text
                   style={{
                     color: 'white',
-                    fontSize: 12,
+                    fontWeight: '400',
+                    fontSize: 20,
                   }}>
-                  Now you can search the nearest salon
+                  Credit Card Connected
                 </Text>
+
+                <View>
+                  <Text
+                    style={{
+                      color: 'white',
+                      fontSize: 12,
+                    }}>
+                    Now you can search the nearest salon
+                  </Text>
+                </View>
               </View>
             </View>
           </View>
         </View>
-      </View>
 
-      <View style={styles.container}>
-        <View
-          style={{
-            flexDirection: 'column',
-          }}>
+        <View style={styles.container}>
           <View
             style={{
-              flexDirection: 'row',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-              paddingHorizontal: 10,
+              flexDirection: 'column',
             }}>
-            <View style={{paddingVertical: 8}}>
-              <Image
-                source={AppImages.notification}
-                style={{
-                  height: screenSize.height / 12,
-                  width: screenSize.width / 6,
-                  borderRadius: 40,
-                }}
-              />
-            </View>
-
             <View
-              style={{flexDirection: 'column', width: screenSize.width / 1.47}}>
-              <Text
-                style={{
-                  color: 'white',
-                  fontWeight: '400',
-                  fontSize: 20,
-                }}>
-                Payment Successful!
-              </Text>
+              style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                paddingHorizontal: 10,
+              }}>
+              <View style={{paddingVertical: 8}}>
+                <Image
+                  source={AppImages.notification}
+                  style={{
+                    height: 70,
+                    width: 70,
+                    borderRadius: 40,
+                  }}
+                />
+              </View>
 
-              <View>
+              <View
+                style={{
+                  flexDirection: 'column',
+                  width: screenSize.width / 1.47,
+                }}>
                 <Text
                   style={{
                     color: 'white',
-                    fontSize: 12,
+                    fontWeight: '400',
+                    fontSize: 20,
                   }}>
-                  You have made a salon payment
+                  Payment Successful!
                 </Text>
+
+                <View>
+                  <Text
+                    style={{
+                      color: 'white',
+                      fontSize: 12,
+                    }}>
+                    You have made a salon payment
+                  </Text>
+                </View>
               </View>
             </View>
           </View>
         </View>
-      </View>
-    </View>
+        </View>
+       
+    </Screen>
   );
 };
 export default AdminNotification;
@@ -378,3 +398,4 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
 });
+

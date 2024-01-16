@@ -11,7 +11,7 @@ import appColors from '../AppConstants/appColors';
 import CustomIcon, {Icons} from '../components/molecules/CustomIcon/CustomIcon';
 import constants from '../AppConstants/Constants.json';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import {StyleSheet} from 'react-native';
+import {Platform, StyleSheet, View} from 'react-native';
 import {useTheme} from '@react-navigation/native';
 import LocationScreen from '../screens/Location';
 import MyBooking from '../screens/Booking/MyBooking';
@@ -39,18 +39,21 @@ const BottomTabNavigation = () => {
         name={constants.screen.HomeScreen}
         component={HomeScreen}
         options={{
+          // tabBarStyle: {position:},
           tabBarIcon: ({focused}) => (
-            <CustomIcon
-              //style={{backgroundColor:'red'}}
+            <View style={{ padding: 14, borderRadius: 20, backgroundColor: focused ? 'white' : 'transparent'}}>
+              <CustomIcon
               type={Icons.Feather}
               name="home"
               color={focused ? appColors.Black : appColors.White}
-              backgroundColor={focused ? 'white' : 'transparent'}
+              
               style={{
-                padding: 14,
-                borderRadius: 20,
+                // padding: 14,
+                // borderRadius: 20,
               }}
-            />
+              />
+            </View>
+            
           ),
         }}
       />
@@ -60,17 +63,14 @@ const BottomTabNavigation = () => {
         component={MyBooking}
         options={{
           tabBarIcon: ({focused}) => (
+            <View style={{ padding: 14, borderRadius: 20, backgroundColor: focused ? 'white' : 'transparent'}}>
             <CustomIcon
               //style={{backgroundColor:'red'}}
               type={Icons.SimpleLineIcons}
               name="notebook"
               color={focused ? appColors.Black : appColors.White}
-              backgroundColor={focused ? 'white' : 'transparent'}
-              style={{
-                padding: 14,
-                borderRadius: 20,
-              }}
             />
+            </View>
           ),
         }}
       />
@@ -80,17 +80,13 @@ const BottomTabNavigation = () => {
         options={{
           // tabBarLabel: 'Home',
           tabBarIcon: ({focused}) => (
-            //   <MaterialCommunityIcons name="home" color={color} size={size} />
+            <View style={{ padding: 14, borderRadius: 20, backgroundColor: focused ? 'white' : 'transparent'}}>
             <CustomIcon
               name={'map-marker-circle'}
               type={Icons.MaterialCommunityIcons}
               color={focused ? appColors.Black : appColors.White}
-              backgroundColor={focused ? 'white' : 'transparent'}
-              style={{
-                padding: 14,
-                borderRadius: 20,
-              }}
             />
+            </View>
           ),
         }}
       />
@@ -101,17 +97,13 @@ const BottomTabNavigation = () => {
         options={{
           // tabBarLabel: 'Home',
           tabBarIcon: ({focused}) => (
-            //   <MaterialCommunityIcons name="home" color={color} size={size} />
+            <View style={{ padding: 14, borderRadius: 20, backgroundColor: focused ? 'white' : 'transparent'}}>
             <CustomIcon
               name={'message1'}
               type={Icons.AntDesign}
               color={focused ? appColors.Black : appColors.White}
-              backgroundColor={focused ? 'white' : 'transparent'}
-              style={{
-                padding: 14,
-                borderRadius: 20,
-              }}
             />
+            </View>
           ),
         }}
       />
@@ -121,17 +113,13 @@ const BottomTabNavigation = () => {
         options={{
           // tabBarLabel: 'Home',
           tabBarIcon: ({focused}) => (
-            //   <MaterialCommunityIcons name="home" color={color} size={size} />
+            <View style={{ padding: 14, borderRadius: 20, backgroundColor: focused ? 'white' : 'transparent'}}>
             <CustomIcon
               name={'person-outline'}
               type={Icons.Ionicons}
               color={focused ? appColors.Black : appColors.White}
-              backgroundColor={focused ? 'white' : 'transparent'}
-              style={{
-                padding: 14,
-                borderRadius: 20,
-              }}
             />
+            </View>
           ),
         }}
       />
@@ -147,9 +135,10 @@ const styles = StyleSheet.create({
     borderRadius: 50,
     borderColor: 'transparent',
     position: 'absolute',
-    bottom: 2,
+    bottom: Platform.OS == 'ios' ? 30 : 2,
     height: 70,
     margin: 10,
+    paddingBottom:0,
 
     // shadowColor: appColors.AppBlue,
     // botton: 0,

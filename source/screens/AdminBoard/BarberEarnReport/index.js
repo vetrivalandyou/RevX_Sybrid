@@ -6,6 +6,7 @@ import {
   FlatList,
   AppRegistry,
   TouchableOpacity,
+  Platform,
 } from 'react-native';
 import Screen from '../../../components/atom/ScreenContainer/Screen';
 import appColors from '../../../AppConstants/appColors';
@@ -159,43 +160,15 @@ const BarberEarnReport = ({navigation}) => {
 
 
             </View> */}
-      <View style={{flex: 0.45}}>
-        {/* <BarChart
-          data={data}
-          barWidth={16}
-          initialSpacing={10}
-          spacing={14}
-          barBorderRadius={4}
-          showGradient
-          yAxisThickness={0}
-          //  xAxisType={ruleTypes.DASHED}
-          xAxisColor={'lightgray'}
-          yAxisTextStyle={{ color: 'lightgray' }}
-          stepValue={1000}
-          maxValue={6000}
-          noOfSections={6}
-          yAxisLabelTexts={['0', '1k', '2k', '3k', '4k', '5k', '6k']}
-          labelWidth={40}
-          xAxisLabelTextStyle={{ color: 'lightgray', textAlign: 'center' }}
-          showLine
-          lineConfig={{
-            color: '#F29C6E',
-            thickness: 3,
-            curved: true,
-            hideDataPoints: true,
-            shiftY: 20,
-            initialSpacing: -30,
-          }}
-        /> */}
+      <View style={{flex: 0.45, justifyContent:'center', alignItems:'center'}}>
         <BarChart
-          width={screenSize.width }
-          // rotateLabel
+          width={screenSize.width}
           spacing={15}
           height={280}
           noOfSections={1}
           stackBorderRadius={50}
           stackData={stackData}
-          barWidth={15}
+          barWidth={Platform.OS == 'ios' ? 19 : 14}
           yAxisSuffix=""
           yAxisLabelTexts=""
           yAxisLabel=""

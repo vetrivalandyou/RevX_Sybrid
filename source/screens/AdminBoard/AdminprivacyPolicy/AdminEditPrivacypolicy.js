@@ -7,6 +7,7 @@ import {
   View,
   TextInput,
   ScrollView,
+  Platform,
 } from 'react-native';
 
 import Screen from '../../../components/atom/ScreenContainer/Screen';
@@ -14,6 +15,7 @@ import ButtonComponent from '../../../components/atom/CustomButtons/ButtonCompon
 import Header from '../../../components/molecules/Header';
 import {Icons} from '../../../components/molecules/CustomIcon/CustomIcon';
 import constants from '../../../AppConstants/Constants.json';
+import appColors from '../../../AppConstants/appColors';
 
 const AdminEditPrivacypolicy = ({route, navigation}) => {
   const {description} = route.params;
@@ -21,7 +23,7 @@ const AdminEditPrivacypolicy = ({route, navigation}) => {
   const [isFocused, setIsFocused] = useState(false);
 
   return (
-    <Screen viewStyle={{padding: 15}}>
+    <Screen viewStyle={{ flex: 1, backgroundColor: appColors.Black, padding: 15}} statusBarColor={appColors.Black}>
       <View style={{flex: 0.1}}>
         <Header
           headerSubView={{marginHorizontal: 5}}
@@ -49,7 +51,7 @@ const AdminEditPrivacypolicy = ({route, navigation}) => {
 
       <ScrollView
         style={{
-          flex: 0.9,
+          flex: 0.8,
           paddingVertical: 5,
         }}>
         <View
@@ -147,7 +149,7 @@ const AdminEditPrivacypolicy = ({route, navigation}) => {
         <ButtonComponent
           style={{
             backgroundColor: '#C79646',
-            paddingVertical: 13,
+            paddingVertical: Platform.OS == 'ios' ? 18 : 13,
             bottom: 1,
             position: 'absolute',
           }}

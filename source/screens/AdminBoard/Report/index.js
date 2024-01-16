@@ -140,7 +140,7 @@ const Report = ({navigation}) => {
     );
   };
   return (
-    <Screen viewStyle={styles.mainContainer}>
+    <Screen viewStyle={styles.mainContainer} statusBarColor={appColors.Black}>
       <View style={styles.HeaderView}>
         <Header
           headerSubView={{ marginHorizontal: 5 }}
