@@ -30,7 +30,8 @@ const AdminBottomTabNavigation = () => {
   return (
     <Tab.Navigator
       screenOptions={{
-        unmountOnBlur: true,
+        lazy:true,
+        // unmountOnBlur: true,
         tabBarShowLabel: false,
         tabBarStyle: {...styles.BottomBarContainer},
         tabBarHideOnKeyboard: true,

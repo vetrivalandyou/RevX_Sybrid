@@ -31,7 +31,7 @@ const BarberBottomTabNavigation = () => {
   return (
     <Tab.Navigator
       screenOptions={{
-        unmountOnBlur: true,
+        lazy: true,
         tabBarShowLabel: false,
         tabBarStyle: {...styles.BottomBarContainer},
         tabBarHideOnKeyboard: true,
