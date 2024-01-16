@@ -8,7 +8,7 @@ export default StyleSheet.create({
 
   authView: {
     backgroundColor: AppColors.Goldcolor,
-    flex: 0.29,
+    flex: 1,
   },
   header: {
     flex: 0.4,

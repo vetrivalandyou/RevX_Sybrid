@@ -32,7 +32,7 @@ const AuthHeader = ({logIn, onPress, heading, subheading, style}) => {
           <Text style={styles.titleText}>{logIn}</Text>
         </View>
       </View>
-      <View style={{flex: 0.39}}>
+      <View style={{flex: 0.39, padding: 10}}>
         <Text style={styles.headindText}>{heading}</Text>
         <Text style={styles.subHeadindText}>{subheading}</Text>
       </View>

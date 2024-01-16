@@ -22,20 +22,26 @@ const Login = () => {
 
   return (
     <Screen
+      viewStyle={{ flex: 1}}
       statusBarColor={appColors.Goldcolor}
       translucent={true}
       barStyle="light-content">
-      <AuthHeader
-        logIn={'Log In'}
-        heading={'Welcome Back!'}
-        subheading={'Please Login your account, Enter your details.'}
-        onPress={() => navigation.navigate(constants.AuthScreen.ScreenSlider)}
-      />
+      <View style={{ flex: 0.3 }}>
+          <AuthHeader
+          logIn={'Log In'}
+          heading={'Welcome Back!'}
+          subheading={'Please Login your account, Enter your details.'}
+          onPress={() => {
+            return navigation.navigate(constants.AuthScreen.ScreenSlider);
+          }}
+        />
+      </View>
+      
 
       <View
         style={{
           backgroundColor: 'white',
-          flex: 0.8,
+          flex: 0.7,
           padding: 15,
           backgroundColor: appColors.Black,
         }}>
