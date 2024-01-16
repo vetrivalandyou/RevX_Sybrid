@@ -17,7 +17,7 @@ export default StyleSheet.create({
     borderColor: AppColors.AppLightGray,
     flexDirection: 'row',
     paddingHorizontal: 20,
-    paddingVertical: Platform.OS == 'ios' ? 20: 5,
+    paddingVertical: Platform.OS == 'ios' ? 20: 2,
     fontSize: 15,
     alignItems: 'center',
   },
