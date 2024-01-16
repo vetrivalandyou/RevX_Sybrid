@@ -13,7 +13,7 @@ const ForgotCheckEmail = ({navigation}) => {
     <Screen statusBarColor={appColors.Black}>
       <AuthHeader
         style={{
-          backgroundColor: 'black',
+          backgroundColor: appColors.Black,
           flex: 0.3,
           paddingTop: 10,
         }}
