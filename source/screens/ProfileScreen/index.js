@@ -231,7 +231,8 @@ const ProfileScreen = ({navigation}) => {
         </View>
         <View>
           <TouchableOpacity
-            onPress={() => navigation.navigate(constants.screen.CreateAccount)}>
+            // onPress={() => navigation.navigate(constants.screen.CreateAccount)}
+            >
             <View
               style={{
                 paddingHorizontal: 12,
