@@ -1,4 +1,4 @@
-import {StyleSheet} from 'react-native';
+import {Platform, StyleSheet} from 'react-native';
 import AppColors from '../../../AppConstants/appColors';
 
 export default StyleSheet.create({
@@ -17,7 +17,7 @@ export default StyleSheet.create({
     borderColor: AppColors.AppLightGray,
     flexDirection: 'row',
     paddingHorizontal: 20,
-    // paddingVertical: 20,
+    paddingVertical: Platform.OS == 'ios' ? 20: 5,
     fontSize: 15,
     alignItems: 'center',
   },
