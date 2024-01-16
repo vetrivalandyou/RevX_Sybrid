@@ -79,7 +79,7 @@ const PaymentDetails = ({navigation}) => {
           placeholderTextColor={appColors.White}
           onChangeText={onChangeName}
           textUpperView={{
-            paddingVertical: 20,
+            paddingVertical: Platform.OS == 'ios' ? 20 : 2,
             borderColor: appColors.Gray,
             borderWidth: 1,
           }}
@@ -94,7 +94,7 @@ const PaymentDetails = ({navigation}) => {
           keyboardType={'numeric'}
           maxLength={16}
           textUpperView={{
-            paddingVertical: 20,
+            paddingVertical: Platform.OS == 'ios' ? 20 : 2,
             borderColor: appColors.Gray,
             borderWidth: 1,
           }}
