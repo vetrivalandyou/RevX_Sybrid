@@ -9,7 +9,8 @@ import constants from '../../../AppConstants/Constants.json';
 import ButtonComponent from '../../../components/atom/CustomButtons/ButtonComponent';
 
 const ForgotPassword = ({navigation}) => (
-  <Screen viewStyle={{ flex: 1 }} statusBarColor={appColors.Goldcolor}>
+  <Screen authStyle={{ flex: 1, backgroundColor: appColors.Goldcolor}}
+  viewStyle={{ flex: 1, backgroundColor: appColors.Black}} statusBarColor={appColors.Goldcolor}>
     <View style={{ flex: 0.3 }}>
       <AuthHeader
         logIn={'Forgot'}

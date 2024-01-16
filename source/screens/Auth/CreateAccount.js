@@ -19,7 +19,8 @@ const CreateAccount = ({navigation}) => {
 
   return (
     <Screen
-    viewStyle={{flex: 1}}
+    authStyle={{ flex: 1, backgroundColor: appColors.Goldcolor}}
+    viewStyle={{ flex: 1, backgroundColor: appColors.Black}}
       statusBarColor={appColors.Goldcolor}
       translucent={false}
       barStyle="light-content">

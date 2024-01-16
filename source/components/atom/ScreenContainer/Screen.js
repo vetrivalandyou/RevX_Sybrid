@@ -19,13 +19,14 @@ const Screen = ({
   children,
   viewStyle,
   style,
+  authStyle
 }) => {
   const {colors} = useTheme();
 
   const appMode = Appearance.getColorScheme();
 
   return (
-    <SafeAreaView style={{flex: 1, backgroundColor: appColors.Black}}>
+    <SafeAreaView style={ [authStyle ? authStyle : {flex: 1, backgroundColor: appColors.Black}]}>
       <StatusBar
         // hidden={hidden}
         barStyle={'light-content'}

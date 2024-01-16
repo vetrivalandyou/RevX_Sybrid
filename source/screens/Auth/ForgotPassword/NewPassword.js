@@ -17,7 +17,8 @@ const NewPassword = ({navigation}) => {
   // };
 
   return (
-    <Screen viewStyle={{flex: 1}} statusBarColor={appColors.Goldcolor}>
+    <Screen authStyle={{ flex: 1, backgroundColor: appColors.Goldcolor}}
+    viewStyle={{ flex: 1, backgroundColor: appColors.Black}} statusBarColor={appColors.Goldcolor}>
       <View style={{ flex: 0.3}}>
       <AuthHeader
         logIn={'New Password'}

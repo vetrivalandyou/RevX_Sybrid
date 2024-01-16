@@ -22,9 +22,10 @@ const Login = () => {
 
   return (
     <Screen
-      viewStyle={{ flex: 1}}
+      authStyle={{ flex: 1, backgroundColor: appColors.Goldcolor}}
+      viewStyle={{ flex: 1, backgroundColor: appColors.Black}}
       statusBarColor={appColors.Goldcolor}
-      translucent={true}
+      translucent={false}
       barStyle="light-content">
       <View style={{ flex: 0.3 }}>
           <AuthHeader
