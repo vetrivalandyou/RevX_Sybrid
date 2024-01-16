@@ -19,6 +19,7 @@ import Header from '../../components/molecules/Header';
 import {Icons} from '../../components/molecules/CustomIcon/CustomIcon';
 import constants from '../../AppConstants/Constants.json';
 import appColors from '../../AppConstants/appColors';
+import Screen from '../../components/atom/ScreenContainer/Screen';
 
 const MyBooking = ({navigation}) => {
   const activeButton = useRef('1');
@@ -99,10 +100,13 @@ const MyBooking = ({navigation}) => {
   useEffect(() => {}, [activeButton]);
 
   return (
-    <View style={{backgroundColor: appColors.Black, flex: 1, paddingHorizontal: 10}}>
+    <Screen
+      statusBarColor={appColors.Black}
+      barStyle="light-content"
+      viewStyle={{backgroundColor: 'appColors.Black', paddingHorizontal: 20}}>
       <View style={{flex: 0.1}}>
         <Header
-        headerSubView={{marginHorizontal: 5}}
+          headerSubView={{marginHorizontal: 0}}
           lefttIcoType={Icons.Ionicons}
           onPressLeftIcon={() => navigation.goBack()}
           leftIcoName={'chevron-back'}
@@ -130,8 +134,8 @@ const MyBooking = ({navigation}) => {
           flexDirection: 'row',
           justifyContent: 'space-evenly',
           alignItems: 'center',
-
           flex: 0.09,
+          // marginHorizontal: 0,
         }}>
         <TouchableOpacity
           style={[
@@ -166,7 +170,7 @@ const MyBooking = ({navigation}) => {
       </View>
 
       <View style={{flex: 0.7}}>{renderComponent(activeButton)}</View>
-    </View>
+    </Screen>
   );
 };
 
@@ -176,7 +180,7 @@ const styles = StyleSheet.create({
     width: 40,
     borderRadius: 40,
     backgroundColor: '#252525',
-    marginHorizontal: 2,
+    marginHorizontal: 5,
     alignItems: 'center',
     justifyContent: 'center',
     // backgroundColor:'green'

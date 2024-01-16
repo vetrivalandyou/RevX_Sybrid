@@ -127,13 +127,13 @@ const Bookingcompleted = ({data}) => {
 const styles = StyleSheet.create({
   Containerstyle: {
     height: screenSize.height / 2.8,
-    width: screenSize.width / 1.13,
+    width: screenSize.width / 1.11,
     marginBottom: 10,
     backgroundColor: '#252525',
     borderWidth: 1,
     borderRadius: 20,
     borderColor: 'black',
-    marginHorizontal: 10,
+    marginHorizontal: 7,
   },
   Ratingbox: {
     height: screenSize.height / 28,

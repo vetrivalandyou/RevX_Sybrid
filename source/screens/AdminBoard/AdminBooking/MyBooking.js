@@ -99,7 +99,7 @@ const MyBooking = ({navigation}) => {
   useEffect(() => {}, [activeButton]);
 
   return (
-    <Screen viewStyle={{padding:15}} statusBarColor={appColors.Black}>
+    <Screen viewStyle={{padding: 15}} statusBarColor={appColors.Black}>
       <View style={{flex: 0.1}}>
         <Header
           lefttIcoType={Icons.Ionicons}
@@ -129,7 +129,6 @@ const MyBooking = ({navigation}) => {
           flexDirection: 'row',
           justifyContent: 'space-evenly',
           alignItems: 'center',
-
           flex: 0.09,
         }}>
         <TouchableOpacity

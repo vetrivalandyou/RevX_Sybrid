@@ -127,7 +127,7 @@ const Bookingcompleted = ({data}) => {
 const styles = StyleSheet.create({
   Containerstyle: {
     height: screenSize.height / 2.8,
-    width: screenSize.width / 1.05,
+    width: screenSize.width / 1.11,
     marginBottom: 10,
     backgroundColor: '#252525',
     borderWidth: 1,

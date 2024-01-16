@@ -100,7 +100,7 @@ const Bookingcancelled = ({data}) => {
 const styles = StyleSheet.create({
   Containerstyle: {
     height: screenSize.height / 3.7,
-    width: screenSize.width / 1.05,
+    width: screenSize.width / 1.11,
     marginBottom: 10,
     backgroundColor: '#252525',
     borderWidth: 1,

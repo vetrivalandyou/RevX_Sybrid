@@ -126,13 +126,13 @@ const PreBooking = ({data}) => {
 const styles = StyleSheet.create({
   Containerstyle: {
     height: screenSize.height / 2.8,
-    width: screenSize.width / 1.05,
+    width: screenSize.width / 1.13,
     marginBottom: 10,
     backgroundColor: '#252525',
     borderWidth: 1,
     borderRadius: 20,
     borderColor: 'black',
-    // marginHorizontal: 10,
+    // marginHorizontal: 2,
   },
   Ratingbox: {
     height: screenSize.height / 28,
