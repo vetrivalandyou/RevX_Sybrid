@@ -105,61 +105,48 @@ const AdminUserDetails = ({ navigation }) => {
 const Detailslist = ({ item, onPress }) => {
   return (
     <View style={styles.Containerstyle}>
-      <View style={{ flex: 1, }}>
-
+      <View style={{ flex: 1,}}>
         <View style={{
           flexDirection: 'row',
           alignItems: 'center',
           justifyContent: 'space-between',
           paddingHorizontal: 10,
-          flex: 0.45,
-
-
-
-
+          flex: 0.6,
         }}>
-          <View style={{ paddingVertical: 8, flex: 0.22, }}>
+          <View style={{ paddingVertical: 8, flex: 0.3, }}>
             <Image source={item.Imagesource}
-              style={{ height: screenSize.height / 12, width: screenSize.width / 6, borderRadius: 40, }}
-
+              style={{ height: 80, width: 80, borderRadius: 40, }}
             />
           </View>
-
-          <View style={{ flexDirection: 'column', flex: 0.78, }}>
-
+          <View style={{ flexDirection: 'column', flex: 0.78,}}>
             <Text
               style={{
                 color: 'white',
                 fontWeight: '400',
-                fontSize: 17.5,
+                fontSize: 17,
               }}>
               {item.name}
-
-
             </Text>
-
             <View >
               <Text style={{
                 color: 'white',
                 fontSize: 12,
               }}>{item.title}</Text>
             </View>
-
-
-
-
           </View>
-
         </View>
-        <View
+        <View style={{ height: 1, position:'relative', marginHorizontal: 15, }}>
+            <View style={{ position: 'absolute', top: 0, bottom: 0, left: 0, right: 0, borderWidth: 1, borderColor: appColors.Goldcolor, borderStyle: 'dashed', backgroundColor:'transparent'  }}></View>
+          </View>
+        {/* <View
           style={{
             fontSize: 25,
             marginHorizontal: 14,
             borderBottomWidth: 2,
             borderStyle: 'dashed',
             borderBottomColor: '#c79647'
-          }}></View>
-        <View style={{ flex: 0.55, flexDirection: 'row', }}>
+          }}></View> */}
+        <View style={{ flex: 0.4, flexDirection: 'row', }}>
           <View style={{ flex: 0.5, justifyContent: 'center', alignItems: 'center' }}>
             <ButtonComponent
               onPress={onPress}

@@ -258,15 +258,11 @@ const ProfileScreen = ({navigation}) => {
         </View>
       </View>
 
-      <View
-        style={{
-          flex: 0.03,
-          borderBottomWidth: 3,
-          borderStyle: 'dotted',
-          marginBottom: 20,
-          borderColor: appColors.White,
-          marginHorizontal: 20,
-        }}></View>
+      <View style={{ height: 1, position:'relative', marginHorizontal: 15,  marginBottom: 20, }}>
+            <View style={{ position: 'absolute', top: 0, bottom: 0, left: 0, right: 0, borderWidth: 1, borderColor: appColors.Goldcolor, borderStyle: 'dashed', backgroundColor:'transparent'  }}></View>
+          </View>
+
+     
 
       <View style={{flex: 0.9, padding: 2, backgroundColor: appColors.Black}}>
         {BarberList.map((item, index) => (

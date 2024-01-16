@@ -101,7 +101,11 @@ const EReceipt = ({navigation}) => {
         {data2.map(item => (
           <Pricedetails key={item.id} item={item} />
         ))}
-        <View
+
+          <View style={{ height: 1, position:'relative', marginHorizontal: 15, margin: 10 }}>
+            <View style={{ position: 'absolute', top: 0, bottom: 0, left: 0, right: 0, borderWidth: 1, borderColor: appColors.Goldcolor, borderStyle: 'dashed', backgroundColor:'transparent'  }}></View>
+          </View>
+        {/* <View
           style={{
             backgroundColor: '#c79647',
             fontSize: 25,
@@ -110,7 +114,7 @@ const EReceipt = ({navigation}) => {
             borderStyle: 'dotted',
             marginTop: 10,
             marginBottom: 5,
-          }}></View>
+          }}></View> */}
 
         <View
           style={{

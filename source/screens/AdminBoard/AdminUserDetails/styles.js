@@ -10,6 +10,6 @@ export default StyleSheet.create({
       borderWidth: 1,
       borderRadius: 20,
       borderColor: 'black',
-     paddingHorizontal:10
+      paddingHorizontal:10
     },
   })
