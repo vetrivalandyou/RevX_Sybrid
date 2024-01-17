@@ -1,5 +1,5 @@
 import React from 'react';
-import { Image, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Image, Platform, ScrollView, StyleSheet, Text, View } from 'react-native';
 import Screen from '../../../components/atom/ScreenContainer/Screen'
 import ButtonComponent from '../../../components/atom/CustomButtons/ButtonComponent'
 import styles from './styles'
@@ -115,7 +115,7 @@ const Detailslist = ({ item, onPress }) => {
         }}>
           <View style={{ paddingVertical: 8, flex: 0.3, alignItems:'flex-start'}}>
             <Image source={item.Imagesource}
-              style={{ height: 80, width: 80, borderRadius: 40, }}
+              style={{ height: Platform.OS == 'ios' ? 80 : 70, width: Platform.OS == 'ios' ? 80 : 70, borderRadius: 40, }}
             />
           </View>
           <View style={{ flexDirection: 'column', flex: 0.7,}}>
