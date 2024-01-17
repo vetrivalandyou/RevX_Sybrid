@@ -113,12 +113,12 @@ const Detailslist = ({ item, onPress }) => {
           paddingHorizontal: 10,
           flex: 0.6,
         }}>
-          <View style={{ paddingVertical: 8, flex: 0.35, alignItems:'flex-start'}}>
+          <View style={{ paddingVertical: 8, flex: 0.3, alignItems:'flex-start'}}>
             <Image source={item.Imagesource}
               style={{ height: 80, width: 80, borderRadius: 40, }}
             />
           </View>
-          <View style={{ flexDirection: 'column', flex: 0.65,}}>
+          <View style={{ flexDirection: 'column', flex: 0.7,}}>
             <Text
               style={{
                 color: 'white',
