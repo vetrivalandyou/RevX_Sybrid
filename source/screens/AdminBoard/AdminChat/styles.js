@@ -5,9 +5,9 @@ import { screenSize } from "../../../components/atom/ScreenSize";
 
 export default StyleSheet.create({
   mainContainer: {
-
+flex: 1,
     padding: 15,
-    //  backgroundColor:appColors.White
+     backgroundColor:appColors.Black
   },
   HeaderView: {
     flex: 0.1
@@ -20,6 +20,7 @@ export default StyleSheet.create({
   MasgTypeView: {
     flex: 0.1,
     flexDirection: 'row',
+    // backgroundColor:'red'
   },
   messageChatView: {
 

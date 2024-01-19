@@ -10,6 +10,7 @@ import styles from './styles';
 import {Icons} from '../../../components/molecules/CustomIcon/CustomIcon';
 import {useNavigation} from '@react-navigation/native';
 import constants from '../../../AppConstants/Constants.json';
+import appColors from '../../../AppConstants/appColors';
 
 const RecentTransactions = () => {
   const navigation = useNavigation();
@@ -87,7 +88,7 @@ const RecentTransactions = () => {
     },
   ];
   return (
-    <Screen viewStyle={{padding: 15}}>
+    <Screen viewStyle={{flex: 1, padding: 15, backgroundColor: appColors.Black}} statusBarColor={appColors.Black}>
       <View style={{flex: 0.1}}>
         <Header
           lefttIcoType={Icons.Ionicons}
@@ -107,7 +108,7 @@ const RecentTransactions = () => {
       </View>
 
       <View style={{flex: 0.07, justifyContent: 'center'}}>
-        <Text style={{color: 'white', fontSize: 21, paddingLeft: 5}}>
+        <Text style={{color: 'white', fontSize: 18, paddingLeft: 5}}>
           Recent Transactions
         </Text>
       </View>

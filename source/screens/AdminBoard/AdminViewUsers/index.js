@@ -30,6 +30,7 @@ const AdminViewUsers = ({navigation}) => {
       viewStyle={{padding: 15}}>
       <View style={{flex: 0.1}}>
         <Header
+         headerSubView={{ marginHorizontal: 5}}
           lefttIcoType={Icons.Ionicons}
           leftIcoName={'chevron-back'}
           headerText={'View Users'}

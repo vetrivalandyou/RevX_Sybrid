@@ -1,11 +1,12 @@
 import React, { useState } from 'react'
-import { FlatList, StyleSheet, Text, View } from 'react-native'
+import { FlatList, Platform, StyleSheet, Text, View } from 'react-native'
 import { screenSize } from '../../../components/atom/ScreenSize';
 import Screen from '../../../components/atom/ScreenContainer/Screen'
 import ButtonComponent from '../../../components/atom/CustomButtons/ButtonComponent';
 import Header from '../../../components/molecules/Header';
 import { Icons } from '../../../components/molecules/CustomIcon/CustomIcon';
 import constants from "../../../AppConstants/Constants.json"
+import appColors from '../../../AppConstants/appColors';
 const AdminLicensee = ({ navigation, }) => {
 
   const [Termsdescription, setTermdescription] = useState('Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sem odio enim ut nullam tortor, bibendum interdum. Varius at amet, dignissim morbi ac pulvinar eu blandit lorem. Est pellentesque bibendum quam odio ac, tortor sit. Sed tellus at tellus amet mi.');
@@ -18,9 +19,10 @@ const AdminLicensee = ({ navigation, }) => {
     },
   ];
   return (
-    <Screen viewStyle={{ padding: 15 }}>
+    <Screen viewStyle={{ flex: 1, backgroundColor: appColors.Black, padding: 15 }} statusBarColor={appColors.Black}>
       <View style={{ flex: 0.1, }}>
         <Header
+         headerSubView={{ marginHorizontal: 5}}
           lefttIcoType={Icons.Ionicons}
           onPressLeftIcon={() => navigation.goBack()}
           leftIcoName={'chevron-back'}
@@ -47,7 +49,7 @@ const AdminLicensee = ({ navigation, }) => {
 
       <View
         style={{
-          flex: 0.9,
+          flex: 0.8,
 
           paddingVertical: 5,
         }}>
@@ -60,7 +62,7 @@ const AdminLicensee = ({ navigation, }) => {
       </View>
       <View style={styles.buttonView}>
         <ButtonComponent
-          style={{ backgroundColor: '#C79646', paddingVertical: 13, bottom: 1, position: 'absolute' }}
+          style={{ backgroundColor: '#C79646', paddingVertical: Platform.OS == 'ios' ? 18 : 13, bottom: 1, position: 'absolute' }}
           title={'Edit'}
           onPress={() =>
             navigation.navigate(constants.AdminScreens.AdminEditLicense, {

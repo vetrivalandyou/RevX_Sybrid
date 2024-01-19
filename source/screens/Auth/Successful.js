@@ -15,16 +15,20 @@ import RememberMe from '../../components/molecules/RememberMe';
 import SocailLogin from '../../components/molecules/SocailLogin';
 import {AppImages} from '../../AppConstants/AppImages';
 import Header from '../../components/molecules/Header';
+import {useDispatch} from 'react-redux';
+import {LogIn} from '../../redux/Action/AuthAction';
 
 const Successfull = ({navigation}) => {
   const [isEye, setIsEye] = React.useState(false);
+
+  const dispatch = useDispatch();
 
   return (
     <Screen
       statusBarColor={appColors.Black}
       barStyle="light-content"
       viewStyle={{}}>
-      <View style={{flex: 0.15, justifyContent: 'center'}}>
+      <View style={{flex: 0.1, justifyContent: 'center'}}>
         <Header
           lefttIcoType={Icons.Ionicons}
           onPressLeftIcon={() => navigation.goBack()}
@@ -59,13 +63,30 @@ const Successfull = ({navigation}) => {
           </Text>
         </View>
         <View
-          style={{alignItems: 'center', flex: 0.14, justifyContent: 'center'}}>
+          style={{alignItems: 'center', flex: 0.2, justifyContent: 'flex-end'}}>
           <ButtonComponent
             onPress={() =>
-              navigation.navigate(constants.screen.BottomTabNavigation)
+              // navigation.navigate(constants.screen.BottomTabNavigation)
+              dispatch(LogIn(1, null, null))
             }
             style={{width: '50%'}}
-            title={'Srart Booking'}
+            title={'Start as User'}
+          />
+        </View>
+        <View
+          style={{alignItems: 'center', flex: 0.2, justifyContent: 'flex-end'}}>
+          <ButtonComponent
+            onPress={() => dispatch(LogIn(2, null, null))}
+            style={{width: '50%'}}
+            title={'Start as Barber'}
+          />
+        </View>
+        <View
+          style={{alignItems: 'center', flex: 0.2, justifyContent: 'flex-end'}}>
+          <ButtonComponent
+            onPress={() => dispatch(LogIn(3, null, null))}
+            style={{width: '50%'}}
+            title={'Start as Admin'}
           />
         </View>
       </View>

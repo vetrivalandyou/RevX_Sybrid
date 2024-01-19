@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   View,
   TextInput,
+  Platform,
 } from 'react-native';
 import React, {useRef, useState} from 'react';
 import Screen from '../../../components/atom/ScreenContainer/Screen';
@@ -64,9 +65,10 @@ const Addservices = ({navigation}) => {
     },
   ]);
   return (
-    <Screen viewStyle={{padding: 15}}>
+    <Screen viewStyle={{ flex: 1, padding: 15 , backgroundColor: appColors.Black}} statusBarColor={appColors.Black}>
       <View style={{flex: 0.1}}>
         <Header
+          headerSubView={{marginHorizontal: 5}}
           lefttIcoType={Icons.Ionicons}
           onPressLeftIcon={() => navigation.goBack()}
           leftIcoName={'chevron-back'}
@@ -77,11 +79,10 @@ const Addservices = ({navigation}) => {
       <View style={{flex: 0.15, alignItems: 'center'}}>
         <View style={styles.container}>
           <View style={{flex: 1, flexDirection: 'row'}}>
-            <View style={{flex: 0.74}}>
+            <View style={{flex: 0.74, justifyContent:'center'}}>
               <TextInput
                 style={{
                   paddingLeft: 16,
-                  paddingTop: 16,
                   fontSize: 15,
                   color: 'white',
                 }}
@@ -139,7 +140,7 @@ const Addservices = ({navigation}) => {
         <ButtonComponent
           style={{
             backgroundColor: '#C79646',
-            paddingVertical: 13,
+            paddingVertical: Platform.OS == 'ios' ? 17 : 13,
             bottom: 1,
             position: 'absolute',
           }}

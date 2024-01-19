@@ -4,8 +4,6 @@ import AuthHeader from '../../components/molecules/AuthHeader';
 import Screen from '../../components/atom/ScreenContainer/Screen';
 import constants from '../../AppConstants/Constants.json';
 import SimpleTextField from '../../components/molecules/TextFeilds/SimpleTextField';
-import {SafeAreaView} from 'react-native-safe-area-context';
-import AppColors from '../../AppConstants/appColors';
 import appColors from '../../AppConstants/appColors';
 import CustomIcon, {
   Icons,
@@ -13,28 +11,38 @@ import CustomIcon, {
 import ButtonComponent from '../../components/atom/CustomButtons/ButtonComponent';
 import RememberMe from '../../components/molecules/RememberMe';
 import SocailLogin from '../../components/molecules/SocailLogin';
+import {useNavigation} from '@react-navigation/native';
 
-const Login = ({navigation}) => {
+const Login = () => {
   // const [isEye, setIsEye] = React.useState(false);
+
+  const navigation = useNavigation();
   const [passwordValue, setPasswordValue] = React.useState('');
   const [isPasswordVisible, setIsPasswordVisible] = React.useState(false);
 
   return (
     <Screen
+      authStyle={{ flex: 1, backgroundColor: appColors.Goldcolor}}
+      viewStyle={{ flex: 1, backgroundColor: appColors.Black}}
       statusBarColor={appColors.Goldcolor}
-      translucent={true}
+      translucent={false}
       barStyle="light-content">
-      <AuthHeader
-        logIn={'Log In'}
-        heading={'Welcome Back!'}
-        subheading={'Please Login your account, Enter your details.'}
-        onPress={() => navigation.navigate(constants.screen.ScreenSlider)}
-      />
+      <View style={{ flex: 0.3 }}>
+          <AuthHeader
+          logIn={'Log In'}
+          heading={'Welcome Back!'}
+          subheading={'Please Login your account, Enter your details.'}
+          onPress={() => {
+            return navigation.navigate(constants.AuthScreen.ScreenSlider);
+          }}
+        />
+      </View>
+      
 
       <View
         style={{
           backgroundColor: 'white',
-          flex: 0.8,
+          flex: 0.7,
           padding: 15,
           backgroundColor: appColors.Black,
         }}>
@@ -56,7 +64,9 @@ const Login = ({navigation}) => {
         <RememberMe
           RememberTex={'Remember me'}
           ForgetPasswordText={'Forget Password'}
-          onPressFP={() => navigation.navigate(constants.screen.ForgotPassword)}
+          onPressFP={() =>
+            navigation.navigate(constants.AuthScreen.ForgotPassword)
+          }
         />
 
         {/* </View> */}
@@ -65,7 +75,7 @@ const Login = ({navigation}) => {
           <ButtonComponent
             title={'Sign In'}
             onPress={() =>
-              navigation.navigate(constants.screen.Successfull)
+              navigation.navigate(constants.AuthScreen.Successfull)
             }
           />
         </View>
@@ -77,7 +87,9 @@ const Login = ({navigation}) => {
           </TouchableOpacity>
 
           <TouchableOpacity
-            onPress={() => navigation.navigate(constants.screen.CreateAccount)}>
+            onPress={() =>
+              navigation.navigate(constants.AuthScreen.CreateAccount)
+            }>
             <Text style={{color: appColors.Goldcolor}}>Create an account</Text>
           </TouchableOpacity>
         </View>

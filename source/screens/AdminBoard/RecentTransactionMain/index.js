@@ -39,6 +39,7 @@ const RecentTransactionsMain = () => {
       {/* Header View */}
       <View style={styles.headerView}>
         <Header
+        headerSubView={{marginHorizontal: 5}}
           lefttIcoType={Icons.Ionicons}
           onPressLeftIcon={() => navigation.goBack()}
           leftIcoName={'chevron-back'}

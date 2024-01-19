@@ -19,24 +19,27 @@ const CreateAccount = ({navigation}) => {
 
   return (
     <Screen
+    authStyle={{ flex: 1, backgroundColor: appColors.Goldcolor}}
+    viewStyle={{ flex: 1, backgroundColor: appColors.Black}}
       statusBarColor={appColors.Goldcolor}
-      translucent={true}
+      translucent={false}
       barStyle="light-content">
-      <AuthHeader
+      <View style={{ flex: 0.25}}>
+        <AuthHeader
         logIn={'Log In'}
         heading={'Create Account'}
         subheading={'Please Login your account, Enter your details.'}
-        onPress={() => navigation.navigate(constants.screen.ScreenSlider)}
-      />
-
+        onPress={() => navigation.goBack()}
+        />
+      </View>
       <View
         style={{
           backgroundColor: 'white',
-          flex: 0.7,
+          flex: 0.75,
           padding: 15,
           backgroundColor: appColors.Black,
         }}>
-        <View style={{flex: 0.5, justifyContent: 'center'}}>
+        <View style={{flex: 0.5, justifyContent: 'space-evenly'}}>
           <View style={{flex: 0.4, justifyContent: 'center'}}>
             <SimpleTextField
               placeholder={'Enter Full Name'}
@@ -90,7 +93,7 @@ const CreateAccount = ({navigation}) => {
           </TouchableOpacity>
 
           <TouchableOpacity
-            onPress={() => navigation.navigate(constants.screen.Login)}>
+            onPress={() => navigation.navigate(constants.AuthScreen.Login)}>
             <Text style={{color: appColors.Goldcolor}}> Login</Text>
           </TouchableOpacity>
         </View>

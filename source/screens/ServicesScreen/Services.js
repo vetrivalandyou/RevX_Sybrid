@@ -5,6 +5,7 @@ import {
   FlatList,
   Image,
   TouchableOpacity,
+  Platform,
 } from 'react-native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
@@ -91,9 +92,8 @@ const Services = () => {
     },
   ];
   return (
-    <Screen statusBarColor={appColors.Black}>
-      <View style={{height: screenSize.height, backgroundColor: 'black'}}>
-        <View style={{flex: 0.6}}>
+    <Screen viewStyle={{ flex: 1}} statusBarColor={appColors.Black}>
+        <View style={{flex: 0.1}}>
           <Header
             lefttIcoType={Icons.Ionicons}
             onPressLeftIcon={() => navigation.goBack()}
@@ -116,7 +116,7 @@ const Services = () => {
             }}
           />
         </View>
-        <View>
+        <View style={{ flex: 0.8}}>
           <FlatList
             data={data}
             renderItem={({item}) => (
@@ -129,16 +129,17 @@ const Services = () => {
             keyExtractor={item => item.id}
           />
         </View>
-
+        <View style={{ flex: 0.1, justifyContent:'center'}}>
         <TouchableOpacity
-          // onPress={() => navigation.navigate('ServicesDetails')}
+          onPress={() => navigation.navigate(constants.screen.AppointmentDate)}
           style={styles.ApplyNOWButton}>
           <Text style={{fontWeight: '600', fontSize: 13, color: 'white'}}>
             {' '}
             Book Now
           </Text>
         </TouchableOpacity>
-      </View>
+        </View>
+       
     </Screen>
   );
 };
@@ -201,7 +202,7 @@ export default Services;
 const styles = StyleSheet.create({
   container: {
     width: screenSize.width / 1.07,
-    paddingVertical: 16,
+    paddingVertical: Platform.OS == 'ios' ? 25 : 16,
     borderWidth: 1,
     borderRadius: 15,
     backgroundColor: '#252525',
@@ -225,9 +226,8 @@ const styles = StyleSheet.create({
   ApplyNOWButton: {
     alignItems: 'center',
     backgroundColor: '#c79647',
-    paddingVertical: 15,
+    paddingVertical: Platform.OS == 'ios' ? 20 : 15,
     marginHorizontal: 14,
     borderRadius: 40,
-    marginVertical: 25,
   },
 });

@@ -10,39 +10,44 @@ import ButtonComponent from '../../../components/atom/CustomButtons/ButtonCompon
 
 const ForgotCheckEmail = ({navigation}) => {
   return (
-    <Screen statusBarColor={appColors.Black}>
+    <Screen viewStyle={{ flex: 1, backgroundColor: appColors.Black}} statusBarColor={appColors.Black}>
+      <View style={{ flex: 0.1, backgroundColor:'blue', justifyContent:'center'}}>
       <AuthHeader
+      isForgetCheckEmail={true}
         style={{
-          backgroundColor: 'black',
-          flex: 0.3,
-          paddingTop: 10,
+          flex: 1,
+          justifyContent:'center',
+          backgroundColor: appColors.Black,
+          // paddingTop: 10,
         }}
         logIn={'Forgot'}
         onPress={() => navigation.goBack()}
       />
-      <View style={styles.container}>
+      </View>
+      
+      <View style={{ flex: 0.5, justifyContent:'center', alignItems:'center'}}>
         <Image
           source={checkEmailImage}
           style={{
             marginHorizontal: 50,
-            height: 315,
-            width: 292,
+            height: "75%",
+            width: "60%",
           }}
           resizeMode="cover"
         />
       </View>
-      <View style={{flex: 0.3}}>
+      <View style={{flex: 0.1}}>
         <Text
           style={{
             color: 'white',
-            fontSize: 44,
+            fontSize: 30,
             textAlign: 'center',
             marginTop: 20,
           }}>
           Check Your Email
         </Text>
       </View>
-      <View style={{flex: 0.3}}>
+      <View style={{flex: 0.1}}>
         <Text
           style={{
             color: 'white',
@@ -57,8 +62,7 @@ const ForgotCheckEmail = ({navigation}) => {
       <View
         style={{
           backgroundColor: 'white',
-          flex: 1,
-          // padding: 15,
+          flex: 0.3,
           backgroundColor: appColors.Black,
         }}>
         <View
@@ -71,7 +75,7 @@ const ForgotCheckEmail = ({navigation}) => {
           }}>
           <ButtonComponent
             title={'Sign In Again'}
-            onPress={() => navigation.navigate(constants.screen.NewPassword)}
+            onPress={() => navigation.navigate(constants.AuthScreen.NewPassword)}
           />
         </View>
 
@@ -79,9 +83,9 @@ const ForgotCheckEmail = ({navigation}) => {
           <Text
             style={{
               color: 'white',
-              fontSize: 18,
+              fontSize: 16,
               textAlign: 'center',
-              marginTop: 40,
+              marginTop: 20,
               marginHorizontal: 30,
             }}>
             Did not receive the email? Check your spam folder, or try another

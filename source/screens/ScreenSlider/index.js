@@ -6,8 +6,10 @@ import { screenSize } from '../../components/atom/ScreenSize';
 import appColors from '../../AppConstants/appColors';
 import ButtonComponent from '../../components/atom/CustomButtons/ButtonComponent';
 import constants from "../../AppConstants/Constants.json"
+import { useNavigation } from '@react-navigation/native';
 
-const ScreenSlider  = ({navigation}) => {
+const ScreenSlider  = () => {
+  const navigation = useNavigation();
   const [activeSlide, setActiveSlide] = useState(0);
 
   // const data = [
@@ -55,7 +57,7 @@ const ScreenSlider  = ({navigation}) => {
   return (
     <View style={styles.container}>
         <StatusBar
-        translucent
+        translucent={true}
         backgroundColor="transparent"
         barStyle="light-content"
       />
@@ -82,7 +84,7 @@ const ScreenSlider  = ({navigation}) => {
         <ButtonComponent
           style={{width: '90%', position: 'absolute', bottom:20}}
           title={'Get Start'}
-          onPress={() => navigation.navigate(constants.screen.Login)}
+          onPress={() => navigation.navigate(constants.AuthScreen.Login)}
         />
       </View>
     </View>

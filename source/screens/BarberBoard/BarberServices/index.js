@@ -1,4 +1,4 @@
-import { Image, ScrollView, Text, TouchableOpacity, View } from 'react-native';
+import { Image, Platform, ScrollView, Text, TouchableOpacity, View } from 'react-native';
 import React, { useRef, useState } from 'react';
 import { screenSize } from '../../../components/atom/ScreenSize';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
@@ -14,6 +14,7 @@ import Header from '../../../components/molecules/Header';
 import { Icons } from '../../../components/molecules/CustomIcon/CustomIcon';
 import DeleteServices from './DeleteServices';
 import BottomSheet from '../../../components/molecules/BottomSheetContent/BottomSheet';
+import appColors from '../../../AppConstants/appColors';
 
 const Servicesboard = ({ navigation }) => {
   const [selectedItem, setSelectedItem] = useState(null);
@@ -57,9 +58,10 @@ const Servicesboard = ({ navigation }) => {
     },
   ];
   return (
-    <Screen viewStyle={{ padding: 15 }}>
-      <View style={{ flex: 0.1 }}>
+    <Screen viewStyle={{ flex: 1, padding: 15 , backgroundColor: appColors.Black}} statusBarColor={appColors.Black} >
+      <View style={{ flex: 0.1, backgroundColor: appColors.Black }}>
         <Header
+          headerSubView={{ marginHorizontal: 5}}
           lefttIcoType={Icons.Ionicons}
           onPressLeftIcon={() => navigation.goBack()}
           leftIcoName={'chevron-back'}
@@ -83,7 +85,7 @@ const Servicesboard = ({ navigation }) => {
         <ButtonComponent
           style={{
             backgroundColor: '#C79646',
-            paddingVertical: 13,
+            paddingVertical: Platform.OS == 'ios' ? 17 : 13,
             bottom: 1,
             position: 'absolute',
           }}

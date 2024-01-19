@@ -17,17 +17,21 @@ const NewPassword = ({navigation}) => {
   // };
 
   return (
-    <Screen>
+    <Screen authStyle={{ flex: 1, backgroundColor: appColors.Goldcolor}}
+    viewStyle={{ flex: 1, backgroundColor: appColors.Black}} statusBarColor={appColors.Goldcolor}>
+      <View style={{ flex: 0.3}}>
       <AuthHeader
         logIn={'New Password'}
         heading={'Create New Password'}
         subheading={'Please Login your account, Enter your details.'}
         onPress={() => navigation.goBack()}
       />
+      </View>
+      
       <View
         style={{
           backgroundColor: 'white',
-          flex: 0.8,
+          flex: 0.7,
           padding: 15,
           backgroundColor: appColors.Black,
         }}>
@@ -53,11 +57,11 @@ const NewPassword = ({navigation}) => {
           />
         </View>
 
-        <View style={{flex: 0.2}}>
+        <View style={{flex: 0.1}}>
           <Text
             style={{
               color: 'white',
-              fontSize: 18,
+              fontSize: 15,
             }}>
             Password must be atleast 8 Character{' '}
           </Text>
@@ -73,7 +77,7 @@ const NewPassword = ({navigation}) => {
           }}>
           <ButtonComponent
             title={'Reset Password'}
-            onPress={() => navigation.navigate(constants.screen.Login)}
+            onPress={() => navigation.navigate(constants.AuthScreen.Login)}
           />
         </View>
       </View>

@@ -5,6 +5,7 @@ import {
   TouchableOpacity,
   TextInput,
   Switch,
+  Platform,
 } from 'react-native';
 import React, {useState} from 'react';
 import AntDesign from 'react-native-vector-icons/AntDesign';
@@ -16,23 +17,20 @@ import Header from '../../../components/molecules/Header';
 import {Icons} from '../../../components/molecules/CustomIcon/CustomIcon';
 import Screen from '../../../components/atom/ScreenContainer/Screen';
 import SimpleTextField from '../../../components/molecules/TextFeilds/SimpleTextField';
+import appColors from '../../../AppConstants/appColors';
 import PaymentModal from '../../../components/molecules/PaymentModal/PaymentModal';
 
-const PaymentCheckOut = ({navigation}) => {
+const PaymentDetails = ({navigation}) => {
   const [Name, onChangeName] = React.useState('');
   const [password, onChangePassword] = React.useState('');
   const [isEnabled, setIsEnabled] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
-  const [modalPaymentVisible, setModalPaymentVisible] = useState(false);
+  const [modalPaymentVisible, setModalPaymentVisible] = useState(false)
 
-  const handleConfirmPayment = () => {
-    // Open the modal when the button is pressed
-    setModalPaymentVisible(true);
-  };
 
   const handleModalClose = () => {
     // Close the modal
-    setModalPaymentVisible(false);
+    setModalVisible(false);
   };
 
   const toggleModal = () => {
@@ -47,150 +45,165 @@ const PaymentCheckOut = ({navigation}) => {
   };
 
   return (
-    <Screen viewStyle={{padding: 15}}>
-      <View style={{flex: 0.1}}>
-        <Header
-          lefttIcoType={Icons.Ionicons}
-          onPressLeftIcon={() => navigation.goBack()}
-          leftIcoName={'chevron-back'}
-          headerText={''}
-          rightIcoName={'bell-fill'}
-          rightIcoType={Icons.Octicons}
-          logIn={'success'}
-          rightIcoSize={20}
-          leftIcoStyle={{
-            backgroundColor: appColors.lightBlack,
-            borderRadius: 50,
-            height: 50,
-            width: 50,
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}
-          onPressRightIcon={() =>
-            navigation.navigate(constants.AdminScreens.AdminNotification)
-          }
-        />
-      </View>
-      <Text
-        style={{
-          color: 'white',
-          fontSize: 15,
-          marginLeft: 5,
-          flex: 0.07,
-        }}>
-        Enter The Details To Add A New Card
-      </Text>
-      <View style={{flex: 0.1}}>
-        <SimpleTextField
-          placeholder={'Enter Card Holder Name'}
-          Customtextiput={{color: appColors.Goldcolor}}
-          placeholderTextColor={appColors.White}
-          onChangeText={onChangeName}
-          innerCustomstyle={{
-            borderColor: appColors.Gray,
-          }}
-          value={Name}
-        />
-      </View>
-      <View style={{flex: 0.1}}>
-        <SimpleTextField
-          placeholder={'Enter Card No'}
-          Customtextiput={{color: appColors.Goldcolor}}
-          placeholderTextColor={appColors.White}
-          onChangeText={onChangePassword}
-          keyboardType={'numeric'}
-          maxLength={16}
-          value={password.replace(/\d(?=\d{4})/g, '*')}
-          innerCustomstyle={{borderColor: appColors.Gray}}
-        />
-      </View>
-      <View style={{flex: 0.1, justifyContent: 'center'}}>
-        <View
-          style={{
-            flexDirection: 'row',
-            marginVertical: 5,
-            justifyContent: 'space-between',
-          }}>
-          <View
-            style={{
-              flexDirection: 'column',
-              marginRight: 10,
-              flex: 0.5,
-            }}>
-            <Text
-              style={{
-                color: 'white',
-                fontSize: 12,
-                marginLeft: 10,
-                marginBottom: 10,
-              }}>
-              Date
-            </Text>
-
-            <SimpleTextField
-              placeholder={'MM/YY'}
-              Customtextiput={{color: appColors.Goldcolor}}
-              placeholderTextColor={appColors.Gray}
-              keyboardType={'numeric'}
-              innerCustomstyle={{marginTop: 7, width: '96%'}}
-            />
-          </View>
-          <View style={{flexDirection: 'column', flex: 0.5}}>
-            <Text
-              style={{
-                color: 'white',
-                fontSize: 12,
-                marginLeft: 10,
-                marginBottom: 10,
-              }}>
-              CVC
-            </Text>
-            <SimpleTextField
-              placeholder={'000'}
-              Customtextiput={{color: appColors.Goldcolor}}
-              placeholderTextColor={appColors.Gray}
-              innerCustomstyle={{
-                marginTop: 7,
-                width: '96%',
-                alignSelf: 'flex-end',
-              }}
-            />
-          </View>
-        </View>
-      </View>
+    <Screen viewStyle={{ flex: 1, backgroundColor: appColors.Black, padding: 15}} statusBarColor={appColors.Black}>
+    <View style={{flex: 0.1}}>
+      <Header
+        headerSubView={{marginHorizontal: 0}}
+        lefttIcoType={Icons.Ionicons}
+        onPressLeftIcon={() => navigation.goBack()}
+        leftIcoName={'chevron-back'}
+        headerText={''}
+        rightIcoName={'bell-fill'}
+        rightIcoType={Icons.Octicons}
+        logIn={'success'}
+        rightIcoSize={20}
+        onPressRightIcon={() =>
+          navigation.navigate(constants.screen.Notification)
+        }
+        leftIcoStyle={{
+          backgroundColor: appColors.lightBlack,
+          borderRadius: 50,
+          height: 50,
+          width: 50,
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}
+      />
+    </View>
+    <View style={{ flex: 0.8}}>
+    <View style={{ flex: 0.06,}}>
+    <Text
+      style={{
+        color: 'white',
+        fontSize: 15,
+        marginLeft: 5,
+      }}>
+      Enter The Details To Add A New Card
+    </Text>
+    </View>
+    <View style={{flex: 0.15, }}>
+      <SimpleTextField
+        placeholder={'Enter Card Holder Name'}
+        placeholderTextColor={appColors.White}
+        onChangeText={onChangeName}
+        textUpperView={{
+          paddingVertical: 20,
+          borderColor: appColors.Gray,
+          borderWidth: 1,
+        }}
+        value={Name}
+      />
+    </View>
+    <View style={{flex: 0.15}}>
+      <SimpleTextField
+        placeholder={'*** **** *** **** 6580'}
+        placeholderTextColor={appColors.Goldcolor}
+        onChangeText={onChangePassword}
+        keyboardType={'numeric'}
+        maxLength={16}
+        textUpperView={{
+          paddingVertical: 20,
+          borderColor: appColors.Gray,
+          borderWidth: 1,
+        }}
+        textStyle={{color: appColors.Goldcolor}}
+        value={password.replace(/\d(?=\d{4})/g, '*')}
+      />
+    </View>
+    <View style={{flex: 0.1, justifyContent: 'center'}}>
       <View
         style={{
           flexDirection: 'row',
-          // backgroundColor: 'red',
-          alignItems: 'center',
-          marginHorizontal: 5,
-          marginTop: 5,
-          flex: 0.1,
+          marginVertical: 5,
+          justifyContent: 'space-between',
         }}>
-        <View>
-          <Switch
-            trackColor={{false: 'grey', true: '#23c16c'}}
-            thumbColor={isEnabled ? 'white' : 'white'}
-            // ios_backgroundColor="yellow"
-            onValueChange={toggleSwitch}
-            value={isEnabled}
+        <View
+          style={{
+            flexDirection: 'column',
+            marginRight: 10,
+            flex: 0.5,
+          }}>
+          <Text
+            style={{
+              color: 'white',
+              fontSize: 12,
+              marginLeft: 10,
+              marginBottom: 10,
+            }}>
+            Date
+          </Text>
+
+          <SimpleTextField
+            placeholder={'MM/YY'}
+            placeholderTextColor={appColors.Gray}
+            keyboardType={'numeric'}
+            innerCustomstyle={{marginTop: 7, width: '96%'}}
           />
         </View>
-        <View>
-          <Text style={{color: 'white', fontSize: 13, marginLeft: 4}}>
-            Mark as default card
+        <View style={{flexDirection: 'column', flex: 0.5}}>
+          <Text
+            style={{
+              color: 'white',
+              fontSize: 12,
+              marginLeft: 10,
+              marginBottom: 10,
+            }}>
+            CVC
           </Text>
+          <SimpleTextField
+            placeholder={'000'}
+            placeholderTextColor={appColors.Gray}
+            innerCustomstyle={{
+              marginTop: 7,
+              width: '96%',
+              alignSelf: 'flex-end',
+            }}
+          />
         </View>
       </View>
-
-      <TouchableOpacity onPress={handleConfirmPayment} style={styles.Button}>
-        <Text style={{fontWeight: '700', fontSize: 13, color: 'white'}}>
-          {' '}
-          Continue
+    </View>
+    <View
+      style={{
+        flexDirection: 'row',
+        // backgroundColor: 'red',
+        alignItems: 'center',
+        marginHorizontal: 5,
+        marginTop: 5,
+        flex: 0.1,
+      }}>
+      <View>
+        <Switch
+          trackColor={{false: 'grey', true: '#23c16c'}}
+          thumbColor={isEnabled ? 'white' : 'white'}
+          // ios_backgroundColor="yellow"
+          onValueChange={toggleSwitch}
+          value={isEnabled}
+        />
+      </View>
+      <View>
+        <Text style={{color: 'white', fontSize: 13, marginLeft: 4}}>
+          Mark as default card
         </Text>
-      </TouchableOpacity>
-      <PaymentModal
-        visible={modalPaymentVisible}
+      </View>
+    </View>
+    </View>
+    
+
+    <View style={{ flex: 0.1, alignItems:'center'}}>
+    <TouchableOpacity
+      onPress={() => {
+            // Open the modal when the button is pressed
+            setModalVisible(true);
+          }}
+      style={styles.Button}>
+      <Text style={{fontWeight: '700', fontSize: 13, color: 'white'}}>
+        {' '}
+        Continue
+      </Text>
+    </TouchableOpacity>
+    </View>
+    <PaymentModal
+        visible={modalVisible}
         showImage={true}
         showLable={true}
         showLable1={true}
@@ -201,22 +214,11 @@ const PaymentCheckOut = ({navigation}) => {
         onPress={() => navigation.goBack()}
         // showLable1={'sadad'}
       />
-
-      {/* <CustomModal
-        visible={modalVisible}
-        onRequestClose={toggleModal}
-        lable1={'Do You Want To Save The Information For Later Use'}
-        showLable1={true}
-        modalHeight={{height: screenSize.height / 4}}
-        onYes={toggleModal}
-        showYesNoButton={true}
-        onNo={toggleModal}
-      /> */}
-    </Screen>
+  </Screen>
   );
 };
 
-export default PaymentCheckOut;
+export default PaymentDetails;
 
 const styles = StyleSheet.create({
   container: {
@@ -245,7 +247,7 @@ const styles = StyleSheet.create({
   Button: {
     alignItems: 'center',
     backgroundColor: '#c79647',
-    paddingVertical: 15,
+    paddingVertical: Platform.OS == 'ios' ? 18 : 15,
     marginHorizontal: 15,
     borderRadius: 40,
     position: 'absolute',

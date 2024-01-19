@@ -2,7 +2,7 @@ import React from 'react';
 import appColors from '../../AppConstants/appColors';
 import constants from '../../AppConstants/Constants.json';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import {StyleSheet} from 'react-native';
+import {Platform, StyleSheet, View} from 'react-native';
 import {useTheme} from '@react-navigation/native';
 
 import {
@@ -30,7 +30,8 @@ const AdminBottomTabNavigation = () => {
   return (
     <Tab.Navigator
       screenOptions={{
-        unmountOnBlur: true,
+        lazy:true,
+        // unmountOnBlur: true,
         tabBarShowLabel: false,
         tabBarStyle: {...styles.BottomBarContainer},
         tabBarHideOnKeyboard: true,
@@ -41,17 +42,14 @@ const AdminBottomTabNavigation = () => {
         component={HomeSuperAdmin}
         options={{
           tabBarIcon: ({focused}) => (
+            <View style={{ padding: 14, borderRadius: 20, backgroundColor: focused ? 'white' : 'transparent'}}>
             <CustomIcon
               //style={{backgroundColor:'red'}}
               type={Icons.Feather}
               name="home"
               color={focused ? appColors.Black : appColors.White}
-              backgroundColor={focused ? 'white' : 'transparent'}
-              style={{
-                padding: 14,
-                borderRadius: 20,
-              }}
             />
+            </View>
           ),
         }}
       />
@@ -60,17 +58,14 @@ const AdminBottomTabNavigation = () => {
         component={AdminBooking}
         options={{
           tabBarIcon: ({focused}) => (
+            <View style={{ padding: 14, borderRadius: 20, backgroundColor: focused ? 'white' : 'transparent'}}>
             <CustomIcon
               //style={{backgroundColor:'red'}}
               type={Icons.SimpleLineIcons}
               name="notebook"
               color={focused ? appColors.Black : appColors.White}
-              backgroundColor={focused ? 'white' : 'transparent'}
-              style={{
-                padding: 14,
-                borderRadius: 20,
-              }}
             />
+            </View>
           ),
         }}
       />
@@ -84,17 +79,14 @@ const AdminBottomTabNavigation = () => {
         component={AdminInbox}
         options={{
           tabBarIcon: ({focused}) => (
+            <View style={{ padding: 14, borderRadius: 20, backgroundColor: focused ? 'white' : 'transparent'}}>
             <CustomIcon
               //style={{backgroundColor:'red'}}
               name={'message1'}
               type={Icons.AntDesign}
               color={focused ? appColors.Black : appColors.White}
-              backgroundColor={focused ? 'white' : 'transparent'}
-              style={{
-                padding: 14,
-                borderRadius: 20,
-              }}
             />
+            </View>
           ),
         }}
       />
@@ -104,18 +96,13 @@ const AdminBottomTabNavigation = () => {
         options={{
           // tabBarLabel: 'Home',
           tabBarIcon: ({focused}) => (
-            //   <MaterialCommunityIcons name="home" color={color} size={size} />
+            <View style={{ padding: 14, borderRadius: 20, backgroundColor: focused ? 'white' : 'transparent'}}>
             <CustomIcon
               name={'person-outline'}
               type={Icons.Ionicons}
               color={focused ? appColors.Black : appColors.White}
-              backgroundColor={focused ? 'white' : 'transparent'}
-              style={{
-                padding: 14,
-
-                borderRadius: 20,
-              }}
             />
+            </View>
           ),
         }}
       />
@@ -212,9 +199,10 @@ const styles = StyleSheet.create({
     borderRadius: 50,
     borderColor: 'transparent',
     position: 'absolute',
-    bottom: 2,
+    bottom: Platform.OS == 'ios' ? 30 : 2,
     height: 70,
     margin: 10,
+    paddingBottom:0,
 
     // shadowColor: appColors.AppBlue,
     // botton: 0,

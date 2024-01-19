@@ -23,7 +23,7 @@ const Bookingcompleted = ({data}) => {
               marginTop: 5,
             }}>
             <View style={{flex: 0.6, justifyContent: 'center'}}>
-              <Text style={{color: 'white', fontSize: 16}}>
+              <Text style={{color: 'white', fontSize: 14}}>
                 {item.item.date}
               </Text>
             </View>
@@ -71,14 +71,18 @@ const Bookingcompleted = ({data}) => {
             </View>
           </View>
 
-          <View
+          <View style={{ height: 1, position:'relative', marginHorizontal: 15, }}>
+            <View style={{ position: 'absolute', top: 0, bottom: 0, left: 0, right: 0, borderWidth: 1, borderColor: appColors.Goldcolor, borderStyle: 'dashed', backgroundColor:'transparent'  }}></View>
+          </View>
+
+          {/* <View
             style={{
               fontSize: 25,
               marginHorizontal: 14,
               borderBottomWidth: 2,
               borderStyle: 'dashed',
               borderBottomColor: '#c79647',
-            }}></View>
+            }}></View> */}
 
           <View
             style={{

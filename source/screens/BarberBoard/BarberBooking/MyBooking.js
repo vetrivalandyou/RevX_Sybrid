@@ -134,7 +134,7 @@ const MyBooking = () => {
           flexDirection: 'row',
           justifyContent: 'space-evenly',
           alignItems: 'center',
-          marginHorizontal: 8,
+          marginHorizontal: 10,
           flex: 0.09,
         }}>
         <TouchableOpacity

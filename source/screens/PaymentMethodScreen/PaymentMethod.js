@@ -16,6 +16,8 @@ import constants from '../../AppConstants/Constants.json';
 import Header from '../../components/molecules/Header';
 import {Icons} from '../../components/molecules/CustomIcon/CustomIcon';
 import ButtonComponent from '../../components/atom/CustomButtons/ButtonComponent';
+import appColors from '../../AppConstants/appColors';
+import Screen from '../../components/atom/ScreenContainer/Screen';
 
 const PaymentMethod = ({navigation}) => {
   const [selectedItem, setSelectedItem] = useState(null);
@@ -38,7 +40,7 @@ const PaymentMethod = ({navigation}) => {
     },
   ];
   return (
-    <View style={{height: screenSize.height, backgroundColor: 'black'}}>
+    <Screen viewStyle={{ flex: 1, backgroundColor: appColors.Black}} statusBarColor={ appColors.Black}>
       <View style={{flex: 0.1}}>
         <Header
           lefttIcoType={Icons.Ionicons}
@@ -92,7 +94,7 @@ const PaymentMethod = ({navigation}) => {
           onPress={() => navigation.navigate(constants.screen.PaymentDetails)}
         />
       </View>
-    </View>
+    </Screen>
   );
 };
 
@@ -111,7 +113,7 @@ const PaymentCard = ({item, onPress, selected}) => {
             <Image source={item.Imagesource} style={{height: 48, width: 48}} />
           </View>
           <View style={{width: screenSize.width / 1.6}}>
-            <Text style={{fontWeight: '500', fontSize: 15, color: 'white'}}>
+            <Text style={{fontWeight: '500', fontSize: 15, color: 'white', marginLeft: 5}}>
               {item.title}
             </Text>
           </View>

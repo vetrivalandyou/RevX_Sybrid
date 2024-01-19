@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
-import { FlatList, StyleSheet, Text, View, TextInput } from 'react-native';
+import { FlatList, StyleSheet, Text, View, TextInput, Platform } from 'react-native';
 import Screen from '../../../components/atom/ScreenContainer/Screen';
 import ButtonComponent from '../../../components/atom/CustomButtons/ButtonComponent';
 import Header from '../../../components/molecules/Header';
 import { Icons } from '../../../components/molecules/CustomIcon/CustomIcon';
 import constants from "../../../AppConstants/Constants.json"
+import appColors from '../../../AppConstants/appColors';
 
 
 
@@ -16,7 +17,7 @@ const AdminEditLicense = ({ route, navigation }) => {
   const [isFocused, setIsFocused] = useState(false);
 
   return (
-    <Screen viewStyle={{ padding: 15 }}>
+    <Screen viewStyle={{ flex: 1, backgroundColor: appColors.Black, padding: 15 }} statusBarColor={appColors.Black}>
       <View style={{ flex: 0.1, }}>
         <Header
           lefttIcoType={Icons.Ionicons}
@@ -44,7 +45,7 @@ const AdminEditLicense = ({ route, navigation }) => {
 
       <View
         style={{
-          flex: 0.9,
+          flex: 0.8,
 
           paddingVertical: 5,
         }}>
@@ -81,7 +82,7 @@ const AdminEditLicense = ({ route, navigation }) => {
       </View>
       <View style={styles.buttonView}>
         <ButtonComponent
-          style={{ backgroundColor: '#C79646', paddingVertical: 13, bottom: 1, position: 'absolute' }}
+          style={{ backgroundColor: '#C79646', paddingVertical: Platform.OS == 'ios' ? 18 : 13, bottom: 1, position: 'absolute' }}
           title={'Save'}
           onPress={() => navigation.goBack()}
         />

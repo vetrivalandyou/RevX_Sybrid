@@ -33,7 +33,7 @@ const SimpleTextField = ({
     <View style={styles.mainContainer}>
       <View style={[styles.innerContainner, textUpperView]}>
         <TextInput
-          style={[ {flex: 1, color: AppColors.White}]}
+          style={[ {flex: 0.9, color: AppColors.White}]}
           placeholder={placeholder}
           placeholderTextColor={placeholderTextColor}
           value={value}
@@ -42,11 +42,12 @@ const SimpleTextField = ({
           secureTextEntry={isPasswordVisible}
         />
         {secureTextEntry && (
-          <TouchableOpacity onPress={togglePasswordVisibility}>
+          <TouchableOpacity style={{ flex: 0.1, alignItems:'flex-end', paddingVertical: 0}} onPress={togglePasswordVisibility}>
             <CustomIcon
               type={Icons.Ionicons}
               name={isPasswordVisible ? 'eye-outline' : 'eye-off-outline'}
               color={AppColors.White}
+              size={17}
             />
           </TouchableOpacity>
         )}

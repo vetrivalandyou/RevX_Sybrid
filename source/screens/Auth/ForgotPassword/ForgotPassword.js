@@ -8,53 +8,47 @@ import constants from '../../../AppConstants/Constants.json';
 
 import ButtonComponent from '../../../components/atom/CustomButtons/ButtonComponent';
 
-const ForgotPassword = ({navigation}) => {
-  return (
-    <Screen>
+const ForgotPassword = ({navigation}) => (
+  <Screen authStyle={{ flex: 1, backgroundColor: appColors.Goldcolor}}
+  viewStyle={{ flex: 1, backgroundColor: appColors.Black}} statusBarColor={appColors.Goldcolor}>
+    <View style={{ flex: 0.3 }}>
       <AuthHeader
         logIn={'Forgot'}
         heading={'Forgot Password'}
-        subheading={
-          'Enter your email address and we will send a reset password.'
-        }
-        onPress={() => navigation.goBack()}
-      />
+        subheading={'Enter your email address and we will send a reset password.'}
+        onPress={() => navigation.goBack()} />
+    </View>
+    <View
+      style={{
+        backgroundColor: 'white',
+        flex: 0.8,
+        padding: 15,
+        backgroundColor: appColors.Black,
+      }}>
       <View
         style={{
-          backgroundColor: 'white',
-          flex: 0.8,
-          padding: 15,
-          backgroundColor: appColors.Black,
+          flex: 0.1,
+          justifyContent: 'space-evenly',
         }}>
-        <View
-          style={{
-            flex: 0.1,
-            justifyContent: 'space-evenly',
-          }}>
-          <SimpleTextField
-            placeholder={'Johannaemma@gmail.com'}
-            placeholderTextColor={appColors.White}
-            // name={eyeOpen ? 'eye-outline' : 'eye-off-outline'}
-            eyeOpen={false}
-          />
-        </View>
-
-        <View
-          style={{
-            flex: 0.1,
-            alignItems: 'center',
-            justifyContent: 'center',
-            marginTop: 12,
-          }}>
-          <ButtonComponent
-            title={'Reset Password'}
-            onPress={() =>
-              navigation.navigate(constants.screen.ForgotCheckEmail)
-            }
-          />
-        </View>
+        <SimpleTextField
+          placeholder={'Johannaemma@gmail.com'}
+          placeholderTextColor={appColors.White}
+          // name={eyeOpen ? 'eye-outline' : 'eye-off-outline'}
+          eyeOpen={false} />
       </View>
-    </Screen>
-  );
-};
+
+      <View
+        style={{
+          flex: 0.1,
+          alignItems: 'center',
+          justifyContent: 'center',
+          marginTop: 12,
+        }}>
+        <ButtonComponent
+          title={'Reset Password'}
+          onPress={() => navigation.navigate(constants.AuthScreen.ForgotCheckEmail)} />
+      </View>
+    </View>
+  </Screen>
+);
 export default ForgotPassword;

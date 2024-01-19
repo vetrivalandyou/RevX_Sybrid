@@ -17,6 +17,7 @@ import {screenSize} from '../../components/atom/ScreenSize';
 import Header from '../../components/molecules/Header';
 import {Icons} from '../../components/molecules/CustomIcon/CustomIcon';
 import constants from '../../AppConstants/Constants.json';
+import appColors from '../../AppConstants/appColors';
 
 const ServiceSpecialist = () => {
   const navigation = useNavigation();
@@ -66,9 +67,8 @@ const ServiceSpecialist = () => {
     },
   ];
   return (
-    <Screen statusBarColor={appColors.Black}>
-      <View style={{height: screenSize.height, backgroundColor: 'black'}}>
-        <View style={{flex: 0.6}}>
+    <Screen viewStyle={{ flex: 1 }} statusBarColor={appColors.Black}>
+        <View style={{flex: 0.1}}>
           <Header
             lefttIcoType={Icons.Ionicons}
             onPressLeftIcon={() => navigation.goBack()}
@@ -92,7 +92,7 @@ const ServiceSpecialist = () => {
           />
         </View>
 
-        <View>
+        <View style={{ flex: 0.8}}>
           <FlatList
             data={data}
             renderItem={({item}) => <Barberinfo item={item} />}
@@ -100,15 +100,16 @@ const ServiceSpecialist = () => {
           />
         </View>
 
+        <View style={{ flex: 0.1, justifyContent:'center'}}>
         <TouchableOpacity
-          onPress={() => navigation.navigate(constants.screen.ServicesDetails)}
+          onPress={() => navigation.navigate(constants.screen.Services)}
           style={styles.ApplyNOWButton}>
           <Text style={{fontWeight: '600', fontSize: 13, color: '#fff'}}>
             {' '}
             Apply Now
           </Text>
         </TouchableOpacity>
-      </View>
+        </View>
     </Screen>
   );
 };
@@ -224,10 +225,8 @@ const styles = StyleSheet.create({
   ApplyNOWButton: {
     alignItems: 'center',
     backgroundColor: '#c79647',
-    paddingVertical: 15,
+    paddingVertical: Platform.OS == 'ios' ? 20 : 15,
     marginHorizontal: 12,
     borderRadius: 40,
-    marginTop: 13,
-    marginBottom: 17,
   },
 });

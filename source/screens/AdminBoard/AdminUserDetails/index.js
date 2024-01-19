@@ -1,5 +1,5 @@
 import React from 'react';
-import { Image, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Image, Platform, ScrollView, StyleSheet, Text, View } from 'react-native';
 import Screen from '../../../components/atom/ScreenContainer/Screen'
 import ButtonComponent from '../../../components/atom/CustomButtons/ButtonComponent'
 import styles from './styles'
@@ -8,6 +8,7 @@ import { screenSize } from '../../../components/atom/ScreenSize';
 import Header from '../../../components/molecules/Header';
 import { Icons } from '../../../components/molecules/CustomIcon/CustomIcon';
 import constants from "../../../AppConstants/Constants.json"
+import appColors from '../../../AppConstants/appColors';
 
 
 
@@ -58,10 +59,11 @@ const AdminUserDetails = ({ navigation }) => {
     },
   ];
   return (
-    <Screen viewStyle={{ padding: 15, flex: 0.9 }}
+    <Screen viewStyle={{ padding: 15, flex: 1 , backgroundColor: appColors.Black}} statusBarColor={appColors.Black}
     >
       <View style={{ flex: 0.1 }}>
         <Header
+        headerSubView={{ marginHorizontal: 5}}
           lefttIcoType={Icons.Ionicons}
           onPressLeftIcon={() => navigation.goBack()}
           leftIcoName={'chevron-back'}
@@ -103,61 +105,48 @@ const AdminUserDetails = ({ navigation }) => {
 const Detailslist = ({ item, onPress }) => {
   return (
     <View style={styles.Containerstyle}>
-      <View style={{ flex: 1, }}>
-
+      <View style={{ flex: 1,}}>
         <View style={{
           flexDirection: 'row',
           alignItems: 'center',
           justifyContent: 'space-between',
           paddingHorizontal: 10,
-          flex: 0.45,
-
-
-
-
+          flex: 0.6,
         }}>
-          <View style={{ paddingVertical: 8, flex: 0.22, }}>
+          <View style={{ paddingVertical: 8, flex: 0.3, alignItems:'flex-start'}}>
             <Image source={item.Imagesource}
-              style={{ height: screenSize.height / 12, width: screenSize.width / 6, borderRadius: 40, }}
-
+              style={{ height: Platform.OS == 'ios' ? 80 : 70, width: Platform.OS == 'ios' ? 80 : 70, borderRadius: 40, }}
             />
           </View>
-
-          <View style={{ flexDirection: 'column', flex: 0.78, }}>
-
+          <View style={{ flexDirection: 'column', flex: 0.7,}}>
             <Text
               style={{
                 color: 'white',
                 fontWeight: '400',
-                fontSize: 17.5,
+                fontSize: 17,
               }}>
               {item.name}
-
-
             </Text>
-
             <View >
               <Text style={{
                 color: 'white',
                 fontSize: 12,
               }}>{item.title}</Text>
             </View>
-
-
-
-
           </View>
-
         </View>
-        <View
+        <View style={{ height: 1, position:'relative', marginHorizontal: 15, }}>
+            <View style={{ position: 'absolute', top: 0, bottom: 0, left: 0, right: 0, borderWidth: 1, borderColor: appColors.Goldcolor, borderStyle: 'dashed', backgroundColor:'transparent'  }}></View>
+          </View>
+        {/* <View
           style={{
             fontSize: 25,
             marginHorizontal: 14,
             borderBottomWidth: 2,
             borderStyle: 'dashed',
             borderBottomColor: '#c79647'
-          }}></View>
-        <View style={{ flex: 0.55, flexDirection: 'row', }}>
+          }}></View> */}
+        <View style={{ flex: 0.4, flexDirection: 'row', }}>
           <View style={{ flex: 0.5, justifyContent: 'center', alignItems: 'center' }}>
             <ButtonComponent
               onPress={onPress}

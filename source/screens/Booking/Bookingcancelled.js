@@ -32,14 +32,17 @@ const Bookingcancelled = ({data}) => {
             </View>
           </View>
 
-          <View
+          <View style={{ position:'relative', marginHorizontal: 15 }}>
+            <View style={{ position: 'absolute', top: 0, bottom: 0, left: 0, right: 0, borderWidth: 1, borderColor: appColors.Goldcolor, borderStyle: 'dashed', backgroundColor:'transparent'  }}></View>
+          </View>
+          {/* <View
             style={{
               fontSize: 25,
               marginHorizontal: 14,
               borderBottomWidth: 2,
               borderStyle: 'dashed',
               borderBottomColor: '#c79647',
-            }}></View>
+            }}></View> */}
 
           <View
             style={{
@@ -100,7 +103,7 @@ const Bookingcancelled = ({data}) => {
 const styles = StyleSheet.create({
   Containerstyle: {
     height: screenSize.height / 3.7,
-    width: screenSize.width / 1.05,
+    width: screenSize.width / 1.11,
     marginBottom: 10,
     backgroundColor: '#252525',
     borderWidth: 1,

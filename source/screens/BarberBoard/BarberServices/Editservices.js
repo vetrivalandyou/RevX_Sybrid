@@ -5,6 +5,7 @@ import {
   View,
   TextInput,
   ScrollView,
+  Platform,
 } from 'react-native';
 import React, {useState} from 'react';
 import Screen from '../../../components/atom/ScreenContainer/Screen';
@@ -21,7 +22,7 @@ const Editservices = ({route, navigation}) => {
   const [editedServiceName, setEditedServiceName] = useState(serviceName);
 
   return (
-    <Screen viewStyle={{padding: 15}}>
+    <Screen viewStyle={{ flex: 1, padding: 15 , backgroundColor: appColors.Black}} statusBarColor={appColors.Black}>
       <View style={{flex: 0.1}}>
         <Header
           lefttIcoType={Icons.Ionicons}
@@ -45,7 +46,7 @@ const Editservices = ({route, navigation}) => {
         <ButtonComponent
           style={{
             backgroundColor: '#C79646',
-            paddingVertical: 13,
+            paddingVertical: Platform.OS == 'ios' ? 17 : 13,
             bottom: 1,
             position: 'absolute',
           }}
