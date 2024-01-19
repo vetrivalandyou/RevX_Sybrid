@@ -52,6 +52,7 @@ const LocationBottom = ({refRBSheet}) => {
           See all barbers
         </Text>
       </View>
+      
       <View style={{flex: 0.1, justifyContent: 'center',}}>
         <View style={{height: 1, backgroundColor: appColors.LightGray}} />
       </View>
