@@ -17,6 +17,7 @@ import BarberBottomTabNavigation from './BarberBottomTabNavigation';
 import DeleteServices from '../../screens/BarberBoard/BarberServices/DeleteServices';
 
 const BarberStack = () => {
+  
   const Stack = createNativeStackNavigator();
   return (
     <NavigationContainer>
