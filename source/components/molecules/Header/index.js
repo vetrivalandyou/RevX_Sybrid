@@ -1,5 +1,5 @@
 import React from 'react';
-import {Text, TouchableOpacity, View, Image} from 'react-native';
+import {Text, TouchableOpacity, View, Image, SafeAreaView} from 'react-native';
 import CustomIcon, {Icons} from '../CustomIcon/CustomIcon';
 import appColors from '../../../AppConstants/appColors';
 import styles from './styles';
@@ -29,6 +29,7 @@ const Header = ({
   console.log(onPressRightIcon);
 
   return (
+    <SafeAreaView style={{ flex: 1}}>
     <View style={styles.headerView}>
       <View style={[styles.header, headerSubView]}>
         <View style={{ flex: 0.15, justifyContent: 'center' }}>
@@ -74,6 +75,7 @@ const Header = ({
         </View>
       </View>
     </View>
+    </SafeAreaView>
   );
 };
 
