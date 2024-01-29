@@ -49,7 +49,7 @@ const PaymentMethod = ({navigation}) => {
           rightIcoType={Icons.SimpleLineIcons}
           logIn={'success'}
           onPressRightIcon={() =>
-            navigation.navigate(constants.screen.Notification)
+            navigation.navigate(constants.AdminScreens.AdminNotification)
           }
           rightIcoSize={20}
           leftIcoStyle={{
