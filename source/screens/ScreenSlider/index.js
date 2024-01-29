@@ -100,7 +100,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: 'lightblue',
+    backgroundColor: appColors.Black,
     borderRadius: 10,
   },
   title: {
