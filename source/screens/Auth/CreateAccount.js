@@ -11,16 +11,17 @@ import RememberMe from '../../components/molecules/RememberMe';
 import SocailLogin from '../../components/molecules/SocailLogin';
 import {endPoint} from '../../services/urlConstants';
 import {PostRequest} from '../../services/apiCall';
+import {NormalSnackbar} from '../../components/atom/Snakbar/Snakbar';
 
 const intialSignupFields = {
-  FullName: 'James Choler',
-  UserPhone: '(555) 555-7439',
-  UserEmail: 'abdul.hameed@sybrid.com',
-  UserPassword: 'J@mesF1nn143',
+  FullName: '',
+  UserPhone: '',
+  UserEmail: '',
+  UserPassword: '',
 };
 
 const CreateAccount = ({navigation}) => {
-  const [isEye, setIsEye] = React.useState(false);
+  const [isEye, setIsEye] = useState(false);
   const [signupFields, setSignupFields] = useState(intialSignupFields);
 
   const registerUser = () => {
@@ -30,7 +31,11 @@ const CreateAccount = ({navigation}) => {
       .then(res => {
         console.log(res?.data);
         if (res?.data?.code == 201) {
-          console.log('registered successfully');
+          NormalSnackbar(res?.data?.message);
+          setSignupFields(intialSignupFields)
+          navigation.goBack()
+        } else {
+          NormalSnackbar(res?.data?.message);
         }
       })
       .catch(err => {
