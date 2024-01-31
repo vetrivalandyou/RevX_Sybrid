@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {Text, View, StatusBar, TouchableOpacity} from 'react-native';
 import AuthHeader from '../../components/molecules/AuthHeader';
 import Screen from '../../components/atom/ScreenContainer/Screen';
@@ -12,23 +12,24 @@ import ButtonComponent from '../../components/atom/CustomButtons/ButtonComponent
 import RememberMe from '../../components/molecules/RememberMe';
 import SocailLogin from '../../components/molecules/SocailLogin';
 import {useNavigation} from '@react-navigation/native';
+import axiosInstance from '../../services/axiosInstance';
+import {endPoint} from '../../services/urlConstants';
+import {GetRequest, PostRequest} from '../../services/apiCall';
 
 const Login = () => {
-  // const [isEye, setIsEye] = React.useState(false);
-
   const navigation = useNavigation();
   const [passwordValue, setPasswordValue] = React.useState('');
   const [isPasswordVisible, setIsPasswordVisible] = React.useState(false);
 
   return (
     <Screen
-      authStyle={{ flex: 1, backgroundColor: appColors.Goldcolor}}
-      viewStyle={{ flex: 1, backgroundColor: appColors.Black}}
+      authStyle={{flex: 1, backgroundColor: appColors.Goldcolor}}
+      viewStyle={{flex: 1, backgroundColor: appColors.Black}}
       statusBarColor={appColors.Goldcolor}
       translucent={false}
       barStyle="light-content">
-      <View style={{ flex: 0.3 }}>
-          <AuthHeader
+      <View style={{flex: 0.3}}>
+        <AuthHeader
           logIn={'Log In'}
           heading={'Welcome Back!'}
           subheading={'Please Login your account, Enter your details.'}
@@ -37,7 +38,6 @@ const Login = () => {
           }}
         />
       </View>
-      
 
       <View
         style={{
