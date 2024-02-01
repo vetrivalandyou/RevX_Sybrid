@@ -29,7 +29,7 @@ const Login = () => {
     UserPassword: Yup.string().required('Password is required'),
   });
 
-  const LoginUser = values => {
+  const LoginUser = (values, setSubmitting) => {
     PostRequest(endPoint.LOGIN, values)
       .then(res => {
         if (res?.data?.code == 201) {
@@ -38,6 +38,7 @@ const Login = () => {
         } else {
           SimpleSnackBar(res?.data?.message);
         }
+        setSubmitting(false);
       })
       .catch(err => {
         SimpleSnackBar(messages.Catch, appColors.Red);
@@ -75,8 +76,8 @@ const Login = () => {
             UserPassword: '',
           }}
           validationSchema={validationSchema}
-          onSubmit={values => {
-            LoginUser(values);
+          onSubmit={(values, {setSubmitting}) => {
+            LoginUser(values, setSubmitting);
           }}>
           {({
             handleChange,
@@ -85,6 +86,7 @@ const Login = () => {
             values,
             errors,
             touched,
+            isSubmitting,
           }) => (
             <>
               <View style={{flex: 0.3, justifyContent: 'space-evenly'}}>
@@ -137,8 +139,9 @@ const Login = () => {
                 }}>
                 <ButtonComponent
                   title={'Sign In'}
+                  disabled={isSubmitting}
                   onPress={handleSubmit}
-
+                  isLoading={isSubmitting}
                   // onPress={() =>
                   //   navigation.navigate(constants.AuthScreen.Successfull)
                   // }
