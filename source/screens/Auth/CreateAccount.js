@@ -12,9 +12,9 @@ import {Icons} from '../../components/molecules/CustomIcon/CustomIcon';
 import ButtonComponent from '../../components/atom/CustomButtons/ButtonComponent';
 import RememberMe from '../../components/molecules/RememberMe';
 import SocailLogin from '../../components/molecules/SocailLogin';
-import {endPoint} from '../../services/urlConstants';
+import {endPoint, messages} from '../../AppConstants/urlConstants';
 import {PostRequest} from '../../services/apiCall';
-import {NormalSnackbar} from '../../components/atom/Snakbar/Snakbar';
+import {SimpleSnackBar} from '../../components/atom/Snakbar/Snakbar';
 
 const CreateAccount = ({navigation}) => {
   const [isEye, setIsEye] = useState(false);
@@ -38,15 +38,15 @@ const CreateAccount = ({navigation}) => {
       .then(res => {
         console.log(res?.data);
         if (res?.data?.code == 201) {
-          NormalSnackbar(res?.data?.message);
+          SimpleSnackBar(res?.data?.message);
           setSignupFields(intialSignupFields);
           navigation.goBack();
         } else {
-          NormalSnackbar(res?.data?.message);
+          SimpleSnackBar(res?.data?.message);
         }
       })
       .catch(err => {
-        console.log(err);
+        SimpleSnackBar( messages.Catch, appColors.Red);
       });
   };
 
