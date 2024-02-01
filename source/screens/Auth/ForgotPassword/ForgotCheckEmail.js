@@ -74,8 +74,8 @@ const ForgotCheckEmail = ({navigation}) => {
             fontSize: 16,
           }}>
           <ButtonComponent
-            title={'Sign In Again'}
-            onPress={() => navigation.navigate(constants.AuthScreen.NewPassword)}
+            title={'Continue'}
+            onPress={() => navigation.navigate(constants.AuthScreen.OTP_Verification)}
           />
         </View>
 

@@ -17,6 +17,7 @@ import Main from '../../../source/navigation/index';
 import BarberStack from '../../../source/navigation/BarberBoardNavigation/index';
 import AdminStack from '../../../source/navigation/AdminBoardNavigation/index';
 import CreateAccountBarber from '../../screens/Auth/CreateAccountBarber';
+import OTP_Verification from '../../screens/Auth/ForgotPassword/OTP_Verification';
 
 const AuthIndex = () => {
   const Stack = createNativeStackNavigator();
@@ -71,6 +72,12 @@ const AuthIndex = () => {
           <Stack.Screen
             name={constants.AuthScreen.ForgotCheckEmail}
             component={ForgotCheckEmail}
+            options={{headerShown: false}}
+          />
+
+          <Stack.Screen
+            name={constants.AuthScreen.OTP_Verification}
+            component={OTP_Verification}
             options={{headerShown: false}}
           />
 

@@ -8,7 +8,8 @@
     "ForgotPassword": "ForgotPassword",
     "ForgotCheckEmail": "ForgotCheckEmail",
     "NewPassword": "NewPassword",
-    "CreateAccountBarber": "CreateAccountBarber"
+    "CreateAccountBarber": "CreateAccountBarber",
+    "OTP_Verification": "OTP_Verification"
   },
   "screen": {
     "Login": "Login",
