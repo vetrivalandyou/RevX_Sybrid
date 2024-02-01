@@ -13,7 +13,7 @@ import RememberMe from '../../components/molecules/RememberMe';
 import SocailLogin from '../../components/molecules/SocailLogin';
 import {useNavigation} from '@react-navigation/native';
 import axiosInstance from '../../services/axiosInstance';
-import {endPoint} from '../../services/urlConstants';
+import {endPoint} from '../../AppConstants/urlConstants';
 import {GetRequest, PostRequest} from '../../services/apiCall';
 import * as Yup from 'yup';
 import {Formik} from 'formik';

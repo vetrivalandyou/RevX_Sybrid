@@ -45,3 +45,10 @@ export const endPoint = {
   //Barbers End Points
   BARBER_SERVICES: 'Barber/Barber_Services',
 };
+
+export const messages = {
+       WentWrong: 'Something went wrong, please try again later.',
+       Catch:
+         'May be your internet is not connected or there is something went wrong on server.',
+       SeesionExpire: 'Your app session has been expired, please login again.',
+     };

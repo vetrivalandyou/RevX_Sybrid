@@ -1,7 +1,7 @@
 import Snackbar from 'react-native-snackbar';
 import appColors from '../../../AppConstants/appColors';
 
-export const NormalSnackbar = (barText, snackBarColor) => {
+export const SimpleSnackBar = (barText, snackBarColor) => {
   Snackbar.show({
     text: `${barText}`,
     backgroundColor: snackBarColor ? snackBarColor : appColors.Goldcolor,
