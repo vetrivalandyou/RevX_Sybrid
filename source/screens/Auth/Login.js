@@ -32,6 +32,7 @@ const Login = () => {
   });
 
   const LoginUser = values => {
+    console.log(values)
     PostRequest(endPoint.LOGIN, values)
       .then(res => {
         if (res?.data?.code == 201) {
@@ -42,6 +43,7 @@ const Login = () => {
         }
       })
       .catch(err => {
+        console.log("asdasdasd")
         SimpleSnackBar( messages.Catch, appColors.Red);
       });
   };
@@ -78,8 +80,6 @@ const Login = () => {
           }}
           validationSchema={validationSchema}
           onSubmit={values => {
-            // Handle form submission
-            console.log(values);
             LoginUser(values);
           }}>
           {({
@@ -124,7 +124,7 @@ const Login = () => {
                   </View>
                 )}
               </View>
-              <View style={{ flex: 0.1, justifyContent: 'flex-end' }}>
+              <View style={{ flex: 0.05, justifyContent: 'flex-end' }}>
               <RememberMe
                 RememberTex={'Remember me'}
                 ForgetPasswordText={'Forget Password'}
