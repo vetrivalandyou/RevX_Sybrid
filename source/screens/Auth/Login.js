@@ -17,6 +17,8 @@ import {endPoint, messages} from '../../AppConstants/urlConstants';
 import {GetRequest, PostRequest} from '../../services/apiCall';
 import * as Yup from 'yup';
 import {Formik} from 'formik';
+import axios from 'axios';
+import { SimpleSnackBar } from '../../components/atom/Snakbar/Snakbar';
 
 const Login = () => {
   const navigation = useNavigation();
@@ -36,10 +38,11 @@ const Login = () => {
     PostRequest(endPoint.LOGIN, values)
       .then(res => {
         if (res?.data?.code == 201) {
-          NormalSnackbar(res?.data?.message);
+          console.log("res", res?.data)
+          SimpleSnackBar(res?.data?.message);
           navigation.goBack();
         } else {
-          NormalSnackbar(res?.data?.message);
+          SimpleSnackBar(res?.data?.message);
         }
       })
       .catch(err => {
