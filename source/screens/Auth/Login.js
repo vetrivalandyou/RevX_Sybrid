@@ -42,10 +42,6 @@ const Login = () => {
     PostRequest(endPoint.LOGIN, values)
       .then(res => {
         if (res?.data?.code == 201) {
-<<<<<<< HEAD
-          console.log("res", res?.data)
-=======
->>>>>>> 676fb4a16ea439cc9e11e05980eb642f71ad043f
           SimpleSnackBar(res?.data?.message);
           navigation.goBack();
         } else {
