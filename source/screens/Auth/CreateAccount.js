@@ -184,7 +184,7 @@ const CreateAccount = ({navigation}) => {
           style={{flex: 0.1, flexDirection: 'row', justifyContent: 'center'}}>
           <TouchableOpacity>
             <Text style={{color: appColors.GrayColor}}>
-              Already have an Account ?
+              Already have an Account?{` `}
             </Text>
           </TouchableOpacity>
 

@@ -13,7 +13,7 @@ import RememberMe from '../../components/molecules/RememberMe';
 import SocailLogin from '../../components/molecules/SocailLogin';
 import {useNavigation} from '@react-navigation/native';
 import axiosInstance from '../../services/axiosInstance';
-import {endPoint} from '../../AppConstants/urlConstants';
+import {endPoint, messages} from '../../AppConstants/urlConstants';
 import {GetRequest, PostRequest} from '../../services/apiCall';
 import * as Yup from 'yup';
 import {Formik} from 'formik';
@@ -34,17 +34,15 @@ const Login = () => {
   const LoginUser = values => {
     PostRequest(endPoint.LOGIN, values)
       .then(res => {
-        console.log(res?.data);
         if (res?.data?.code == 201) {
           NormalSnackbar(res?.data?.message);
-          setLoginFields(intialLoginFields);
           navigation.goBack();
         } else {
           NormalSnackbar(res?.data?.message);
         }
       })
       .catch(err => {
-        console.log(err);
+        SimpleSnackBar( messages.Catch, appColors.Red);
       });
   };
 
@@ -126,7 +124,7 @@ const Login = () => {
                   </View>
                 )}
               </View>
-              {/* <View style={{ flex: 0.1, justifyContent: 'center' ,backgroundColor:'purple'}}> */}
+              <View style={{ flex: 0.1, justifyContent: 'flex-end' }}>
               <RememberMe
                 RememberTex={'Remember me'}
                 ForgetPasswordText={'Forget Password'}
@@ -135,7 +133,7 @@ const Login = () => {
                 }
               />
 
-              {/* </View> */}
+              </View>
               <View
                 style={{
                   flex: 0.2,
@@ -158,7 +156,7 @@ const Login = () => {
         <View
           style={{flex: 0.1, flexDirection: 'row', justifyContent: 'center'}}>
           <TouchableOpacity>
-            <Text style={{color: appColors.GrayColor}}>Not register yet?{``}</Text>
+            <Text style={{color: appColors.GrayColor}}>Not register yet?{` `}</Text>
           </TouchableOpacity>
 
           <TouchableOpacity
