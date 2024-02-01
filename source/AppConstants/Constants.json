@@ -7,6 +7,7 @@
     "Successfull": "Successfull",
     "ForgotPassword": "ForgotPassword",
     "ForgotCheckEmail":"ForgotCheckEmail",
+    "OTP_Verification":"OTP_Verification",
     "NewPassword":"NewPassword"
   },
   "screen": {
