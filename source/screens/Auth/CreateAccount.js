@@ -41,7 +41,6 @@ const CreateAccount = ({navigation}) => {
           navigation.goBack();
         } else {
           SimpleSnackBar(res?.data?.message);
-          console.log("asasdasd ")
         }
       })
       .catch(err => {
