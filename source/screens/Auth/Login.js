@@ -92,7 +92,7 @@ const Login = () => {
               <View style={{flex: 0.3, justifyContent: 'space-evenly'}}>
                 <SimpleTextField
                   placeholder={'Enter Your Email'}
-                  placeholderTextColor={appColors.White}
+                  placeholderTextColor={appColors.LightGray}
                   onChangeText={handleChange('UserEmail')}
                   onBlur={handleBlur('UserEmail')}
                   value={values.UserEmail}
@@ -109,7 +109,7 @@ const Login = () => {
                   placeholder={'Enter Your Password'}
                   onPressIcon={() => setIsEye(!isEye)}
                   secureTextEntry={!isPasswordVisible}
-                  placeholderTextColor={appColors.White}
+                  placeholderTextColor={appColors.LightGray}
                   onChangeText={handleChange('UserPassword')}
                   onBlur={handleBlur('UserPassword')}
                   value={values.UserPassword}

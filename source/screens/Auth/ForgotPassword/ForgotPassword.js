@@ -32,7 +32,7 @@ const ForgotPassword = ({navigation}) => (
         }}>
         <SimpleTextField
           placeholder={'Johannaemma@gmail.com'}
-          placeholderTextColor={appColors.White}
+          placeholderTextColor={appColors.LightGray}
           // name={eyeOpen ? 'eye-outline' : 'eye-off-outline'}
           eyeOpen={false} />
       </View>

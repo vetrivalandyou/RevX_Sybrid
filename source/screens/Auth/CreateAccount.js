@@ -94,7 +94,7 @@ const CreateAccount = ({navigation}) => {
                 <View style={{flex: 0.4, justifyContent: 'center'}}>
                   <SimpleTextField
                     placeholder={'Enter Full Name'}
-                    placeholderTextColor={appColors.White}
+                    placeholderTextColor={appColors.LightGray}
                     onChangeText={handleChange('FullName')}
                     onBlur={handleBlur('FullName')}
                     value={values.FullName}
@@ -110,7 +110,7 @@ const CreateAccount = ({navigation}) => {
                 <View style={{flex: 0.4, justifyContent: 'center'}}>
                   <SimpleTextField
                     placeholder={'Enter Email Address'}
-                    placeholderTextColor={appColors.White}
+                    placeholderTextColor={appColors.LightGray}
                     onChangeText={handleChange('UserEmail')}
                     onBlur={handleBlur('UserEmail')}
                     value={values.UserEmail}
@@ -135,7 +135,7 @@ const CreateAccount = ({navigation}) => {
                     eyeOpen={isEye}
                     onPressIcon={() => setIsEye(!isEye)}
                     secureTextEntry={true}
-                    placeholderTextColor={appColors.White}
+                    placeholderTextColor={appColors.LightGray}
                     onChangeText={handleChange('UserPassword')}
                     onBlur={handleBlur('UserPassword')}
                     value={values.UserPassword}
@@ -151,7 +151,7 @@ const CreateAccount = ({navigation}) => {
                 <View style={{flex: 0.4, justifyContent: 'center'}}>
                   <SimpleTextField
                     placeholder={'Contact Number'}
-                    placeholderTextColor={appColors.White}
+                    placeholderTextColor={appColors.LightGray}
                     onChangeText={handleChange('UserPhone')}
                     onBlur={handleBlur('UserPhone')}
                     value={values.UserPhone}
