@@ -1,28 +1,26 @@
 import React, {useEffect, useState} from 'react';
 import {Text, View, StatusBar, TouchableOpacity} from 'react-native';
+import * as Yup from 'yup';
+import {Formik} from 'formik';
+
 import AuthHeader from '../../components/molecules/AuthHeader';
 import Screen from '../../components/atom/ScreenContainer/Screen';
 import constants from '../../AppConstants/Constants.json';
 import SimpleTextField from '../../components/molecules/TextFeilds/SimpleTextField';
 import appColors from '../../AppConstants/appColors';
-import CustomIcon, {
+import {
   Icons,
 } from '../../components/molecules/CustomIcon/CustomIcon';
 import ButtonComponent from '../../components/atom/CustomButtons/ButtonComponent';
 import RememberMe from '../../components/molecules/RememberMe';
 import SocailLogin from '../../components/molecules/SocailLogin';
 import {useNavigation} from '@react-navigation/native';
-import axiosInstance from '../../services/axiosInstance';
 import {endPoint, messages} from '../../AppConstants/urlConstants';
-import {GetRequest, PostRequest} from '../../services/apiCall';
-import * as Yup from 'yup';
-import {Formik} from 'formik';
-import axios from 'axios';
+import {PostRequest} from '../../services/apiCall';
 import { SimpleSnackBar } from '../../components/atom/Snakbar/Snakbar';
 
 const Login = () => {
   const navigation = useNavigation();
-  const [passwordValue, setPasswordValue] = React.useState('');
   const [isPasswordVisible, setIsPasswordVisible] = React.useState(false);
   const [isEye, setIsEye] = useState(false);
 
@@ -34,11 +32,6 @@ const Login = () => {
   });
 
   const LoginUser = values => {
-    console.log(values)
-    // axios.post("http://124.29.235.8:8786/api/Auth/Login", values)
-    // .then((res) => {
-    //   console.log("res", res?.data)
-    // })
     PostRequest(endPoint.LOGIN, values)
       .then(res => {
         if (res?.data?.code == 201) {
@@ -49,7 +42,6 @@ const Login = () => {
         }
       })
       .catch(err => {
-        console.log("asdasdasd")
         SimpleSnackBar( messages.Catch, appColors.Red);
       });
   };
