@@ -17,6 +17,8 @@ import {endPoint, messages} from '../../AppConstants/urlConstants';
 import {GetRequest, PostRequest} from '../../services/apiCall';
 import * as Yup from 'yup';
 import {Formik} from 'formik';
+import axios from 'axios';
+import { SimpleSnackBar } from '../../components/atom/Snakbar/Snakbar';
 
 const Login = () => {
   const navigation = useNavigation();
@@ -33,13 +35,17 @@ const Login = () => {
 
   const LoginUser = values => {
     console.log(values)
+    // axios.post("http://124.29.235.8:8786/api/Auth/Login", values)
+    // .then((res) => {
+    //   console.log("res", res?.data)
+    // })
     PostRequest(endPoint.LOGIN, values)
       .then(res => {
         if (res?.data?.code == 201) {
-          NormalSnackbar(res?.data?.message);
+          SimpleSnackBar(res?.data?.message);
           navigation.goBack();
         } else {
-          NormalSnackbar(res?.data?.message);
+          SimpleSnackBar(res?.data?.message);
         }
       })
       .catch(err => {
