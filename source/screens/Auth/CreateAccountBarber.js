@@ -16,7 +16,7 @@ import {endPoint, messages} from '../../AppConstants/urlConstants';
 import {PostRequest} from '../../services/apiCall';
 import {SimpleSnackBar} from '../../components/atom/Snakbar/Snakbar';
 
-const CreateAccount = ({navigation}) => {
+const CreateAccountBarber = ({navigation}) => {
   const [isEye, setIsEye] = useState(false);
 
   const validationSchema = Yup.object().shape({
@@ -31,9 +31,10 @@ const CreateAccount = ({navigation}) => {
         'Invalid phone number format. Use (555) 555-7439',
       ),
     UserPassword: Yup.string().required('Password is required'),
+    // AddBio: Yup.string().required('Add Bio is required'),
   });
 
-  const registerUser = values => {
+  const barberRegisterUser = values => {
     PostRequest(endPoint.SIGNUP, values)
       .then(res => {
         if (res?.data?.code == 201) {
@@ -75,10 +76,13 @@ const CreateAccount = ({navigation}) => {
             UserEmail: '',
             UserPassword: '',
             UserPhone: '',
+            AddBio: '',
+            AddSpecialties: '',
+            AddSkills: '',
           }}
           validationSchema={validationSchema}
           onSubmit={values => {
-            registerUser(values);
+            barberRegisterUser(values);
           }}>
           {({
             handleChange,
@@ -163,6 +167,57 @@ const CreateAccount = ({navigation}) => {
                     </View>
                   )}
                 </View>
+
+                <View style={{flex: 0.4, justifyContent: 'center'}}>
+                  <SimpleTextField
+                    placeholder={'Add Bio'}
+                    placeholderTextColor={appColors.White}
+                    onChangeText={handleChange('AddBio')}
+                    onBlur={handleBlur('AddBio')}
+                    value={values.AddBio}
+                  />
+                  {touched.AddBio && errors.AddBio && (
+                    <View style={{marginLeft: 10, margin: 5}}>
+                      <Text style={{color: appColors.Goldcolor, fontSize: 10}}>
+                        {errors.AddBio}
+                      </Text>
+                    </View>
+                  )}
+                </View>
+
+                <View style={{flex: 0.4, justifyContent: 'center'}}>
+                  <SimpleTextField
+                    placeholder={'Add Specialties'}
+                    placeholderTextColor={appColors.White}
+                    onChangeText={handleChange('AddSpecialties')}
+                    onBlur={handleBlur('AddSpecialties')}
+                    value={values.AddSpecialties}
+                  />
+                  {touched.AddSpecialties && errors.AddSpecialties && (
+                    <View style={{marginLeft: 10, margin: 5}}>
+                      <Text style={{color: appColors.Goldcolor, fontSize: 10}}>
+                        {errors.AddSpecialties}
+                      </Text>
+                    </View>
+                  )}
+                </View>
+
+                <View style={{flex: 0.4, justifyContent: 'center'}}>
+                  <SimpleTextField
+                    placeholder={'Add Skills'}
+                    placeholderTextColor={appColors.White}
+                    onChangeText={handleChange('AddSkills')}
+                    onBlur={handleBlur('AddSkills')}
+                    value={values.AddSkills}
+                  />
+                  {touched.AddSkills && errors.AddSkills && (
+                    <View style={{marginLeft: 10, margin: 5}}>
+                      <Text style={{color: appColors.Goldcolor, fontSize: 10}}>
+                        {errors.AddSkills}
+                      </Text>
+                    </View>
+                  )}
+                </View>
               </View>
 
               <View style={{flex: 0.1, justifyContent: 'center'}}>
@@ -205,4 +260,4 @@ const CreateAccount = ({navigation}) => {
     </Screen>
   );
 };
-export default CreateAccount;
+export default CreateAccountBarber;
