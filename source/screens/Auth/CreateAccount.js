@@ -36,10 +36,8 @@ const CreateAccount = ({navigation}) => {
   const registerUser = values => {
     PostRequest(endPoint.SIGNUP, values)
       .then(res => {
-        console.log(res?.data);
         if (res?.data?.code == 201) {
           SimpleSnackBar(res?.data?.message);
-          setSignupFields(intialSignupFields);
           navigation.goBack();
         } else {
           SimpleSnackBar(res?.data?.message);
@@ -80,8 +78,6 @@ const CreateAccount = ({navigation}) => {
           }}
           validationSchema={validationSchema}
           onSubmit={values => {
-            // Handle form submission
-            console.log(values);
             registerUser(values);
           }}>
           {({
