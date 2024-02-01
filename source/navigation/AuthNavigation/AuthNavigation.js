@@ -16,6 +16,7 @@ import {useSelector} from 'react-redux';
 import Main from '../../../source/navigation/index';
 import BarberStack from '../../../source/navigation/BarberBoardNavigation/index';
 import AdminStack from '../../../source/navigation/AdminBoardNavigation/index';
+import CreateAccountBarber from '../../screens/Auth/CreateAccountBarber';
 
 const AuthIndex = () => {
   const Stack = createNativeStackNavigator();
@@ -27,11 +28,10 @@ const AuthIndex = () => {
     return <Main />;
   } else if (loggedIn == 2) {
     return <BarberStack />;
-  } 
-  else if (loggedIn == 3) {
+  } else if (loggedIn == 3) {
     return <AdminStack />;
-  }else {
-    console.log("")
+  } else {
+    console.log('');
     return (
       <NavigationContainer>
         <Stack.Navigator screenOptions={{animation: 'slide_from_right'}}>
@@ -77,6 +77,12 @@ const AuthIndex = () => {
           <Stack.Screen
             name={constants.AuthScreen.NewPassword}
             component={NewPassword}
+            options={{headerShown: false}}
+          />
+
+          <Stack.Screen
+            name={constants.AuthScreen.CreateAccountBarber}
+            component={CreateAccountBarber}
             options={{headerShown: false}}
           />
         </Stack.Navigator>

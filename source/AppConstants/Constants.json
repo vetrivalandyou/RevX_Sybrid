@@ -6,8 +6,9 @@
     "CreateAccount": "CreateAccount",
     "Successfull": "Successfull",
     "ForgotPassword": "ForgotPassword",
-    "ForgotCheckEmail":"ForgotCheckEmail",
-    "NewPassword":"NewPassword"
+    "ForgotCheckEmail": "ForgotCheckEmail",
+    "NewPassword": "NewPassword",
+    "CreateAccountBarber": "CreateAccountBarber"
   },
   "screen": {
     "Login": "Login",

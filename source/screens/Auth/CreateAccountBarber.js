@@ -56,7 +56,7 @@ const CreateAccountBarber = ({navigation}) => {
       statusBarColor={appColors.Goldcolor}
       translucent={false}
       barStyle="light-content">
-      <View style={{flex: 0.25}}>
+      <View style={{flex: 0.2}}>
         <AuthHeader
           logIn={'Log In'}
           heading={'Create Account'}
@@ -66,7 +66,7 @@ const CreateAccountBarber = ({navigation}) => {
       </View>
       <View
         style={{
-          flex: 0.75,
+          flex: 0.8,
           padding: 15,
           backgroundColor: appColors.Black,
         }}>
@@ -76,7 +76,7 @@ const CreateAccountBarber = ({navigation}) => {
             UserEmail: '',
             UserPassword: '',
             UserPhone: '',
-            AddBio: '',
+            // AddBio: '',
             AddSpecialties: '',
             AddSkills: '',
           }}
@@ -93,7 +93,7 @@ const CreateAccountBarber = ({navigation}) => {
             touched,
           }) => (
             <>
-              <View style={{flex: 0.6, justifyContent: 'space-evenly'}}>
+              <View style={{flex: 0.9, justifyContent: 'space-evenly'}}>
                 <View style={{flex: 0.4, justifyContent: 'center'}}>
                   <SimpleTextField
                     placeholder={'Enter Full Name'}
@@ -103,7 +103,8 @@ const CreateAccountBarber = ({navigation}) => {
                     value={values.FullName}
                   />
                   {touched.FullName && errors.FullName && (
-                    <View style={{marginLeft: 10, margin: 5}}>
+                    <View
+                      style={{marginLeft: 10, marginTop: 2, marginBottom: 15}}>
                       <Text style={{color: appColors.Goldcolor, fontSize: 10}}>
                         {errors.FullName}
                       </Text>
@@ -119,7 +120,8 @@ const CreateAccountBarber = ({navigation}) => {
                     value={values.UserEmail}
                   />
                   {touched.UserEmail && errors.UserEmail && (
-                    <View style={{marginLeft: 10, margin: 5}}>
+                    <View
+                      style={{marginLeft: 10, marginTop: 2, marginBottom: 15}}>
                       <Text style={{color: appColors.Goldcolor, fontSize: 10}}>
                         {errors.UserEmail}
                       </Text>
@@ -144,7 +146,8 @@ const CreateAccountBarber = ({navigation}) => {
                     value={values.UserPassword}
                   />
                   {touched.UserPassword && errors.UserPassword && (
-                    <View style={{marginLeft: 10, margin: 5}}>
+                    <View
+                      style={{marginLeft: 10, marginTop: 2, marginBottom: 15}}>
                       <Text style={{color: appColors.Goldcolor, fontSize: 10}}>
                         {errors.UserPassword}
                       </Text>
@@ -168,7 +171,7 @@ const CreateAccountBarber = ({navigation}) => {
                   )}
                 </View>
 
-                <View style={{flex: 0.4, justifyContent: 'center'}}>
+                {/* <View style={{flex: 0.4, justifyContent: 'center'}}>
                   <SimpleTextField
                     placeholder={'Add Bio'}
                     placeholderTextColor={appColors.White}
@@ -183,7 +186,7 @@ const CreateAccountBarber = ({navigation}) => {
                       </Text>
                     </View>
                   )}
-                </View>
+                </View> */}
 
                 <View style={{flex: 0.4, justifyContent: 'center'}}>
                   <SimpleTextField
@@ -226,7 +229,7 @@ const CreateAccountBarber = ({navigation}) => {
                   ForgetPasswordText={'Terms & Conditions'}
                 />
               </View>
-              <View style={{flex: 0.15}}>
+              <View style={{flex: 0.1}}>
                 <ButtonComponent
                   title={'Create Account'}
                   onPress={handleSubmit}
@@ -236,7 +239,13 @@ const CreateAccountBarber = ({navigation}) => {
           )}
         </Formik>
         <View
-          style={{flex: 0.1, flexDirection: 'row', justifyContent: 'center'}}>
+          style={{
+            flex: 0.05,
+            flexDirection: 'row',
+            justifyContent: 'center',
+            marginTop: 5,
+            // backgroundColor: 'red',
+          }}>
           <TouchableOpacity>
             <Text style={{color: appColors.GrayColor}}>
               Already have an Account ?
@@ -248,7 +257,6 @@ const CreateAccountBarber = ({navigation}) => {
             <Text style={{color: appColors.Goldcolor}}> Login</Text>
           </TouchableOpacity>
         </View>
-        <View></View>
 
         <SocailLogin
           SocailLogin={'or Login Using'}

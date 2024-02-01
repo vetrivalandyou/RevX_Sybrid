@@ -17,7 +17,7 @@ import {endPoint, messages} from '../../AppConstants/urlConstants';
 import {PostRequest} from '../../services/apiCall';
 import {SimpleSnackBar} from '../../components/atom/Snakbar/Snakbar';
 
-const Login = () => {
+const OTPVerification = () => {
   const navigation = useNavigation();
   const [isPasswordVisible, setIsPasswordVisible] = React.useState(false);
   const [isEye, setIsEye] = useState(false);
@@ -29,8 +29,8 @@ const Login = () => {
     UserPassword: Yup.string().required('Password is required'),
   });
 
-  const LoginUser = values => {
-    PostRequest(endPoint.LOGIN, values)
+  const otpVerification = values => {
+    PostRequest(endPoint.OTP_VERIFICATION, values)
       .then(res => {
         if (res?.data?.code == 201) {
           SimpleSnackBar(res?.data?.message);
@@ -189,4 +189,4 @@ const Login = () => {
     </Screen>
   );
 };
-export default Login;
+export default OTPVerification;
