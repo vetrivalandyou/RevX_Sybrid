@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Text, View, StatusBar, TouchableOpacity} from 'react-native';
 import AuthHeader from '../../components/molecules/AuthHeader';
 import Screen from '../../components/atom/ScreenContainer/Screen';
@@ -15,11 +15,38 @@ import {useNavigation} from '@react-navigation/native';
 import axiosInstance from '../../services/axiosInstance';
 import {endPoint} from '../../services/urlConstants';
 import {GetRequest, PostRequest} from '../../services/apiCall';
+import * as Yup from 'yup';
+import {Formik} from 'formik';
 
 const Login = () => {
   const navigation = useNavigation();
   const [passwordValue, setPasswordValue] = React.useState('');
   const [isPasswordVisible, setIsPasswordVisible] = React.useState(false);
+  const [isEye, setIsEye] = useState(false);
+
+  const validationSchema = Yup.object().shape({
+    UserEmail: Yup.string()
+      .email('Invalid email')
+      .required('Email is required'),
+    UserPassword: Yup.string().required('Password is required'),
+  });
+
+  const LoginUser = values => {
+    PostRequest(endPoint.LOGIN, values)
+      .then(res => {
+        console.log(res?.data);
+        if (res?.data?.code == 201) {
+          NormalSnackbar(res?.data?.message);
+          setLoginFields(intialLoginFields);
+          navigation.goBack();
+        } else {
+          NormalSnackbar(res?.data?.message);
+        }
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  };
 
   return (
     <Screen
@@ -46,39 +73,87 @@ const Login = () => {
           padding: 15,
           backgroundColor: appColors.Black,
         }}>
-        <View style={{flex: 0.3, justifyContent: 'space-evenly'}}>
-          <SimpleTextField
-            placeholder={'Enter Your Email'}
-            placeholderTextColor={appColors.White}
-          />
+        <Formik
+          initialValues={{
+            UserEmail: '',
+            UserPassword: '',
+          }}
+          validationSchema={validationSchema}
+          onSubmit={values => {
+            // Handle form submission
+            console.log(values);
+            LoginUser(values);
+          }}>
+          {({
+            handleChange,
+            handleBlur,
+            handleSubmit,
+            values,
+            errors,
+            touched,
+          }) => (
+            <>
+              <View style={{flex: 0.3, justifyContent: 'space-evenly'}}>
+                <SimpleTextField
+                  placeholder={'Enter Your Email'}
+                  placeholderTextColor={appColors.White}
+                  onChangeText={handleChange('UserEmail')}
+                  onBlur={handleBlur('UserEmail')}
+                  value={values.UserEmail}
+                />
+                {touched.UserEmail && errors.UserEmail && (
+                  <View style={{marginLeft: 10, margin: 5}}>
+                    <Text style={{color: appColors.Goldcolor, fontSize: 10}}>
+                      {errors.UserEmail}
+                    </Text>
+                  </View>
+                )}
 
-          <SimpleTextField
-            placeholder={'Enter Your Password'}
-            value={passwordValue}
-            onChangeText={setPasswordValue}
-            secureTextEntry={!isPasswordVisible}
-            placeholderTextColor={appColors.White}
-          />
-        </View>
-        {/* <View style={{ flex: 0.1, justifyContent: 'center' ,backgroundColor:'purple'}}> */}
-        <RememberMe
-          RememberTex={'Remember me'}
-          ForgetPasswordText={'Forget Password'}
-          onPressFP={() =>
-            navigation.navigate(constants.AuthScreen.ForgotPassword)
-          }
-        />
+                <SimpleTextField
+                  placeholder={'Enter Your Password'}
+                  onPressIcon={() => setIsEye(!isEye)}
+                  secureTextEntry={!isPasswordVisible}
+                  placeholderTextColor={appColors.White}
+                  onChangeText={handleChange('UserPassword')}
+                  onBlur={handleBlur('UserPassword')}
+                  value={values.UserPassword}
+                />
+                {touched.UserPassword && errors.UserPassword && (
+                  <View style={{marginLeft: 10, margin: 5}}>
+                    <Text style={{color: appColors.Goldcolor, fontSize: 10}}>
+                      {errors.UserPassword}
+                    </Text>
+                  </View>
+                )}
+              </View>
+              {/* <View style={{ flex: 0.1, justifyContent: 'center' ,backgroundColor:'purple'}}> */}
+              <RememberMe
+                RememberTex={'Remember me'}
+                ForgetPasswordText={'Forget Password'}
+                onPressFP={() =>
+                  navigation.navigate(constants.AuthScreen.ForgotPassword)
+                }
+              />
 
-        {/* </View> */}
-        <View
-          style={{flex: 0.2, alignItems: 'center', justifyContent: 'center'}}>
-          <ButtonComponent
-            title={'Sign In'}
-            onPress={() =>
-              navigation.navigate(constants.AuthScreen.Successfull)
-            }
-          />
-        </View>
+              {/* </View> */}
+              <View
+                style={{
+                  flex: 0.2,
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                }}>
+                <ButtonComponent
+                  title={'Sign In'}
+                  onPress={handleSubmit}
+
+                  // onPress={() =>
+                  //   navigation.navigate(constants.AuthScreen.Successfull)
+                  // }
+                />
+              </View>
+            </>
+          )}
+        </Formik>
 
         <View
           style={{flex: 0.1, flexDirection: 'row', justifyContent: 'center'}}>
