@@ -35,10 +35,17 @@ const Login = () => {
 
   const LoginUser = values => {
     console.log(values)
+    // axios.post("http://124.29.235.8:8786/api/Auth/Login", values)
+    // .then((res) => {
+    //   console.log("res", res?.data)
+    // })
     PostRequest(endPoint.LOGIN, values)
       .then(res => {
         if (res?.data?.code == 201) {
+<<<<<<< HEAD
           console.log("res", res?.data)
+=======
+>>>>>>> 676fb4a16ea439cc9e11e05980eb642f71ad043f
           SimpleSnackBar(res?.data?.message);
           navigation.goBack();
         } else {
