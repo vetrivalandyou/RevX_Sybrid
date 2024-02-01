@@ -83,7 +83,7 @@ const Login = () => {
         <View
           style={{flex: 0.1, flexDirection: 'row', justifyContent: 'center'}}>
           <TouchableOpacity>
-            <Text style={{color: appColors.GrayColor}}>Not register yet?{` `}</Text>
+            <Text style={{color: appColors.GrayColor}}>Not register yet?{``}</Text>
           </TouchableOpacity>
 
           <TouchableOpacity
