@@ -83,7 +83,7 @@ const Login = () => {
         <View
           style={{flex: 0.1, flexDirection: 'row', justifyContent: 'center'}}>
           <TouchableOpacity>
-            <Text style={{color: appColors.GrayColor}}>Not register yet? </Text>
+            <Text style={{color: appColors.GrayColor}}>Not register yet?{` `}</Text>
           </TouchableOpacity>
 
           <TouchableOpacity
@@ -93,7 +93,19 @@ const Login = () => {
             <Text style={{color: appColors.Goldcolor}}>Create an account</Text>
           </TouchableOpacity>
         </View>
-        <View></View>
+        <View
+          style={{flex: 0.1, flexDirection: 'row', justifyContent: 'center'}}>
+          <TouchableOpacity>
+            <Text style={{color: appColors.GrayColor}}>Register yourself as a Barber! {` `}</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            onPress={() =>
+              navigation.navigate(constants.AuthScreen.CreateAccount)
+            }>
+            <Text style={{color: appColors.Goldcolor}}>Register</Text>
+          </TouchableOpacity>
+        </View>
 
         <SocailLogin
           SocailLogin={'or Login Using'}

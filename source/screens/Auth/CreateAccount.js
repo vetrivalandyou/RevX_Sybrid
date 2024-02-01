@@ -57,7 +57,7 @@ const CreateAccount = ({navigation}) => {
       barStyle="light-content">
       <View style={{flex: 0.25}}>
         <AuthHeader
-          logIn={'Log In'}
+          logIn={'Sign Up'}
           heading={'Create Account'}
           subheading={'Please Login your account, Enter your details.'}
           onPress={() => navigation.goBack()}
