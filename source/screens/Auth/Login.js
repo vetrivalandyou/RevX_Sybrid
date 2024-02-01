@@ -8,16 +8,14 @@ import Screen from '../../components/atom/ScreenContainer/Screen';
 import constants from '../../AppConstants/Constants.json';
 import SimpleTextField from '../../components/molecules/TextFeilds/SimpleTextField';
 import appColors from '../../AppConstants/appColors';
-import {
-  Icons,
-} from '../../components/molecules/CustomIcon/CustomIcon';
+import {Icons} from '../../components/molecules/CustomIcon/CustomIcon';
 import ButtonComponent from '../../components/atom/CustomButtons/ButtonComponent';
 import RememberMe from '../../components/molecules/RememberMe';
 import SocailLogin from '../../components/molecules/SocailLogin';
 import {useNavigation} from '@react-navigation/native';
 import {endPoint, messages} from '../../AppConstants/urlConstants';
 import {PostRequest} from '../../services/apiCall';
-import { SimpleSnackBar } from '../../components/atom/Snakbar/Snakbar';
+import {SimpleSnackBar} from '../../components/atom/Snakbar/Snakbar';
 
 const Login = () => {
   const navigation = useNavigation();
@@ -31,7 +29,7 @@ const Login = () => {
     UserPassword: Yup.string().required('Password is required'),
   });
 
-  const LoginUser = values => {
+  const LoginUser = (values, setSubmitting) => {
     PostRequest(endPoint.LOGIN, values)
       .then(res => {
         if (res?.data?.code == 201) {
@@ -40,9 +38,10 @@ const Login = () => {
         } else {
           SimpleSnackBar(res?.data?.message);
         }
+        setSubmitting(false);
       })
       .catch(err => {
-        SimpleSnackBar( messages.Catch, appColors.Red);
+        SimpleSnackBar(messages.Catch, appColors.Red);
       });
   };
 
@@ -77,8 +76,8 @@ const Login = () => {
             UserPassword: '',
           }}
           validationSchema={validationSchema}
-          onSubmit={values => {
-            LoginUser(values);
+          onSubmit={(values, {setSubmitting}) => {
+            LoginUser(values, setSubmitting);
           }}>
           {({
             handleChange,
@@ -87,6 +86,7 @@ const Login = () => {
             values,
             errors,
             touched,
+            isSubmitting,
           }) => (
             <>
               <View style={{flex: 0.3, justifyContent: 'space-evenly'}}>
@@ -122,15 +122,14 @@ const Login = () => {
                   </View>
                 )}
               </View>
-              <View style={{ flex: 0.05, justifyContent: 'flex-end' }}>
-              <RememberMe
-                RememberTex={'Remember me'}
-                ForgetPasswordText={'Forget Password'}
-                onPressFP={() =>
-                  navigation.navigate(constants.AuthScreen.ForgotPassword)
-                }
-              />
-
+              <View style={{flex: 0.05, justifyContent: 'flex-end'}}>
+                <RememberMe
+                  RememberTex={'Remember me'}
+                  ForgetPasswordText={'Forget Password'}
+                  onPressFP={() =>
+                    navigation.navigate(constants.AuthScreen.ForgotPassword)
+                  }
+                />
               </View>
               <View
                 style={{
@@ -140,8 +139,9 @@ const Login = () => {
                 }}>
                 <ButtonComponent
                   title={'Sign In'}
+                  disabled={isSubmitting}
                   onPress={handleSubmit}
-
+                  isLoading={isSubmitting}
                   // onPress={() =>
                   //   navigation.navigate(constants.AuthScreen.Successfull)
                   // }
@@ -154,7 +154,9 @@ const Login = () => {
         <View
           style={{flex: 0.1, flexDirection: 'row', justifyContent: 'center'}}>
           <TouchableOpacity>
-            <Text style={{color: appColors.GrayColor}}>Not register yet?{` `}</Text>
+            <Text style={{color: appColors.GrayColor}}>
+              Not register yet?{` `}
+            </Text>
           </TouchableOpacity>
 
           <TouchableOpacity
@@ -167,7 +169,9 @@ const Login = () => {
         <View
           style={{flex: 0.1, flexDirection: 'row', justifyContent: 'center'}}>
           <TouchableOpacity>
-            <Text style={{color: appColors.GrayColor}}>Register yourself as a Barber! {` `}</Text>
+            <Text style={{color: appColors.GrayColor}}>
+              Register yourself as a Barber! {` `}
+            </Text>
           </TouchableOpacity>
 
           <TouchableOpacity
