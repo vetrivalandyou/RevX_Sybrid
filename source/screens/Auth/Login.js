@@ -176,7 +176,7 @@ const Login = () => {
 
           <TouchableOpacity
             onPress={() =>
-              navigation.navigate(constants.AuthScreen.CreateAccountBarber)
+              navigation.navigate(constants.AuthScreen.CreateAccount)
             }>
             <Text style={{color: appColors.Goldcolor}}>Register</Text>
           </TouchableOpacity>
