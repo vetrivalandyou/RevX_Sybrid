@@ -1,5 +1,8 @@
 import React, {useState} from 'react';
 import {Text, View, TouchableOpacity} from 'react-native';
+import {Formik} from 'formik';
+import * as Yup from 'yup';
+
 import AuthHeader from '../../components/molecules/AuthHeader';
 import Screen from '../../components/atom/ScreenContainer/Screen';
 import constants from '../../AppConstants/Constants.json';
@@ -13,27 +16,31 @@ import {endPoint} from '../../services/urlConstants';
 import {PostRequest} from '../../services/apiCall';
 import {NormalSnackbar} from '../../components/atom/Snakbar/Snakbar';
 
-const intialSignupFields = {
-  FullName: '',
-  UserPhone: '',
-  UserEmail: '',
-  UserPassword: '',
-};
-
 const CreateAccount = ({navigation}) => {
   const [isEye, setIsEye] = useState(false);
-  const [signupFields, setSignupFields] = useState(intialSignupFields);
 
-  const registerUser = () => {
-    console.log(signupFields);
+  const validationSchema = Yup.object().shape({
+    FullName: Yup.string().required('Name is required'),
+    UserEmail: Yup.string()
+      .email('Invalid email')
+      .required('Email is required'),
+    UserPhone: Yup.string()
+      .required('Phone number is required')
+      .matches(
+        /^\(\d{3}\) \d{3}-\d{4}$/,
+        'Invalid phone number format. Use (555) 555-7439',
+      ),
+    UserPassword: Yup.string().required('Password is required'),
+  });
 
-    PostRequest(endPoint.SIGNUP, signupFields)
+  const registerUser = values => {
+    PostRequest(endPoint.SIGNUP, values)
       .then(res => {
         console.log(res?.data);
         if (res?.data?.code == 201) {
           NormalSnackbar(res?.data?.message);
-          setSignupFields(intialSignupFields)
-          navigation.goBack()
+          setSignupFields(intialSignupFields);
+          navigation.goBack();
         } else {
           NormalSnackbar(res?.data?.message);
         }
@@ -60,84 +67,123 @@ const CreateAccount = ({navigation}) => {
       </View>
       <View
         style={{
-          backgroundColor: 'white',
           flex: 0.75,
           padding: 15,
           backgroundColor: appColors.Black,
         }}>
-        <View style={{flex: 0.5, justifyContent: 'space-evenly'}}>
-          <View style={{flex: 0.4, justifyContent: 'center'}}>
-            <SimpleTextField
-              placeholder={'Enter Full Name'}
-              placeholderTextColor={appColors.White}
-              value={signupFields.FullName}
-              onChangeText={e => {
-                setSignupFields({
-                  ...signupFields,
-                  FullName: e,
-                });
-              }}
-            />
-          </View>
-          <View style={{flex: 0.4, justifyContent: 'center'}}>
-            <SimpleTextField
-              placeholder={'Enter Email Address'}
-              placeholderTextColor={appColors.White}
-              value={signupFields.UserEmail}
-              onChangeText={e => {
-                setSignupFields({
-                  ...signupFields,
-                  UserEmail: e,
-                });
-              }}
-            />
-          </View>
+        <Formik
+          initialValues={{
+            FullName: '',
+            UserEmail: '',
+            UserPassword: '',
+            UserPhone: '',
+          }}
+          validationSchema={validationSchema}
+          onSubmit={values => {
+            // Handle form submission
+            console.log(values);
+            registerUser(values);
+          }}>
+          {({
+            handleChange,
+            handleBlur,
+            handleSubmit,
+            values,
+            errors,
+            touched,
+          }) => (
+            <>
+              <View style={{flex: 0.6, justifyContent: 'space-evenly'}}>
+                <View style={{flex: 0.4, justifyContent: 'center'}}>
+                  <SimpleTextField
+                    placeholder={'Enter Full Name'}
+                    placeholderTextColor={appColors.White}
+                    onChangeText={handleChange('FullName')}
+                    onBlur={handleBlur('FullName')}
+                    value={values.FullName}
+                  />
+                  {touched.FullName && errors.FullName && (
+                    <View style={{marginLeft: 10, margin: 5}}>
+                      <Text style={{color: appColors.Goldcolor, fontSize: 10}}>
+                        {errors.FullName}
+                      </Text>
+                    </View>
+                  )}
+                </View>
+                <View style={{flex: 0.4, justifyContent: 'center'}}>
+                  <SimpleTextField
+                    placeholder={'Enter Email Address'}
+                    placeholderTextColor={appColors.White}
+                    onChangeText={handleChange('UserEmail')}
+                    onBlur={handleBlur('UserEmail')}
+                    value={values.UserEmail}
+                  />
+                  {touched.UserEmail && errors.UserEmail && (
+                    <View style={{marginLeft: 10, margin: 5}}>
+                      <Text style={{color: appColors.Goldcolor, fontSize: 10}}>
+                        {errors.UserEmail}
+                      </Text>
+                    </View>
+                  )}
+                </View>
 
-          <View
-            style={{
-              flex: 0.4,
-              justifyContent: 'center',
-              borderStartColor: 'red',
-            }}>
-            <SimpleTextField
-              placeholder={'Enter Your Password'}
-              eyeOpen={isEye}
-              onPressIcon={() => setIsEye(!isEye)}
-              secureTextEntry={true}
-              placeholderTextColor={appColors.White}
-              value={signupFields.UserPassword}
-              onChangeText={e => {
-                setSignupFields({
-                  ...signupFields,
-                  UserPassword: e,
-                });
-              }}
-            />
-          </View>
-          <View style={{flex: 0.4, justifyContent: 'center'}}>
-            <SimpleTextField
-              placeholder={'Contact Number'}
-              placeholderTextColor={appColors.White}
-              value={signupFields.UserPhone}
-              onChangeText={e => {
-                setSignupFields({
-                  ...signupFields,
-                  UserPhone: e,
-                });
-              }}
-            />
-          </View>
-        </View>
-        <View style={{flex: 0.1, justifyContent: 'center'}}>
-          <RememberMe
-            RememberTex={'Remember me'}
-            ForgetPasswordText={'Terms & Conditions'}
-          />
-        </View>
-        <View style={{flex: 0.2}}>
-          <ButtonComponent title={'Create Account'} onPress={registerUser} />
-        </View>
+                <View
+                  style={{
+                    flex: 0.4,
+                    justifyContent: 'center',
+                    // borderStartColor: 'red',
+                  }}>
+                  <SimpleTextField
+                    placeholder={'Enter Your Password'}
+                    eyeOpen={isEye}
+                    onPressIcon={() => setIsEye(!isEye)}
+                    secureTextEntry={true}
+                    placeholderTextColor={appColors.White}
+                    onChangeText={handleChange('UserPassword')}
+                    onBlur={handleBlur('UserPassword')}
+                    value={values.UserPassword}
+                  />
+                  {touched.UserPassword && errors.UserPassword && (
+                    <View style={{marginLeft: 10, margin: 5}}>
+                      <Text style={{color: appColors.Goldcolor, fontSize: 10}}>
+                        {errors.UserPassword}
+                      </Text>
+                    </View>
+                  )}
+                </View>
+                <View style={{flex: 0.4, justifyContent: 'center'}}>
+                  <SimpleTextField
+                    placeholder={'Contact Number'}
+                    placeholderTextColor={appColors.White}
+                    onChangeText={handleChange('UserPhone')}
+                    onBlur={handleBlur('UserPhone')}
+                    value={values.UserPhone}
+                  />
+                  {touched.UserPhone && errors.UserPhone && (
+                    <View style={{marginLeft: 10, margin: 5}}>
+                      <Text style={{color: appColors.Goldcolor, fontSize: 10}}>
+                        {errors.UserPhone}
+                      </Text>
+                    </View>
+                  )}
+                </View>
+              </View>
 
+              <View style={{flex: 0.1, justifyContent: 'center'}}>
+                <RememberMe
+                  RememberTex={'Remember me'}
+                  ForgetPasswordText={'Terms & Conditions'}
+                />
+              </View>
+              <View style={{flex: 0.15}}>
+                <ButtonComponent
+                  title={'Create Account'}
+                  onPress={handleSubmit}
+                />
+              </View>
+            </>
+          )}
+        </Formik>
         <View
           style={{flex: 0.1, flexDirection: 'row', justifyContent: 'center'}}>
           <TouchableOpacity>
