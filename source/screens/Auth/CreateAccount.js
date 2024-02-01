@@ -37,6 +37,7 @@ const CreateAccount = ({navigation}) => {
     PostRequest(endPoint.SIGNUP, values)
       .then(res => {
         if (res?.data?.code == 201) {
+          console.log(res?.data)
           SimpleSnackBar(res?.data?.message);
           navigation.goBack();
         } else {
@@ -57,7 +58,7 @@ const CreateAccount = ({navigation}) => {
       barStyle="light-content">
       <View style={{flex: 0.25}}>
         <AuthHeader
-          logIn={'Log In'}
+          logIn={'Sign Up'}
           heading={'Create Account'}
           subheading={'Please Login your account, Enter your details.'}
           onPress={() => navigation.goBack()}
@@ -93,7 +94,7 @@ const CreateAccount = ({navigation}) => {
                 <View style={{flex: 0.4, justifyContent: 'center'}}>
                   <SimpleTextField
                     placeholder={'Enter Full Name'}
-                    placeholderTextColor={appColors.White}
+                    placeholderTextColor={appColors.LightGray}
                     onChangeText={handleChange('FullName')}
                     onBlur={handleBlur('FullName')}
                     value={values.FullName}
@@ -109,7 +110,7 @@ const CreateAccount = ({navigation}) => {
                 <View style={{flex: 0.4, justifyContent: 'center'}}>
                   <SimpleTextField
                     placeholder={'Enter Email Address'}
-                    placeholderTextColor={appColors.White}
+                    placeholderTextColor={appColors.LightGray}
                     onChangeText={handleChange('UserEmail')}
                     onBlur={handleBlur('UserEmail')}
                     value={values.UserEmail}
@@ -134,7 +135,7 @@ const CreateAccount = ({navigation}) => {
                     eyeOpen={isEye}
                     onPressIcon={() => setIsEye(!isEye)}
                     secureTextEntry={true}
-                    placeholderTextColor={appColors.White}
+                    placeholderTextColor={appColors.LightGray}
                     onChangeText={handleChange('UserPassword')}
                     onBlur={handleBlur('UserPassword')}
                     value={values.UserPassword}
@@ -150,7 +151,7 @@ const CreateAccount = ({navigation}) => {
                 <View style={{flex: 0.4, justifyContent: 'center'}}>
                   <SimpleTextField
                     placeholder={'Contact Number'}
-                    placeholderTextColor={appColors.White}
+                    placeholderTextColor={appColors.LightGray}
                     onChangeText={handleChange('UserPhone')}
                     onBlur={handleBlur('UserPhone')}
                     value={values.UserPhone}
@@ -184,7 +185,7 @@ const CreateAccount = ({navigation}) => {
           style={{flex: 0.1, flexDirection: 'row', justifyContent: 'center'}}>
           <TouchableOpacity>
             <Text style={{color: appColors.GrayColor}}>
-              Already have an Account ?
+              Already have an Account?{` `}
             </Text>
           </TouchableOpacity>
 

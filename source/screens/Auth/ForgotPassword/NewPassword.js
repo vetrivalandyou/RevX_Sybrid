@@ -45,7 +45,7 @@ const NewPassword = ({navigation}) => {
             value={passwordValue}
             onChangeText={setPasswordValue}
             secureTextEntry={!isPasswordVisible}
-            placeholderTextColor={appColors.White}
+            placeholderTextColor={appColors.LightGray}
           />
 
           <SimpleTextField
@@ -53,7 +53,7 @@ const NewPassword = ({navigation}) => {
             value={passwordValue}
             onChangeText={setPasswordValue}
             secureTextEntry={!isPasswordVisible}
-            placeholderTextColor={appColors.White}
+            placeholderTextColor={appColors.LightGray}
           />
         </View>
 

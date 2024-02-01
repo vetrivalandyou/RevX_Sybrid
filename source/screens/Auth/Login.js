@@ -1,26 +1,26 @@
 import React, {useEffect, useState} from 'react';
 import {Text, View, StatusBar, TouchableOpacity} from 'react-native';
+import * as Yup from 'yup';
+import {Formik} from 'formik';
+
 import AuthHeader from '../../components/molecules/AuthHeader';
 import Screen from '../../components/atom/ScreenContainer/Screen';
 import constants from '../../AppConstants/Constants.json';
 import SimpleTextField from '../../components/molecules/TextFeilds/SimpleTextField';
 import appColors from '../../AppConstants/appColors';
-import CustomIcon, {
+import {
   Icons,
 } from '../../components/molecules/CustomIcon/CustomIcon';
 import ButtonComponent from '../../components/atom/CustomButtons/ButtonComponent';
 import RememberMe from '../../components/molecules/RememberMe';
 import SocailLogin from '../../components/molecules/SocailLogin';
 import {useNavigation} from '@react-navigation/native';
-import axiosInstance from '../../services/axiosInstance';
-import {endPoint} from '../../AppConstants/urlConstants';
-import {GetRequest, PostRequest} from '../../services/apiCall';
-import * as Yup from 'yup';
-import {Formik} from 'formik';
+import {endPoint, messages} from '../../AppConstants/urlConstants';
+import {PostRequest} from '../../services/apiCall';
+import { SimpleSnackBar } from '../../components/atom/Snakbar/Snakbar';
 
 const Login = () => {
   const navigation = useNavigation();
-  const [passwordValue, setPasswordValue] = React.useState('');
   const [isPasswordVisible, setIsPasswordVisible] = React.useState(false);
   const [isEye, setIsEye] = useState(false);
 
@@ -34,17 +34,15 @@ const Login = () => {
   const LoginUser = values => {
     PostRequest(endPoint.LOGIN, values)
       .then(res => {
-        console.log(res?.data);
         if (res?.data?.code == 201) {
-          NormalSnackbar(res?.data?.message);
-          setLoginFields(intialLoginFields);
+          SimpleSnackBar(res?.data?.message);
           navigation.goBack();
         } else {
-          NormalSnackbar(res?.data?.message);
+          SimpleSnackBar(res?.data?.message);
         }
       })
       .catch(err => {
-        console.log(err);
+        SimpleSnackBar( messages.Catch, appColors.Red);
       });
   };
 
@@ -80,8 +78,6 @@ const Login = () => {
           }}
           validationSchema={validationSchema}
           onSubmit={values => {
-            // Handle form submission
-            console.log(values);
             LoginUser(values);
           }}>
           {({
@@ -96,7 +92,7 @@ const Login = () => {
               <View style={{flex: 0.3, justifyContent: 'space-evenly'}}>
                 <SimpleTextField
                   placeholder={'Enter Your Email'}
-                  placeholderTextColor={appColors.White}
+                  placeholderTextColor={appColors.LightGray}
                   onChangeText={handleChange('UserEmail')}
                   onBlur={handleBlur('UserEmail')}
                   value={values.UserEmail}
@@ -113,7 +109,7 @@ const Login = () => {
                   placeholder={'Enter Your Password'}
                   onPressIcon={() => setIsEye(!isEye)}
                   secureTextEntry={!isPasswordVisible}
-                  placeholderTextColor={appColors.White}
+                  placeholderTextColor={appColors.LightGray}
                   onChangeText={handleChange('UserPassword')}
                   onBlur={handleBlur('UserPassword')}
                   value={values.UserPassword}
@@ -126,7 +122,7 @@ const Login = () => {
                   </View>
                 )}
               </View>
-              {/* <View style={{ flex: 0.1, justifyContent: 'center' ,backgroundColor:'purple'}}> */}
+              <View style={{ flex: 0.05, justifyContent: 'flex-end' }}>
               <RememberMe
                 RememberTex={'Remember me'}
                 ForgetPasswordText={'Forget Password'}
@@ -135,7 +131,7 @@ const Login = () => {
                 }
               />
 
-              {/* </View> */}
+              </View>
               <View
                 style={{
                   flex: 0.2,
@@ -158,7 +154,7 @@ const Login = () => {
         <View
           style={{flex: 0.1, flexDirection: 'row', justifyContent: 'center'}}>
           <TouchableOpacity>
-            <Text style={{color: appColors.GrayColor}}>Not register yet? </Text>
+            <Text style={{color: appColors.GrayColor}}>Not register yet?{` `}</Text>
           </TouchableOpacity>
 
           <TouchableOpacity
@@ -168,7 +164,19 @@ const Login = () => {
             <Text style={{color: appColors.Goldcolor}}>Create an account</Text>
           </TouchableOpacity>
         </View>
-        <View></View>
+        <View
+          style={{flex: 0.1, flexDirection: 'row', justifyContent: 'center'}}>
+          <TouchableOpacity>
+            <Text style={{color: appColors.GrayColor}}>Register yourself as a Barber! {` `}</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            onPress={() =>
+              navigation.navigate(constants.AuthScreen.CreateAccount)
+            }>
+            <Text style={{color: appColors.Goldcolor}}>Register</Text>
+          </TouchableOpacity>
+        </View>
 
         <SocailLogin
           SocailLogin={'or Login Using'}
