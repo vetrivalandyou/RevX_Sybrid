@@ -17,17 +17,19 @@ const NewPassword = ({navigation}) => {
   // };
 
   return (
-    <Screen authStyle={{ flex: 1, backgroundColor: appColors.Goldcolor}}
-    viewStyle={{ flex: 1, backgroundColor: appColors.Black}} statusBarColor={appColors.Goldcolor}>
-      <View style={{ flex: 0.3}}>
-      <AuthHeader
-        logIn={'New Password'}
-        heading={'Create New Password'}
-        subheading={'Please Login your account, Enter your details.'}
-        onPress={() => navigation.goBack()}
-      />
+    <Screen
+      authStyle={{flex: 1, backgroundColor: appColors.Goldcolor}}
+      viewStyle={{flex: 1, backgroundColor: appColors.Black}}
+      statusBarColor={appColors.Goldcolor}>
+      <View style={{flex: 0.3}}>
+        <AuthHeader
+          logIn={'New Password'}
+          heading={'Create New Password'}
+          subheading={'Please Login your account, Enter your details.'}
+          onPress={() => navigation.goBack()}
+        />
       </View>
-      
+
       <View
         style={{
           backgroundColor: 'white',

@@ -9,14 +9,19 @@ import constants from '../../../AppConstants/Constants.json';
 import ButtonComponent from '../../../components/atom/CustomButtons/ButtonComponent';
 
 const ForgotPassword = ({navigation}) => (
-  <Screen authStyle={{ flex: 1, backgroundColor: appColors.Goldcolor}}
-  viewStyle={{ flex: 1, backgroundColor: appColors.Black}} statusBarColor={appColors.Goldcolor}>
-    <View style={{ flex: 0.3 }}>
+  <Screen
+    authStyle={{flex: 1, backgroundColor: appColors.Goldcolor}}
+    viewStyle={{flex: 1, backgroundColor: appColors.Black}}
+    statusBarColor={appColors.Goldcolor}>
+    <View style={{flex: 0.3}}>
       <AuthHeader
         logIn={'Forgot'}
         heading={'Forgot Password'}
-        subheading={'Enter your email address and we will send a reset password.'}
-        onPress={() => navigation.goBack()} />
+        subheading={
+          'Enter your email address and we will send a reset password.'
+        }
+        onPress={() => navigation.goBack()}
+      />
     </View>
     <View
       style={{
@@ -34,7 +39,8 @@ const ForgotPassword = ({navigation}) => (
           placeholder={'Johannaemma@gmail.com'}
           placeholderTextColor={appColors.LightGray}
           // name={eyeOpen ? 'eye-outline' : 'eye-off-outline'}
-          eyeOpen={false} />
+          eyeOpen={false}
+        />
       </View>
 
       <View
@@ -46,7 +52,10 @@ const ForgotPassword = ({navigation}) => (
         }}>
         <ButtonComponent
           title={'Reset Password'}
-          onPress={() => navigation.navigate(constants.AuthScreen.ForgotCheckEmail)} />
+          onPress={() =>
+            navigation.navigate(constants.AuthScreen.ForgotCheckEmail)
+          }
+        />
       </View>
     </View>
   </Screen>
