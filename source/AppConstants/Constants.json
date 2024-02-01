@@ -6,9 +6,10 @@
     "CreateAccount": "CreateAccount",
     "Successfull": "Successfull",
     "ForgotPassword": "ForgotPassword",
-    "ForgotCheckEmail":"ForgotCheckEmail",
-    "OTP_Verification":"OTP_Verification",
-    "NewPassword":"NewPassword"
+    "ForgotCheckEmail": "ForgotCheckEmail",
+    "NewPassword": "NewPassword",
+    "CreateAccountBarber": "CreateAccountBarber",
+    "OTP_Verification": "OTP_Verification"
   },
   "screen": {
     "Login": "Login",

@@ -16,7 +16,7 @@ import {endPoint, messages} from '../../AppConstants/urlConstants';
 import {PostRequest} from '../../services/apiCall';
 import {SimpleSnackBar} from '../../components/atom/Snakbar/Snakbar';
 
-const CreateAccount = ({navigation}) => {
+const CreateAccountBarber = ({navigation}) => {
   const [isEye, setIsEye] = useState(false);
 
   const validationSchema = Yup.object().shape({
@@ -31,13 +31,13 @@ const CreateAccount = ({navigation}) => {
         'Invalid phone number format. Use (555) 555-7439',
       ),
     UserPassword: Yup.string().required('Password is required'),
+    // AddBio: Yup.string().required('Add Bio is required'),
   });
 
-  const registerUser = values => {
+  const barberRegisterUser = values => {
     PostRequest(endPoint.SIGNUP, values)
       .then(res => {
         if (res?.data?.code == 201) {
-          console.log(res?.data)
           SimpleSnackBar(res?.data?.message);
           navigation.goBack();
         } else {
@@ -56,9 +56,9 @@ const CreateAccount = ({navigation}) => {
       statusBarColor={appColors.Goldcolor}
       translucent={false}
       barStyle="light-content">
-      <View style={{flex: 0.25}}>
+      <View style={{flex: 0.2}}>
         <AuthHeader
-          logIn={'Sign Up'}
+          logIn={'Log In'}
           heading={'Create Account'}
           subheading={'Please Login your account, Enter your details.'}
           onPress={() => navigation.goBack()}
@@ -66,7 +66,7 @@ const CreateAccount = ({navigation}) => {
       </View>
       <View
         style={{
-          flex: 0.75,
+          flex: 0.8,
           padding: 15,
           backgroundColor: appColors.Black,
         }}>
@@ -76,10 +76,13 @@ const CreateAccount = ({navigation}) => {
             UserEmail: '',
             UserPassword: '',
             UserPhone: '',
+            // AddBio: '',
+            AddSpecialties: '',
+            AddSkills: '',
           }}
           validationSchema={validationSchema}
           onSubmit={values => {
-            registerUser(values);
+            barberRegisterUser(values);
           }}>
           {({
             handleChange,
@@ -90,17 +93,18 @@ const CreateAccount = ({navigation}) => {
             touched,
           }) => (
             <>
-              <View style={{flex: 0.6, justifyContent: 'space-evenly'}}>
+              <View style={{flex: 0.9, justifyContent: 'space-evenly'}}>
                 <View style={{flex: 0.4, justifyContent: 'center'}}>
                   <SimpleTextField
                     placeholder={'Enter Full Name'}
-                    placeholderTextColor={appColors.LightGray}
+                    placeholderTextColor={appColors.White}
                     onChangeText={handleChange('FullName')}
                     onBlur={handleBlur('FullName')}
                     value={values.FullName}
                   />
                   {touched.FullName && errors.FullName && (
-                    <View style={{marginLeft: 10, margin: 5}}>
+                    <View
+                      style={{marginLeft: 10, marginTop: 2, marginBottom: 15}}>
                       <Text style={{color: appColors.Goldcolor, fontSize: 10}}>
                         {errors.FullName}
                       </Text>
@@ -110,13 +114,14 @@ const CreateAccount = ({navigation}) => {
                 <View style={{flex: 0.4, justifyContent: 'center'}}>
                   <SimpleTextField
                     placeholder={'Enter Email Address'}
-                    placeholderTextColor={appColors.LightGray}
+                    placeholderTextColor={appColors.White}
                     onChangeText={handleChange('UserEmail')}
                     onBlur={handleBlur('UserEmail')}
                     value={values.UserEmail}
                   />
                   {touched.UserEmail && errors.UserEmail && (
-                    <View style={{marginLeft: 10, margin: 5}}>
+                    <View
+                      style={{marginLeft: 10, marginTop: 2, marginBottom: 15}}>
                       <Text style={{color: appColors.Goldcolor, fontSize: 10}}>
                         {errors.UserEmail}
                       </Text>
@@ -135,13 +140,14 @@ const CreateAccount = ({navigation}) => {
                     eyeOpen={isEye}
                     onPressIcon={() => setIsEye(!isEye)}
                     secureTextEntry={true}
-                    placeholderTextColor={appColors.LightGray}
+                    placeholderTextColor={appColors.White}
                     onChangeText={handleChange('UserPassword')}
                     onBlur={handleBlur('UserPassword')}
                     value={values.UserPassword}
                   />
                   {touched.UserPassword && errors.UserPassword && (
-                    <View style={{marginLeft: 10, margin: 5}}>
+                    <View
+                      style={{marginLeft: 10, marginTop: 2, marginBottom: 15}}>
                       <Text style={{color: appColors.Goldcolor, fontSize: 10}}>
                         {errors.UserPassword}
                       </Text>
@@ -151,7 +157,7 @@ const CreateAccount = ({navigation}) => {
                 <View style={{flex: 0.4, justifyContent: 'center'}}>
                   <SimpleTextField
                     placeholder={'Contact Number'}
-                    placeholderTextColor={appColors.LightGray}
+                    placeholderTextColor={appColors.White}
                     onChangeText={handleChange('UserPhone')}
                     onBlur={handleBlur('UserPhone')}
                     value={values.UserPhone}
@@ -164,6 +170,57 @@ const CreateAccount = ({navigation}) => {
                     </View>
                   )}
                 </View>
+
+                {/* <View style={{flex: 0.4, justifyContent: 'center'}}>
+                  <SimpleTextField
+                    placeholder={'Add Bio'}
+                    placeholderTextColor={appColors.White}
+                    onChangeText={handleChange('AddBio')}
+                    onBlur={handleBlur('AddBio')}
+                    value={values.AddBio}
+                  />
+                  {touched.AddBio && errors.AddBio && (
+                    <View style={{marginLeft: 10, margin: 5}}>
+                      <Text style={{color: appColors.Goldcolor, fontSize: 10}}>
+                        {errors.AddBio}
+                      </Text>
+                    </View>
+                  )}
+                </View> */}
+
+                <View style={{flex: 0.4, justifyContent: 'center'}}>
+                  <SimpleTextField
+                    placeholder={'Add Specialties'}
+                    placeholderTextColor={appColors.White}
+                    onChangeText={handleChange('AddSpecialties')}
+                    onBlur={handleBlur('AddSpecialties')}
+                    value={values.AddSpecialties}
+                  />
+                  {touched.AddSpecialties && errors.AddSpecialties && (
+                    <View style={{marginLeft: 10, margin: 5}}>
+                      <Text style={{color: appColors.Goldcolor, fontSize: 10}}>
+                        {errors.AddSpecialties}
+                      </Text>
+                    </View>
+                  )}
+                </View>
+
+                <View style={{flex: 0.4, justifyContent: 'center'}}>
+                  <SimpleTextField
+                    placeholder={'Add Skills'}
+                    placeholderTextColor={appColors.White}
+                    onChangeText={handleChange('AddSkills')}
+                    onBlur={handleBlur('AddSkills')}
+                    value={values.AddSkills}
+                  />
+                  {touched.AddSkills && errors.AddSkills && (
+                    <View style={{marginLeft: 10, margin: 5}}>
+                      <Text style={{color: appColors.Goldcolor, fontSize: 10}}>
+                        {errors.AddSkills}
+                      </Text>
+                    </View>
+                  )}
+                </View>
               </View>
 
               <View style={{flex: 0.1, justifyContent: 'center'}}>
@@ -172,7 +229,7 @@ const CreateAccount = ({navigation}) => {
                   ForgetPasswordText={'Terms & Conditions'}
                 />
               </View>
-              <View style={{flex: 0.15}}>
+              <View style={{flex: 0.1}}>
                 <ButtonComponent
                   title={'Create Account'}
                   onPress={handleSubmit}
@@ -182,10 +239,16 @@ const CreateAccount = ({navigation}) => {
           )}
         </Formik>
         <View
-          style={{flex: 0.1, flexDirection: 'row', justifyContent: 'center'}}>
+          style={{
+            flex: 0.05,
+            flexDirection: 'row',
+            justifyContent: 'center',
+            marginTop: 5,
+            // backgroundColor: 'red',
+          }}>
           <TouchableOpacity>
             <Text style={{color: appColors.GrayColor}}>
-              Already have an Account?{` `}
+              Already have an Account ?
             </Text>
           </TouchableOpacity>
 
@@ -194,7 +257,6 @@ const CreateAccount = ({navigation}) => {
             <Text style={{color: appColors.Goldcolor}}> Login</Text>
           </TouchableOpacity>
         </View>
-        <View></View>
 
         <SocailLogin
           SocailLogin={'or Login Using'}
@@ -206,4 +268,4 @@ const CreateAccount = ({navigation}) => {
     </Screen>
   );
 };
-export default CreateAccount;
+export default CreateAccountBarber;
