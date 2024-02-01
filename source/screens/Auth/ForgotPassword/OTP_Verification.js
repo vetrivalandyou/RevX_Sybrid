@@ -85,8 +85,7 @@ const OTP_Verification = ({navigation}) => {
               marginTop: 12,
               lineHeight: 22,
             }}>
-            Enter 6 digit verification code sent to your mobile number (555)
-            555-7549
+            Enter 6 digit verification code sent to your mobile number
           </Text>
         </View>
         <View
