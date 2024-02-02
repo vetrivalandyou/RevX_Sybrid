@@ -154,7 +154,6 @@ const OTP_Verification_Style = StyleSheet.create({
     borderBottomWidth: 1,
     borderRightWidth: 1,
     borderTopWidth: 1,
-    borderBottomColor: appColors.White,
     color: appColors.White,
     fontSize: 22,
     width: 50,
