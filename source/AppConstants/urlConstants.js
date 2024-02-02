@@ -41,6 +41,8 @@ export const endPoint = {
   OPT_SEDING: 'Auth/OTP_Sending',
   OTP_VERIFICATION: 'Auth/OTP_Verification',
   RESET_PASSWORD: 'Auth/Reset_Password',
+  OTP_SENDING: 'Auth/OTP_Sending',
+  OTP_VERIFICATION: 'Auth/OTP_Verification',
 
   //Barbers End Points
   BARBER_SERVICES: 'Barber/Barber_Services',

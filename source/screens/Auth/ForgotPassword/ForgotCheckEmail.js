@@ -8,7 +8,9 @@ import constants from '../../../AppConstants/Constants.json';
 import checkEmailImage from '../../../assets/check-email.png';
 import ButtonComponent from '../../../components/atom/CustomButtons/ButtonComponent';
 
-const ForgotCheckEmail = ({navigation}) => {
+const ForgotCheckEmail = ({navigation,route}) => {
+  const {Email} = route.params;
+
   return (
     <Screen viewStyle={{ flex: 1, backgroundColor: appColors.Black}} statusBarColor={appColors.Black}>
       <View style={{ flex: 0.1, backgroundColor:'blue', justifyContent:'center'}}>
@@ -75,7 +77,7 @@ const ForgotCheckEmail = ({navigation}) => {
           }}>
           <ButtonComponent
             title={'Continue'}
-            onPress={() => navigation.navigate(constants.AuthScreen.OTP_Verification)}
+            onPress={() => navigation.navigate(constants.AuthScreen.OTP_Verification, {Email: Email})}
           />
         </View>
 

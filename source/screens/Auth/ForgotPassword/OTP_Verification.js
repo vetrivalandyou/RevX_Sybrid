@@ -6,8 +6,14 @@ import AuthHeader from '../../../components/molecules/AuthHeader';
 import constants from '../../../AppConstants/Constants.json';
 
 import ButtonComponent from '../../../components/atom/CustomButtons/ButtonComponent';
+import { PostRequest } from '../../../services/apiCall';
+import { endPoint } from '../../../AppConstants/urlConstants';
+import { SimpleSnackBar } from '../../../components/atom/Snakbar/Snakbar';
 
-const OTP_Verification = ({navigation}) => {
+const OTP_Verification = ({navigation, route}) => {
+
+  const {Email} = route.params;
+
   const [timer, setTimer] = useState(60);
   const [otp, setOtp] = useState(['','','','','',''])
   const otpInputRefs = Array.from({length: 6}, () => useRef(0));
@@ -45,14 +51,33 @@ const OTP_Verification = ({navigation}) => {
     if (index < otpInputRefs.length - 1 && value !== '') {
       otpInputRefs[index + 1].current.focus();
     }
-    
+    if(index == 5){
+      otpVerification()
+    }
   };
 
   const handleInputFocus = index => {
     setFocusedIndex(index);
   };
 
-  console.log("otpInputRefs",otp.join(''))
+  const otpVerification = () => {
+    const payload = {
+      Email: Email,
+      OTP: otp.join('')
+    }
+    PostRequest(endPoint.OTP_VERIFICATION, payload)
+    .then((res) => {
+      console.log("res", res?.data)
+      if(res?.data?.code == 200){
+        navigation.navigate(constants.AuthScreen.NewPassword)
+      }else{
+        SimpleSnackBar(res?.data?.message)
+      }
+    })
+    .catch((err) => {
+      SimpleSnackBar(res?.data?.message)
+    })
+  }
 
   return (
     <Screen
