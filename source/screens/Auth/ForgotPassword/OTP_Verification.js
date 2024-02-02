@@ -6,23 +6,32 @@ import AuthHeader from '../../../components/molecules/AuthHeader';
 import constants from '../../../AppConstants/Constants.json';
 
 import ButtonComponent from '../../../components/atom/CustomButtons/ButtonComponent';
+import { PostRequest } from '../../../services/apiCall';
+import { endPoint } from '../../../AppConstants/urlConstants';
+import { SimpleSnackBar } from '../../../components/atom/Snakbar/Snakbar';
 
-const OTP_Verification = ({navigation}) => {
+const OTP_Verification = ({navigation, route}) => {
+
+  const {Email} = route.params;
+
   const [timer, setTimer] = useState(60);
+  const [otp, setOtp] = useState(['','','','','',''])
+  const otpInputRefs = Array.from({length: 6}, () => useRef(0));
+  const [focusedIndex, setFocusedIndex] = useState(0);
 
   useEffect(() => {
     otpInputRefs[0].current.focus();
   }, []);
 
-  useEffect(() => {
-    let interval;
-    if (timer > 0) {
-      interval = setInterval(() => {
-        setTimer(prevTimer => prevTimer - 1);
-      }, 1000);
-    }
-    return () => clearInterval(interval);
-  }, [timer]);
+  // useEffect(() => {
+  //   let interval;
+  //   if (timer > 0) {
+  //     interval = setInterval(() => {
+  //       setTimer(prevTimer => prevTimer - 1);
+  //     }, 1000);
+  //   }
+  //   return () => clearInterval(interval);
+  // }, [timer]);
 
   const formatTime = time => {
     const minutes = Math.floor(time / 60);
@@ -32,20 +41,43 @@ const OTP_Verification = ({navigation}) => {
       .padStart(2, '0')}`;
   };
 
-  const otpInputRefs = Array.from({length: 6}, () => useRef(0));
-  const [focusedIndex, setFocusedIndex] = useState(0);
-
   const handleOTPInputChange = (index, value) => {
     const otpValues = Array.from(value);
+    const updatedOtp = [...otp]
+    updatedOtp[index] = value.charAt(value.length - 1);
+    setOtp(updatedOtp)
+
     otpValues[index] = value.charAt(value.length - 1);
     if (index < otpInputRefs.length - 1 && value !== '') {
       otpInputRefs[index + 1].current.focus();
+    }
+    if(index == 5){
+      otpVerification()
     }
   };
 
   const handleInputFocus = index => {
     setFocusedIndex(index);
   };
+
+  const otpVerification = () => {
+    const payload = {
+      Email: Email,
+      OTP: otp.join('')
+    }
+    PostRequest(endPoint.OTP_VERIFICATION, payload)
+    .then((res) => {
+      console.log("res", res?.data)
+      if(res?.data?.code == 200){
+        navigation.navigate(constants.AuthScreen.NewPassword)
+      }else{
+        SimpleSnackBar(res?.data?.message)
+      }
+    })
+    .catch((err) => {
+      SimpleSnackBar(res?.data?.message)
+    })
+  }
 
   return (
     <Screen
@@ -114,7 +146,7 @@ const OTP_Verification = ({navigation}) => {
                 : appColors.disableGrayColor
             }
             onPress={() =>
-              navigation.navigate(constants.AuthScreen.ForgotCheckEmail)
+              navigation.navigate(constants.AuthScreen.NewPassword)
             }
           />
         </View>
