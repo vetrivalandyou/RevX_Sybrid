@@ -23,15 +23,15 @@ const OTP_Verification = ({navigation, route}) => {
     otpInputRefs[0].current.focus();
   }, []);
 
-  // useEffect(() => {
-  //   let interval;
-  //   if (timer > 0) {
-  //     interval = setInterval(() => {
-  //       setTimer(prevTimer => prevTimer - 1);
-  //     }, 1000);
-  //   }
-  //   return () => clearInterval(interval);
-  // }, [timer]);
+  useEffect(() => {
+    let interval;
+    if (timer > 0) {
+      interval = setInterval(() => {
+        setTimer(prevTimer => prevTimer - 1);
+      }, 1000);
+    }
+    return () => clearInterval(interval);
+  }, [timer]);
 
   const formatTime = time => {
     const minutes = Math.floor(time / 60);
@@ -40,6 +40,13 @@ const OTP_Verification = ({navigation, route}) => {
       .toString()
       .padStart(2, '0')}`;
   };
+
+  useEffect(() => {
+    if(otp[otp.length - 1] != ''){
+      console.log("inside")
+      otpVerification()
+    }
+  },[otp])
 
   const handleOTPInputChange = (index, value) => {
     const otpValues = Array.from(value);
@@ -50,9 +57,6 @@ const OTP_Verification = ({navigation, route}) => {
     otpValues[index] = value.charAt(value.length - 1);
     if (index < otpInputRefs.length - 1 && value !== '') {
       otpInputRefs[index + 1].current.focus();
-    }
-    if(index == 5){
-      otpVerification()
     }
   };
 
@@ -65,11 +69,12 @@ const OTP_Verification = ({navigation, route}) => {
       Email: Email,
       OTP: otp.join('')
     }
+    console.log("payload",payload)
     PostRequest(endPoint.OTP_VERIFICATION, payload)
     .then((res) => {
       console.log("res", res?.data)
       if(res?.data?.code == 200){
-        navigation.navigate(constants.AuthScreen.NewPassword)
+        navigation.navigate(constants.AuthScreen.NewPassword, {Email: Email})
       }else{
         SimpleSnackBar(res?.data?.message)
       }
@@ -77,6 +82,23 @@ const OTP_Verification = ({navigation, route}) => {
     .catch((err) => {
       SimpleSnackBar(res?.data?.message)
     })
+  }
+
+  const handlePressResendOTP = () => {
+    PostRequest(endPoint.OPT_SEDING, Email)
+  .then((res) => {
+    console.log("res", res?.data)
+    if(res?.data?.code == 200){
+      console.log("successfull")
+      SimpleSnackBar(res?.data?.message)
+    } else{
+      SimpleSnackBar(res?.data?.message)
+    }
+    setSubmitting(false)
+  })
+  .catch((err) => {
+    SimpleSnackBar(res?.data?.message)
+  })
   }
 
   return (
@@ -145,9 +167,7 @@ const OTP_Verification = ({navigation, route}) => {
                 ? appColors.Goldcolor
                 : appColors.disableGrayColor
             }
-            onPress={() =>
-              navigation.navigate(constants.AuthScreen.NewPassword)
-            }
+            onPress={handlePressResendOTP}
           />
         </View>
       </View>

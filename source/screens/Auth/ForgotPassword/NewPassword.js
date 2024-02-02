@@ -8,13 +8,13 @@ import constants from '../../../AppConstants/Constants.json';
 
 import ButtonComponent from '../../../components/atom/CustomButtons/ButtonComponent';
 
-const NewPassword = ({navigation}) => {
+const NewPassword = ({navigation, route}) => {
+
+  const {Email} = route.params;
   const [passwordValue, setPasswordValue] = React.useState('');
   const [isPasswordVisible, setIsPasswordVisible] = React.useState(false);
 
-  // const togglePasswordVisibility = () => {
-  //   setIsPasswordVisible(!isPasswordVisible);
-  // };
+  console.log("EmailEmailEmail",Email)
 
   return (
     <Screen
