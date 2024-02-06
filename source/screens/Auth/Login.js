@@ -150,9 +150,6 @@ const Login = () => {
                   disabled={isSubmitting}
                   onPress={handleSubmit}
                   isLoading={isSubmitting}
-                  // onPress={() =>
-                  //   navigation.navigate(constants.AuthScreen.Successfull)
-                  // }
                 />
               </View>
             </>
