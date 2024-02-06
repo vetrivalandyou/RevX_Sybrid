@@ -1,5 +1,5 @@
-import React, {useEffect, useState} from 'react';
-import {Text, View, StatusBar, TouchableOpacity} from 'react-native';
+import React, {useState} from 'react';
+import {Text, View, TouchableOpacity} from 'react-native';
 import * as Yup from 'yup';
 import {Formik} from 'formik';
 
