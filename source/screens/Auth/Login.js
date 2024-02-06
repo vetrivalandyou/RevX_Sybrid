@@ -14,9 +14,9 @@ import RememberMe from '../../components/molecules/RememberMe';
 import SocailLogin from '../../components/molecules/SocailLogin';
 import {useNavigation} from '@react-navigation/native';
 import {endPoint, messages} from '../../AppConstants/urlConstants';
-import {GetRequest, PostRequest} from '../../services/apiCall';
+import {PostRequest} from '../../services/apiCall';
 import {SimpleSnackBar} from '../../components/atom/Snakbar/Snakbar';
-import {getAsyncItem, setAsyncItem} from '../../utils/SettingAsyncStorage';
+import {setAsyncItem} from '../../utils/SettingAsyncStorage';
 
 const Login = () => {
   const navigation = useNavigation();
