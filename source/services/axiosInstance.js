@@ -1,7 +1,12 @@
 import axios from 'axios';
-// import { API_BASE_URL } from '@env';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import {getAsyncItem} from '../utils/SettingAsyncStorage';
 import {baseUrl, endPoint} from '../AppConstants/urlConstants';
+import constants from '../AppConstants/Constants.json';
+
+const getToken = async () => {
+  const getToken = await getAsyncItem(constants.AsyncStorageKeys.token);
+  return getToken;
+};
 
 const axiosInstance = axios.create({
   baseURL: baseUrl,
@@ -9,8 +14,7 @@ const axiosInstance = axios.create({
 
 axiosInstance.interceptors.request.use(
   async config => {
-    const token =
-      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJSb2xlSWQiOiI0IiwiVXNlcklkIjoiNjYiLCJuYmYiOjE3MDY2MDc2MzksImV4cCI6MTcwNjY5NDAzOSwiaWF0IjoxNzA2NjA3NjM5fQ.nUCDoc43NmwzwVxd8-d9sFcadYT28UO4tEBBXjjrecI';
+    const token = await getToken();
 
     const tokenLessEndpoints = [
       endPoint.SIGNUP,
@@ -25,7 +29,7 @@ axiosInstance.interceptors.request.use(
     );
 
     if (token && !isTokenLessEndpoint) {
-      config.headers.Authorization = `Bearer ${token}`;
+      config.headers.Authorization = `${token}`;
     }
 
     if (config.data instanceof FormData) {

@@ -21,16 +21,20 @@ const NewPassword = ({navigation, route}) => {
 
   console.log("EmailEmailEmail",Email)
   const validationSchema = Yup.object().shape({
-    NewPassword: Yup.string().required('Password is required'),
-    ConfirmPassword: Yup.string().required('Confirm Password is required'),
+    NewPassword: Yup.string().min(7).required('Password is required').min(8, 'Username must be at least 8 characters'),
+    ConfirmPassword: Yup.string().required('Confirm Password is required').min(8, 'Username must be at least 8 characters'),
   });
 
   const ResetPassword = (values, setSubmitting) => {
-    PostRequest(endPoint.RESET_PASSWORD, values)
+    const payload = {
+      ...values,
+      Email: Email
+    }
+    PostRequest(endPoint.RESET_PASSWORD, payload)
       .then(res => {
-        if (res?.data?.code == 201) {
+        if (res?.data?.code == 200) {
           SimpleSnackBar(res?.data?.message);
-          navigation.goBack();
+          navigation.navigate(constants.AuthScreen.Login)
         } else {
           SimpleSnackBar(res?.data?.message);
         }
@@ -146,9 +150,6 @@ const NewPassword = ({navigation, route}) => {
                   disabled={isSubmitting}
                   onPress={handleSubmit}
                   isLoading={isSubmitting}
-                  // onPress={() =>
-                  //   navigation.navigate(constants.AuthScreen.Login)
-                  // }
                 />
               </View>
             </View>

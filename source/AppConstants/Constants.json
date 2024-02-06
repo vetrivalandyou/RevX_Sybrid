@@ -87,8 +87,7 @@
     "AdminViewUsers": "AdminViewUsers"
   },
   "AsyncStorageKeys": {
-    "email": "email",
-    "password": "password",
-    "isRememberCheck": "isRememberCheck"
+    "token": "token",
+    "userDetails": "userDetails"
   }
 }

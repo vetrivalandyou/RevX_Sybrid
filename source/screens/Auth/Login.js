@@ -14,8 +14,9 @@ import RememberMe from '../../components/molecules/RememberMe';
 import SocailLogin from '../../components/molecules/SocailLogin';
 import {useNavigation} from '@react-navigation/native';
 import {endPoint, messages} from '../../AppConstants/urlConstants';
-import {PostRequest} from '../../services/apiCall';
+import {GetRequest, PostRequest} from '../../services/apiCall';
 import {SimpleSnackBar} from '../../components/atom/Snakbar/Snakbar';
+import {getAsyncItem, setAsyncItem} from '../../utils/SettingAsyncStorage';
 
 const Login = () => {
   const navigation = useNavigation();
@@ -32,9 +33,16 @@ const Login = () => {
   const LoginUser = (values, setSubmitting) => {
     PostRequest(endPoint.LOGIN, values)
       .then(res => {
-        if (res?.data?.code == 201) {
-          SimpleSnackBar(res?.data?.message);
-          navigation.goBack();
+        if (res?.data?.code == 200) {
+          console.log(res?.data);
+          setAsyncItem(
+            constants.AsyncStorageKeys.token,
+            res?.data?.data?.token,
+          );
+          setAsyncItem(
+            constants.AsyncStorageKeys.userDetails,
+            res?.data?.data?.user,
+          );
         } else {
           SimpleSnackBar(res?.data?.message);
         }
