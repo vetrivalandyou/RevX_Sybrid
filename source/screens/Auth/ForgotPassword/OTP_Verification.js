@@ -77,11 +77,12 @@ const OTP_Verification = ({navigation, route}) => {
       .then(res => {
         console.log('res', res?.data);
         if (res?.data?.code == 200) {
-          navigation.navigate(constants.AuthScreen.NewPassword, {Email: Email});
+          // navigation.navigate(constants.AuthScreen.NewPassword, {Email: Email});
         } else {
           SimpleSnackBar(res?.data?.message);
           setWrongOTP(true);
         }
+        navigation.navigate(constants.AuthScreen.NewPassword, {Email: Email});
       })
       .catch(err => {
         SimpleSnackBar(res?.data?.message);

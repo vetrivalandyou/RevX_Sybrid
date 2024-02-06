@@ -1,20 +1,21 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {Text, View} from 'react-native';
+import {Formik} from 'formik';
+import * as Yup from 'yup';
+
 import appColors from '../../../AppConstants/appColors';
 import Screen from '../../../components/atom/ScreenContainer/Screen';
 import AuthHeader from '../../../components/molecules/AuthHeader';
 import SimpleTextField from '../../../components/molecules/TextFeilds/SimpleTextField';
 import constants from '../../../AppConstants/Constants.json';
-
 import ButtonComponent from '../../../components/atom/CustomButtons/ButtonComponent';
 import {PostRequest} from '../../../services/apiCall';
 import {endPoint} from '../../../AppConstants/urlConstants';
-import {Formik} from 'formik';
 
 const NewPassword = ({navigation, route}) => {
 
   const {Email} = route.params;
-  const [passwordValue, setPasswordValue] = React.useState('');
+  const [passwordValue, setPasswordValue] = useState('');
   const [isEye, setIsEye] = useState(false);
   const [isPasswordVisible, setIsPasswordVisible] = React.useState(false);
 

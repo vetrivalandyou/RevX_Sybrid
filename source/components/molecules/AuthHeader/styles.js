@@ -32,7 +32,6 @@ export default StyleSheet.create({
     color: AppColors.White,
     fontSize: 15,
     marginLeft: 15,
-
     // marginLeft:15
   },
 });
