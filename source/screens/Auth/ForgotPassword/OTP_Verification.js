@@ -6,18 +6,20 @@ import AuthHeader from '../../../components/molecules/AuthHeader';
 import constants from '../../../AppConstants/Constants.json';
 
 import ButtonComponent from '../../../components/atom/CustomButtons/ButtonComponent';
-import { PostRequest } from '../../../services/apiCall';
-import { endPoint } from '../../../AppConstants/urlConstants';
-import { SimpleSnackBar } from '../../../components/atom/Snakbar/Snakbar';
+import {PostRequest} from '../../../services/apiCall';
+import {endPoint} from '../../../AppConstants/urlConstants';
+import {SimpleSnackBar} from '../../../components/atom/Snakbar/Snakbar';
+import axios from 'axios';
 
 const OTP_Verification = ({navigation, route}) => {
-
   const {Email} = route.params;
 
   const [timer, setTimer] = useState(60);
-  const [otp, setOtp] = useState(['','','','','',''])
+  const [otp, setOtp] = useState(['', '', '', '', '', '']);
   const otpInputRefs = Array.from({length: 6}, () => useRef(0));
   const [focusedIndex, setFocusedIndex] = useState(0);
+
+  const [wrongOTP, setWrongOTP] = useState(false);
 
   useEffect(() => {
     otpInputRefs[0].current.focus();
@@ -42,17 +44,18 @@ const OTP_Verification = ({navigation, route}) => {
   };
 
   useEffect(() => {
-    if(otp[otp.length - 1] != ''){
-      console.log("inside")
-      otpVerification()
+    if (otp[otp.length - 1] != '') {
+      console.log('inside');
+      otpVerification();
     }
-  },[otp])
+  }, [otp]);
 
   const handleOTPInputChange = (index, value) => {
+    setWrongOTP(false)
     const otpValues = Array.from(value);
-    const updatedOtp = [...otp]
+    const updatedOtp = [...otp];
     updatedOtp[index] = value.charAt(value.length - 1);
-    setOtp(updatedOtp)
+    setOtp(updatedOtp);
 
     otpValues[index] = value.charAt(value.length - 1);
     if (index < otpInputRefs.length - 1 && value !== '') {
@@ -67,39 +70,38 @@ const OTP_Verification = ({navigation, route}) => {
   const otpVerification = () => {
     const payload = {
       Email: Email,
-      OTP: otp.join('')
-    }
-    console.log("payload",payload)
+      OTP: otp.join(''),
+    };
+    console.log('payload', payload);
     PostRequest(endPoint.OTP_VERIFICATION, payload)
-    .then((res) => {
-      console.log("res", res?.data)
-      if(res?.data?.code == 200){
-        navigation.navigate(constants.AuthScreen.NewPassword, {Email: Email})
-      }else{
-        SimpleSnackBar(res?.data?.message)
-      }
-    })
-    .catch((err) => {
-      SimpleSnackBar(res?.data?.message)
-    })
-  }
+      .then(res => {
+        console.log('res', res?.data);
+        if (res?.data?.code == 200) {
+          navigation.navigate(constants.AuthScreen.NewPassword, {Email: Email});
+        } else {
+          SimpleSnackBar(res?.data?.message);
+          setWrongOTP(true);
+        }
+      })
+      .catch(err => {
+        SimpleSnackBar(res?.data?.message);
+      });
+  };
 
   const handlePressResendOTP = () => {
-    PostRequest(endPoint.OPT_SEDING, Email)
-  .then((res) => {
-    console.log("res", res?.data)
-    if(res?.data?.code == 200){
-      console.log("successfull")
-      SimpleSnackBar(res?.data?.message)
-    } else{
-      SimpleSnackBar(res?.data?.message)
-    }
-    setSubmitting(false)
-  })
-  .catch((err) => {
-    SimpleSnackBar(res?.data?.message)
-  })
-  }
+    PostRequest(endPoint.OPT_SEDING, {Email: Email})
+      .then(res => {
+        if (res?.data?.code == 200) {
+          console.log('successfull');
+          setTimer(60);
+        } else {
+          SimpleSnackBar(res?.data?.message);
+        }
+      })
+      .catch(err => {
+        SimpleSnackBar(res?.data?.message);
+      });
+  };
 
   return (
     <Screen
@@ -132,7 +134,9 @@ const OTP_Verification = ({navigation, route}) => {
                 OTP_Verification_Style.textInputStyle,
                 {
                   borderColor:
-                    focusedIndex === index
+                    wrongOTP == true
+                      ? appColors.Red
+                      : focusedIndex === index
                       ? appColors.White
                       : appColors.GrayColor,
                 },

@@ -36,8 +36,7 @@ const CreateAccount = ({navigation}) => {
   const registerUser = values => {
     PostRequest(endPoint.SIGNUP, values)
       .then(res => {
-        if (res?.data?.code == 201) {
-          console.log(res?.data)
+        if (res?.data?.code == 200) {
           SimpleSnackBar(res?.data?.message);
           navigation.goBack();
         } else {
