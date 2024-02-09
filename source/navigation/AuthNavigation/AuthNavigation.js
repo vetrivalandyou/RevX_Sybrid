@@ -25,11 +25,11 @@ const AuthIndex = () => {
 
   console.log('loggedInloggedInloggedIn', loggedIn);
 
-  if (loggedIn == 1) {
+  if (loggedIn == 4) {
     return <Main />;
-  } else if (loggedIn == 2) {
-    return <BarberStack />;
   } else if (loggedIn == 3) {
+    return <BarberStack />;
+  } else if (loggedIn == 2) {
     return <AdminStack />;
   } else {
     console.log('');

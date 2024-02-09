@@ -1,27 +1,27 @@
 import React from 'react';
-import {Text, View, StatusBar, TouchableOpacity, Image} from 'react-native';
-import AuthHeader from '../../components/molecules/AuthHeader';
+import {Text, View, Image} from 'react-native';
+import {useNavigation} from '@react-navigation/native';
+import {useDispatch} from 'react-redux';
+
 import Screen from '../../components/atom/ScreenContainer/Screen';
-import constants from '../../AppConstants/Constants.json';
-import SimpleTextField from '../../components/molecules/TextFeilds/SimpleTextField';
-import {SafeAreaView} from 'react-native-safe-area-context';
-import AppColors from '../../AppConstants/appColors';
 import appColors from '../../AppConstants/appColors';
-import CustomIcon, {
-  Icons,
-} from '../../components/molecules/CustomIcon/CustomIcon';
 import ButtonComponent from '../../components/atom/CustomButtons/ButtonComponent';
-import RememberMe from '../../components/molecules/RememberMe';
-import SocailLogin from '../../components/molecules/SocailLogin';
 import {AppImages} from '../../AppConstants/AppImages';
 import Header from '../../components/molecules/Header';
-import {useDispatch} from 'react-redux';
+import {Icons} from '../../components/molecules/CustomIcon/CustomIcon';
 import {LogIn} from '../../redux/Action/AuthAction';
 
-const Successfull = ({navigation}) => {
-  const [isEye, setIsEye] = React.useState(false);
+const Successfull = ({route}) => {
+  const {userDetails} = route.params;
 
   const dispatch = useDispatch();
+  const navigation = useNavigation();
+
+  const handleButtonName = () => {
+    if (userDetails?.user?._RoleId == 4) return 'Start as User';
+    else if (userDetails?.user?._RoleId == 3) return 'Start as Barber';
+    else return 'Start as Admin';
+  };
 
   return (
     <Screen
@@ -34,14 +34,8 @@ const Successfull = ({navigation}) => {
           onPressLeftIcon={() => navigation.goBack()}
           leftIcoName={'chevron-back'}
           headerText={'Successful'}
-          // rightIcoName={"bell"}
-          // rightIcoType={Icons.SimpleLineIcons}
-          // logIn={"success"}
-          // rightIcoSize={20}
-          //   leftIcoStyle={{ backgroundColor: appColors.lightBlack, borderRadius: 50, height: 50, width: 50, justifyContent: 'center', alignItems: 'center' }}
         />
       </View>
-
       <View
         style={{
           flex: 0.85,
@@ -52,12 +46,10 @@ const Successfull = ({navigation}) => {
           style={{flex: 0.34, alignItems: 'center', justifyContent: 'center'}}>
           <Image style={{height: 300, width: 300}} source={AppImages.success} />
         </View>
-
         <View style={{alignItems: 'center'}}>
           <Text style={{fontSize: 30, color: appColors.White}}>
             Successful!
           </Text>
-
           <Text style={{color: appColors.White, fontSize: 15}}>
             You have successfully registered in our App
           </Text>
@@ -65,28 +57,13 @@ const Successfull = ({navigation}) => {
         <View
           style={{alignItems: 'center', flex: 0.2, justifyContent: 'flex-end'}}>
           <ButtonComponent
-            onPress={() =>
-              // navigation.navigate(constants.screen.BottomTabNavigation)
-              dispatch(LogIn(1, null, null))
-            }
+            onPress={() => {
+              dispatch(
+                LogIn(userDetails?.user?._RoleId, userDetails?.token, null),
+              );
+            }}
             style={{width: '50%'}}
-            title={'Start as User'}
-          />
-        </View>
-        <View
-          style={{alignItems: 'center', flex: 0.2, justifyContent: 'flex-end'}}>
-          <ButtonComponent
-            onPress={() => dispatch(LogIn(2, null, null))}
-            style={{width: '50%'}}
-            title={'Start as Barber'}
-          />
-        </View>
-        <View
-          style={{alignItems: 'center', flex: 0.2, justifyContent: 'flex-end'}}>
-          <ButtonComponent
-            onPress={() => dispatch(LogIn(3, null, null))}
-            style={{width: '50%'}}
-            title={'Start as Admin'}
+            title={handleButtonName()}
           />
         </View>
       </View>

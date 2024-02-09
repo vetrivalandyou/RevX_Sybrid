@@ -43,6 +43,9 @@ const Login = () => {
             constants.AsyncStorageKeys.userDetails,
             res?.data?.data?.user,
           );
+          navigation?.navigate(constants.AuthScreen.Successfull, {
+            userDetails: res?.data?.data,
+          });
         } else {
           SimpleSnackBar(res?.data?.message);
         }
