@@ -53,6 +53,7 @@ const Login = () => {
       })
       .catch(err => {
         SimpleSnackBar(messages.Catch, appColors.Red);
+        setSubmitting(false);
       });
   };
 

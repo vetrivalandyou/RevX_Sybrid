@@ -1,4 +1,5 @@
 import React from 'react';
+import {useSelector} from 'react-redux';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import constants from '../../AppConstants/Constants.json';
@@ -12,7 +13,7 @@ import {
   ForgotCheckEmail,
   NewPassword,
 } from '../../screens/AuthIndex';
-import {useSelector} from 'react-redux';
+
 import Main from '../../../source/navigation/index';
 import BarberStack from '../../../source/navigation/BarberBoardNavigation/index';
 import AdminStack from '../../../source/navigation/AdminBoardNavigation/index';
@@ -23,8 +24,6 @@ const AuthIndex = () => {
   const Stack = createNativeStackNavigator();
   const {loggedIn} = useSelector(state => state.AuthReducer);
 
-  console.log('loggedInloggedInloggedIn', loggedIn);
-
   if (loggedIn == 4) {
     return <Main />;
   } else if (loggedIn == 3) {
@@ -32,7 +31,6 @@ const AuthIndex = () => {
   } else if (loggedIn == 2) {
     return <AdminStack />;
   } else {
-    console.log('');
     return (
       <NavigationContainer>
         <Stack.Navigator screenOptions={{animation: 'slide_from_right'}}>
