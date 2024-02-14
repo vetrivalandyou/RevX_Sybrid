@@ -22,6 +22,8 @@ axiosInstance.interceptors.request.use(
       endPoint.RESET_PASSWORD,
       endPoint.OPT_SEDING,
       endPoint.OTP_VERIFICATION,
+      endPoint.REGISTERAS_BARBER,
+
     ];
 
     const isTokenLessEndpoint = tokenLessEndpoints.some(pattern =>

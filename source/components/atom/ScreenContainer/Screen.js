@@ -19,7 +19,8 @@ const Screen = ({
   children,
   viewStyle,
   style,
-  authStyle
+  authStyle,
+  translucent
 }) => {
   const {colors} = useTheme();
 
@@ -32,7 +33,7 @@ const Screen = ({
         barStyle={'light-content'}
         backgroundColor={statusBarColor ? statusBarColor : colors.screenTab}
         // animated={animated}
-        translucent={false}
+        translucent={ translucent ? translucent : false}
       />
       {scrollable ? (
         <ScrollView

@@ -5,6 +5,7 @@ export const AppImages = {
   slider2: require(`${path}slider-2.png`),
   slider3: require(`${path}slider-3.png`),
   slider4: require(`${path}slider-4.png`),
+  ProfileSlider: require(`${path}Profile1.png`),
   success: require(`${path}svg.png`),
   bb1: require(`${path}barberImage1.png`),
   mapImg: require(`${path}mapImg.png`),

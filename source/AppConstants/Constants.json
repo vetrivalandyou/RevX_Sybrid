@@ -20,6 +20,7 @@
     "ForgotPassword": "ForgotPassword",
     "BarberSpecialist": "BarberSpecialist",
     "HomeScreen": "HomeScreen",
+    "BarberProfile" :"BarberProfile",
     "BottomTabNavigation": "BottomTabNavigation",
     "ProfileScreen": "ProfileScreen",
     "AboutUs": "AboutUs",

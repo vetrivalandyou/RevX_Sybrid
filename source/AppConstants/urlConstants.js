@@ -43,6 +43,7 @@ export const endPoint = {
   RESET_PASSWORD: 'Auth/Reset_Password',
   OTP_SENDING: 'Auth/OTP_Sending',
   OTP_VERIFICATION: 'Auth/OTP_Verification',
+  REGISTERAS_BARBER: 'Barber/Barber_Signup',
 
   //Barbers End Points
   BARBER_SERVICES: 'Barber/Barber_Services',
