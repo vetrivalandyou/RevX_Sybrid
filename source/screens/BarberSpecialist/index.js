@@ -1,14 +1,19 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {View, Text, Image, FlatList, AppRegistry} from 'react-native';
 import Screen from '../../components/atom/ScreenContainer/Screen';
 import appColors from '../../AppConstants/appColors';
 import Header from '../../components/molecules/Header';
 import {Icons} from '../../components/molecules/CustomIcon/CustomIcon';
-import {AppImages} from '../../AppConstants/AppImages';
 import ButtonComponent from '../../components/atom/CustomButtons/ButtonComponent';
 import constants from '../../AppConstants/Constants.json';
+import {GetRequest} from '../../services/apiCall';
+import {endPoint} from '../../AppConstants/urlConstants';
+import {AppImages} from '../../AppConstants/AppImages';
+import {SimpleSnackBar} from '../../components/atom/Snakbar/Snakbar';
 
 const BarberSpecialist = ({navigation}) => {
+  const [barberList, setBarberList] = useState([]);
+
   const BarberList = [
     {
       id: 1,
@@ -72,6 +77,23 @@ const BarberSpecialist = ({navigation}) => {
       Imagesource: AppImages.bb1,
     },
   ];
+
+  useEffect(() => {
+    getBarberList();
+  }, []);
+
+  function getBarberList() {
+    GetRequest(endPoint.BARBER_LIST)
+      .then(res => {
+        console.log('res', res?.data);
+        if (res?.data?.code == 200) setBarberList(res?.data?.data);
+        else SimpleSnackBar(res?.data?.message);
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  }
+
   const BarberSpecialistContainer = ({item}) => {
     return (
       <View
@@ -83,19 +105,29 @@ const BarberSpecialist = ({navigation}) => {
           flexDirection: 'row',
           marginVertical: 5,
         }}>
-        <Image source={item.Imagesource} style={{}} />
+        <Image source={AppImages.bb1} style={{marginRight: 10}} />
+        {/* <Image source={{uri: item?.ProfileImage}} style={{}} /> */}
 
         <View style={{flex: 1, flexDirection: 'row'}}>
           <View style={{flex: 0.8, justifyContent: 'center'}}>
             <Text style={{color: appColors.White, fontSize: 18, marginLeft: 5}}>
-              {item.title}
+              {item?.userName}
             </Text>
             <Text style={{color: appColors.White, marginLeft: 5, fontSize: 12}}>
-              {item.name}
+              {/* {item?.barber_Specialties} */}
+              Senior Barber
             </Text>
           </View>
           <View style={{flex: 0.5}}>
-            <ButtonComponent style={{width: '98%'}} title={'View'} />
+            <ButtonComponent
+              onPress={() =>
+                navigation.navigate(constants.screen.Services, {
+                  userId: item?.userId,
+                })
+              }
+              style={{width: '98%'}}
+              title={'View'}
+            />
           </View>
         </View>
       </View>
@@ -133,9 +165,9 @@ const BarberSpecialist = ({navigation}) => {
 
       <View style={{flex: 0.9}}>
         <FlatList
-          data={BarberList}
+          data={barberList}
           renderItem={({item}) => <BarberSpecialistContainer item={item} />}
-          keyExtractor={item => item.id}
+          keyExtractor={item => item?.userId}
         />
       </View>
     </Screen>

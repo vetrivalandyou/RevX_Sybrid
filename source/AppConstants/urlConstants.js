@@ -47,11 +47,17 @@ export const endPoint = {
 
   //Barbers End Points
   BARBER_SERVICES: 'Barber/Barber_Services',
+
+  //Admin End Points
+  BARBER_LIST: 'Admin/Barber_List',
+
+  // Customer End Points
+  SERVICE_CATEGORIES: 'Customer/Service_Categories',
 };
 
 export const messages = {
-       WentWrong: 'Something went wrong, please try again later.',
-       Catch:
-         'May be your internet is not connected or there is something went wrong on server.',
-       SeesionExpire: 'Your app session has been expired, please login again.',
-     };
+  WentWrong: 'Something went wrong, please try again later.',
+  Catch:
+    'May be your internet is not connected or there is something went wrong on server.',
+  SeesionExpire: 'Your app session has been expired, please login again.',
+};

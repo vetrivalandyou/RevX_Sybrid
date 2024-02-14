@@ -317,7 +317,8 @@ const HomeScreen = ({navigation}) => {
               Our Services
             </Text>
             <TouchableOpacity
-              onPress={() => navigation.navigate(constants.screen.Services)}>
+              // onPress={() => navigation.navigate(constants.screen.Services)}
+              >
               <Text style={{color: appColors.Goldcolor, fontSize: 16}}>
                 See all
               </Text>

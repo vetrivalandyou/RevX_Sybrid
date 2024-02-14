@@ -1,3 +1,4 @@
+import React, {useEffect, useState} from 'react';
 import {
   StyleSheet,
   Text,
@@ -7,22 +8,28 @@ import {
   TouchableOpacity,
   Platform,
 } from 'react-native';
-import AntDesign from 'react-native-vector-icons/AntDesign';
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import Entypo from 'react-native-vector-icons/Entypo';
-import React, {useState} from 'react';
-import {screenSize} from '../../components/atom/ScreenSize';
+import {useNavigation} from '@react-navigation/native';
 import appColors from '../../AppConstants/appColors';
 import constants from '../../AppConstants/Constants.json';
-import {useNavigation} from '@react-navigation/native';
 import Header from '../../components/molecules/Header';
-import {Icons} from '../../components/molecules/CustomIcon/CustomIcon';
 import Screen from '../../components/atom/ScreenContainer/Screen';
+import {Icons} from '../../components/molecules/CustomIcon/CustomIcon';
+import {screenSize} from '../../components/atom/ScreenSize';
+import Entypo from 'react-native-vector-icons/Entypo';
+import {GetRequest} from '../../services/apiCall';
+import {endPoint} from '../../AppConstants/urlConstants';
+import {SimpleSnackBar} from '../../components/atom/Snakbar/Snakbar';
 
-const Services = () => {
+const Services = ({route}) => {
+  const {userId} = route.params;
+
   const navigation = useNavigation();
-
   const [selectedItem, setSelectedItem] = useState(null);
+  const [barberServices, setBarberServices] = useState([]);
+
+  useEffect(() => {
+    getBarberServices();
+  }, []);
   const data = [
     {
       id: 1,
@@ -91,45 +98,61 @@ const Services = () => {
       icon: <Entypo name="controller-play" size={17} color={'orange'} />,
     },
   ];
+
+  function getBarberServices() {
+    GetRequest(`${endPoint.SERVICE_CATEGORIES}?id=${149}`)
+      .then(res => {
+        console.log(res?.data);
+        if (res?.data?.code == 200) {
+          setBarberServices(res?.data?.data);
+        } else {
+          SimpleSnackBar(res?.data?.message);
+        }
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  }
+
   return (
-    <Screen viewStyle={{ flex: 1}} statusBarColor={appColors.Black}>
-        <View style={{flex: 0.1}}>
-          <Header
-            lefttIcoType={Icons.Ionicons}
-            onPressLeftIcon={() => navigation.goBack()}
-            leftIcoName={'chevron-back'}
-            headerText={'Our Services'}
-            rightIcoName={'bell'}
-            rightIcoType={Icons.SimpleLineIcons}
-            logIn={'success'}
-            onPressRightIcon={() =>
-              navigation.navigate(constants.screen.Notification)
-            }
-            rightIcoSize={20}
-            leftIcoStyle={{
-              backgroundColor: appColors.lightBlack,
-              borderRadius: 50,
-              height: 50,
-              width: 50,
-              justifyContent: 'center',
-              alignItems: 'center',
-            }}
-          />
-        </View>
-        <View style={{ flex: 0.8}}>
-          <FlatList
-            data={data}
-            renderItem={({item}) => (
-              <Barberinfo
-                item={item}
-                selected={selectedItem === item.id}
-                onPress={() => setSelectedItem(item.id)}
-              />
-            )}
-            keyExtractor={item => item.id}
-          />
-        </View>
-        <View style={{ flex: 0.1, justifyContent:'center'}}>
+    <Screen viewStyle={{flex: 1}} statusBarColor={appColors.Black}>
+      <View style={{flex: 0.1}}>
+        <Header
+          lefttIcoType={Icons.Ionicons}
+          onPressLeftIcon={() => navigation.goBack()}
+          leftIcoName={'chevron-back'}
+          headerText={'Our Services'}
+          rightIcoName={'bell'}
+          rightIcoType={Icons.SimpleLineIcons}
+          logIn={'success'}
+          onPressRightIcon={() =>
+            navigation.navigate(constants.screen.Notification)
+          }
+          rightIcoSize={20}
+          leftIcoStyle={{
+            backgroundColor: appColors.lightBlack,
+            borderRadius: 50,
+            height: 50,
+            width: 50,
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}
+        />
+      </View>
+      <View style={{flex: 0.8}}>
+        <FlatList
+          data={data}
+          renderItem={({item}) => (
+            <Barberinfo
+              item={item}
+              selected={selectedItem === item.id}
+              onPress={() => setSelectedItem(item.id)}
+            />
+          )}
+          keyExtractor={item => item.id}
+        />
+      </View>
+      <View style={{flex: 0.1, justifyContent: 'center'}}>
         <TouchableOpacity
           onPress={() => navigation.navigate(constants.screen.AppointmentDate)}
           style={styles.ApplyNOWButton}>
@@ -138,8 +161,7 @@ const Services = () => {
             Book Now
           </Text>
         </TouchableOpacity>
-        </View>
-       
+      </View>
     </Screen>
   );
 };
