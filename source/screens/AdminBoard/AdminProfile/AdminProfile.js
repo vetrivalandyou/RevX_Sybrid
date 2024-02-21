@@ -26,7 +26,7 @@ import {screenSize} from '../../../components/atom/ScreenSize';
 import {useNavigation} from '@react-navigation/native';
 
 const AdminProfile = () => {
-  const navigation = useNavigation();
+const navigation =useNavigation();
 
   const refRBSheet = useRef();
 
@@ -54,9 +54,15 @@ const AdminProfile = () => {
     },
     {
       id: 5,
+      title: 'Manage  Vans',
+      icon: Icons.Entypo,
+    },
+    {
+      id: 6,
       title: 'Sign Out',
       icon: Icons.Entypo,
     },
+
   ];
 
   const handleNavigation = index => {
@@ -73,7 +79,10 @@ const AdminProfile = () => {
         case 3:
           navigation.navigate(constants.AdminScreens.AdminManageContent);
           break;
-      case 4: // Index of 'Sign Out' item
+          case 4:
+            navigation.navigate(constants.AdminScreens.ManageVans);
+            break;
+      case 5: // Index of 'Sign Out' item
         // setIsSignOutModalVisible(true);
         refRBSheet.current.open();
         break;

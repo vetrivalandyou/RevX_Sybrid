@@ -9,7 +9,7 @@ import {
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {useNavigation} from '@react-navigation/native';
 import {AppImages} from '../../AppConstants/AppImages';
 import Screen from '../../components/atom/ScreenContainer/Screen';
@@ -18,9 +18,13 @@ import Header from '../../components/molecules/Header';
 import {Icons} from '../../components/molecules/CustomIcon/CustomIcon';
 import constants from '../../AppConstants/Constants.json';
 import appColors from '../../AppConstants/appColors';
+import { GetRequest, PostRequest } from '../../services/apiCall';
+import { endPoint, messages } from '../../AppConstants/urlConstants';
+import { SimpleSnackBar } from '../../components/atom/Snakbar/Snakbar';
 
 const ServiceSpecialist = () => {
   const navigation = useNavigation();
+  const [Services, setServices]=useState([])
   const data = [
     {
       id: 1,
@@ -66,6 +70,36 @@ const ServiceSpecialist = () => {
       price: '$16.00',
     },
   ];
+
+
+useEffect(()=>{
+customerservices();
+},[])
+
+
+  const customerservices=()=>{
+    const payload= {
+      
+      Id: 5,
+      UserId: 149
+    }
+
+ 
+    PostRequest(endPoint.CUSTOMER_SERVICES,payload)
+    .then(res =>{
+      if(res?.data?.code==200){
+        console.log(res?.data);
+        setServices(res?.data?.data)
+      }
+      else{
+        SimpleSnackBar(res?.data?.message)
+      }
+    })
+    .catch(res=>{
+      SimpleSnackBar(messages.Catch,appColors.Red)
+    })
+
+  }
   return (
     <Screen viewStyle={{ flex: 1 }} statusBarColor={appColors.Black}>
         <View style={{flex: 0.1}}>
@@ -94,7 +128,7 @@ const ServiceSpecialist = () => {
 
         <View style={{ flex: 0.8}}>
           <FlatList
-            data={data}
+            data={Services}
             renderItem={({item}) => <Barberinfo item={item} />}
             keyExtractor={item => item.id}
           />
@@ -128,10 +162,7 @@ const Barberinfo = ({item}) => {
             justifyContent: 'space-evenly',
           }}>
           <View style={{paddingVertical: 8}}>
-            <Image
-              source={item.Imagesource}
-              style={{height: 62, width: 60, borderRadius: 5}}
-            />
+          <Text> {item.serviceImage}</Text>
           </View>
 
           <View style={{flexDirection: 'column', width: '40%'}}>
@@ -141,7 +172,7 @@ const Barberinfo = ({item}) => {
                 fontWeight: '400',
                 fontSize: 18,
               }}>
-              {item.name}
+              {item.serviceName}
             </Text>
 
             <View>
@@ -150,7 +181,8 @@ const Barberinfo = ({item}) => {
                   color: 'white',
                   fontSize: 11.5,
                 }}>
-                {item.title}
+                {/* {item.title} */}
+                824 Booked
               </Text>
             </View>
           </View>
@@ -162,7 +194,7 @@ const Barberinfo = ({item}) => {
             }}>
             {/* <Text style={{color:'white', textAlign:'center', paddingVertical:12, fontSize:12, fontWeight:'bold'}}>View</Text> */}
             <Text style={{color: '#c79647', fontSize: 17, fontWeight: '600'}}>
-              {item.price}
+              {item.servicePrice}
             </Text>
           </View>
           <View style={styles.Circlecontrainer}>

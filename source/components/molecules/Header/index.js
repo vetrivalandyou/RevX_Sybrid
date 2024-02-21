@@ -92,7 +92,7 @@ const Header = ({
                       type={rightIcoType}
                       name={rightIcoName}
                       size={rightIcoSize}
-                      color={appColors.White}
+                      color={!doubleIcon  ?appColors.White:appColors.Black}
                     />
                   </View>
                 </View>

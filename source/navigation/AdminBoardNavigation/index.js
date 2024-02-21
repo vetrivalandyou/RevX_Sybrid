@@ -20,11 +20,18 @@ import {
   RecentTransactions,
   RecentTransactionsMain,
   Report,
+
 } from '../../screens';
 import {NavigationContainer} from '@react-navigation/native';
 import constants from '../../AppConstants/Constants.json';
 import AdminBottomTabNavigation from './AdminBottomTabNavigation';
 import AdminEditTermsOfServices from '../../screens/AdminBoard/AdminEditTermsOfServices/AdminEditTermsOfServices';
+import ManageVans from '../../screens/AdminBoard/ManageVans/ManageVans';
+import AddVanservices from '../../screens/AdminBoard/ManageVans/AddVanServices';
+import DeleteVanServices from '../../screens/AdminBoard/ManageVans/DeleteVanServices';
+import EditVanservices from '../../screens/AdminBoard/ManageVans/EditVanServices';
+
+
 
 const AdminStack = () => {
   const Stack = createNativeStackNavigator();
@@ -92,6 +99,8 @@ const AdminStack = () => {
           component={AdminManageContent}
           options={{headerShown: false}}
         />
+            
+
         <Stack.Screen
           name={constants.AdminScreens.AdminTermsofServices}
           component={AdminTermsofServices}
@@ -130,6 +139,28 @@ const AdminStack = () => {
         <Stack.Screen
           name={constants.AdminScreens.AdminViewUsers}
           component={AdminViewUsers}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name={constants.AdminScreens.ManageVans}
+          component={ManageVans}
+          options={{headerShown: false}}
+        />
+
+        <Stack.Screen
+          name={constants.AdminScreens.AddVanservices}
+          component={AddVanservices}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name={constants.AdminScreens.DeleteVanServices}
+          component={DeleteVanServices}
+          options={{headerShown: false}}
+        />
+
+        <Stack.Screen
+          name={constants.AdminScreens.EditVanservices}
+          component={EditVanservices}
           options={{headerShown: false}}
         />
       </Stack.Navigator>

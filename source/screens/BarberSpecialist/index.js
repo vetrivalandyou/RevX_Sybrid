@@ -1,18 +1,19 @@
-import React, {useEffect, useState} from 'react';
-import {View, Text, Image, FlatList, AppRegistry} from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { View, Text, Image, FlatList, AppRegistry, ActivityIndicator } from 'react-native';
 import Screen from '../../components/atom/ScreenContainer/Screen';
 import appColors from '../../AppConstants/appColors';
 import Header from '../../components/molecules/Header';
-import {Icons} from '../../components/molecules/CustomIcon/CustomIcon';
+import { Icons } from '../../components/molecules/CustomIcon/CustomIcon';
 import ButtonComponent from '../../components/atom/CustomButtons/ButtonComponent';
 import constants from '../../AppConstants/Constants.json';
-import {GetRequest} from '../../services/apiCall';
-import {endPoint} from '../../AppConstants/urlConstants';
-import {AppImages} from '../../AppConstants/AppImages';
-import {SimpleSnackBar} from '../../components/atom/Snakbar/Snakbar';
+import { GetRequest } from '../../services/apiCall';
+import { endPoint } from '../../AppConstants/urlConstants';
+import { AppImages } from '../../AppConstants/AppImages';
+import { SimpleSnackBar } from '../../components/atom/Snakbar/Snakbar';
 
-const BarberSpecialist = ({navigation}) => {
+const BarberSpecialist = ({ navigation }) => {
   const [barberList, setBarberList] = useState([]);
+  const [Loading, setLoading] = useState(true)
 
   const BarberList = [
     {
@@ -79,22 +80,30 @@ const BarberSpecialist = ({navigation}) => {
   ];
 
   useEffect(() => {
+
     getBarberList();
   }, []);
 
   function getBarberList() {
     GetRequest(endPoint.BARBER_LIST)
+
       .then(res => {
+        setLoading(false)
         console.log('res', res?.data);
-        if (res?.data?.code == 200) setBarberList(res?.data?.data);
+        if (res?.data?.code == 200) {
+
+          setBarberList(res?.data?.data);
+        }
         else SimpleSnackBar(res?.data?.message);
+        setLoading(false)
       })
       .catch(err => {
+        setLoading(flase)
         console.log(err);
       });
   }
 
-  const BarberSpecialistContainer = ({item}) => {
+  const BarberSpecialistContainer = ({ item }) => {
     return (
       <View
         style={{
@@ -105,27 +114,27 @@ const BarberSpecialist = ({navigation}) => {
           flexDirection: 'row',
           marginVertical: 5,
         }}>
-        <Image source={AppImages.bb1} style={{marginRight: 10}} />
+        <Image source={AppImages.bb1} style={{ marginRight: 10 }} />
         {/* <Image source={{uri: item?.ProfileImage}} style={{}} /> */}
 
-        <View style={{flex: 1, flexDirection: 'row'}}>
-          <View style={{flex: 0.8, justifyContent: 'center'}}>
-            <Text style={{color: appColors.White, fontSize: 18, marginLeft: 5}}>
+        <View style={{ flex: 1, flexDirection: 'row' }}>
+          <View style={{ flex: 0.8, justifyContent: 'center' }}>
+            <Text style={{ color: appColors.White, fontSize: 18, marginLeft: 5 }}>
               {item?.userName}
             </Text>
-            <Text style={{color: appColors.White, marginLeft: 5, fontSize: 12}}>
+            <Text style={{ color: appColors.White, marginLeft: 5, fontSize: 12 }}>
               {/* {item?.barber_Specialties} */}
               Senior Barber
             </Text>
           </View>
-          <View style={{flex: 0.5}}>
+          <View style={{ flex: 0.5 }}>
             <ButtonComponent
               onPress={() =>
                 navigation.navigate(constants.screen.Services, {
                   userId: item?.userId,
                 })
               }
-              style={{width: '98%'}}
+              style={{ width: '98%' }}
               title={'View'}
             />
           </View>
@@ -138,8 +147,8 @@ const BarberSpecialist = ({navigation}) => {
     <Screen
       statusBarColor={appColors.Black}
       barStyle="light-content"
-      viewStyle={{padding: 15}}>
-      <View style={{flex: 0.1}}>
+      viewStyle={{ padding: 15 }}>
+      <View style={{ flex: 0.1 }}>
         <Header
           lefttIcoType={Icons.Ionicons}
           onPressLeftIcon={() => navigation.goBack()}
@@ -162,14 +171,19 @@ const BarberSpecialist = ({navigation}) => {
           }}
         />
       </View>
+      {Loading ?
+        (<ActivityIndicator size="large" color="#C79646" style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }} />) :
+        (<View style={{ flex: 0.9 }}>
+          <FlatList
+            data={barberList}
+            renderItem={({ item }) => <BarberSpecialistContainer item={item} />}
+            keyExtractor={item => item?.userId}
+          />
+        </View>
+        )}
 
-      <View style={{flex: 0.9}}>
-        <FlatList
-          data={barberList}
-          renderItem={({item}) => <BarberSpecialistContainer item={item} />}
-          keyExtractor={item => item?.userId}
-        />
-      </View>
+
+
     </Screen>
   );
 };

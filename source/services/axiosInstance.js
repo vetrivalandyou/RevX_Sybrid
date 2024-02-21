@@ -23,6 +23,7 @@ axiosInstance.interceptors.request.use(
       endPoint.OPT_SEDING,
       endPoint.OTP_VERIFICATION,
       endPoint.REGISTERAS_BARBER,
+      
 
     ];
 
