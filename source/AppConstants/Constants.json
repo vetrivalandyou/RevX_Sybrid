@@ -61,6 +61,8 @@
     "Addservices": "Addservices",
     "DeleteServices": "DeleteServices",
     "Editservices": "Editservices"
+
+   
   },
   "AdminScreens": {
     "AdminBottomTabNavigation": "AdminBottomTabNavigation",
@@ -85,7 +87,13 @@
     "AdminUserDetails": "AdminUserDetails",
     "MyBooking": "MyBooking",
     "AdminProfile": "AdminProfile",
-    "AdminViewUsers": "AdminViewUsers"
+    "AdminViewUsers": "AdminViewUsers",
+    "ManageVans": "ManageVans",
+     "AddVanservices": "AddVanservices",
+    "DeleteVanServices": "DeleteVanServices",
+    "EditVanservices": "EditVanservices"
+   
+
   },
   "AsyncStorageKeys": {
     "token": "token",

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Image, ImageBackground, Platform, StatusBar, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Image, ImageBackground, Platform, ScrollView, StatusBar, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import Screen from '../../components/atom/ScreenContainer/Screen';
 import Header from '../../components/molecules/Header';
 import CustomIcon, { Icons } from '../../components/molecules/CustomIcon/CustomIcon';
@@ -32,11 +32,11 @@ const BarberProfile = ({ navigation }) => {
 
     const renderItem = ({ item, index }, parallaxProps) => {
         return (
-            <View style={styles.slide}>
+            <ScrollView style={styles.slide}>
                 <Image source={item.illustration} style={styles.image} />
                 <Text style={styles.title}>{item.title}</Text>
 
-            </View>
+            </ScrollView>
         );
     };
     return (
@@ -49,7 +49,7 @@ const BarberProfile = ({ navigation }) => {
 
 
 
-            <View style={{ flex: 0.4,  }}>
+            <View style={{ flex: 0.4,  backgroundColor:'red'}}>
                 <Carousel
                     //  ref={carouselRef}
                     data={Profiles}
@@ -78,10 +78,10 @@ const BarberProfile = ({ navigation }) => {
                             doubleIcon={true}
                             color={appColors.Black}
                             // headerText={'Barber Special List'}
-                            rightIcoName={'bell'}
-                            rightIcoType={Icons.SimpleLineIcons}
+                            rightIcoName={'filter'}
+                            rightIcoType={Icons.Feather}
                             rightIcoSize={20}
-                            iconStyle={{color:appColors.Black,fontWeight:'bold'}}
+                            // iconStyle={{color:appColors.Black,fontWeight:'bold'}}
                             iconContainerStyle1={{
                                 backgroundColor: appColors.White,
                                 borderRadius: 50,
@@ -91,10 +91,10 @@ const BarberProfile = ({ navigation }) => {
                                 alignItems: 'center',
                               
                             }}
-                            rightIcoName2={'filter'}
-                            rightIcoType2={Icons.Feather}
+                            rightIcoName2={'bell'}
+                            rightIcoType2={Icons.FontAwesome5}
                             rightIcoSize2={20}
-                           
+                          rightIcoColor={appColors.Black}
                             iconContainerStyle2={{
                                 backgroundColor: appColors.White,
                                 borderRadius: 50,
@@ -102,7 +102,7 @@ const BarberProfile = ({ navigation }) => {
                                 width: 50,
                                 justifyContent: 'center',
                                 alignItems: 'center',
-                            
+                           
                             }}
                         
                         />
@@ -375,8 +375,6 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         backgroundColor: appColors.Black,
-       
-
 
     },
    

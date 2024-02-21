@@ -13,7 +13,7 @@ import appColors from '../../AppConstants/appColors';
 import constants from '../../AppConstants/Constants.json';
 import Header from '../../components/molecules/Header';
 import Screen from '../../components/atom/ScreenContainer/Screen';
-import {Icons} from '../../components/molecules/CustomIcon/CustomIcon';
+import CustomIcon, {Icons} from '../../components/molecules/CustomIcon/CustomIcon';
 import {screenSize} from '../../components/atom/ScreenSize';
 import Entypo from 'react-native-vector-icons/Entypo';
 import {GetRequest} from '../../services/apiCall';
@@ -30,79 +30,11 @@ const Services = ({route}) => {
   useEffect(() => {
     getBarberServices();
   }, []);
-  const data = [
-    {
-      id: 1,
-
-      name: 'Hair Cut',
-
-      price: '$40.00',
-      title: '44 types',
-      icon: <Entypo name="controller-play" size={17} color={'orange'} />,
-    },
-    {
-      id: 2,
-      name: 'Hair Coloring',
-
-      price: '$40.00',
-      title: '44 types',
-      icon: <Entypo name="controller-play" size={17} color={'orange'} />,
-    },
-    {
-      id: 3,
-      name: 'Hair Wash',
-
-      price: '$40.00',
-      title: '44 types',
-      icon: <Entypo name="controller-play" size={17} color={'orange'} />,
-    },
-    {
-      id: 4,
-      name: 'Shaving',
-
-      price: '$40.00',
-      title: '44 types',
-      icon: <Entypo name="controller-play" size={17} color={'orange'} />,
-    },
-    {
-      id: 5,
-      name: 'Skin Care',
-
-      price: '$40.00',
-      title: '44 types',
-      icon: <Entypo name="controller-play" size={17} color={'orange'} />,
-    },
-
-    {
-      id: 6,
-      name: 'Hair Dryer',
-
-      price: '$40.00',
-      title: '44 types',
-      icon: <Entypo name="controller-play" size={17} color={'orange'} />,
-    },
-    {
-      id: 7,
-      name: 'Face Makeup',
-
-      price: '$40.00',
-      title: '44 types',
-      icon: <Entypo name="controller-play" size={17} color={'orange'} />,
-    },
-    {
-      id: 8,
-      name: 'Royal Wax',
-
-      price: '$40.00',
-      title: '44 types',
-      icon: <Entypo name="controller-play" size={17} color={'orange'} />,
-    },
-  ];
-
+  
   function getBarberServices() {
     GetRequest(`${endPoint.SERVICE_CATEGORIES}?id=${149}`)
       .then(res => {
-        console.log(res?.data);
+        console.log(res?.data?.data);
         if (res?.data?.code == 200) {
           setBarberServices(res?.data?.data);
         } else {
@@ -141,7 +73,7 @@ const Services = ({route}) => {
       </View>
       <View style={{flex: 0.8}}>
         <FlatList
-          data={data}
+          data={barberServices}
           renderItem={({item}) => (
             <Barberinfo
               item={item}
@@ -186,7 +118,7 @@ const Barberinfo = ({item, onPress, selected}) => {
           <View style={{width: screenSize.width / 4}}>
             <Text
               style={{fontWeight: '400', fontSize: 15, color: appColors.White}}>
-              {item.name}
+              {item.service_Category}
             </Text>
           </View>
           {selected && ( // Show price only if the item is selected
@@ -204,13 +136,19 @@ const Barberinfo = ({item, onPress, selected}) => {
               width: screenSize.width / 4.5,
             }}>
             <Text style={{fontWeight: '500', color: appColors.White}}>
-              {item.title}
+              {item.serviceCount}
             </Text>
             <TouchableOpacity
               onPress={() =>
                 navigation.navigate(constants.screen.ServiceSpecialist)
               }>
-              <Text style={{fontWeight: '200'}}>{item.icon}</Text>
+                <CustomIcon 
+                name={'controller-play'}
+                type={Icons.Entypo}
+                size={17}
+                color={appColors.Goldcolor}
+                />
+             
             </TouchableOpacity>
           </View>
         </View>
