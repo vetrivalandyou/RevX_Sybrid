@@ -5,6 +5,7 @@ import {
   Image,
   TouchableOpacity,
   Text,
+  ActivityIndicator,
 } from 'react-native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
@@ -25,53 +26,9 @@ import { SimpleSnackBar } from '../../components/atom/Snakbar/Snakbar';
 const ServiceSpecialist = () => {
   const navigation = useNavigation();
   const [Services, setServices]=useState([])
-  const data = [
-    {
-      id: 1,
-      title: '824 Booked',
-      name: 'Hair Cut',
-      Imagesource: AppImages.chatfour,
-      price: '$40.00',
-    },
-    {
-      id: 2,
-      title: '824 Booked',
-      name: 'Under Cut',
-      Imagesource: AppImages.chatfour,
-      price: '$17.00',
-    },
-    {
-      id: 3,
-      title: '824 Booked',
-      name: 'Crew Cut',
-      Imagesource: AppImages.chatfour,
-      price: '$12.00',
-    },
-    {
-      id: 4,
-      title: '824 Booked',
-      name: 'Regular Cut',
-      Imagesource: AppImages.chatfour,
-      price: '$18.00',
-    },
-    {
-      id: 5,
-      title: '824 Booked',
-      name: 'Temple Fade',
-      Imagesource: AppImages.chatfour,
-      price: '$14.00',
-    },
-
-    {
-      id: 6,
-      title: '824 Booked',
-      name: 'Hair Cut',
-      Imagesource: AppImages.chatfour,
-      price: '$16.00',
-    },
-  ];
-
-
+  const[loading,setLoading]=useState(true)
+  const [selectedItem,setSelectedItem] = useState(true)
+ 
 useEffect(()=>{
 customerservices();
 },[])
@@ -87,16 +44,20 @@ customerservices();
  
     PostRequest(endPoint.CUSTOMER_SERVICES,payload)
     .then(res =>{
+      setLoading(false)
       if(res?.data?.code==200){
+       
         console.log(res?.data);
         setServices(res?.data?.data)
       }
       else{
         SimpleSnackBar(res?.data?.message)
+        setLoading(false)
       }
     })
     .catch(res=>{
       SimpleSnackBar(messages.Catch,appColors.Red)
+      setLoading(false)
     })
 
   }
@@ -125,15 +86,20 @@ customerservices();
             }}
           />
         </View>
-
-        <View style={{ flex: 0.8}}>
+        {loading?(<ActivityIndicator size={'small'}color={appColors.Goldcolor} style={{flex:1,justifyContent:'center',alignItems:'center'}}/>)
+        :( 
+          <View style={{ flex: 0.8,}}>
           <FlatList
             data={Services}
-            renderItem={({item}) => <Barberinfo item={item} />}
+            renderItem={({item}) => <Servicedetails item={item} 
+            selected={selectedItem === item.UserId}
+            onPress={() => setSelectedItem(item.UserId)} />}
             keyExtractor={item => item.id}
           />
         </View>
+)}
 
+        
         <View style={{ flex: 0.1, justifyContent:'center'}}>
         <TouchableOpacity
           onPress={() => navigation.navigate(constants.screen.Services)}
@@ -148,9 +114,10 @@ customerservices();
   );
 };
 
-const Barberinfo = ({item}) => {
+const Servicedetails = ({item,selected,onPress}) => {
   return (
-    <View style={styles.container}>
+ <TouchableOpacity onPress={onPress}>
+    <View style={[styles.container,selected &&{borderColor:appColors.Goldcolor,borderWidth:1.25}]}>
       <View
         style={{
           flexDirection: 'column',
@@ -194,7 +161,7 @@ const Barberinfo = ({item}) => {
             }}>
             {/* <Text style={{color:'white', textAlign:'center', paddingVertical:12, fontSize:12, fontWeight:'bold'}}>View</Text> */}
             <Text style={{color: '#c79647', fontSize: 17, fontWeight: '600'}}>
-              {item.servicePrice}
+              ${item.servicePrice}
             </Text>
           </View>
           <View style={styles.Circlecontrainer}>
@@ -203,6 +170,7 @@ const Barberinfo = ({item}) => {
         </View>
       </View>
     </View>
+    </TouchableOpacity>
   );
 };
 
@@ -211,12 +179,12 @@ export default ServiceSpecialist;
 const styles = StyleSheet.create({
   container: {
     width: '95%',
-
+height:screenSize.height/11,
     borderWidth: 1,
     borderRadius: 15,
     backgroundColor: '#252525',
     marginHorizontal: 10,
-    marginVertical: 8,
+    marginVertical: 8,justifyContent:'center',
   },
 
   NoticationContainer: {

@@ -172,7 +172,7 @@ const BarberSpecialist = ({ navigation }) => {
         />
       </View>
       {Loading ?
-        (<ActivityIndicator size="large" color="#C79646" style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }} />) :
+        (<ActivityIndicator size="small" color="#C79646" style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }} />) :
         (<View style={{ flex: 0.9 }}>
           <FlatList
             data={barberList}

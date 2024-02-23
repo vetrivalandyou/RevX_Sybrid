@@ -65,7 +65,7 @@ const OTP_Verification = ({navigation, route}) => {
 
   const handleInputFocus = index => {
     setFocusedIndex(index);
-  };
+  };` `
 
   const otpVerification = () => {
     const payload = {
