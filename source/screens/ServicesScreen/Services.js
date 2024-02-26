@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   StyleSheet,
   Text,
@@ -10,26 +10,27 @@ import {
   ActivityIndicatorComponent,
   ActivityIndicator,
 } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import {useNavigation} from '@react-navigation/native';
 import appColors from '../../AppConstants/appColors';
 import constants from '../../AppConstants/Constants.json';
 import Header from '../../components/molecules/Header';
 import Screen from '../../components/atom/ScreenContainer/Screen';
-import CustomIcon, { Icons } from '../../components/molecules/CustomIcon/CustomIcon';
-import { screenSize } from '../../components/atom/ScreenSize';
+import CustomIcon, {
+  Icons,
+} from '../../components/molecules/CustomIcon/CustomIcon';
+import {screenSize} from '../../components/atom/ScreenSize';
 import Entypo from 'react-native-vector-icons/Entypo';
-import { GetRequest } from '../../services/apiCall';
-import { endPoint } from '../../AppConstants/urlConstants';
-import { SimpleSnackBar } from '../../components/atom/Snakbar/Snakbar';
+import {GetRequest} from '../../services/apiCall';
+import {endPoint} from '../../AppConstants/urlConstants';
+import {SimpleSnackBar} from '../../components/atom/Snakbar/Snakbar';
 
-const Services = ({ route }) => {
-  const { userId } = route.params;
+const Services = ({route}) => {
+  const {userId} = route.params || 0;
 
   const navigation = useNavigation();
   const [selectedItem, setSelectedItem] = useState(null);
   const [barberServices, setBarberServices] = useState([]);
-  const [loading,setLoading]= useState(true)
-
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     getBarberServices();
@@ -38,25 +39,24 @@ const Services = ({ route }) => {
   function getBarberServices() {
     GetRequest(`${endPoint.SERVICE_CATEGORIES}?id=${149}`)
       .then(res => {
-        setLoading(false)
+        setLoading(false);
         console.log(res?.data?.data);
         if (res?.data?.code == 200) {
           setBarberServices(res?.data?.data);
         } else {
           SimpleSnackBar(res?.data?.message);
-          setLoading(false)
+          setLoading(false);
         }
       })
       .catch(err => {
         console.log(err);
-        setLoading(false)
+        setLoading(false);
       });
   }
 
-
   return (
-    <Screen viewStyle={{ flex: 1 }} statusBarColor={appColors.Black}>
-      <View style={{ flex: 0.1 }}>
+    <Screen viewStyle={{flex: 1}} statusBarColor={appColors.Black}>
+      <View style={{flex: 0.1}}>
         <Header
           lefttIcoType={Icons.Ionicons}
           onPressLeftIcon={() => navigation.goBack()}
@@ -79,25 +79,33 @@ const Services = ({ route }) => {
           }}
         />
       </View>
-      {loading?(<ActivityIndicator size={'small'}color={appColors.Goldcolor} style={{flex:1,justifyContent:'center',alignItems:'center'}}/>):( <View style={{ flex: 0.8 }}>
-        <FlatList
-          data={barberServices}
-          renderItem={({ item }) => (
-            <Barberinfo
-              item={item}
-              selected={selectedItem === item.id}
-              onPress={() => setSelectedItem(item.id)}
-            />
-          )}
-          keyExtractor={item => item.id}
+      {loading ? (
+        <ActivityIndicator
+          size={'small'}
+          color={appColors.Goldcolor}
+          style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}
         />
-      </View>)}
-     
-      <View style={{ flex: 0.1, justifyContent: 'center' }}>
+      ) : (
+        <View style={{flex: 0.8}}>
+          <FlatList
+            data={barberServices}
+            renderItem={({item}) => (
+              <Barberinfo
+                item={item}
+                selected={selectedItem === item.serviceCategoryId}
+                onPress={() => setSelectedItem(item.serviceCategoryId)}
+              />
+            )}
+            keyExtractor={item => item.id}
+          />
+        </View>
+      )}
+
+      <View style={{flex: 0.1, justifyContent: 'center'}}>
         <TouchableOpacity
           onPress={() => navigation.navigate(constants.screen.AppointmentDate)}
           style={styles.ApplyNOWButton}>
-          <Text style={{ fontWeight: '600', fontSize: 13, color: 'white' }}>
+          <Text style={{fontWeight: '600', fontSize: 13, color: 'white'}}>
             {' '}
             Book Now
           </Text>
@@ -107,7 +115,7 @@ const Services = ({ route }) => {
   );
 };
 
-const Barberinfo = ({ item, onPress, selected, typeee }) => {
+const Barberinfo = ({item, onPress, selected, typeee}) => {
   const navigation = useNavigation();
 
   return (
@@ -115,7 +123,7 @@ const Barberinfo = ({ item, onPress, selected, typeee }) => {
       <View
         style={[
           styles.container,
-          selected && { borderColor: '#c79647', borderWidth: 1.25 },
+          selected && {borderColor: '#c79647', borderWidth: 1.25},
         ]}>
         <View
           style={{
@@ -123,17 +131,16 @@ const Barberinfo = ({ item, onPress, selected, typeee }) => {
             justifyContent: 'space-between',
             alignItems: 'center',
             paddingHorizontal: 20,
-
           }}>
-          <View style={{ width: screenSize.width / 4, }}>
+          <View style={{width: screenSize.width / 4}}>
             <Text
-              style={{ fontWeight: '400', fontSize: 15, color: appColors.White }}>
+              style={{fontWeight: '400', fontSize: 15, color: appColors.White}}>
               {item.service_Category}
             </Text>
           </View>
           {selected && ( // Show price only if the item is selected
-            <View style={{ width: screenSize.width / 5, }}>
-              <Text style={{ fontWeight: '500', color: '#c79647', fontSize: 15 }}>
+            <View style={{width: screenSize.width / 5}}>
+              <Text style={{fontWeight: '500', color: '#c79647', fontSize: 15}}>
                 {item.price}
               </Text>
             </View>
@@ -145,17 +152,29 @@ const Barberinfo = ({ item, onPress, selected, typeee }) => {
               alignItems: 'center',
               width: screenSize.width / 4.5,
             }}>
-            <View style={{ flexDirection: 'row', width: screenSize.width / 6, }}>
-              <Text style={{ fontWeight: '500', color: appColors.White, fontSize: 15 }}>
+            <View style={{flexDirection: 'row', width: screenSize.width / 6, justifyContent:'center'}}>
+              <Text
+                style={{
+                  fontWeight: '400',
+                  color: appColors.White,
+                  fontSize: 14,
+                }}>
                 {item.serviceCount}
               </Text>
-              <Text style={{ fontWeight: '500', color: appColors.White, fontSize: 15 }}>
-                {item.serviceCount > 1 ? '  Types' : '  Type'}
+              <Text
+                style={{
+                  fontWeight: '400',
+                  color: appColors.White,
+                  fontSize: 14,
+                }}>
+                {item.serviceCount > 1 ? 'types' : ' type'}
               </Text>
             </View>
             <TouchableOpacity
               onPress={() =>
-                navigation.navigate(constants.screen.ServiceSpecialist)
+                navigation.navigate(constants.screen.ServiceSpecialist, {
+                  item: item,
+                })
               }>
               <CustomIcon
                 name={'controller-play'}
@@ -163,7 +182,6 @@ const Barberinfo = ({ item, onPress, selected, typeee }) => {
                 size={17}
                 color={appColors.Goldcolor}
               />
-
             </TouchableOpacity>
           </View>
         </View>
