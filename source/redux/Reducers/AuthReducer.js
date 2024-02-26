@@ -7,6 +7,7 @@ initialState = {
 };
 
 const AuthReducer = (state = initialState, action) => {
+    
     switch (action.type) {
         case LOG_IN:
             return { ...state, loggedIn: action.payload.loggedIn, token: action.payload.token, expiry: action.payload.expiry};

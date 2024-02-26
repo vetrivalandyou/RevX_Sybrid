@@ -18,7 +18,9 @@ import BarberStack from '../../../source/navigation/BarberBoardNavigation/index'
 import AdminStack from '../../../source/navigation/AdminBoardNavigation/index';
 
 const AuthIndex = () => {
+
   const Stack = createNativeStackNavigator();
+  
   const {loggedIn} = useSelector(state => state.AuthReducer);
 
   console.log('loggedInloggedInloggedIn', loggedIn);
@@ -31,7 +33,9 @@ const AuthIndex = () => {
   else if (loggedIn == 3) {
     return <AdminStack />;
   }else {
+
     console.log("")
+
     return (
       <NavigationContainer>
         <Stack.Navigator screenOptions={{animation: 'slide_from_right'}}>

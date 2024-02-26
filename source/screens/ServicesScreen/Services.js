@@ -52,7 +52,6 @@ const Services = () => {
     {
       id: 4,
       name: 'Shaving',
-
       price: '$40.00',
       title: '44 types',
       icon: <Entypo name="controller-play" size={17} color={'orange'} />,
@@ -60,7 +59,6 @@ const Services = () => {
     {
       id: 5,
       name: 'Skin Care',
-
       price: '$40.00',
       title: '44 types',
       icon: <Entypo name="controller-play" size={17} color={'orange'} />,
@@ -92,7 +90,9 @@ const Services = () => {
     },
   ];
   return (
+
     <Screen viewStyle={{ flex: 1}} statusBarColor={appColors.Black}>
+
         <View style={{flex: 0.1}}>
           <Header
             lefttIcoType={Icons.Ionicons}
