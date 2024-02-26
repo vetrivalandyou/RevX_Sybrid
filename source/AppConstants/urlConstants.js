@@ -46,7 +46,7 @@ export const endPoint = {
   REGISTERAS_BARBER: 'Barber/Barber_Signup',
 VAN_SERVICES: 'Common/Get_Vans',
   //Barbers End Points
-  BARBER_SERVICES: 'Barber/Barber_Services',
+  BARBER_SERVICES: 'Admin/Barber_Detail?id=94',
 
   //Admin End Points
   BARBER_LIST: 'Admin/Barber_List',
@@ -54,7 +54,7 @@ VAN_SERVICES: 'Common/Get_Vans',
   Edit_VANS:"Common/Van_CRUD",
 DELETE_VANS:'Common/Van_CRUD',
  CUSTOMER_SERVICES:'Customer/Category_Services',
-
+ BARBER_DETAIL:'Admin/Barber_Detail',
   // Customer End Points
   SERVICE_CATEGORIES: 'Customer/Service_Categories',
 };

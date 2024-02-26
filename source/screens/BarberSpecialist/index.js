@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, Image, FlatList, AppRegistry, ActivityIndicator } from 'react-native';
+import { View, Text, Image, FlatList, AppRegistry, ActivityIndicator, TouchableOpacity } from 'react-native';
 import Screen from '../../components/atom/ScreenContainer/Screen';
 import appColors from '../../AppConstants/appColors';
 import Header from '../../components/molecules/Header';
@@ -11,7 +11,7 @@ import { endPoint } from '../../AppConstants/urlConstants';
 import { AppImages } from '../../AppConstants/AppImages';
 import { SimpleSnackBar } from '../../components/atom/Snakbar/Snakbar';
 
-const BarberSpecialist = ({ navigation }) => {
+const BarberSpecialist = ({ navigation ,}) => {
   const [barberList, setBarberList] = useState([]);
   const [Loading, setLoading] = useState(true)
 
@@ -114,9 +114,10 @@ const BarberSpecialist = ({ navigation }) => {
           flexDirection: 'row',
           marginVertical: 5,
         }}>
+          <TouchableOpacity onPress={()=>navigation.navigate(constants.screen.BarberProfile)}>
         <Image source={AppImages.bb1} style={{ marginRight: 10 }} />
         {/* <Image source={{uri: item?.ProfileImage}} style={{}} /> */}
-
+        </TouchableOpacity>
         <View style={{ flex: 1, flexDirection: 'row' }}>
           <View style={{ flex: 0.8, justifyContent: 'center' }}>
             <Text style={{ color: appColors.White, fontSize: 18, marginLeft: 5 }}>
@@ -124,7 +125,7 @@ const BarberSpecialist = ({ navigation }) => {
             </Text>
             <Text style={{ color: appColors.White, marginLeft: 5, fontSize: 12 }}>
               {/* {item?.barber_Specialties} */}
-              Senior Barber
+              {item.userType}
             </Text>
           </View>
           <View style={{ flex: 0.5 }}>
