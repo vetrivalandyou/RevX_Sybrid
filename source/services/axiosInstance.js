@@ -15,7 +15,6 @@ const axiosInstance = axios.create({
 axiosInstance.interceptors.request.use(
   async config => {
     const token = await getToken();
-
     const tokenLessEndpoints = [
       endPoint.SIGNUP,
       endPoint.LOGIN,
@@ -23,8 +22,6 @@ axiosInstance.interceptors.request.use(
       endPoint.OPT_SEDING,
       endPoint.OTP_VERIFICATION,
       endPoint.REGISTERAS_BARBER,
-      
-
     ];
 
     const isTokenLessEndpoint = tokenLessEndpoints.some(pattern =>
