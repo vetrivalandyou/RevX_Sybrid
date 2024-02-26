@@ -94,13 +94,13 @@ const ScreenSlider  = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-   
+   backgroundColor: appColors.Black
   },
   slide: {
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: 'lightblue',
+    backgroundColor: appColors.Black,
     borderRadius: 10,
   },
   title: {

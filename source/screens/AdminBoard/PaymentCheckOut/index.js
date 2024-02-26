@@ -58,7 +58,7 @@ const PaymentDetails = ({navigation}) => {
         logIn={'success'}
         rightIcoSize={20}
         onPressRightIcon={() =>
-          navigation.navigate(constants.screen.Notification)
+          navigation.navigate(constants.AdminScreens.AdminNotification)
         }
         leftIcoStyle={{
           backgroundColor: appColors.lightBlack,

@@ -26,10 +26,5 @@ export default appColors = {
   checkInCard: '#F6F8FC',
   lightBlack: '#292929',
   middBlack: '#0C0C0D',
+  disableGrayColor: '#606060',
 };
-
-
-
-
-
-

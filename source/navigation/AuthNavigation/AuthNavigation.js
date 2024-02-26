@@ -1,4 +1,5 @@
 import React from 'react';
+import {useSelector} from 'react-redux';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import constants from '../../AppConstants/Constants.json';
@@ -12,10 +13,12 @@ import {
   ForgotCheckEmail,
   NewPassword,
 } from '../../screens/AuthIndex';
-import {useSelector} from 'react-redux';
+
 import Main from '../../../source/navigation/index';
 import BarberStack from '../../../source/navigation/BarberBoardNavigation/index';
 import AdminStack from '../../../source/navigation/AdminBoardNavigation/index';
+import CreateAccountBarber from '../../screens/Auth/CreateAccountBarber';
+import OTP_Verification from '../../screens/Auth/ForgotPassword/OTP_Verification';
 
 const AuthIndex = () => {
 
@@ -23,14 +26,11 @@ const AuthIndex = () => {
   
   const {loggedIn} = useSelector(state => state.AuthReducer);
 
-  console.log('loggedInloggedInloggedIn', loggedIn);
-
-  if (loggedIn == 1) {
+  if (loggedIn == 4) {
     return <Main />;
-  } else if (loggedIn == 2) {
+  } else if (loggedIn == 3) {
     return <BarberStack />;
-  } 
-  else if (loggedIn == 3) {
+  } else if (loggedIn == 2) {
     return <AdminStack />;
   }else {
 
@@ -79,8 +79,20 @@ const AuthIndex = () => {
           />
 
           <Stack.Screen
+            name={constants.AuthScreen.OTP_Verification}
+            component={OTP_Verification}
+            options={{headerShown: false}}
+          />
+
+          <Stack.Screen
             name={constants.AuthScreen.NewPassword}
             component={NewPassword}
+            options={{headerShown: false}}
+          />
+
+          <Stack.Screen
+            name={constants.AuthScreen.CreateAccountBarber}
+            component={CreateAccountBarber}
             options={{headerShown: false}}
           />
         </Stack.Navigator>

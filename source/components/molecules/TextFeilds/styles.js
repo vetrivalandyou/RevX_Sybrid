@@ -8,6 +8,7 @@ export default StyleSheet.create({
     justifyContent: 'flex-end',
     color: AppColors.White,
     // marginTop:20,
+
   },
   innerContainner: {
     borderRadius: 25,

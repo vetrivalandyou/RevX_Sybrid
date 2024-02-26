@@ -51,9 +51,9 @@ const LogoutBottom = ({refRBSheet}) => {
               title={'Cancel'}
               onPress={() => refRBSheet.current.close()}
               btnTextColor={{color: appColors.White}}
+              btnColor={appColors.darkgrey}
               style={{
                 width: '90%',
-                backgroundColor: appColors.darkgrey,
                 borderWidth: 1,
                 borderColor: appColors.White,
               }}
@@ -65,11 +65,11 @@ const LogoutBottom = ({refRBSheet}) => {
                 dispatch(LogOut());
               }}
               title={'Logout'}
+              btnColor={appColors.Red}
               btnTextColor={{color: appColors.White}}
               style={{
                 width: '90%',
                 marginLeft: 8,
-                backgroundColor: appColors.Red,
               }}
             />
           </View>

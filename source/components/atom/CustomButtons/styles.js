@@ -4,8 +4,7 @@ import appColors from '../../../AppConstants/appColors';
 
 export default StyleSheet.create({
   container: {
-    backgroundColor: AppColors.Goldcolor,
-    // position:'absolute',
+    
     borderRadius: 30,
     width: '100%',
     alignItems: 'center',

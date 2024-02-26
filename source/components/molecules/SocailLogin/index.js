@@ -19,7 +19,12 @@ const SocailLogin = ({
   onPressIcon,
 }) => {
   return (
-    <View style={{flex: 0.2, justifyContent: 'space-between'}}>
+    <View
+      style={{
+        flex: 0.15,
+        justifyContent: 'space-between',
+        // backgroundColor: 'red',
+      }}>
       <View style={styles.textStyle}>
         <View style={styles.lineStyle}></View>
         <Text style={{color: appColors.White}}>{SocailLogin}</Text>

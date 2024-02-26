@@ -30,6 +30,7 @@ import {
 import BottomTabNavigation from './BottomTabNavigation';
 import PrivacyPolicy from '../screens/ProfileScreen/Aboutus/PrivacyPolicy';
 import License from '../screens/ProfileScreen/Aboutus/License';
+import BarberProfile from '../screens/BarberProfie';
 
 const Main = () => {
   const Stack = createNativeStackNavigator();
@@ -104,6 +105,13 @@ const Main = () => {
           component={BarberSpecialist}
           options={{ headerShown: false }}
         />
+
+        <Stack.Screen
+          name={constants.screen.BarberProfile}
+          component={BarberProfile}
+          options={{ headerShown: false }}
+        />
+
 
         <Stack.Screen
           name={constants.screen.AboutUs}

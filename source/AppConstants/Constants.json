@@ -6,8 +6,10 @@
     "CreateAccount": "CreateAccount",
     "Successfull": "Successfull",
     "ForgotPassword": "ForgotPassword",
-    "ForgotCheckEmail":"ForgotCheckEmail",
-    "NewPassword":"NewPassword"
+    "ForgotCheckEmail": "ForgotCheckEmail",
+    "NewPassword": "NewPassword",
+    "CreateAccountBarber": "CreateAccountBarber",
+    "OTP_Verification": "OTP_Verification"
   },
   "screen": {
     "Login": "Login",
@@ -18,6 +20,7 @@
     "ForgotPassword": "ForgotPassword",
     "BarberSpecialist": "BarberSpecialist",
     "HomeScreen": "HomeScreen",
+    "BarberProfile" :"BarberProfile",
     "BottomTabNavigation": "BottomTabNavigation",
     "ProfileScreen": "ProfileScreen",
     "AboutUs": "AboutUs",
@@ -58,6 +61,8 @@
     "Addservices": "Addservices",
     "DeleteServices": "DeleteServices",
     "Editservices": "Editservices"
+
+   
   },
   "AdminScreens": {
     "AdminBottomTabNavigation": "AdminBottomTabNavigation",
@@ -82,11 +87,16 @@
     "AdminUserDetails": "AdminUserDetails",
     "MyBooking": "MyBooking",
     "AdminProfile": "AdminProfile",
-    "AdminViewUsers": "AdminViewUsers"
+    "AdminViewUsers": "AdminViewUsers",
+    "ManageVans": "ManageVans",
+     "AddVanservices": "AddVanservices",
+    "DeleteVanServices": "DeleteVanServices",
+    "EditVanservices": "EditVanservices"
+   
+
   },
   "AsyncStorageKeys": {
-    "email": "email",
-    "password": "password",
-    "isRememberCheck": "isRememberCheck"
+    "token": "token",
+    "userDetails": "userDetails"
   }
 }
