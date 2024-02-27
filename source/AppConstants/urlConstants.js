@@ -44,17 +44,17 @@ export const endPoint = {
   OTP_SENDING: 'Auth/OTP_Sending',
   OTP_VERIFICATION: 'Auth/OTP_Verification',
   REGISTERAS_BARBER: 'Barber/Barber_Signup',
-VAN_SERVICES: 'Common/Get_Vans',
+  VAN_SERVICES: 'Common/Get_Vans',
   //Barbers End Points
   BARBER_SERVICES: 'Admin/Barber_Detail?id=94',
 
   //Admin End Points
   BARBER_LIST: 'Admin/Barber_List',
-  ADD_VANS:"Common/Van_CRUD",
-  Edit_VANS:"Common/Van_CRUD",
-DELETE_VANS:'Common/Van_CRUD',
- CUSTOMER_SERVICES:'Customer/Category_Services',
- BARBER_DETAIL:'Admin/Barber_Detail',
+  ADD_VANS: 'Common/Van_CRUD',
+  Edit_VANS: 'Common/Van_CRUD',
+  DELETE_VANS: 'Common/Van_CRUD',
+  CUSTOMER_SERVICES: 'Customer/Category_Services',
+  BARBER_DETAIL: 'Admin/Barber_Detail',
   // Customer End Points
   SERVICE_CATEGORIES: 'Customer/Service_Categories',
 };
