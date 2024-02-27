@@ -54,6 +54,88 @@ const Services = ({route}) => {
       });
   }
 
+<<<<<<< HEAD
+      price: '$40.00',
+      title: '44 types',
+      icon: <Entypo name="controller-play" size={17} color={'orange'} />,
+    },
+    {
+      id: 3,
+      name: 'Hair Wash',
+
+      price: '$40.00',
+      title: '44 types',
+      icon: <Entypo name="controller-play" size={17} color={'orange'} />,
+    },
+    {
+      id: 4,
+      name: 'Shaving',
+      price: '$40.00',
+      title: '44 types',
+      icon: <Entypo name="controller-play" size={17} color={'orange'} />,
+    },
+    {
+      id: 5,
+      name: 'Skin Care',
+      price: '$40.00',
+      title: '44 types',
+      icon: <Entypo name="controller-play" size={17} color={'orange'} />,
+    },
+
+    {
+      id: 6,
+      name: 'Hair Dryer',
+
+      price: '$40.00',
+      title: '44 types',
+      icon: <Entypo name="controller-play" size={17} color={'orange'} />,
+    },
+    {
+      id: 7,
+      name: 'Face Makeup',
+
+      price: '$40.00',
+      title: '44 types',
+      icon: <Entypo name="controller-play" size={17} color={'orange'} />,
+    },
+    {
+      id: 8,
+      name: 'Royal Wax',
+
+      price: '$40.00',
+      title: '44 types',
+      icon: <Entypo name="controller-play" size={17} color={'orange'} />,
+    },
+  ];
+  return (
+
+    <Screen viewStyle={{ flex: 1}} statusBarColor={appColors.Black}>
+
+        <View style={{flex: 0.1}}>
+          <Header
+            lefttIcoType={Icons.Ionicons}
+            onPressLeftIcon={() => navigation.goBack()}
+            leftIcoName={'chevron-back'}
+            headerText={'Our Services'}
+            rightIcoName={'bell'}
+            rightIcoType={Icons.SimpleLineIcons}
+            logIn={'success'}
+            onPressRightIcon={() =>
+              navigation.navigate(constants.screen.Notification)
+            }
+            rightIcoSize={20}
+            leftIcoStyle={{
+              backgroundColor: appColors.lightBlack,
+              borderRadius: 50,
+              height: 50,
+              width: 50,
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}
+          />
+        </View>
+        <View style={{ flex: 0.8}}>
+=======
   return (
     <Screen viewStyle={{flex: 1}} statusBarColor={appColors.Black}>
       <View style={{flex: 0.1}}>
@@ -87,6 +169,7 @@ const Services = ({route}) => {
         />
       ) : (
         <View style={{flex: 0.8}}>
+>>>>>>> 25b34d2e6470c2a60e088e631f5bc2765c981152
           <FlatList
             data={barberServices}
             renderItem={({item}) => (

@@ -12,9 +12,10 @@ import {Icons} from '../../components/molecules/CustomIcon/CustomIcon';
 import ButtonComponent from '../../components/atom/CustomButtons/ButtonComponent';
 import RememberMe from '../../components/molecules/RememberMe';
 import SocailLogin from '../../components/molecules/SocailLogin';
-import {endPoint, messages} from '../../AppConstants/urlConstants';
-import {PostRequest} from '../../services/apiCall';
-import {SimpleSnackBar} from '../../components/atom/Snakbar/Snakbar';
+import { endPoint, messages } from '../../AppConstants/urlConstants';
+import { PostRequest } from '../../services/apiCall';
+import { SimpleSnackBar } from '../../components/atom/Snakbar/Snakbar';
+import Dropdown from '../../components/molecules/Dropdown/Dropdown';
 
 const CreateAccountBarber = ({navigation}) => {
   const [isEye, setIsEye] = useState(false);
@@ -229,6 +230,7 @@ const CreateAccountBarber = ({navigation}) => {
                     onBlur={handleBlur('Barber_Specialties')}
                     value={values.Barber_Specialties}
                   />
+                  <Dropdown/>
                   {touched.Barber_Specialties && errors.Barber_Specialties && (
                     <View style={{marginLeft: 10, margin: 5}}>
                       <Text style={{color: appColors.Goldcolor, fontSize: 10}}>

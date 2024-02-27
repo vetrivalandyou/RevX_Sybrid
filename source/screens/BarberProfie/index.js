@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
-import { Image, ImageBackground, Platform, ScrollView, StatusBar, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+
+import React, { useEffect, useState } from 'react';
+import { ActivityIndicator, FlatList, Image, ImageBackground, Platform, ScrollView, StatusBar, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import Screen from '../../components/atom/ScreenContainer/Screen';
 import Header from '../../components/molecules/Header';
 import CustomIcon, { Icons } from '../../components/molecules/CustomIcon/CustomIcon';
@@ -9,9 +10,20 @@ import { AppImages } from '../../AppConstants/AppImages';
 import { screenSize } from '../../components/atom/ScreenSize';
 import ButtonComponent from '../../components/atom/CustomButtons/ButtonComponent';
 import constants from '../../AppConstants/Constants.json';
+import { GetRequest } from '../../services/apiCall';
+import { endPoint } from '../../AppConstants/urlConstants';
+import { SimpleSnackBar } from '../../components/atom/Snakbar/Snakbar';
+import { TabRouter } from '@react-navigation/native';
 
-const BarberProfile = ({ navigation }) => {
+const BarberProfile = ({ navigation ,Details}) => {
+  const [barberDetails, setBarberDetails] = useState({name:'',
+  type:'',});
+
+ 
     const [activeSlide, setActiveSlide] = useState(0);
+    const [barberList, setBarberList] = useState({userType: '',
+    userName:''});
+    const [Loading,setLoading] =useState(true)
 
     const Profiles = [
         {
@@ -30,13 +42,67 @@ const BarberProfile = ({ navigation }) => {
 
     ];
 
+    useEffect(() => {
+     
+      getBarberList();
+      getBarber_Detail();
+     
+    }, []);
+    
+  
+  
+    function getBarberList() {
+      GetRequest(endPoint.BARBER_LIST)
+  
+        .then(res => {
+          setLoading(false)
+          console.log('res', res?.data);
+          if (res?.data?.code == 200) {
+  const Data =res?.data?.data[0]
+            setBarberList({userName:Data?.userName,userType:Data?.userType});
+          }
+          else SimpleSnackBar(res?.data?.message);
+          setLoading(false)
+        })
+        .catch(err => {
+          setLoading(false)
+          console.log(err);
+        });
+      }
+
+        function getBarber_Detail() {
+          GetRequest(`${endPoint.BARBER_DETAIL}?id=${94}`)
+      
+            .then(res => {
+              console.log('resssssssssssssssss', res?.data.data)
+              if (res?.data?.code == 200) {
+                const Details = res?.data?.data[0]; 
+              
+                setBarberDetails({ name : Details?.userName, type :Details?.userType});
+   
+              }
+              else SimpleSnackBar(res?.data?.message);
+              setLoading(false)
+            })
+            .catch(err => {
+              setLoading(false)
+              console.log(err);
+            });
+        
+
+    
+          }
+
+
+
+
     const renderItem = ({ item, index }, parallaxProps) => {
         return (
-            <ScrollView style={styles.slide}>
+            <View style={styles.slide}>
                 <Image source={item.illustration} style={styles.image} />
                 <Text style={styles.title}>{item.title}</Text>
 
-            </ScrollView>
+            </View>
         );
     };
     return (
@@ -49,7 +115,7 @@ const BarberProfile = ({ navigation }) => {
 
 
 
-            <View style={{ flex: 0.4,  backgroundColor:'red'}}>
+            <View style={{ flex: 0.4,  }}>
                 <Carousel
                     //  ref={carouselRef}
                     data={Profiles}
@@ -114,7 +180,7 @@ const BarberProfile = ({ navigation }) => {
             <View style={{flex:0.1, flexDirection:'row',paddingHorizontal:10}}>
                 <View style={{flex:0.79, }}>
                     <View style={{flex:0.5, justifyContent:'flex-end'}}>
-                        <Text style={{fontSize:27, color:appColors.White,}}>The Barber Shop</Text>
+                        <Text style={{fontSize:27, color:appColors.White,}}>{barberDetails.name}</Text>
                         </View>
                         <View style={{flex:0.35, flexDirection:'row',}}>
                         <View style={{flex:0.33, flexDirection:'row'}}>
@@ -128,7 +194,7 @@ const BarberProfile = ({ navigation }) => {
                 </View>
                 <View style={{flex:0.77, justifyContent:'center'}}>
                     <View  >
-                <Text style={{color:appColors.White, fontSize:15,fontWeight:'500'}}>1.6km</Text>
+                <Text style={{color:appColors.White, fontSize:15,fontWeight:'500'}}>{barberDetails.type}</Text>
                 </View>
                 </View>
                         </View>
@@ -294,7 +360,8 @@ const BarberProfile = ({ navigation }) => {
             </View>
            
           </View >
-<View style={{flex:0.1,justifyContent:'center'}}>
+
+          <View style={{flex:0.1,justifyContent:'center',}}>
           <View
         style={{
           backgroundColor: appColors.darkgrey,
@@ -310,19 +377,20 @@ const BarberProfile = ({ navigation }) => {
         <View style={{flex: 1, flexDirection: 'row'}}>
           <View style={{flex: 0.8, justifyContent: 'center'}}>
             <Text style={{color: appColors.White, fontSize: 18, marginLeft: 5}}>
-              Nathan Alexender
+              {barberList.userName}
             </Text>
             <Text style={{color: appColors.White, marginLeft: 5, fontSize: 12}}>
-              Senior Barber
+            {barberList.userType}
             </Text>
           </View>
           <View style={{flex: 0.5,alignItems:'center',justifyContent:'center'}}>
-            <ButtonComponent style={{width: '98%'}} title={'Message'} />
+            <ButtonComponent style={{width: '98%',}} title={'Message'} />
           </View>
         </View>
       </View>
       </View>
-      <View style={{flex:0.1, justifyContent:'center'}}>
+
+      <View style={{flex:0.1,justifyContent:'center',}}>
           <View
         style={{
           backgroundColor: appColors.darkgrey,
@@ -338,19 +406,23 @@ const BarberProfile = ({ navigation }) => {
         <View style={{flex: 1, flexDirection: 'row'}}>
           <View style={{flex: 0.8, justifyContent: 'center'}}>
             <Text style={{color: appColors.White, fontSize: 18, marginLeft: 5}}>
-              Nathan Alexender
+              {barberList.userName}
             </Text>
             <Text style={{color: appColors.White, marginLeft: 5, fontSize: 12}}>
-              Senior Barber
+            {barberList.userType}
             </Text>
           </View>
           <View style={{flex: 0.5,alignItems:'center',justifyContent:'center'}}>
-            <ButtonComponent style={{width: '98%'}} title={'Message'} />
+            <ButtonComponent style={{width: '98%',}} title={'Message'} />
           </View>
         </View>
       </View>
       </View>
 
+    
+
+
+      
       <View
         style={{
           flex: 0.1,
@@ -369,6 +441,10 @@ const BarberProfile = ({ navigation }) => {
     )
 
 }
+
+
+
+
 const styles = StyleSheet.create({
     slide: {
         flex: 1,
@@ -417,4 +493,5 @@ const styles = StyleSheet.create({
       },
 });
 export default BarberProfile;
+
 

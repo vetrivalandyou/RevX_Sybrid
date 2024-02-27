@@ -1,5 +1,5 @@
 import React from "react";
-import { Text, View, TouchableOpacity, SafeAreaView, StatusBar } from "react-native"
+import { Text, View, TouchableOpacity, SafeAreaView, StatusBar, StyleSheet } from "react-native"
 import CustomIcon, { Icons } from "../CustomIcon/CustomIcon";
 import AppColors from "../../../AppConstants/appColors";
 import styles from "./styles";
@@ -44,3 +44,5 @@ const RememberMe = ({ RememberTex, ForgetPasswordText, onPress,onPressFP}) => {
     )
 }
 export default RememberMe;
+
+
