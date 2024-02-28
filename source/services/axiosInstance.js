@@ -23,15 +23,12 @@ axiosInstance.interceptors.request.use(
       endPoint.OTP_VERIFICATION,
       endPoint.REGISTERAS_BARBER,
     ];
-
     const isTokenLessEndpoint = tokenLessEndpoints.some(pattern =>
       config.url.includes(pattern),
     );
-
     if (token && !isTokenLessEndpoint) {
       config.headers.Authorization = `${token}`;
     }
-
     if (config.data instanceof FormData) {
       config.headers['Content-Type'] = 'multipart/form-data';
     } else {

@@ -54,6 +54,7 @@ const Successfull = ({route}) => {
             You have successfully registered in our App
           </Text>
         </View>
+
         <View
           style={{alignItems: 'center', flex: 0.2, justifyContent: 'flex-end'}}>
           <ButtonComponent

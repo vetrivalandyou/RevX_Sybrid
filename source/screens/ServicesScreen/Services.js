@@ -152,7 +152,12 @@ const Barberinfo = ({item, onPress, selected, typeee}) => {
               alignItems: 'center',
               width: screenSize.width / 4.5,
             }}>
-            <View style={{flexDirection: 'row', width: screenSize.width / 6, justifyContent:'center'}}>
+            <View
+              style={{
+                flexDirection: 'row',
+                width: screenSize.width / 6,
+                justifyContent: 'center',
+              }}>
               <Text
                 style={{
                   fontWeight: '400',
