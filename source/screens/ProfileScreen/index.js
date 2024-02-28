@@ -23,8 +23,10 @@ import constants from '../../AppConstants/Constants.json';
 import BottomSheet from '../../components/molecules/BottomSheetContent/BottomSheet';
 import LogoutBottom from '../LogoutBottom';
 import {screenSize} from '../../components/atom/ScreenSize';
+import { useNavigation } from '@react-navigation/native';
 
 const ProfileScreen = ({navigation}) => {
+  
   const [isSignOutModalVisible, setIsSignOutModalVisible] = useState(false);
   const refRBSheet = useRef();
 
@@ -231,7 +233,7 @@ const ProfileScreen = ({navigation}) => {
         </View>
         <View>
           <TouchableOpacity
-            // onPress={() => navigation.navigate(constants.screen.CreateAccount)}
+            onPress={() => navigation.navigate(constants.screen.EditProfile)}
             >
             <View
               style={{

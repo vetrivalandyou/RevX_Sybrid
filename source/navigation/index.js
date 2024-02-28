@@ -31,6 +31,7 @@ import BottomTabNavigation from './BottomTabNavigation';
 import PrivacyPolicy from '../screens/ProfileScreen/Aboutus/PrivacyPolicy';
 import License from '../screens/ProfileScreen/Aboutus/License';
 import BarberProfile from '../screens/BarberProfie';
+import EditProfile from '../screens/ProfileScreen/EditProfile';
 
 const Main = () => {
   const Stack = createNativeStackNavigator();
@@ -109,6 +110,11 @@ const Main = () => {
         <Stack.Screen
           name={constants.screen.BarberProfile}
           component={BarberProfile}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name={constants.screen.EditProfile}
+          component={EditProfile}
           options={{ headerShown: false }}
         />
 

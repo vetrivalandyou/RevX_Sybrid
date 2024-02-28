@@ -11,7 +11,7 @@ import {
   } from 'react-native';
   import React, {useRef, useState} from 'react';
   import Screen from '../../../components/atom/ScreenContainer/Screen';
-  import {screenSize} from '../../Utills/AppConstants';
+ 
   import FontAwesome from 'react-native-vector-icons/FontAwesome';
   import Entypo from 'react-native-vector-icons/Entypo';
   import ButtonComponent from '../../../components/atom/CustomButtons/ButtonComponent';
@@ -21,7 +21,7 @@ import {
 import * as Yup from 'yup';
   import BottomSheet from '../../../components/molecules/BottomSheetContent/BottomSheet';
   import Header from '../../../components/molecules/Header';
-  import {Icons} from '../../../components/molecules/CustomIcon/CustomIcon';
+  import CustomIcon, {Icons} from '../../../components/molecules/CustomIcon/CustomIcon';
   import constants from '../../../AppConstants/Constants.json';
 import DeleteVanServices from './DeleteVanServices';
 import { endPoint } from '../../../AppConstants/urlConstants';
@@ -29,9 +29,23 @@ import SimpleTextField from '../../../components/molecules/TextFeilds/SimpleText
 import appColors from '../../../AppConstants/appColors';
 import { PostRequest } from '../../../services/apiCall';
 import { SimpleSnackBar } from '../../../components/atom/Snakbar/Snakbar';
+import { AppImages } from '../../../AppConstants/AppImages';
+import ProfileUpdate from './ProfileUpdate';
+import { screenSize } from '../../../components/atom/ScreenSize';
   
-  const AddVanservices = ({navigation}) => {
+  const AddVanservices = ({navigation, }) => {
+    const refRBSheet= useRef();
+
+    const [profileImage, setProfileImage] = useState(null); 
+
+  const handleImageCaptured = (imageUri) => {
    
+    setProfileImage(imageUri);
+     // Update the profile image state with the captured image URI
+    refRBSheet.current.close(); // Close the bottom sheet after capturing the image
+  };
+
+
 
     const validationSchema = Yup.object().shape({
       VanName: Yup.string().required(' Van name is required'),
@@ -87,6 +101,7 @@ import { SimpleSnackBar } from '../../../components/atom/Snakbar/Snakbar';
             logIn={'success'}
           />
         </View>
+      
         
         <Formik
           initialValues={{
@@ -109,12 +124,40 @@ import { SimpleSnackBar } from '../../../components/atom/Snakbar/Snakbar';
             isSubmitting,
           }) => (
           <>
-          <View style={{flex:0.8,}}>
-          <View style={{flex: 0.12, alignItems: 'center'}}>
-          <View style={styles.container}>
+          <View style={{flex:0.8, }}>
+
+
+         
+          
+          
+       
+          
+          <TouchableOpacity onPress={()=> refRBSheet.current.open()}  style={{flex:0.3,}}>
+ <View style={{flex:0.65,justifyContent:'center',alignItems:'center',}}>
+    
+
+          {profileImage ? (
+          <Image
+            source={{ uri: profileImage }}
+            style={{ width: '27%', height: '80%', borderRadius: 80, borderWidth:3,borderColor:appColors.Goldcolor}}
+          />
+        ) : (
+          <Image
+            source={AppImages.ProfileSlider}
+            style={{ width: '28%', height: '80%', borderRadius: 80 ,borderWidth:3,borderColor:appColors.Goldcolor}}
+          />
+        )}
+          <CustomIcon type={Icons.AntDesign} size={20} name={'pluscircle'} color={'white'}style={{position:'absolute',left:183, top:78}}/>
+   
+          </View>
+        </TouchableOpacity>
+       
+        <View style={{flex:0.5,}}>
+          <View style={{flex: 0.25,}}>
+          {/* <View style={styles.container}> */}
            
                 <SimpleTextField
-                textUpperView={ {borderWidth: 0,}}
+                // textUpperView={ {borderWidth: 0,}}
                     placeholder={'Enter Van Name'}
                     placeholderTextColor={appColors.LightGray}
                     onChangeText={handleChange('VanName')}
@@ -122,7 +165,7 @@ import { SimpleSnackBar } from '../../../components/atom/Snakbar/Snakbar';
                     value={values.VanName}
                   />
                    
-              </View>
+              {/* </View> */}
         </View>
         <View>
 {touched.VanName && errors.VanName && (
@@ -135,11 +178,11 @@ import { SimpleSnackBar } from '../../../components/atom/Snakbar/Snakbar';
                   )}
         </View>
 
-        <View style={{flex: 0.12, alignItems: 'center',}}>
-        <View style={styles.container}>
+        <View style={{flex: 0.25, }}>
+        {/* <View style={styles.container}> */}
             
                    <SimpleTextField
-                   textUpperView={ {borderWidth: 0,}}
+                  //  textUpperView={ {borderWidth: 0,}}
                     placeholder={'Enter Van Registration No'}
                     placeholderTextColor={appColors.LightGray}
                     onChangeText={handleChange('VanRegistrationNo')}
@@ -155,7 +198,7 @@ import { SimpleSnackBar } from '../../../components/atom/Snakbar/Snakbar';
                     </View>
                   )} */}
               
-        </View>
+        {/* </View> */}
         </View>
         <View>
 {touched.VanRegistrationNo && errors.VanRegistrationNo && (
@@ -168,11 +211,11 @@ import { SimpleSnackBar } from '../../../components/atom/Snakbar/Snakbar';
                   )}
         </View>
 
-        <View style={{flex: 0.12, alignItems: 'center',}}>
-        <View style={styles.container}>
+        <View style={{flex: 0.25 }}>
+        {/* <View style={styles.container}> */}
            
                  <SimpleTextField
-                    textUpperView={ {borderWidth: 0,}}
+                    // textUpperView={ {borderWidth: 0,}}
                     placeholder={'Enter Van Registration Id'}
                     placeholderTextColor={appColors.LightGray}
                     onChangeText={handleChange('VanRegistrationId')}
@@ -188,11 +231,11 @@ import { SimpleSnackBar } from '../../../components/atom/Snakbar/Snakbar';
                       </Text>
                     </View>
                   )} */}
-              </View>
+              {/* </View> */}
              
               
 </View>
-<View>
+<View style={{justifyContent:'center'}}>
 {touched.VanRegistrationId && errors.VanRegistrationId && (
                     <View
                     style={{ marginLeft: 12, marginTop: 4,}}>
@@ -203,11 +246,11 @@ import { SimpleSnackBar } from '../../../components/atom/Snakbar/Snakbar';
                   )}
         </View>
 
-        <View style={{flex: 0.12, alignItems: 'center',}}>
-        <View style={styles.container}>
+        <View style={{flex: 0.25, }}>
+        {/* <View style={styles.container}> */}
            
                    <SimpleTextField
-                   textUpperView={ {borderWidth: 0,}}
+                  //  textUpperView={ {borderWidth: 0,}}
                     placeholder={'Enter Van Model'}
                     placeholderTextColor={appColors.LightGray}
                     onChangeText={handleChange('VanModel')}
@@ -217,19 +260,20 @@ import { SimpleSnackBar } from '../../../components/atom/Snakbar/Snakbar';
                   
             
            
-        </View>
+        {/* </View> */}
         </View>
        
 {touched.VanModel && errors.VanModel && (
                     <View
-                    style={{ marginLeft: 12, marginTop: 4,}}>
+                    style={{ marginLeft: 12, marginTop: 4,justifyContent:'center'}}>
                       <Text style={{ color: appColors.Goldcolor, fontSize: 12}}>
                         {errors.VanModel}
                       </Text>
                     </View>
                   )}
+
         </View>
-       
+        </View>
         <View style={styles.buttonView}>
           <ButtonComponent
             style={{
@@ -239,20 +283,22 @@ import { SimpleSnackBar } from '../../../components/atom/Snakbar/Snakbar';
               position: 'absolute',
             }}
             btnTextColor={{color: 'white'}}
-            title={'Save Vans'}
+            title={'Save'}
             disabled={isSubmitting}
             onPress={handleSubmit}
              isLoading={isSubmitting}
           />
-          
-                 
-                
        
         </View>
         </>
+
           )}
         </Formik>
-       
+      
+        <BottomSheet ref={refRBSheet} Height={120}>
+          <ProfileUpdate onImageCaptured={handleImageCaptured}  />
+        </BottomSheet>
+   
      
       </Screen>
     );

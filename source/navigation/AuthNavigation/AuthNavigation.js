@@ -24,11 +24,11 @@ const AuthIndex = () => {
   const Stack = createNativeStackNavigator();
   const {loggedIn} = useSelector(state => state.AuthReducer);
 
-  if (loggedIn == 4) {
+  if (loggedIn == 2) {
     return <Main />;
   } else if (loggedIn == 3) {
     return <BarberStack />;
-  } else if (loggedIn == 2) {
+  } else if (loggedIn == 4) {
     return <AdminStack />;
   } else {
     return (

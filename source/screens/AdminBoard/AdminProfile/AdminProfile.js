@@ -144,15 +144,19 @@ const navigation =useNavigation();
           justifyContent: 'space-between',
           alignItems: 'center',
           padding: 14,
+         
         }}>
-        <View style={{flex: 0.1}}>
+        <View style={{flex: 0.13,}}>
           <Image
             source={profile}
             resizeMode="cover"
             style={{width: 50, height: 50}}
           />
+     
+          <CustomIcon type={Icons.AntDesign} size={18} name={'pluscircle'} color={'white'}style={{position:'absolute',left:35, top:33}}/>
+
         </View>
-        <View style={{flex: 0.7, flexDirection: 'column'}}>
+        <View style={{flex: 0.58, flexDirection: 'column',}}>
           <Text style={{color: 'white', fontSize: 24, fontWeight: 400}}>
             Michel Smith
           </Text>
@@ -160,8 +164,8 @@ const navigation =useNavigation();
             Michelsmith@gmail.com{' '}
           </Text>
         </View>
-        <View>
-          <TouchableOpacity>
+        <View style={{flex:0.2,}}>
+          <TouchableOpacity >
             <View
               style={{
                 paddingHorizontal: 12,
@@ -169,6 +173,7 @@ const navigation =useNavigation();
                 // marginVertical: 5,
                 justifyContent: 'space-between',
                 alignItems: 'center',
+
               }}>
               <Text
                 style={{
