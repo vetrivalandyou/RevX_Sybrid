@@ -1,4 +1,4 @@
-import React, {useState, useRef} from 'react';
+import React, { useState, useRef } from 'react';
 import {
   View,
   Text,
@@ -15,18 +15,18 @@ import Header from '../../../components/molecules/Header';
 import CustomIcon, {
   Icons,
 } from '../../../components/molecules/CustomIcon/CustomIcon';
-import {AppImages} from '../../AppConstants/AppImages';
+import { AppImages } from '../../AppConstants/AppImages';
 import ButtonComponent from '../../../components/atom/CustomButtons/ButtonComponent';
 import Entypo from 'react-native-vector-icons/Entypo';
 import profile from '../../../assets/chatfive.png';
 import constants from '../../../AppConstants/Constants.json';
 import BottomSheet from '../../../components/molecules/BottomSheetContent/BottomSheet';
 import LogoutBottom from '../../LogoutBottom';
-import {screenSize} from '../../../components/atom/ScreenSize';
-import {useNavigation} from '@react-navigation/native';
+import { screenSize } from '../../../components/atom/ScreenSize';
+import { useNavigation } from '@react-navigation/native';
 
 const AdminProfile = () => {
-const navigation =useNavigation();
+  const navigation = useNavigation();
 
   const refRBSheet = useRef();
 
@@ -59,10 +59,14 @@ const navigation =useNavigation();
     },
     {
       id: 6,
+      title: 'Approve Barber',
+      icon: Icons.Entypo,
+    },
+    {
+      id: 7,
       title: 'Sign Out',
       icon: Icons.Entypo,
     },
-
   ];
 
   const handleNavigation = index => {
@@ -70,19 +74,22 @@ const navigation =useNavigation();
       case 0:
         navigation.navigate(constants.AdminScreens.AdminUserDetails);
         break;
-        case 1:
+      case 1:
         navigation.navigate(constants.AdminScreens.AdminUserDetails);
         break;
       case 2:
         navigation.navigate(constants.AdminScreens.AdminNotification);
         break;
-        case 3:
-          navigation.navigate(constants.AdminScreens.AdminManageContent);
-          break;
-          case 4:
-            navigation.navigate(constants.AdminScreens.ManageVans);
-            break;
-      case 5: // Index of 'Sign Out' item
+      case 3:
+        navigation.navigate(constants.AdminScreens.AdminManageContent);
+        break;
+      case 4:
+        navigation.navigate(constants.AdminScreens.ManageVans);
+        break;
+      case 5:
+        navigation.navigate(constants.AdminScreens.AdminApproveBarber);
+        break;
+      case 6: // Index of 'Sign Out' item
         // setIsSignOutModalVisible(true);
         refRBSheet.current.open();
         break;
@@ -91,7 +98,7 @@ const navigation =useNavigation();
     }
   };
 
-  const ProfileContainer = ({item, onPress}) => {
+  const ProfileContainer = ({ item, onPress }) => {
     return (
       <TouchableOpacity onPress={onPress}>
         <View
@@ -129,7 +136,7 @@ const navigation =useNavigation();
     <Screen
       statusBarColor={appColors.Black}
       barStyle="light-content"
-      viewStyle={{backgroundColor: 'appColors.Black'}}>
+      viewStyle={{ backgroundColor: 'appColors.Black' }}>
       {/* <BottomSheet ref={refRBSheet} Height={screenSize.height - 452}>
         <LocationBottom refRBSheet={refRBSheet} />
       </BottomSheet> */}
@@ -144,24 +151,28 @@ const navigation =useNavigation();
           justifyContent: 'space-between',
           alignItems: 'center',
           padding: 14,
+         
         }}>
-        <View style={{flex: 0.1}}>
+        <View style={{flex: 0.13,}}>
           <Image
             source={profile}
             resizeMode="cover"
-            style={{width: 50, height: 50}}
+            style={{ width: 50, height: 50 }}
           />
+     
+          <CustomIcon type={Icons.AntDesign} size={18} name={'pluscircle'} color={'white'}style={{position:'absolute',left:35, top:33}}/>
+
         </View>
-        <View style={{flex: 0.7, flexDirection: 'column'}}>
+        <View style={{flex: 0.58, flexDirection: 'column',}}>
           <Text style={{color: 'white', fontSize: 24, fontWeight: 400}}>
             Michel Smith
           </Text>
-          <Text style={{color: 'white', fontSize: 14, fontWeight: 400}}>
+          <Text style={{ color: 'white', fontSize: 14, fontWeight: 400 }}>
             Michelsmith@gmail.com{' '}
           </Text>
         </View>
-        <View>
-          <TouchableOpacity>
+        <View style={{flex:0.2,}}>
+          <TouchableOpacity >
             <View
               style={{
                 paddingHorizontal: 12,
@@ -169,6 +180,7 @@ const navigation =useNavigation();
                 // marginVertical: 5,
                 justifyContent: 'space-between',
                 alignItems: 'center',
+
               }}>
               <Text
                 style={{
@@ -188,9 +200,9 @@ const navigation =useNavigation();
         </View>
       </View>
 
-      <View style={{ height: 1, position:'relative', marginHorizontal: 15, margin: 10}}>
-            <View style={{ position: 'absolute', top: 0, bottom: 0, left: 0, right: 0, borderWidth: 1, borderColor: appColors.Goldcolor, borderStyle: 'dashed', backgroundColor:'transparent'  }}></View>
-          </View>
+      <View style={{ height: 1, position: 'relative', marginHorizontal: 15, margin: 10 }}>
+        <View style={{ position: 'absolute', top: 0, bottom: 0, left: 0, right: 0, borderWidth: 1, borderColor: appColors.Goldcolor, borderStyle: 'dashed', backgroundColor: 'transparent' }}></View>
+      </View>
 
       {/* <View
         style={{
@@ -202,7 +214,7 @@ const navigation =useNavigation();
           marginHorizontal: 20,
         }}></View> */}
 
-      <View style={{flex: 0.9, padding: 2, backgroundColor: appColors.Black}}>
+      <View style={{ flex: 0.9, padding: 2, backgroundColor: appColors.Black }}>
         {BarberList.map((item, index) => (
           <ProfileContainer
             key={index}

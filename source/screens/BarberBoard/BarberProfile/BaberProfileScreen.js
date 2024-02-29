@@ -146,7 +146,7 @@ const BaberProfileScreen = () => {
           </Text>
         </View>
         <View>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={()=> navigation.navigate(constants.screen.EditProfile)}>
             <View
               style={{
                 paddingHorizontal: 12,

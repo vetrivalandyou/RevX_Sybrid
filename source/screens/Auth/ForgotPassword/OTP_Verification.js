@@ -9,7 +9,7 @@ import ButtonComponent from '../../../components/atom/CustomButtons/ButtonCompon
 import {PostRequest} from '../../../services/apiCall';
 import {endPoint} from '../../../AppConstants/urlConstants';
 import {SimpleSnackBar} from '../../../components/atom/Snakbar/Snakbar';
-import axios from 'axios';
+// import axios from 'axios';
 
 const OTP_Verification = ({navigation, route}) => {
   const {Email} = route.params;
@@ -51,7 +51,7 @@ const OTP_Verification = ({navigation, route}) => {
   }, [otp]);
 
   const handleOTPInputChange = (index, value) => {
-    setWrongOTP(false)
+    setWrongOTP(false);
     const otpValues = Array.from(value);
     const updatedOtp = [...otp];
     updatedOtp[index] = value.charAt(value.length - 1);
@@ -65,7 +65,8 @@ const OTP_Verification = ({navigation, route}) => {
 
   const handleInputFocus = index => {
     setFocusedIndex(index);
-  };` `
+  };
+  ` `;
 
   const otpVerification = () => {
     const payload = {
@@ -77,12 +78,11 @@ const OTP_Verification = ({navigation, route}) => {
       .then(res => {
         console.log('res', res?.data);
         if (res?.data?.code == 200) {
-          // navigation.navigate(constants.AuthScreen.NewPassword, {Email: Email});
+          navigation.navigate(constants.AuthScreen.NewPassword, {Email: Email});
         } else {
           SimpleSnackBar(res?.data?.message);
           setWrongOTP(true);
         }
-        navigation.navigate(constants.AuthScreen.NewPassword, {Email: Email});
       })
       .catch(err => {
         SimpleSnackBar(res?.data?.message);

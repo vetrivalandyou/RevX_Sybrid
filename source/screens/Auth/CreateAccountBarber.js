@@ -12,13 +12,22 @@ import {Icons} from '../../components/molecules/CustomIcon/CustomIcon';
 import ButtonComponent from '../../components/atom/CustomButtons/ButtonComponent';
 import RememberMe from '../../components/molecules/RememberMe';
 import SocailLogin from '../../components/molecules/SocailLogin';
-import { endPoint, messages } from '../../AppConstants/urlConstants';
-import { PostRequest } from '../../services/apiCall';
-import { SimpleSnackBar } from '../../components/atom/Snakbar/Snakbar';
+import {endPoint, messages} from '../../AppConstants/urlConstants';
+import {PostRequest} from '../../services/apiCall';
+import {SimpleSnackBar} from '../../components/atom/Snakbar/Snakbar';
 import Dropdown from '../../components/molecules/Dropdown/Dropdown';
 
 const CreateAccountBarber = ({navigation}) => {
   const [isEye, setIsEye] = useState(false);
+
+  const [selectedValue, setSelectedValue] = useState(null); // Example state
+
+  // Example data for the dropdown
+  const dropDownData = [
+    {label: 'Option 1', value: 'option1'},
+    {label: 'Option 2', value: 'option2'},
+    // Add more options as needed
+  ];
 
   const validationSchema = Yup.object().shape({
     FullName: Yup.string().required('Name is required'),
@@ -222,15 +231,27 @@ const CreateAccountBarber = ({navigation}) => {
                   )}
                 </View>
 
-                <View style={{flex: 0.4, justifyContent: 'center'}}>
-                  <SimpleTextField
+                <View style={{flex: 0.35, justifyContent: 'center'}}>
+                  {/* <SimpleTextField
                     placeholder={'Add Barber Specialties'}
                     placeholderTextColor={appColors.White}
                     onChangeText={handleChange('Barber_Specialties')}
                     onBlur={handleBlur('Barber_Specialties')}
                     value={values.Barber_Specialties}
+                  /> */}
+                  <Dropdown
+                    label="Add Barber Specialties"
+                    value={selectedValue}
+                    onValueChange={itemValue => setSelectedValue(itemValue)}
+                    dropDownData={dropDownData}
+                    style={{
+                      marginTop: 10,
+                      backgroundColor: appColors.Black,
+                      borderColor: appColors.AppLightGray,
+                      borderRadius: 25,
+                      paddingHorizontal: 10,
+                    }} // Example custom style
                   />
-                  <Dropdown/>
                   {touched.Barber_Specialties && errors.Barber_Specialties && (
                     <View style={{marginLeft: 10, margin: 5}}>
                       <Text style={{color: appColors.Goldcolor, fontSize: 10}}>
@@ -247,6 +268,7 @@ const CreateAccountBarber = ({navigation}) => {
                   ForgetPasswordText={'Terms & Conditions'}
                 />
               </View>
+
               <View style={{flex: 0.1}}>
                 <ButtonComponent
                   title={'Create Account'}

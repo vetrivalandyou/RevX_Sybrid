@@ -32,6 +32,7 @@ import PrivacyPolicy from '../screens/ProfileScreen/Aboutus/PrivacyPolicy';
 import License from '../screens/ProfileScreen/Aboutus/License';
 import BarberProfile from '../screens/BarberProfie';
 import MyLocation from '../screens/ProfileScreen/MyLocation';
+import EditProfile from '../screens/ProfileScreen/EditProfile';
 
 const Main = () => {
   const Stack = createNativeStackNavigator();
@@ -117,6 +118,12 @@ const Main = () => {
           component={MyLocation}
           options={{headerShown: false}}
         />
+        <Stack.Screen
+          name={constants.screen.EditProfile}
+          component={EditProfile}
+          options={{ headerShown: false }}
+        />
+
 
         <Stack.Screen
           name={constants.screen.AboutUs}

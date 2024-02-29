@@ -2,7 +2,6 @@ import React, {useState} from 'react';
 import {Text, View, TouchableOpacity} from 'react-native';
 import {Formik} from 'formik';
 import * as Yup from 'yup';
-
 import AuthHeader from '../../components/molecules/AuthHeader';
 import Screen from '../../components/atom/ScreenContainer/Screen';
 import constants from '../../AppConstants/Constants.json';
