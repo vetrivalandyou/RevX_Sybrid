@@ -1,13 +1,9 @@
-import React, {useState} from 'react';
-import {Button, Image, View} from 'react-native';
+import React from 'react';
+import {View, StyleSheet} from 'react-native';
 import ButtonComponent from '../../../components/atom/CustomButtons/ButtonComponent';
 import ImagePicker from 'react-native-image-crop-picker';
-import CustomIcon, {
-  Icons,
-} from '../../../components/molecules/CustomIcon/CustomIcon';
-const ProfileUpdate = ({onImageCaptured}) => {
-  const [imageUri, setImageUri] = useState(null);
-
+import {Icons} from '../../../components/molecules/CustomIcon/CustomIcon';
+const ChooseImage = ({setProfileImage, refRBSheet}) => {
   const openCamera = () => {
     ImagePicker.openCamera({
       width: 300,
@@ -15,13 +11,9 @@ const ProfileUpdate = ({onImageCaptured}) => {
       cropping: true,
     })
       .then(image => {
-        // Image object will contain information about the captured image
         console.log(image);
-
-        setImageUri(image.path);
-        onImageCaptured(image.path);
-
-        // You can also display the image using Image component
+        setProfileImage(image);
+        refRBSheet.current.close();
       })
       .catch(error => {
         console.log('Error:', error);
@@ -36,8 +28,8 @@ const ProfileUpdate = ({onImageCaptured}) => {
     })
       .then(image => {
         console.log(image);
-        setImageUri(image.path);
-        onImageCaptured(image.path); // Pass the selected image back to the parent component
+        setProfileImage(image);
+        refRBSheet.current.close();
       })
       .catch(error => {
         console.log('Error:', error);
@@ -45,16 +37,11 @@ const ProfileUpdate = ({onImageCaptured}) => {
   };
 
   return (
-    <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-      <View style={{flexDirection: 'row', marginHorizontal: 10}}>
-        <View
-          style={{flex: 0.5, justifyContent: 'center', alignItems: 'center'}}>
+    <View style={chooseImageStyle.mainContainer}>
+      <View style={chooseImageStyle.subView}>
+        <View style={chooseImageStyle.buttonView}>
           <ButtonComponent
-            style={{
-              backgroundColor: '#424242',
-              paddingVertical: 13,
-              width: '90%',
-            }}
+            style={chooseImageStyle.buttonStyle}
             icon={true}
             type={Icons.MaterialCommunityIcons}
             name={'camera-outline'}
@@ -65,14 +52,9 @@ const ProfileUpdate = ({onImageCaptured}) => {
             onPress={openCamera}
           />
         </View>
-        <View
-          style={{flex: 0.5, justifyContent: 'center', alignItems: 'center'}}>
+        <View style={chooseImageStyle.buttonView}>
           <ButtonComponent
-            style={{
-              backgroundColor: '#E81F1C',
-              paddingVertical: 13,
-              width: '90%',
-            }}
+            style={chooseImageStyle.buttonStyle}
             icon={true}
             type={Icons.FontAwesome}
             name={'photo'}
@@ -87,4 +69,26 @@ const ProfileUpdate = ({onImageCaptured}) => {
     </View>
   );
 };
-export default ProfileUpdate;
+
+const chooseImageStyle = StyleSheet.create({
+  mainContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  subView: {
+    flexDirection: 'row',
+    marginHorizontal: 10,
+  },
+  buttonView: {
+    flex: 0.5,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  buttonStyle: {
+    backgroundColor: '#424242',
+    paddingVertical: 13,
+    width: '90%',
+  },
+});
+export default ChooseImage;

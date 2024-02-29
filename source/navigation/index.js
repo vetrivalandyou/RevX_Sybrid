@@ -1,6 +1,6 @@
 import React from 'react';
-import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import {NavigationContainer} from '@react-navigation/native';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import constants from '../AppConstants/Constants.json';
 import {
   Login,
@@ -31,6 +31,7 @@ import BottomTabNavigation from './BottomTabNavigation';
 import PrivacyPolicy from '../screens/ProfileScreen/Aboutus/PrivacyPolicy';
 import License from '../screens/ProfileScreen/Aboutus/License';
 import BarberProfile from '../screens/BarberProfie';
+import MyLocation from '../screens/ProfileScreen/MyLocation';
 import EditProfile from '../screens/ProfileScreen/EditProfile';
 
 const Main = () => {
@@ -93,24 +94,29 @@ const Main = () => {
         <Stack.Screen
           name={constants.screen.AppointmentDate}
           component={AppointmentDate}
-          options={{ headerShown: false }}
+          options={{headerShown: false}}
         />
         <Stack.Screen
           name={constants.screen.BarberEarnings}
           component={BarberEarnings}
-          options={{ headerShown: false }}
+          options={{headerShown: false}}
         />
 
         <Stack.Screen
           name={constants.screen.BarberSpecialist}
           component={BarberSpecialist}
-          options={{ headerShown: false }}
+          options={{headerShown: false}}
         />
 
         <Stack.Screen
           name={constants.screen.BarberProfile}
           component={BarberProfile}
-          options={{ headerShown: false }}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name={constants.screen.MyLocation}
+          component={MyLocation}
+          options={{headerShown: false}}
         />
         <Stack.Screen
           name={constants.screen.EditProfile}
@@ -122,76 +128,76 @@ const Main = () => {
         <Stack.Screen
           name={constants.screen.AboutUs}
           component={AboutUs}
-          options={{ headerShown: false }}
+          options={{headerShown: false}}
         />
 
         <Stack.Screen
           name={constants.screen.TermsOfService}
           component={TermsOfService}
-          options={{ headerShown: false }}
+          options={{headerShown: false}}
         />
 
         <Stack.Screen
           name={constants.screen.PrivacyPolicy}
           component={PrivacyPolicy}
-          options={{ headerShown: false }}
+          options={{headerShown: false}}
         />
 
         <Stack.Screen
           name={constants.screen.License}
           component={License}
-          options={{ headerShown: false }}
+          options={{headerShown: false}}
         />
 
         <Stack.Screen
           name={constants.screen.Services}
           component={Services}
-          options={{ headerShown: false }}
+          options={{headerShown: false}}
         />
         <Stack.Screen
           name={constants.screen.ServicesDetails}
           component={ServicesDetails}
-          options={{ headerShown: false }}
+          options={{headerShown: false}}
         />
         <Stack.Screen
           name={constants.screen.PaymentMethod}
           component={PaymentMethod}
-          options={{ headerShown: false }}
+          options={{headerShown: false}}
         />
         <Stack.Screen
           name={constants.screen.PaymentDetails}
           component={PaymentDetails}
-          options={{ headerShown: false }}
+          options={{headerShown: false}}
         />
         <Stack.Screen
           name={constants.screen.Notification}
           component={Notification}
-          options={{ headerShown: false }}
+          options={{headerShown: false}}
         />
         <Stack.Screen
           name={constants.screen.ReviewSummary}
           component={ReviewSummary}
-          options={{ headerShown: false }}
+          options={{headerShown: false}}
         />
         <Stack.Screen
           name={constants.screen.LogoutBottom}
           component={LogoutBottom}
-          options={{ headerShown: false }}
+          options={{headerShown: false}}
         />
         <Stack.Screen
           name={constants.screen.LocationBottom}
           component={LocationBottom}
-          options={{ headerShown: false }}
+          options={{headerShown: false}}
         />
         <Stack.Screen
           name={constants.screen.ReferFriendsSheet}
           component={ReferFriendsSheet}
-          options={{ headerShown: false }}
+          options={{headerShown: false}}
         />
         <Stack.Screen
           name={constants.screen.ServiceSpecialist}
           component={ServiceSpecialist}
-          options={{ headerShown: false }}
+          options={{headerShown: false}}
         />
         {/* <Stack.Screen
           name={constants.screen.HomeSuperAdmin}

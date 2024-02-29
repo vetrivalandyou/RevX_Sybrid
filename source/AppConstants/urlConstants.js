@@ -45,6 +45,10 @@ export const endPoint = {
   OTP_VERIFICATION: 'Auth/OTP_Verification',
   REGISTERAS_BARBER: 'Barber/Barber_Signup',
   VAN_SERVICES: 'Common/Get_Vans',
+
+  //User End Points
+  EDIT_PROFILE_USER: 'Auth/User_CRUD',
+
   //Barbers End Points
   BARBER_SERVICES: 'Admin/Barber_Detail?id=94',
 
@@ -55,6 +59,7 @@ export const endPoint = {
   DELETE_VANS: 'Common/Van_CRUD',
   CUSTOMER_SERVICES: 'Customer/Category_Services',
   BARBER_DETAIL: 'Admin/Barber_Detail',
+
   // Customer End Points
   SERVICE_CATEGORIES: 'Customer/Service_Categories',
 };

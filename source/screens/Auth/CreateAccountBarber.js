@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
-import { Text, View, TouchableOpacity } from 'react-native';
-import { Formik } from 'formik';
+import React, {useState} from 'react';
+import {Text, View, TouchableOpacity} from 'react-native';
+import {Formik} from 'formik';
 import * as Yup from 'yup';
 
 import AuthHeader from '../../components/molecules/AuthHeader';
@@ -8,24 +8,24 @@ import Screen from '../../components/atom/ScreenContainer/Screen';
 import constants from '../../AppConstants/Constants.json';
 import SimpleTextField from '../../components/molecules/TextFeilds/SimpleTextField';
 import appColors from '../../AppConstants/appColors';
-import { Icons } from '../../components/molecules/CustomIcon/CustomIcon';
+import {Icons} from '../../components/molecules/CustomIcon/CustomIcon';
 import ButtonComponent from '../../components/atom/CustomButtons/ButtonComponent';
 import RememberMe from '../../components/molecules/RememberMe';
 import SocailLogin from '../../components/molecules/SocailLogin';
-import { endPoint, messages } from '../../AppConstants/urlConstants';
-import { PostRequest } from '../../services/apiCall';
-import { SimpleSnackBar } from '../../components/atom/Snakbar/Snakbar';
+import {endPoint, messages} from '../../AppConstants/urlConstants';
+import {PostRequest} from '../../services/apiCall';
+import {SimpleSnackBar} from '../../components/atom/Snakbar/Snakbar';
 import Dropdown from '../../components/molecules/Dropdown/Dropdown';
 
-const CreateAccountBarber = ({ navigation }) => {
+const CreateAccountBarber = ({navigation}) => {
   const [isEye, setIsEye] = useState(false);
 
   const [selectedValue, setSelectedValue] = useState(null); // Example state
 
   // Example data for the dropdown
   const dropDownData = [
-    { label: 'Option 1', value: 'option1' },
-    { label: 'Option 2', value: 'option2' },
+    {label: 'Option 1', value: 'option1'},
+    {label: 'Option 2', value: 'option2'},
     // Add more options as needed
   ];
 
@@ -43,23 +43,24 @@ const CreateAccountBarber = ({ navigation }) => {
     UserPassword: Yup.string().required('Password is required'),
     // AddBio: Yup.string().required('Add Bio is required'),
     Description: Yup.string().required('Description is required'),
-    Barber_Specialties: Yup.string().required('Barber Specialties are required'),
+    Barber_Specialties: Yup.string().required(
+      'Barber Specialties are required',
+    ),
   });
 
   const barberRegisterUser = (values, setSubmitting) => {
-    console.log("test", values)
+    console.log('test', values);
 
     const payload = {
       ...values,
-      Barber_Specialties: [values.Barber_Specialties]
-    }
+      Barber_Specialties: [values.Barber_Specialties],
+    };
 
-    console.log("payload", payload)
-
+    console.log('payload', payload);
 
     PostRequest(endPoint.REGISTERAS_BARBER, payload)
       .then(res => {
-        console.log("RESPONSEDATA", res?.data)
+        console.log('RESPONSEDATA', res?.data);
         if (res?.data?.code == 200) {
           console.log(res?.data);
         } else {
@@ -75,12 +76,12 @@ const CreateAccountBarber = ({ navigation }) => {
 
   return (
     <Screen
-      authStyle={{ flex: 1, backgroundColor: appColors.Goldcolor }}
-      viewStyle={{ flex: 1, backgroundColor: appColors.Black }}
+      authStyle={{flex: 1, backgroundColor: appColors.Goldcolor}}
+      viewStyle={{flex: 1, backgroundColor: appColors.Black}}
       statusBarColor={appColors.Goldcolor}
       translucent={false}
       barStyle="light-content">
-      <View style={{ flex: 0.2 }}>
+      <View style={{flex: 0.2}}>
         <AuthHeader
           logIn={'Log In'}
           heading={'Create Account'}
@@ -105,7 +106,7 @@ const CreateAccountBarber = ({ navigation }) => {
             Barber_Specialties: '',
           }}
           validationSchema={validationSchema}
-          onSubmit={(values, { setSubmitting }) => {
+          onSubmit={(values, {setSubmitting}) => {
             barberRegisterUser(values, setSubmitting);
           }}>
           {({
@@ -118,8 +119,8 @@ const CreateAccountBarber = ({ navigation }) => {
             isSubmitting,
           }) => (
             <>
-              <View style={{ flex: 0.9, justifyContent: 'space-evenly' }}>
-                <View style={{ flex: 0.4, justifyContent: 'center' }}>
+              <View style={{flex: 0.9, justifyContent: 'space-evenly'}}>
+                <View style={{flex: 0.4, justifyContent: 'center'}}>
                   <SimpleTextField
                     placeholder={'Enter Full Name'}
                     placeholderTextColor={appColors.White}
@@ -129,14 +130,14 @@ const CreateAccountBarber = ({ navigation }) => {
                   />
                   {touched.FullName && errors.FullName && (
                     <View
-                      style={{ marginLeft: 10, marginTop: 2, marginBottom: 15 }}>
-                      <Text style={{ color: appColors.Goldcolor, fontSize: 10 }}>
+                      style={{marginLeft: 10, marginTop: 2, marginBottom: 15}}>
+                      <Text style={{color: appColors.Goldcolor, fontSize: 10}}>
                         {errors.FullName}
                       </Text>
                     </View>
                   )}
                 </View>
-                <View style={{ flex: 0.4, justifyContent: 'center' }}>
+                <View style={{flex: 0.4, justifyContent: 'center'}}>
                   <SimpleTextField
                     placeholder={'Enter Email Address'}
                     placeholderTextColor={appColors.White}
@@ -146,8 +147,8 @@ const CreateAccountBarber = ({ navigation }) => {
                   />
                   {touched.UserEmail && errors.UserEmail && (
                     <View
-                      style={{ marginLeft: 10, marginTop: 2, marginBottom: 15 }}>
-                      <Text style={{ color: appColors.Goldcolor, fontSize: 10 }}>
+                      style={{marginLeft: 10, marginTop: 2, marginBottom: 15}}>
+                      <Text style={{color: appColors.Goldcolor, fontSize: 10}}>
                         {errors.UserEmail}
                       </Text>
                     </View>
@@ -172,14 +173,14 @@ const CreateAccountBarber = ({ navigation }) => {
                   />
                   {touched.UserPassword && errors.UserPassword && (
                     <View
-                      style={{ marginLeft: 10, marginTop: 2, marginBottom: 15 }}>
-                      <Text style={{ color: appColors.Goldcolor, fontSize: 10 }}>
+                      style={{marginLeft: 10, marginTop: 2, marginBottom: 15}}>
+                      <Text style={{color: appColors.Goldcolor, fontSize: 10}}>
                         {errors.UserPassword}
                       </Text>
                     </View>
                   )}
                 </View>
-                <View style={{ flex: 0.4, justifyContent: 'center' }}>
+                <View style={{flex: 0.4, justifyContent: 'center'}}>
                   <SimpleTextField
                     placeholder={'Contact Number'}
                     placeholderTextColor={appColors.White}
@@ -188,8 +189,8 @@ const CreateAccountBarber = ({ navigation }) => {
                     value={values.UserPhone}
                   />
                   {touched.UserPhone && errors.UserPhone && (
-                    <View style={{ marginLeft: 10, margin: 5 }}>
-                      <Text style={{ color: appColors.Goldcolor, fontSize: 10 }}>
+                    <View style={{marginLeft: 10, margin: 5}}>
+                      <Text style={{color: appColors.Goldcolor, fontSize: 10}}>
                         {errors.UserPhone}
                       </Text>
                     </View>
@@ -213,7 +214,7 @@ const CreateAccountBarber = ({ navigation }) => {
                   )}
                 </View> */}
 
-                <View style={{ flex: 0.4, justifyContent: 'center' }}>
+                <View style={{flex: 0.4, justifyContent: 'center'}}>
                   <SimpleTextField
                     placeholder={'Add Description'}
                     placeholderTextColor={appColors.White}
@@ -222,15 +223,15 @@ const CreateAccountBarber = ({ navigation }) => {
                     value={values.Description}
                   />
                   {touched.Description && errors.Description && (
-                    <View style={{ marginLeft: 10, margin: 5 }}>
-                      <Text style={{ color: appColors.Goldcolor, fontSize: 10 }}>
+                    <View style={{marginLeft: 10, margin: 5}}>
+                      <Text style={{color: appColors.Goldcolor, fontSize: 10}}>
                         {errors.Description}
                       </Text>
                     </View>
                   )}
                 </View>
 
-                <View style={{ flex: 0.35, justifyContent: 'center' }}>
+                <View style={{flex: 0.35, justifyContent: 'center'}}>
                   {/* <SimpleTextField
                     placeholder={'Add Barber Specialties'}
                     placeholderTextColor={appColors.White}
@@ -241,13 +242,19 @@ const CreateAccountBarber = ({ navigation }) => {
                   <Dropdown
                     label="Add Barber Specialties"
                     value={selectedValue}
-                    onValueChange={(itemValue) => setSelectedValue(itemValue)}
+                    onValueChange={itemValue => setSelectedValue(itemValue)}
                     dropDownData={dropDownData}
-                    style={{ marginTop: 10, backgroundColor: appColors.Black, borderColor: appColors.AppLightGray, borderRadius: 25, paddingHorizontal: 10 }} // Example custom style
+                    style={{
+                      marginTop: 10,
+                      backgroundColor: appColors.Black,
+                      borderColor: appColors.AppLightGray,
+                      borderRadius: 25,
+                      paddingHorizontal: 10,
+                    }} // Example custom style
                   />
                   {touched.Barber_Specialties && errors.Barber_Specialties && (
-                    <View style={{ marginLeft: 10, margin: 5 }}>
-                      <Text style={{ color: appColors.Goldcolor, fontSize: 10, }}>
+                    <View style={{marginLeft: 10, margin: 5}}>
+                      <Text style={{color: appColors.Goldcolor, fontSize: 10}}>
                         {errors.Barber_Specialties}
                       </Text>
                     </View>
@@ -255,13 +262,14 @@ const CreateAccountBarber = ({ navigation }) => {
                 </View>
               </View>
 
-              <View style={{ flex: 0.1, justifyContent: 'center' }}>
+              <View style={{flex: 0.1, justifyContent: 'center'}}>
                 <RememberMe
                   RememberTex={'Remember me'}
                   ForgetPasswordText={'Terms & Conditions'}
                 />
               </View>
-              <View style={{ flex: 0.1 }}>
+
+              <View style={{flex: 0.1}}>
                 <ButtonComponent
                   title={'Create Account'}
                   disabled={isSubmitting}
@@ -281,14 +289,14 @@ const CreateAccountBarber = ({ navigation }) => {
             // backgroundColor: 'red',
           }}>
           <TouchableOpacity>
-            <Text style={{ color: appColors.GrayColor }}>
+            <Text style={{color: appColors.GrayColor}}>
               Already have an Account ?
             </Text>
           </TouchableOpacity>
 
           <TouchableOpacity
             onPress={() => navigation.navigate(constants.AuthScreen.Login)}>
-            <Text style={{ color: appColors.Goldcolor }}> Login</Text>
+            <Text style={{color: appColors.Goldcolor}}> Login</Text>
           </TouchableOpacity>
         </View>
 
