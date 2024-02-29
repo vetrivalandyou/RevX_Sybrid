@@ -102,7 +102,7 @@ const EditProfile = ({navigation}) => {
         if (res?.data?.code == 200) {
           console.log(res?.data);
           SimpleSnackBar(res?.data?.message);
-          checkDetails();
+          checkDetails(values);
         } else {
           SimpleSnackBar(res?.data?.message);
         }
