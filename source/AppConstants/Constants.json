@@ -61,9 +61,12 @@
     "Servicesboard": "Servicesboard",
     "Addservices": "Addservices",
     "DeleteServices": "DeleteServices",
-    "Editservices": "Editservices"
-
-   
+    "Editservices": "Editservices",
+    "ManageVans": "ManageVans",
+    "AddVanservices": "AddVanservices",
+    "DeleteVanServices": "DeleteVanServices",
+   "EditVanservices": "EditVanservices",
+   "ServiceList": "ServiceList"
   },
   "AdminScreens": {
     "AdminBottomTabNavigation": "AdminBottomTabNavigation",
@@ -92,7 +95,8 @@
     "ManageVans": "ManageVans",
      "AddVanservices": "AddVanservices",
     "DeleteVanServices": "DeleteVanServices",
-    "EditVanservices": "EditVanservices"
+    "EditVanservices": "EditVanservices",
+    "AdminApproveBarber":"AdminApproveBarber"
    
 
   },
