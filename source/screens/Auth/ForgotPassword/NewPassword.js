@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import {Text, View} from 'react-native';
 import {Formik} from 'formik';
 import * as Yup from 'yup';
@@ -11,30 +11,38 @@ import constants from '../../../AppConstants/Constants.json';
 import ButtonComponent from '../../../components/atom/CustomButtons/ButtonComponent';
 import {PostRequest} from '../../../services/apiCall';
 import {endPoint} from '../../../AppConstants/urlConstants';
+import {SimpleSnackBar} from '../../../components/atom/Snakbar/Snakbar';
 
 const NewPassword = ({navigation, route}) => {
-
   const {Email} = route.params;
   const [passwordValue, setPasswordValue] = useState('');
   const [isEye, setIsEye] = useState(false);
   const [isPasswordVisible, setIsPasswordVisible] = React.useState(false);
 
-  console.log("EmailEmailEmail",Email)
+  console.log('EmailEmailEmail', Email);
   const validationSchema = Yup.object().shape({
-    NewPassword: Yup.string().min(7).required('Password is required').min(8, 'Username must be at least 8 characters'),
-    ConfirmPassword: Yup.string().required('Confirm Password is required').min(8, 'Username must be at least 8 characters'),
+    NewPassword: Yup.string()
+      .min(7)
+      .required('Password is required')
+      .min(8, 'Username must be at least 8 characters'),
+    ConfirmPassword: Yup.string()
+      .required('Confirm Password is required')
+      .min(8, 'Username must be at least 8 characters'),
   });
 
   const ResetPassword = (values, setSubmitting) => {
+    setSubmitting(false);
     const payload = {
       ...values,
-      Email: Email
-    }
+      Email: Email,
+    };
+    console.log(payload, 'payload');
     PostRequest(endPoint.RESET_PASSWORD, payload)
       .then(res => {
+        console.log(res.data, 'password');
         if (res?.data?.code == 200) {
           SimpleSnackBar(res?.data?.message);
-          navigation.navigate(constants.AuthScreen.Login)
+          navigation.navigate(constants.AuthScreen.Login);
         } else {
           SimpleSnackBar(res?.data?.message);
         }

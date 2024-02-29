@@ -28,7 +28,7 @@ const Successfull = ({route}) => {
       statusBarColor={appColors.Black}
       barStyle="light-content"
       viewStyle={{}}>
-      <View style={{ flex: 0.1, justifyContent: 'center' }}>
+      <View style={{flex: 0.1, justifyContent: 'center'}}>
         <Header
           lefttIcoType={Icons.Ionicons}
           onPressLeftIcon={() => navigation.goBack()}
@@ -43,8 +43,8 @@ const Successfull = ({route}) => {
           justifyContent: 'center',
         }}>
         <View
-          style={{ flex: 0.34, alignItems: 'center', justifyContent: 'center' }}>
-          <Image style={{ height: 300, width: 300 }} source={AppImages.success} />
+          style={{flex: 0.34, alignItems: 'center', justifyContent: 'center'}}>
+          <Image style={{height: 300, width: 300}} source={AppImages.success} />
         </View>
         <View style={{alignItems: 'center'}}>
           <Text style={{fontSize: 30, color: appColors.White}}>
@@ -56,7 +56,7 @@ const Successfull = ({route}) => {
         </View>
 
         <View
-          style={{ alignItems: 'center', flex: 0.2, justifyContent: 'flex-end' }}>
+          style={{alignItems: 'center', flex: 0.2, justifyContent: 'flex-end'}}>
           <ButtonComponent
             onPress={() => {
               dispatch(

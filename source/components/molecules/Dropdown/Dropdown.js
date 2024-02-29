@@ -11,20 +11,18 @@ const Dropdown = ({label, value, onValueChange, dropDownData, style}) => {
     <View
       style={[
         styles.container,
-        style,
-        {
-          borderWidth: 1,
-          borderColor: isTextInputFocused
-            ? appColors.AppGreen
-            : appColors.LighBlue,
-        },
+        style
+       
       ]}>
       <Picker
         style={{
           width: '100%',
           height: '100%',
-          color: appColors.AppLightGray,
+          color: appColors.White,
+          fontSize:15,
+          
         }}
+        dropdownIconColor={appColors.White}
         mode="dropdown"
         onFocus={() => {
           setTextInputFocused(true);

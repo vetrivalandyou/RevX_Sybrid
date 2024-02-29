@@ -21,9 +21,8 @@ import CreateAccountBarber from '../../screens/Auth/CreateAccountBarber';
 import OTP_Verification from '../../screens/Auth/ForgotPassword/OTP_Verification';
 
 const AuthIndex = () => {
-
   const Stack = createNativeStackNavigator();
-  
+
   const {loggedIn} = useSelector(state => state.AuthReducer);
 
   if (loggedIn == 2) {
@@ -32,9 +31,8 @@ const AuthIndex = () => {
     return <BarberStack />;
   } else if (loggedIn == 4) {
     return <AdminStack />;
-  }else {
-
-    console.log("")
+  } else {
+    console.log('');
 
     return (
       <NavigationContainer>

@@ -240,6 +240,7 @@ import {
   TextInput,
   ScrollView,
   Platform,
+  Image
 } from 'react-native';
 import React, { useState } from 'react';
 import Screen from '../../../components/atom/ScreenContainer/Screen';
@@ -250,23 +251,20 @@ import * as Yup from 'yup';
 import { useNavigation } from '@react-navigation/native';
 import { screenSize } from '../../../components/atom/ScreenSize';
 import Header from '../../../components/molecules/Header';
-import { Icons } from '../../../components/molecules/CustomIcon/CustomIcon';
+import CustomIcon, { Icons } from '../../../components/molecules/CustomIcon/CustomIcon';
 import { endPoint } from '../../../AppConstants/urlConstants';
 import SimpleTextField from '../../../components/molecules/TextFeilds/SimpleTextField';
 import { PostRequest } from '../../../services/apiCall';
 import { SimpleSnackBar } from '../../../components/atom/Snakbar/Snakbar';
+import { AppImages } from '../../../AppConstants/AppImages';
+
 
 const EditVanservices = ({ route, navigation }) => {
+
+  
   // const navigation = useNavigation();
   const { vanDetil } = route.params;
-  // const [editedDetails, setEditedDetails] =  useState({
-
-  //   vanName: vanDetil?.vanName,
-  //   vanRegistrationNo: vanDetil?.vanRegistrationNo,
-  //   vanModel: vanDetil?.vanModel,
-  //   vanRegistrationId: vanDetil?.vanRegistrationId,
-
-  // });
+  
 
   const validationSchema = Yup.object().shape({
     VanName: Yup.string().required(' Van name is required'),
@@ -348,6 +346,17 @@ const EditVanservices = ({ route, navigation }) => {
         }) => (
           <>
             <View style={{ flex: 0.8 }}>
+         
+          <View style={{flex: 0.32,justifyContent:'center',alignItems:'center',}}>
+          <Image
+            source={AppImages.ProfileSlider}
+ 
+            style={{width:'40%', height: '80%',borderRadius:80}}
+          />
+     
+          <CustomIcon type={Icons.AntDesign} size={25} name={'pluscircle'} color={'white'}style={{position:'absolute',left:232, top:153}}/>
+
+        </View>
               <View style={{ flex: 0.12, alignItems: 'center', }}>
                 <View style={styles.container}>
 

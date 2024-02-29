@@ -23,6 +23,7 @@
     "BarberProfile" :"BarberProfile",
     "BottomTabNavigation": "BottomTabNavigation",
     "ProfileScreen": "ProfileScreen",
+  "EditProfile":"EditProfile",
     "AboutUs": "AboutUs",
     "TermsOfService": "TermsOfService",
     "PrivacyPolicy": "PrivacyPolicy",
