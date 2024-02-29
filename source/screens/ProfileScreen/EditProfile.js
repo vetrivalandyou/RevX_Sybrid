@@ -53,6 +53,7 @@ const EditProfile = ({navigation}) => {
       constants.AsyncStorageKeys.userDetails,
       userUpdatedDetails,
     );
+    getUserDetails();
   };
 
   useEffect(() => {
