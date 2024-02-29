@@ -23,7 +23,7 @@ import Screen from "../../../components/atom/ScreenContainer/Screen";
 import Header from "../../../components/molecules/Header";
 
 
-const AdminApproveBarber = () => {
+const AdminApproveBarber = ({ navigation }) => {
   const data = [
     {
       id: 1,
@@ -40,6 +40,28 @@ const AdminApproveBarber = () => {
       Imagesource: AppImages.applepay,
       title: 'Hair Wash',
     },
+    {
+      id: 4,
+      Imagesource: AppImages.applepay,
+      title: 'Hair Straight',
+    },
+    {
+      id: 5,
+      Imagesource: AppImages.applepay,
+      title: 'Hair Straight',
+    },
+    {
+      id: 6,
+      Imagesource: AppImages.applepay,
+      title: 'Hair Straight',
+    },
+    {
+      id: 7,
+      Imagesource: AppImages.applepay,
+      title: 'Hair Straight',
+    },
+
+
   ];
 
 
@@ -115,25 +137,7 @@ const AdminApproveBarber = () => {
 
   const [viewDetails, setViewDetails] = React.useState(false);
   const [viewDetail, setViewDetail] = React.useState(false);
-  const [selectedItem, setSelectedItem] = React.useState(null);
-
-
-  const handleFunction1 = () => {
-
-    setViewDetail(!viewDetail);
-  };
-  const handleFunction2 = () => {
-    setViewDetails(item.id)
-  }
-
-  const handlePress = () => {
-    handleFunction1();
-    handleFunction2();
-  };
-
-
-
-
+  const [selectedItems, setSelectedItems] = React.useState([]);
 
   const isFocused = useIsFocused();
 
@@ -154,35 +158,49 @@ const AdminApproveBarber = () => {
     return () => clearTimeout(timeoutRef.current);
   }, [isLoading]);
 
-  const InnerContanier = ({ item, onPress, selected }) => {
-    return (
-      <TouchableOpacity onPress={onPress}>
-        <View style={{ marginVertical: 8, height: screenSize.height / 18, backgroundColor: '#252525', marginHorizontal: 5, borderRadius: 8, justifyContent: 'center' }}>
-          <View
-            style={{
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-              // alignItems: 'center',
-              // paddingHorizontal: 15,
-              marginHorizontal: 10
-            }}>
+  const toggleSelection = (itemId) => {
+    const selectedIndex = selectedItems.indexOf(itemId);
+    let newSelectedItems = [...selectedItems];
 
-            <View style={{ width: screenSize.width / 1.6 }}>
-              <Text style={{ fontWeight: '500', fontSize: 15, color: 'white', marginLeft: 5 }}>
-                {item.title}
-              </Text>
-            </View>
+    if (selectedIndex === -1) {
+      // Item was not previously selected, add it to the selection
+      newSelectedItems.push(itemId);
+    } else {
+      // Item was already selected, remove it from the selection
+      newSelectedItems.splice(selectedIndex, 1);
+    }
+
+    setSelectedItems(newSelectedItems);
+  };
+
+  const InnerContanier = ({ item, onPress, selected }) => {
+    const isSelected = selectedItems.includes(item.id);
+
+    return (
+      <TouchableOpacity onPress={() => toggleSelection(item.id)} style={{backgroundColor:'#252525', marginVertical: 8, height: screenSize.height / 17, marginHorizontal: 5, borderRadius: 8, justifyContent: 'center' }}>
+        <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between', marginHorizontal: 10 }}>
+
+
+
+          <View style={{ flex: 0.5, justifyContent: 'center' }}>
+            <Text style={{ fontWeight: '500', fontSize: 15, color: 'white', marginLeft: 5 }}>
+              {item.title}
+            </Text>
+          </View>
+          <View style={{ flex: 0.5, alignItems: 'flex-end', justifyContent: 'center' }}>
             <View
               style={[
                 ticketStyle.OuterCircle,
-                selected && { backgroundColor: '#c79647' },
+                isSelected && { backgroundColor: '#c79647' },
               ]}
             >
-              {selected && <CustomIcon type={Icons.AntDesign} name={"check"} color={appColors.White} />}
+              {isSelected && <CustomIcon type={Icons.AntDesign} name={"check"} color={appColors.White} size={18} />}
 
 
             </View>
           </View>
+
+
         </View>
       </TouchableOpacity>
     );
@@ -194,7 +212,7 @@ const AdminApproveBarber = () => {
 
       <View style={ticketStyle.container}>
 
-        <View style={{
+        <TouchableOpacity style={{
           height: screenSize.height / 4,
           width: screenSize.width / 1.1,
           marginBottom: 10,
@@ -299,34 +317,44 @@ const AdminApproveBarber = () => {
           {/* column Main View 3 open */}
 
 
-        </View>
+        </TouchableOpacity>
         {/* column Main View 3 close */}
 
         {viewDetails && (
-          <Animated.View style={[ticketStyle.ticketDetailView, {
-            transform: [{
-              translateY: animation.interpolate({
-                inputRange: [0, 1],
-                outputRange: [0, 10]
+          // <Animated.View style={[ticketStyle.ticketDetailView, {
+          //   transform: [{
+          //     translateY: animation.interpolate({
+          //       inputRange: [0, 1],
+          //       outputRange: [0, 10]
 
-              })
-            }]
-          }]}>
+          //     })
+          //   }]
+          // }]}>
+          <ScrollView nestedScrollEnabled={true} showsVerticalScrollIndicator={false} style={[ticketStyle.ticketDetailView]} >
+            {data.map((item, index) => (
+              <InnerContanier
+                item={item}
+                selected={selectedItems}
+                onPress={() => setSelectedItems}
+                nestedScrollEnabled={true}
+              />
+            ))}
+          </ScrollView>
+          // {/* <FlatList
+          //   data={data}
+          //   renderItem={({ item }) => (
+          //     <InnerContanier
+          //       item={item}
+          //       selected={selectedItem === item.id}
+          //       onPress={() => setSelectedItem(item.id)}
+          //       nestedScrollEnabled={true}
+          //     />
+          //   )}
+          //   keyExtractor={item => item.id}
+          // /> */}
 
-            <FlatList
-              data={data}
-              renderItem={({ item }) => (
-                <InnerContanier
-                  item={item}
-                  selected={selectedItem === item.id}
-                  onPress={() => setSelectedItem(item.id)}
-                />
-              )}
-              keyExtractor={item => item.id}
-            />
 
-
-          </Animated.View>
+          // </Animated.View>
         )}
 
       </View>
@@ -362,12 +390,16 @@ const AdminApproveBarber = () => {
         />
       </View>
       <View style={{ flex: 0.9 }}>
+
         <FlatList
           data={data1}
           renderItem={({ item }) => <TicketsComponent item={item} onPress={() => { toggleItem(item.id), fadeIn(), setBtnClicked(!btnClicked); }}
             viewDetails={viewDetails === item.id}
           />}
           keyExtractor={item => item.id}
+          nestedScrollEnabled={true}
+          showsVerticalScrollIndicator={false}
+
         />
 
       </View>
@@ -378,6 +410,7 @@ const AdminApproveBarber = () => {
 }
 
 export default AdminApproveBarber;
+
 const ticketStyle = StyleSheet.create({
   container: {
     flex: 1,
@@ -510,12 +543,13 @@ const ticketStyle = StyleSheet.create({
     alignItems: 'flex-end',
   },
   ticketDetailView: {
-    height: screenSize.height / 5.5,
+    height: screenSize.height / 3,
     //backgroundColor: '#F9F6EE',
     borderBottomColor: '#EDEADE',
     //  borderBottomWidth:0.1,
     borderBottomColor: appColors.AppGreen,
     //  paddingHorizontal:8
+
   },
   ticketDetailFirstView: {
     height: screenSize.height / 9,
@@ -648,6 +682,7 @@ const ticketStyle = StyleSheet.create({
     backgroundColor: 'lightgrey',
     justifyContent: 'center',
     alignItems: 'center',
+
   },
   innerCircle: {
     height: screenSize.height / 90,
