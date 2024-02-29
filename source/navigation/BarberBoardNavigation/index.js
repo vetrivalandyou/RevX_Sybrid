@@ -19,6 +19,7 @@ import EditVanservices from '../../screens/AdminBoard/ManageVans/EditVanServices
 import AddVanservices from '../../screens/AdminBoard/ManageVans/AddVanServices';
 import DeleteVanServices from '../../screens/AdminBoard/ManageVans/DeleteVanServices';
 import ManageVans from '../../screens/AdminBoard/ManageVans/ManageVans';
+import ServiceList from '../../screens/BarberBoard/BarberServices/ServiceList';
 
 const BarberStack = () => {
   
@@ -100,7 +101,15 @@ const BarberStack = () => {
           name={constants.BarberScreen.EditVanservices}
           component={EditVanservices}
           options={{headerShown: false}}
+
         />
+         <Stack.Screen
+          name={constants.BarberScreen.ServiceList}
+          component={ServiceList}
+          options={{headerShown: false}}
+
+        />
+        
 
 
 

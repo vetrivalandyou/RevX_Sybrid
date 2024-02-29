@@ -1,7 +1,7 @@
 import React from 'react';
 import {Text, View, Image} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 
 import Screen from '../../components/atom/ScreenContainer/Screen';
 import appColors from '../../AppConstants/appColors';
@@ -14,6 +14,9 @@ import {LogIn} from '../../redux/Action/AuthAction';
 const Successfull = ({route}) => {
   const {userDetails} = route.params;
 
+  const {loggedIn} = useSelector(state => state.AuthReducer);
+  
+  console.log("loggedIn", loggedIn)
   const dispatch = useDispatch();
   const navigation = useNavigation();
 
@@ -59,6 +62,7 @@ const Successfull = ({route}) => {
           style={{alignItems: 'center', flex: 0.2, justifyContent: 'flex-end'}}>
           <ButtonComponent
             onPress={() => {
+              console.log("userDetails?.user?._RoleId", userDetails?.user?._RoleId)
               dispatch(
                 LogIn(userDetails?.user?._RoleId, userDetails?.token, null),
               );

@@ -1,10 +1,12 @@
 import React from 'react';
 import { store, persistor } from './source/redux/Store/index';
-import { Provider } from 'react-redux';
+import { Provider, useSelector } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
 import MainNavigation from './source/navigation/MainNavigation';
 
 function App() {
+
+ 
 
   return (
 

@@ -57,6 +57,13 @@ const Servicesboard = ({ navigation }) => {
       deleteimage: require('../../../assets/deleteimage.png'),
     },
   ];
+
+  const handleItemPress = (item) => {
+    setSelectedItem(item.id);
+    navigation.navigate(constants.BarberScreen.ServiceList, {
+      serviceName: item.name,
+    });
+  };
   return (
     <Screen viewStyle={{ flex: 1, padding: 15 , backgroundColor: appColors.Black}} statusBarColor={appColors.Black} >
       <View style={{ flex: 0.1, backgroundColor: appColors.Black }}>
@@ -76,7 +83,8 @@ const Servicesboard = ({ navigation }) => {
             key={item.id}
             item={item}
             selected={selectedItem === item.id}
-            onPress={() => setSelectedItem(item.id)}
+            onPress={() => handleItemPress(item)}
+            
           />
         ))}
       </ScrollView>
