@@ -31,42 +31,47 @@ const ProfileScreen = ({navigation}) => {
   const BarberList = [
     {
       id: 1,
+      title: 'My Location',
+      icon: Icons.Entypo,
+    },
+    {
+      id: 2,
       title: 'About Us',
       icon: Icons.Entypo,
     },
 
     {
-      id: 2,
+      id: 3,
       title: 'Appointment',
       icon: Icons.Entypo,
     },
     {
-      id: 3,
+      id: 4,
       title: 'Nearby Vans',
       icon: Icons.Entypo,
     },
     {
-      id: 4,
+      id: 5,
       title: 'Profile',
       icon: Icons.Entypo,
     },
     {
-      id: 5,
+      id: 6,
       title: 'Loyalty Points',
       icon: Icons.Entypo,
     },
     {
-      id: 6,
+      id: 7,
       title: 'Notification',
       icon: Icons.Entypo,
     },
     {
-      id: 7,
+      id: 8,
       title: 'Refer a Friend',
       icon: Icons.Entypo,
     },
     {
-      id: 8,
+      id: 9,
       title: 'Sign Out',
       icon: Icons.Entypo,
     },
@@ -79,13 +84,12 @@ const ProfileScreen = ({navigation}) => {
   const handleNavigation = index => {
     switch (index) {
       case 0:
+        navigation.navigate(constants.screen.MyLocation);
+        break;
+      case 1:
         navigation.navigate(constants.screen.AboutUs);
         break;
-      // case 6:
-      //   navigation.navigate(constants.screen.AboutUs);
-      //   break;
-      case 7: // Index of 'Sign Out' item
-        // setIsSignOutModalVisible(true);
+      case 8:
         refRBSheet.current.open();
         break;
       default:
@@ -231,8 +235,8 @@ const ProfileScreen = ({navigation}) => {
         </View>
         <View>
           <TouchableOpacity
-            // onPress={() => navigation.navigate(constants.screen.CreateAccount)}
-            >
+          // onPress={() => navigation.navigate(constants.screen.CreateAccount)}
+          >
             <View
               style={{
                 paddingHorizontal: 12,
@@ -259,11 +263,26 @@ const ProfileScreen = ({navigation}) => {
         </View>
       </View>
 
-      <View style={{ height: 1, position:'relative', marginHorizontal: 15,  marginBottom: 20, }}>
-            <View style={{ position: 'absolute', top: 0, bottom: 0, left: 0, right: 0, borderWidth: 1, borderColor: appColors.Goldcolor, borderStyle: 'dashed', backgroundColor:'transparent'  }}></View>
-          </View>
-
-     
+      <View
+        style={{
+          height: 1,
+          position: 'relative',
+          marginHorizontal: 15,
+          marginBottom: 20,
+        }}>
+        <View
+          style={{
+            position: 'absolute',
+            top: 0,
+            bottom: 0,
+            left: 0,
+            right: 0,
+            borderWidth: 1,
+            borderColor: appColors.Goldcolor,
+            borderStyle: 'dashed',
+            backgroundColor: 'transparent',
+          }}></View>
+      </View>
 
       <View style={{flex: 0.9, padding: 2, backgroundColor: appColors.Black}}>
         {BarberList.map((item, index) => (

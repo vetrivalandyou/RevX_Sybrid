@@ -20,9 +20,10 @@
     "ForgotPassword": "ForgotPassword",
     "BarberSpecialist": "BarberSpecialist",
     "HomeScreen": "HomeScreen",
-    "BarberProfile" :"BarberProfile",
+    "BarberProfile": "BarberProfile",
     "BottomTabNavigation": "BottomTabNavigation",
     "ProfileScreen": "ProfileScreen",
+    "MyLocation": "MyLocation",
     "AboutUs": "AboutUs",
     "TermsOfService": "TermsOfService",
     "PrivacyPolicy": "PrivacyPolicy",
@@ -61,8 +62,6 @@
     "Addservices": "Addservices",
     "DeleteServices": "DeleteServices",
     "Editservices": "Editservices"
-
-   
   },
   "AdminScreens": {
     "AdminBottomTabNavigation": "AdminBottomTabNavigation",
@@ -89,11 +88,9 @@
     "AdminProfile": "AdminProfile",
     "AdminViewUsers": "AdminViewUsers",
     "ManageVans": "ManageVans",
-     "AddVanservices": "AddVanservices",
+    "AddVanservices": "AddVanservices",
     "DeleteVanServices": "DeleteVanServices",
     "EditVanservices": "EditVanservices"
-   
-
   },
   "AsyncStorageKeys": {
     "token": "token",
