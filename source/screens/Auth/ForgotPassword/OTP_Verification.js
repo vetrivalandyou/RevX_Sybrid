@@ -9,7 +9,7 @@ import ButtonComponent from '../../../components/atom/CustomButtons/ButtonCompon
 import {PostRequest} from '../../../services/apiCall';
 import {endPoint} from '../../../AppConstants/urlConstants';
 import {SimpleSnackBar} from '../../../components/atom/Snakbar/Snakbar';
-import axios from 'axios';
+// import axios from 'axios';
 
 const OTP_Verification = ({navigation, route}) => {
   const {Email} = route.params;

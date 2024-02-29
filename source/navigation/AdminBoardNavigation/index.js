@@ -30,6 +30,7 @@ import ManageVans from '../../screens/AdminBoard/ManageVans/ManageVans';
 import AddVanservices from '../../screens/AdminBoard/ManageVans/AddVanServices';
 import DeleteVanServices from '../../screens/AdminBoard/ManageVans/DeleteVanServices';
 import EditVanservices from '../../screens/AdminBoard/ManageVans/EditVanServices';
+import AdminApproveBarber from '../../screens/AdminBoard/AdminApproveBarber';
 
 
 
@@ -161,6 +162,11 @@ const AdminStack = () => {
         <Stack.Screen
           name={constants.AdminScreens.EditVanservices}
           component={EditVanservices}
+          options={{headerShown: false}}
+        />
+          <Stack.Screen
+          name={constants.AdminScreens.AdminApproveBarber}
+          component={AdminApproveBarber}
           options={{headerShown: false}}
         />
       </Stack.Navigator>

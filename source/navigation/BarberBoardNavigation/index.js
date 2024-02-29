@@ -80,27 +80,27 @@ const BarberStack = () => {
           options={{headerShown: false}}
         />
           <Stack.Screen
-          name={constants.BarberScreen.ManageVans}
+          name={constants.AdminScreens.ManageVans}
           component={ManageVans}
           options={{headerShown: false}}
         />
 
         <Stack.Screen
-          name={constants.BarberScreen.AddVanservices}
+          name={constants.AdminScreens.AddVanservices}
           component={AddVanservices}
           options={{headerShown: false}}
         />
         <Stack.Screen
-          name={constants.BarberScreen.DeleteVanServices}
+          name={constants.AdminScreens.DeleteVanServices}
           component={DeleteVanServices}
           options={{headerShown: false}}
         />
 
-        <Stack.Screen
-          name={constants.BarberScreen.EditVanservices}
+        {/* <Stack.Screen
+          name={constants.AdminScreens.DeleteVanServices}
           component={EditVanservices}
           options={{headerShown: false}}
-        />
+        /> */}
 
 
 
