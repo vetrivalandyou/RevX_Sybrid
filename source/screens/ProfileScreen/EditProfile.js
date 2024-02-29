@@ -38,29 +38,22 @@ const EditProfile = ({navigation}) => {
   const [userDetails, setUserDetails] = useState();
   const [profileImage, setProfileImage] = useState(null);
 
-  function checkDetails(values) {
-    (_RoleId = userDetails?._RoleId),
-      (employeeId = 0),
-      (loginEmailId = values?.loginEmailId),
-      (userId = userDetails?.userId),
-      (userName = values?.userName),
-      (userPhone = values?.userPhone),
-      (profileImage = values?.profileImage),
-      (userTypeId = userDetails?.userTypeId);
-  }
-  // console.log('function', checkDetails());
-
-  // const asyncDetails = {
-  //   _RoleId: userDetails?._RoleId,
-  //   employeeId: 0,
-  //   loginEmailId: values?.loginEmailId,
-  //   userId: userDetails?.userId,
-  //   userName: userDetails?.userName,
-  //   userPhone: userDetails?.userPhone,
-  //   profileImage: userDetails?.profileImage?.path,
-  //   userTypeId: userDetails?.userTypeId,
-  // };
-  // console.log('check', asyncDetails);
+  const checkDetails = async values => {
+    let userUpdatedDetails = {
+      _RoleId: userDetails?._RoleId,
+      employeeId: 0,
+      loginEmailId: values?.loginEmailId,
+      userId: userDetails?.userId,
+      userName: values?.userName,
+      userPhone: values?.userPhone,
+      profileImage: values?.profileImage,
+      userTypeId: userDetails?.userTypeId,
+    };
+    await setAsyncItem(
+      constants.AsyncStorageKeys.userDetails,
+      userUpdatedDetails,
+    );
+  };
 
   useEffect(() => {
     getUserDetails();
@@ -72,11 +65,6 @@ const EditProfile = ({navigation}) => {
     );
     setUserDetails(userDetail);
   };
-
-  // const handleImageCaptured = imageUri => {
-  //   setProfileImage(imageUri);
-  //   refRBSheet.current.close();
-  // };
 
   console.log('Details', userDetails);
 
@@ -113,7 +101,7 @@ const EditProfile = ({navigation}) => {
         if (res?.data?.code == 200) {
           console.log(res?.data);
           SimpleSnackBar(res?.data?.message);
-          // setAsyncItem(constants.AsyncStorageKeys.userDetails, checkDetails());
+          checkDetails();
         } else {
           SimpleSnackBar(res?.data?.message);
         }
