@@ -20,16 +20,47 @@ import SimpleTextField from '../../components/molecules/TextFeilds/SimpleTextFie
 import ButtonComponent from '../../components/atom/CustomButtons/ButtonComponent';
 import appColors from '../../AppConstants/appColors';
 import {screenSize} from '../../components/atom/ScreenSize';
-import {endPoint} from '../../AppConstants/urlConstants';
+import {endPoint, messages} from '../../AppConstants/urlConstants';
 import {GetRequest, PostRequest} from '../../services/apiCall';
 import {Formik} from 'formik';
 import * as Yup from 'yup';
 import {getAsyncItem, setAsyncItem} from '../../utils/SettingAsyncStorage';
 import constants from '../../AppConstants/Constants.json';
+import BottomSheet from '../../components/molecules/BottomSheetContent/BottomSheet';
+import ProfileUpdate from '../AdminBoard/ManageVans/ProfileUpdate';
+import {SimpleSnackBar} from '../../components/atom/Snakbar/Snakbar';
+import ChooseImage from '../../components/molecules/ChooseImage';
+import {generateRandomNumber} from '../../functions/AppFunctions';
 
 const EditProfile = ({navigation}) => {
+  const refRBSheet = useRef();
   const [isEye, setIsEye] = useState(false);
   const [userDetails, setUserDetails] = useState();
+  const [profileImage, setProfileImage] = useState(null);
+
+  function checkDetails(values) {
+    (_RoleId = userDetails?._RoleId),
+      (employeeId = 0),
+      (loginEmailId = values?.loginEmailId),
+      (userId = userDetails?.userId),
+      (userName = values?.userName),
+      (userPhone = values?.userPhone),
+      (profileImage = values?.profileImage),
+      (userTypeId = userDetails?.userTypeId);
+  }
+  // console.log('function', checkDetails());
+
+  // const asyncDetails = {
+  //   _RoleId: userDetails?._RoleId,
+  //   employeeId: 0,
+  //   loginEmailId: values?.loginEmailId,
+  //   userId: userDetails?.userId,
+  //   userName: userDetails?.userName,
+  //   userPhone: userDetails?.userPhone,
+  //   profileImage: userDetails?.profileImage?.path,
+  //   userTypeId: userDetails?.userTypeId,
+  // };
+  // console.log('check', asyncDetails);
 
   useEffect(() => {
     getUserDetails();
@@ -41,6 +72,11 @@ const EditProfile = ({navigation}) => {
     );
     setUserDetails(userDetail);
   };
+
+  // const handleImageCaptured = imageUri => {
+  //   setProfileImage(imageUri);
+  //   refRBSheet.current.close();
+  // };
 
   console.log('Details', userDetails);
 
@@ -59,23 +95,25 @@ const EditProfile = ({navigation}) => {
 
   const editProfileUser = (values, setSubmitting) => {
     const formData = new FormData();
+    formData.append('UserId', userDetails.userId);
     formData.append('UserName', values.UserName);
     formData.append('UserEmail', values.UserEmail);
     formData.append('PhoneNo', values.PhoneNo);
-    formData.append('Operation', '2');
+    formData.append('Operation', 2);
+    formData.append('profileImage', {
+      uri: profileImage?.path,
+      name: `${generateRandomNumber()}.${profileImage?.mime}`,
+      type: profileImage?.mime,
+    });
+
+    console.log('data', formData);
     PostRequest(endPoint.EDIT_PROFILE_USER, formData)
       .then(res => {
         console.log('RESPONSEDATA', res?.data);
         if (res?.data?.code == 200) {
-          getAsyncItem(
-            constants.AsyncStorageKeys.token,
-            res?.data?.data?.token,
-          );
-          getAsyncItem(
-            constants.AsyncStorageKeys.userDetails,
-            res?.data?.data?.user,
-          );
           console.log(res?.data);
+          SimpleSnackBar(res?.data?.message);
+          // setAsyncItem(constants.AsyncStorageKeys.userDetails, checkDetails());
         } else {
           SimpleSnackBar(res?.data?.message);
         }
@@ -87,7 +125,7 @@ const EditProfile = ({navigation}) => {
       });
   };
 
-  console.log('userDetails', userDetails?.userName);
+  console.log(profileImage);
 
   return (
     <Screen
@@ -114,8 +152,8 @@ const EditProfile = ({navigation}) => {
             }}
             validationSchema={validationSchema}
             onSubmit={(values, {setSubmitting}) => {
-              console.log('valueds', values);
-              // editProfileUser(values, setSubmitting);
+              console.log('values', values);
+              editProfileUser(values, setSubmitting);
             }}>
             {({
               handleChange,
@@ -134,7 +172,7 @@ const EditProfile = ({navigation}) => {
                       justifyContent: 'center',
                       alignItems: 'center',
                     }}>
-                    <Image
+                    {/* <Image
                       source={AppImages.ProfileSlider}
                       style={{
                         width: '22%',
@@ -154,7 +192,50 @@ const EditProfile = ({navigation}) => {
                         top: screenSize.height / 11.1,
                         left: screenSize.width / 1.96,
                       }}
-                    />
+                    /> */}
+                    <TouchableOpacity
+                      onPress={() => refRBSheet.current.open()}
+                      style={{
+                        width: '25%',
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        height: '90%',
+                      }}>
+                      {profileImage ? (
+                        <Image
+                          source={{uri: profileImage?.path}}
+                          style={{
+                            width: '100%',
+                            height: '100%',
+                            borderRadius: 80,
+                            borderWidth: 3,
+                            borderColor: appColors.Goldcolor,
+                          }}
+                        />
+                      ) : (
+                        <Image
+                          source={AppImages.ProfileSlider}
+                          style={{
+                            width: '100%',
+                            height: '100%',
+                            borderRadius: 80,
+                            borderWidth: 3,
+                            borderColor: appColors.Goldcolor,
+                          }}
+                        />
+                      )}
+                      <CustomIcon
+                        type={Icons.AntDesign}
+                        size={20}
+                        name={'pluscircle'}
+                        color={'white'}
+                        style={{
+                          position: 'absolute',
+                          left: screenSize.width / 5.5,
+                          top: screenSize.height / 11.5,
+                        }}
+                      />
+                    </TouchableOpacity>
                   </View>
                   <View
                     style={{
@@ -186,7 +267,6 @@ const EditProfile = ({navigation}) => {
                     onBlur={handleBlur('UserName')}
                     value={values.UserName}
                   />
-                  {console.log('user', values.UserName)}
                   {touched.UserName && errors.UserName && (
                     <View
                       style={{marginLeft: 10, marginTop: 2, marginBottom: 15}}>
@@ -215,16 +295,6 @@ const EditProfile = ({navigation}) => {
                   )}
                 </View>
 
-                {/* <View style={{flex: 0.11}}>
-                <SimpleTextField
-                  placeholder={'Enter Your Password'}
-                  eyeOpen={isEye}
-                  onPressIcon={() => setIsEye(!isEye)}
-                  secureTextEntry={true}
-                  placeholderTextColor={appColors.LightGray}
-                />
-              </View> */}
-
                 <View style={{flex: 0.11, marginTop: 6}}>
                   <SimpleTextField
                     placeholder={'Enter Phone no'}
@@ -241,20 +311,6 @@ const EditProfile = ({navigation}) => {
                     </View>
                   )}
                 </View>
-
-                {/* <View style={{flex: 0.11}}>
-                <SimpleTextField
-                  placeholder={'Enter Description'}
-                  placeholderTextColor={appColors.LightGray}
-                />
-              </View>
-
-              <View style={{flex: 0.11}}>
-                <SimpleTextField
-                  placeholder={'Enter Van Registration Id'}
-                  placeholderTextColor={appColors.LightGray}
-                />
-              </View> */}
 
                 <View style={styles.buttonView}>
                   <ButtonComponent
@@ -278,6 +334,12 @@ const EditProfile = ({navigation}) => {
           <ActivityIndicator size="large" color="#C79646" />
         )}
       </View>
+      <BottomSheet ref={refRBSheet} Height={120}>
+        <ChooseImage
+          setProfileImage={setProfileImage}
+          refRBSheet={refRBSheet}
+        />
+      </BottomSheet>
     </Screen>
   );
 };
