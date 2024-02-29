@@ -95,7 +95,8 @@
     "ManageVans": "ManageVans",
      "AddVanservices": "AddVanservices",
     "DeleteVanServices": "DeleteVanServices",
-    "EditVanservices": "EditVanservices"
+    "EditVanservices": "EditVanservices",
+    "AdminApproveBarber":"AdminApproveBarber"
    
 
   },
