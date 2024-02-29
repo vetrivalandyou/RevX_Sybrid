@@ -153,11 +153,7 @@ const AdminProfile = () => {
           padding: 14,
          
         }}>
-<<<<<<< HEAD
-        <View style={{ flex: 0.1 }}>
-=======
         <View style={{flex: 0.13,}}>
->>>>>>> 8383b9064a9f8a18d60008a3e179261bb30089e4
           <Image
             source={profile}
             resizeMode="cover"
@@ -167,13 +163,8 @@ const AdminProfile = () => {
           <CustomIcon type={Icons.AntDesign} size={18} name={'pluscircle'} color={'white'}style={{position:'absolute',left:35, top:33}}/>
 
         </View>
-<<<<<<< HEAD
-        <View style={{ flex: 0.7, flexDirection: 'column' }}>
-          <Text style={{ color: 'white', fontSize: 24, fontWeight: 400 }}>
-=======
         <View style={{flex: 0.58, flexDirection: 'column',}}>
           <Text style={{color: 'white', fontSize: 24, fontWeight: 400}}>
->>>>>>> 8383b9064a9f8a18d60008a3e179261bb30089e4
             Michel Smith
           </Text>
           <Text style={{ color: 'white', fontSize: 14, fontWeight: 400 }}>
