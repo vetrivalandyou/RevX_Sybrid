@@ -31,8 +31,8 @@ const CustomDropdownPicker = ({ items, values, setValues }) => {
           {values?.length > 0
             ? values?.map((x) => (
               x.setupDetailName
-            ))
-            : 'Select Items'}
+              )).join(', ')
+              : 'Select Items'}
         </Text>
         <CustomIcon
           type={Icons.AntDesign}
