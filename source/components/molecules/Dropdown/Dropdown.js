@@ -21,13 +21,14 @@ const CustomDropdownPicker = ({ items }) => {
     } else {
       setSelectedItems([...selectedItems, item]);
     }
+    console.log('Selected Items===:', selectedItems);
   };
 
   return (
     <View style={styles.container}>
       <TouchableOpacity onPress={toggleDropdown} style={styles.header}>
         <Text style={{ color: appColors.AppLightGray }}>
-          {selectedItems.setupDetailName > 0 ? selectedItems.join(', ') : 'Select Items'}
+          {selectedItems.length > 0 ? selectedItems.join(', ') : 'Select Items'}
         </Text>
         <CustomIcon
          type={Icons.AntDesign}
@@ -47,7 +48,6 @@ const CustomDropdownPicker = ({ items }) => {
                     : styles.item
                 }>
                 {item.setupDetailName}
-                
               </Text>
             </TouchableOpacity>
           ))}
