@@ -3,7 +3,6 @@
 // import {Picker} from '@react-native-picker/picker';
 // import appColors from '../../../AppConstants/appColors';
 
-
 // const Dropdown = ({label, value, onValueChange, dropDownData, style}) => {
 //   const [isTextInputFocused, setTextInputFocused] = useState(false);
 
@@ -61,13 +60,14 @@
 // });
 
 // export default Dropdown;
-import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
-import { AntDesign } from '@expo/vector-icons'; // Import AntDesign icons from Expo
-import CustomIcon, { Icons } from '../CustomIcon/CustomIcon';
-import { screenSize } from '../../atom/ScreenSize';
+import React, {useState} from 'react';
+import {View, Text, TouchableOpacity, StyleSheet} from 'react-native';
+import {AntDesign} from '@expo/vector-icons'; // Import AntDesign icons from Expo
+import CustomIcon, {Icons} from '../CustomIcon/CustomIcon';
+import {screenSize} from '../../atom/ScreenSize';
+import appColors from '../../../AppConstants/appColors';
 
-const CustomDropdownPicker = ({ items }) => {
+const CustomDropdownPicker = ({items}) => {
   const [showDropdown, setShowDropdown] = useState(false);
   const [selectedItems, setSelectedItems] = useState([]);
 
@@ -75,10 +75,10 @@ const CustomDropdownPicker = ({ items }) => {
     setShowDropdown(!showDropdown);
   };
 
-  const handleItemPress = (item) => {
+  const handleItemPress = item => {
     const isSelected = selectedItems.includes(item);
     if (isSelected) {
-      setSelectedItems(selectedItems.filter((selected) => selected !== item));
+      setSelectedItems(selectedItems.filter(selected => selected !== item));
     } else {
       setSelectedItems([...selectedItems, item]);
     }
@@ -87,20 +87,30 @@ const CustomDropdownPicker = ({ items }) => {
   return (
     <View style={styles.container}>
       <TouchableOpacity onPress={toggleDropdown} style={styles.header}>
-        <Text style={{ color: appColors.blabk }}>Select Items</Text>
-        <CustomIcon type={Icons.AntDesign} name={showDropdown ? 'up' : 'down'} size={20} color={appColors.White} />
+        <Text style={{color: appColors.AppLightGray}}>Select Items</Text>
+        <CustomIcon
+          type={Icons.AntDesign}
+          name={showDropdown ? 'up' : 'down'}
+          size={20}
+          color={appColors.White}
+        />
       </TouchableOpacity>
       {showDropdown && (
-       <View style={styles.dropdown}>
-       {items.map((item, index) => (
-         <TouchableOpacity key={index} onPress={() => handleItemPress(item)}>
-           <Text style={selectedItems.includes(item) ? styles.selectedItem : styles.item}>{item}</Text>
-         </TouchableOpacity>
-       ))}
-     </View>
+        <View style={styles.dropdown}>
+          {items.map((item, index) => (
+            <TouchableOpacity style={{ padding: 5}} key={index} onPress={() => handleItemPress(item)}>
+              <Text
+                style={
+                  selectedItems.includes(item)
+                    ? styles.selectedItem
+                    : styles.item
+                }>
+                {item}
+              </Text>
+            </TouchableOpacity>
+          ))}
+        </View>
       )}
-
-
 
       {/* <View style={styles.selectedContainer}>
         <Text>Selected Items:</Text>
@@ -126,32 +136,31 @@ const styles = StyleSheet.create({
     borderColor: 'grey',
     borderWidth: 1,
     borderRadius: 25,
-  
   },
   dropdown: {
-   marginTop: 10,
+    marginTop: 10,
     borderWidth: 1,
     borderColor: '#CCCCCC',
     borderRadius: 5,
     padding: 10,
-    position:'absolute',
-    bottom:50,
-    width:screenSize.width/1.1,
-    backgroundColor:"white"
-   
+    position: 'absolute',
+    bottom: 50,
+    width: screenSize.width / 1.1,
+    backgroundColor: 'white',
   },
   item: {
     padding: 5,
-    color:'black'
+    color: 'black',
   },
   selectedItem: {
-    padding: 5,
-    backgroundColor: '#DDDDDD',
+    padding: 8,
+    backgroundColor: appColors.Goldcolor,
+    color: appColors.White,
+    borderRadius: 5
   },
   selectedContainer: {
     marginTop: 10,
   },
 });
-
 
 export default CustomDropdownPicker;
