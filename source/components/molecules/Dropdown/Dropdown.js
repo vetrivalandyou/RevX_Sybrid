@@ -1,34 +1,37 @@
-import React, {useState} from 'react';
-import {View, Text, TouchableOpacity, StyleSheet} from 'react-native';
-import {AntDesign} from '@expo/vector-icons'; // Import AntDesign icons from Expo
+import React, { useState } from 'react';
+import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { AntDesign } from '@expo/vector-icons'; // Import AntDesign icons from Expo
 import appColors from '../../../AppConstants/appColors';
-import CustomIcon, {Icons} from '../CustomIcon/CustomIcon';
-import {screenSize} from '../../atom/ScreenSize';
+import CustomIcon, { Icons } from '../CustomIcon/CustomIcon';
+import { screenSize } from '../../atom/ScreenSize';
 
-const CustomDropdownPicker = ({items}) => {
+const CustomDropdownPicker = ({ items, values, setValues }) => {
   const [showDropdown, setShowDropdown] = useState(false);
-  const [selectedItems, setSelectedItems] = useState([]);
 
   const toggleDropdown = () => {
     setShowDropdown(!showDropdown);
   };
 
   const handleItemPress = item => {
-    const isSelected = selectedItems.includes(item);
+    const isSelected = values.some(selected => selected.setupDetailId === item.setupDetailId);
     if (isSelected) {
-      setSelectedItems(selectedItems.filter(selected => selected !== item));
+      setValues(values.filter(selected => selected.setupDetailId !== item.setupDetailId));
     } else {
-      setSelectedItems([...selectedItems, item]);
+      setValues([...values, item]);
     }
-    console.log('Selected Items===:', selectedItems);
+    console.log('Selected Items===:', values);
   };
+
+
 
   return (
     <View style={styles.container}>
       <TouchableOpacity onPress={toggleDropdown} style={styles.header}>
-        <Text style={{color: appColors.AppLightGray}}>
-          {selectedItems.setupDetailName > 0
-            ? selectedItems.join(', ')
+        <Text style={{ color: appColors.AppLightGray }}>
+          {values?.length > 0
+            ? values?.map((x) => (
+              x.setupDetailName
+            ))
             : 'Select Items'}
         </Text>
         <CustomIcon
@@ -44,11 +47,11 @@ const CustomDropdownPicker = ({items}) => {
             <TouchableOpacity key={index} onPress={() => handleItemPress(item)}>
               <Text
                 style={
-                  selectedItems.includes(item)
+                  values.includes(item)
                     ? styles.selectedItem
                     : styles.item
                 }>
-                {item}
+                {item?.setupDetailName}
               </Text>
             </TouchableOpacity>
           ))}
