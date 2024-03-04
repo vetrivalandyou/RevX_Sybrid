@@ -1,14 +1,13 @@
-import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
-import { AntDesign } from '@expo/vector-icons'; // Import AntDesign icons from Expo
+import React, {useState} from 'react';
+import {View, Text, TouchableOpacity, StyleSheet} from 'react-native';
+import {AntDesign} from '@expo/vector-icons'; // Import AntDesign icons from Expo
 import appColors from '../../../AppConstants/appColors';
-import CustomIcon, { Icons } from '../CustomIcon/CustomIcon';
-import { screenSize } from '../../atom/ScreenSize';
+import CustomIcon, {Icons} from '../CustomIcon/CustomIcon';
+import {screenSize} from '../../atom/ScreenSize';
 
-const CustomDropdownPicker = ({ items }) => {
+const CustomDropdownPicker = ({items}) => {
   const [showDropdown, setShowDropdown] = useState(false);
   const [selectedItems, setSelectedItems] = useState([]);
-  
 
   const toggleDropdown = () => {
     setShowDropdown(!showDropdown);
@@ -27,11 +26,13 @@ const CustomDropdownPicker = ({ items }) => {
   return (
     <View style={styles.container}>
       <TouchableOpacity onPress={toggleDropdown} style={styles.header}>
-        <Text style={{ color: appColors.AppLightGray }}>
-          {selectedItems.length > 0 ? selectedItems.join(', ') : 'Select Items'}
+        <Text style={{color: appColors.AppLightGray}}>
+          {selectedItems.setupDetailName > 0
+            ? selectedItems.join(', ')
+            : 'Select Items'}
         </Text>
         <CustomIcon
-         type={Icons.AntDesign}
+          type={Icons.AntDesign}
           name={showDropdown ? 'up' : 'down'}
           size={15}
           color={appColors.White}
@@ -47,7 +48,7 @@ const CustomDropdownPicker = ({ items }) => {
                     ? styles.selectedItem
                     : styles.item
                 }>
-                {item.setupDetailName}
+                {item}
               </Text>
             </TouchableOpacity>
           ))}
@@ -62,9 +63,6 @@ const styles = StyleSheet.create({
     flex: 1,
     //alignItems: 'center',
     justifyContent: 'center',
-  
-
-   
   },
   header: {
     flexDirection: 'row',
@@ -74,9 +72,6 @@ const styles = StyleSheet.create({
     borderColor: 'grey',
     borderWidth: 1.5,
     borderRadius: 25,
-  
-
- 
   },
   dropdown: {
     marginTop: 10,
@@ -87,8 +82,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     bottom: 50,
     width: screenSize.width / 1.1,
-    backgroundColor: 'white',    
-
+    backgroundColor: 'white',
   },
   item: {
     padding: 5,
@@ -99,15 +93,12 @@ const styles = StyleSheet.create({
     backgroundColor: appColors.Goldcolor,
     color: appColors.White,
     borderRadius: 5,
-    marginVertical:5
-
+    marginVertical: 5,
   },
   selectedContainer: {
     marginTop: 10,
-    flexDirection:'row',
-
+    flexDirection: 'row',
   },
 });
 
 export default CustomDropdownPicker;
-

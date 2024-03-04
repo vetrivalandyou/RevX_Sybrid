@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
-import { Text, View, TouchableOpacity, StyleSheet } from 'react-native';
-import { Formik } from 'formik';
+import React, {useEffect, useState} from 'react';
+import {Text, View, TouchableOpacity, StyleSheet} from 'react-native';
+import {Formik} from 'formik';
 import * as Yup from 'yup';
 
 import AuthHeader from '../../components/molecules/AuthHeader';
@@ -8,24 +8,24 @@ import Screen from '../../components/atom/ScreenContainer/Screen';
 import constants from '../../AppConstants/Constants.json';
 import SimpleTextField from '../../components/molecules/TextFeilds/SimpleTextField';
 import appColors from '../../AppConstants/appColors';
-import CustomIcon, { Icons } from '../../components/molecules/CustomIcon/CustomIcon';
+import CustomIcon, {
+  Icons,
+} from '../../components/molecules/CustomIcon/CustomIcon';
 import ButtonComponent from '../../components/atom/CustomButtons/ButtonComponent';
 import RememberMe from '../../components/molecules/RememberMe';
 import SocailLogin from '../../components/molecules/SocailLogin';
-import { endPoint, messages } from '../../AppConstants/urlConstants';
-import { PostRequest } from '../../services/apiCall';
-import { SimpleSnackBar } from '../../components/atom/Snakbar/Snakbar';
+import {endPoint, messages} from '../../AppConstants/urlConstants';
+import {PostRequest} from '../../services/apiCall';
+import {SimpleSnackBar} from '../../components/atom/Snakbar/Snakbar';
 import Dropdown from '../../components/molecules/Dropdown/Dropdown';
-import { screenSize } from '../../components/atom/ScreenSize';
+import {screenSize} from '../../components/atom/ScreenSize';
 import CustomDropdownPicker from '../../components/molecules/Dropdown/Dropdown';
 
-const CreateAccountBarber = ({ navigation }) => {
+const CreateAccountBarber = ({navigation}) => {
   const [isEye, setIsEye] = useState(false);
   const items = ['Item 1', 'Item 2', 'Item 3'];
 
-
   const [selectedValues, setSelectedValues] = useState([]); // State for storing selected values
-
 
   const [showDropdown, setShowDropdown] = useState(false);
   const [selectedItems, setSelectedItems] = useState([]);
@@ -34,10 +34,10 @@ const CreateAccountBarber = ({ navigation }) => {
     setShowDropdown(!showDropdown);
   };
 
-  const handleItemPress = (item) => {
+  const handleItemPress = item => {
     const isSelected = selectedItems.includes(item);
     if (isSelected) {
-      setSelectedItems(selectedItems.filter((selected) => selected !== item));
+      setSelectedItems(selectedItems.filter(selected => selected !== item));
     } else {
       setSelectedItems([...selectedItems, item]);
     }
@@ -93,7 +93,6 @@ const CreateAccountBarber = ({ navigation }) => {
 
     const payload = {
       MasterId: 2,
-
     };
 
     console.log('payload', payload);
@@ -103,7 +102,7 @@ const CreateAccountBarber = ({ navigation }) => {
         console.log('RESPONSEDATA', res?.data);
         if (res?.data?.code == 200) {
           setSelectedItems(res?.data?.data);
-          console.log("test>>>>", res?.data);
+          console.log('test>>>>', res?.data);
         } else {
           SimpleSnackBar(res?.data?.message);
         }
@@ -118,15 +117,15 @@ const CreateAccountBarber = ({ navigation }) => {
   useEffect(() => {
     DropdownData();
   }, []);
-  console.log(selectedItems)
+  console.log(selectedItems);
   return (
     <Screen
-      authStyle={{ flex: 1, backgroundColor: appColors.Goldcolor }}
-      viewStyle={{ flex: 1, backgroundColor: appColors.Black }}
+      authStyle={{flex: 1, backgroundColor: appColors.Goldcolor}}
+      viewStyle={{flex: 1, backgroundColor: appColors.Black}}
       statusBarColor={appColors.Goldcolor}
       translucent={false}
       barStyle="light-content">
-      <View style={{ flex: 0.2 }}>
+      <View style={{flex: 0.2}}>
         <AuthHeader
           logIn={'Log In'}
           heading={'Create Account'}
@@ -151,7 +150,7 @@ const CreateAccountBarber = ({ navigation }) => {
             Barber_Specialties: '',
           }}
           validationSchema={validationSchema}
-          onSubmit={(values, { setSubmitting }) => {
+          onSubmit={(values, {setSubmitting}) => {
             barberRegisterUser(values, setSubmitting);
           }}>
           {({
@@ -164,8 +163,8 @@ const CreateAccountBarber = ({ navigation }) => {
             isSubmitting,
           }) => (
             <>
-              <View style={{ flex: 0.8, justifyContent: 'space-evenly' }}>
-                <View style={{ flex: 0.15, justifyContent: 'center' }}>
+              <View style={{flex: 0.8, justifyContent: 'space-evenly'}}>
+                <View style={{flex: 0.15, justifyContent: 'center'}}>
                   <SimpleTextField
                     placeholder={'Enter Full Name'}
                     placeholderTextColor={appColors.AppLightGray}
@@ -175,14 +174,14 @@ const CreateAccountBarber = ({ navigation }) => {
                   />
                   {touched.FullName && errors.FullName && (
                     <View
-                      style={{ marginLeft: 10, marginTop: 2, marginBottom: 15 }}>
-                      <Text style={{ color: appColors.Goldcolor, fontSize: 10 }}>
+                      style={{marginLeft: 10, marginTop: 2, marginBottom: 15}}>
+                      <Text style={{color: appColors.Goldcolor, fontSize: 10}}>
                         {errors.FullName}
                       </Text>
                     </View>
                   )}
                 </View>
-                <View style={{ flex: 0.15, justifyContent: 'center' }}>
+                <View style={{flex: 0.15, justifyContent: 'center'}}>
                   <SimpleTextField
                     placeholder={'Enter Email Address'}
                     placeholderTextColor={appColors.AppLightGray}
@@ -192,8 +191,8 @@ const CreateAccountBarber = ({ navigation }) => {
                   />
                   {touched.UserEmail && errors.UserEmail && (
                     <View
-                      style={{ marginLeft: 10, marginTop: 2, marginBottom: 15 }}>
-                      <Text style={{ color: appColors.Goldcolor, fontSize: 10 }}>
+                      style={{marginLeft: 10, marginTop: 2, marginBottom: 15}}>
+                      <Text style={{color: appColors.Goldcolor, fontSize: 10}}>
                         {errors.UserEmail}
                       </Text>
                     </View>
@@ -218,14 +217,14 @@ const CreateAccountBarber = ({ navigation }) => {
                   />
                   {touched.UserPassword && errors.UserPassword && (
                     <View
-                      style={{ marginLeft: 10, marginTop: 2, marginBottom: 15 }}>
-                      <Text style={{ color: appColors.Goldcolor, fontSize: 10 }}>
+                      style={{marginLeft: 10, marginTop: 2, marginBottom: 15}}>
+                      <Text style={{color: appColors.Goldcolor, fontSize: 10}}>
                         {errors.UserPassword}
                       </Text>
                     </View>
                   )}
                 </View>
-                <View style={{ flex: 0.15, justifyContent: 'center' }}>
+                <View style={{flex: 0.15, justifyContent: 'center'}}>
                   <SimpleTextField
                     placeholder={'Contact Number'}
                     placeholderTextColor={appColors.AppLightGray}
@@ -234,8 +233,8 @@ const CreateAccountBarber = ({ navigation }) => {
                     value={values.UserPhone}
                   />
                   {touched.UserPhone && errors.UserPhone && (
-                    <View style={{ marginLeft: 10, margin: 5 }}>
-                      <Text style={{ color: appColors.Goldcolor, fontSize: 10 }}>
+                    <View style={{marginLeft: 10, margin: 5}}>
+                      <Text style={{color: appColors.Goldcolor, fontSize: 10}}>
                         {errors.UserPhone}
                       </Text>
                     </View>
@@ -259,7 +258,7 @@ const CreateAccountBarber = ({ navigation }) => {
                   )}
                 </View> */}
 
-                <View style={{ flex: 0.15, justifyContent: 'center' }}>
+                <View style={{flex: 0.15, justifyContent: 'center'}}>
                   <SimpleTextField
                     placeholder={'Add Description'}
                     placeholderTextColor={appColors.AppLightGray}
@@ -268,17 +267,18 @@ const CreateAccountBarber = ({ navigation }) => {
                     value={values.Description}
                   />
                   {touched.Description && errors.Description && (
-                    <View style={{ marginLeft: 10, margin: 5 }}>
-                      <Text style={{ color: appColors.Goldcolor, fontSize: 10 }}>
+                    <View style={{marginLeft: 10, margin: 5}}>
+                      <Text style={{color: appColors.Goldcolor, fontSize: 10}}>
                         {errors.Description}
                       </Text>
                     </View>
                   )}
                 </View>
 
-                <View style={{ flex: 0.15, }}>
-
-                  <CustomDropdownPicker items={selectedItems} />
+                <View style={{flex: 0.15}}>
+                  <CustomDropdownPicker
+                    items={selectedItems.map(item => item.setupDetailName)}
+                  />
 
                   {/* <Dropdown
                     label="Add Barber Specialties"
@@ -331,7 +331,6 @@ const CreateAccountBarber = ({ navigation }) => {
                     </View>
                   )} */}
                 </View>
-
               </View>
 
               {/* <View style={{ flex: 0.1, justifyContent: 'center' }}>
@@ -341,7 +340,7 @@ const CreateAccountBarber = ({ navigation }) => {
                 />
               </View> */}
 
-              <View style={{ flex: 0.1 }}>
+              <View style={{flex: 0.1}}>
                 <ButtonComponent
                   title={'Create Account'}
                   disabled={isSubmitting}
@@ -361,14 +360,14 @@ const CreateAccountBarber = ({ navigation }) => {
             // backgroundColor: 'red',
           }}>
           <TouchableOpacity>
-            <Text style={{ color: appColors.GrayColor }}>
+            <Text style={{color: appColors.GrayColor}}>
               Already have an Account ?
             </Text>
           </TouchableOpacity>
 
           <TouchableOpacity
             onPress={() => navigation.navigate(constants.AuthScreen.Login)}>
-            <Text style={{ color: appColors.Goldcolor }}> Login</Text>
+            <Text style={{color: appColors.Goldcolor}}> Login</Text>
           </TouchableOpacity>
         </View>
 
@@ -388,7 +387,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: 'red'
+    backgroundColor: 'red',
   },
   header: {
     flexDirection: 'row',
@@ -398,7 +397,6 @@ const styles = StyleSheet.create({
     borderColor: 'grey',
     borderWidth: 1,
     borderRadius: 25,
-
   },
   dropdown: {
     marginTop: 10,
@@ -409,12 +407,11 @@ const styles = StyleSheet.create({
     position: 'absolute',
     bottom: 50,
     width: screenSize.width / 1.1,
-    backgroundColor: appColors.AppBlue
-
+    backgroundColor: appColors.AppBlue,
   },
   item: {
     padding: 5,
-    color: appColors.White
+    color: appColors.White,
   },
   selectedItem: {
     padding: 5,

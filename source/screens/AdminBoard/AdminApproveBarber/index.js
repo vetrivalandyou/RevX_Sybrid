@@ -27,35 +27,6 @@ import {PostRequest} from '../../../services/apiCall';
 import {SimpleSnackBar} from '../../../components/atom/Snakbar/Snakbar';
 
 const AdminApproveBarber = ({navigation}) => {
-  const data = [
-    {
-      id: 1,
-      Imagesource: AppImages.creditcard,
-      title: 'Hair Cut',
-    },
-    {
-      id: 2,
-      Imagesource: AppImages.paypal,
-      title: 'Hair Coloring',
-    },
-    {
-      id: 3,
-      Imagesource: AppImages.applepay,
-      title: 'Hair Wash',
-    },
-  ];
-
-  const data1 = [
-    {
-      id: 1,
-      name: 'Nathan Alexender',
-      title: 'Senior Barber',
-      Imagesource: AppImages.chatone,
-      Viewbutton: 'View User',
-      Blockbutton: 'Block User',
-    },
-  ];
-
   const [btnClicked, setBtnClicked] = React.useState(false);
   const [loading, setLoading] = useState(true);
   const [BarberApprove, setBarberApprove] = useState(false);
@@ -99,6 +70,7 @@ const AdminApproveBarber = ({navigation}) => {
 
     setSelectedItems(newSelectedItems);
   };
+  
   const InnerContanier = ({item, key, onPress, selected}) => {
     const isSelected = selectedItems.includes(item.id);
 
