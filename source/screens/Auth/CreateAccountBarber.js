@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Text, View, TouchableOpacity, StyleSheet } from 'react-native';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
@@ -21,19 +21,12 @@ import CustomDropdownPicker from '../../components/molecules/Dropdown/Dropdown';
 
 const CreateAccountBarber = ({ navigation }) => {
   const [isEye, setIsEye] = useState(false);
-  const items = ['Item 1', 'Item 2', 'Item 3']; // Sample items array
+  const items = ['Item 1', 'Item 2', 'Item 3'];
 
 
   const [selectedValues, setSelectedValues] = useState([]); // State for storing selected values
 
-  // Example data for the dropdown
-  const dropDownData = [
-    { label: 'apple', value: 'apple' },
-    { label: 'orange', value: 'orange' },
-    { label: 'graps', value: 'graps' },
-    { label: 'banana', value: 'banana' },
-    // Add more options as needed
-  ];
+
   const [showDropdown, setShowDropdown] = useState(false);
   const [selectedItems, setSelectedItems] = useState([]);
 
@@ -70,7 +63,7 @@ const CreateAccountBarber = ({ navigation }) => {
   });
 
   const barberRegisterUser = (values, setSubmitting) => {
-    console.log('test', values);
+    console.log('Values==>>..', values);
 
     const payload = {
       ...values,
@@ -94,7 +87,38 @@ const CreateAccountBarber = ({ navigation }) => {
         setSubmitting(false);
       });
   };
-  console.log(selectedValues)
+
+  const DropdownData = (values, setSubmitting) => {
+    console.log('test', values);
+
+    const payload = {
+      MasterId: 2,
+
+    };
+
+    console.log('payload', payload);
+
+    PostRequest(endPoint.DROPDOWN_DATA, payload)
+      .then(res => {
+        console.log('RESPONSEDATA', res?.data);
+        if (res?.data?.code == 200) {
+          setSelectedItems(res?.data?.data);
+          console.log("test>>>>", res?.data);
+        } else {
+          SimpleSnackBar(res?.data?.message);
+        }
+        setSubmitting(false);
+      })
+      .catch(err => {
+        SimpleSnackBar(messages.Catch, appColors.Red);
+        setSubmitting(false);
+      });
+  };
+
+  useEffect(() => {
+    DropdownData();
+  }, []);
+  console.log(selectedItems)
   return (
     <Screen
       authStyle={{ flex: 1, backgroundColor: appColors.Goldcolor }}
@@ -253,8 +277,8 @@ const CreateAccountBarber = ({ navigation }) => {
                 </View>
 
                 <View style={{ flex: 0.15, }}>
-                
-                 <CustomDropdownPicker items={items} />
+
+                  <CustomDropdownPicker items={selectedItems} />
 
                   {/* <Dropdown
                     label="Add Barber Specialties"
@@ -364,7 +388,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor:'red'
+    backgroundColor: 'red'
   },
   header: {
     flexDirection: 'row',
@@ -374,23 +398,23 @@ const styles = StyleSheet.create({
     borderColor: 'grey',
     borderWidth: 1,
     borderRadius: 25,
-  
+
   },
   dropdown: {
-   marginTop: 10,
+    marginTop: 10,
     borderWidth: 1,
     borderColor: '#CCCCCC',
     borderRadius: 5,
     padding: 10,
-    position:'absolute',
-    bottom:50,
-    width:screenSize.width/1.1,
-    backgroundColor:appColors.AppBlue
-   
+    position: 'absolute',
+    bottom: 50,
+    width: screenSize.width / 1.1,
+    backgroundColor: appColors.AppBlue
+
   },
   item: {
     padding: 5,
-    color:appColors.White
+    color: appColors.White
   },
   selectedItem: {
     padding: 5,
