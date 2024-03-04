@@ -140,11 +140,11 @@ const CreateAccountBarber = ({ navigation }) => {
             isSubmitting,
           }) => (
             <>
-              <View style={{ flex: 0.9, justifyContent: 'space-evenly' }}>
-                <View style={{ flex: 0.4, justifyContent: 'center' }}>
+              <View style={{ flex: 0.8, justifyContent: 'space-evenly' }}>
+                <View style={{ flex: 0.15, justifyContent: 'center' }}>
                   <SimpleTextField
                     placeholder={'Enter Full Name'}
-                    placeholderTextColor={appColors.White}
+                    placeholderTextColor={appColors.AppLightGray}
                     onChangeText={handleChange('FullName')}
                     onBlur={handleBlur('FullName')}
                     value={values.FullName}
@@ -158,10 +158,10 @@ const CreateAccountBarber = ({ navigation }) => {
                     </View>
                   )}
                 </View>
-                <View style={{ flex: 0.4, justifyContent: 'center' }}>
+                <View style={{ flex: 0.15, justifyContent: 'center' }}>
                   <SimpleTextField
                     placeholder={'Enter Email Address'}
-                    placeholderTextColor={appColors.White}
+                    placeholderTextColor={appColors.AppLightGray}
                     onChangeText={handleChange('UserEmail')}
                     onBlur={handleBlur('UserEmail')}
                     value={values.UserEmail}
@@ -178,7 +178,7 @@ const CreateAccountBarber = ({ navigation }) => {
 
                 <View
                   style={{
-                    flex: 0.4,
+                    flex: 0.15,
                     justifyContent: 'center',
                     // borderStartColor: 'red',
                   }}>
@@ -187,7 +187,7 @@ const CreateAccountBarber = ({ navigation }) => {
                     eyeOpen={isEye}
                     onPressIcon={() => setIsEye(!isEye)}
                     secureTextEntry={true}
-                    placeholderTextColor={appColors.White}
+                    placeholderTextColor={appColors.AppLightGray}
                     onChangeText={handleChange('UserPassword')}
                     onBlur={handleBlur('UserPassword')}
                     value={values.UserPassword}
@@ -201,10 +201,10 @@ const CreateAccountBarber = ({ navigation }) => {
                     </View>
                   )}
                 </View>
-                <View style={{ flex: 0.4, justifyContent: 'center' }}>
+                <View style={{ flex: 0.15, justifyContent: 'center' }}>
                   <SimpleTextField
                     placeholder={'Contact Number'}
-                    placeholderTextColor={appColors.White}
+                    placeholderTextColor={appColors.AppLightGray}
                     onChangeText={handleChange('UserPhone')}
                     onBlur={handleBlur('UserPhone')}
                     value={values.UserPhone}
@@ -221,7 +221,7 @@ const CreateAccountBarber = ({ navigation }) => {
                 {/* <View style={{flex: 0.4, justifyContent: 'center'}}>
                   <SimpleTextField
                     placeholder={'Add Bio'}
-                    placeholderTextColor={appColors.White}
+                    placeholderTextColor={appColors.AppLightGray}
                     onChangeText={handleChange('AddBio')}
                     onBlur={handleBlur('AddBio')}
                     value={values.AddBio}
@@ -235,10 +235,10 @@ const CreateAccountBarber = ({ navigation }) => {
                   )}
                 </View> */}
 
-                <View style={{ flex: 0.4, justifyContent: 'center' }}>
+                <View style={{ flex: 0.15, justifyContent: 'center' }}>
                   <SimpleTextField
                     placeholder={'Add Description'}
-                    placeholderTextColor={appColors.White}
+                    placeholderTextColor={appColors.AppLightGray}
                     onChangeText={handleChange('Description')}
                     onBlur={handleBlur('Description')}
                     value={values.Description}
@@ -252,7 +252,7 @@ const CreateAccountBarber = ({ navigation }) => {
                   )}
                 </View>
 
-                <View style={{ flex: 0.4, }}>
+                <View style={{ flex: 0.15, }}>
                 
                  <CustomDropdownPicker items={items} />
 
@@ -310,12 +310,12 @@ const CreateAccountBarber = ({ navigation }) => {
 
               </View>
 
-              <View style={{ flex: 0.1, justifyContent: 'center' }}>
+              {/* <View style={{ flex: 0.1, justifyContent: 'center' }}>
                 <RememberMe
                   RememberTex={'Remember me'}
                   ForgetPasswordText={'Terms & Conditions'}
                 />
-              </View>
+              </View> */}
 
               <View style={{ flex: 0.1 }}>
                 <ButtonComponent
@@ -330,7 +330,7 @@ const CreateAccountBarber = ({ navigation }) => {
         </Formik>
         <View
           style={{
-            flex: 0.05,
+            flex: 0.1,
             flexDirection: 'row',
             justifyContent: 'center',
             marginTop: 5,
@@ -348,12 +348,12 @@ const CreateAccountBarber = ({ navigation }) => {
           </TouchableOpacity>
         </View>
 
-        <SocailLogin
+        {/* <SocailLogin
           SocailLogin={'or Login Using'}
           iconName={'facebook'}
           iconType={Icons.FontAwesome}
           color={appColors.White}
-        />
+        /> */}
       </View>
     </Screen>
   );
