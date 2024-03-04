@@ -67,8 +67,6 @@ const EditProfile = ({navigation}) => {
     setUserDetails(userDetail);
   };
 
-  console.log('Details', userDetails);
-
   const validationSchema = Yup.object().shape({
     UserName: Yup.string().required('Name is required'),
     UserEmail: Yup.string()
@@ -114,7 +112,6 @@ const EditProfile = ({navigation}) => {
       });
   };
 
-  console.log(profileImage);
 
   return (
     <Screen

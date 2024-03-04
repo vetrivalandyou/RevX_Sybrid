@@ -71,7 +71,7 @@ const ManageVans = ({navigation}) => {
       </View>
 
       <View style={{flex: 0.8}}>
-        {loading ? ( // Show loader if loading is true
+        {loading ? ( // Show loader if loading is true s
           <ActivityIndicator
             size="large"
             color="#C79646"
