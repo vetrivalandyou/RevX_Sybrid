@@ -26,7 +26,9 @@ const CustomDropdownPicker = ({items}) => {
     <View style={styles.container}>
       <TouchableOpacity onPress={toggleDropdown} style={styles.header}>
         <Text style={{color: appColors.AppLightGray}}>
-          {selectedItems.length > 0 ? selectedItems.join(', ') : 'Select Items'}
+          {selectedItems.setupDetailName > 0
+            ? selectedItems.join(', ')
+            : 'Select Items'}
         </Text>
         <CustomIcon
           type={Icons.AntDesign}
