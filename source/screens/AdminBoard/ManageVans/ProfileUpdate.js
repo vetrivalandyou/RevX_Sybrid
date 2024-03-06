@@ -1,11 +1,10 @@
-import React, {useState} from 'react';
-import {Button, Image, View} from 'react-native';
+import React, { useState } from 'react';
+import { Button, Image, View } from 'react-native';
 import ButtonComponent from '../../../components/atom/CustomButtons/ButtonComponent';
 import ImagePicker from 'react-native-image-crop-picker';
-import CustomIcon, {
-  Icons,
-} from '../../../components/molecules/CustomIcon/CustomIcon';
-const ProfileUpdate = ({onImageCaptured}) => {
+import CustomIcon, { Icons } from "../../../components/molecules/CustomIcon/CustomIcon";
+import styles from "./styles";
+const ProfileUpdate = ({ onImageCaptured }) => {
   const [imageUri, setImageUri] = useState(null);
 
   const openCamera = () => {
@@ -44,11 +43,12 @@ const ProfileUpdate = ({onImageCaptured}) => {
       });
   };
 
+
   return (
-    <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-      <View style={{flexDirection: 'row', marginHorizontal: 10}}>
+    <View style={styles.updateprofileView}>
+      <View style={styles.buttonouterView}>
         <View
-          style={{flex: 0.5, justifyContent: 'center', alignItems: 'center'}}>
+          style={styles.camerabuttonview}>
           <ButtonComponent
             style={{
               backgroundColor: '#424242',
@@ -60,13 +60,12 @@ const ProfileUpdate = ({onImageCaptured}) => {
             name={'camera-outline'}
             size={21}
             color={'white'}
-            btnTextColor={{color: 'white'}}
+            btnTextColor={{ color: 'white' }}
             title={'Camera '}
             onPress={openCamera}
           />
         </View>
-        <View
-          style={{flex: 0.5, justifyContent: 'center', alignItems: 'center'}}>
+        <View style={styles.gallerybuttonview}>
           <ButtonComponent
             style={{
               backgroundColor: '#E81F1C',
@@ -78,13 +77,13 @@ const ProfileUpdate = ({onImageCaptured}) => {
             name={'photo'}
             size={16}
             color={'white'}
-            btnTextColor={{color: 'white'}}
+            btnTextColor={{ color: 'white' }}
             title={'Gallery'}
             onPress={openGallery}
           />
         </View>
       </View>
-    </View>
+    </View >
   );
 };
 export default ProfileUpdate;

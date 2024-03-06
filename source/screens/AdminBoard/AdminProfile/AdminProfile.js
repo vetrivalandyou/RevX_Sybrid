@@ -54,9 +54,10 @@ const AdminProfile = () => {
     },
     {
       id: 5,
-      title: 'Manage  Vans',
+      title: 'Manage Vans',
       icon: Icons.Entypo,
     },
+   
     {
       id: 6,
       title: 'Approve Barber',
@@ -85,7 +86,9 @@ const AdminProfile = () => {
         break;
       case 4:
         navigation.navigate(constants.AdminScreens.ManageVans);
+
         break;
+        
       case 5:
         navigation.navigate(constants.AdminScreens.AdminApproveBarber);
         break;

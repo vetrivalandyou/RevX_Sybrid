@@ -270,56 +270,7 @@ const CreateAccountBarber = ({navigation}) => {
                     </View>
                   )}
 
-                  {/* <Dropdown
-                    label="Add Barber Specialties"
-                    value={selectedValues}
-                    onValueChange={(itemValue, itemIndex) => {
-                      const updatedValues = [...selectedValues];
-                      const selectedIndex = updatedValues.findIndex(value => value === itemValue);
 
-                      if (selectedIndex >= 0) {
-                        updatedValues.splice(selectedIndex, 1); // Deselect the item if already selected
-                      } else {
-                        updatedValues.push(itemValue); // Select the item if not selected
-                      }
-
-                      setSelectedValues(updatedValues); // Update selected values
-                    }}
-                    dropDownData={dropDownData}
-                    style={{
-                      marginTop: 10,
-                      backgroundColor: appColors.Black,
-                      borderColor: appColors.AppLightGray,
-                      borderRadius: 25,
-                      paddingHorizontal: 10,
-                    }}
-                    multiSelect // Indicate that it's a multi-select dropdown
-                    renderSelectedItem={(item, index, isSelected) => (
-                      <TouchableOpacity
-                        style={{
-                          backgroundColor: isSelected ? appColors.red : appColors.Black,
-                          paddingHorizontal: 10,
-                          paddingVertical: 5,
-                          borderRadius: 15,
-                          margin: 5,
-                        }}
-                        onPress={() => {
-                          const updatedValues = [...selectedValues];
-                          updatedValues.splice(index, 1);
-                          setSelectedValues(updatedValues);
-                        }}>
-                        <Text style={{ color: isSelected ? appColors.AppBlue : appColors.White }}>{item.label}</Text>
-                      </TouchableOpacity>
-                    )}
-               />
-                  
-                  {touched.Barber_Specialties && errors.Barber_Specialties && (
-                    <View style={{ marginLeft: 10, margin: 5 }}>
-                      <Text style={{ color: appColors.Goldcolor, fontSize: 10 }}>
-                        {errors.Barber_Specialties}
-                      </Text>
-                    </View>
-                  )} */}
                 </View>
               </View>
 

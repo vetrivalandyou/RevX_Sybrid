@@ -1,5 +1,5 @@
-import {StyleSheet} from 'react-native';
-import {screenSize} from '../../../components/atom/ScreenSize';
+import { StyleSheet } from 'react-native';
+import { screenSize } from '../../../components/atom/ScreenSize';
 
 export default StyleSheet.create({
   container: {
@@ -11,14 +11,14 @@ export default StyleSheet.create({
     marginVertical: 5,
     paddingHorizontal: 5,
 
-  justifyContent:'center',
-    
+    justifyContent: 'center',
+
   },
   buttonView: {
     flex: 0.1,
     justifyContent: 'center',
-    alignItems:'center',
- 
+    alignItems: 'center',
+
   },
   Subcontainer: {
     flexDirection: 'row',
@@ -54,5 +54,20 @@ export default StyleSheet.create({
     width: '40%',
     height: '40%',
   },
+  updateprofileView: {
+    flex: 1, justifyContent: 'center', alignItems: 'center',
+  },
+  buttonouterView: { flexDirection: 'row', marginHorizontal: 10, },
+  camerabuttonview: { flex: 0.5, justifyContent: 'center', alignItems: 'center', },
+  gallerybuttonview: { flex: 0.5, justifyContent: 'center', alignItems: 'center' },
+  ProfileMainView:{flex:0.3, },
+  ProfileouterView:{ flex: 1, justifyContent:"center", alignItems:"center",},
+  profileView:{ width:"25%",justifyContent:"center", alignItems:"center",height:'50%',},
+  imageStyle:{  width: '100%', height: '100%', borderRadius: 80, borderWidth: 3, borderColor: appColors.Goldcolor  },
+  Iconstyle:{ position: 'absolute', left: screenSize.width /5.5, top: screenSize.height / 11.5,}
+
+
+
+
 });
 

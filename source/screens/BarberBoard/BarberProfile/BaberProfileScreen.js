@@ -54,6 +54,11 @@ const BaberProfileScreen = () => {
     },
     {
       id: 5,
+      title: 'Manage Assignments',
+      icon: Icons.Entypo,
+    },
+    {
+      id: 6,
       title: 'Sign Out',
       icon: Icons.Entypo,
     },
@@ -67,7 +72,10 @@ const BaberProfileScreen = () => {
       case 3:
         navigation.navigate(constants.BarberScreen.Servicesboard);
         break;
-      case 4: // Index of 'Sign Out' item
+        case 4:
+        navigation.navigate(constants.BarberScreen.Assignments);
+        break;
+      case 5: // Index of 'Sign Out' item
         // setIsSignOutModalVisible(true);
         refRBSheet.current.open();
         break;
