@@ -11,9 +11,8 @@ const CustomDropdownPicker = ({items, values, setValues, onChange}) => {
     setShowDropdown(!showDropdown);
   };
 
-  console.log('values', values);
-
   const handleItemPress = item => {
+    onChange && onChange(item)
     const isSelected = values.some(
       selected => selected.setupDetailId === item.setupDetailId,
     );
@@ -26,7 +25,6 @@ const CustomDropdownPicker = ({items, values, setValues, onChange}) => {
     } else {
       setValues([...values, item]);
     }
-    console.log('Selected Items===:', values);
   };
 
   return (
@@ -55,7 +53,7 @@ const CustomDropdownPicker = ({items, values, setValues, onChange}) => {
               key={index}
               onPress={() => {
                 handleItemPress(item);
-                onChange && onChange();
+                onChange && onChange(item);
               }}>
               <Text
                 style={
@@ -74,14 +72,13 @@ const CustomDropdownPicker = ({items, values, setValues, onChange}) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    //alignItems: 'center',
     justifyContent: 'center',
   },
   header: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    padding: 17,
-    borderRadius: 5,
+    padding: 15,
+    paddingHorizontal: 20,
     borderColor: 'grey',
     borderWidth: 1.5,
     borderRadius: 25,
@@ -98,7 +95,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
   },
   item: {
-    padding: 5,
+    padding: 8, 
     color: 'black',
   },
   selectedItem: {

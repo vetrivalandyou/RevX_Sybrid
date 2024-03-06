@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {Fragment, useEffect, useState} from 'react';
 import {Text, View, TouchableOpacity, StyleSheet} from 'react-native';
 import {Formik} from 'formik';
 import * as Yup from 'yup';
@@ -18,7 +18,7 @@ import {endPoint, messages} from '../../AppConstants/urlConstants';
 import {PostRequest} from '../../services/apiCall';
 import {SimpleSnackBar} from '../../components/atom/Snakbar/Snakbar';
 import {screenSize} from '../../components/atom/ScreenSize';
-import CustomDropdownPicker from '../../components/molecules/Dropdown';
+import CustomDropdownPicker from '../../components/molecules/CustomDropdownPicker';
 
 const CreateAccountBarber = ({navigation}) => {
   const [isEye, setIsEye] = useState(false);
@@ -42,32 +42,33 @@ const CreateAccountBarber = ({navigation}) => {
       ),
     UserPassword: Yup.string().required('Password is required'),
     Description: Yup.string().required('Description is required'),
-    Services: Yup.array()
-      .min(1, 'Select at least one item')
-      .required('Select at least one item'),
+    BarberCategories: Yup.array()
+      .min(1, 'Select at least one option')
+      .required('Select at least one option'),
   });
 
   const barberRegisterUser = (values, setSubmitting) => {
-    console.log('Values==>>..', values);
-
     const payload = {
       ...values,
+      BarberCategories: [services?.map(obj => obj.setupDetailId)?.join(',')],
     };
 
-    // PostRequest(endPoint.REGISTERAS_BARBER, payload)
-    //   .then(res => {
-    //     console.log('RESPONSEDATA', res?.data);
-    //     if (res?.data?.code == 200) {
-    //       console.log(res?.data);
-    //     } else {
-    //       SimpleSnackBar(res?.data?.message);
-    //     }
-    //     setSubmitting(false);
-    //   })
-    //   .catch(err => {
-    //     SimpleSnackBar(messages.Catch, appColors.Red);
-    //     setSubmitting(false);
-    //   });
+    console.log(payload);
+
+    PostRequest(endPoint.REGISTERAS_BARBER, payload)
+      .then(res => {
+        console.log('RESPONSEDATA', res?.data);
+        if (res?.data?.code == 200) {
+          SimpleSnackBar(res?.data?.message);
+        } else {
+          SimpleSnackBar(res?.data?.message, appColors.Red);
+        }
+        setSubmitting(false);
+      })
+      .catch(err => {
+        SimpleSnackBar(messages.Catch, appColors.Red);
+        setSubmitting(false);
+      });
   };
 
   const getServices = () => {
@@ -83,7 +84,6 @@ const CreateAccountBarber = ({navigation}) => {
       .then(res => {
         if (res?.data?.code == 200) {
           setSelectedItems(res?.data?.data);
-          console.log('test>>>>', res?.data);
         } else {
           SimpleSnackBar(res?.data?.message, appColors.Red);
         }
@@ -92,8 +92,6 @@ const CreateAccountBarber = ({navigation}) => {
         SimpleSnackBar(messages.Catch, appColors.Red);
       });
   };
-
-  console.log('services', services);
 
   return (
     <Screen
@@ -110,39 +108,31 @@ const CreateAccountBarber = ({navigation}) => {
           onPress={() => navigation.goBack()}
         />
       </View>
-      <View
-        style={{
-          flex: 0.8,
-          padding: 15,
-          backgroundColor: appColors.Black,
-        }}>
+      <View style={styles.fieldsMainView}>
         <Formik
           initialValues={{
             FullName: '',
             UserEmail: '',
             UserPassword: '',
             UserPhone: '',
-            // AddBio: '',
             Description: '',
-            Services: services,
+            BarberCategories: [],
           }}
           validationSchema={validationSchema}
           onSubmit={(values, {setSubmitting}) => {
-            console.log('values', values);
-            if (services?.length != 0) {
-              barberRegisterUser(values, setSubmitting);
-            }
+            barberRegisterUser(values, setSubmitting);
           }}>
           {({
             handleChange,
             handleBlur,
             handleSubmit,
+            setFieldValue,
             values,
             errors,
             touched,
             isSubmitting,
           }) => (
-            <>
+            <Fragment>
               <View style={{flex: 0.8, justifyContent: 'space-evenly'}}>
                 <View style={{flex: 0.15, justifyContent: 'center'}}>
                   <SimpleTextField
@@ -178,12 +168,10 @@ const CreateAccountBarber = ({navigation}) => {
                     </View>
                   )}
                 </View>
-
                 <View
                   style={{
                     flex: 0.15,
                     justifyContent: 'center',
-                    // borderStartColor: 'red',
                   }}>
                   <SimpleTextField
                     placeholder={'Enter Your Password'}
@@ -220,24 +208,6 @@ const CreateAccountBarber = ({navigation}) => {
                     </View>
                   )}
                 </View>
-
-                {/* <View style={{flex: 0.4, justifyContent: 'center'}}>
-                  <SimpleTextField
-                    placeholder={'Add Bio'}
-                    placeholderTextColor={appColors.AppLightGray}
-                    onChangeText={handleChange('AddBio')}
-                    onBlur={handleBlur('AddBio')}
-                    value={values.AddBio}
-                  />
-                  {touched.AddBio && errors.AddBio && (
-                    <View style={{marginLeft: 10, margin: 5}}>
-                      <Text style={{color: appColors.Goldcolor, fontSize: 10}}>
-                        {errors.AddBio}
-                      </Text>
-                    </View>
-                  )}
-                </View> */}
-
                 <View style={{flex: 0.15, justifyContent: 'center'}}>
                   <SimpleTextField
                     placeholder={'Add Description'}
@@ -254,32 +224,40 @@ const CreateAccountBarber = ({navigation}) => {
                     </View>
                   )}
                 </View>
-
                 <View style={{flex: 0.15}}>
                   <CustomDropdownPicker
                     items={selectedItems}
                     values={services}
                     setValues={setServices}
+                    onChange={newValues => {
+                      const isSelected = values?.BarberCategories?.some(
+                        selected => selected == newValues.setupDetailId,
+                      );
+                      if (isSelected) {
+                        setFieldValue(
+                          'BarberCategories',
+                          values?.BarberCategories?.filter(
+                            selected => selected !== newValues.setupDetailId,
+                          ),
+                        );
+                      } else {
+                        setFieldValue('BarberCategories', [
+                          ...values?.BarberCategories,
+                          newValues?.setupDetailId,
+                        ]);
+                      }
+                    }}
+                    onBlur={() => handleBlur('BarberCategories')}
                   />
-                  {services?.length == 0 && (
+                  {touched.BarberCategories && errors.BarberCategories && (
                     <View style={{marginLeft: 10, margin: 5}}>
                       <Text style={{color: appColors.Goldcolor, fontSize: 10}}>
-                        {errors.Services}
+                        {errors.BarberCategories}
                       </Text>
                     </View>
                   )}
-
-
                 </View>
               </View>
-
-              {/* <View style={{ flex: 0.1, justifyContent: 'center' }}>
-                <RememberMe
-                  RememberTex={'Remember me'}
-                  ForgetPasswordText={'Terms & Conditions'}
-                />
-              </View> */}
-
               <View style={{flex: 0.1}}>
                 <ButtonComponent
                   title={'Create Account'}
@@ -288,35 +266,20 @@ const CreateAccountBarber = ({navigation}) => {
                   isLoading={isSubmitting}
                 />
               </View>
-            </>
+            </Fragment>
           )}
         </Formik>
-        <View
-          style={{
-            flex: 0.1,
-            flexDirection: 'row',
-            justifyContent: 'center',
-            marginTop: 5,
-            // backgroundColor: 'red',
-          }}>
+        <View style={styles.buttonView}>
           <TouchableOpacity>
             <Text style={{color: appColors.GrayColor}}>
               Already have an Account ?
             </Text>
           </TouchableOpacity>
-
           <TouchableOpacity
             onPress={() => navigation.navigate(constants.AuthScreen.Login)}>
             <Text style={{color: appColors.Goldcolor}}> Login</Text>
           </TouchableOpacity>
         </View>
-
-        {/* <SocailLogin
-          SocailLogin={'or Login Using'}
-          iconName={'facebook'}
-          iconType={Icons.FontAwesome}
-          color={appColors.White}
-        /> */}
       </View>
     </Screen>
   );
@@ -328,6 +291,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: 'red',
+  },
+  fieldsMainView: {
+    flex: 0.8,
+    padding: 15,
+    backgroundColor: appColors.Black,
   },
   header: {
     flexDirection: 'row',
@@ -359,5 +327,11 @@ const styles = StyleSheet.create({
   },
   selectedContainer: {
     marginTop: 10,
+  },
+  buttonView: {
+    flex: 0.1,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    marginTop: 5,
   },
 });
