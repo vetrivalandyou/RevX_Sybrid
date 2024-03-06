@@ -33,10 +33,6 @@
 
 //   });
 
-
-
-
-
 //   const validationSchema = Yup.object().shape({
 //     VanName: Yup.string().required(' Van name is required'),
 //     VanRegistrationNo: Yup.string()
@@ -45,8 +41,6 @@
 //       VanModel: Yup.string().required('Van Model is required'),
 //       VanRegistrationId: Yup.string()
 //       .required('Van Registration Id'),
-
-
 
 //   });
 
@@ -61,12 +55,12 @@
 
 //     PostRequest(endPoint.Edit_VANS, payload)
 //       .then(res => {
-//         if (res?.data?.data.code == 200) 
+//         if (res?.data?.data.code == 200)
 //         {
 //        console.log("response",res?.data)
 //     setEditedDetails(res?.data)
 
-//      navigation.goBack()                                                        
+//      navigation.goBack()
 
 //         } else {
 //           SimpleSnackBar(res?.data?.message);
@@ -78,8 +72,6 @@
 //         setSubmitting(false);
 //       });
 //   };
-
-
 
 //   return (
 //     <Screen viewStyle={{ flex: 1, padding: 15 , backgroundColor: appColors.Black}} statusBarColor={appColors.Black}>
@@ -135,7 +127,6 @@
 //                   )}
 //               </View>
 
-
 //         </View>
 //         <View style={{flex: 0.12, alignItems: 'center',}}>
 //         <View style={styles.container}>
@@ -179,7 +170,7 @@
 //                       </Text>
 //                     </View>
 //                   )}
-//               </View>       
+//               </View>
 //         </View>
 
 //         <View style={{flex: 0.12, alignItems: 'center',justifyContent:'center'}}>
@@ -230,8 +221,6 @@
 
 // export default EditVanservices;
 
-
-
 import {
   StyleSheet,
   Text,
@@ -240,40 +229,36 @@ import {
   TextInput,
   ScrollView,
   Platform,
-  Image
+  Image,
 } from 'react-native';
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import Screen from '../../../components/atom/ScreenContainer/Screen';
 import styles from './styles';
 import ButtonComponent from '../../../components/atom/CustomButtons/ButtonComponent';
-import { Formik } from 'formik';
+import {Formik} from 'formik';
 import * as Yup from 'yup';
-import { useNavigation } from '@react-navigation/native';
-import { screenSize } from '../../../components/atom/ScreenSize';
+import {useNavigation} from '@react-navigation/native';
+import {screenSize} from '../../../components/atom/ScreenSize';
 import Header from '../../../components/molecules/Header';
-import CustomIcon, { Icons } from '../../../components/molecules/CustomIcon/CustomIcon';
-import { endPoint } from '../../../AppConstants/urlConstants';
+import CustomIcon, {
+  Icons,
+} from '../../../components/molecules/CustomIcon/CustomIcon';
+import {endPoint} from '../../../AppConstants/urlConstants';
 import SimpleTextField from '../../../components/molecules/TextFeilds/SimpleTextField';
-import { PostRequest } from '../../../services/apiCall';
-import { SimpleSnackBar } from '../../../components/atom/Snakbar/Snakbar';
-import { AppImages } from '../../../AppConstants/AppImages';
+import {PostRequest} from '../../../services/apiCall';
+import {SimpleSnackBar} from '../../../components/atom/Snakbar/Snakbar';
+import {AppImages} from '../../../AppConstants/AppImages';
 
-
-const EditVanservices = ({ route, navigation }) => {
-
-  
+const EditVanservices = ({route, navigation}) => {
   // const navigation = useNavigation();
-  const { vanDetil } = route.params;
-  
+  const {vanDetil} = route.params;
 
   const validationSchema = Yup.object().shape({
     VanName: Yup.string().required(' Van name is required'),
     VanRegistrationNo: Yup.string()
-
-      .required('Van Registration no is required'),
+    .required('Van Registration no is required'),
     VanModel: Yup.string().required('Van Model is required'),
-    VanRegistrationId: Yup.string()
-      .required('Van Registration Id'),
+    VanRegistrationId: Yup.string().required('Van Registration Id'),
   });
 
   const VanInfo = (values, setSubmitting) => {
@@ -282,39 +267,34 @@ const EditVanservices = ({ route, navigation }) => {
       VanId: 5,
       Operation: 2,
       CreatedBy: 2,
-    }
-    console.log("payload", payload)
+    };
+    console.log('payload', payload);
 
     PostRequest(endPoint.Edit_VANS, payload)
-
-
       .then(res => {
-        console.log('responseeeeee', res.data)
+        console.log('responseeeeee', res.data);
         if (res?.data?.code == 200) {
-          console.log("response", res?.data)
+          console.log('response', res?.data);
 
-
-          navigation.goBack()
-
+          navigation.goBack();
         } else {
           SimpleSnackBar(res?.data?.data?.message);
-          console.log('elseeeee', res?.data.message)
+          console.log('elseeeee', res?.data.message);
         }
         setSubmitting(false);
       })
       .catch(err => {
-        console.log("catch", err);
+        console.log('catch', err);
         SimpleSnackBar(messages.Catch, appColors.Red);
         setSubmitting(false);
-
       });
   };
 
-
-
   return (
-    <Screen viewStyle={{ flex: 1, padding: 15, backgroundColor: appColors.Black }} statusBarColor={appColors.Black}>
-      <View style={{ flex: 0.1 }}>
+    <Screen
+      viewStyle={{flex: 1, padding: 15, backgroundColor: appColors.Black}}
+      statusBarColor={appColors.Black}>
+      <View style={{flex: 0.1}}>
         <Header
           lefttIcoType={Icons.Ionicons}
           onPressLeftIcon={() => navigation.goBack()}
@@ -332,7 +312,7 @@ const EditVanservices = ({ route, navigation }) => {
           VanModel: vanDetil.vanModel,
         }}
         validationSchema={validationSchema}
-        onSubmit={(values, { setSubmitting }) => {
+        onSubmit={(values, {setSubmitting}) => {
           VanInfo(values, setSubmitting);
         }}>
         {({
@@ -345,23 +325,30 @@ const EditVanservices = ({ route, navigation }) => {
           isSubmitting,
         }) => (
           <>
-            <View style={{ flex: 0.8 }}>
-         
-          <View style={{flex: 0.32,justifyContent:'center',alignItems:'center',}}>
-          <Image
-            source={AppImages.ProfileSlider}
- 
-            style={{width:'40%', height: '80%',borderRadius:80}}
-          />
-     
-          <CustomIcon type={Icons.AntDesign} size={25} name={'pluscircle'} color={'white'}style={{position:'absolute',left:232, top:153}}/>
+            <View style={{flex: 0.8}}>
+              <View
+                style={{
+                  flex: 0.32,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }}>
+                <Image
+                  source={AppImages.ProfileSlider}
+                  style={{width: '40%', height: '80%', borderRadius: 80}}
+                />
 
-        </View>
-              <View style={{ flex: 0.12, alignItems: 'center', }}>
+                <CustomIcon
+                  type={Icons.AntDesign}
+                  size={25}
+                  name={'pluscircle'}
+                  color={'white'}
+                  style={{position: 'absolute', left: 232, top: 153}}
+                />
+              </View>
+              <View style={{flex: 0.12, alignItems: 'center'}}>
                 <View style={styles.container}>
-
                   <SimpleTextField
-                    textUpperView={{ borderWidth: 0, }}
+                    textUpperView={{borderWidth: 0}}
                     placeholder={'Enter Van Name'}
                     placeholderTextColor={appColors.LightGray}
                     onChangeText={handleChange('VanName')}
@@ -370,22 +357,19 @@ const EditVanservices = ({ route, navigation }) => {
                   />
                   {touched.VanName && errors.VanName && (
                     <View
-                      style={{ marginLeft: 10, marginTop: 2, marginBottom: 15 }}>
-                      <Text style={{ color: appColors.Goldcolor, fontSize: 10 }}>
+                      style={{marginLeft: 10, marginTop: 2, marginBottom: 15}}>
+                      <Text style={{color: appColors.Goldcolor, fontSize: 10}}>
                         {errors.VanName}
                       </Text>
                     </View>
                   )}
                 </View>
-
-
               </View>
 
-              <View style={{ flex: 0.12, alignItems: 'center', }}>
+              <View style={{flex: 0.12, alignItems: 'center'}}>
                 <View style={styles.container}>
-
                   <SimpleTextField
-                    textUpperView={{ borderWidth: 0, }}
+                    textUpperView={{borderWidth: 0}}
                     placeholder={'Enter Van Registration No'}
                     placeholderTextColor={appColors.LightGray}
                     onChangeText={handleChange('VanRegistrationNo')}
@@ -394,21 +378,19 @@ const EditVanservices = ({ route, navigation }) => {
                   />
                   {touched.VanRegistrationNo && errors.VanRegistrationNo && (
                     <View
-                      style={{ marginLeft: 10, marginTop: 2, marginBottom: 15 }}>
-                      <Text style={{ color: appColors.Goldcolor, fontSize: 10 }}>
+                      style={{marginLeft: 10, marginTop: 2, marginBottom: 15}}>
+                      <Text style={{color: appColors.Goldcolor, fontSize: 10}}>
                         {errors.VanRegistrationNo}
                       </Text>
                     </View>
                   )}
-
                 </View>
               </View>
 
-              <View style={{ flex: 0.12, alignItems: 'center', }}>
+              <View style={{flex: 0.12, alignItems: 'center'}}>
                 <View style={styles.container}>
-
                   <SimpleTextField
-                    textUpperView={{ borderWidth: 0, }}
+                    textUpperView={{borderWidth: 0}}
                     placeholder={'Enter Van Registration Id'}
                     placeholderTextColor={appColors.LightGray}
                     onChangeText={handleChange('VanRegistrationId')}
@@ -417,8 +399,8 @@ const EditVanservices = ({ route, navigation }) => {
                   />
                   {touched.VanRegistrationId && errors.VanRegistrationId && (
                     <View
-                      style={{ marginLeft: 10, marginTop: 2, marginBottom: 15 }}>
-                      <Text style={{ color: appColors.Goldcolor, fontSize: 10 }}>
+                      style={{marginLeft: 10, marginTop: 2, marginBottom: 15}}>
+                      <Text style={{color: appColors.Goldcolor, fontSize: 10}}>
                         {errors.VanRegistrationId}
                       </Text>
                     </View>
@@ -426,11 +408,10 @@ const EditVanservices = ({ route, navigation }) => {
                 </View>
               </View>
 
-              <View style={{ flex: 0.12, alignItems: 'center', }}>
+              <View style={{flex: 0.12, alignItems: 'center'}}>
                 <View style={styles.container}>
-
                   <SimpleTextField
-                    textUpperView={{ borderWidth: 0, }}
+                    textUpperView={{borderWidth: 0}}
                     placeholder={'Enter Van Model'}
                     placeholderTextColor={appColors.LightGray}
                     onChangeText={handleChange('VanModel')}
@@ -439,13 +420,12 @@ const EditVanservices = ({ route, navigation }) => {
                   />
                   {touched.VanModel && errors.VanModel && (
                     <View
-                      style={{ marginLeft: 10, marginTop: 2, marginBottom: 15, }}>
-                      <Text style={{ color: appColors.Goldcolor, fontSize: 10 }}>
+                      style={{marginLeft: 10, marginTop: 2, marginBottom: 15}}>
+                      <Text style={{color: appColors.Goldcolor, fontSize: 10}}>
                         {errors.VanModel}
                       </Text>
                     </View>
                   )}
-
                 </View>
               </View>
             </View>
@@ -458,7 +438,7 @@ const EditVanservices = ({ route, navigation }) => {
                   bottom: 1,
                   position: 'absolute',
                 }}
-                btnTextColor={{ color: 'white' }}
+                btnTextColor={{color: 'white'}}
                 title={'Save Vans'}
                 disabled={isSubmitting}
                 onPress={handleSubmit}
@@ -468,12 +448,8 @@ const EditVanservices = ({ route, navigation }) => {
           </>
         )}
       </Formik>
-
     </Screen>
   );
 };
 
 export default EditVanservices;
-
-
-

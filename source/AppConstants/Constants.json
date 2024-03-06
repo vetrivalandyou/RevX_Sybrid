@@ -20,10 +20,11 @@
     "ForgotPassword": "ForgotPassword",
     "BarberSpecialist": "BarberSpecialist",
     "HomeScreen": "HomeScreen",
-    "BarberProfile" :"BarberProfile",
+    "BarberProfile": "BarberProfile",
     "BottomTabNavigation": "BottomTabNavigation",
     "ProfileScreen": "ProfileScreen",
-  "EditProfile":"EditProfile",
+    "MyLocation": "MyLocation",
+    "EditProfile": "EditProfile",
     "AboutUs": "AboutUs",
     "TermsOfService": "TermsOfService",
     "PrivacyPolicy": "PrivacyPolicy",
@@ -66,13 +67,11 @@
     "AddVanservices": "AddVanservices",
     "DeleteVanServices": "DeleteVanServices",
    "EditVanservices": "EditVanservices",
-   "ServiceList": "ServiceList",
    "Assignments":"Assignments",
    "AddAssignment":"AddAssignment",
    "EditAssignment":"EditAssignment",
-   "DeleteAssignment":"DeleteAssignment"
-
-
+   "DeleteAssignment":"DeleteAssignment",
+    "ServiceList": "ServiceList"
   },
   "AdminScreens": {
     "AdminBottomTabNavigation": "AdminBottomTabNavigation",
@@ -100,13 +99,10 @@
     "AdminViewUsers": "AdminViewUsers",
     "AdminBlockUsers": "AdminBlockUsers",
     "ManageVans": "ManageVans",
-     "AddVanservices": "AddVanservices",
+    "AddVanservices": "AddVanservices",
     "DeleteVanServices": "DeleteVanServices",
     "EditVanservices": "EditVanservices",
-    "AdminApproveBarber":"AdminApproveBarber"
-  
-   
-
+    "AdminApproveBarber": "AdminApproveBarber"
   },
   "AsyncStorageKeys": {
     "token": "token",

@@ -15,6 +15,7 @@ export default appColors = {
   AppLightGray: '#A6A6A6',
   RegularGray: '#EEEEEE',
   AppGreen: '#19BC00',
+  DarkGreen: '#006600',
   AppBlue: '#0055FF',
   AppLightGreen: '#40C2A3',
   White: '#FFFFFF',

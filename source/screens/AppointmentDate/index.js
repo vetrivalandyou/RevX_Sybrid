@@ -55,7 +55,12 @@ const AppointmentDate = ({navigation}) => {
             justifyContent: 'center',
             alignItems: 'center',
           }}>
-          <Text style={{color: appColors.AppLightGray, fontSize: 13.5, fontWeight: '400'}}>
+          <Text
+            style={{
+              color: appColors.AppLightGray,
+              fontSize: 13.5,
+              fontWeight: '400',
+            }}>
             {item.title}
           </Text>
         </View>
@@ -71,7 +76,12 @@ const AppointmentDate = ({navigation}) => {
             justifyContent: 'center',
             alignItems: 'center',
           }}>
-          <Text style={{color: appColors.AppLightGray, fontSize: 13.5, fontWeight: '400'}}>
+          <Text
+            style={{
+              color: appColors.AppLightGray,
+              fontSize: 13.5,
+              fontWeight: '400',
+            }}>
             {item.title2}
           </Text>
         </View>
@@ -132,7 +142,7 @@ const AppointmentDate = ({navigation}) => {
             textMonthFontSize: 15,
             textDayHeaderFontSize: 13,
             textMonthFontWeight: 'bold',
-            textDayFontWeight:'bold',
+            textDayFontWeight: 'bold',
             monthTextColor: appColors.White,
             'stylesheet.day.basic': {
               base: {
@@ -147,7 +157,7 @@ const AppointmentDate = ({navigation}) => {
               monthText: {
                 margin: 5,
                 color: appColors.White,
-                fontSize: 14
+                fontSize: 14,
               },
             },
           }}
@@ -171,7 +181,7 @@ const AppointmentDate = ({navigation}) => {
           justifyContent: 'space-between',
           alignItems: 'flex-end',
           // backgroundColor:'red'
-          marginHorizontal: 10
+          marginHorizontal: 10,
         }}>
         <Text style={{color: appColors.White, fontSize: 20}}>
           Selected Hours
