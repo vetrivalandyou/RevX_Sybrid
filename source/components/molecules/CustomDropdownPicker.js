@@ -33,7 +33,7 @@ const CustomDropdownPicker = ({items, values, setValues, onChange}) => {
         <Text
           style={{
             color:
-              values?.length > 0 ? appColors.White : appColors.AppLightGray,
+              values?.length > 0 ? appColors.White : appColors.AppLightGray, paddingLeft: 10
           }}>
           {values?.length > 0
             ? values?.map(x => x.setupDetailName).join(', ')
@@ -78,7 +78,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     padding: 15,
-    paddingHorizontal: 20,
     borderColor: 'grey',
     borderWidth: 1.5,
     borderRadius: 25,
