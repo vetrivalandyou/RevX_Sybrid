@@ -17,9 +17,8 @@ import SocailLogin from '../../components/molecules/SocailLogin';
 import {endPoint, messages} from '../../AppConstants/urlConstants';
 import {PostRequest} from '../../services/apiCall';
 import {SimpleSnackBar} from '../../components/atom/Snakbar/Snakbar';
-import Dropdown from '../../components/molecules/Dropdown/Dropdown';
 import {screenSize} from '../../components/atom/ScreenSize';
-import CustomDropdownPicker from '../../components/molecules/Dropdown/Dropdown';
+import CustomDropdownPicker from '../../components/molecules/Dropdown';
 
 const CreateAccountBarber = ({navigation}) => {
   const [isEye, setIsEye] = useState(false);
