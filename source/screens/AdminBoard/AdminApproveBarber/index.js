@@ -26,16 +26,126 @@ import {endPoint, messages} from '../../../AppConstants/urlConstants';
 import {PostRequest} from '../../../services/apiCall';
 import {SimpleSnackBar} from '../../../components/atom/Snakbar/Snakbar';
 
+const data = [
+  {
+    barberId: 20,
+    barberName: 'John Walter',
+    statusId: 9,
+    isClicked: false,
+    barberServices: null,
+  },
+  {
+    barberId: 21,
+    barberName: 'Carl James',
+
+    isClicked: false,
+    statusId: 9,
+    barberServices: null,
+  },
+  {
+    barberId: 70,
+    barberName: 'Arther Jack',
+
+    isClicked: false,
+    statusId: 9,
+    barberServices: null,
+  },
+  {
+    barberId: 71,
+    barberName: 'Arther Jack',
+    statusId: 365,
+    isClicked: false,
+    barberServices: [
+      {
+        servicesId: 101,
+        serviceName: 'Buz Cut',
+        isApproved: false,
+      },
+      {
+        servicesId: 102,
+        serviceName: null,
+        isApproved: false,
+      },
+    ],
+  },
+  {
+    barberId: 77,
+    barberName: 'Arther Jack',
+
+    isClicked: false,
+    statusId: 9,
+    barberServices: null,
+  },
+  {
+    barberId: 79,
+    barberName: 'Arther Jack',
+
+    isClicked: false,
+    statusId: 9,
+    barberServices: null,
+  },
+  {
+    barberId: 80,
+    barberName: 'Arthers Jack',
+    statusId: 365,
+    isClicked: false,
+    barberServices: [
+      {
+        servicesId: 3,
+        serviceName: 'ABC',
+        isApproved: false,
+      },
+      {
+        servicesId: 4,
+        serviceName: 'ABC',
+        isApproved: false,
+      },
+      {
+        servicesId: 5,
+        serviceName: 'ABC',
+        isApproved: false,
+      },
+      {
+        servicesId: 6,
+        serviceName: 'ABC',
+        isApproved: false,
+      },
+      {
+        servicesId: 3,
+        serviceName: 'ABC',
+        isApproved: false,
+      },
+      {
+        servicesId: 4,
+        serviceName: 'ABC',
+        isApproved: false,
+      },
+      {
+        servicesId: 5,
+        serviceName: 'ABC',
+        isApproved: false,
+      },
+      {
+        servicesId: 6,
+        serviceName: 'ABC',
+        isApproved: false,
+      },
+    ],
+  },
+];
+
 const AdminApproveBarber = ({navigation}) => {
-  const [btnClicked, setBtnClicked] = React.useState(false);
+  // const [btnClicked, setBtnClicked] = React.useState(false);
+
+  const btnClicked = useRef(null);
   const [loading, setLoading] = useState(true);
-  const [BarberApprove, setBarberApprove] = useState(false);
+  const [BarberApprove, setBarberApprove] = useState(data);
   const animation = useRef(new Animated.Value(0)).current;
 
   const fadeIn = () => {
     // Will change fadeAnim value to 1 in 5 seconds
     Animated.spring(animation, {
-      toValue: btnClicked ? 0 : 1,
+      toValue: btnClicked.current ? 0 : 1,
       //duration: 500,
       useNativeDriver: true,
     }).start();
@@ -47,8 +157,35 @@ const AdminApproveBarber = ({navigation}) => {
   const timeoutRef = useRef(null);
   const [isLoading, setIsLoading] = React.useState(true);
 
-  const toggleItem = itemId => {
-    setViewDetails(viewDetails === itemId ? null : itemId);
+  useEffect(() => {
+    getBarberApproveService();
+  }, []);
+
+  const getBarberApproveService = () => {
+    const payload = {
+      ServicesId: null,
+      BarberId: null,
+      StatusId: null,
+    };
+    PostRequest(endPoint.BARBER_APPROVE_SERVICES, payload)
+      .then(res => {
+        if (res?.data?.code == 200) {
+          setLoading(false);
+          // setBarberApprove(
+          //   res?.data?.data?.map(x => ({
+          //     ...x,
+          //     isClicked: false,
+          //   })),
+          // );
+        } else {
+          SimpleSnackBar(res?.data?.message);
+          setLoading(false);
+        }
+      })
+      .catch(err => {
+        SimpleSnackBar(messages.Catch, appColors.Red);
+        setLoading(false);
+      });
   };
 
   useEffect(() => {
@@ -57,6 +194,10 @@ const AdminApproveBarber = ({navigation}) => {
     }
     return () => clearTimeout(timeoutRef.current);
   }, [isLoading]);
+
+  const toggleItem = itemId => {
+    setViewDetails(viewDetails === itemId ? null : itemId);
+  };
 
   const toggleSelection = itemId => {
     const selectedIndex = selectedItems.indexOf(itemId);
@@ -70,16 +211,16 @@ const AdminApproveBarber = ({navigation}) => {
 
     setSelectedItems(newSelectedItems);
   };
-  
+
   const InnerContanier = ({item, key, onPress, selected}) => {
-    const isSelected = selectedItems.includes(item.id);
+    const isSelected = selectedItems.includes(item.servicesId);
 
     console.log('isSelectedisSelectedisSelected', item);
 
     return (
       <TouchableOpacity
         key={key}
-        onPress={() => toggleSelection(item.id)}
+        onPress={() => toggleSelection(item.servicesId)}
         style={{
           backgroundColor: '#252525',
           marginVertical: 8,
@@ -146,16 +287,12 @@ const AdminApproveBarber = ({navigation}) => {
             borderColor: 'black',
             paddingHorizontal: 10,
           }}>
-          {/* Up Down Icon View Main 1 open */}
-
           <View
             style={{
               flexDirection: 'row',
-              //  alignItems: 'center',
               justifyContent: 'space-between',
               paddingHorizontal: 10,
               flex: 0.6,
-              // backgroundColor:'red'
             }}>
             <View
               style={{
@@ -205,7 +342,8 @@ const AdminApproveBarber = ({navigation}) => {
                   barberItem = BarberApprove[index]['isClicked'] = true;
                 }
                 setBarberApprove([...BarberApprove, {...barberItem}]);
-                fadeIn(), setBtnClicked(!btnClicked);
+                fadeIn();
+                btnClicked.current = !btnClicked.current;
               }}
               style={[
                 styles.center,
@@ -223,10 +361,8 @@ const AdminApproveBarber = ({navigation}) => {
                 style={{
                   borderWidth: 1,
                   borderColor: '#C79646',
-
                   borderRadius: 60,
                   marginHorizontal: -5,
-                  // backgroundColor: 'red',
                 }}
               />
             </TouchableOpacity>
@@ -289,7 +425,7 @@ const AdminApproveBarber = ({navigation}) => {
             showsVerticalScrollIndicator={false}
             style={[ticketStyle.ticketDetailView]}>
             {item?.barberServices?.length > 0 &&
-              item?.barberServices?.map((index, service) => (
+              item?.barberServices?.map((service, index) => (
                 <InnerContanier
                   key={index}
                   item={service}
@@ -302,37 +438,6 @@ const AdminApproveBarber = ({navigation}) => {
         )}
       </View>
     );
-  };
-
-  useEffect(() => {
-    getBarberApproveService();
-  }, []);
-
-  const getBarberApproveService = () => {
-    const payload = {
-      ServicesId: null,
-      BarberId: null,
-      StatusId: null,
-    };
-    PostRequest(endPoint.BARBER_APPROVE_SERVICES, payload)
-      .then(res => {
-        if (res?.data?.code == 200) {
-          setLoading(false);
-          setBarberApprove(
-            res?.data?.data?.map(x => ({
-              ...x,
-              isClicked: false,
-            })),
-          );
-        } else {
-          SimpleSnackBar(res?.data?.message);
-          setLoading(false);
-        }
-      })
-      .catch(err => {
-        SimpleSnackBar(messages.Catch, appColors.Red);
-        setLoading(false);
-      });
   };
 
   return (
@@ -374,19 +479,12 @@ const AdminApproveBarber = ({navigation}) => {
         <View style={{flex: 0.9}}>
           <FlatList
             data={BarberApprove}
-            renderItem={({item, index}) => (
-              <TicketsComponent
-                item={item}
-                index={index}
-                // onPress={() => {
-
-                // }}
-                // viewDetails={viewDetails === item?.id}
-              />
-            )}
-            keyExtractor={item => item.id}
+            keyExtractor={item => item.barberId}
             nestedScrollEnabled={true}
             showsVerticalScrollIndicator={false}
+            renderItem={({item, index}) => (
+              <TicketsComponent item={item} index={index} />
+            )}
           />
         </View>
       )}
