@@ -1,38 +1,46 @@
-import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
-import { AntDesign } from '@expo/vector-icons'; // Import AntDesign icons from Expo
+import React, {useState} from 'react';
+import {View, Text, TouchableOpacity, StyleSheet} from 'react-native';
+import {AntDesign} from '@expo/vector-icons'; // Import AntDesign icons from Expo
 import appColors from '../../../AppConstants/appColors';
-import CustomIcon, { Icons } from '../CustomIcon/CustomIcon';
-import { screenSize } from '../../atom/ScreenSize';
+import CustomIcon, {Icons} from '../CustomIcon/CustomIcon';
+import {screenSize} from '../../atom/ScreenSize';
 
-const CustomDropdownPicker = ({ items, values, setValues }) => {
+const CustomDropdownPicker = ({items, values, setValues, onChange}) => {
   const [showDropdown, setShowDropdown] = useState(false);
 
   const toggleDropdown = () => {
     setShowDropdown(!showDropdown);
   };
 
+  console.log('values', values);
+
   const handleItemPress = item => {
-    const isSelected = values.some(selected => selected.setupDetailId === item.setupDetailId);
+    const isSelected = values.some(
+      selected => selected.setupDetailId === item.setupDetailId,
+    );
     if (isSelected) {
-      setValues(values.filter(selected => selected.setupDetailId !== item.setupDetailId));
+      setValues(
+        values.filter(
+          selected => selected.setupDetailId !== item.setupDetailId,
+        ),
+      );
     } else {
       setValues([...values, item]);
     }
     console.log('Selected Items===:', values);
   };
 
-
-
   return (
     <View style={styles.container}>
       <TouchableOpacity onPress={toggleDropdown} style={styles.header}>
-        <Text style={{ color: appColors.AppLightGray }}>
+        <Text
+          style={{
+            color:
+              values?.length > 0 ? appColors.White : appColors.AppLightGray,
+          }}>
           {values?.length > 0
-            ? values?.map((x) => (
-              x.setupDetailName
-              )).join(', ')
-              : 'Select Items'}
+            ? values?.map(x => x.setupDetailName).join(', ')
+            : 'Select Items'}
         </Text>
         <CustomIcon
           type={Icons.AntDesign}
@@ -44,12 +52,15 @@ const CustomDropdownPicker = ({ items, values, setValues }) => {
       {showDropdown && (
         <View style={styles.dropdown}>
           {items.map((item, index) => (
-            <TouchableOpacity key={index} onPress={() => handleItemPress(item)}>
+            <TouchableOpacity
+              key={index}
+              onPress={() => {
+                handleItemPress(item);
+                onChange && onChange();
+              }}>
               <Text
                 style={
-                  values.includes(item)
-                    ? styles.selectedItem
-                    : styles.item
+                  values.includes(item) ? styles.selectedItem : styles.item
                 }>
                 {item?.setupDetailName}
               </Text>
