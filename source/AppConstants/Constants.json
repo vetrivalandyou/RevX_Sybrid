@@ -66,7 +66,13 @@
     "AddVanservices": "AddVanservices",
     "DeleteVanServices": "DeleteVanServices",
    "EditVanservices": "EditVanservices",
-   "ServiceList": "ServiceList"
+   "ServiceList": "ServiceList",
+   "Assignments":"Assignments",
+   "AddAssignment":"AddAssignment",
+   "EditAssignment":"EditAssignment",
+   "DeleteAssignment":"DeleteAssignment"
+
+
   },
   "AdminScreens": {
     "AdminBottomTabNavigation": "AdminBottomTabNavigation",
@@ -92,11 +98,13 @@
     "MyBooking": "MyBooking",
     "AdminProfile": "AdminProfile",
     "AdminViewUsers": "AdminViewUsers",
+    "AdminBlockUsers": "AdminBlockUsers",
     "ManageVans": "ManageVans",
      "AddVanservices": "AddVanservices",
     "DeleteVanServices": "DeleteVanServices",
     "EditVanservices": "EditVanservices",
     "AdminApproveBarber":"AdminApproveBarber"
+  
    
 
   },
