@@ -12,6 +12,9 @@ import {
 import React, { useRef, useState } from 'react';
 import Screen from '../../../components/atom/ScreenContainer/Screen';
 
+
+
+
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Entypo from 'react-native-vector-icons/Entypo';
 import ButtonComponent from '../../../components/atom/CustomButtons/ButtonComponent';
@@ -33,6 +36,7 @@ import { AppImages } from '../../../AppConstants/AppImages';
 import ProfileUpdate from './ProfileUpdate';
 import { screenSize } from '../../../components/atom/ScreenSize';
 import { SimpleSnackBar } from '../../../components/atom/Snakbar/Snakbar';
+import Styles from '../../../components/atom/BookingButtons/Styles';
 
 const AddVanservices = ({ navigation, }) => {
   const refRBSheet = useRef();
@@ -131,31 +135,31 @@ const AddVanservices = ({ navigation, }) => {
 
 
 
-<View style={{flex:0.3, }}>
+<View style={styles.ProfileMainView}>
 
          
-                <View style={{ flex: 1, justifyContent:"center", alignItems:"center"}}>
+                <View style={styles.ProfileouterView}>
 
-                <TouchableOpacity onPress={() => refRBSheet.current.open()}  style={{ width:"25%",justifyContent:"center", alignItems:"center",height:'50%',}} >
+                <TouchableOpacity onPress={() => refRBSheet.current.open()}  style={styles.profileView} >
                   {profileImage ? (
                     <Image
                       source={{ uri: profileImage }}
-                      style={{  width: '100%', height: '100%', borderRadius: 80, borderWidth: 3, borderColor: appColors.Goldcolor  }}
+                      style={styles.imageStyle}
                     />
                   ) : (
                     <Image
                       source={AppImages.ProfileSlider}
-                      style={{  width: '100%', height: '100%', borderRadius: 80, borderWidth: 3, borderColor: appColors.Goldcolor }}
+                      style={styles.imageStyle}
                     />
                   )}
-                  <CustomIcon type={Icons.AntDesign} size={20} name={'pluscircle'} color={'white'} style={{ position: 'absolute', left: screenSize.width /5.5, top: screenSize.height / 11.5,}} />
+                  <CustomIcon type={Icons.AntDesign} size={20} name={'pluscircle'} color={'white'} style={styles.Iconstyle} />
                   </TouchableOpacity>
 
                 </View>
               </View>
 
-              <View style={{ flex: 0.5, }}>
-                <View style={{ flex: 0.25, }}>
+              <View style={{ flex: 0.7, backgroundColor:'red'}}>
+                <View style={{ flex: 0.15, }}>
                   {/* <View style={styles.container}> */}
 
                   <SimpleTextField
@@ -180,7 +184,7 @@ const AddVanservices = ({ navigation, }) => {
                   )}
                 </View>
 
-                <View style={{ flex: 0.25, }}>
+                <View style={{ flex: 0.15, }}>
                   {/* <View style={styles.container}> */}
 
                   <SimpleTextField
@@ -213,7 +217,7 @@ const AddVanservices = ({ navigation, }) => {
                   )}
                 </View>
 
-                <View style={{ flex: 0.25 }}>
+                <View style={{ flex: 0.15 }}>
                   {/* <View style={styles.container}> */}
 
                   <SimpleTextField
@@ -248,7 +252,7 @@ const AddVanservices = ({ navigation, }) => {
                   )}
                 </View>
 
-                <View style={{ flex: 0.25, }}>
+                <View style={{ flex: 0.15, }}>
                   {/* <View style={styles.container}> */}
 
                   <SimpleTextField
@@ -309,3 +313,139 @@ const AddVanservices = ({ navigation, }) => {
 
 
 export default AddVanservices;
+
+
+
+// import { FlatList, StyleSheet, Text, View } from "react-native";
+// import Screen from "../../../components/atom/ScreenContainer/Screen";
+// import Header from "../../../components/molecules/Header";
+// import CustomIcon, { Icons } from "../../../components/molecules/CustomIcon/CustomIcon";
+// import appColors from "../../../AppConstants/appColors";
+// import ButtonComponent from "../../../components/atom/CustomButtons/ButtonComponent";
+
+// const AddVanServices =({navigation})=>{
+
+
+//   const data = [
+//     { id: '1', rating: ' 1' ,comment:'Nice'},
+//     { id: '2', rating: ' 2',comment:'Beautiful'},
+//     { id: '3', rating: ' 3' ,comment:'Love it!!!'},
+//     { id: '4', rating: ' 4' ,comment:'Fast Delivery'},
+//     { id: '5', rating: ' 5' ,comment:'Nice'},
+
+//     // Add more items as needed
+//   ];
+
+  
+// return(
+//   <Screen statusBarColor={appColors.Black} >
+//         <View style={{ flex: 0.1, backgroundColor: appColors.Black }}>
+    
+//       <Header
+//         lefttIcoType={Icons.Ionicons}
+//         onPressLeftIcon={() => navigation.goBack()}
+//         leftIcoName={'chevron-back'}
+//         headerText={'Rating'}
+//         rightIcoName={'bell'}
+//         rightIcoType={Icons.SimpleLineIcons}
+//         logIn={'success'}
+//         rightIcoSize={20}
+//         leftIcoStyle={{
+//           backgroundColor: appColors.lightBlack,
+//           borderRadius: 50,
+//           height: 50,
+//           width: 50,
+//           justifyContent: 'center',
+//           alignItems: 'center',
+//         }}
+//       />
+// </View>
+// <View style={{flex:0.8,}}>
+
+// <View style={{flex:0.1,}}>
+// <FlatList
+//       data={data}
+//       renderItem={renderItem}
+//       keyExtractor={(item) => item.id}
+//       horizontal={true}
+//     />
+ 
+// </View>
+// <View style={{flex:0.08,justifyContent:'center',marginHorizontal:10}}>
+
+// <Text style={{color:appColors.White,fontSize:15}}>Comment Rating</Text>
+// </View>
+
+
+// <View style={{
+//             height: 1.5,
+//             backgroundColor: appColors.AppLightGray,
+//             width: '95%',
+//             marginHorizontal: 10
+// }}></View>
+
+// <View style={{flex:0.13,}}>
+// <FlatList
+//       data={data}
+//       renderItem={Rendercomments}
+//       keyExtractor={(item) => item.id}
+//       horizontal={true}
+//     />
+// </View>
+// </View>
+// <View style={styles.buttonView}>
+ 
+//         <ButtonComponent
+//           style={{
+//             backgroundColor: '#C79646',
+//             paddingVertical: Platform.OS == 'ios' ? 17 : 13,
+//             bottom: 1,
+//             position: 'absolute',
+//           }}
+//           btnTextColor={{color: 'white'}}
+//           title={'Submit'}
+//           onPress={() => navigation.goBack()}
+//         />
+//       </View>
+   
+
+//     </Screen>
+// )}
+
+// const renderItem = ({ item }) => (
+//   <View style={{flex:1,justifyContent:'center',alignItems:'center'}}>
+//   <View style={{ height:50,width:85,borderRadius:25,justifyContent:'center',alignItems:'center',backgroundColor:appColors.Gray,marginHorizontal:2,}}>
+//     <View style={{flexDirection:'row',}}>
+//     <CustomIcon type={Icons.AntDesign}
+//     name={'star'}
+//     size={20}
+//     color={appColors.Goldcolor}/>
+//     <Text style={{color:appColors.White}}>{item.rating}</Text>
+//     </View>
+//     </View>
+//   </View>
+// );
+
+// const Rendercomments = ({ item }) => (
+//   <View style={{flex:1,justifyContent:'center',alignItems:'center'}}>
+//   <View style={{ height:40,width:90,borderRadius:20,borderWidth:1,justifyContent:'center' ,alignItems:'center',marginHorizontal:3,borderColor:appColors.AppLightGray}}>
+    
+//     <Text style={{color:appColors.White}}>{item.comment}</Text>
+//     </View>
+//   </View>
+// );
+
+
+
+
+
+// export default AddVanServices;
+
+// const styles= StyleSheet.create({
+// buttonView: {
+//   flex: 0.1,
+//  justifyContent:'center',alignItems:'center',
+
+ 
+// },
+// })  

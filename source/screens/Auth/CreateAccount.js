@@ -88,8 +88,8 @@ const CreateAccount = ({navigation}) => {
             touched,
           }) => (
             <>
-              <View style={{flex: 0.6, justifyContent: 'space-evenly'}}>
-                <View style={{flex: 0.4, justifyContent: 'center'}}>
+              <View style={{flex: 0.5, justifyContent: 'space-evenly',}}>
+                <View style={{flex: 0.25, justifyContent: 'center'}}>
                   <SimpleTextField
                     placeholder={'Enter Full Name'}
                     placeholderTextColor={appColors.LightGray}
@@ -105,7 +105,7 @@ const CreateAccount = ({navigation}) => {
                     </View>
                   )}
                 </View>
-                <View style={{flex: 0.4, justifyContent: 'center'}}>
+                <View style={{flex: 0.25, justifyContent: 'center'}}>
                   <SimpleTextField
                     placeholder={'Enter Email Address'}
                     placeholderTextColor={appColors.LightGray}
@@ -124,7 +124,7 @@ const CreateAccount = ({navigation}) => {
 
                 <View
                   style={{
-                    flex: 0.4,
+                    flex: 0.25,
                     justifyContent: 'center',
                     // borderStartColor: 'red',
                   }}>
@@ -146,7 +146,7 @@ const CreateAccount = ({navigation}) => {
                     </View>
                   )}
                 </View>
-                <View style={{flex: 0.4, justifyContent: 'center'}}>
+                <View style={{flex: 0.25, justifyContent: 'center'}}>
                   <SimpleTextField
                     placeholder={'Contact Number'}
                     placeholderTextColor={appColors.LightGray}
@@ -164,13 +164,8 @@ const CreateAccount = ({navigation}) => {
                 </View>
               </View>
 
-              <View style={{flex: 0.1, justifyContent: 'center'}}>
-                <RememberMe
-                  RememberTex={'Remember me'}
-                  ForgetPasswordText={'Terms & Conditions'}
-                />
-              </View>
-              <View style={{flex: 0.15}}>
+             
+              <View style={{flex: 0.15,justifyContent:'center',}}>
                 <ButtonComponent
                   title={'Create Account'}
                   onPress={handleSubmit}
@@ -180,7 +175,7 @@ const CreateAccount = ({navigation}) => {
           )}
         </Formik>
         <View
-          style={{flex: 0.1, flexDirection: 'row', justifyContent: 'center'}}>
+          style={{flex: 0.1, flexDirection: 'row', justifyContent: 'center',}}>
           <TouchableOpacity>
             <Text style={{color: appColors.GrayColor}}>
               Already have an Account?{` `}

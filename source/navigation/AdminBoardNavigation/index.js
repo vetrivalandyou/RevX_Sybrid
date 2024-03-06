@@ -31,6 +31,8 @@ import AddVanservices from '../../screens/AdminBoard/ManageVans/AddVanServices';
 import DeleteVanServices from '../../screens/AdminBoard/ManageVans/DeleteVanServices';
 import EditVanservices from '../../screens/AdminBoard/ManageVans/EditVanServices';
 import AdminApproveBarber from '../../screens/AdminBoard/AdminApproveBarber';
+import AdminBlockUsers from '../../screens/AdminBoard/AdminBlockUsers';
+
 
 
 
@@ -143,6 +145,11 @@ const AdminStack = () => {
           options={{headerShown: false}}
         />
         <Stack.Screen
+          name={constants.AdminScreens.AdminBlockUsers}
+          component={AdminBlockUsers}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
           name={constants.AdminScreens.ManageVans}
           component={ManageVans}
           options={{headerShown: false}}
@@ -169,6 +176,8 @@ const AdminStack = () => {
           component={AdminApproveBarber}
           options={{headerShown: false}}
         />
+        
+
       </Stack.Navigator>
     </NavigationContainer>
   );

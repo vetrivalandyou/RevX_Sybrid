@@ -15,7 +15,8 @@ import SocailLogin from '../../components/molecules/SocailLogin';
 import { endPoint, messages } from '../../AppConstants/urlConstants';
 import { PostRequest } from '../../services/apiCall';
 import { SimpleSnackBar } from '../../components/atom/Snakbar/Snakbar';
-import Dropdown from '../../components/molecules/Dropdown/Dropdown';
+import Dropdown from '../../components/molecules/Dropdown';
+
 
 const CreateAccountBarber = ({ navigation }) => {
   const [isEye, setIsEye] = useState(false);
@@ -119,7 +120,8 @@ const CreateAccountBarber = ({ navigation }) => {
           }) => (
             <>
               <View style={{ flex: 0.9, justifyContent: 'space-evenly' }}>
-                <View style={{ flex: 0.4, justifyContent: 'center' }}>
+                <View style={{ flex: 0.66, justifyContent: 'center' ,}}>
+                  <View style={{flex:1,}}>
                   <SimpleTextField
                     placeholder={'Enter Full Name'}
                     placeholderTextColor={appColors.White}
@@ -129,14 +131,16 @@ const CreateAccountBarber = ({ navigation }) => {
                   />
                   {touched.FullName && errors.FullName && (
                     <View
-                      style={{ marginLeft: 10, marginTop: 2, marginBottom: 15 }}>
+                      style={{ marginLeft: 10, margin:2, }}>
                       <Text style={{ color: appColors.Goldcolor, fontSize: 10 }}>
                         {errors.FullName}
                       </Text>
                     </View>
                   )}
+                  </View>
                 </View>
-                <View style={{ flex: 0.4, justifyContent: 'center' }}>
+                <View style={{ flex: 0.66, justifyContent: 'center', }}>
+                <View style={{flex:1,}}>
                   <SimpleTextField
                     placeholder={'Enter Email Address'}
                     placeholderTextColor={appColors.White}
@@ -146,20 +150,21 @@ const CreateAccountBarber = ({ navigation }) => {
                   />
                   {touched.UserEmail && errors.UserEmail && (
                     <View
-                      style={{ marginLeft: 10, marginTop: 2, marginBottom: 15 }}>
+                      style={{ marginLeft: 10, margin:2 }}>
                       <Text style={{ color: appColors.Goldcolor, fontSize: 10 }}>
                         {errors.UserEmail}
                       </Text>
                     </View>
                   )}
                 </View>
-
+</View>
                 <View
                   style={{
-                    flex: 0.4,
+                    flex: 0.66,
                     justifyContent: 'center',
-                    // borderStartColor: 'red',
+                  
                   }}>
+                      <View style={{flex:1,}}>
                   <SimpleTextField
                     placeholder={'Enter Your Password'}
                     eyeOpen={isEye}
@@ -172,14 +177,16 @@ const CreateAccountBarber = ({ navigation }) => {
                   />
                   {touched.UserPassword && errors.UserPassword && (
                     <View
-                      style={{ marginLeft: 10, marginTop: 2, marginBottom: 15 }}>
+                      style={{ marginLeft: 10, margin:2 }}>
                       <Text style={{ color: appColors.Goldcolor, fontSize: 10 }}>
                         {errors.UserPassword}
                       </Text>
                     </View>
                   )}
                 </View>
-                <View style={{ flex: 0.4, justifyContent: 'center' }}>
+                </View>
+                <View style={{ flex: 0.66, justifyContent: 'center' ,}}>
+                <View style={{flex:1,}}>
                   <SimpleTextField
                     placeholder={'Contact Number'}
                     placeholderTextColor={appColors.White}
@@ -188,32 +195,18 @@ const CreateAccountBarber = ({ navigation }) => {
                     value={values.UserPhone}
                   />
                   {touched.UserPhone && errors.UserPhone && (
-                    <View style={{ marginLeft: 10, margin: 5 }}>
+                    <View style={{ marginLeft: 10, margin: 2}}>
                       <Text style={{ color: appColors.Goldcolor, fontSize: 10 }}>
                         {errors.UserPhone}
                       </Text>
                     </View>
                   )}
                 </View>
+                </View>
+              
 
-                {/* <View style={{flex: 0.4, justifyContent: 'center'}}>
-                  <SimpleTextField
-                    placeholder={'Add Bio'}
-                    placeholderTextColor={appColors.White}
-                    onChangeText={handleChange('AddBio')}
-                    onBlur={handleBlur('AddBio')}
-                    value={values.AddBio}
-                  />
-                  {touched.AddBio && errors.AddBio && (
-                    <View style={{marginLeft: 10, margin: 5}}>
-                      <Text style={{color: appColors.Goldcolor, fontSize: 10}}>
-                        {errors.AddBio}
-                      </Text>
-                    </View>
-                  )}
-                </View> */}
-
-                <View style={{ flex: 0.4, justifyContent: 'center' }}>
+                <View style={{ flex: 0.66, }}>
+                <View style={{flex:1,}}>
                   <SimpleTextField
                     placeholder={'Add Description'}
                     placeholderTextColor={appColors.White}
@@ -222,39 +215,40 @@ const CreateAccountBarber = ({ navigation }) => {
                     value={values.Description}
                   />
                   {touched.Description && errors.Description && (
-                    <View style={{ marginLeft: 10, margin: 5 }}>
+                    <View style={{ marginLeft: 10, margin: 2 }}>
                       <Text style={{ color: appColors.Goldcolor, fontSize: 10 }}>
                         {errors.Description}
                       </Text>
                     </View>
                   )}
                 </View>
-
-                <View style={{ flex: 0.35, justifyContent: 'center' }}>
-                  {/* <SimpleTextField
-                    placeholder={'Add Barber Specialties'}
-                    placeholderTextColor={appColors.White}
-                    onChangeText={handleChange('Barber_Specialties')}
-                    onBlur={handleBlur('Barber_Specialties')}
-                    value={values.Barber_Specialties}
-                  /> */}
+                </View>
+                <View style={{ flex: 0.68, justifyContent:'center'}}>
+                <View style={{flex:1,}}>
+              
+          <View style={{flex:0.8,}}>
+            
                   <Dropdown
                     label="Add Barber Specialties"
                     value={selectedValue}
                     onValueChange={(itemValue) => setSelectedValue(itemValue)}
                     dropDownData={dropDownData}
-                    style={{ marginTop: 10, backgroundColor: appColors.Black, borderColor: appColors.AppLightGray, borderRadius: 25, paddingHorizontal: 10 }} // Example custom style
+                    style={{  backgroundColor: appColors.Black, borderColor: appColors.AppLightGray, borderRadius: 230, paddingHorizontal: 10 }} // Example custom style
                   />
+              </View>
+             
                   {touched.Barber_Specialties && errors.Barber_Specialties && (
-                    <View style={{ marginLeft: 10, margin: 5 }}>
+                     <View style={{flex:0.2,}}>
+                    <View style={{ marginLeft: 10,margin:2}}>
                       <Text style={{ color: appColors.Goldcolor, fontSize: 10, }}>
                         {errors.Barber_Specialties}
                       </Text>
+                </View>
                     </View>
                   )}
                 </View>
+             </View>
               </View>
-
               <View style={{ flex: 0.1, justifyContent: 'center' }}>
                 <RememberMe
                   RememberTex={'Remember me'}

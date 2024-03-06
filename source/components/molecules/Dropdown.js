@@ -1,7 +1,8 @@
 import React, {useState} from 'react';
 import {StyleSheet, View} from 'react-native';
 import {Picker} from '@react-native-picker/picker';
-import appColors from '../../../AppConstants/appColors';
+import appColors from '../../AppConstants/appColors';
+
 
 
 const Dropdown = ({label, value, onValueChange, dropDownData, style}) => {

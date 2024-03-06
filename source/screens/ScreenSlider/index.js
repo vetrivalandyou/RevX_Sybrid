@@ -107,7 +107,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     fontWeight: '600',
     color: appColors.White,
-    fontSize: 45,
+    fontSize: 52,
     bottom: 130,
     marginLeft: 12,
   },

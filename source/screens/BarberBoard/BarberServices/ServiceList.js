@@ -1,19 +1,21 @@
 
 import React  from "react";
 import { useState } from "react";
-import Dropdown from "../../../components/molecules/Dropdown/Dropdown";
+
 import { FlatList, Text, TouchableOpacity, View } from "react-native";
 import Screen from "../../../components/atom/ScreenContainer/Screen";
 import Header from "../../../components/molecules/Header";
 import CustomIcon, { Icons } from "../../../components/molecules/CustomIcon/CustomIcon";
-import appColors from "../../../AppConstants/appColors";
+
 import styles from "./styles";
 import ButtonComponent from "../../../components/atom/CustomButtons/ButtonComponent";
+import Dropdown from "../../../components/molecules/Dropdown";
+import appColors from "../../../AppConstants/appColors";
 
 
 
 
-const ServiceList =({navigation})=>{
+const ServiceList =({navigation,})=>{
     const [selectedValue, setSelectedValue] = useState(null);
     const [selectedItems, setSelectedItems] = useState([]);
     const dropDownData = [
@@ -25,7 +27,7 @@ const ServiceList =({navigation})=>{
       ];
 
       const handleAddItem = () => {
-        if (selectedValue && !selectedItems.includes(selectedValue)) {
+        if(selectedValue && !selectedItems.includes(selectedValue)) {
             setSelectedItems([...selectedItems, selectedValue]);
             setSelectedValue(null); // Clear the selected value after adding
         }

@@ -19,7 +19,12 @@ import EditVanservices from '../../screens/AdminBoard/ManageVans/EditVanServices
 import AddVanservices from '../../screens/AdminBoard/ManageVans/AddVanServices';
 import DeleteVanServices from '../../screens/AdminBoard/ManageVans/DeleteVanServices';
 import ManageVans from '../../screens/AdminBoard/ManageVans/ManageVans';
+
+import Assignments from '../../screens/BarberBoard/ManageAssignments/Assignment';
+
 import ServiceList from '../../screens/BarberBoard/BarberServices/ServiceList';
+import EditAssignment from '../../screens/BarberBoard/ManageAssignments/EditAssignment';
+import DeleteAssignment from '../../screens/BarberBoard/ManageAssignments/DeleteAssignment';
 
 const BarberStack = () => {
   
@@ -80,28 +85,33 @@ const BarberStack = () => {
           component={Editservices}
           options={{headerShown: false}}
         />
+         <Stack.Screen
+          name={constants.BarberScreen.ServiceList}
+          component={ServiceList}
+          options={{headerShown: false}}
+        />
+         
+        <Stack.Screen
+          name={constants.BarberScreen.Assignments}
+          component={Assignments}
+          options={{headerShown: false}}
+        />
           <Stack.Screen
-          name={constants.AdminScreens.ManageVans}
-          component={ManageVans}
+          name={constants.BarberScreen.AddAssignment}
+          component={AddAssignment}
           options={{headerShown: false}}
         />
-
-        <Stack.Screen
-          name={constants.AdminScreens.AddVanservices}
-          component={AddVanservices}
+          <Stack.Screen
+          name={constants.BarberScreen.EditAssignment}
+          component={EditAssignment}
           options={{headerShown: false}}
         />
-        <Stack.Screen
-          name={constants.AdminScreens.DeleteVanServices}
-          component={DeleteVanServices}
+         <Stack.Screen
+          name={constants.BarberScreen.DeleteAssignment}
+          component={DeleteAssignment}
           options={{headerShown: false}}
         />
-
-        <Stack.Screen
-          name={constants.AdminScreens.DeleteVanServices}
-          component={EditVanservices}
-          options={{headerShown: false}}
-        />
+       
 
 
 

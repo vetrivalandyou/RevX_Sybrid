@@ -3,6 +3,7 @@ import { Button, Image, View } from "react-native"
 import ButtonComponent from "../../../components/atom/CustomButtons/ButtonComponent";
 import ImagePicker from 'react-native-image-crop-picker';
 import CustomIcon, { Icons } from "../../../components/molecules/CustomIcon/CustomIcon";
+import styles from "./styles";
  const ProfileUpdate =({ onImageCaptured })=>{
 
 
@@ -45,14 +46,14 @@ import CustomIcon, { Icons } from "../../../components/molecules/CustomIcon/Cust
 
     
     return(
-<View style={{flex:1,justifyContent:'center',alignItems:'center'}}>
+<View style={styles.updateprofileView}>
 
-    <View style={{flexDirection:'row',marginHorizontal:10}}>
+    <View style={styles.buttonouterView}>
 
 
 
     <View
-          style={{ flex: 0.5, justifyContent: 'center', alignItems: 'center' }}>
+          style={styles.camerabuttonview}>
 
           <ButtonComponent
             style={{
@@ -71,8 +72,8 @@ import CustomIcon, { Icons } from "../../../components/molecules/CustomIcon/Cust
             onPress={openCamera}
           />
         </View>
-        <View
-          style={{ flex: 0.5, justifyContent: 'center', alignItems: 'center' }}>
+        <View style={styles.gallerybuttonview}
+         >
           <ButtonComponent
             style={{
               backgroundColor: '#E81F1C',
