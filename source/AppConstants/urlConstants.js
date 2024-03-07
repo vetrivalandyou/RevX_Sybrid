@@ -63,7 +63,7 @@ export const endPoint = {
 
   // Customer End Points
   SERVICE_CATEGORIES: 'Customer/Service_Categories',
-  DROPDOWN_DATA: 'Common/SetupMasterDetail',
+  MASTER_DETAIL: 'Common/SetupMasterDetail',
 
 };
 

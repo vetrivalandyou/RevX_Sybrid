@@ -9,7 +9,7 @@ import CustomIcon, { Icons } from "../../../components/molecules/CustomIcon/Cust
 
 import styles from "./styles";
 import ButtonComponent from "../../../components/atom/CustomButtons/ButtonComponent";
-import Dropdown from "../../../components/molecules/Dropdown";
+import Dropdown from "../../../components/molecules/CustomDropdownPicker";
 import appColors from "../../../AppConstants/appColors";
 
 

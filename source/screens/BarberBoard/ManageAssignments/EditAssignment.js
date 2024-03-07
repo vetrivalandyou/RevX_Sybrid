@@ -15,7 +15,7 @@ import { useNavigation } from '@react-navigation/native';
 import { screenSize } from '../../../components/atom/ScreenSize';
 import Header from '../../../components/molecules/Header';
 import { Icons } from '../../../components/molecules/CustomIcon/CustomIcon';
-import Dropdown from '../../../components/molecules/Dropdown';
+import CustomDropdownPicker from '../../../components/molecules/CustomDropdownPicker';
 
 const EditAssignment = ({ route }) => {
   const navigation = useNavigation();
@@ -29,13 +29,7 @@ const EditAssignment = ({ route }) => {
 
   const onSave = () => {
     navigation.goBack()
-
-
   }
-
-
-
-
   const dropDownData = [
     { label: 'edit1', value: 'edit1' },
     { label: 'edit2', value: 'edit2' },
@@ -57,7 +51,7 @@ const EditAssignment = ({ route }) => {
       <View style={{ flex: 0.8, }}>
         <View style={{ flex: 0.15, justifyContent: 'center' }}>
           <View style={{ flex: 0.65, }}>
-            <Dropdown label={'Select a value'}
+            <CustomDropdownPicker label={'Select a value'}
               value={selectedVans}
               onValueChange={(itemValue) => setselectedvans(itemValue)}
               dropDownData={dropDownData}
@@ -68,7 +62,7 @@ const EditAssignment = ({ route }) => {
 
         <View style={{ flex: 0.15, justifyContent: 'center' }}>
           <View style={{ flex: 0.65, }}>
-            <Dropdown label={'Select a value'}
+            <CustomDropdownPicker label={'Select a value'}
               value={selectedAssignment}
               onValueChange={(itemValue) => setselectedAssignment(itemValue)}
               dropDownData={dropDownData}
