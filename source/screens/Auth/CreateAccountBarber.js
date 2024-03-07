@@ -2,24 +2,17 @@ import React, { useEffect, useState } from 'react';
 import { Text, View, TouchableOpacity, StyleSheet } from 'react-native';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
-
 import AuthHeader from '../../components/molecules/AuthHeader';
 import Screen from '../../components/atom/ScreenContainer/Screen';
 import constants from '../../AppConstants/Constants.json';
 import SimpleTextField from '../../components/molecules/TextFeilds/SimpleTextField';
-import appColors from '../../AppConstants/appColors';
-import CustomIcon, {
-  Icons,
-} from '../../components/molecules/CustomIcon/CustomIcon';
 import ButtonComponent from '../../components/atom/CustomButtons/ButtonComponent';
-import RememberMe from '../../components/molecules/RememberMe';
-import SocailLogin from '../../components/molecules/SocailLogin';
 import { endPoint, messages } from '../../AppConstants/urlConstants';
 import { PostRequest } from '../../services/apiCall';
 import { SimpleSnackBar } from '../../components/atom/Snakbar/Snakbar';
-import Dropdown from '../../components/molecules/Dropdown/Dropdown';
 import { screenSize } from '../../components/atom/ScreenSize';
-import CustomDropdownPicker from '../../components/molecules/Dropdown/Dropdown';
+import CustomDropdownPicker from '../../components/molecules/Dropdown';
+import appColors from '../../AppConstants/appColors';
 
 const CreateAccountBarber = ({ navigation }) => {
   const [isEye, setIsEye] = useState(false);

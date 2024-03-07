@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
-import { AntDesign } from '@expo/vector-icons'; // Import AntDesign icons from Expo
-import appColors from '../../../AppConstants/appColors';
-import CustomIcon, { Icons } from '../CustomIcon/CustomIcon';
-import { screenSize } from '../../atom/ScreenSize';
+import CustomIcon, { Icons } from './CustomIcon/CustomIcon';
+import { screenSize } from '../atom/ScreenSize';
+import appColors from '../../AppConstants/appColors';
 
 const CustomDropdownPicker = ({ items, values, setValues }) => {
   const [showDropdown, setShowDropdown] = useState(false);
