@@ -71,7 +71,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     padding: 17,
-    borderRadius: 5,
+    borderRadius: 5, 
     borderColor: 'grey',
     borderWidth: 1.5,
     borderRadius: 25,
