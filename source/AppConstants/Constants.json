@@ -67,10 +67,6 @@
     "AddVanservices": "AddVanservices",
     "DeleteVanServices": "DeleteVanServices",
    "EditVanservices": "EditVanservices",
-   "Assignments":"Assignments",
-   "AddAssignment":"AddAssignment",
-   "EditAssignment":"EditAssignment",
-   "DeleteAssignment":"DeleteAssignment",
     "ServiceList": "ServiceList"
   },
   "AdminScreens": {
@@ -102,7 +98,10 @@
     "AddVanservices": "AddVanservices",
     "DeleteVanServices": "DeleteVanServices",
     "EditVanservices": "EditVanservices",
-    "AdminApproveBarber": "AdminApproveBarber"
+    "AdminApproveBarber": "AdminApproveBarber",
+    "Assignments":"Assignments",
+   "EditAssignment":"EditAssignment",
+   "DeleteAssignment":"DeleteAssignment"
   },
   "AsyncStorageKeys": {
     "token": "token",
