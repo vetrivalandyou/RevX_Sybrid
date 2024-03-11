@@ -9,23 +9,6 @@ import SimpleTextField from '../../components/molecules/TextFeilds/SimpleTextFie
 import ButtonComponent from '../../components/atom/CustomButtons/ButtonComponent';
 import RememberMe from '../../components/molecules/RememberMe';
 import SocailLogin from '../../components/molecules/SocailLogin';
-<<<<<<< HEAD
-import { endPoint, messages } from '../../AppConstants/urlConstants';
-import { PostRequest } from '../../services/apiCall';
-import Dropdown from '../../components/molecules/Dropdown/Dropdown';
-import { screenSize } from '../../components/atom/ScreenSize';
-import CustomDropdownPicker from '../../components/molecules/Dropdown/Dropdown';
-import { SimpleSnackBar } from '../../components/atom/Snakbar/Snakbar';
-
-const CreateAccountBarber = ({ navigation }) => {
-  
-  const [isEye, setIsEye] = useState(false);
-  const items = ['Item 1', 'Item 2', 'Item 3'];
-
-   const [selectedValues, setSelectedValues] = useState([]); // State for storing selected values
-
-  const [showDropdown, setShowDropdown] = useState(false);
-=======
 import {endPoint, messages} from '../../AppConstants/urlConstants';
 import {PostRequest} from '../../services/apiCall';
 import {SimpleSnackBar} from '../../components/atom/Snakbar/Snakbar';
@@ -34,7 +17,6 @@ import CustomDropdownPicker from '../../components/molecules/CustomDropdownPicke
 
 const CreateAccountBarber = ({navigation}) => {
   const [isEye, setIsEye] = useState(false);
->>>>>>> 24d4d30a36b04dfaf837c48cf88b6c2e946fce29
   const [selectedItems, setSelectedItems] = useState([]);
   const [services, setServices] = useState([]);
 
@@ -242,11 +224,6 @@ const CreateAccountBarber = ({navigation}) => {
                     items={selectedItems}
                     values={services}
                     setValues={setServices}
-<<<<<<< HEAD
-                  />
-
-
-=======
                     onChange={newValues => {
                       const isSelected = values?.BarberCategories?.some(
                         selected => selected == newValues.setupDetailId,
@@ -274,7 +251,6 @@ const CreateAccountBarber = ({navigation}) => {
                       </Text>
                     </View>
                   )}
->>>>>>> 24d4d30a36b04dfaf837c48cf88b6c2e946fce29
                 </View>
               </View>
               <View style={{flex: 0.1}}>

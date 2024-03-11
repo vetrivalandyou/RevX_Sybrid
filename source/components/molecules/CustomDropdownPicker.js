@@ -77,12 +77,7 @@ const styles = StyleSheet.create({
   header: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-<<<<<<< HEAD:source/components/molecules/Dropdown/Dropdown.js
-    padding: 17,
-    borderRadius: 5, 
-=======
     padding: 15,
->>>>>>> 24d4d30a36b04dfaf837c48cf88b6c2e946fce29:source/components/molecules/CustomDropdownPicker.js
     borderColor: 'grey',
     borderWidth: 1.5,
     borderRadius: 25,
