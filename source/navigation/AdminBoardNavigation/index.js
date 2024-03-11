@@ -32,6 +32,9 @@ import DeleteVanServices from '../../screens/AdminBoard/ManageVans/DeleteVanServ
 import EditVanservices from '../../screens/AdminBoard/ManageVans/EditVanServices';
 import AdminApproveBarber from '../../screens/AdminBoard/AdminApproveBarber';
 import AdminBlockUsers from '../../screens/AdminBoard/AdminBlockUsers';
+import Assignments from '../../screens/AdminBoard/ManageAssignments/Assignment';
+import EditAssignment from '../../screens/AdminBoard/ManageAssignments/EditAssignment';
+import DeleteAssignment from '../../screens/AdminBoard/ManageAssignments/DeleteAssignment';
 
 
 
@@ -174,6 +177,23 @@ const AdminStack = () => {
           <Stack.Screen
           name={constants.AdminScreens.AdminApproveBarber}
           component={AdminApproveBarber}
+          options={{headerShown: false}}
+        />
+
+<Stack.Screen
+          name={constants.AdminScreens.Assignments}
+          component={Assignments}
+          options={{headerShown: false}}
+        />
+         
+          <Stack.Screen
+          name={constants.AdminScreens.EditAssignment}
+          component={EditAssignment}
+          options={{headerShown: false}}
+        />
+         <Stack.Screen
+          name={constants.AdminScreens.DeleteAssignment}
+          component={DeleteAssignment}
           options={{headerShown: false}}
         />
         
