@@ -9,6 +9,7 @@ import Header from '../../../components/molecules/Header';
 import { Icons } from '../../../components/molecules/CustomIcon/CustomIcon';
 import constants from "../../../AppConstants/Constants.json"
 import appColors from '../../../AppConstants/appColors';
+import { useNavigation } from '@react-navigation/native';
 
 
 
@@ -103,6 +104,7 @@ const AdminUserDetails = ({ navigation }) => {
 }
 
 const Detailslist = ({ item, onPress }) => {
+  const navigation=useNavigation()
   return (
     <View style={styles.Containerstyle}>
       <View style={{ flex: 1,}}>
@@ -158,6 +160,7 @@ const Detailslist = ({ item, onPress }) => {
             <ButtonComponent
               style={{ backgroundColor: '#e81f1c', width: '90%', paddingVertical: 9 }}
               title={'Block User'}
+              onPress={()=>navigation.navigate(constants.AdminScreens.AdminBlockUsers)}
 
             />
           </View>

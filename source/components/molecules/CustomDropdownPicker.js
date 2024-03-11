@@ -1,11 +1,10 @@
 import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
-import { AntDesign } from '@expo/vector-icons'; // Import AntDesign icons from Expo
-import appColors from '../../../AppConstants/appColors';
-import CustomIcon, { Icons } from '../CustomIcon/CustomIcon';
-import { screenSize } from '../../atom/ScreenSize';
+import CustomIcon, { Icons } from './CustomIcon/CustomIcon';
+import { screenSize } from '../atom/ScreenSize';
+import appColors from '../../AppConstants/appColors';
 
-const CustomDropdownPicker = ({ items, values, setValues }) => {
+const CustomDropdownPicker = ({items, values, setValues, onChange}) => {
   const [showDropdown, setShowDropdown] = useState(false);
 
   const toggleDropdown = () => {
@@ -13,26 +12,32 @@ const CustomDropdownPicker = ({ items, values, setValues }) => {
   };
 
   const handleItemPress = item => {
-    const isSelected = values.some(selected => selected.setupDetailId === item.setupDetailId);
+    onChange && onChange(item)
+    const isSelected = values.some(
+      selected => selected.setupDetailId === item.setupDetailId,
+    );
     if (isSelected) {
-      setValues(values.filter(selected => selected.setupDetailId !== item.setupDetailId));
+      setValues(
+        values.filter(
+          selected => selected.setupDetailId !== item.setupDetailId,
+        ),
+      );
     } else {
       setValues([...values, item]);
     }
-    console.log('Selected Items===:', values);
   };
-
-
 
   return (
     <View style={styles.container}>
       <TouchableOpacity onPress={toggleDropdown} style={styles.header}>
-        <Text style={{ color: appColors.AppLightGray }}>
+        <Text
+          style={{
+            color:
+              values?.length > 0 ? appColors.White : appColors.AppLightGray, paddingLeft: 10
+          }}>
           {values?.length > 0
-            ? values?.map((x) => (
-              x.setupDetailName
-              )).join(', ')
-              : 'Select Items'}
+            ? values?.map(x => x.setupDetailName).join(', ')
+            : 'Select Items'}
         </Text>
         <CustomIcon
           type={Icons.AntDesign}
@@ -44,12 +49,15 @@ const CustomDropdownPicker = ({ items, values, setValues }) => {
       {showDropdown && (
         <View style={styles.dropdown}>
           {items.map((item, index) => (
-            <TouchableOpacity key={index} onPress={() => handleItemPress(item)}>
+            <TouchableOpacity
+              key={index}
+              onPress={() => {
+                handleItemPress(item);
+                onChange && onChange(item);
+              }}>
               <Text
                 style={
-                  values.includes(item)
-                    ? styles.selectedItem
-                    : styles.item
+                  values.includes(item) ? styles.selectedItem : styles.item
                 }>
                 {item?.setupDetailName}
               </Text>
@@ -64,14 +72,17 @@ const CustomDropdownPicker = ({ items, values, setValues }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    //alignItems: 'center',
     justifyContent: 'center',
   },
   header: {
     flexDirection: 'row',
     justifyContent: 'space-between',
+<<<<<<< HEAD:source/components/molecules/Dropdown/Dropdown.js
     padding: 17,
     borderRadius: 5, 
+=======
+    padding: 15,
+>>>>>>> 24d4d30a36b04dfaf837c48cf88b6c2e946fce29:source/components/molecules/CustomDropdownPicker.js
     borderColor: 'grey',
     borderWidth: 1.5,
     borderRadius: 25,
@@ -88,7 +99,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
   },
   item: {
-    padding: 5,
+    padding: 8, 
     color: 'black',
   },
   selectedItem: {
