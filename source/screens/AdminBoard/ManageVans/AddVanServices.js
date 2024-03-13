@@ -37,14 +37,14 @@ import { SimpleSnackBar } from '../../../components/atom/Snakbar/Snakbar';
 import Styles from '../../../components/atom/BookingButtons/Styles';
 
 const AddVanservices = ({ navigation }) => {
-  const refRBSheet = useRef();
+
 
   const [profileImage, setProfileImage] = useState(null);
 
   const handleImageCaptured = imageUri => {
     setProfileImage(imageUri);
     // Update the profile image state with the captured image URI
-    refRBSheet.current.close(); // Close the bottom sheet after capturing the image
+    refRBSheet.current.close(); 
   };
 
   const validationSchema = Yup.object().shape({
@@ -117,7 +117,7 @@ const AddVanservices = ({ navigation }) => {
           isSubmitting,
         }) => (
           <>
-            <View style={{ flex: 0.8, }}>
+            <View style={{ flex: 0.8,}}>
               <View style={styles.ProfileMainView}>
                 <View style={styles.ProfileouterView}>
                   <TouchableOpacity onPress={() => refRBSheet.current.open()} style={styles.profileView} >
@@ -137,181 +137,120 @@ const AddVanservices = ({ navigation }) => {
                 </View>
               </View>
 
-              <View style={{ flex: 0.7, backgroundColor: 'red' }}>
-                <View style={{ flex: 0.15, }}>
-                  <View style={{ flex: 0.8 }}>
-                    <View style={{ flex: 0.5 }}>
-                      <View style={{ flex: 0.25 }}>
-                        <View style={{ flex: 0.3 }}>
-                          <View
-                            style={{
-                              flex: 1,
-                              justifyContent: 'center',
-                              alignItems: 'center',
-                            }}>
-                            <TouchableOpacity
-                              onPress={() => refRBSheet.current.open()}
-                              style={{
-                                width: '25%',
-                                justifyContent: 'center',
-                                alignItems: 'center',
-                                height: '50%',
-                              }}>
-                              {profileImage ? (
-                                <Image
-                                  source={{ uri: profileImage }}
-                                  style={{
-                                    width: '100%',
-                                    height: '100%',
-                                    borderRadius: 80,
-                                    borderWidth: 3,
-                                    borderColor: appColors.Goldcolor,
-                                  }}
-                                />
-                              ) : (
-                                <Image
-                                  source={AppImages.ProfileSlider}
-                                  style={{
-                                    width: '100%',
-                                    height: '100%',
-                                    borderRadius: 80,
-                                    borderWidth: 3,
-                                    borderColor: appColors.Goldcolor,
-                                  }}
-                                />
-                              )}
-                              <CustomIcon
-                                type={Icons.AntDesign}
-                                size={20}
-                                name={'pluscircle'}
-                                color={'white'}
-                                style={{
-                                  position: 'absolute',
-                                  left: screenSize.width / 5.5,
-                                  top: screenSize.height / 11.5,
-                                }}
-                              />
-                            </TouchableOpacity>
-                          </View>
-                        </View>
-                        <View style={{ flex: 0.15, }}>
-                          <View style={{ flex: 0.5 }}>
-                            <View style={{ flex: 0.25 }}>
-                              <SimpleTextField
-                                placeholder={'Enter Van Name'}
-                                placeholderTextColor={appColors.LightGray}
-                                onChangeText={handleChange('VanName')}
-                                onBlur={handleBlur('VanName')}
-                                value={values.VanName}
-                              />
-                            </View>
-                            <View>
-                              {touched.VanName && errors.VanName && (
-                                <View style={{ marginLeft: 12, marginTop: 4 }}>
-                                  <Text
-                                    style={{ color: appColors.Goldcolor, fontSize: 12 }}>
-                                    {errors.VanName}
-                                  </Text>
-                                </View>
-                              )}
-                            </View>
-                            <View style={{ flex: 0.25 }}>
-                              <SimpleTextField
-                                placeholder={'Enter Van Registration No'}
-                                placeholderTextColor={appColors.LightGray}
-                                onChangeText={handleChange('VanRegistrationNo')}
-                                onBlur={handleBlur('VanRegistrationNo')}
-                                value={values.VanRegistrationNo}
-                              />
-                            </View>
-                            <View>
-                              {touched.VanRegistrationNo &&
-                                errors.VanRegistrationNo && (
-                                  <View style={{ marginLeft: 12, marginTop: 4 }}>
-                                    <Text
-                                      style={{
-                                        color: appColors.Goldcolor,
-                                        fontSize: 12,
-                                      }}>
-                                      {errors.VanRegistrationNo}
-                                    </Text>
-                                  </View>
-                                )}
-                            </View>
-                          </View>
-                          <View style={{ flex: 0.15 }}>
-                            <View style={{ flex: 0.25 }}>
-                              <SimpleTextField
-                                placeholder={'Enter Van Registration Id'}
-                                placeholderTextColor={appColors.LightGray}
-                                onChangeText={handleChange('VanRegistrationId')}
-                                onBlur={handleBlur('VanRegistrationId')}
-                                value={values.VanRegistrationId}
-                              />
-                            </View>
-                            <View style={{ justifyContent: 'center' }}>
-                              {touched.VanRegistrationId &&
-                                errors.VanRegistrationId && (
-                                  <View style={{ marginLeft: 12, marginTop: 4 }}>
-                                    <Text
-                                      style={{
-                                        color: appColors.Goldcolor,
-                                        fontSize: 12,
-                                      }}>
-                                      {errors.VanRegistrationId}
-                                    </Text>
-                                  </View>
-                                )}
-                            </View>
-                          </View>
-                          <View style={{ flex: 0.15, }}>
-                            <View style={{ flex: 0.25 }}>
-                              <SimpleTextField
-                                placeholder={'Enter Van Model'}
-                                placeholderTextColor={appColors.LightGray}
-                                onChangeText={handleChange('VanModel')}
-                                onBlur={handleBlur('VanModel')}
-                                value={values.VanModel}
-                              />
-
-                              {/* </View> */}
-                            </View>
-                            {touched.VanModel && errors.VanModel && (
-                              <View
-                                style={{
-                                  marginLeft: 12,
-                                  marginTop: 4,
-                                  justifyContent: 'center',
-                                }}>
-                                <Text
-                                  style={{ color: appColors.Goldcolor, fontSize: 12 }}>
-                                  {errors.VanModel}
-                                </Text>
-                              </View>
-                            )}
-                          </View>
-                        </View>
-                      </View>
-                    </View>
-                  </View>
+              <View style={{flex:0.65,}}>
+              <View style={{flex: 0.19, justifyContent: 'space-evenly',}}>
+              <SimpleTextField
+                placeholder={'Enter Van Name'}
+                placeholderTextColor={appColors.LightGray}
+                onChangeText={handleChange('VanName')}
+                onBlur={handleBlur('VanName')}
+                value={values.VanName}
+              />
+          
+            <View>
+              {touched.VanName && errors.VanName && (
+                <View style={{ marginLeft: 12, }}>
+                  <Text
+                    style={{ color: appColors.Goldcolor, fontSize: 12 }}>
+                    {errors.VanName}
+                  </Text>
                 </View>
+              )}
+  </View>
               </View>
-              <View style={styles.buttonView}>
-                <ButtonComponent
-                  style={{
-                    backgroundColor: '#C79646',
-                    paddingVertical: Platform.OS == 'ios' ? 17 : 13,
-                    bottom: 1,
-                    position: 'absolute',
-                  }}
-                  btnTextColor={{ color: 'white' }}
-                  title={'Save'}
-                  disabled={isSubmitting}
-                  onPress={handleSubmit}
-                  isLoading={isSubmitting}
-                />
+              <View style={{flex: 0.19, justifyContent: 'space-evenly',}}>
+              <SimpleTextField
+                placeholder={'Enter Van Registration No'}
+                placeholderTextColor={appColors.LightGray}
+                onChangeText={handleChange('VanRegistrationNo')}
+                onBlur={handleBlur('VanRegistrationNo')}
+                value={values.VanRegistrationNo}
+              />
+           
+            <View>
+              {touched.VanRegistrationNo &&
+                errors.VanRegistrationNo && (
+                  <View style={{ marginLeft: 12,}}>
+                    <Text
+                      style={{
+                        color: appColors.Goldcolor,
+                        fontSize: 12,
+                      }}>
+                      {errors.VanRegistrationNo}
+                    </Text>
+                  </View>
+                )}
+</View>
               </View>
-            </View>
+
+              <View style={{flex: 0.19, justifyContent: 'space-evenly',}}>
+              <SimpleTextField
+                placeholder={'Enter Van Registration Id'}
+                placeholderTextColor={appColors.LightGray}
+                onChangeText={handleChange('VanRegistrationId')}
+                onBlur={handleBlur('VanRegistrationId')}
+                value={values.VanRegistrationId}
+              />
+     
+            <View style={{ justifyContent: 'center',}}>
+              {touched.VanRegistrationId &&
+                errors.VanRegistrationId && (
+                  <View style={{ marginLeft: 12, }}>
+                    <Text
+                      style={{
+                        color: appColors.Goldcolor,
+                        fontSize: 12,
+                        }}>
+                      {errors.VanRegistrationId}
+                    </Text>
+                  </View>
+                )}
+  </View>
+              </View>
+              <View style={{flex: 0.19, justifyContent: 'space-evenly',}}>
+              <SimpleTextField
+                placeholder={'Enter Van Model'}
+                placeholderTextColor={appColors.LightGray}
+                onChangeText={handleChange('VanModel')}
+                onBlur={handleBlur('VanModel')}
+                value={values.VanModel}
+              />
+
+         
+            {touched.VanModel && errors.VanModel && (
+              <View
+                style={{
+                  marginLeft: 12,
+               
+                  justifyContent: 'center',
+                }}>
+                <Text
+                  style={{ color: appColors.Goldcolor, fontSize: 12 }}>
+                  {errors.VanModel}
+                </Text>
+              </View>
+            )}
+
+</View>
+
+              </View>
+              </View>
+            <View style={styles.buttonView}>
+<ButtonComponent
+  style={{
+    backgroundColor: '#C79646',
+    paddingVertical: Platform.OS == 'ios' ? 17 : 13,
+    bottom: 1,
+    position: 'absolute',
+  }}
+  btnTextColor={{ color: 'white' }}
+  title={'Save'}
+  disabled={isSubmitting}
+  onPress={handleSubmit}
+  isLoading={isSubmitting}
+/>
+</View>
+           
           </>
         )}
       </Formik>
@@ -324,3 +263,7 @@ const AddVanservices = ({ navigation }) => {
 };
 
 export default AddVanservices;
+
+
+
+

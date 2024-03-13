@@ -62,6 +62,8 @@ export const endPoint = {
   DELETE_VANS: 'Common/Van_CRUD',
   CUSTOMER_SERVICES: 'Customer/Category_Services',
   BARBER_DETAIL: 'Admin/Barber_Detail',
+  GET_VANS:'Common/Get_Vans',
+  
 
   // Customer End Points
   SERVICE_CATEGORIES: 'Customer/Service_Categories',

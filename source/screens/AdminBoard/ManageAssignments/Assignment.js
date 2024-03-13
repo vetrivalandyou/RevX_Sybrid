@@ -65,7 +65,7 @@ const Assignments = ({ }) => {
 
   const handleItemPress = (item) => {
     setSelectedItem(item.id);
-    navigation.navigate(constants.BarberScreen.ServiceList, {
+    navigation.navigate(constants.AdminScreens.Servicelist, {
       serviceName: item.name,
     });
   };
@@ -105,7 +105,7 @@ const Assignments = ({ }) => {
           btnTextColor={{ color: 'white' }}
           title={'Add Assignment'}
           onPress={() =>
-            navigation.navigate(constants.BarberScreen.EditAssignment, { isAdded: true })
+            navigation.navigate(constants.AdminScreens.EditAssignment, { isAdded: true })
           }
         />
       </View>
@@ -120,7 +120,7 @@ const Servicelist = ({ item, onPress, selected, }) => {
   const refRBSheet = useRef();
   const navigation = useNavigation();
   const handleEditPress = () => {
-    navigation.navigate(constants.BarberScreen.EditAssignment, {
+    navigation.navigate(constants.AdminScreens.EditAssignment, {
       serviceName: item.name,
       isAdded: false
     });

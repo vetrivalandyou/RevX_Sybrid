@@ -147,7 +147,7 @@ const AdminBlockUsers = ({ onPress }) => {
     //         setBarberData([...barberData])
     //     }
     // }
-    
+
     const handleBarberPress = (item) => {
         const newData = barberData.map(barber => {
             if (barber.barberId === item.item.barberId) {
@@ -160,13 +160,12 @@ const AdminBlockUsers = ({ onPress }) => {
 
 
     return (
-        <View style={{ flex: 1, backgroundColor: 'red', alignItems: 'center' }}>
+        <View style={{backgroundColor:'black',alignItems: 'center',flex:1}}>
             <FlatList 
                 data={barberData}
                 renderItem={(item) => (
-                    <View style={{ backgroundColor: 'green', alignItems: 'center' }}>
-                        <TouchableOpacity onPress={() => handleBarberPress(item)}  >
-                            <View style={{
+                    <View>
+                        <TouchableOpacity style={{
                                 height: screenSize.height / 4,
                                 width: screenSize.width / 1.1,
                                 marginBottom: 10,
@@ -174,23 +173,24 @@ const AdminBlockUsers = ({ onPress }) => {
                                 borderWidth: 1,
                                 borderRadius: 20,
                                 borderColor: 'black',
-                                paddingHorizontal: 10, justifyContent: 'center'
-                            }}>
+                                paddingHorizontal: 10, justifyContent: 'center'}}onPress={() => handleBarberPress(item)}>
                                 <Text style={{ color: 'white' }}>Barber ID: {item.item.barberId}</Text>
                                 <Text style={{ color: 'white' }}>Barber Name: {item.item.barberName}</Text>
                                 <Text style={{ color: 'white' }}>Barber StatusID: {item.item.statusId}</Text>
-                            </View>
+                       
                         </TouchableOpacity>
 
                         {Array.isArray(item.item.barberServices) && item.item.isOpen && (
-                            <ScrollView contentContainerStyle={{}}>
+                          
+                            <ScrollView    >
+                                
                                 {item.item.barberServices.map((service, index) => (
                                     <View key={index} style={{
                                         height: screenSize.height / 10,
                                         width: screenSize.width / 1.1,
                                         marginBottom: 10,
                                         backgroundColor: '#252525',
-                                        borderWidth: 1,
+                                        borderWidth: 1, 
                                         borderRadius: 20,
                                         borderColor: 'black',
                                         paddingHorizontal: 10, justifyContent: 'center'
@@ -199,7 +199,9 @@ const AdminBlockUsers = ({ onPress }) => {
                                         <Text style={{ color: 'white' }}>Approved: {service.isApproved}</Text>
                                     </View>
                                 ))}
+                               
                             </ScrollView>
+                           
                         )}
 
                     </View>
