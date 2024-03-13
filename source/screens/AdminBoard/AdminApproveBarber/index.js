@@ -69,13 +69,10 @@ const AdminApproveBarber = ({navigation}) => {
   }, [pageNumber]);
 
   const getBarberApproveService = () => {
-    if (isLoading) {
-      return;
-    }
     setIsLoading(true);
     const payload = {
       ...initialBarberApproveFields,
-      pageNumber: 1,
+      pageNumber: pageNumber,
       pageSize: 10,
     };
     PostRequest(endPoint.BARBER_APPROVE_SERVICES, payload)
@@ -157,7 +154,6 @@ const AdminApproveBarber = ({navigation}) => {
   const InnerContanier = ({item, key, onPress, selected}) => {
     const isSelected = selectedItems.includes(item.servicesId);
     return (
-      
       <TouchableOpacity
         key={key}
         onPress={() => toggleSelection(item.servicesId)}
@@ -422,35 +418,27 @@ const AdminApproveBarber = ({navigation}) => {
         />
       </View>
 
-      {isLoading ? (
-        <ActivityIndicator
-          size={'small'}
-          color={appColors.Goldcolor}
-          style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}
+      <View style={{flex: 0.9}}>
+        <FlatList
+          data={BarberApprove}
+          keyExtractor={item => item.barberId}
+          nestedScrollEnabled={true}
+          showsVerticalScrollIndicator={false}
+          onEndReached={handleEndReached}
+          ListFooterComponent={renderFooter}
+          onEndReachedThreshold={0.9}
+          refreshControl={
+            <RefreshControl
+              refreshing={isRefreshing}
+              onRefresh={handleRefresh}
+              colors={[appColors.Goldcolor]}
+            />
+          }
+          renderItem={({item, index}) => (
+            <TicketsComponent item={item} index={index} />
+          )}
         />
-      ) : (
-        <View style={{flex: 0.9}}>
-          <FlatList
-            data={BarberApprove}
-            keyExtractor={item => item.barberId}
-            nestedScrollEnabled={true}
-            showsVerticalScrollIndicator={false}
-            onEndReached={handleEndReached}
-            ListFooterComponent={renderFooter}
-            onEndReachedThreshold={0.1}
-            refreshControl={
-              <RefreshControl
-                refreshing={isRefreshing}
-                onRefresh={handleRefresh}
-                colors={['#0000ff']}
-              />
-            }
-            renderItem={({item, index}) => (
-              <TicketsComponent item={item} index={index} />
-            )}
-          />
-        </View>
-      )}
+      </View>
     </Screen>
   );
 };
