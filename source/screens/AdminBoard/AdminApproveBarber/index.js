@@ -263,9 +263,10 @@ const AdminApproveBarber = ({navigation}) => {
   const InnerContanier = ({item, key, onPress, selected}) => {
     const isSelected = selectedItems.includes(item.servicesId);
 
-    console.log('isSelectedisSelectedisSelected', item);
+    // console.log('isSelectedisSelectedisSelected', item);
 
     return (
+      
       <TouchableOpacity
         key={key}
         onPress={() => toggleSelection(item.servicesId)}
