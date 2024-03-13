@@ -7,7 +7,7 @@ import {
   ScrollView,
   Platform,
 } from 'react-native';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Screen from '../../../components/atom/ScreenContainer/Screen';
 import styles from './styles';
 import ButtonComponent from '../../../components/atom/CustomButtons/ButtonComponent';
@@ -16,26 +16,60 @@ import { screenSize } from '../../../components/atom/ScreenSize';
 import Header from '../../../components/molecules/Header';
 import { Icons } from '../../../components/molecules/CustomIcon/CustomIcon';
 import CustomDropdownPicker from '../../../components/molecules/CustomDropdownPicker';
+import Dropdown from '../../../components/molecules/Dropdown/Dropdown';
+import appColors from '../../../AppConstants/appColors';
+import { endPoint } from '../../../AppConstants/urlConstants';
+import { SimpleSnackBar } from '../../../components/atom/Snakbar/Snakbar';
+import { GetRequest } from '../../../services/apiCall';
 
 const EditAssignment = ({ route }) => {
   const navigation = useNavigation();
   const { serviceName, isAdded } = route.params || {};
-
-  console.log("isAddedtrue", isAdded,)
-  console.log("serviceName", serviceName,)
-
   const [selectedVans, setselectedvans] = useState(serviceName);
   const [selectedAssignment, setselectedAssignment] = useState(serviceName);
+  const [dropDownData, setDropDownData] = useState([]);
+  const [VandropDown, setVanDropDown] = useState([]);
 
-  const onSave = () => {
-    navigation.goBack()
-  }
-  const dropDownData = [
-    { label: 'edit1', value: 'edit1' },
-    { label: 'edit2', value: 'edit2' },
-    { label: 'edit3', value: 'edit3' },
-    { label: 'edit4', value: 'edit4' },
-  ]
+  useEffect(() => {
+    getbarberList();
+    getVanList();
+  }, []);
+
+  const getbarberList = () => {
+    GetRequest(endPoint.BARBER_LIST)
+      .then(res => {
+        if (res?.data?.code == 200) {
+          const approvedVans = res?.data?.data.filter(van => van.isApproved ==false);
+          setDropDownData(approvedVans);
+        } else {
+          SimpleSnackBar(res?.data?.message);
+        }
+      })
+      .catch(err => {
+        SimpleSnackBar(messages.Catch, appColors.Red);
+      });
+  };
+
+  const getVanList = () => {
+    GetRequest(endPoint.GET_VANS)
+      .then(res => {
+        console.log('..................', res?.data);
+        if (res?.data?.code == 200) {
+          // console.log(res?.data);
+          setVanDropDown(res?.data?.data);
+        } else {
+          SimpleSnackBar(res?.data?.message);
+        
+        }
+      })
+      .catch(err => {
+        SimpleSnackBar(messages.Catch, appColors.Red);
+       
+      });
+  };
+
+
+
 
   return (
     <Screen viewStyle={{ flex: 1, padding: 15, backgroundColor: appColors.Black }} statusBarColor={appColors.Black}>
@@ -51,37 +85,30 @@ const EditAssignment = ({ route }) => {
       <View style={{ flex: 0.8, }}>
         <View style={{ flex: 0.15, justifyContent: 'center' }}>
           <View style={{ flex: 0.65, }}>
-            <CustomDropdownPicker label={'Select a value'}
+            <Dropdown label={'Select a value'}
               value={selectedVans}
               onValueChange={(itemValue) => setselectedvans(itemValue)}
-              dropDownData={dropDownData}
-              style={{ backgroundColor: 'black', borderColor: appColors.AppLightGray, borderRadius: 30, paddingHorizontal: 10 }}
+              dropDownData={dropDownData.map(van => ({ label: van.userName, value: van.userId}))}
+              style={{ backgroundColor: 'black', borderColor: appColors.AppLightGray, borderRadius: 30, paddingHorizontal: 10,}}
+            custompickerstyle={{ color: selectedVans ? appColors.White : appColors.AppLightGray, }}
             />
           </View>
         </View>
 
         <View style={{ flex: 0.15, justifyContent: 'center' }}>
           <View style={{ flex: 0.65, }}>
-            <CustomDropdownPicker label={'Select a value'}
+            <Dropdown label={'Select a value'}
               value={selectedAssignment}
               onValueChange={(itemValue) => setselectedAssignment(itemValue)}
-              dropDownData={dropDownData}
-              style={{ backgroundColor: 'black', borderColor: appColors.AppLightGray, borderRadius: 30, paddingHorizontal: 10 }}
+              dropDownData={VandropDown.map(Van =>({label: Van.vanName, value: Van.vanId}))}
+              style={{ backgroundColor: 'black', borderColor: appColors.AppLightGray, borderRadius: 30, paddingHorizontal: 10,}}
+              custompickerstyle={{ color: selectedAssignment ? appColors.White : appColors.AppLightGray, }}
             />
           </View>
         </View>
       </View>
 
-      {/* <ScrollView style={{height: screenSize.height / 10,backgroundColor:'red'}}>
-          <TextInput
-            style={[
-              styles.container,
-              {color: 'white', paddingHorizontal: 25, fontSize: 15},
-            ]}
-            value={editedServiceName}
-            onChangeText={text => setEditedServiceName(text)}
-          />
-        </ScrollView> */}
+     
       <View style={styles.buttonView}>
         <ButtonComponent
           style={{
@@ -93,7 +120,7 @@ const EditAssignment = ({ route }) => {
           btnTextColor={{ color: 'white' }}
           title={isAdded ? 'Save' : 'Update'}
 
-          onPress={onSave}
+          onPress={()=> navigation.goBack()}
         />
       </View>
     </Screen>

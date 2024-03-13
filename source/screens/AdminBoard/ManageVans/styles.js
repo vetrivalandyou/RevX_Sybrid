@@ -60,11 +60,11 @@ export default StyleSheet.create({
   buttonouterView: { flexDirection: 'row', marginHorizontal: 10, },
   camerabuttonview: { flex: 0.5, justifyContent: 'center', alignItems: 'center', },
   gallerybuttonview: { flex: 0.5, justifyContent: 'center', alignItems: 'center' },
-  ProfileMainView:{flex:0.3, },
+  ProfileMainView:{flex:0.35,},
   ProfileouterView:{ flex: 1, justifyContent:"center", alignItems:"center",},
-  profileView:{ width:"25%",justifyContent:"center", alignItems:"center",height:'50%',},
+  profileView:{ width:"34%",justifyContent:"center", alignItems:"center",height:'58%',backgroundColor:'black'},
   imageStyle:{  width: '100%', height: '100%', borderRadius: 80, borderWidth: 3, borderColor: appColors.Goldcolor  },
-  Iconstyle:{ position: 'absolute', left: screenSize.width /5.5, top: screenSize.height / 11.5,}
+  Iconstyle:{ position: 'absolute', left: screenSize.width /4, top: screenSize.height / 8.3,}
 
 
 

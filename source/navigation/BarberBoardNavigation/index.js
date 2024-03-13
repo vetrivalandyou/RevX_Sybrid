@@ -15,16 +15,9 @@ import {
 
 import BarberBottomTabNavigation from './BarberBottomTabNavigation';
 import DeleteServices from '../../screens/BarberBoard/BarberServices/DeleteServices';
-import EditVanservices from '../../screens/AdminBoard/ManageVans/EditVanServices';
-import AddVanservices from '../../screens/AdminBoard/ManageVans/AddVanServices';
-import DeleteVanServices from '../../screens/AdminBoard/ManageVans/DeleteVanServices';
-import ManageVans from '../../screens/AdminBoard/ManageVans/ManageVans';
 
-import Assignments from '../../screens/BarberBoard/ManageAssignments/Assignment';
 
 import ServiceList from '../../screens/BarberBoard/BarberServices/ServiceList';
-import EditAssignment from '../../screens/BarberBoard/ManageAssignments/EditAssignment';
-import DeleteAssignment from '../../screens/BarberBoard/ManageAssignments/DeleteAssignment';
 
 const BarberStack = () => {
   
@@ -91,26 +84,7 @@ const BarberStack = () => {
           options={{headerShown: false}}
         />
          
-        <Stack.Screen
-          name={constants.BarberScreen.Assignments}
-          component={Assignments}
-          options={{headerShown: false}}
-        />
-          <Stack.Screen
-          name={constants.BarberScreen.AddAssignment}
-          component={AddAssignment}
-          options={{headerShown: false}}
-        />
-          <Stack.Screen
-          name={constants.BarberScreen.EditAssignment}
-          component={EditAssignment}
-          options={{headerShown: false}}
-        />
-         <Stack.Screen
-          name={constants.BarberScreen.DeleteAssignment}
-          component={DeleteAssignment}
-          options={{headerShown: false}}
-        />
+       
        
 
 

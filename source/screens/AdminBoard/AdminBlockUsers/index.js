@@ -1,10 +1,10 @@
 import { useState } from "react";
 import { screenSize } from "../../../components/atom/ScreenSize";
 
-const { View, Text, FlatList, TouchableOpacity } = require("react-native")
+const { View, Text, FlatList, TouchableOpacity, ScrollView } = require("react-native")
 
 const AdminBlockUsers = ({ onPress }) => {
-    const [selectedIndex, setSelectedIndex] = useState(null);
+
 
     const data = [
         {
@@ -83,7 +83,7 @@ const AdminBlockUsers = ({ onPress }) => {
         {
             barberId: 20,
             barberName: "John Walter",
-            statusId: 9,
+            statusId: 13,
             isOpen: false,
             barberServices: "null"
         },
@@ -97,7 +97,7 @@ const AdminBlockUsers = ({ onPress }) => {
         {
             barberId: 22,
             barberName: "John Walter",
-            statusId: 9,
+            statusId: 12,
             isOpen: false,
             barberServices: "null"
         },
@@ -131,200 +131,86 @@ const AdminBlockUsers = ({ onPress }) => {
         },
     ]
 
-    const handleItemPress = (index) => {
-        setSelectedIndex(index);
-    };
+
+
 
     const [barberData, setBarberData] = useState(data)
 
+    // const handleBarberPress = (item) => {
+    //     console.log("items", item?.item?.isOpen)
+    //     if (item?.item?.isOpen == false) {
+    //         barberData[item?.index]["isOpen"] = true
+    //         setBarberData([...barberData])
+    //     }
+    //     else {
+    //         barberData[item?.index]["isOpen"] = false
+    //         setBarberData([...barberData])
+    //     }
+    // }
 
-    const renderSecondLevelItems = ({ item, index }) => (
-        <View key={index} style={{
-            height: screenSize.height / 8,
-            width: screenSize.width / 1.1,
-            marginBottom: 10,
-            backgroundColor: '#252525',
-            borderWidth: 1,
-            borderRadius: 20,
-            borderColor: 'black',
-            paddingHorizontal: 10, justifyContent: 'center'
-        }}>
-            <Text style={{ color: 'white' }}>{item.servicesId}</Text>
-            <Text style={{ color: 'white' }}>{item.serviceName}</Text>
-            <Text style={{ color: 'white' }}>{item.isApproved}</Text>
-        </View>
-    );
-
-    const handleBarberPress = (item, index) => {
-        console.log("item", item.isOpen)
-        if (item.isOpen == false) {
-            data[index]["isOpen"] = true
-            setBarberData([...data])
-        }
-        else {
-            data[index]["isOpen"] = false
-            setBarberData([...data])
-        }
+    const handleBarberPress = (item) => {
+        const newData = barberData.map(barber => {
+            if (barber.barberId === item.item.barberId) {
+                return { ...barber, isOpen: !barber.isOpen };
+            }
+            return barber;
+        });
+        setBarberData(newData);
     }
 
 
     return (
-        <View style={{ backgroundColor: 'black', flex: 1, alignItems: 'center' }}>
-            {barberData?.map((item, index) => (
-                <TouchableOpacity onPress={() => handleBarberPress(item, index)} key={index} >
-                    <View style={{
-                        height: screenSize.height / 5,
-                        width: screenSize.width / 1.1,
-                        marginBottom: 10,
-                        backgroundColor: 'red',
-                        borderWidth: 1,
-                        borderRadius: 20,
-                        borderColor: 'black',
-                        paddingHorizontal: 10, justifyContent: 'center'
-                    }}>
-                        <Text style={{ color: 'white' }}>Barber ID: {item.barberId}</Text>
-                        <Text style={{ color: 'white' }}>Barber Name: {item.barberName}</Text>
-                        <Text style={{ color: 'white' }}>Barber StatusID: {item.statusId}</Text>
+        <View style={{backgroundColor:'black',alignItems: 'center',flex:1}}>
+            <FlatList 
+                data={barberData}
+                renderItem={(item) => (
+                    <View>
+                        <TouchableOpacity style={{
+                                height: screenSize.height / 4,
+                                width: screenSize.width / 1.1,
+                                marginBottom: 10,
+                                backgroundColor: '#252525',
+                                borderWidth: 1,
+                                borderRadius: 20,
+                                borderColor: 'black',
+                                paddingHorizontal: 10, justifyContent: 'center'}}onPress={() => handleBarberPress(item)}>
+                                <Text style={{ color: 'white' }}>Barber ID: {item.item.barberId}</Text>
+                                <Text style={{ color: 'white' }}>Barber Name: {item.item.barberName}</Text>
+                                <Text style={{ color: 'white' }}>Barber StatusID: {item.item.statusId}</Text>
+                       
+                        </TouchableOpacity>
 
-                        {item?.barberServices?.length > 0 && (
-                            (
-                                item?.isOpen == true && (
-                                    <FlatList data={item?.barberServices}
-                                        renderItem={renderSecondLevelItems}
-                                        keyExtractor={(item) => item.servicesId}
-
-                                    />
-                                )
-                            )
+                        {Array.isArray(item.item.barberServices) && item.item.isOpen && (
+                          
+                            <ScrollView    >
+                                
+                                {item.item.barberServices.map((service, index) => (
+                                    <View key={index} style={{
+                                        height: screenSize.height / 10,
+                                        width: screenSize.width / 1.1,
+                                        marginBottom: 10,
+                                        backgroundColor: '#252525',
+                                        borderWidth: 1, 
+                                        borderRadius: 20,
+                                        borderColor: 'black',
+                                        paddingHorizontal: 10, justifyContent: 'center'
+                                    }}>
+                                        <Text style={{ color: 'white' }}>{service.serviceName}</Text>
+                                        <Text style={{ color: 'white' }}>Approved: {service.isApproved}</Text>
+                                    </View>
+                                ))}
+                               
+                            </ScrollView>
+                           
                         )}
+
                     </View>
-                </TouchableOpacity>
-            )
-            )}
+                )}
+                keyExtractor={(item) => (item.barberId.toString())} />
         </View>
-    );
-};
+    )
 
-
-
+}
 export default AdminBlockUsers;
 
 
-//   const renderFirstLevelItems = ({ item, index }) => (
-//     <TouchableOpacity onPress={() => handleItemPress(index)} style={{flex:1,backgroundColor:'yellow'}}>
-//       <View  style={ {
-//          height: screenSize.height / 8,
-//         width: screenSize.width / 1.1,
-//         marginBottom: 10,
-//         backgroundColor: '#252525',
-//        borderWidth: 1,
-//        borderRadius: 20,
-//        borderColor: 'black',
-//      paddingHorizontal:10,justifyContent:'center'
-//  }}>
-//         <Text style={{color:'white'}}>Barber ID: {item.barberId}</Text>
-//      <Text style={{color:'white'}}>Barber Name: {item.barberName}</Text>
-//        <Text style={{color:'white'}}>Barber StatusID: {item.statusId}</Text>
-
-
-//       </View>
-//     </TouchableOpacity>
-//   );
-
-//   const renderSecondLevelItems = ({ item }) => (
-//     <View  style={ {
-//         height: screenSize.height / 8,
-//        width: screenSize.width / 1.1,
-//        marginBottom: 10,
-//        backgroundColor: '#252525',
-//       borderWidth: 1,
-//       borderRadius: 20,
-//       borderColor: 'black',
-//     paddingHorizontal:10,justifyContent:'center'
-// }}>
-//        <Text style={{color:'white'}}>{item.servicesId}</Text>
-//              <Text style={{color:'white'}}>{item.serviceName}</Text>
-//            <Text style={{color:'white'}}>{item.isApproved}</Text>
-
-//     </View>
-//   );
-
-//     <View style={{justifyContent:'center',alignItems:'center',backgroundColor:'black',flex:1}}>
-//     <FlatList
-//       data={data}
-//       renderItem={({ item, index }) => (
-
-//         <View style={{flex:1,}}>
-//                   <TouchableOpacity onPress={handleItemPress(index)}
-//          style={ {
-//             height: screenSize.height / 8,
-//             width: screenSize.width / 1.1,
-//             marginBottom: 10,
-//             backgroundColor: '#252525',
-//             borderWidth: 1,
-//             borderRadius: 20,
-//             borderColor: 'black',
-//             paddingHorizontal:10,justifyContent:'center'
-//           }}>
-//           <Text style={{color:'white'}}>Barber ID: {item.barberId}</Text>
-//           <Text style={{color:'white'}}>Barber Name: {item.barberName}</Text>
-//           <Text style={{color:'white'}}>Barber StatusID: {item.statusId}</Text>
-
-//           </TouchableOpacity>
-
-//       </View>
-
-//           )}
-//       keyExtractor={(item) => item.barberId}
-//     />
-
-//         {    selectedIndex  !==null &&(  
-
-//         <View style={{flex:1,backgroundColor:'black'}}>
-
-//             <FlatList
-//               data={[selectedIndex].barberServices}
-
-//               renderItem={({ item ,}) => (
-//                 <View style={ {
-//                     height: screenSize.height / 8,
-//                     width: screenSize.width / 1.1,
-//                     marginBottom: 10,
-//                     backgroundColor: '#252525',
-//                     borderWidth: 1,
-//                     borderRadius: 20,
-//                     borderColor: 'black',
-//                     paddingHorizontal:10,justifyContent:'center'
-//                   }}> 
-//                   <Text style={{color:'white'}}>{item.servicesId}</Text>
-//                   <Text style={{color:'white'}}>{item.serviceName}</Text>
-//                   <Text style={{color:'white'}}>{item.isApproved}</Text>
-//                 </View>
-//               )}
-//               keyExtractor={(item) => item.servicesId}
-//             />
-//             </View>
-//         )
-// }
-
-
-
-//     </View>
-
-{/* <View style={{backgroundColor:'red'}}>
-
-   
-      <FlatList
-        data={data}
-        renderItem={renderFirstLevelItems}
-        keyExtractor={(item) => item.barberId}
-      /> 
-   { selectedIndex !== null && (
-        <FlatList
-          data={data[selectedIndex].barberServices}
-          renderItem={renderSecondLevelItems}
-          keyExtractor={(item) => item.servicesId}
-        />
-      )} 
-     
-      </View> */}

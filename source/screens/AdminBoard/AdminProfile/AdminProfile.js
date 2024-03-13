@@ -57,14 +57,19 @@ const AdminProfile = () => {
       title: 'Manage Vans',
       icon: Icons.Entypo,
     },
-   
     {
       id: 6,
+      title: 'Manage Assignments',
+      icon: Icons.Entypo,
+    },
+   
+    {
+      id: 7,
       title: 'Approve Barber',
       icon: Icons.Entypo,
     },
     {
-      id: 7,
+      id: 8,
       title: 'Sign Out',
       icon: Icons.Entypo,
     },
@@ -86,13 +91,16 @@ const AdminProfile = () => {
         break;
       case 4:
         navigation.navigate(constants.AdminScreens.ManageVans);
+        break;
+        case 5:
+        navigation.navigate(constants.AdminScreens.Assignments);
 
         break;
         
-      case 5:
+      case 6:
         navigation.navigate(constants.AdminScreens.AdminApproveBarber);
         break;
-      case 6: // Index of 'Sign Out' item
+      case 7: // Index of 'Sign Out' item
         // setIsSignOutModalVisible(true);
         refRBSheet.current.open();
         break;
