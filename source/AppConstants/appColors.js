@@ -1,7 +1,7 @@
 export default appColors = {
   PrimaryColor: '#FF4B2D',
   Orange: '#F58234',
-  Green: '#00FF00',
+  Green: '#70F022',
 
   Red: '#E81F1C',
   LightGray: '#9E9E9E',

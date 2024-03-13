@@ -33,6 +33,7 @@
 // export default urlConstants;
 
 export const baseUrl = 'http://124.29.235.8:8786/api/';
+export const imageUrl = 'http://124.29.235.8:8786';
 
 export const endPoint = {
   //   AUTH END POINTS
@@ -45,6 +46,8 @@ export const endPoint = {
   OTP_VERIFICATION: 'Auth/OTP_Verification',
   REGISTERAS_BARBER: 'Barber/Barber_Signup',
   VAN_SERVICES: 'Common/Get_Vans',
+  BARBER_APPROVE_SERVICE_POST:'Barber/ApproveBarberService',
+  
 
   //User End Points
   EDIT_PROFILE_USER: 'Auth/User_CRUD',
@@ -74,4 +77,6 @@ export const messages = {
   Catch:
     'May be your internet is not connected or there is something went wrong on server.',
   SeesionExpire: 'Your app session has been expired, please login again.',
+  Approve:6,
+  reject:7
 };
