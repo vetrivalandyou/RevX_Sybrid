@@ -135,8 +135,6 @@ const data = [
 ];
 
 const AdminApproveBarber = ({navigation}) => {
-  // const [btnClicked, setBtnClicked] = React.useState(false);
-
   const btnClicked = useRef(null);
   const [loading, setLoading] = useState(true);
   const [BarberApprove, setBarberApprove] = useState(data);

@@ -35,16 +35,18 @@ import ProfileUpdate from './ProfileUpdate';
 import { screenSize } from '../../../components/atom/ScreenSize';
 import { SimpleSnackBar } from '../../../components/atom/Snakbar/Snakbar';
 import Styles from '../../../components/atom/BookingButtons/Styles';
+import ChooseImage from '../../../components/molecules/ChooseImage';
 
 const AddVanservices = ({ navigation }) => {
-
+  const refRBSheet = useRef();
 
   const [profileImage, setProfileImage] = useState(null);
 
-  const handleImageCaptured = imageUri => {
-    setProfileImage(imageUri);
+  const handleImageCaptured = image=> {
+   
+    setProfileImage(image);
     // Update the profile image state with the captured image URI
-    refRBSheet.current.close(); 
+    refRBSheet.current.close();
   };
 
   const validationSchema = Yup.object().shape({
@@ -256,7 +258,7 @@ const AddVanservices = ({ navigation }) => {
       </Formik>
 
       <BottomSheet ref={refRBSheet} Height={120}>
-        <ProfileUpdate onImageCaptured={handleImageCaptured} />
+      <ChooseImage refRBSheet={refRBSheet} setProfileImage={handleImageCaptured} />
       </BottomSheet>
     </Screen>
   );
