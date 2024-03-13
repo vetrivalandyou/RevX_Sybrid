@@ -139,7 +139,8 @@ const AdminApproveBarber = ({navigation}) => {
 
   const btnClicked = useRef(null);
   const [loading, setLoading] = useState(true);
-  const [BarberApprove, setBarberApprove] = useState(data);
+  const [BarberApprove, setBarberApprove] = useState([]);
+  const [selectedServices, setSelectedServices] = useState([]);
   const animation = useRef(new Animated.Value(0)).current;
 
   const fadeIn = () => {
@@ -170,6 +171,7 @@ const AdminApproveBarber = ({navigation}) => {
     PostRequest(endPoint.BARBER_APPROVE_SERVICES, payload)
       .then(res => {
         if (res?.data?.code == 200) {
+          setBarberApprove(res?.data?.data);
           setLoading(false);
           // setBarberApprove(
           //   res?.data?.data?.map(x => ({
@@ -188,6 +190,52 @@ const AdminApproveBarber = ({navigation}) => {
       });
   };
 
+
+  const postBarberApproveService = (payload) => {
+    PostRequest(endPoint.BARBER_APPROVE_SERVICE_POST, payload)
+      .then(res => {
+        console.log('RESPONSEDATA>>>>>>>>', res?.data);
+        if (res?.data?.code === 200) {
+          setLoading(false);
+          getBarberApproveService();
+        } else {
+          SimpleSnackBar(res?.data?.message);
+          setLoading(false);
+        }
+      })
+      .catch(err => {
+        SimpleSnackBar(messages.Catch, appColors.Red);
+        setLoading(false);
+      });
+  };
+
+  const handleAccept = () => {
+    const payload = {
+      BarberId: 1,
+      StatusId: 10,
+      ServicesId: 1,
+      isApproved: true,
+      operations: 2,
+      createdBy: 1,
+      ud_Barber_Approve_Service_Type: selectedServices.map(service => ({
+        servicesId: service.servicesId,
+        serviceName: service.serviceName,
+        isApproved: true,
+      })),
+    };
+    postBarberApproveService(payload);
+  };
+
+  const toggleSelection = (serviceId) => {
+    if (selectedServices.includes(serviceId)) {
+      setSelectedServices(selectedServices.filter(id => id !== serviceId));
+    } else {
+      setSelectedServices([...selectedServices, serviceId]);
+    }
+  };
+
+  console.log("selectedsevices>>>.", selectedServices)
+
   useEffect(() => {
     if (isFocused) {
       timeoutRef.current = setTimeout(() => setIsLoading(false), 500);
@@ -199,18 +247,18 @@ const AdminApproveBarber = ({navigation}) => {
     setViewDetails(viewDetails === itemId ? null : itemId);
   };
 
-  const toggleSelection = itemId => {
-    const selectedIndex = selectedItems.indexOf(itemId);
-    let newSelectedItems = [...selectedItems];
+  // const toggleSelection = itemId => {
+  //   const selectedIndex = selectedItems.indexOf(itemId);
+  //   let newSelectedItems = [...selectedItems];
 
-    if (selectedIndex === -1) {
-      newSelectedItems.push(itemId);
-    } else {
-      newSelectedItems.splice(selectedIndex, 1);
-    }
+  //   if (selectedIndex === -1) {
+  //     newSelectedItems.push(itemId);
+  //   } else {
+  //     newSelectedItems.splice(selectedIndex, 1);
+  //   }
 
-    setSelectedItems(newSelectedItems);
-  };
+  //   setSelectedItems(newSelectedItems);
+  // };
 
   const InnerContanier = ({item, key, onPress, selected}) => {
     const isSelected = selectedItems.includes(item.servicesId);
@@ -392,7 +440,7 @@ const AdminApproveBarber = ({navigation}) => {
               }}>
               <ButtonComponent
                 btnColor={appColors.DarkGreen}
-                // onPress={onPress}
+                onPress={handleAccept}
                 style={{
                   backgroundColor: appColors.Green,
                   width: '90%',
@@ -419,7 +467,7 @@ const AdminApproveBarber = ({navigation}) => {
             </View>
           </View>
         </TouchableOpacity>
-        {item?.isClicked == true && (
+        {item?.isClicked == true && item?.barberServices?.length > 0 && (
           <ScrollView
             nestedScrollEnabled={true}
             showsVerticalScrollIndicator={false}
