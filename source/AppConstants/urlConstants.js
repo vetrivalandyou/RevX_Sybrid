@@ -33,6 +33,7 @@
 // export default urlConstants;
 
 export const baseUrl = 'http://124.29.235.8:8786/api/';
+export const imageUrl = 'http://124.29.235.8:8786';
 
 export const endPoint = {
   //   AUTH END POINTS

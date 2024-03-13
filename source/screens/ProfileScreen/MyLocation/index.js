@@ -45,6 +45,10 @@ const MyLocation = ({navigation}) => {
     );
   };
 
+  useEffect(() => {
+    refRBSheet.current.open();
+  }, []);
+
   return (
     <Screen
       statusBarColor={appColors.Black}
@@ -74,17 +78,14 @@ const MyLocation = ({navigation}) => {
           }}
         />
       </View> */}
-
-      <BottomSheet ref={refRBSheet} Height={screenSize.height / 3}>
-        <LocationBottomSheet refRBSheet={refRBSheet} />
+      <BottomSheet ref={refRBSheet} Height={screenSize.height / 2}>
+        <LocationBottomSheet refRBSheet={refRBSheet} handleUseMyCurrentLoc={handleLocationSelect} />
       </BottomSheet>
-
       <View
         style={{
           flex: 1,
           flexDirection: 'column',
         }}>
-          
         <MapView
           style={{flex: 1}}
           ref={mapRef}
@@ -111,14 +112,13 @@ const MyLocation = ({navigation}) => {
                 style={{
                   width: 50,
                   height: 50,
-                  backgroundColor:'transparent'
+                  backgroundColor: 'transparent',
                   // borderColor: '#FFD700',
                 }}
               />
             </Marker>
           )}
         </MapView>
-
         <TouchableOpacity
           onPress={() => navigation.goBack()}
           style={{
@@ -126,7 +126,7 @@ const MyLocation = ({navigation}) => {
             top: 20,
             left: 20,
             backgroundColor: appColors.Black,
-            padding: 8,
+            padding: 10,
             borderRadius: 100,
           }}>
           <CustomIcon
@@ -143,12 +143,12 @@ const MyLocation = ({navigation}) => {
             top: 20,
             right: 20,
             backgroundColor: appColors.Black,
-            padding: 8,
+            padding: 10,
             borderRadius: 100,
           }}>
           <CustomIcon
             type={Icons.Ionicons}
-            name={'search'}
+            name={'paper-plane-sharp'}
             size={25}
             color={appColors.Goldcolor}
           />

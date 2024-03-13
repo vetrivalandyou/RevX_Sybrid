@@ -9,6 +9,7 @@ import {
   Animated,
   Image,
   ActivityIndicator,
+  Platform,
 } from 'react-native';
 import {useIsFocused} from '@react-navigation/native';
 import ArrowDownIcon from 'react-native-vector-icons/MaterialIcons';
@@ -22,7 +23,7 @@ import Sizes from '../../../AppConstants/Sizes';
 import {AppImages} from '../../../AppConstants/AppImages';
 import Screen from '../../../components/atom/ScreenContainer/Screen';
 import Header from '../../../components/molecules/Header';
-import {endPoint, messages} from '../../../AppConstants/urlConstants';
+import {endPoint, imageUrl, messages} from '../../../AppConstants/urlConstants';
 import {PostRequest} from '../../../services/apiCall';
 import {SimpleSnackBar} from '../../../components/atom/Snakbar/Snakbar';
 
@@ -159,6 +160,13 @@ const AdminApproveBarber = ({navigation}) => {
   const [isLoading, setIsLoading] = React.useState(true);
 
   useEffect(() => {
+    if (isFocused) {
+      timeoutRef.current = setTimeout(() => setIsLoading(false), 500);
+    }
+    return () => clearTimeout(timeoutRef.current);
+  }, [isLoading]);
+
+  useEffect(() => {
     getBarberApproveService();
   }, []);
 
@@ -190,11 +198,9 @@ const AdminApproveBarber = ({navigation}) => {
       });
   };
 
-
-  const postBarberApproveService = (payload) => {
+  const postBarberApproveService = payload => {
     PostRequest(endPoint.BARBER_APPROVE_SERVICE_POST, payload)
       .then(res => {
-        console.log('RESPONSEDATA>>>>>>>>', res?.data);
         if (res?.data?.code === 200) {
           setLoading(false);
           getBarberApproveService();
@@ -209,61 +215,35 @@ const AdminApproveBarber = ({navigation}) => {
       });
   };
 
-  const handleAccept = () => {
+  const handleAccept = item => {
     const payload = {
-      BarberId: 1,
-      StatusId: 10,
-      ServicesId: 1,
+      BarberId: item?.barberId,
+      StatusId: item?.StatusId,
       isApproved: true,
       operations: 2,
       createdBy: 1,
-      ud_Barber_Approve_Service_Type: selectedServices.map(service => ({
-        servicesId: service.servicesId,
-        serviceName: service.serviceName,
-        isApproved: true,
+      ud_Barber_Approve_Service_Type: selectedItems.map(service => ({
+        servicesId: service,
       })),
     };
-    postBarberApproveService(payload);
+    console.log('Payload', payload);
+    // postBarberApproveService(payload);
   };
 
-  const toggleSelection = (serviceId) => {
-    if (selectedServices.includes(serviceId)) {
-      setSelectedServices(selectedServices.filter(id => id !== serviceId));
+  const toggleSelection = itemId => {
+    const selectedIndex = selectedItems.indexOf(itemId);
+    let newSelectedItems = [...selectedItems];
+
+    if (selectedIndex === -1) {
+      newSelectedItems.push(itemId);
     } else {
-      setSelectedServices([...selectedServices, serviceId]);
+      newSelectedItems.splice(selectedIndex, 1);
     }
+    setSelectedItems(newSelectedItems);
   };
-
-  console.log("selectedsevices>>>.", selectedServices)
-
-  useEffect(() => {
-    if (isFocused) {
-      timeoutRef.current = setTimeout(() => setIsLoading(false), 500);
-    }
-    return () => clearTimeout(timeoutRef.current);
-  }, [isLoading]);
-
-  const toggleItem = itemId => {
-    setViewDetails(viewDetails === itemId ? null : itemId);
-  };
-
-  // const toggleSelection = itemId => {
-  //   const selectedIndex = selectedItems.indexOf(itemId);
-  //   let newSelectedItems = [...selectedItems];
-
-  //   if (selectedIndex === -1) {
-  //     newSelectedItems.push(itemId);
-  //   } else {
-  //     newSelectedItems.splice(selectedIndex, 1);
-  //   }
-
-  //   setSelectedItems(newSelectedItems);
-  // };
 
   const InnerContanier = ({item, key, onPress, selected}) => {
     const isSelected = selectedItems.includes(item.servicesId);
-
-    // console.log('isSelectedisSelectedisSelected', item);
 
     return (
       
@@ -349,14 +329,14 @@ const AdminApproveBarber = ({navigation}) => {
                 alignItems: 'flex-start',
                 justifyContent: 'center',
               }}>
-              {/* <Image
-                source={item.Imagesource}
+              <Image
+                source={{uri: `${imageUrl}${item.profileImage}`}}
                 style={{
                   height: Platform.OS == 'ios' ? 80 : 70,
                   width: Platform.OS == 'ios' ? 80 : 70,
                   borderRadius: 40,
                 }}
-              /> */}
+              />
             </View>
             <View
               style={{
@@ -441,7 +421,7 @@ const AdminApproveBarber = ({navigation}) => {
               }}>
               <ButtonComponent
                 btnColor={appColors.DarkGreen}
-                onPress={handleAccept}
+                onPress={() => handleAccept(item)}
                 style={{
                   backgroundColor: appColors.Green,
                   width: '90%',
