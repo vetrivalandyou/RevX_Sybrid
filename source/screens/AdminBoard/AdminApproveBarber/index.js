@@ -1,4 +1,4 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import {
   View,
   Text,
@@ -11,21 +11,21 @@ import {
   ActivityIndicator,
   Platform,
 } from 'react-native';
-import {useIsFocused} from '@react-navigation/native';
+import { useIsFocused } from '@react-navigation/native';
 import ArrowDownIcon from 'react-native-vector-icons/MaterialIcons';
 import ButtonComponent from '../../../components/atom/CustomButtons/ButtonComponent';
 import CustomIcon, {
   Icons,
 } from '../../../components/molecules/CustomIcon/CustomIcon';
 import appColors from '../../../AppConstants/appColors';
-import {screenSize} from '../../../components/atom/ScreenSize';
+import { screenSize } from '../../../components/atom/ScreenSize';
 import Sizes from '../../../AppConstants/Sizes';
-import {AppImages} from '../../../AppConstants/AppImages';
+import { AppImages } from '../../../AppConstants/AppImages';
 import Screen from '../../../components/atom/ScreenContainer/Screen';
 import Header from '../../../components/molecules/Header';
-import {endPoint, imageUrl, messages} from '../../../AppConstants/urlConstants';
-import {PostRequest} from '../../../services/apiCall';
-import {SimpleSnackBar} from '../../../components/atom/Snakbar/Snakbar';
+import { endPoint, imageUrl, messages } from '../../../AppConstants/urlConstants';
+import { PostRequest } from '../../../services/apiCall';
+import { SimpleSnackBar } from '../../../components/atom/Snakbar/Snakbar';
 
 const data = [
   {
@@ -135,7 +135,7 @@ const data = [
   },
 ];
 
-const AdminApproveBarber = ({navigation}) => {
+const AdminApproveBarber = ({ navigation }) => {
   // const [btnClicked, setBtnClicked] = React.useState(false);
 
   const btnClicked = useRef(null);
@@ -233,6 +233,7 @@ const AdminApproveBarber = ({navigation}) => {
   const toggleSelection = itemId => {
     const selectedIndex = selectedItems.indexOf(itemId);
     let newSelectedItems = [...selectedItems];
+    console.log("selecteditems", selectedItems)
 
     if (selectedIndex === -1) {
       newSelectedItems.push(itemId);
@@ -242,11 +243,12 @@ const AdminApproveBarber = ({navigation}) => {
     setSelectedItems(newSelectedItems);
   };
 
-  const InnerContanier = ({item, key, onPress, selected}) => {
+  const InnerContanier = ({ item, key, onPress, selected }) => {
     const isSelected = selectedItems.includes(item.servicesId);
+    console.log("mdkfnjnfjib", isSelected)
 
     return (
-      
+
       <TouchableOpacity
         key={key}
         onPress={() => toggleSelection(item.servicesId)}
@@ -265,7 +267,7 @@ const AdminApproveBarber = ({navigation}) => {
             justifyContent: 'space-between',
             marginHorizontal: 10,
           }}>
-          <View style={{flex: 0.5, justifyContent: 'center'}}>
+          <View style={{ flex: 0.5, justifyContent: 'center' }}>
             <Text
               style={{
                 fontWeight: '500',
@@ -285,7 +287,7 @@ const AdminApproveBarber = ({navigation}) => {
             <View
               style={[
                 ticketStyle.OuterCircle,
-                isSelected && {backgroundColor: '#c79647'},
+                isSelected && { backgroundColor: '#c79647' },
               ]}>
               {isSelected && (
                 <CustomIcon
@@ -302,7 +304,7 @@ const AdminApproveBarber = ({navigation}) => {
     );
   };
 
-  const TicketsComponent = ({item, index, onPress, viewDetails}) => {
+  const TicketsComponent = ({ item, index, onPress, viewDetails }) => {
     return (
       <View style={ticketStyle.container}>
         <TouchableOpacity
@@ -330,7 +332,7 @@ const AdminApproveBarber = ({navigation}) => {
                 justifyContent: 'center',
               }}>
               <Image
-                source={{uri: `${imageUrl}${item.profileImage}`}}
+                source={{ uri: `${imageUrl}${item.profileImage}` }}
                 style={{
                   height: Platform.OS == 'ios' ? 80 : 70,
                   width: Platform.OS == 'ios' ? 80 : 70,
@@ -370,7 +372,7 @@ const AdminApproveBarber = ({navigation}) => {
                 } else {
                   barberItem = BarberApprove[index]['isClicked'] = true;
                 }
-                setBarberApprove([...BarberApprove, {...barberItem}]);
+                setBarberApprove([...BarberApprove, { ...barberItem }]);
                 fadeIn();
                 btnClicked.current = !btnClicked.current;
               }}
@@ -397,7 +399,7 @@ const AdminApproveBarber = ({navigation}) => {
             </TouchableOpacity>
           </View>
 
-          <View style={{height: 1, position: 'relative', marginHorizontal: 15}}>
+          <View style={{ height: 1, position: 'relative', marginHorizontal: 15 }}>
             <View
               style={{
                 position: 'absolute',
@@ -412,7 +414,7 @@ const AdminApproveBarber = ({navigation}) => {
               }}></View>
           </View>
 
-          <View style={{flex: 0.4, flexDirection: 'row'}}>
+          <View style={{ flex: 0.4, flexDirection: 'row' }}>
             <View
               style={{
                 flex: 0.5,
@@ -471,11 +473,11 @@ const AdminApproveBarber = ({navigation}) => {
 
   return (
     <Screen
-      viewStyle={{padding: 15, flex: 1, backgroundColor: appColors.Black}}
+      viewStyle={{ padding: 15, flex: 1, backgroundColor: appColors.Black }}
       statusBarColor={appColors.Black}>
-      <View style={{flex: 0.1}}>
+      <View style={{ flex: 0.1 }}>
         <Header
-          headerSubView={{marginHorizontal: 5}}
+          headerSubView={{ marginHorizontal: 5 }}
           lefttIcoType={Icons.Ionicons}
           onPressLeftIcon={() => navigation.goBack()}
           leftIcoName={'chevron-back'}
@@ -502,16 +504,16 @@ const AdminApproveBarber = ({navigation}) => {
         <ActivityIndicator
           size={'small'}
           color={appColors.Goldcolor}
-          style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}
+          style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}
         />
       ) : (
-        <View style={{flex: 0.9}}>
+        <View style={{ flex: 0.9 }}>
           <FlatList
             data={BarberApprove}
             keyExtractor={item => item.barberId}
             nestedScrollEnabled={true}
             showsVerticalScrollIndicator={false}
-            renderItem={({item, index}) => (
+            renderItem={({ item, index }) => (
               <TicketsComponent item={item} index={index} />
             )}
           />

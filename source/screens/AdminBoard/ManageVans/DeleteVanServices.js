@@ -10,6 +10,7 @@ import { SimpleSnackBar } from '../../../components/atom/Snakbar/Snakbar';
 import appColors from '../../../AppConstants/appColors';
 
 const DeleteVanServices = ({ refRBSheet, vandetails }) => {
+
   console.log("test,", vandetails);
   // const [editedDetails, setEditedDetails] = useState([vandetails])
   const VanInfo = () => {
@@ -26,6 +27,7 @@ const DeleteVanServices = ({ refRBSheet, vandetails }) => {
     console.log("testtttt", payload),
     console.log(".......",vandetails)
 
+    
       PostRequest(endPoint.DELETE_VANS, payload)
         .then(res => {
           console.log("Responseee", res?.data)
@@ -40,7 +42,7 @@ const DeleteVanServices = ({ refRBSheet, vandetails }) => {
         });
   };
   const handleDeleteServices = () => {
-    VanInfo();
+    1 ();
   // console.log(VanInfo()),
     SimpleSnackBar('deleted sucessfully', appColors.Green)
      // Call your API function here
@@ -48,7 +50,7 @@ const DeleteVanServices = ({ refRBSheet, vandetails }) => {
 
 
   return (
-    <View style={{ flex: 1, marginVertical: 15 }}>
+    <View style={{ flex: 1, marginVertical: 15 }}> 
       <View style={{ flex: 0.6 }}>
         <View
           style={{ flex: 0.4, alignItems: 'center', justifyContent: 'center' }}>
