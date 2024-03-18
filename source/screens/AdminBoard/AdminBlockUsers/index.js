@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { screenSize } from "../../../components/atom/ScreenSize";
 
+
 const { View, Text, FlatList, TouchableOpacity, ScrollView } = require("react-native")
 
 const AdminBlockUsers = ({ onPress }) => {
@@ -135,19 +136,6 @@ const AdminBlockUsers = ({ onPress }) => {
 
 
     const [barberData, setBarberData] = useState(data)
-
-    // const handleBarberPress = (item) => {
-    //     console.log("items", item?.item?.isOpen)
-    //     if (item?.item?.isOpen == false) {
-    //         barberData[item?.index]["isOpen"] = true
-    //         setBarberData([...barberData])
-    //     }
-    //     else {
-    //         barberData[item?.index]["isOpen"] = false
-    //         setBarberData([...barberData])
-    //     }
-    // }
-
     const handleBarberPress = (item) => {
         const newData = barberData.map(barber => {
             if (barber.barberId === item.item.barberId) {
@@ -157,7 +145,6 @@ const AdminBlockUsers = ({ onPress }) => {
         });
         setBarberData(newData);
     }
-
 
     return (
         <View style={{backgroundColor:'black',alignItems: 'center',flex:1}}>
@@ -177,13 +164,14 @@ const AdminBlockUsers = ({ onPress }) => {
                                 <Text style={{ color: 'white' }}>Barber ID: {item.item.barberId}</Text>
                                 <Text style={{ color: 'white' }}>Barber Name: {item.item.barberName}</Text>
                                 <Text style={{ color: 'white' }}>Barber StatusID: {item.item.statusId}</Text>
-                       
+
                         </TouchableOpacity>
 
                         {Array.isArray(item.item.barberServices) && item.item.isOpen && (
-                          
-                            <ScrollView    >
-                                
+
+                            <ScrollView  nestedScrollEnabled={true}
+                            showsVerticalScrollIndicator={false} 
+                            style={{height: screenSize.height / 4.5}}> 
                                 {item.item.barberServices.map((service, index) => (
                                     <View key={index} style={{
                                         height: screenSize.height / 10,
@@ -199,9 +187,9 @@ const AdminBlockUsers = ({ onPress }) => {
                                         <Text style={{ color: 'white' }}>Approved: {service.isApproved}</Text>
                                     </View>
                                 ))}
-                               
+
                             </ScrollView>
-                           
+
                         )}
 
                     </View>

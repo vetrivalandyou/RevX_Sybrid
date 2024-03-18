@@ -1,21 +1,14 @@
 import {
   Image,
-  ScrollView,
-  StyleSheet,
   Text,
   TouchableOpacity,
   View,
-  TextInput,
   Platform,
-  ActivityIndicator,
 } from 'react-native';
 import React, { useRef, useState } from 'react';
 import Screen from '../../../components/atom/ScreenContainer/Screen';
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import Entypo from 'react-native-vector-icons/Entypo';
 import ButtonComponent from '../../../components/atom/CustomButtons/ButtonComponent';
 import styles from './styles';
-import { useNavigation } from '@react-navigation/native';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 import BottomSheet from '../../../components/molecules/BottomSheetContent/BottomSheet';
@@ -23,26 +16,24 @@ import Header from '../../../components/molecules/Header';
 import CustomIcon, {
   Icons,
 } from '../../../components/molecules/CustomIcon/CustomIcon';
-import constants from '../../../AppConstants/Constants.json';
-import DeleteVanServices from './DeleteVanServices';
+
 import { endPoint } from '../../../AppConstants/urlConstants';
 import SimpleTextField from '../../../components/molecules/TextFeilds/SimpleTextField';
 import appColors from '../../../AppConstants/appColors';
 import { PostRequest } from '../../../services/apiCall';
 
 import { AppImages } from '../../../AppConstants/AppImages';
-import ProfileUpdate from './ProfileUpdate';
-import { screenSize } from '../../../components/atom/ScreenSize';
 import { SimpleSnackBar } from '../../../components/atom/Snakbar/Snakbar';
-import Styles from '../../../components/atom/BookingButtons/Styles';
+import ChooseImage from '../../../components/molecules/ChooseImage';
 
 const AddVanservices = ({ navigation }) => {
-
+  const refRBSheet = useRef();
 
   const [profileImage, setProfileImage] = useState(null);
 
-  const handleImageCaptured = imageUri => {
-    setProfileImage(imageUri);
+  const handleImageCaptured = image=> {
+   
+    setProfileImage(image);
     // Update the profile image state with the captured image URI
     refRBSheet.current.close();
   };
@@ -256,7 +247,7 @@ const AddVanservices = ({ navigation }) => {
       </Formik>
 
       <BottomSheet ref={refRBSheet} Height={120}>
-        <ProfileUpdate onImageCaptured={handleImageCaptured} />
+      <ChooseImage refRBSheet={refRBSheet} setProfileImage={handleImageCaptured} />
       </BottomSheet>
     </Screen>
   );
