@@ -37,20 +37,16 @@ const initialBarberApproveFields = {
 };
 
 const AdminApproveBarber = ({navigation}) => {
-<<<<<<< HEAD
-=======
   const isFocused = useIsFocused();
-
->>>>>>> fafa223ed58b61778f87937bf4566aadc96cf69d
   const btnClicked = useRef(null);
   const animation = useRef(new Animated.Value(0)).current;
   const timeoutRef = useRef(null);
 
   const [openIndex, setOpenIndex] = useState(null);
-
   const [isLoading, setIsLoading] = useState(true);
   const [hasMoreData, setHasMoreData] = useState(true);
   const [isRefreshing, setIsRefreshing] = useState(false);
+  const [userDetails, setUserDetails] = useState();
   const [selectedItems, setSelectedItems] = useState([]);
   const [BarberApprove, setBarberApprove] = useState([]);
   const pageRef = useRef(1);
@@ -81,6 +77,7 @@ const AdminApproveBarber = ({navigation}) => {
       constant.AsyncStorageKeys.userDetails,
     );
     console.log('userDetails', userDetails);
+    setUserDetails(userDetails)
   };
 
   const getBarberApproveService = () => {
@@ -187,8 +184,6 @@ const AdminApproveBarber = ({navigation}) => {
     }
   };
 
-  console.log("pageRef.current",pageRef.current)
-
   const renderFooter = () => {
     return isLoading ? (
       <View style={{flex: 0.2}}>
@@ -205,13 +200,13 @@ const AdminApproveBarber = ({navigation}) => {
   };
 
   const InnerContanier = useCallback(
-    ({item, key}) => {
+    ({item, itemIndex}) => {
       const isSelected = selectedItems.includes(item.servicesId);
-      console.log('key', key);
+      console.log('key', itemIndex);
       return (
         <TouchableOpacity
           // key={item.servicesId}
-          key={key}
+          key={itemIndex}
           onPress={() => toggleSelection(item.servicesId)}
           style={{
             backgroundColor: '#252525',
@@ -427,7 +422,7 @@ const AdminApproveBarber = ({navigation}) => {
                   <Fragment>
                     {item?.barberServices?.map((service, i) => (
                       <InnerContanier
-                        key={i}
+                        itemIndex={i+5}
                         item={service}
                         selected={selectedItems}
                         onPress={() => setSelectedItems}

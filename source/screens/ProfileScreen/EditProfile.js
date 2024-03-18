@@ -1,11 +1,9 @@
 import {
   Image,
-  ScrollView,
   StyleSheet,
   Text,
   TouchableOpacity,
   View,
-  TextInput,
   Platform,
   ActivityIndicator,
 } from 'react-native';
@@ -21,13 +19,12 @@ import ButtonComponent from '../../components/atom/CustomButtons/ButtonComponent
 import appColors from '../../AppConstants/appColors';
 import {screenSize} from '../../components/atom/ScreenSize';
 import {endPoint, messages} from '../../AppConstants/urlConstants';
-import {GetRequest, PostRequest} from '../../services/apiCall';
+import {PostRequest} from '../../services/apiCall';
 import {Formik} from 'formik';
 import * as Yup from 'yup';
 import {getAsyncItem, setAsyncItem} from '../../utils/SettingAsyncStorage';
 import constants from '../../AppConstants/Constants.json';
 import BottomSheet from '../../components/molecules/BottomSheetContent/BottomSheet';
-import ProfileUpdate from '../AdminBoard/ManageVans/ProfileUpdate';
 import {SimpleSnackBar} from '../../components/atom/Snakbar/Snakbar';
 import ChooseImage from '../../components/molecules/ChooseImage';
 import {generateRandomNumber} from '../../functions/AppFunctions';
