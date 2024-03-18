@@ -1,11 +1,8 @@
 
 import {
-  StyleSheet,
   Text,
   TouchableOpacity,
   View,
-  TextInput,
-  ScrollView,
   Platform,
   Image,
 } from 'react-native';
@@ -15,8 +12,6 @@ import styles from './styles';
 import ButtonComponent from '../../../components/atom/CustomButtons/ButtonComponent';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
-import { useNavigation } from '@react-navigation/native';
-import { screenSize } from '../../../components/atom/ScreenSize';
 import Header from '../../../components/molecules/Header';
 import CustomIcon, {
   Icons,

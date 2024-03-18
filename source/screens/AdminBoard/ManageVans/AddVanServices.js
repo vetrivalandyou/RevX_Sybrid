@@ -1,21 +1,14 @@
 import {
   Image,
-  ScrollView,
-  StyleSheet,
   Text,
   TouchableOpacity,
   View,
-  TextInput,
   Platform,
-  ActivityIndicator,
 } from 'react-native';
 import React, { useRef, useState } from 'react';
 import Screen from '../../../components/atom/ScreenContainer/Screen';
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import Entypo from 'react-native-vector-icons/Entypo';
 import ButtonComponent from '../../../components/atom/CustomButtons/ButtonComponent';
 import styles from './styles';
-import { useNavigation } from '@react-navigation/native';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 import BottomSheet from '../../../components/molecules/BottomSheetContent/BottomSheet';
