@@ -1,4 +1,4 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, {Fragment, useCallback, useEffect, useRef, useState} from 'react';
 import {
   View,
   Text,
@@ -27,6 +27,8 @@ import Header from '../../../components/molecules/Header';
 import {endPoint, imageUrl, messages} from '../../../AppConstants/urlConstants';
 import {PostRequest} from '../../../services/apiCall';
 import {SimpleSnackBar} from '../../../components/atom/Snakbar/Snakbar';
+import {getAsyncItem} from '../../../utils/SettingAsyncStorage';
+import constant from '../../../AppConstants/Constants.json';
 
 const initialBarberApproveFields = {
   servicesId: null,
@@ -41,54 +43,64 @@ const AdminApproveBarber = ({navigation}) => {
   const animation = useRef(new Animated.Value(0)).current;
   const timeoutRef = useRef(null);
 
+  const [openIndex, setOpenIndex] = useState(null);
+
   const [isLoading, setIsLoading] = useState(true);
+  const [hasMoreData, setHasMoreData] = useState(true);
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [selectedItems, setSelectedItems] = useState([]);
   const [BarberApprove, setBarberApprove] = useState([]);
-  const [pageNumber, setPageNumber] = useState(1);
-  const pageRef = useRef(null);
+  const pageRef = useRef(1);
 
-  const fadeIn = () => {
-    // Will change fadeAnim value to 1 in 5 seconds
-    Animated.spring(animation, {
-      toValue: btnClicked.current ? 0 : 1,
-      //duration: 500,
-      useNativeDriver: true,
-    }).start();
+  // const fadeIn = () => {
+  //   // Will change fadeAnim value to 1 in 5 seconds
+  //   Animated.spring(animation, {
+  //     toValue: btnClicked.current ? 0 : 1,
+  //     //duration: 500,
+  //     useNativeDriver: true,
+  //   }).start();
+  // };
+
+  // useEffect(() => {
+  //   if (isFocused) {
+  //     timeoutRef.current = setTimeout(() => setIsLoading(false), 500);
+  //   }
+  //   return () => clearTimeout(timeoutRef.current);
+  // }, [isLoading]);
+
+  useEffect(() => {
+    getAsyncData();
+    getBarberApproveService();
+  }, []);
+
+  const getAsyncData = async () => {
+    const userDetails = await getAsyncItem(
+      constant.AsyncStorageKeys.userDetails,
+    );
+    console.log('userDetails', userDetails);
   };
 
-  useEffect(() => {
-    if (isFocused) {
-      timeoutRef.current = setTimeout(() => setIsLoading(false), 500);
-    }
-    return () => clearTimeout(timeoutRef.current);
-  }, [isLoading]);
-
-  useEffect(() => {
-    getBarberApproveService();
-  }, [pageNumber]);
-
   const getBarberApproveService = () => {
+    if (!hasMoreData) {
+      console.log('inside hasMoreData');
+      return;
+    }
+    console.log('Outside');
     setIsLoading(true);
     const payload = {
       ...initialBarberApproveFields,
-      pageNumber: pageNumber,
-      pageSize: 10,
+      pageNumber: pageRef.current,
+      pageSize: 5,
     };
+    console.log('Payload', payload);
     PostRequest(endPoint.BARBER_APPROVE_SERVICES, payload)
       .then(res => {
-        if (res?.data?.code == 200) {
-          // setBarberApprove(res?.data?.data);
-          setIsLoading(false);
-          setBarberApprove([
-            ...BarberApprove,
-            ...res?.data?.data?.map(x => ({
-              ...x,
-              isClicked: false,
-            })),
-          ]);
+        if (res?.data?.data?.length > 0) {
+          let newData = res?.data?.data;
+          setBarberApprove([...BarberApprove, ...newData]);
+          setIsRefreshing(false);
         } else {
-          SimpleSnackBar(res?.data?.message);
+          setHasMoreData(false);
         }
         setIsLoading(false);
         setIsRefreshing(false);
@@ -100,9 +112,31 @@ const AdminApproveBarber = ({navigation}) => {
       });
   };
 
+  const getBarberApproveList = () => {
+    const payload = {
+      ...initialBarberApproveFields,
+      pageNumber: pageRef.current,
+      pageSize: 5,
+    };
+    PostRequest(endPoint.BARBER_APPROVE_SERVICES, payload)
+      .then(res => {
+        if (res?.data?.data?.length > 0) {
+          let newData = res?.data?.data;
+          setBarberApprove(newData);
+          setIsRefreshing(false);
+        }
+      })
+      .catch(err => {
+        SimpleSnackBar(messages.Catch, appColors.Red);
+        setIsLoading(false);
+        setIsRefreshing(false);
+      });
+  };
+
   const postBarberApproveService = payload => {
     PostRequest(endPoint.BARBER_APPROVE_SERVICE_POST, payload)
       .then(res => {
+        console.log('res', res?.data);
         if (res?.data?.code === 200) {
           setIsLoading(false);
           getBarberApproveService();
@@ -120,22 +154,21 @@ const AdminApproveBarber = ({navigation}) => {
   const handleAccept = item => {
     const payload = {
       BarberId: item?.barberId,
-      StatusId: item?.StatusId,
+      StatusId: item?.statusId,
       isApproved: true,
       operations: 2,
-      createdBy: 1,
+      createdBy: userDetails?._RoleId,
       ud_Barber_Approve_Service_Type: selectedItems.map(service => ({
         servicesId: service,
       })),
     };
     console.log('Payload', payload);
-    // postBarberApproveService(payload);
+    postBarberApproveService(payload);
   };
 
   const toggleSelection = itemId => {
     const selectedIndex = selectedItems.indexOf(itemId);
     let newSelectedItems = [...selectedItems];
-
     if (selectedIndex === -1) {
       newSelectedItems.push(itemId);
     } else {
@@ -145,234 +178,13 @@ const AdminApproveBarber = ({navigation}) => {
   };
 
   const handleEndReached = () => {
-    setPageNumber(pageNumber + 1);
-    if (pageRef.current) {
-      pageRef.current.setPageNumber(pageNumber + 1);
+    if (!isLoading) {
+      pageRef.current++;
+      getBarberApproveService();
     }
   };
 
-  const InnerContanier = ({item, key, onPress, selected}) => {
-    const isSelected = selectedItems.includes(item.servicesId);
-    return (
-      <TouchableOpacity
-        key={key}
-        onPress={() => toggleSelection(item.servicesId)}
-        style={{
-          backgroundColor: '#252525',
-          marginVertical: 8,
-          height: screenSize.height / 17,
-          marginHorizontal: 5,
-          borderRadius: 8,
-          justifyContent: 'center',
-        }}>
-        <View
-          style={{
-            flex: 1,
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            marginHorizontal: 10,
-          }}>
-          <View style={{flex: 0.5, justifyContent: 'center'}}>
-            <Text
-              style={{
-                fontWeight: '500',
-                fontSize: 15,
-                color: 'white',
-                marginLeft: 5,
-              }}>
-              {item.serviceName}
-            </Text>
-          </View>
-          <View
-            style={{
-              flex: 0.5,
-              alignItems: 'flex-end',
-              justifyContent: 'center',
-            }}>
-            <View
-              style={[
-                ticketStyle.OuterCircle,
-                isSelected && {backgroundColor: '#c79647'},
-              ]}>
-              {isSelected && (
-                <CustomIcon
-                  type={Icons.AntDesign}
-                  name={'check'}
-                  color={appColors.White}
-                  size={18}
-                />
-              )}
-            </View>
-          </View>
-        </View>
-      </TouchableOpacity>
-    );
-  };
-
-  const TicketsComponent = ({item, index, onPress, viewDetails}) => (
-    <View key={index} style={ticketStyle.container}>
-      <TouchableOpacity
-        style={{
-          height: screenSize.height / 4,
-          width: screenSize.width / 1.1,
-          marginBottom: 10,
-          backgroundColor: '#252525',
-          borderWidth: 1,
-          borderRadius: 20,
-          borderColor: 'black',
-          paddingHorizontal: 10,
-        }}>
-        <View
-          style={{
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            paddingHorizontal: 10,
-            flex: 0.6,
-          }}>
-          <View
-            style={{
-              flex: 0.3,
-              alignItems: 'flex-start',
-              justifyContent: 'center',
-            }}>
-            <Image
-              source={{uri: `${imageUrl}${item.profileImage}`}}
-              style={{
-                height: Platform.OS == 'ios' ? 80 : 70,
-                width: Platform.OS == 'ios' ? 80 : 70,
-                borderRadius: 40,
-              }}
-            />
-          </View>
-          <View
-            style={{
-              flexDirection: 'column',
-              flex: 0.6,
-              justifyContent: 'center',
-            }}>
-            <Text
-              style={{
-                color: 'white',
-                fontWeight: '400',
-                fontSize: 17,
-              }}>
-              {item.barberName}
-            </Text>
-            <View>
-              <Text
-                style={{
-                  color: 'white',
-                  fontSize: 12,
-                }}>
-                {item.title}
-              </Text>
-            </View>
-          </View>
-          <TouchableOpacity
-            onPress={() => {
-              let barberItem;
-              if (item?.isClicked == true) {
-                barberItem = BarberApprove[index]['isClicked'] = false;
-              } else {
-                barberItem = BarberApprove[index]['isClicked'] = true;
-              }
-              setBarberApprove([...BarberApprove, {...barberItem}]);
-              fadeIn();
-              btnClicked.current = !btnClicked.current;
-            }}
-            style={[
-              styles.center,
-              {
-                flex: 0.1,
-                justifyContent: 'center',
-              },
-            ]}>
-            <ArrowDownIcon
-              name={
-                item?.isClicked == false ? 'arrow-drop-down' : 'arrow-drop-up'
-              }
-              color={appColors.Goldcolor}
-              size={((Sizes.height = 80), (Sizes.width = 42))}
-              style={{
-                borderWidth: 1,
-                borderColor: '#C79646',
-                borderRadius: 60,
-                marginHorizontal: -5,
-              }}
-            />
-          </TouchableOpacity>
-        </View>
-
-        <View style={{height: 1, position: 'relative', marginHorizontal: 15}}>
-          <View
-            style={{
-              position: 'absolute',
-              top: 0,
-              bottom: 0,
-              left: 0,
-              right: 0,
-              borderWidth: 1,
-              borderColor: appColors.Goldcolor,
-              borderStyle: 'dashed',
-              backgroundColor: 'transparent',
-            }}></View>
-        </View>
-
-        <View style={{flex: 0.4, flexDirection: 'row'}}>
-          <View
-            style={{
-              flex: 0.5,
-              justifyContent: 'center',
-              alignItems: 'center',
-            }}>
-            <ButtonComponent
-              btnColor={appColors.DarkGreen}
-              onPress={() => handleAccept(item)}
-              style={{
-                backgroundColor: appColors.Green,
-                width: '90%',
-                paddingVertical: 9,
-              }}
-              title={'Accept'}
-            />
-          </View>
-          <View
-            style={{
-              flex: 0.5,
-              justifyContent: 'center',
-              alignItems: 'center',
-            }}>
-            <ButtonComponent
-              btnColor={appColors.Red}
-              style={{
-                backgroundColor: appColors.Red,
-                width: '90%',
-                paddingVertical: 9,
-              }}
-              title={'Reject'}
-            />
-          </View>
-        </View>
-      </TouchableOpacity>
-      {item?.isClicked == true && item?.barberServices?.length > 0 && (
-        <ScrollView
-          nestedScrollEnabled={true}
-          showsVerticalScrollIndicator={false}
-          style={[ticketStyle.ticketDetailView]}>
-          {item?.barberServices?.length > 0 &&
-            item?.barberServices?.map((service, index) => (
-              <InnerContanier
-                key={index}
-                item={service}
-                selected={selectedItems}
-                onPress={() => setSelectedItems}
-                nestedScrollEnabled={true}
-              />
-            ))}
-        </ScrollView>
-      )}
-    </View>
-  );
+  console.log("pageRef.current",pageRef.current)
 
   const renderFooter = () => {
     return isLoading ? (
@@ -383,11 +195,259 @@ const AdminApproveBarber = ({navigation}) => {
   };
 
   const handleRefresh = () => {
-    setPageNumber(1);
-    setBarberApprove([]);
+    pageRef.current = 1;
     setIsRefreshing(true);
-    getBarberApproveService();
+    setBarberApprove(null);
+    getBarberApproveList();
   };
+
+  const InnerContanier = useCallback(
+    ({item, key}) => {
+      const isSelected = selectedItems.includes(item.servicesId);
+      console.log('key', key);
+      return (
+        <TouchableOpacity
+          // key={item.servicesId}
+          key={key}
+          onPress={() => toggleSelection(item.servicesId)}
+          style={{
+            backgroundColor: '#252525',
+            marginVertical: 8,
+            height: screenSize.height / 17,
+            marginHorizontal: 5,
+            borderRadius: 8,
+            justifyContent: 'center',
+          }}>
+          <View
+            style={{
+              flex: 1,
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              marginHorizontal: 10,
+            }}>
+            <View style={{flex: 0.5, justifyContent: 'center'}}>
+              <Text
+                style={{
+                  fontWeight: '500',
+                  fontSize: 15,
+                  color: 'white',
+                  marginLeft: 5,
+                }}>
+                {item.serviceName}
+              </Text>
+            </View>
+            <View
+              style={{
+                flex: 0.5,
+                alignItems: 'flex-end',
+                justifyContent: 'center',
+              }}>
+              <View
+                style={[
+                  ticketStyle.OuterCircle,
+                  isSelected && {backgroundColor: '#c79647'},
+                ]}>
+                {isSelected && (
+                  <CustomIcon
+                    type={Icons.AntDesign}
+                    name={'check'}
+                    color={appColors.White}
+                    size={18}
+                  />
+                )}
+              </View>
+            </View>
+          </View>
+        </TouchableOpacity>
+      );
+    },
+    [selectedItems],
+  );
+
+  const TicketsComponent = useCallback(
+    ({item, index, openIndex, onPress}) => {
+      const isCollapse = index !== openIndex;
+      return (
+        <View key={item?.barberId} style={ticketStyle.container}>
+          <View
+            style={{
+              height: screenSize.height / 4,
+              width: screenSize.width / 1.1,
+              marginBottom: 10,
+              backgroundColor: '#252525',
+              borderWidth: 1,
+              borderRadius: 20,
+              borderColor: 'black',
+              paddingHorizontal: 10,
+            }}>
+            <View
+              style={{
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                paddingHorizontal: 10,
+                flex: 0.6,
+              }}>
+              <View
+                style={{
+                  flex: 0.3,
+                  alignItems: 'flex-start',
+                  justifyContent: 'center',
+                }}>
+                <Image
+                  source={{uri: `${imageUrl}${item.profileImage}`}}
+                  style={{
+                    height: Platform.OS == 'ios' ? 80 : 70,
+                    width: Platform.OS == 'ios' ? 80 : 70,
+                    borderRadius: 40,
+                  }}
+                />
+              </View>
+              <View
+                style={{
+                  flexDirection: 'column',
+                  flex: 0.5,
+                  justifyContent: 'center',
+                }}>
+                <Text
+                  style={{
+                    color: 'white',
+                    fontWeight: '400',
+                    fontSize: 17,
+                  }}>
+                  {item.barberName}
+                </Text>
+                <View>
+                  <Text
+                    style={{
+                      color: 'white',
+                      fontSize: 12,
+                    }}>
+                    {item.title}
+                  </Text>
+                </View>
+              </View>
+              <TouchableOpacity
+                // onPress={() => toggleItem(item?.barberId)}
+                onPress={onPress}
+                style={[
+                  styles.center,
+                  {
+                    flex: 0.2,
+                    justifyContent: 'center',
+                  },
+                ]}>
+                <View
+                  style={{
+                    height: 40,
+                    width: 40,
+                    borderWidth: 1,
+                    borderRadius: 50,
+                    borderColor: appColors.Goldcolor,
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                  }}>
+                  <ArrowDownIcon
+                    name={
+                      isCollapse == true ? 'arrow-drop-down' : 'arrow-drop-up'
+                    }
+                    color={appColors.Goldcolor}
+                    size={30}
+                    // style={{
+                    //   borderWidth: 1,
+                    //   borderColor: appColors.Goldcolor,
+                    //   borderRadius: 50,
+                    // }}
+                  />
+                </View>
+              </TouchableOpacity>
+            </View>
+
+            <View
+              style={{height: 1, position: 'relative', marginHorizontal: 15}}>
+              <View
+                style={{
+                  position: 'absolute',
+                  top: 0,
+                  bottom: 0,
+                  left: 0,
+                  right: 0,
+                  borderWidth: 1,
+                  borderColor: appColors.Goldcolor,
+                  borderStyle: 'dashed',
+                  backgroundColor: 'transparent',
+                }}></View>
+            </View>
+
+            <View style={{flex: 0.4, flexDirection: 'row'}}>
+              <View
+                style={{
+                  flex: 0.5,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }}>
+                <ButtonComponent
+                  btnColor={appColors.DarkGreen}
+                  onPress={() => handleAccept(item)}
+                  style={{
+                    backgroundColor: appColors.Green,
+                    width: '90%',
+                    paddingVertical: 9,
+                  }}
+                  title={'Accept'}
+                />
+              </View>
+              <View
+                style={{
+                  flex: 0.5,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }}>
+                <ButtonComponent
+                  btnColor={appColors.Red}
+                  style={{
+                    backgroundColor: appColors.Red,
+                    width: '90%',
+                    paddingVertical: 9,
+                  }}
+                  title={'Reject'}
+                />
+              </View>
+            </View>
+          </View>
+          {item?.barberServices?.length > 0 ? (
+            <Fragment>
+              {!isCollapse && (
+                <ScrollView
+                  nestedScrollEnabled={true}
+                  showsVerticalScrollIndicator={false}
+                  style={[ticketStyle.ticketDetailView]}>
+                  <Fragment>
+                    {item?.barberServices?.map((service, i) => (
+                      <InnerContanier
+                        key={i}
+                        item={service}
+                        selected={selectedItems}
+                        onPress={() => setSelectedItems}
+                        nestedScrollEnabled={true}
+                      />
+                    ))}
+                  </Fragment>
+                </ScrollView>
+              )}
+            </Fragment>
+          ) : null}
+        </View>
+      );
+    },
+    [selectedItems],
+  );
+
+  const handleClickCollapse = useCallback(
+    index => {
+      setOpenIndex(index !== openIndex ? index : null);
+    },
+    [openIndex],
+  );
 
   return (
     <Screen
@@ -421,12 +481,16 @@ const AdminApproveBarber = ({navigation}) => {
       <View style={{flex: 0.9}}>
         <FlatList
           data={BarberApprove}
-          keyExtractor={item => item.barberId}
+          windowSize={5}
+          initialNumToRender={5}
+          maxToRenderPerBatch={5}
+          keyExtractor={item => item.barberId.toString()}
           nestedScrollEnabled={true}
           showsVerticalScrollIndicator={false}
           onEndReached={handleEndReached}
           ListFooterComponent={renderFooter}
-          onEndReachedThreshold={0.9}
+          onEndReachedThreshold={0.5}
+          extraData={BarberApprove}
           refreshControl={
             <RefreshControl
               refreshing={isRefreshing}
@@ -435,7 +499,12 @@ const AdminApproveBarber = ({navigation}) => {
             />
           }
           renderItem={({item, index}) => (
-            <TicketsComponent item={item} index={index} />
+            <TicketsComponent
+              item={item}
+              index={index}
+              openIndex={openIndex}
+              onPress={() => handleClickCollapse(index)}
+            />
           )}
         />
       </View>
