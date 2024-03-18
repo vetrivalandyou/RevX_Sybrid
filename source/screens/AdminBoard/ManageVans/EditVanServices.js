@@ -27,14 +27,13 @@ import { PostRequest } from '../../../services/apiCall';
 import { SimpleSnackBar } from '../../../components/atom/Snakbar/Snakbar';
 import { AppImages } from '../../../AppConstants/AppImages';
 import BottomSheet from '../../../components/molecules/BottomSheetContent/BottomSheet';
-import ProfileUpdate from './ProfileUpdate';
 import ChooseImage from '../../../components/molecules/ChooseImage';
 
 const EditVanservices = ({ route, navigation }) => {
   const refRBSheet = useRef();
   const [profileImage, setProfileImage] = useState(null);
 
-  const handleImageCaptured = image=> {
+  const handleImageCaptured = image => {
    
     setProfileImage(image);
     // Update the profile image state with the captured image URI

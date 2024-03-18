@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { screenSize } from "../../../components/atom/ScreenSize";
 
+
 const { View, Text, FlatList, TouchableOpacity, ScrollView } = require("react-native")
 
 const AdminBlockUsers = ({ onPress }) => {
@@ -163,11 +164,11 @@ const AdminBlockUsers = ({ onPress }) => {
                                 <Text style={{ color: 'white' }}>Barber ID: {item.item.barberId}</Text>
                                 <Text style={{ color: 'white' }}>Barber Name: {item.item.barberName}</Text>
                                 <Text style={{ color: 'white' }}>Barber StatusID: {item.item.statusId}</Text>
-                       
+
                         </TouchableOpacity>
 
                         {Array.isArray(item.item.barberServices) && item.item.isOpen && (
-                          
+
                             <ScrollView  nestedScrollEnabled={true}
                             showsVerticalScrollIndicator={false} 
                             style={{height: screenSize.height / 4.5}}> 
@@ -186,9 +187,9 @@ const AdminBlockUsers = ({ onPress }) => {
                                         <Text style={{ color: 'white' }}>Approved: {service.isApproved}</Text>
                                     </View>
                                 ))}
-                               
+
                             </ScrollView>
-                           
+
                         )}
 
                     </View>

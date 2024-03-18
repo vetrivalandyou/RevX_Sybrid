@@ -16,7 +16,6 @@ import ButtonComponent from '../../../components/atom/CustomButtons/ButtonCompon
 import styles from './styles';
 import {useNavigation} from '@react-navigation/native';
 // import BottomSheet from '../../components/atom/BottomSheet';
-
 import Screen from '../../../components/atom/ScreenContainer/Screen';
 import constants from '../../../AppConstants/Constants.json';
 import Header from '../../../components/molecules/Header';

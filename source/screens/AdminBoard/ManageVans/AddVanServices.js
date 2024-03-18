@@ -23,18 +23,14 @@ import Header from '../../../components/molecules/Header';
 import CustomIcon, {
   Icons,
 } from '../../../components/molecules/CustomIcon/CustomIcon';
-import constants from '../../../AppConstants/Constants.json';
-import DeleteVanServices from './DeleteVanServices';
+
 import { endPoint } from '../../../AppConstants/urlConstants';
 import SimpleTextField from '../../../components/molecules/TextFeilds/SimpleTextField';
 import appColors from '../../../AppConstants/appColors';
 import { PostRequest } from '../../../services/apiCall';
 
 import { AppImages } from '../../../AppConstants/AppImages';
-import ProfileUpdate from './ProfileUpdate';
-import { screenSize } from '../../../components/atom/ScreenSize';
 import { SimpleSnackBar } from '../../../components/atom/Snakbar/Snakbar';
-import Styles from '../../../components/atom/BookingButtons/Styles';
 import ChooseImage from '../../../components/molecules/ChooseImage';
 
 const AddVanservices = ({ navigation }) => {
