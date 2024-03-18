@@ -29,6 +29,7 @@ import {GetRequest, PostRequest} from '../../../services/apiCall';
 import {endPoint} from '../../../AppConstants/urlConstants';
 
 const ManageVans = ({navigation}) => {
+  const refRBSheet = useRef();
   const [selectedItem, setSelectedItem] = useState(null);
   const [vans, setVans] = useState([]);
   const [loading, setLoading] = useState(true);

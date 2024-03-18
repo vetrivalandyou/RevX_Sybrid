@@ -135,19 +135,6 @@ const AdminBlockUsers = ({ onPress }) => {
 
 
     const [barberData, setBarberData] = useState(data)
-
-    // const handleBarberPress = (item) => {
-    //     console.log("items", item?.item?.isOpen)
-    //     if (item?.item?.isOpen == false) {
-    //         barberData[item?.index]["isOpen"] = true
-    //         setBarberData([...barberData])
-    //     }
-    //     else {
-    //         barberData[item?.index]["isOpen"] = false
-    //         setBarberData([...barberData])
-    //     }
-    // }
-
     const handleBarberPress = (item) => {
         const newData = barberData.map(barber => {
             if (barber.barberId === item.item.barberId) {
@@ -157,7 +144,6 @@ const AdminBlockUsers = ({ onPress }) => {
         });
         setBarberData(newData);
     }
-
 
     return (
         <View style={{backgroundColor:'black',alignItems: 'center',flex:1}}>
@@ -182,8 +168,9 @@ const AdminBlockUsers = ({ onPress }) => {
 
                         {Array.isArray(item.item.barberServices) && item.item.isOpen && (
                           
-                            <ScrollView    >
-                                
+                            <ScrollView  nestedScrollEnabled={true}
+                            showsVerticalScrollIndicator={false} 
+                            style={{height: screenSize.height / 4.5}}> 
                                 {item.item.barberServices.map((service, index) => (
                                     <View key={index} style={{
                                         height: screenSize.height / 10,

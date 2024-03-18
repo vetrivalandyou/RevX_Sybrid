@@ -37,8 +37,11 @@ const initialBarberApproveFields = {
 };
 
 const AdminApproveBarber = ({navigation}) => {
+<<<<<<< HEAD
+=======
   const isFocused = useIsFocused();
 
+>>>>>>> fafa223ed58b61778f87937bf4566aadc96cf69d
   const btnClicked = useRef(null);
   const animation = useRef(new Animated.Value(0)).current;
   const timeoutRef = useRef(null);
