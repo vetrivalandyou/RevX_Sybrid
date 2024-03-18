@@ -25,9 +25,9 @@ const AuthIndex = () => {
 
   const {loggedIn} = useSelector(state => state.AuthReducer);
 
-  if (loggedIn == 3) {
+  if (loggedIn == 4) {
     return <Main />;
-  } else if (loggedIn == 3) {
+  } else if (loggedIn == 2) {
     return <BarberStack />;
   } else if (loggedIn ==  1) {
     return <AdminStack />;

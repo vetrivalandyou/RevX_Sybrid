@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-import React, { useEffect, useRef, useState } from 'react';
-=======
 import React, {Fragment, useCallback, useEffect, useRef, useState} from 'react';
->>>>>>> e1d081c402ed09b3ac1b46a29b3288d7d05e25b3
 import {
   View,
   Text,
@@ -28,17 +24,11 @@ import Sizes from '../../../AppConstants/Sizes';
 import { AppImages } from '../../../AppConstants/AppImages';
 import Screen from '../../../components/atom/ScreenContainer/Screen';
 import Header from '../../../components/molecules/Header';
-<<<<<<< HEAD
-import { endPoint, imageUrl, messages } from '../../../AppConstants/urlConstants';
-import { PostRequest } from '../../../services/apiCall';
-import { SimpleSnackBar } from '../../../components/atom/Snakbar/Snakbar';
-=======
 import {endPoint, imageUrl, messages} from '../../../AppConstants/urlConstants';
 import {PostRequest} from '../../../services/apiCall';
 import {SimpleSnackBar} from '../../../components/atom/Snakbar/Snakbar';
 import {getAsyncItem} from '../../../utils/SettingAsyncStorage';
 import constant from '../../../AppConstants/Constants.json';
->>>>>>> e1d081c402ed09b3ac1b46a29b3288d7d05e25b3
 
 const initialBarberApproveFields = {
   servicesId: null,
@@ -46,15 +36,10 @@ const initialBarberApproveFields = {
   statusId: null,
 };
 
-<<<<<<< HEAD
-const AdminApproveBarber = ({ navigation }) => {
-  // const [btnClicked, setBtnClicked] = React.useState(false);
-=======
 const AdminApproveBarber = ({navigation}) => {
 
   const isFocused = useIsFocused();
 
->>>>>>> e1d081c402ed09b3ac1b46a29b3288d7d05e25b3
 
   const btnClicked = useRef(null);
   const animation = useRef(new Animated.Value(0)).current;
@@ -187,11 +172,6 @@ const AdminApproveBarber = ({navigation}) => {
   const toggleSelection = itemId => {
     const selectedIndex = selectedItems.indexOf(itemId);
     let newSelectedItems = [...selectedItems];
-<<<<<<< HEAD
-    console.log("selecteditems", selectedItems)
-
-=======
->>>>>>> e1d081c402ed09b3ac1b46a29b3288d7d05e25b3
     if (selectedIndex === -1) {
       newSelectedItems.push(itemId);
     } else {
@@ -200,72 +180,6 @@ const AdminApproveBarber = ({navigation}) => {
     setSelectedItems(newSelectedItems);
   };
 
-<<<<<<< HEAD
-  const InnerContanier = ({ item, key, onPress, selected }) => {
-    const isSelected = selectedItems.includes(item.servicesId);
-    console.log("mdkfnjnfjib", isSelected)
-
-    return (
-
-      <TouchableOpacity
-        key={key}
-        onPress={() => toggleSelection(item.servicesId)}
-        style={{
-          backgroundColor: '#252525',
-          marginVertical: 8,
-          height: screenSize.height / 17,
-          marginHorizontal: 5,
-          borderRadius: 8,
-          justifyContent: 'center',
-        }}>
-        <View
-          style={{
-            flex: 1,
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            marginHorizontal: 10,
-          }}>
-          <View style={{ flex: 0.5, justifyContent: 'center' }}>
-            <Text
-              style={{
-                fontWeight: '500',
-                fontSize: 15,
-                color: 'white',
-                marginLeft: 5,
-              }}>
-              {item.serviceName}
-            </Text>
-          </View>
-          <View
-            style={{
-              flex: 0.5,
-              alignItems: 'flex-end',
-              justifyContent: 'center',
-            }}>
-            <View
-              style={[
-                ticketStyle.OuterCircle,
-                isSelected && { backgroundColor: '#c79647' },
-              ]}>
-              {isSelected && (
-                <CustomIcon
-                  type={Icons.AntDesign}
-                  name={'check'}
-                  color={appColors.White}
-                  size={18}
-                />
-              )}
-            </View>
-          </View>
-        </View>
-      </TouchableOpacity>
-    );
-  };
-
-  const TicketsComponent = ({ item, index, onPress, viewDetails }) => {
-    return (
-      <View style={ticketStyle.container}>
-=======
   const handleEndReached = () => {
     if (!isLoading) {
       pageRef.current++;
@@ -293,7 +207,6 @@ const AdminApproveBarber = ({navigation}) => {
       const isSelected = selectedItems.includes(item.servicesId);
       console.log('key', itemIndex);
       return (
->>>>>>> e1d081c402ed09b3ac1b46a29b3288d7d05e25b3
         <TouchableOpacity
           // key={item.servicesId}
           key={itemIndex}
@@ -313,31 +226,7 @@ const AdminApproveBarber = ({navigation}) => {
               justifyContent: 'space-between',
               marginHorizontal: 10,
             }}>
-<<<<<<< HEAD
-            <View
-              style={{
-                flex: 0.3,
-                alignItems: 'flex-start',
-                justifyContent: 'center',
-              }}>
-              <Image
-                source={{ uri: `${imageUrl}${item.profileImage}` }}
-                style={{
-                  height: Platform.OS == 'ios' ? 80 : 70,
-                  width: Platform.OS == 'ios' ? 80 : 70,
-                  borderRadius: 40,
-                }}
-              />
-            </View>
-            <View
-              style={{
-                flexDirection: 'column',
-                flex: 0.6,
-                justifyContent: 'center',
-              }}>
-=======
             <View style={{flex: 0.5, justifyContent: 'center'}}>
->>>>>>> e1d081c402ed09b3ac1b46a29b3288d7d05e25b3
               <Text
                 style={{
                   fontWeight: '500',
@@ -369,93 +258,6 @@ const AdminApproveBarber = ({navigation}) => {
                 )}
               </View>
             </View>
-<<<<<<< HEAD
-            <TouchableOpacity
-              onPress={() => {
-                let barberItem;
-                if (item?.isClicked == true) {
-                  barberItem = BarberApprove[index]['isClicked'] = false;
-                } else {
-                  barberItem = BarberApprove[index]['isClicked'] = true;
-                }
-                setBarberApprove([...BarberApprove, { ...barberItem }]);
-                fadeIn();
-                btnClicked.current = !btnClicked.current;
-              }}
-              style={[
-                styles.center,
-                {
-                  flex: 0.1,
-                  justifyContent: 'center',
-                },
-              ]}>
-              <ArrowDownIcon
-                name={
-                  item?.isClicked == false ? 'arrow-drop-down' : 'arrow-drop-up'
-                }
-                color={appColors.Goldcolor}
-                size={((Sizes.height = 80), (Sizes.width = 42))}
-                style={{
-                  borderWidth: 1,
-                  borderColor: '#C79646',
-                  borderRadius: 60,
-                  marginHorizontal: -5,
-                }}
-              />
-            </TouchableOpacity>
-          </View>
-
-          <View style={{ height: 1, position: 'relative', marginHorizontal: 15 }}>
-            <View
-              style={{
-                position: 'absolute',
-                top: 0,
-                bottom: 0,
-                left: 0,
-                right: 0,
-                borderWidth: 1,
-                borderColor: appColors.Goldcolor,
-                borderStyle: 'dashed',
-                backgroundColor: 'transparent',
-              }}></View>
-          </View>
-
-          <View style={{ flex: 0.4, flexDirection: 'row' }}>
-            <View
-              style={{
-                flex: 0.5,
-                justifyContent: 'center',
-                alignItems: 'center',
-              }}>
-              <ButtonComponent
-                btnColor={appColors.DarkGreen}
-                onPress={() => handleAccept(item)}
-                style={{
-                  backgroundColor: appColors.Green,
-                  width: '90%',
-                  paddingVertical: 9,
-                }}
-                title={'Accept'}
-              />
-            </View>
-            <View
-              style={{
-                flex: 0.5,
-                justifyContent: 'center',
-                alignItems: 'center',
-              }}>
-              <ButtonComponent
-                btnColor={appColors.Red}
-                style={{
-                  backgroundColor: appColors.Red,
-                  width: '90%',
-                  paddingVertical: 9,
-                }}
-                title={'Reject'}
-              />
-            </View>
-=======
->>>>>>> e1d081c402ed09b3ac1b46a29b3288d7d05e25b3
           </View>
         </TouchableOpacity>
       );
@@ -470,7 +272,7 @@ const AdminApproveBarber = ({navigation}) => {
         <View key={item?.barberId} style={ticketStyle.container}>
           <View
             style={{
-              height: screenSize.height / 4,
+              height: screenSize.height / 5,
               width: screenSize.width / 1.1,
               marginBottom: 10,
               backgroundColor: '#252525',
@@ -491,12 +293,13 @@ const AdminApproveBarber = ({navigation}) => {
                   flex: 0.3,
                   alignItems: 'flex-start',
                   justifyContent: 'center',
+                 
                 }}>
                 <Image
                   source={{uri: `${imageUrl}${item.profileImage}`}}
                   style={{
-                    height: Platform.OS == 'ios' ? 80 : 70,
-                    width: Platform.OS == 'ios' ? 80 : 70,
+                    height: Platform.OS == 'ios' ? 80 : 63,
+                    width: Platform.OS == 'ios' ? 80 : 63,
                     borderRadius: 40,
                   }}
                 />
@@ -521,7 +324,7 @@ const AdminApproveBarber = ({navigation}) => {
                       color: 'white',
                       fontSize: 12,
                     }}>
-                    {item.title}
+                   Abda.Shaheen1@gmail.com
                   </Text>
                 </View>
               </View>
@@ -533,6 +336,8 @@ const AdminApproveBarber = ({navigation}) => {
                   {
                     flex: 0.2,
                     justifyContent: 'center',
+                    // backgroundColor:'pink',
+                    alignItems:'center'
                   },
                 ]}>
                 <View
@@ -550,7 +355,7 @@ const AdminApproveBarber = ({navigation}) => {
                       isCollapse == true ? 'arrow-drop-down' : 'arrow-drop-up'
                     }
                     color={appColors.Goldcolor}
-                    size={30}
+                    size={35}
                     // style={{
                     //   borderWidth: 1,
                     //   borderColor: appColors.Goldcolor,
@@ -585,7 +390,7 @@ const AdminApproveBarber = ({navigation}) => {
                   alignItems: 'center',
                 }}>
                 <ButtonComponent
-                  btnColor={appColors.DarkGreen}
+                  btnColor={"#4F7942"}
                   onPress={() => handleAccept(item)}
                   style={{
                     backgroundColor: appColors.Green,
@@ -602,7 +407,7 @@ const AdminApproveBarber = ({navigation}) => {
                   alignItems: 'center',
                 }}>
                 <ButtonComponent
-                  btnColor={appColors.Red}
+                  btnColor={"#df2525"}
                   style={{
                     backgroundColor: appColors.Red,
                     width: '90%',
@@ -677,27 +482,6 @@ const AdminApproveBarber = ({navigation}) => {
         />
       </View>
 
-<<<<<<< HEAD
-      {loading ? (
-        <ActivityIndicator
-          size={'small'}
-          color={appColors.Goldcolor}
-          style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}
-        />
-      ) : (
-        <View style={{ flex: 0.9 }}>
-          <FlatList
-            data={BarberApprove}
-            keyExtractor={item => item.barberId}
-            nestedScrollEnabled={true}
-            showsVerticalScrollIndicator={false}
-            renderItem={({ item, index }) => (
-              <TicketsComponent item={item} index={index} />
-            )}
-          />
-        </View>
-      )}
-=======
       <View style={{flex: 0.9}}>
         <FlatList
           data={BarberApprove}
@@ -728,7 +512,6 @@ const AdminApproveBarber = ({navigation}) => {
           )}
         />
       </View>
->>>>>>> e1d081c402ed09b3ac1b46a29b3288d7d05e25b3
     </Screen>
   );
 };

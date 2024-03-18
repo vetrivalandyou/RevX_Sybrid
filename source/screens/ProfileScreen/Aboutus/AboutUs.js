@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {Text, Touchable, TouchableOpacity, View} from 'react-native';
 import Screen from '../../../components/atom/ScreenContainer/Screen';
 import appColors from '../../../AppConstants/appColors';
@@ -7,8 +7,36 @@ import CustomIcon, {
   Icons,
 } from '../../../components/molecules/CustomIcon/CustomIcon';
 import constants from '../../../AppConstants/Constants.json';
+import { endPoint } from '../../../AppConstants/urlConstants';
+import { SimpleSnackBar } from '../../../components/atom/Snakbar/Snakbar';
+import { GetRequest } from '../../../services/apiCall';
 
 const AboutUs = ({navigation}) => {
+  const [dropDownData, setDropDownData] = useState([]);
+
+
+  const getAboutUs = () => {
+    GetRequest(endPoint.GET_ABOUT_US)
+      .then(res => {
+        console.log('data.........', res?.data);
+        if (res?.data?.code == 200) {
+         console.log(res?.data);
+         setDropDownData(res?.data?.data);
+        } else {
+          SimpleSnackBar(res?.data?.message);
+        
+        }
+      })
+      .catch(err => {
+        SimpleSnackBar(messages.Catch, appColors.Red);
+       
+      });
+  };
+  useEffect(() => {
+   getAboutUs();
+  
+  }, []);
+
   return (
     <Screen
       statusBarColor={appColors.Black}
@@ -38,80 +66,32 @@ const AboutUs = ({navigation}) => {
           }}
         />
       </View>
-
-      <View
-        style={{
-          flex: 1,
-          flexDirection: 'column',
-          padding: 3,
-        }}>
-        <TouchableOpacity
-          style={{
-            flex: 0.1,
-            backgroundColor: appColors.darkgrey,
-            borderRadius: 16,
-            marginBottom: 20,
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            paddingHorizontal: 20,
-          }}
-          onPress={() => navigation.navigate(constants.screen.TermsOfService)}>
-          <Text style={{color: 'white', fontSize: 17, fontWeight: 400}}>
-            Terms of Services
-          </Text>
-          <CustomIcon
-            type={Icons.AntDesign}
-            name={'caretright'}
-            color={appColors.Goldcolor}
-            size={18}
-          />
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          style={{
-            flex: 0.1,
-            backgroundColor: appColors.darkgrey,
-            borderRadius: 16,
-            marginBottom: 20,
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            paddingHorizontal: 20,
-          }}
-          onPress={() => navigation.navigate(constants.screen.PrivacyPolicy)}>
-          <Text style={{color: 'white', fontSize: 17, fontWeight: 400}}>
-            Privacy Policy
-          </Text>
-          <CustomIcon
-            type={Icons.AntDesign}
-            name={'caretright'}
-            color={appColors.Goldcolor}
-            size={18}
-          />
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={{
-            flex: 0.1,
-            backgroundColor: appColors.darkgrey,
-            borderRadius: 16,
-            marginBottom: 20,
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            paddingHorizontal: 20,
-          }}
-          onPress={() => navigation.navigate(constants.screen.License)}>
-          <Text style={{color: 'white', fontSize: 17, fontWeight: 400}}>
-            License
-          </Text>
-          <CustomIcon
-            type={Icons.AntDesign}
-            name={'caretright'}
-            color={appColors.Goldcolor}
-            size={18}
-          />
-        </TouchableOpacity>
+      <View style={{ flex: 1, flexDirection: 'column', padding: 3 }}>
+        {dropDownData.map(item => (
+          <TouchableOpacity
+          //  key={item.id}
+            style={{
+              flex: 0.1,
+              backgroundColor: appColors.darkgrey,
+              borderRadius: 16,
+              marginBottom: 20,
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              paddingHorizontal: 20,
+            }}
+            onPress={() => navigation.navigate(constants.screen.License)}>
+            <Text style={{ color: 'white', fontSize: 17, fontWeight: '400' }}>
+              {item.aboutUs}
+            </Text>
+            <CustomIcon
+              type={Icons.AntDesign}
+              name={'caretright'}
+              color={appColors.Goldcolor}
+              size={18}
+            />
+          </TouchableOpacity>
+        ))}
       </View>
     </Screen>
   );
