@@ -72,6 +72,10 @@ export const endPoint = {
 
   GET_ABOUT_US: 'Common/Get_AboutUs',
 
+  // `Common/Get_AboutUsType?aboutUsTypeId=${BARBERID}`
+  SAVE_ABOUTUS_TYPE:"Common/SaveAboutUsTypeTitleDetail"
+
+
 
 };
 
