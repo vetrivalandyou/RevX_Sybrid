@@ -67,7 +67,8 @@
     "AddVanservices": "AddVanservices",
     "DeleteVanServices": "DeleteVanServices",
    "EditVanservices": "EditVanservices",
-    "ServiceList": "ServiceList"
+    "ServiceList": "ServiceList",
+    "Profile": "Profile"
   },
   "AdminScreens": {
     "AdminBottomTabNavigation": "AdminBottomTabNavigation",

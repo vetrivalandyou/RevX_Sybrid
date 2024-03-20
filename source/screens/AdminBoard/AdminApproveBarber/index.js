@@ -29,6 +29,7 @@ import {PostRequest} from '../../../services/apiCall';
 import {SimpleSnackBar} from '../../../components/atom/Snakbar/Snakbar';
 import {getAsyncItem} from '../../../utils/SettingAsyncStorage';
 import constant from '../../../AppConstants/Constants.json';
+import {approve, reject} from '../../../AppConstants/appConstants';
 
 const initialBarberApproveFields = {
   servicesId: null,
@@ -77,7 +78,7 @@ const AdminApproveBarber = ({navigation}) => {
       constant.AsyncStorageKeys.userDetails,
     );
     console.log('userDetails', userDetails);
-    setUserDetails(userDetails)
+    setUserDetails(userDetails);
   };
 
   const getBarberApproveService = () => {
@@ -138,10 +139,11 @@ const AdminApproveBarber = ({navigation}) => {
       .then(res => {
         console.log('res', res?.data);
         if (res?.data?.code === 200) {
+          SimpleSnackBar(res?.data?.message);
           setIsLoading(false);
           getBarberApproveService();
         } else {
-          SimpleSnackBar(res?.data?.message);
+          SimpleSnackBar(res?.data?.message, appColors.Red);
           setIsLoading(false);
         }
       })
@@ -151,19 +153,20 @@ const AdminApproveBarber = ({navigation}) => {
       });
   };
 
-  const handleAccept = item => {
+  const handleAction = (item, operation) => {
     const payload = {
       BarberId: item?.barberId,
-      StatusId: item?.statusId,
-      isApproved: true,
       operations: 2,
       createdBy: userDetails?._RoleId,
       ud_Barber_Approve_Service_Type: selectedItems.map(service => ({
         servicesId: service,
       })),
     };
-    console.log('Payload', payload);
-    postBarberApproveService(payload);
+    if (operation == 'Accept') {
+      postBarberApproveService({...payload, StatusId: approve, isApproved: 1});
+    } else {
+      postBarberApproveService({...payload, StatusId: reject, isApproved: 0});
+    }
   };
 
   const toggleSelection = itemId => {
@@ -350,11 +353,6 @@ const AdminApproveBarber = ({navigation}) => {
                     }
                     color={appColors.Goldcolor}
                     size={30}
-                    // style={{
-                    //   borderWidth: 1,
-                    //   borderColor: appColors.Goldcolor,
-                    //   borderRadius: 50,
-                    // }}
                   />
                 </View>
               </TouchableOpacity>
@@ -385,7 +383,7 @@ const AdminApproveBarber = ({navigation}) => {
                 }}>
                 <ButtonComponent
                   btnColor={appColors.DarkGreen}
-                  onPress={() => handleAccept(item)}
+                  onPress={() => handleAction(item, 'Accept')}
                   style={{
                     backgroundColor: appColors.Green,
                     width: '90%',
@@ -402,6 +400,7 @@ const AdminApproveBarber = ({navigation}) => {
                 }}>
                 <ButtonComponent
                   btnColor={appColors.Red}
+                  onPress={() => handleAction(item, 'Reject')}
                   style={{
                     backgroundColor: appColors.Red,
                     width: '90%',
@@ -422,7 +421,7 @@ const AdminApproveBarber = ({navigation}) => {
                   <Fragment>
                     {item?.barberServices?.map((service, i) => (
                       <InnerContanier
-                        itemIndex={i+5}
+                        itemIndex={i + 5}
                         item={service}
                         selected={selectedItems}
                         onPress={() => setSelectedItems}

@@ -48,7 +48,7 @@ const CustomDropdownPicker = ({items, values, setValues, onChange}) => {
       </TouchableOpacity>
       {showDropdown && (
         <View style={styles.dropdown}>
-          {items.map((item, index) => (
+          {items?.map((item, index) => (
             <TouchableOpacity
               key={index}
               onPress={() => {

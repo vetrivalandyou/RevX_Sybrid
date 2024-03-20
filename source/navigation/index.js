@@ -33,6 +33,7 @@ import License from '../screens/ProfileScreen/Aboutus/License';
 import BarberProfile from '../screens/BarberProfie';
 import MyLocation from '../screens/ProfileScreen/MyLocation';
 import EditProfile from '../screens/ProfileScreen/EditProfile';
+import DeepLinking from '../utils/DeepLinking';
 
 const Main = () => {
   const Stack = createNativeStackNavigator();
@@ -210,6 +211,7 @@ const Main = () => {
           options={{ headerShown: false }}
         /> */}
       </Stack.Navigator>
+      <DeepLinking />
     </NavigationContainer>
   );
 };
