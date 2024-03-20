@@ -12,16 +12,16 @@ import {
   Platform,
   RefreshControl,
 } from 'react-native';
-import {useIsFocused} from '@react-navigation/native';
+import { useIsFocused } from '@react-navigation/native';
 import ArrowDownIcon from 'react-native-vector-icons/MaterialIcons';
 import ButtonComponent from '../../../components/atom/CustomButtons/ButtonComponent';
 import CustomIcon, {
   Icons,
 } from '../../../components/molecules/CustomIcon/CustomIcon';
 import appColors from '../../../AppConstants/appColors';
-import {screenSize} from '../../../components/atom/ScreenSize';
+import { screenSize } from '../../../components/atom/ScreenSize';
 import Sizes from '../../../AppConstants/Sizes';
-import {AppImages} from '../../../AppConstants/AppImages';
+import { AppImages } from '../../../AppConstants/AppImages';
 import Screen from '../../../components/atom/ScreenContainer/Screen';
 import Header from '../../../components/molecules/Header';
 import {endPoint, imageUrl, messages} from '../../../AppConstants/urlConstants';
@@ -272,7 +272,7 @@ const AdminApproveBarber = ({navigation}) => {
         <View key={item?.barberId} style={ticketStyle.container}>
           <View
             style={{
-              height: screenSize.height / 4,
+              height: screenSize.height / 5,
               width: screenSize.width / 1.1,
               marginBottom: 10,
               backgroundColor: '#252525',
@@ -293,12 +293,13 @@ const AdminApproveBarber = ({navigation}) => {
                   flex: 0.3,
                   alignItems: 'flex-start',
                   justifyContent: 'center',
+                 
                 }}>
                 <Image
                   source={{uri: `${imageUrl}${item.profileImage}`}}
                   style={{
-                    height: Platform.OS == 'ios' ? 80 : 70,
-                    width: Platform.OS == 'ios' ? 80 : 70,
+                    height: Platform.OS == 'ios' ? 80 : 63,
+                    width: Platform.OS == 'ios' ? 80 : 63,
                     borderRadius: 40,
                   }}
                 />
@@ -323,7 +324,7 @@ const AdminApproveBarber = ({navigation}) => {
                       color: 'white',
                       fontSize: 12,
                     }}>
-                    {item.title}
+                   Abda.Shaheen1@gmail.com
                   </Text>
                 </View>
               </View>
@@ -335,6 +336,8 @@ const AdminApproveBarber = ({navigation}) => {
                   {
                     flex: 0.2,
                     justifyContent: 'center',
+                    // backgroundColor:'pink',
+                    alignItems:'center'
                   },
                 ]}>
                 <View
@@ -352,7 +355,7 @@ const AdminApproveBarber = ({navigation}) => {
                       isCollapse == true ? 'arrow-drop-down' : 'arrow-drop-up'
                     }
                     color={appColors.Goldcolor}
-                    size={30}
+                    size={35}
                     // style={{
                     //   borderWidth: 1,
                     //   borderColor: appColors.Goldcolor,
@@ -387,7 +390,7 @@ const AdminApproveBarber = ({navigation}) => {
                   alignItems: 'center',
                 }}>
                 <ButtonComponent
-                  btnColor={appColors.DarkGreen}
+                  btnColor={"#4F7942"}
                   onPress={() => handleAccept(item)}
                   style={{
                     backgroundColor: appColors.Green,
@@ -404,7 +407,7 @@ const AdminApproveBarber = ({navigation}) => {
                   alignItems: 'center',
                 }}>
                 <ButtonComponent
-                  btnColor={appColors.Red}
+                  btnColor={"#df2525"}
                   style={{
                     backgroundColor: appColors.Red,
                     width: '90%',
@@ -452,11 +455,11 @@ const AdminApproveBarber = ({navigation}) => {
 
   return (
     <Screen
-      viewStyle={{padding: 15, flex: 1, backgroundColor: appColors.Black}}
+      viewStyle={{ padding: 15, flex: 1, backgroundColor: appColors.Black }}
       statusBarColor={appColors.Black}>
-      <View style={{flex: 0.1}}>
+      <View style={{ flex: 0.1 }}>
         <Header
-          headerSubView={{marginHorizontal: 5}}
+          headerSubView={{ marginHorizontal: 5 }}
           lefttIcoType={Icons.Ionicons}
           onPressLeftIcon={() => navigation.goBack()}
           leftIcoName={'chevron-back'}

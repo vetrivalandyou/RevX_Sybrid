@@ -72,6 +72,9 @@ export const endPoint = {
   SERVICE_CATEGORIES: 'Customer/Service_Categories',
   MASTER_DETAIL: 'Common/SetupMasterDetail',
 
+  GET_ABOUT_US: 'Common/Get_AboutUs',
+
+
 };
 
 export const messages = {

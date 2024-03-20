@@ -108,7 +108,7 @@ const AddVanservices = ({ navigation }) => {
           isSubmitting,
         }) => (
           <>
-            <View style={{ flex: 0.8,}}>
+            <View style={{ flex: 0.8, }}>
               <View style={styles.ProfileMainView}>
                 <View style={styles.ProfileouterView}>
                   <TouchableOpacity onPress={() => refRBSheet.current.open()} style={styles.profileView} >
@@ -128,120 +128,120 @@ const AddVanservices = ({ navigation }) => {
                 </View>
               </View>
 
-              <View style={{flex:0.65,}}>
-              <View style={{flex: 0.19, justifyContent: 'space-evenly',}}>
-              <SimpleTextField
-                placeholder={'Enter Van Name'}
-                placeholderTextColor={appColors.LightGray}
-                onChangeText={handleChange('VanName')}
-                onBlur={handleBlur('VanName')}
-                value={values.VanName}
-              />
-          
-            <View>
-              {touched.VanName && errors.VanName && (
-                <View style={{ marginLeft: 12, }}>
-                  <Text
-                    style={{ color: appColors.Goldcolor, fontSize: 12 }}>
-                    {errors.VanName}
-                  </Text>
+              <View style={{ flex: 0.65, }}>
+                <View style={{ flex: 0.19, justifyContent: 'space-evenly', }}>
+                  <SimpleTextField
+                    placeholder={'Enter Van Name'}
+                    placeholderTextColor={appColors.LightGray}
+                    onChangeText={handleChange('VanName')}
+                    onBlur={handleBlur('VanName')}
+                    value={values.VanName}
+                  />
+
+                  <View>
+                    {touched.VanName && errors.VanName && (
+                      <View style={{ marginLeft: 12, }}>
+                        <Text
+                          style={{ color: appColors.Goldcolor, fontSize: 12 }}>
+                          {errors.VanName}
+                        </Text>
+                      </View>
+                    )}
+                  </View>
                 </View>
-              )}
-  </View>
-              </View>
-              <View style={{flex: 0.19, justifyContent: 'space-evenly',}}>
-              <SimpleTextField
-                placeholder={'Enter Van Registration No'}
-                placeholderTextColor={appColors.LightGray}
-                onChangeText={handleChange('VanRegistrationNo')}
-                onBlur={handleBlur('VanRegistrationNo')}
-                value={values.VanRegistrationNo}
-              />
-           
-            <View>
-              {touched.VanRegistrationNo &&
-                errors.VanRegistrationNo && (
-                  <View style={{ marginLeft: 12,}}>
-                    <Text
+                <View style={{ flex: 0.19, justifyContent: 'space-evenly', }}>
+                  <SimpleTextField
+                    placeholder={'Enter Van Registration No'}
+                    placeholderTextColor={appColors.LightGray}
+                    onChangeText={handleChange('VanRegistrationNo')}
+                    onBlur={handleBlur('VanRegistrationNo')}
+                    value={values.VanRegistrationNo}
+                  />
+
+                  <View>
+                    {touched.VanRegistrationNo &&
+                      errors.VanRegistrationNo && (
+                        <View style={{ marginLeft: 12, }}>
+                          <Text
+                            style={{
+                              color: appColors.Goldcolor,
+                              fontSize: 12,
+                            }}>
+                            {errors.VanRegistrationNo}
+                          </Text>
+                        </View>
+                      )}
+                  </View>
+                </View>
+
+                <View style={{ flex: 0.19, justifyContent: 'space-evenly', }}>
+                  <SimpleTextField
+                    placeholder={'Enter Van Registration Id'}
+                    placeholderTextColor={appColors.LightGray}
+                    onChangeText={handleChange('VanRegistrationId')}
+                    onBlur={handleBlur('VanRegistrationId')}
+                    value={values.VanRegistrationId}
+                  />
+
+                  <View style={{ justifyContent: 'center', }}>
+                    {touched.VanRegistrationId &&
+                      errors.VanRegistrationId && (
+                        <View style={{ marginLeft: 12, }}>
+                          <Text
+                            style={{
+                              color: appColors.Goldcolor,
+                              fontSize: 12,
+                            }}>
+                            {errors.VanRegistrationId}
+                          </Text>
+                        </View>
+                      )}
+                  </View>
+                </View>
+                <View style={{ flex: 0.19, justifyContent: 'space-evenly', }}>
+                  <SimpleTextField
+                    placeholder={'Enter Van Model'}
+                    placeholderTextColor={appColors.LightGray}
+                    onChangeText={handleChange('VanModel')}
+                    onBlur={handleBlur('VanModel')}
+                    value={values.VanModel}
+                  />
+
+
+                  {touched.VanModel && errors.VanModel && (
+                    <View
                       style={{
-                        color: appColors.Goldcolor,
-                        fontSize: 12,
+                        marginLeft: 12,
+
+                        justifyContent: 'center',
                       }}>
-                      {errors.VanRegistrationNo}
-                    </Text>
-                  </View>
-                )}
-</View>
-              </View>
+                      <Text
+                        style={{ color: appColors.Goldcolor, fontSize: 12 }}>
+                        {errors.VanModel}
+                      </Text>
+                    </View>
+                  )}
 
-              <View style={{flex: 0.19, justifyContent: 'space-evenly',}}>
-              <SimpleTextField
-                placeholder={'Enter Van Registration Id'}
-                placeholderTextColor={appColors.LightGray}
-                onChangeText={handleChange('VanRegistrationId')}
-                onBlur={handleBlur('VanRegistrationId')}
-                value={values.VanRegistrationId}
-              />
-     
-            <View style={{ justifyContent: 'center',}}>
-              {touched.VanRegistrationId &&
-                errors.VanRegistrationId && (
-                  <View style={{ marginLeft: 12, }}>
-                    <Text
-                      style={{
-                        color: appColors.Goldcolor,
-                        fontSize: 12,
-                        }}>
-                      {errors.VanRegistrationId}
-                    </Text>
-                  </View>
-                )}
-  </View>
-              </View>
-              <View style={{flex: 0.19, justifyContent: 'space-evenly',}}>
-              <SimpleTextField
-                placeholder={'Enter Van Model'}
-                placeholderTextColor={appColors.LightGray}
-                onChangeText={handleChange('VanModel')}
-                onBlur={handleBlur('VanModel')}
-                value={values.VanModel}
-              />
-
-         
-            {touched.VanModel && errors.VanModel && (
-              <View
-                style={{
-                  marginLeft: 12,
-               
-                  justifyContent: 'center',
-                }}>
-                <Text
-                  style={{ color: appColors.Goldcolor, fontSize: 12 }}>
-                  {errors.VanModel}
-                </Text>
-              </View>
-            )}
-
-</View>
+                </View>
 
               </View>
-              </View>
+            </View>
             <View style={styles.buttonView}>
-<ButtonComponent
-  style={{
-    backgroundColor: '#C79646',
-    paddingVertical: Platform.OS == 'ios' ? 17 : 13,
-    bottom: 1,
-    position: 'absolute',
-  }}
-  btnTextColor={{ color: 'white' }}
-  title={'Save'}
-  disabled={isSubmitting}
-  onPress={handleSubmit}
-  isLoading={isSubmitting}
-/>
-</View>
-           
+              <ButtonComponent
+                style={{
+                  backgroundColor: '#C79646',
+                  paddingVertical: Platform.OS == 'ios' ? 17 : 13,
+                  bottom: 1,
+                  position: 'absolute',
+                }}
+                btnTextColor={{ color: 'white' }}
+                title={'Save'}
+                disabled={isSubmitting}
+                onPress={handleSubmit}
+                isLoading={isSubmitting}
+              />
+            </View>
+
           </>
         )}
       </Formik>
