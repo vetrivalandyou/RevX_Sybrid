@@ -28,7 +28,7 @@ const EditVanservices = ({ route, navigation }) => {
   const refRBSheet = useRef();
   const [profileImage, setProfileImage] = useState(null);
 
-  const handleImageCaptured = image=> {
+  const handleImageCaptured = image => {
    
     setProfileImage(image);
     // Update the profile image state with the captured image URI

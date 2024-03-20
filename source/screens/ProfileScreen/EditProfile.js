@@ -30,6 +30,11 @@ import ChooseImage from '../../components/molecules/ChooseImage';
 import {generateRandomNumber} from '../../functions/AppFunctions';
 
 const EditProfile = ({navigation}) => {
+
+  const handleImagepress = image=>{
+    setProfileImage(image);
+    refRBSheet.current.close();
+  }
   const refRBSheet = useRef();
   const [isEye, setIsEye] = useState(false);
   const [userDetails, setUserDetails] = useState();
@@ -186,7 +191,7 @@ const EditProfile = ({navigation}) => {
                       }}>
                       {profileImage ? (
                         <Image
-                          source={{uri: profileImage?.path}}
+                          source={{uri: profileImage}}
                           style={{
                             width: '100%',
                             height: '100%',
@@ -319,7 +324,7 @@ const EditProfile = ({navigation}) => {
       </View>
       <BottomSheet ref={refRBSheet} Height={120}>
         <ChooseImage
-          setProfileImage={setProfileImage}
+          setProfileImage={handleImagepress}
           refRBSheet={refRBSheet}
         />
       </BottomSheet>

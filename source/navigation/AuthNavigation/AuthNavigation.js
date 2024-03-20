@@ -27,7 +27,7 @@ const AuthIndex = () => {
 
   if (loggedIn == 4) {
     return <Main />;
-  } else if (loggedIn == 3) {
+  } else if (loggedIn == 2) {
     return <BarberStack />;
   } else if (loggedIn ==  1) {
     return <AdminStack />;

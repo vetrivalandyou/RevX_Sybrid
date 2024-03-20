@@ -182,16 +182,16 @@ const AdminStack = () => {
           options={{headerShown: false}}
         />
 
-        {/* <Stack.Screen
+        <Stack.Screen
           name={constants.AdminScreens.EditAssignment}
           component={EditAssignment}
-          options={{ headerShown: false }}
+          options={{headerShown: false}}
         />
         <Stack.Screen
           name={constants.AdminScreens.DeleteAssignment}
           component={DeleteAssignment}
-          options={{ headerShown: false }}
-        /> */}
+          options={{headerShown: false}}
+        />
       </Stack.Navigator>
       <DeepLinking />
     </NavigationContainer>
