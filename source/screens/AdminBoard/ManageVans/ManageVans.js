@@ -26,6 +26,7 @@ import appColors from '../../../AppConstants/appColors';
 import DeleteVanServices from './DeleteVanServices';
 import {GetRequest, PostRequest} from '../../../services/apiCall';
 import {endPoint} from '../../../AppConstants/urlConstants';
+import { AppImages } from '../../../AppConstants/AppImages';
 
 const ManageVans = ({navigation}) => {
   const refRBSheet = useRef();
@@ -138,7 +139,7 @@ const Servicelist = ({item, onPress, selected}) => {
             onPress={() => handleEditPress(item)}
             style={styles.editImageView}>
             <Image
-              source={require('../../../assets/editimage.png')}
+              source={AppImages.Editimage}
               style={styles.editImageStyle}
             />
           </TouchableOpacity>
@@ -146,7 +147,7 @@ const Servicelist = ({item, onPress, selected}) => {
             onPress={() => refRBSheet.current.open()}
             style={styles.DeleteimageView}>
             <Image
-              source={require('../../../assets/deleteimage.png')}
+              source={AppImages.deleteimage}
               style={styles.Deleteimagestyle}
             />
           </TouchableOpacity>

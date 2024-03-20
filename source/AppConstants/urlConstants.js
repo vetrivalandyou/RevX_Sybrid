@@ -64,6 +64,8 @@ export const endPoint = {
   CUSTOMER_SERVICES: 'Customer/Category_Services',
   BARBER_DETAIL: 'Admin/Barber_Detail',
   GET_VANS:'Common/Get_Vans',
+  BARBER_VANASSIGNMENT_CRUD:'Barber/BarberVanAssignment_Crud',
+ GET_BARBER_VANASSIGNMENT: 'Barber/GetBarberVanAssignment',
   
 
   // Customer End Points

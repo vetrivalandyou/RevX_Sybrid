@@ -18,6 +18,7 @@ import DeleteServices from '../../screens/BarberBoard/BarberServices/DeleteServi
 
 
 import ServiceList from '../../screens/BarberBoard/BarberServices/ServiceList';
+import EditProfile from '../../screens/ProfileScreen/EditProfile';
 
 const BarberStack = () => {
   
@@ -81,6 +82,11 @@ const BarberStack = () => {
          <Stack.Screen
           name={constants.BarberScreen.ServiceList}
           component={ServiceList}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name={constants.BarberScreen.EditProfile}
+          component={EditProfile}
           options={{headerShown: false}}
         />
          
