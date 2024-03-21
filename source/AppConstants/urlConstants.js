@@ -55,6 +55,7 @@ export const endPoint = {
   //Barbers End Points
   BARBER_SERVICES: 'Admin/Barber_Detail?id=94',
   BARBER_APPROVE_SERVICES: 'Barber/GetBarberApproveService',
+  
 
   //Admin End Points
   BARBER_LIST: 'Admin/Barber_List',
@@ -73,6 +74,10 @@ export const endPoint = {
   MASTER_DETAIL: 'Common/SetupMasterDetail',
 
   GET_ABOUT_US: 'Common/Get_AboutUs',
+
+  // `Common/Get_AboutUsType?aboutUsTypeId=${BARBERID}`
+  SAVE_ABOUTUS_TYPE:"Common/SaveAboutUsTypeTitleDetail"
+
 
 
 };

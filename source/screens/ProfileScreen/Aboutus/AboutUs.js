@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import {Text, Touchable, TouchableOpacity, View} from 'react-native';
+import { Text, TouchableOpacity, View } from 'react-native';
 import Screen from '../../../components/atom/ScreenContainer/Screen';
 import appColors from '../../../AppConstants/appColors';
 import Header from '../../../components/molecules/Header';
@@ -11,40 +11,54 @@ import { endPoint } from '../../../AppConstants/urlConstants';
 import { SimpleSnackBar } from '../../../components/atom/Snakbar/Snakbar';
 import { GetRequest } from '../../../services/apiCall';
 
-const AboutUs = ({navigation}) => {
+const AboutUs = ({ navigation }) => {
   const [dropDownData, setDropDownData] = useState([]);
-
 
   const getAboutUs = () => {
     GetRequest(endPoint.GET_ABOUT_US)
       .then(res => {
         console.log('data.........', res?.data);
-        if (res?.data?.code == 200) {
-         console.log(res?.data);
-         setDropDownData(res?.data?.data);
+        if (res?.data?.code === 200) {
+          console.log(res?.data);
+          setDropDownData(res?.data?.data);
         } else {
-          SimpleSnackBar(res?.data?.message);
-        
+          SimpleSnackBar(res?.data?.message || 'Failed to fetch data');
         }
       })
       .catch(err => {
-        SimpleSnackBar(messages.Catch, appColors.Red);
-       
+        SimpleSnackBar('Failed to fetch data');
       });
   };
+
   useEffect(() => {
-   getAboutUs();
-  
+    getAboutUs();
   }, []);
+
+  const handleNavigation = (aboutUsId) => {
+    switch (aboutUsId) {
+      case 360:
+        navigation.navigate(constants.screen.TermsOfService, { aboutUsId });
+        break;
+      case 361:
+        navigation.navigate(constants.screen.PrivacyPolicy, { aboutUsId });
+        break;
+      case 362:
+        navigation.navigate(constants.screen.License, { aboutUsId });
+        break;
+      default:
+    
+        break;
+    }
+  };
 
   return (
     <Screen
       statusBarColor={appColors.Black}
       barStyle="light-content"
-      viewStyle={{backgroundColor: appColors.Black, padding: 10}}>
-      <View style={{flex: 0.1}}>
+      viewStyle={{ backgroundColor: appColors.Black, padding: 10 }}>
+      <View style={{ flex: 0.1 }}>
         <Header
-        headerSubView={{marginHorizontal: 5}}
+          headerSubView={{ marginHorizontal: 5 }}
           lefttIcoType={Icons.Ionicons}
           onPressLeftIcon={() => navigation.goBack()}
           leftIcoName={'chevron-back'}
@@ -66,10 +80,16 @@ const AboutUs = ({navigation}) => {
           }}
         />
       </View>
-      <View style={{ flex: 1, flexDirection: 'column', padding: 3 }}>
+
+      <View
+        style={{
+          flex: 1,
+          flexDirection: 'column',
+          padding: 3,
+        }}>
         {dropDownData.map(item => (
           <TouchableOpacity
-          //  key={item.id}
+            key={item.id}
             style={{
               flex: 0.1,
               backgroundColor: appColors.darkgrey,
@@ -80,7 +100,7 @@ const AboutUs = ({navigation}) => {
               alignItems: 'center',
               paddingHorizontal: 20,
             }}
-            onPress={() => navigation.navigate(constants.screen.License)}>
+            onPress={() => handleNavigation(item.aboutUsId)}> 
             <Text style={{ color: 'white', fontSize: 17, fontWeight: '400' }}>
               {item.aboutUs}
             </Text>

@@ -16,12 +16,12 @@ import {
 import BarberBottomTabNavigation from './BarberBottomTabNavigation';
 import DeleteServices from '../../screens/BarberBoard/BarberServices/DeleteServices';
 
-
 import ServiceList from '../../screens/BarberBoard/BarberServices/ServiceList';
+import Profile from '../../screens/BarberBoard/BarberProfile/Profile/Profile';
+import DeepLinking from '../../utils/DeepLinking';
 import EditProfile from '../../screens/ProfileScreen/EditProfile';
 
 const BarberStack = () => {
-  
   const Stack = createNativeStackNavigator();
   return (
     <NavigationContainer>
@@ -62,7 +62,6 @@ const BarberStack = () => {
           options={{headerShown: false}}
         />
 
-
         <Stack.Screen
           name={constants.BarberScreen.Addservices}
           component={Addservices}
@@ -79,14 +78,9 @@ const BarberStack = () => {
           component={Editservices}
           options={{headerShown: false}}
         />
-         <Stack.Screen
+        <Stack.Screen
           name={constants.BarberScreen.ServiceList}
           component={ServiceList}
-          options={{headerShown: false}}
-        />
-        <Stack.Screen
-          name={constants.BarberScreen.EditProfile}
-          component={EditProfile}
           options={{headerShown: false}}
         />
          
@@ -96,6 +90,7 @@ const BarberStack = () => {
 
 
       </Stack.Navigator>
+      <DeepLinking />
     </NavigationContainer>
   );
 };
