@@ -2,28 +2,22 @@ import {View, Text, StyleSheet, Image, FlatList} from 'react-native';
 import {ScreenSize, screenSize} from '../../../components/atom/ScreenSize';
 import React from 'react';
 import Completedbutton from '../../../components/atom/BookingButtons/Completedbutton';
+import styles from './styles';
+import Styles from '../../../components/atom/BookingButtons/Styles';
 
 const Bookingcancelled = ({data}) => {
   const ListBookingCanceled = item => {
     return (
       <View style={styles.Containerstyle}>
-        <View style={{flex: 1, borderRadius: 20}}>
-          <View
-            style={{
-              flexDirection: 'row',
-              flex: 0.25,
-              justifyContent: 'space-between',
-              alignItems: 'center',
-              marginHorizontal: 15,
-              marginTop: 5,
-            }}>
-            <View style={{flex: 0.6}}>
-              <Text style={{color: 'white', fontSize: 14}}>
+        <View style={{flex: 1}}>
+          <View style={styles.ContainerInnerview}>
+            <View style={styles.Dateview}>
+              <Text style={styles.DateTextstyle} >
                 {item.item.date}
               </Text>
             </View>
 
-            <View style={{flex: 0.25}}>
+            <View style={styles.CancelbuttonView}>
               <Completedbutton
                 title={'Cancel'}
                 style={{backgroundColor: '#e81f1c'}}
@@ -32,54 +26,30 @@ const Bookingcancelled = ({data}) => {
             </View>
           </View>
 
-          <View style={{ height: 1, position:'relative', marginHorizontal: 15}}>
+          <View style={styles.DashedrowView}>
             <View style={{ position: 'absolute', top: 0, bottom: 0, left: 0, right: 0, borderWidth: 1, borderColor: appColors.Goldcolor, borderStyle: 'dashed', backgroundColor:'transparent'  }}></View>
           </View>
-          {/* <View
-            style={{
-              fontSize: 25,
-              marginHorizontal: 14,
-              borderBottomWidth: 2,
-              borderStyle: 'dashed',
-              borderBottomColor: '#c79647',
-            }}></View> */}
-
           <View
-            style={{
-              flexDirection: 'row',
-              flex: 0.72,
-              justifyContent: 'center',
-              alignItems: 'center',
-            }}>
-            <View style={{flex: 0.35, alignItems: 'center'}}>
+            style={styles.ContainerSecondview}>
+            <View style={styles.imageView}>
               <Image
                 source={item.item.Imagesource}
-                style={{
-                  height: '80%',
-                  width: '82%',
-                  borderRadius: 7,
-                  marginTop: 5,
-                }}
+                style={styles.imageStyle}
               />
             </View>
-            <View style={{flexDirection: 'column', flex: 0.63}}>
-              <Text style={{fontSize: 18, fontWeight: '600', color: 'white'}}>
+            <View style={styles.Textview}>
+              <Text style={styles.nameStyle}>
                 {item.item.name}
               </Text>
               <View>
                 <Text
-                  style={{
-                    fontSize: 13,
-                    fontWeight: '400',
-                    color: 'white',
-                    marginVertical: 9,
-                  }}>
+                  style={styles.titleStyle}>
                   {item.item.title}
                 </Text>
               </View>
               <View>
                 <Text
-                  style={{fontSize: 10, fontWeight: '400', color: '#c79647'}}>
+                  style={styles.labelStyle}>
                   {item.item.label}
                 </Text>
               </View>
@@ -94,23 +64,11 @@ const Bookingcancelled = ({data}) => {
     <FlatList
       data={data}
       renderItem={({item, index}) => <ListBookingCanceled item={item} />}
-      // renderItem={({item}) => <listBookingCompleted item={item} />}
       keyExtractor={item => item.id}
     />
   );
 };
 
-const styles = StyleSheet.create({
-  Containerstyle: {
-    height: screenSize.height / 3.7,
-    width: screenSize.width / 1.11,
-    marginBottom: 10,
-    backgroundColor: '#252525',
-    borderWidth: 1,
-    borderRadius: 20,
-    borderColor: 'black',
-    marginHorizontal: 7,
-  },
-});
+
 
 export default Bookingcancelled;

@@ -1,114 +1,73 @@
-import {View, Text, StyleSheet, Image, FlatList} from 'react-native';
-import {ScreenSize, screenSize} from '../../../components/atom/ScreenSize';
+import { View, Text, StyleSheet, Image, FlatList } from 'react-native';
+import { ScreenSize, screenSize } from '../../../components/atom/ScreenSize';
 import React from 'react';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Bookingbutton from '../../../components/atom/BookingButtons/Bookingbutton';
 import Completedbutton from '../../../components/atom/BookingButtons/Completedbutton';
-const Bookingcompleted = ({data}) => {
+import styles from './styles';
+import Styles from '../../../components/atom/BookingButtons/Styles';
+const Bookingcompleted = ({ data }) => {
   const ListBookingCompleted = item => {
     return (
-      <View style={styles.Containerstyle}>
-        <View style={{flex: 1, borderRadius: 20}}>
+      <View style={styles.completedContaierstyle}>
+        <View style={{ flex: 1 }}>
           <View
-            style={{
-              flexDirection: 'row',
-              flex: 0.2,
-              justifyContent: 'space-between',
-              marginHorizontal: 15,
-              marginTop: 5,
-            }}>
-            <View style={{flex: 0.6, justifyContent: 'center'}}>
-              <Text style={{color: 'white', fontSize: 14}}>
+            style={styles.ContainerInnerView}>
+            <View style={styles.CompletedDateview}>
+              <Text style={styles.completedDatestyle}>
                 {item.item.date}
               </Text>
             </View>
             <View
-              style={{
-                flex: 0.2,
-                justifyContent: 'center',
-              }}>
-              <View style={styles.Ratingbox}>
+              style={styles.Ratingview}>
+              <View style={styles.Ratingstyle}>
                 <View
-                  style={{
-                    color: 'white',
-                    flexDirection: 'row',
-                    justifyContent: 'space-evenly',
-                    alignItems: 'center',
-                  }}>
+                  style={styles.RatinginnerView}>
                   <AntDesign name={'staro'} size={12} color={'#c79647'} />
-                  <Text style={{color: '#c79647', fontSize: 11}}>
+                  <Text style={styles.ratingTextstyle}>
                     {item.item.rating}
                   </Text>
                 </View>
               </View>
             </View>
-            <View style={{flex: 0.2, justifyContent: 'center'}}>
+            <View style={styles.CompletedbuttonView}>
               <Completedbutton title={'Completed'} />
             </View>
           </View>
 
-          <View style={{ height: 1, position:'relative', marginHorizontal: 15}}>
-            <View style={{ position: 'absolute', top: 0, bottom: 0, left: 0, right: 0, borderWidth: 1, borderColor: appColors.Goldcolor, borderStyle: 'dashed', backgroundColor:'transparent'  }}></View>
+          <View style={styles.CompletedDashineView}>
+            <View style={{ position: 'absolute', top: 0, bottom: 0, left: 0, right: 0, borderWidth: 1, borderColor: appColors.Goldcolor, borderStyle: 'dashed', backgroundColor: 'transparent' }}></View>
           </View>
-          {/* <View
-            style={{
-              fontSize: 25,
-              marginHorizontal: 14,
-              borderBottomWidth: 2,
-              borderStyle: 'dashed',
-              borderBottomColor: '#c79647',
-            }}></View> */}
-
           <View
-            style={{
-              flexDirection: 'row',
-              flex: 0.58,
-              justifyContent: 'center',
-              alignItems: 'center',
-            }}>
-            <View style={{flex: 0.35, alignItems: 'center'}}>
+            style={styles.containerSecondview}>
+            <View style={styles.completedImageview}>
               <Image
                 source={item.item.Imagesource}
-                style={{
-                  height: '80%',
-                  width: '82%',
-                  borderRadius: 7,
-                  marginTop: 5,
-                }}
+                style={styles.completedImagestyle}
               />
             </View>
-            <View style={{flexDirection: 'column', flex: 0.63}}>
-              <Text style={{fontSize: 18, fontWeight: '600', color: 'white'}}>
+            <View style={styles.completedTextview}>
+              <Text style={styles.Nametext}>
                 {item.item.name}
               </Text>
               <View>
                 <Text
-                  style={{
-                    fontSize: 13,
-                    fontWeight: '400',
-                    color: 'white',
-                    marginVertical: 9,
-                  }}>
+                  style={styles.Titletext}>
                   {item.item.title}
                 </Text>
               </View>
               <View>
                 <Text
-                  style={{fontSize: 10, fontWeight: '400', color: '#c79647'}}>
+                  style={styles.Labeltext}>
                   {item.item.label}
                 </Text>
               </View>
             </View>
           </View>
           <View
-            style={{
-              flex: 0.25,
-              justifyContent: 'center',
-              flexDirection: 'row',
-              justifyContent: 'space-evenly',
-            }}>
+            style={styles.ReceiptbuttonView}>
             <Bookingbutton
-              style={{width: '90%', height: '55%'}}
+              style={{ width: '90%', height: '55%' }}
               title={'View E-Receipt'}
             />
           </View>
@@ -120,32 +79,9 @@ const Bookingcompleted = ({data}) => {
   return (
     <FlatList
       data={data}
-      renderItem={({item, index}) => <ListBookingCompleted item={item} />}
-      // renderItem={({item}) => <listBookingCompleted item={item} />}
+      renderItem={({ item, index }) => <ListBookingCompleted item={item} />}
       keyExtractor={item => item.id}
     />
   );
 };
-
-const styles = StyleSheet.create({
-  Containerstyle: {
-    height: screenSize.height / 2.8,
-    width: screenSize.width / 1.11,
-    marginBottom: 10,
-    backgroundColor: '#252525',
-    borderWidth: 1,
-    borderRadius: 20,
-    borderColor: 'black',
-    marginHorizontal: 7,
-  },
-  Ratingbox: {
-    height: screenSize.height / 28,
-    width: screenSize.width / 7.1,
-    justifyContent: 'center',
-    borderWidth: 0.75,
-    borderRadius: 7,
-    borderColor: '#c79647',
-  },
-});
-
 export default Bookingcompleted;

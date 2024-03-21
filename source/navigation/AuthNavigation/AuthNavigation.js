@@ -22,12 +22,10 @@ import OTP_Verification from '../../screens/Auth/ForgotPassword/OTP_Verification
 
 const AuthIndex = () => {
   const Stack = createNativeStackNavigator();
-
   const {loggedIn} = useSelector(state => state.AuthReducer);
-
-  if (loggedIn == 3) {
+  if (loggedIn == 4) {
     return <Main />;
-  } else if (loggedIn == 2) {
+  } else if (loggedIn == 3) {
     return <BarberStack />;
   } else if (loggedIn ==  1) {
     return <AdminStack />;
