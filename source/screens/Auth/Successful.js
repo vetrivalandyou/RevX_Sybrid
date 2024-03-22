@@ -13,10 +13,6 @@ import {LogIn} from '../../redux/Action/AuthAction';
 
 const Successfull = ({route}) => {
   const {userDetails} = route.params;
-
-  const {loggedIn} = useSelector(state => state.AuthReducer);
-  
-  console.log("loggedIn", loggedIn)
   const dispatch = useDispatch();
   const navigation = useNavigation();
 
@@ -29,8 +25,7 @@ const Successfull = ({route}) => {
   return (
     <Screen
       statusBarColor={appColors.Black}
-      barStyle="light-content"
-      viewStyle={{}}>
+      barStyle="light-content">
       <View style={{flex: 0.1, justifyContent: 'center'}}>
         <Header
           lefttIcoType={Icons.Ionicons}
@@ -57,7 +52,6 @@ const Successfull = ({route}) => {
             You have successfully registered in our App
           </Text>
         </View>
-
         <View
           style={{alignItems: 'center', flex: 0.2, justifyContent: 'flex-end'}}>
           <ButtonComponent

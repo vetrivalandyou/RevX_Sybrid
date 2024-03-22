@@ -1,4 +1,4 @@
-import React, {useRef, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {View, Text, Image, TouchableOpacity} from 'react-native';
 import Share from 'react-native-share';
 import {useNavigation} from '@react-navigation/native';
@@ -12,11 +12,25 @@ import LogoutBottom from '../../LogoutBottom';
 import {screenSize} from '../../../components/atom/ScreenSize';
 import {GetRequest} from '../../../services/apiCall';
 import Entypo from 'react-native-vector-icons/Entypo';
+import {getAsyncItem} from '../../../utils/SettingAsyncStorage';
+import {imageUrl} from '../../../AppConstants/urlConstants';
 
 const BaberProfileScreen = () => {
   const navigation = useNavigation();
-
   const refRBSheet = useRef();
+
+  const [userDetails, setUserDetails] = useState();
+
+  useEffect(() => {
+    getAsyncData();
+  }, []);
+
+  const getAsyncData = async () => {
+    const userDetails = await getAsyncItem(
+      constants.AsyncStorageKeys.userDetails,
+    );
+    setUserDetails(userDetails);
+  };
 
   const getbarberProfile = () => {
     GetRequest(`Admin/Barber_Detail?id=${21}`)
@@ -155,17 +169,17 @@ const BaberProfileScreen = () => {
         }}>
         <View style={{flex: 0.1}}>
           <Image
-            source={profile}
+            source={{uri: `${imageUrl}${userDetails?.profileImage}`}}
             resizeMode="cover"
-            style={{width: 50, height: 50}}
+            style={{width: 50, height: 50, borderRadius: 100}}
           />
         </View>
         <View style={{flex: 0.7, flexDirection: 'column'}}>
           <Text style={{color: 'white', fontSize: 24, fontWeight: 400}}>
-            Michel Smith
+            {userDetails?.userName}
           </Text>
           <Text style={{color: 'white', fontSize: 14, fontWeight: 400}}>
-            Michelsmith@gmail.com{' '}
+            {userDetails?.loginEmailId}
           </Text>
         </View>
         <View>

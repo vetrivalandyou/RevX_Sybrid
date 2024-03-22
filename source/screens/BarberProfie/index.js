@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {Fragment, useEffect, useState} from 'react';
 import {
   ActivityIndicator,
   FlatList,
@@ -23,16 +23,20 @@ import {AppImages} from '../../AppConstants/AppImages';
 import {screenSize} from '../../components/atom/ScreenSize';
 import ButtonComponent from '../../components/atom/CustomButtons/ButtonComponent';
 import constants from '../../AppConstants/Constants.json';
-import {GetRequest} from '../../services/apiCall';
+import {GetRequest, PostRequest} from '../../services/apiCall';
 import {endPoint} from '../../AppConstants/urlConstants';
 import {SimpleSnackBar} from '../../components/atom/Snakbar/Snakbar';
 import {TabRouter} from '@react-navigation/native';
+import Share from 'react-native-share';
 
-const BarberProfile = ({navigation, Details}) => {
-  const [barberDetails, setBarberDetails] = useState({name: '', type: ''});
+const BarberProfile = ({navigation, route}) => {
+  const {barberId} = route.params || {};
 
+  console.log("barberIdbarberId",barberId)
+
+  const [barberDetails, setBarberDetails] = useState();
   const [activeSlide, setActiveSlide] = useState(0);
-  const [barberList, setBarberList] = useState({userType: '', userName: ''});
+  const [barberList, setBarberList] = useState();
   const [Loading, setLoading] = useState(true);
 
   const Profiles = [
@@ -51,19 +55,19 @@ const BarberProfile = ({navigation, Details}) => {
   ];
 
   useEffect(() => {
-    getBarberList();
     getBarber_Detail();
+    getBarberList();
   }, []);
 
   function getBarberList() {
-    GetRequest(endPoint.BARBER_LIST)
+    PostRequest(endPoint.BARBER_LIST)
       .then(res => {
-        setLoading(false);
         console.log('res', res?.data);
         if (res?.data?.code == 200) {
-          const Data = res?.data?.data[0];
-          setBarberList({userName: Data?.userName, userType: Data?.userType});
-        } else SimpleSnackBar(res?.data?.message);
+          setBarberList(res?.data?.data);
+        } else {
+          SimpleSnackBar(res?.data?.message);
+        }
         setLoading(false);
       })
       .catch(err => {
@@ -73,14 +77,14 @@ const BarberProfile = ({navigation, Details}) => {
   }
 
   function getBarber_Detail() {
-    GetRequest(`${endPoint.BARBER_DETAIL}?id=${94}`)
+    GetRequest(`${endPoint.BARBER_DETAIL}?id=${barberId}`)
       .then(res => {
-        console.log('resssssssssssssssss', res?.data.data);
+        console.log('res', res?.data);
         if (res?.data?.code == 200) {
-          const Details = res?.data?.data[0];
-
-          setBarberDetails({name: Details?.userName, type: Details?.userType});
-        } else SimpleSnackBar(res?.data?.message);
+          setBarberDetails(res?.data?.data);
+        } else {
+          SimpleSnackBar(res?.data?.message);
+        }
         setLoading(false);
       })
       .catch(err => {
@@ -88,6 +92,27 @@ const BarberProfile = ({navigation, Details}) => {
         console.log(err);
       });
   }
+
+  const shareProfile = async () => {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const constructedUrl = await constructProfileUrl();
+        const options = {
+          message: 'Check out Barber Profile!',
+          url: constructedUrl,
+        };
+        await Share.open(options);
+      } catch (error) {
+        console.log('Error sharing:', error.message);
+      }
+    });
+  };
+
+  const constructProfileUrl = () => {
+    return Promise.resolve(
+      `revx://revx.com/barberprofile/profileId=${barberId}`,
+    );
+  };
 
   const renderItem = ({item, index}, parallaxProps) => {
     return (
@@ -97,6 +122,7 @@ const BarberProfile = ({navigation, Details}) => {
       </View>
     );
   };
+
   return (
     <View style={{flex: 1, backgroundColor: appColors.Black}}>
       <StatusBar
@@ -104,7 +130,6 @@ const BarberProfile = ({navigation, Details}) => {
         backgroundColor="transparent"
         barStyle="light-content"
       />
-
       <View style={{flex: 0.4}}>
         <Carousel
           //  ref={carouselRef}
@@ -166,7 +191,7 @@ const BarberProfile = ({navigation, Details}) => {
         <View style={{flex: 0.79}}>
           <View style={{flex: 0.5, justifyContent: 'flex-end'}}>
             <Text style={{fontSize: 27, color: appColors.White}}>
-              {barberDetails.name}
+              {barberDetails?.userName}
             </Text>
           </View>
           <View style={{flex: 0.35, flexDirection: 'row'}}>
@@ -187,7 +212,8 @@ const BarberProfile = ({navigation, Details}) => {
                       fontSize: 15,
                       fontWeight: '500',
                     }}>
-                    {barberDetails.type}
+                    {/* {barberDetails.type} */}
+                    1.6 km
                   </Text>
                 </View>
               </View>
@@ -334,6 +360,7 @@ const BarberProfile = ({navigation, Details}) => {
               justifyContent: 'center',
             }}>
             <TouchableOpacity
+              onPress={shareProfile}
               style={{
                 borderRadius: 50,
                 height: 55,
@@ -393,83 +420,86 @@ const BarberProfile = ({navigation, Details}) => {
           </TouchableOpacity>
         </View>
       </View>
-
-      <View style={{flex: 0.1, justifyContent: 'center'}}>
-        <View
-          style={{
-            backgroundColor: appColors.darkgrey,
-            paddingVertical: 7,
-            paddingHorizontal: 12,
-            borderRadius: 70,
-            flexDirection: 'row',
-            marginVertical: 5,
-            marginHorizontal: 6,
-          }}>
-          <Image source={AppImages.bb1} />
-
-          <View style={{flex: 1, flexDirection: 'row'}}>
-            <View style={{flex: 0.8, justifyContent: 'center'}}>
-              <Text
-                style={{color: appColors.White, fontSize: 18, marginLeft: 5}}>
-                {barberList.userName}
-              </Text>
-              <Text
-                style={{color: appColors.White, marginLeft: 5, fontSize: 12}}>
-                {barberList.userType}
-              </Text>
-            </View>
+      <View style={{flex: 0.3, justifyContent: 'center'}}>
+        {barberList?.length > 0 ? (
+          <View style={{flex: 1}}>
+            {barberList?.slice(0, 3)?.map((x, i) => (
+              <View key={i} style={{flex: 0.33, justifyContent: 'center'}}>
+                <View
+                  style={{
+                    backgroundColor: appColors.darkgrey,
+                    paddingVertical: 5,
+                    paddingHorizontal: 12,
+                    borderRadius: 70,
+                    flexDirection: 'row',
+                    marginVertical: 5,
+                    marginHorizontal: 6,
+                  }}>
+                  <View
+                    style={{
+                      flex: 0.2,
+                      flexDirection: 'row',
+                    }}>
+                    <Image source={AppImages.bb1} />
+                  </View>
+                  <View
+                    style={{
+                      flex: 0.5,
+                      flexDirection: 'row',
+                      alignItems: 'center',
+                    }}>
+                    <Text
+                      style={{
+                        color: appColors.White,
+                        fontSize: 16,
+                        marginLeft: 10,
+                      }}>
+                      {x.userName}
+                    </Text>
+                  </View>
+                  <View style={{flex: 0.3, justifyContent: 'center'}}>
+                    <ButtonComponent
+                      title={'View'}
+                      onPress={() => {
+                        navigation.push(constants.screen.BarberProfile, {
+                          barberId: x.userId,
+                        });
+                      }}
+                    />
+                  </View>
+                </View>
+              </View>
+            ))}
+          </View>
+        ) : (
+          <Fragment>
             <View
               style={{
-                flex: 0.5,
-                alignItems: 'center',
+                flex: 1,
                 justifyContent: 'center',
+                alignItems: 'center',
               }}>
-              <ButtonComponent style={{width: '98%'}} title={'Message'} />
-            </View>
-          </View>
-        </View>
-      </View>
-
-      <View style={{flex: 0.1, justifyContent: 'center'}}>
-        <View
-          style={{
-            backgroundColor: appColors.darkgrey,
-            paddingVertical: 7,
-            paddingHorizontal: 12,
-            borderRadius: 70,
-            flexDirection: 'row',
-            marginVertical: 5,
-            marginHorizontal: 6,
-          }}>
-          <Image source={AppImages.bb1} />
-
-          <View style={{flex: 1, flexDirection: 'row'}}>
-            <View style={{flex: 0.8, justifyContent: 'center'}}>
+              <CustomIcon
+                type={Icons.MaterialIcons}
+                name={'do-not-disturb-alt'}
+                color={appColors.Goldcolor}
+                size={80}
+              />
               <Text
-                style={{color: appColors.White, fontSize: 18, marginLeft: 5}}>
-                {barberList.userName}
-              </Text>
-              <Text
-                style={{color: appColors.White, marginLeft: 5, fontSize: 12}}>
-                {barberList.userType}
+                style={{
+                  color: appColors.White,
+                  fontSize: 16,
+                  marginTop: 10,
+                }}>
+                No Barber Listed
               </Text>
             </View>
-            <View
-              style={{
-                flex: 0.5,
-                alignItems: 'center',
-                justifyContent: 'center',
-              }}>
-              <ButtonComponent style={{width: '98%'}} title={'Message'} />
-            </View>
-          </View>
-        </View>
+          </Fragment>
+        )}
       </View>
-
       <View
         style={{
           flex: 0.1,
-
           justifyContent: 'center',
           paddingHorizontal: 12,
         }}>
