@@ -47,7 +47,6 @@ const Main = () => {
           component={BottomTabNavigation}
           options={{headerShown: false}}
         />
-
         <Stack.Screen
           name={constants.screen.AppointmentDate}
           component={AppointmentDate}
@@ -58,13 +57,11 @@ const Main = () => {
           component={BarberEarnings}
           options={{headerShown: false}}
         />
-
         <Stack.Screen
           name={constants.screen.BarberSpecialist}
           component={BarberSpecialist}
           options={{headerShown: false}}
         />
-
         <Stack.Screen
           name={constants.screen.BarberProfile}
           component={BarberProfile}
@@ -80,31 +77,26 @@ const Main = () => {
           component={EditProfile}
           options={{headerShown: false}}
         />
-
         <Stack.Screen
           name={constants.screen.AboutUs}
           component={AboutUs}
           options={{headerShown: false}}
         />
-
         <Stack.Screen
           name={constants.screen.TermsOfService}
           component={TermsOfService}
           options={{headerShown: false}}
         />
-
         <Stack.Screen
           name={constants.screen.PrivacyPolicy}
           component={PrivacyPolicy}
           options={{headerShown: false}}
         />
-
         <Stack.Screen
           name={constants.screen.License}
           component={License}
           options={{headerShown: false}}
         />
-
         <Stack.Screen
           name={constants.screen.Services}
           component={Services}

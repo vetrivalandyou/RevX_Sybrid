@@ -20,29 +20,42 @@ import Dropdown from '../../../components/molecules/Dropdown/Dropdown';
 import appColors from '../../../AppConstants/appColors';
 import { endPoint } from '../../../AppConstants/urlConstants';
 import { SimpleSnackBar } from '../../../components/atom/Snakbar/Snakbar';
-import { GetRequest } from '../../../services/apiCall';
+import { GetRequest, PostRequest } from '../../../services/apiCall';
+import { getAsyncItem } from '../../../utils/SettingAsyncStorage';
+import constant from '../../../AppConstants/Constants.json'
 
 const EditAssignment = ({ route }) => {
   const navigation = useNavigation();
   const { serviceName, isAdded } = route.params || {};
   const [selectedVans, setselectedvans] = useState(serviceName);
-  const [selectedAssignment, setselectedAssignment] = useState(serviceName);
+  const [userDetails, setuserDetails] = useState();
+  const [barberid, setbarberid] = useState(serviceName);
   const [dropDownData, setDropDownData] = useState([]);
   const [VandropDown, setVanDropDown] = useState([]);
 
   useEffect(() => {
-    getbarberList();
+  PostbarberList();
     getVanList();
+    getUserDetail();
+   
   }, []);
+  
+  const getUserDetail = async()=> {
+    const userDatail = await getAsyncItem(constant.AsyncStorageKeys.userDetails)
+    setuserDetails(userDatail)
+  }
 
-  const getbarberList = () => {
-    GetRequest(endPoint.BARBER_LIST)
+  const PostbarberList = () => {
+    PostRequest(endPoint.BARBER_LIST)
       .then(res => {
+    
         if (res?.data?.code == 200) {
+          
           const approvedVans = res?.data?.data.filter(van => van.isApproved ==false);
           setDropDownData(approvedVans);
         } else {
           SimpleSnackBar(res?.data?.message);
+     
         }
       })
       .catch(err => {
@@ -53,7 +66,6 @@ const EditAssignment = ({ route }) => {
   const getVanList = () => {
     GetRequest(endPoint.GET_VANS)
       .then(res => {
-        console.log('..................', res?.data);
         if (res?.data?.code == 200) {
           // console.log(res?.data);
           setVanDropDown(res?.data?.data);
@@ -67,6 +79,38 @@ const EditAssignment = ({ route }) => {
        
       });
   };
+
+
+  
+  const SaveVanAssignmet = () => {
+    console.log('selected vans',userDetails)
+  console.log('selected assignmt',)
+    const payload = {
+      id: null,
+      barberId : barberid,
+      vanId: selectedVans,
+      operations: 2,
+      createdBy: userDetails.userId,
+    };
+    
+
+    PostRequest(endPoint.BARBER_VANASSIGNMENT_CRUD,payload)
+      .then(res => {
+        console.log('Response:', res?.data?.data);
+        if (res?.data?.code == 200) {
+          console.log('Data:', res?.data.data);
+         
+        } else {
+          SimpleSnackBar(res?.data?.message);
+          console.log('................else',res.data)
+
+        }
+      })
+      .catch(err => {
+        SimpleSnackBar(messages.Catch, appColors.Red);
+      });
+  };
+ 
 
 
 
@@ -90,7 +134,7 @@ const EditAssignment = ({ route }) => {
               onValueChange={(itemValue) => setselectedvans(itemValue)}
               dropDownData={dropDownData.map(van => ({ label: van.userName, value: van.userId}))}
               style={{ backgroundColor: 'black', borderColor: appColors.AppLightGray, borderRadius: 30, paddingHorizontal: 10,}}
-            custompickerstyle={{ color: selectedVans ? appColors.White : appColors.AppLightGray, }}
+              custompickerstyle={{ color: selectedVans ? appColors.White : appColors.AppLightGray, }}
             />
           </View>
         </View>
@@ -98,11 +142,11 @@ const EditAssignment = ({ route }) => {
         <View style={{ flex: 0.15, justifyContent: 'center' }}>
           <View style={{ flex: 0.65, }}>
             <Dropdown label={'Select a value'}
-              value={selectedAssignment}
-              onValueChange={(itemValue) => setselectedAssignment(itemValue)}
+              value={barberid}
+              onValueChange={(itemValue) => setbarberid(itemValue)}
               dropDownData={VandropDown.map(Van =>({label: Van.vanName, value: Van.vanId}))}
               style={{ backgroundColor: 'black', borderColor: appColors.AppLightGray, borderRadius: 30, paddingHorizontal: 10,}}
-              custompickerstyle={{ color: selectedAssignment ? appColors.White : appColors.AppLightGray, }}
+              custompickerstyle={{ color: barberid ? appColors.White : appColors.AppLightGray, }}
             />
           </View>
         </View>
@@ -120,7 +164,7 @@ const EditAssignment = ({ route }) => {
           btnTextColor={{ color: 'white' }}
           title={isAdded ? 'Save' : 'Update'}
 
-          onPress={()=> navigation.goBack()}
+          onPress={ SaveVanAssignmet}
         />
       </View>
     </Screen>

@@ -23,9 +23,7 @@ import DeepLinking from '../../utils/DeepLinking';
 
 const AuthIndex = () => {
   const Stack = createNativeStackNavigator();
-
   const {loggedIn} = useSelector(state => state.AuthReducer);
-
   if (loggedIn == 4) {
     return <Main />;
   } else if (loggedIn == 3) {
