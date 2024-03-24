@@ -6,7 +6,7 @@ import Header from '../../components/molecules/Header';
 import { Icons } from '../../components/molecules/CustomIcon/CustomIcon';
 import ButtonComponent from '../../components/atom/CustomButtons/ButtonComponent';
 import constants from '../../AppConstants/Constants.json';
-import { GetRequest } from '../../services/apiCall';
+import { GetRequest, PostRequest } from '../../services/apiCall';
 import { endPoint } from '../../AppConstants/urlConstants';
 import { AppImages } from '../../AppConstants/AppImages';
 import { SimpleSnackBar } from '../../components/atom/Snakbar/Snakbar';
@@ -80,18 +80,15 @@ const BarberSpecialist = ({ navigation ,}) => {
   ];
 
   useEffect(() => {
-
     getBarberList();
   }, []);
 
   function getBarberList() {
-    GetRequest(endPoint.BARBER_LIST)
-
+    PostRequest(endPoint.BARBER_LIST)
       .then(res => {
         setLoading(false)
         console.log('res', res?.data);
         if (res?.data?.code == 200) {
-
           setBarberList(res?.data?.data);
         }
         else SimpleSnackBar(res?.data?.message);

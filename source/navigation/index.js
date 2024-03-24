@@ -42,50 +42,6 @@ const Main = () => {
       <Stack.Navigator
         // initialRouteName={constants.screen.SplashScreen}
         screenOptions={{animation: 'slide_from_right'}}>
-        {/* <Stack.Screen
-          name={constants.screen.SplashScreen}
-          component={SplashScreen}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name={constants.screen.ScreenSlider}
-          component={ScreenSlider}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name={constants.screen.Login}
-          component={Login}
-          options={{ headerShown: false }}
-        />
-
-        <Stack.Screen
-          name={constants.screen.CreateAccount}
-          component={CreateAccount}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name={constants.screen.Successfull}
-          component={Successfull}
-          options={{ headerShown: false }}
-        />
-
-        <Stack.Screen
-          name={constants.screen.ForgotPassword}
-          component={ForgotPassword}
-          options={{ headerShown: false }}
-        />
-
-        <Stack.Screen
-          name={constants.screen.ForgotCheckEmail}
-          component={ForgotCheckEmail}
-          options={{ headerShown: false }}
-        />
-
-        <Stack.Screen
-          name={constants.screen.NewPassword}
-          component={NewPassword}
-          options={{headerShown: false}}
-        /> */}
         <Stack.Screen
           name={constants.screen.BottomTabNavigation}
           component={BottomTabNavigation}
@@ -119,7 +75,7 @@ const Main = () => {
         <Stack.Screen
           name={constants.screen.EditProfile}
           component={EditProfile}
-          options={{ headerShown: false }}
+          options={{headerShown: false}}
         />
         <Stack.Screen
           name={constants.screen.AboutUs}
@@ -191,16 +147,6 @@ const Main = () => {
           component={ServiceSpecialist}
           options={{headerShown: false}}
         />
-        {/* <Stack.Screen
-          name={constants.screen.HomeSuperAdmin}
-          component={HomeSuperAdmin}
-          options={{headerShown: false}}
-        /> */}
-        {/* <Stack.Screen
-          name={constants.screen.LocationBottom}
-          component={LocationBottom}
-          options={{ headerShown: false }}
-        /> */}
       </Stack.Navigator>
       <DeepLinking />
     </NavigationContainer>

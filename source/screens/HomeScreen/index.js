@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import {
   Image,
   Text,
@@ -7,60 +7,89 @@ import {
   FlatList,
   ScrollView,
   ImageBackground,
+  ActivityIndicator,
 } from 'react-native';
 import Screen from '../../components/atom/ScreenContainer/Screen';
 import appColors from '../../AppConstants/appColors';
 import styles from './styles';
-import { AppImages } from '../../AppConstants/AppImages';
+import {AppImages} from '../../AppConstants/AppImages';
 import CustomIcon, {
   Icons,
 } from '../../components/molecules/CustomIcon/CustomIcon';
 import Search from '../../components/atom/Search/Search';
-import { screenSize } from '../../components/atom/ScreenSize';
+import {screenSize} from '../../components/atom/ScreenSize';
 import ButtonComponent from '../../components/atom/CustomButtons/ButtonComponent';
 import constants from '../../AppConstants/Constants.json';
-import { screensEnabled } from 'react-native-screens';
-import Carousel, { Pagination, ParallaxImage } from 'react-native-snap-carousel';
-const HomeScreen = ({ navigation }) => {
-  const [activeSlide, setActiveSlide] = useState(0);
+import {screensEnabled} from 'react-native-screens';
+import Carousel, {Pagination, ParallaxImage} from 'react-native-snap-carousel';
+import {endPoint, imageUrl} from '../../AppConstants/urlConstants';
+import {PostRequest} from '../../services/apiCall';
+import {getAsyncItem} from '../../utils/SettingAsyncStorage';
+const HomeScreen = ({navigation}) => {
+  const [userDetails, setUserDetails] = useState(0);
+  const [isLoading, setIsLoading] = useState(true);
+  const [barberList, setBarberList] = useState([0]);
+
+  useEffect(() => {
+    getAsyncData();
+  }, []);
+
+  const getAsyncData = async () => {
+    const userDetails = await getAsyncItem(
+      constants.AsyncStorageKeys.userDetails,
+    );
+    setUserDetails(userDetails);
+    getBarberList();
+  };
+
+  function getBarberList() {
+    PostRequest(endPoint.BARBER_LIST)
+      .then(res => {
+        if (res?.data?.code == 200) {
+          setBarberList(res?.data?.data);
+        } else {
+          SimpleSnackBar(res?.data?.message);
+        }
+        setIsLoading(false);
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  }
+
   const OurServicesData = [
     {
       id: 1,
       title: 'Haircut for Men',
       Imagesource: AppImages.ourservices,
-
     },
     {
       id: 2,
       title: 'Shave For Men',
       Imagesource: AppImages.ourservices2,
-
     },
     {
       id: 3,
       title: 'Facial for Men',
       Imagesource: AppImages.ourservices3,
-
     },
     {
       id: 4,
       title: 'Haircut for Men',
       Imagesource: AppImages.ourservices,
-
     },
     {
       id: 5,
       title: 'Shave For Men',
       Imagesource: AppImages.ourservices2,
-
     },
     {
       id: 6,
       title: 'Facial for Men',
       Imagesource: AppImages.ourservices3,
-
     },
   ];
+
   const BarbersData = [
     {
       id: 1,
@@ -69,9 +98,7 @@ const HomeScreen = ({ navigation }) => {
       percentageimage: AppImages.Percentage,
       lable: 'Get a discount for every service order! ',
       sublable: 'only valid for toda',
-      percentage: '50% Off'
-
-
+      percentage: '50% Off',
     },
     {
       id: 2,
@@ -80,7 +107,7 @@ const HomeScreen = ({ navigation }) => {
       percentageimage: AppImages.Percentage,
       lable: 'Get a discount for every service order! ',
       sublable: 'only valid for toda',
-      percentage: '50% Off'
+      percentage: '50% Off',
     },
     {
       id: 3,
@@ -110,10 +137,8 @@ const HomeScreen = ({ navigation }) => {
       percentage: '50% Off',
     },
   ];
-  
 
-  
-  const OurServices = ({ item }) => {
+  const OurServices = ({item}) => {
     return (
       <View
         style={{
@@ -123,7 +148,7 @@ const HomeScreen = ({ navigation }) => {
           alignItems: 'center',
           // backgroundColor: 'red',
         }}>
-        <View style={{ flex: 1, width: '100%' }}>
+        <View style={{flex: 1, width: '100%'}}>
           <View
             style={{
               flex: 0.65,
@@ -132,7 +157,7 @@ const HomeScreen = ({ navigation }) => {
               // backgroundColor: 'green',
             }}>
             <Image
-              style={{ resizeMode: 'contain', flex: 1 }}
+              style={{resizeMode: 'contain', flex: 1}}
               source={item.Imagesource}
             />
           </View>
@@ -142,7 +167,7 @@ const HomeScreen = ({ navigation }) => {
               flexWrap: 'wrap',
               // backgroundColor: 'pink',
             }}>
-            <Text style={{ color: appColors.White, fontSize: 14 }}>
+            <Text style={{color: appColors.White, fontSize: 14}}>
               {item.title}
             </Text>
           </View>
@@ -151,82 +176,85 @@ const HomeScreen = ({ navigation }) => {
     );
   };
 
-  const NearbyBarbers = ({ item }) => {
-    return (
-      <View
-        style={{
-          marginHorizontal: 5,
-          height: screenSize.height / 3,
-          width: screenSize.width / 2,
-          alignItems: 'center',
-          borderRadius: 30,
-          borderWidth: 2,
-          borderColor: appColors.darkgrey,
-          padding: 10,
-        }}>
-        <View style={{ flex: 1, width: '100%' }}>
-          <View style={{ flex: 0.8, borderRadius: 30 }}>
-            <ImageBackground
-              style={{ flex: 1 }}
-              source={item.Imagesource}
-              resizeMode="contain"></ImageBackground>
-          </View>
-          <View style={{ flex: 0.2, justifyContent: 'center' }}>
-            <Text
-              style={{
-                color: appColors.White,
-                fontSize: 18,
-   
-              }}>
-              {item.title}
-            </Text>
-          </View>
+  const NearbyBarbers = ({item}) => (
+    <View
+      key={item?.userId}
+      style={{
+        marginHorizontal: 5,
+        height: screenSize.height / 3,
+        width: screenSize.width / 2,
+        alignItems: 'center',
+        borderRadius: 30,
+        borderWidth: 2,
+        borderColor: appColors.darkgrey,
+        padding: 10,
+      }}>
+      <View style={{flex: 1, width: '100%'}}>
+        <View style={{flex: 0.8, borderRadius: 30}}>
+          <ImageBackground
+            style={{flex: 1}}
+            source={{
+              uri: `${imageUrl}${item?.userProfilePath}`,
+            }}
+            resizeMode="contain"></ImageBackground>
+        </View>
+        <View style={{flex: 0.2, justifyContent: 'center'}}>
+          <Text
+            style={{
+              color: appColors.White,
+              fontSize: 18,
+            }}>
+            {item.userName}
+          </Text>
+        </View>
 
-          <View style={{ flex: 0.11, flexDirection: 'row' }}>
-            <View style={{ flexDirection: 'row', flex: 0.5 }}>
-              <CustomIcon
-                type={Icons.Feather}
-                name={'map-pin'}
-                color={appColors.White}
-                size={16}
-              />
-              <Text style={{ color: appColors.White, marginLeft: 5 }}>0.8km</Text>
-            </View>
-            <View style={{ flexDirection: 'row', flex: 0.5 }}>
-              <CustomIcon
-                type={Icons.AntDesign}
-                name={'staro'}
-                color={appColors.Goldcolor}
-                size={16}
-              />
-              <Text style={{ color: appColors.White, marginLeft: 5 }}>0.8km</Text>
-            </View>
-          </View>
-          <View style={{ flex: 0.1, justifyContent: 'center' }}>
-            <View
-              style={{
-                height: 1,
-                backgroundColor: appColors.White,
-                width: '100%',
-              }}></View>
-          </View>
-          <View style={{ flex: 0.2 }}>
-            <ButtonComponent
-              title={'View Barber Profile'}
-              style={{ paddingVertical: 9 }}
-              onPress={() =>
-                navigation.navigate(constants.screen.BarberProfile)}
+        <View style={{flex: 0.11, flexDirection: 'row'}}>
+          <View style={{flexDirection: 'row', flex: 0.5}}>
+            <CustomIcon
+              type={Icons.Feather}
+              name={'map-pin'}
+              color={appColors.White}
+              size={16}
             />
+            <Text style={{color: appColors.White, marginLeft: 5}}>0.8km</Text>
+          </View>
+          <View style={{flexDirection: 'row', flex: 0.5}}>
+            <CustomIcon
+              type={Icons.AntDesign}
+              name={'staro'}
+              color={appColors.Goldcolor}
+              size={16}
+            />
+            <Text style={{color: appColors.White, marginLeft: 5}}>0.8km</Text>
           </View>
         </View>
+        <View style={{flex: 0.1, justifyContent: 'center'}}>
+          <View
+            style={{
+              height: 1,
+              backgroundColor: appColors.White,
+              width: '100%',
+            }}></View>
+        </View>
+        <View style={{flex: 0.2}}>
+          <ButtonComponent
+            title={'View Barber Profile'}
+            style={{paddingVertical: 9}}
+            onPress={() =>
+              navigation.navigate(constants.screen.BarberProfile, {
+                barberId: item?.userId,
+              })
+            }
+          />
+        </View>
       </View>
-    );
-  };
+    </View>
+  );
 
-  
-  const Bestoffer = ({ item }) => {
+  const Bestoffer = ({item, index}) => {
     return (
       <View
+        key={index}
         style={{
           marginHorizontal: 5,
           height: screenSize.height / 2.4,
@@ -236,18 +264,20 @@ const HomeScreen = ({ navigation }) => {
           borderWidth: 2,
           borderColor: appColors.darkgrey,
           padding: 10,
-
-
         }}>
-        <View style={{ flex: 1, width: '100%' }}>
-          <View style={{ flex: 0.55, }} >
+        <View style={{flex: 1, width: '100%'}}>
+          <View style={{flex: 0.55}}>
             <Image
-              style={{ width: '100%', height: '100%', borderRadius: 25 }}
-              source={item.Imagesource}>
+              style={{width: '100%', height: '100%', borderRadius: 25}}
+              source={item.Imagesource}></Image>
 
-            </Image>
-           
-            <View style={{ position: 'absolute', padding: 10, width: '97%', alignItems: 'flex-end' }}>
+            <View
+              style={{
+                position: 'absolute',
+                padding: 10,
+                width: '97%',
+                alignItems: 'flex-end',
+              }}>
               <CustomIcon
                 type={Icons.AntDesign}
                 name={'hearto'}
@@ -256,17 +286,16 @@ const HomeScreen = ({ navigation }) => {
               />
             </View>
           </View>
-          <View style={{ flex: 0.15, justifyContent: 'center', }}>
+          <View style={{flex: 0.15, justifyContent: 'center'}}>
             <Text
               style={{
                 color: appColors.White,
                 fontSize: 25,
-
               }}>
               {item.title}
             </Text>
           </View>
-          <View style={{ flex: 0.17, }}>
+          <View style={{flex: 0.17}}>
             <Text
               style={{
                 color: appColors.White,
@@ -274,7 +303,7 @@ const HomeScreen = ({ navigation }) => {
               }}>
               {item.lable}
             </Text>
-          
+
             <Text
               style={{
                 color: appColors.White,
@@ -282,39 +311,64 @@ const HomeScreen = ({ navigation }) => {
               }}>
               {item.sublable}
             </Text>
-
           </View>
-          <View style={{ flex: 0.13, flexDirection: 'row' }}>
-
-            <View style={{ flexDirection: 'row', flex: 0.25, justifyContent: 'center', alignItems: 'center' }}>
+          <View style={{flex: 0.13, flexDirection: 'row'}}>
+            <View
+              style={{
+                flexDirection: 'row',
+                flex: 0.25,
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}>
               <CustomIcon
                 type={Icons.Feather}
                 name={'map-pin'}
                 color={appColors.White}
                 size={16}
               />
-              <Text style={{ color: appColors.White, marginLeft: 5 }}>0.8km</Text>
+              <Text style={{color: appColors.White, marginLeft: 5}}>0.8km</Text>
             </View>
-            <View style={{ flexDirection: 'row', flex: 0.3, justifyContent: 'center', alignItems: 'center' }}>
+            <View
+              style={{
+                flexDirection: 'row',
+                flex: 0.3,
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}>
               <CustomIcon
                 type={Icons.AntDesign}
                 name={'staro'}
                 color={appColors.Goldcolor}
                 size={16}
               />
-              <Text style={{ color: appColors.White, marginLeft: 5 }}>4.1rating</Text>
+              <Text style={{color: appColors.White, marginLeft: 5}}>
+                4.1rating
+              </Text>
             </View>
-            <View style={{ flexDirection: 'row', flex: 0.44, justifyContent: 'flex-end' }}>
-              <View style={{ height: 40, width: '88%', borderWidth: 1, borderRadius: 10, backgroundColor: 'white' }}>
-                <View style={{ flex: 1, flexDirection: 'row' }}>
-                  <View style={{ flex: 0.4, justifyContent: 'center', alignItems: 'center' }} >
-                    <Image
-
-                      source={item.percentageimage}>
-
-                    </Image>
+            <View
+              style={{
+                flexDirection: 'row',
+                flex: 0.44,
+                justifyContent: 'flex-end',
+              }}>
+              <View
+                style={{
+                  height: 40,
+                  width: '88%',
+                  borderWidth: 1,
+                  borderRadius: 10,
+                  backgroundColor: 'white',
+                }}>
+                <View style={{flex: 1, flexDirection: 'row'}}>
+                  <View
+                    style={{
+                      flex: 0.4,
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                    }}>
+                    <Image source={item.percentageimage}></Image>
                   </View>
-                  <View style={{ flex: 0.6, justifyContent: 'center' }} >
+                  <View style={{flex: 0.6, justifyContent: 'center'}}>
                     <Text
                       style={{
                         color: appColors.Goldcolor,
@@ -322,22 +376,21 @@ const HomeScreen = ({ navigation }) => {
                       }}>
                       {item.percentage}
                     </Text>
-
                   </View>
                 </View>
               </View>
             </View>
           </View>
-          <View>
-          </View>
+          <View></View>
         </View>
-
       </View>
     );
   };
-  const HomeHeader = ({ heading, sunHeading, source }) => {
+
+  const HomeHeader = ({heading, sunHeading, source}) => {
+    // console.log("source",source)
     return (
-      <View style={{ flex: 1, justifyContent: 'center', }}>
+      <View style={{flex: 1, justifyContent: 'center'}}>
         <View
           style={{
             flex: 1,
@@ -345,8 +398,8 @@ const HomeScreen = ({ navigation }) => {
             justifyContent: 'space-between',
           }}>
           <View
-            style={{ flex: 0.2, alignItems: 'center', justifyContent: 'center' }}>
-            <Image source={source} />
+            style={{flex: 0.2, alignItems: 'center', justifyContent: 'center',}}>
+            <Image source={{uri: source}} style={{ width: 60, height: 60, borderRadius: 100}}/>
           </View>
 
           <View
@@ -355,13 +408,13 @@ const HomeScreen = ({ navigation }) => {
               justifyContent: 'space-between',
               flexDirection: 'row',
             }}>
-            <View style={{ flex: 0.6 }}>
-              <View style={{ flex: 0.6, justifyContent: 'center' }}>
-                <Text style={{ fontSize: 22, color: appColors.White }}>
+            <View style={{flex: 0.6}}>
+              <View style={{flex: 0.6, justifyContent: 'center'}}>
+                <Text style={{fontSize: 22, color: appColors.White}}>
                   {heading}
                 </Text>
               </View>
-              <View style={{ flex: 0.4, flexDirection: 'row' }}>
+              <View style={{flex: 0.4, flexDirection: 'row'}}>
                 <CustomIcon
                   type={Icons.Feather}
                   name={'map-pin'}
@@ -370,7 +423,7 @@ const HomeScreen = ({ navigation }) => {
                 />
 
                 <Text
-                  style={{ marginLeft: 5, color: appColors.White, fontSize: 14 }}>
+                  style={{marginLeft: 5, color: appColors.White, fontSize: 14}}>
                   {sunHeading}
                 </Text>
               </View>
@@ -426,15 +479,17 @@ const HomeScreen = ({ navigation }) => {
     );
   };
 
+  console.log("userDetails",userDetails)
+
   return (
     <Screen
       statusBarColor={appColors.Black}
-      viewStyle={{ padding: 15, flex: 0.9 }}>
-      <View style={{ flex: 0.1 }}>
+      viewStyle={{padding: 15, flex: 0.9}}>
+      <View style={{flex: 0.1}}>
         <HomeHeader
-          heading={'Jonna Emma'}
+          heading={userDetails?.userName}
           sunHeading={'Washington DC'}
-          source={AppImages.profile}
+          source={`${imageUrl}${userDetails?.profileImage}`}
         />
       </View>
 
@@ -448,32 +503,29 @@ const HomeScreen = ({ navigation }) => {
         <Search leaftIconType={Icons.Ionicons} leftIconName={'filter'} />
       </View>
 
-      <ScrollView style={{ flex: 0.8, }} >
-
+      <ScrollView style={{flex: 0.8}}>
         <View
           style={{
             height: screenSize.height / 12,
             flexDirection: 'row',
             justifyContent: 'space-between',
             alignItems: 'center',
-
-
           }}>
-          <Text style={{ fontSize: 20, color: appColors.White }}>
+          <Text style={{fontSize: 20, color: appColors.White}}>
             Our Services
           </Text>
           <TouchableOpacity
           // onPress={() => navigation.navigate(constants.screen.Services)}
           >
-            <Text style={{ color: appColors.Goldcolor, fontSize: 16 }}>
+            <Text style={{color: appColors.Goldcolor, fontSize: 16}}>
               See all
             </Text>
           </TouchableOpacity>
         </View>
-        <View style={{ height: screenSize.height / 6 }}>
+        <View style={{height: screenSize.height / 6}}>
           <FlatList
             data={OurServicesData}
-            renderItem={({ item }) => <OurServices item={item} />}
+            renderItem={({item}) => <OurServices item={item} />}
             keyExtractor={item => item.id}
             horizontal={true}
           />
@@ -485,9 +537,8 @@ const HomeScreen = ({ navigation }) => {
             flexDirection: 'row',
             justifyContent: 'space-between',
             alignItems: 'center',
-
           }}>
-          <Text style={{ fontSize: 20, color: appColors.White }}>
+          <Text style={{fontSize: 20, color: appColors.White}}>
             Nearby Barbers
           </Text>
           <TouchableOpacity
@@ -495,19 +546,26 @@ const HomeScreen = ({ navigation }) => {
               navigation.navigate(constants.screen.BarberSpecialist)
             }
             style={{}}>
-            <Text style={{ color: appColors.Goldcolor, fontSize: 16 }}>
+            <Text style={{color: appColors.Goldcolor, fontSize: 16}}>
               See all
             </Text>
           </TouchableOpacity>
         </View>
 
-        <View style={{ height: screenSize.height / 2.9, }}>
-          <FlatList
-            data={BarbersData}
-            renderItem={({ item }) => <NearbyBarbers item={item} />}
-            keyExtractor={item => item.id}
-            horizontal={true}
-          />
+        <View
+          style={{height: screenSize.height / 2.9, justifyContent: 'center'}}>
+          {isLoading == false ? (
+            <FlatList
+              data={barberList}
+              renderItem={({item, index}) => (
+                <NearbyBarbers item={item} key={index} />
+              )}
+              keyExtractor={item => item.userId}
+              horizontal={true}
+            />
+          ) : (
+            <ActivityIndicator size="small" color={appColors.Goldcolor} />
+          )}
         </View>
 
         <View
@@ -516,38 +574,31 @@ const HomeScreen = ({ navigation }) => {
             flexDirection: 'row',
             justifyContent: 'space-between',
             alignItems: 'center',
-            paddingHorizontal:10,
-          
-
+            paddingHorizontal: 10,
           }}>
-          <Text style={{ fontSize: 20, color: appColors.White }}>
-            Best Offer
-          </Text>
+          <Text style={{fontSize: 20, color: appColors.White}}>Best Offer</Text>
           <TouchableOpacity
             onPress={() =>
               navigation.navigate(constants.screen.BarberSpecialist)
             }
             style={{}}>
-            <Text style={{ color: appColors.Goldcolor, fontSize: 16, }}>
+            <Text style={{color: appColors.Goldcolor, fontSize: 16}}>
               See all
             </Text>
           </TouchableOpacity>
         </View>
 
-        <View style={{ height: screenSize.height / 2.35, }}>
+        <View style={{height: screenSize.height / 2.35}}>
           <FlatList
             data={BarbersData}
-            renderItem={({ item }) => <Bestoffer item={item} />}
+            renderItem={({item, index}) => (
+              <Bestoffer item={item} index={index} />
+            )}
             keyExtractor={item => item.id}
             horizontal={true}
           />
         </View>
-
-
-
-
       </ScrollView>
-
     </Screen>
   );
 };
