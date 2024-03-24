@@ -64,9 +64,44 @@ export default StyleSheet.create({
   ProfileouterView:{ flex: 1, justifyContent:"center", alignItems:"center",},
   profileView:{ width:"34%",justifyContent:"center", alignItems:"center",height:'58%',backgroundColor:'black'},
   imageStyle:{  width: '100%', height: '100%', borderRadius: 80, borderWidth: 3, borderColor: appColors.Goldcolor  },
-  Iconstyle:{ position: 'absolute', left: screenSize.width /4, top: screenSize.height / 8.3,}
+  Iconstyle:{ position: 'absolute', left: screenSize.width /4, top: screenSize.height / 8.3,},
+textFieldView:{ flex: 0.19, justifyContent: 'space-evenly', },
+buttonStyle:{
+  backgroundColor: '#C79646',
+  paddingVertical: Platform.OS == 'ios' ? 17 : 13,
+  bottom: 1,
+  position: 'absolute',
+},
+validationTextview:
+{
+  marginLeft: 12,
+  justifyContent: 'center',
+},
+validationTextStyle:{ color: appColors.Goldcolor, fontSize: 12 },
 
-
+mainView:{flex: 1, marginVertical: 15,},
+DeletetitleView:{flex: 0.4, alignItems: 'center', justifyContent: 'center',},
+titleTextStyle:{color: '#E81F1C', fontSize: 18},
+TextView:{flex: 0.6, paddingHorizontal: '20%'},
+TextStyle:{color: 'white', fontSize: 16, textAlign: 'center'},
+buttonsMainView:{
+  flex: 0.4,
+  justifyContent: 'center',
+  flexDirection: 'row',
+  justifyContent: 'space-evenly',
+},
+CanclebuttonView:{flex: 0.4, justifyContent: 'center', alignItems: 'flex-end'},
+CanclebuttonStyle:{
+backgroundColor: '#424242',
+paddingVertical: 13,
+width: '90%',
+},
+DeleteButtonView:{flex: 0.6, justifyContent: 'center', alignItems: 'center'},
+DeleteButtonStyle:{
+backgroundColor: '#E81F1C',
+paddingVertical: 13,
+width: '85%',
+},
 
 
 });

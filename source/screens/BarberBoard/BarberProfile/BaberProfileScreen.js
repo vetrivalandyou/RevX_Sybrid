@@ -15,7 +15,6 @@ import Entypo from 'react-native-vector-icons/Entypo';
 
 const BaberProfileScreen = () => {
   const navigation = useNavigation();
-
   const refRBSheet = useRef();
 
   const getbarberProfile = () => {

@@ -17,7 +17,7 @@ import CustomIcon, {
   Icons,
 } from '../../../components/molecules/CustomIcon/CustomIcon';
 
-import { endPoint } from '../../../AppConstants/urlConstants';
+import { endPoint, messages } from '../../../AppConstants/urlConstants';
 import SimpleTextField from '../../../components/molecules/TextFeilds/SimpleTextField';
 import appColors from '../../../AppConstants/appColors';
 import { PostRequest } from '../../../services/apiCall';
@@ -25,40 +25,43 @@ import { PostRequest } from '../../../services/apiCall';
 import { AppImages } from '../../../AppConstants/AppImages';
 import { SimpleSnackBar } from '../../../components/atom/Snakbar/Snakbar';
 import ChooseImage from '../../../components/molecules/ChooseImage';
+import { generateRandomNumber } from '../../../functions/AppFunctions';
 
 const AddVanservices = ({ navigation }) => {
   const refRBSheet = useRef();
-
   const [profileImage, setProfileImage] = useState(null);
-
-  const handleImageCaptured = image=> {
-   
+  const handleImageCaptured = image => {
     setProfileImage(image);
-    // Update the profile image state with the captured image URI
     refRBSheet.current.close();
   };
 
   const validationSchema = Yup.object().shape({
     VanName: Yup.string().required(' Van name is required'),
     VanRegistrationNo: Yup.string().required('Van Registration no is required'),
-    VanRegistrationId: Yup.string().required('Van Registration Id'),
-
     VanModel: Yup.string().required('Van Model is required'),
   });
 
+  console.log("profileImage", profileImage)
+
   const VanInfo = (values, setSubmitting) => {
-    const payload = {
-      ...values,
-      Operation: 1,
-      CreatedBy: 2,
-    };
-    console.log('payload', payload);
-    PostRequest(endPoint.ADD_VANS, payload)
+    const formData = new FormData();
+    Object.keys(values).forEach(key => {
+      formData.append(key, values[key]);
+    });
+    formData.append('VanId', 0);
+    formData.append('UserIP', "::1");
+    formData.append('Operations', 1);
+    formData.append('CreatedBy', 2);
+    formData.append('VanPhoto', {
+      uri: profileImage?.path,
+      name: `${generateRandomNumber()}.jpg`,
+      type: profileImage?.mime,
+    });
+    console.log('formData', formData);
+    PostRequest(endPoint.ADD_VANS, formData)
       .then(res => {
         if (res?.data?.code == 200) {
-          setLoading(true);
           console.log('test', res?.data);
-          setLoading(true);
           SimpleSnackBar(res?.data?.message);
           navigation.goBack();
         } else {
@@ -67,10 +70,12 @@ const AddVanservices = ({ navigation }) => {
         setSubmitting(false);
       })
       .catch(err => {
+        console.log(err)
         SimpleSnackBar(messages.Catch, appColors.Red);
         setSubmitting(false);
       });
-  };
+  }
+
 
   return (
     <Screen
@@ -91,7 +96,6 @@ const AddVanservices = ({ navigation }) => {
         initialValues={{
           VanName: '',
           VanRegistrationNo: '',
-          VanRegistrationId: '',
           VanModel: '',
         }}
         validationSchema={validationSchema}
@@ -112,24 +116,26 @@ const AddVanservices = ({ navigation }) => {
               <View style={styles.ProfileMainView}>
                 <View style={styles.ProfileouterView}>
                   <TouchableOpacity onPress={() => refRBSheet.current.open()} style={styles.profileView} >
-                    {profileImage ? (
+                    {profileImage?.path ? (
                       <Image
-                        source={{ uri: profileImage }}
+                        source={{ uri: profileImage?.path }}
                         style={styles.imageStyle}
                       />
+
                     ) : (
                       <Image
                         source={AppImages.ProfileSlider}
                         style={styles.imageStyle}
                       />
                     )}
+
                     <CustomIcon type={Icons.AntDesign} size={20} name={'pluscircle'} color={'white'} style={styles.Iconstyle} />
                   </TouchableOpacity>
                 </View>
               </View>
 
               <View style={{ flex: 0.65, }}>
-                <View style={{ flex: 0.19, justifyContent: 'space-evenly', }}>
+                <View style={styles.textFieldView}>
                   <SimpleTextField
                     placeholder={'Enter Van Name'}
                     placeholderTextColor={appColors.LightGray}
@@ -140,16 +146,16 @@ const AddVanservices = ({ navigation }) => {
 
                   <View>
                     {touched.VanName && errors.VanName && (
-                      <View style={{ marginLeft: 12, }}>
+                      <View style={styles.validationTextview}>
                         <Text
-                          style={{ color: appColors.Goldcolor, fontSize: 12 }}>
+                          style={styles.validationTextStyle}>
                           {errors.VanName}
                         </Text>
                       </View>
                     )}
                   </View>
                 </View>
-                <View style={{ flex: 0.19, justifyContent: 'space-evenly', }}>
+                <View style={styles.textFieldView}>
                   <SimpleTextField
                     placeholder={'Enter Van Registration No'}
                     placeholderTextColor={appColors.LightGray}
@@ -161,12 +167,9 @@ const AddVanservices = ({ navigation }) => {
                   <View>
                     {touched.VanRegistrationNo &&
                       errors.VanRegistrationNo && (
-                        <View style={{ marginLeft: 12, }}>
+                        <View style={styles.validationTextview}>
                           <Text
-                            style={{
-                              color: appColors.Goldcolor,
-                              fontSize: 12,
-                            }}>
+                            style={styles.validationTextStyle}>
                             {errors.VanRegistrationNo}
                           </Text>
                         </View>
@@ -174,31 +177,7 @@ const AddVanservices = ({ navigation }) => {
                   </View>
                 </View>
 
-                <View style={{ flex: 0.19, justifyContent: 'space-evenly', }}>
-                  <SimpleTextField
-                    placeholder={'Enter Van Registration Id'}
-                    placeholderTextColor={appColors.LightGray}
-                    onChangeText={handleChange('VanRegistrationId')}
-                    onBlur={handleBlur('VanRegistrationId')}
-                    value={values.VanRegistrationId}
-                  />
-
-                  <View style={{ justifyContent: 'center', }}>
-                    {touched.VanRegistrationId &&
-                      errors.VanRegistrationId && (
-                        <View style={{ marginLeft: 12, }}>
-                          <Text
-                            style={{
-                              color: appColors.Goldcolor,
-                              fontSize: 12,
-                            }}>
-                            {errors.VanRegistrationId}
-                          </Text>
-                        </View>
-                      )}
-                  </View>
-                </View>
-                <View style={{ flex: 0.19, justifyContent: 'space-evenly', }}>
+                <View style={styles.textFieldView}>
                   <SimpleTextField
                     placeholder={'Enter Van Model'}
                     placeholderTextColor={appColors.LightGray}
@@ -210,13 +189,9 @@ const AddVanservices = ({ navigation }) => {
 
                   {touched.VanModel && errors.VanModel && (
                     <View
-                      style={{
-                        marginLeft: 12,
-
-                        justifyContent: 'center',
-                      }}>
+                      style={styles.validationTextview}>
                       <Text
-                        style={{ color: appColors.Goldcolor, fontSize: 12 }}>
+                        style={styles.validationTextStyle}>
                         {errors.VanModel}
                       </Text>
                     </View>
@@ -228,12 +203,7 @@ const AddVanservices = ({ navigation }) => {
             </View>
             <View style={styles.buttonView}>
               <ButtonComponent
-                style={{
-                  backgroundColor: '#C79646',
-                  paddingVertical: Platform.OS == 'ios' ? 17 : 13,
-                  bottom: 1,
-                  position: 'absolute',
-                }}
+                style={styles.buttonStyle}
                 btnTextColor={{ color: 'white' }}
                 title={'Save'}
                 disabled={isSubmitting}
@@ -247,7 +217,7 @@ const AddVanservices = ({ navigation }) => {
       </Formik>
 
       <BottomSheet ref={refRBSheet} Height={120}>
-      <ChooseImage refRBSheet={refRBSheet} setProfileImage={handleImageCaptured} />
+        <ChooseImage refRBSheet={refRBSheet} setProfileImage={handleImageCaptured} />
       </BottomSheet>
     </Screen>
   );

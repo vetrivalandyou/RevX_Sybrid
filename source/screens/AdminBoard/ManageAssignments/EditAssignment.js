@@ -34,13 +34,13 @@ const EditAssignment = ({ route }) => {
   const [VandropDown, setVanDropDown] = useState([]);
 
   useEffect(() => {
-  PostbarberList();
+    PostbarberList();
     getVanList();
     getUserDetail();
-   
+
   }, []);
-  
-  const getUserDetail = async()=> {
+
+  const getUserDetail = async () => {
     const userDatail = await getAsyncItem(constant.AsyncStorageKeys.userDetails)
     setuserDetails(userDatail)
   }
@@ -48,14 +48,14 @@ const EditAssignment = ({ route }) => {
   const PostbarberList = () => {
     PostRequest(endPoint.BARBER_LIST)
       .then(res => {
-    
+
         if (res?.data?.code == 200) {
-          
-          const approvedVans = res?.data?.data.filter(van => van.isApproved ==false);
+
+          const approvedVans = res?.data?.data.filter(van => van.isApproved == false);
           setDropDownData(approvedVans);
         } else {
           SimpleSnackBar(res?.data?.message);
-     
+
         }
       })
       .catch(err => {
@@ -71,38 +71,37 @@ const EditAssignment = ({ route }) => {
           setVanDropDown(res?.data?.data);
         } else {
           SimpleSnackBar(res?.data?.message);
-        
+
         }
       })
       .catch(err => {
         SimpleSnackBar(messages.Catch, appColors.Red);
-       
+
       });
   };
 
 
-  
+
   const SaveVanAssignmet = () => {
-    console.log('selected vans',userDetails)
-  console.log('selected assignmt',)
+    console.log('selected vans', userDetails)
     const payload = {
       id: null,
-      barberId : barberid,
+      barberId: barberid,
       vanId: selectedVans,
       operations: 2,
       createdBy: userDetails.userId,
     };
-    
 
-    PostRequest(endPoint.BARBER_VANASSIGNMENT_CRUD,payload)
+console.log("Payload", payload)
+    PostRequest(endPoint.BARBER_VANASSIGNMENT_CRUD, payload)
       .then(res => {
         console.log('Response:', res?.data?.data);
         if (res?.data?.code == 200) {
           console.log('Data:', res?.data.data);
-         
+
         } else {
           SimpleSnackBar(res?.data?.message);
-          console.log('................else',res.data)
+          console.log('.....else', res.data)
 
         }
       })
@@ -110,7 +109,7 @@ const EditAssignment = ({ route }) => {
         SimpleSnackBar(messages.Catch, appColors.Red);
       });
   };
- 
+
 
 
 
@@ -126,45 +125,40 @@ const EditAssignment = ({ route }) => {
           logIn={'success'}
         />
       </View>
-      <View style={{ flex: 0.8, }}>
-        <View style={{ flex: 0.15, justifyContent: 'center' }}>
+      <View style={{ flex: 0.8}}>
+        <View style={styles.DropdownView}>
           <View style={{ flex: 0.65, }}>
-            <Dropdown label={'Select a value'}
-              value={selectedVans}
-              onValueChange={(itemValue) => setselectedvans(itemValue)}
-              dropDownData={dropDownData.map(van => ({ label: van.userName, value: van.userId}))}
-              style={{ backgroundColor: 'black', borderColor: appColors.AppLightGray, borderRadius: 30, paddingHorizontal: 10,}}
+            <Dropdown label={'Select Barber'}
+              value={barberid}
+              onValueChange={(itemValue) => setbarberid(itemValue)}
+              dropDownData={dropDownData.map(van => ({ label: van.userName, value: van.userId }))}
+              style={{ backgroundColor: 'black', borderColor: appColors.AppLightGray, borderRadius: 30, paddingHorizontal: 10, }}
               custompickerstyle={{ color: selectedVans ? appColors.White : appColors.AppLightGray, }}
             />
           </View>
         </View>
 
-        <View style={{ flex: 0.15, justifyContent: 'center' }}>
+        <View style={styles.DropdownView}>
           <View style={{ flex: 0.65, }}>
-            <Dropdown label={'Select a value'}
-              value={barberid}
-              onValueChange={(itemValue) => setbarberid(itemValue)}
-              dropDownData={VandropDown.map(Van =>({label: Van.vanName, value: Van.vanId}))}
-              style={{ backgroundColor: 'black', borderColor: appColors.AppLightGray, borderRadius: 30, paddingHorizontal: 10,}}
+            <Dropdown label={'Select Van'}
+              value={selectedVans}
+              onValueChange={(itemValue) => setselectedvans(itemValue)}
+              dropDownData={VandropDown.map(Van => ({ label: Van.vanName, value: Van.vanId }))}
+              style={{ backgroundColor: 'black', borderColor: appColors.AppLightGray, borderRadius: 30, paddingHorizontal: 10, }}
               custompickerstyle={{ color: barberid ? appColors.White : appColors.AppLightGray, }}
             />
           </View>
         </View>
       </View>
 
-     
+
       <View style={styles.buttonView}>
         <ButtonComponent
-          style={{
-            backgroundColor: '#C79646',
-            paddingVertical: Platform.OS == 'ios' ? 17 : 13,
-            bottom: 1,
-            position: 'absolute',
-          }}
+          style={styles.buttonStyle}
           btnTextColor={{ color: 'white' }}
           title={isAdded ? 'Save' : 'Update'}
 
-          onPress={ SaveVanAssignmet}
+          onPress={SaveVanAssignmet}
         />
       </View>
     </Screen>

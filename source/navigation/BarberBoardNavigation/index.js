@@ -83,6 +83,12 @@ const BarberStack = () => {
           component={ServiceList}
           options={{headerShown: false}}
         />
+        <Stack.Screen
+          name={constants.BarberScreen.Profile}
+          component={Profile}
+          options={{headerShown: false}}
+        />
+        
          
        
        
