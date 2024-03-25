@@ -16,7 +16,7 @@ import Header from '../../../components/molecules/Header';
 import CustomIcon, {
   Icons,
 } from '../../../components/molecules/CustomIcon/CustomIcon';
-import { endPoint } from '../../../AppConstants/urlConstants';
+import { endPoint, imageUrl } from '../../../AppConstants/urlConstants';
 import SimpleTextField from '../../../components/molecules/TextFeilds/SimpleTextField';
 import { PostRequest } from '../../../services/apiCall';
 import { SimpleSnackBar } from '../../../components/atom/Snakbar/Snakbar';
@@ -25,40 +25,41 @@ import BottomSheet from '../../../components/molecules/BottomSheetContent/Bottom
 import ChooseImage from '../../../components/molecules/ChooseImage';
 
 const EditVanservices = ({ route, navigation }) => {
+  const { vanDetil } = route.params;
   const refRBSheet = useRef();
-  const [profileImage, setProfileImage] = useState(null);
+  const [profileImage, setProfileImage] = useState(`${imageUrl}${vanDetil?.vanPhotos}`);
 
   const handleImageCaptured = image => {
-   
+
     setProfileImage(image);
     // Update the profile image state with the captured image URI
     refRBSheet.current.close();
   };
-  const {vanDetil} = route.params;
+
 
   const validationSchema = Yup.object().shape({
     VanName: Yup.string().required(' Van name is required'),
     VanRegistrationNo: Yup.string()
       .required('Van Registration no is required'),
     VanModel: Yup.string().required('Van Model is required'),
-    VanRegistrationId: Yup.string().required('Van Registration Id'),
   });
 
 
   const VanInfo = (values, setSubmitting) => {
     const formData = new FormData();
-
-    // Add key-value pairs from the payload to the FormData object
-    Object.entries(values).forEach(([key, value]) => {
-      formData.append(key, value);
+    Object.keys(values).forEach(key => {
+      formData.append(key, values[key]);
     });
-
-    formData.append('VanId', '5');
-    formData.append('Operation', '2');
-    formData.append('CreatedBy', '2');
-
+    formData.append('VanId', 10);
+    formData.append('UserIP', "::1");
+    formData.append('Operations', 2);
+    formData.append('CreatedBy', 2);
+    formData.append('VanPhoto', {
+      uri: profileImage?.path,
+      name: `${generateRandomNumber()}.jpg`,
+      type: profileImage?.mime,
+    });
     console.log('formData', formData);
-
 
     PostRequest(endPoint.Edit_VANS, formData)
       .then(res => {
@@ -75,6 +76,7 @@ const EditVanservices = ({ route, navigation }) => {
       .catch(err => {
         console.log('Error', err);
         SimpleSnackBar(messages.Catch, appColors.Red);
+        console.log(';;;;;;;;;;')
         setSubmitting(false);
       });
   };
@@ -97,7 +99,6 @@ const EditVanservices = ({ route, navigation }) => {
         initialValues={{
           VanName: vanDetil.vanName,
           VanRegistrationNo: vanDetil.vanRegistrationNo,
-          VanRegistrationId: vanDetil.vanRegistrationId,
           VanModel: vanDetil.vanModel,
         }}
         validationSchema={validationSchema}
@@ -117,15 +118,15 @@ const EditVanservices = ({ route, navigation }) => {
             <View style={{ flex: 0.8, }}>
               <View style={styles.ProfileMainView}>
                 <View style={styles.ProfileouterView}>
-                  <TouchableOpacity onPress={()=> refRBSheet.current.open()} style={styles.profileView} >
-                    {profileImage ? (
+                  <TouchableOpacity onPress={() => refRBSheet.current.open()} style={styles.profileView} >
+                    {profileImage?.path ? (
                       <Image
-                        source={{ uri: profileImage }}
+                        source={{ uri: profileImage?.path }}
                         style={styles.imageStyle}
                       />
                     ) : (
                       <Image
-                        source={AppImages.ProfileSlider}
+                        source={{ uri: profileImage }}
                         style={styles.imageStyle}
                       />
                     )}
@@ -135,7 +136,7 @@ const EditVanservices = ({ route, navigation }) => {
               </View>
 
               <View style={{ flex: 0.65, }}>
-                <View style={{ flex: 0.19, justifyContent: 'space-evenly', }}>
+                <View style={styles.textFieldView}>
                   <SimpleTextField
                     placeholder={'Enter Van Name'}
                     placeholderTextColor={appColors.LightGray}
@@ -146,16 +147,16 @@ const EditVanservices = ({ route, navigation }) => {
 
                   <View>
                     {touched.VanName && errors.VanName && (
-                      <View style={{ marginLeft: 12, }}>
+                      <View style={styles.validationTextview}>
                         <Text
-                          style={{ color: appColors.Goldcolor, fontSize: 12 }}>
+                          style={styles.validationTextStyle}>
                           {errors.VanName}
                         </Text>
                       </View>
                     )}
                   </View>
                 </View>
-                <View style={{ flex: 0.19, justifyContent: 'space-evenly', }}>
+                <View style={styles.textFieldView}>
                   <SimpleTextField
                     placeholder={'Enter Van Registration No'}
                     placeholderTextColor={appColors.LightGray}
@@ -167,12 +168,9 @@ const EditVanservices = ({ route, navigation }) => {
                   <View>
                     {touched.VanRegistrationNo &&
                       errors.VanRegistrationNo && (
-                        <View style={{ marginLeft: 12, }}>
+                        <View style={styles.validationTextview}>
                           <Text
-                            style={{
-                              color: appColors.Goldcolor,
-                              fontSize: 12,
-                            }}>
+                            style={styles.validationTextStyle}>
                             {errors.VanRegistrationNo}
                           </Text>
                         </View>
@@ -180,31 +178,7 @@ const EditVanservices = ({ route, navigation }) => {
                   </View>
                 </View>
 
-                <View style={{ flex: 0.19, justifyContent: 'space-evenly', }}>
-                  <SimpleTextField
-                    placeholder={'Enter Van Registration Id'}
-                    placeholderTextColor={appColors.LightGray}
-                    onChangeText={handleChange('VanRegistrationId')}
-                    onBlur={handleBlur('VanRegistrationId')}
-                    value={values.VanRegistrationId}
-                  />
-
-                  <View style={{ justifyContent: 'center', }}>
-                    {touched.VanRegistrationId &&
-                      errors.VanRegistrationId && (
-                        <View style={{ marginLeft: 12, }}>
-                          <Text
-                            style={{
-                              color: appColors.Goldcolor,
-                              fontSize: 12,
-                            }}>
-                            {errors.VanRegistrationId}
-                          </Text>
-                        </View>
-                      )}
-                  </View>
-                </View>
-                <View style={{ flex: 0.19, justifyContent: 'space-evenly', }}>
+                <View style={styles.textFieldView}>
                   <SimpleTextField
                     placeholder={'Enter Van Model'}
                     placeholderTextColor={appColors.LightGray}
@@ -216,13 +190,9 @@ const EditVanservices = ({ route, navigation }) => {
 
                   {touched.VanModel && errors.VanModel && (
                     <View
-                      style={{
-                        marginLeft: 12,
-
-                        justifyContent: 'center',
-                      }}>
+                      style={styles.validationTextview}>
                       <Text
-                        style={{ color: appColors.Goldcolor, fontSize: 12 }}>
+                        style={styles.validationTextStyle}>
                         {errors.VanModel}
                       </Text>
                     </View>
@@ -235,17 +205,13 @@ const EditVanservices = ({ route, navigation }) => {
 
             <View style={styles.buttonView}>
               <ButtonComponent
-                style={{
-                  backgroundColor: '#C79646',
-                  paddingVertical: Platform.OS == 'ios' ? 17 : 13,
-                  bottom: 1,
-                  position: 'absolute',
-                }}
+                style={styles.buttonStyle}
                 btnTextColor={{ color: 'white' }}
                 title={'Save Vans'}
                 disabled={isSubmitting}
                 onPress={handleSubmit}
                 isLoading={isSubmitting}
+
               />
             </View>
           </>
@@ -254,7 +220,7 @@ const EditVanservices = ({ route, navigation }) => {
 
 
       <BottomSheet ref={refRBSheet} Height={120}>
-      <ChooseImage refRBSheet={refRBSheet} setProfileImage={handleImageCaptured} />
+        <ChooseImage refRBSheet={refRBSheet} setProfileImage={handleImageCaptured} />
       </BottomSheet>
     </Screen>
   );

@@ -1,5 +1,5 @@
-import { Image, Platform, ScrollView, Text, TouchableOpacity, View } from 'react-native';
-import React, { useRef, useState } from 'react';
+import { ActivityIndicator, Image, Platform, ScrollView, Text, TouchableOpacity, View } from 'react-native';
+import React, { useEffect, useRef, useState } from 'react';
 import { screenSize } from '../../../components/atom/ScreenSize';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Entypo from 'react-native-vector-icons/Entypo';
@@ -16,59 +16,50 @@ import { Icons } from '../../../components/molecules/CustomIcon/CustomIcon';
 import BottomSheet from '../../../components/molecules/BottomSheetContent/BottomSheet';
 import appColors from '../../../AppConstants/appColors';
 import DeleteAssignment from './DeleteAssignment';
+import { endPoint } from '../../../AppConstants/urlConstants';
+import { PostRequest } from '../../../services/apiCall';
+import { AppImages } from '../../../AppConstants/AppImages';
+import { SimpleSnackBar } from '../../../components/atom/Snakbar/Snakbar';
 
 const Assignments = ({ }) => {
   const navigation = useNavigation();
-
-
-
   const [selectedItem, setSelectedItem] = useState(null);
-  const data = [
-    {
-      id: 1,
-      name: 'Hair Cut',
-      editimage: require('../../../assets/editimage.png'),
-      deleteimage: require('../../../assets/deleteimage.png'),
-    },
-    {
-      id: 2,
-      name: 'Hair Coloring',
-      editimage: require('../../../assets/editimage.png'),
-      deleteimage: require('../../../assets/deleteimage.png'),
-    },
-    {
-      id: 3,
-      name: 'Hair Wash',
-      editimage: require('../../../assets/editimage.png'),
-      deleteimage: require('../../../assets/deleteimage.png'),
-    },
-    {
-      id: 4,
-      name: 'Shaving',
-      editimage: require('../../../assets/editimage.png'),
-      deleteimage: require('../../../assets/deleteimage.png'),
-    },
-    {
-      id: 5,
-      name: 'Skin Care',
-      editimage: require('../../../assets/editimage.png'),
-      deleteimage: require('../../../assets/deleteimage.png'),
-    },
+  const [vanAssignment, setvanAssignment] = useState();
+  const [loader,setLoader] = useState(true)
+  
+  useEffect(()=>{
+PostbarberVanAssignment();
+  })
+const PostbarberVanAssignment =()=>{
+  payload = {
+    
+      id: null,
+      barberId: null,
+      vanId: null,
+      operations: 0,
+      createdBy: 1,
+      userIP:  '::1',
+    
+  }
 
-    {
-      id: 6,
-      name: 'Hair Dryer',
-      editimage: require('../../../assets/editimage.png'),
-      deleteimage: require('../../../assets/deleteimage.png'),
-    },
-  ];
+  PostRequest(endPoint.GET_BARBER_VANASSIGNMENT,payload)
+  .then(res => {
+    if (res?.data?.code == 200) {
+      setvanAssignment(res?.data?.data)
+      setLoader(false)
+     
+    } else {
+      SimpleSnackBar(res?.data?.message);
+      console.log('................else',res.data)
+setLoader(false)
+    }
+  })
+  .catch(err => {
+    SimpleSnackBar(messages.Catch, appColors.Red);
+    setLoader(false)
+  });
+};
 
-  const handleItemPress = (item) => {
-    setSelectedItem(item.id);
-    navigation.navigate(constants.AdminScreens.Servicelist, {
-      serviceName: item.name,
-    });
-  };
   return (
     <Screen viewStyle={{ flex: 1, padding: 15, backgroundColor: appColors.Black }} statusBarColor={appColors.Black} >
       <View style={{ flex: 0.1, backgroundColor: appColors.Black }}>
@@ -78,21 +69,26 @@ const Assignments = ({ }) => {
           onPressLeftIcon={() => navigation.goBack()}
           leftIcoName={'chevron-back'}
           headerText={'Assignments'}
-
         />
       </View>
-
-      <ScrollView style={{ flex: 0.8 }}>
-        {data?.map(item => (
+      {loader?( <ActivityIndicator
+            size="large"
+            color="#C79646"
+            style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}
+          />):(
+            <ScrollView style={{ flex: 0.8 }}>
+       { vanAssignment?.map(item => (
           <Servicelist
-            key={item.id}
+            key={item.vanId}
             item={item}
-            selected={selectedItem === item.id}
-            onPress={() => handleItemPress(item)}
+            selected={selectedItem === item.vanId}
+            onPress={() => setSelectedItem(item.vanId)}
 
           />
         ))}
-      </ScrollView>
+        </ScrollView>
+      )}
+    
 
       <View style={styles.buttonView}>
         <ButtonComponent
@@ -121,7 +117,7 @@ const Servicelist = ({ item, onPress, selected, }) => {
   const navigation = useNavigation();
   const handleEditPress = () => {
     navigation.navigate(constants.AdminScreens.EditAssignment, {
-      serviceName: item.name,
+      serviceName: item.vanName,
       isAdded: false
     });
   };
@@ -135,18 +131,18 @@ const Servicelist = ({ item, onPress, selected, }) => {
         ]}>
         <View style={styles.Subcontainer}>
           <View style={styles.textView}>
-            <Text style={styles.textStyle}>{item.name}</Text>
+            <Text style={styles.textStyle}>{item.vanName}</Text>
           </View>
 
           <TouchableOpacity
             onPress={handleEditPress}
             style={styles.editImageView}>
-            <Image source={item.editimage} style={styles.editImageStyle} />
+            <Image source={AppImages.Editimage}style={styles.editImageStyle} />
           </TouchableOpacity>
           <TouchableOpacity
             onPress={() => refRBSheet.current.open()}
             style={styles.DeleteimageView}>
-            <Image source={item.deleteimage} style={styles.Deleteimagestyle} />
+            <Image source={AppImages.deleteimage} style={styles.Deleteimagestyle} />
           </TouchableOpacity>
 
           <BottomSheet ref={refRBSheet} Height={200}>

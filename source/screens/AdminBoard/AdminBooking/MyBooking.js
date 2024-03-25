@@ -8,19 +8,20 @@ import {
 } from 'react-native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import {ScreenSize} from '../../components/atom/ScreenSize';
+import { ScreenSize } from '../../components/atom/ScreenSize';
 
 // import Bookinglist from './PreBooking';
 import Bookingcompleted from './Bookingcompleted';
 import Bookingcancelled from './Bookingcancelled';
-import {useEffect, useRef, useState} from 'react';
+import { useEffect, useRef, useState } from 'react';
 import PreBooking from './PreBooking';
 import Header from '../../../components/molecules/Header';
-import {Icons} from '../../../components/molecules/CustomIcon/CustomIcon';
+import { Icons } from '../../../components/molecules/CustomIcon/CustomIcon';
 import constants from '../../../AppConstants/Constants.json';
 import Screen from '../../../components/atom/ScreenContainer/Screen';
+import styles from './styles';
 
-const MyBooking = ({navigation}) => {
+const MyBooking = ({ navigation }) => {
   const activeButton = useRef('1');
   const [tabState, setTabState] = useState(false);
 
@@ -96,11 +97,11 @@ const MyBooking = ({navigation}) => {
     }
   };
 
-  useEffect(() => {}, [activeButton]);
+  useEffect(() => { }, [activeButton]);
 
   return (
-    <Screen viewStyle={{padding: 15}} statusBarColor={appColors.Black}>
-      <View style={{flex: 0.1}}>
+    <Screen viewStyle={{ padding: 15 }} statusBarColor={appColors.Black}>
+      <View style={{ flex: 0.1 }}>
         <Header
           lefttIcoType={Icons.Ionicons}
           onPressLeftIcon={() => navigation.goBack()}
@@ -125,68 +126,63 @@ const MyBooking = ({navigation}) => {
       </View>
 
       <View
-        style={{
-          flexDirection: 'row',
-          justifyContent: 'space-evenly',
-          alignItems: 'center',
-          flex: 0.09,
-        }}>
+        style={styles.ButtonscontainerView}>
         <TouchableOpacity
           style={[
-            styles.Button,
-            activeButton.current === '1' && {backgroundColor: '#c79647'}, // Change color based on active button
+            styles.Buttonview,
+            activeButton.current === '1' && { backgroundColor: '#c79647' }, // Change color based on active button
           ]}
           onPress={() => handleButtonPress('1')}>
-          <Text style={{fontWeight: '500', fontSize: 13, color: 'white'}}>
+          <Text style={{ fontWeight: '500', fontSize: 13, color: 'white' }}>
             Pre Booking
           </Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={[
-            styles.Button,
-            activeButton.current === '2' && {backgroundColor: '#c79647'},
+            styles.Buttonview,
+            activeButton.current === '2' && { backgroundColor: '#c79647' },
           ]}
           onPress={() => handleButtonPress('2')}>
-          <Text style={{fontWeight: '500', fontSize: 13, color: 'white'}}>
+          <Text style={{ fontWeight: '500', fontSize: 13, color: 'white' }}>
             Completed
           </Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={[
-            styles.Button,
-            activeButton.current === '3' && {backgroundColor: '#c79647'},
+            styles.Buttonview,
+            activeButton.current === '3' && { backgroundColor: '#c79647' },
           ]}
           onPress={() => handleButtonPress('3')}>
-          <Text style={{fontWeight: '500', fontSize: 13, color: 'white'}}>
+          <Text style={{ fontWeight: '500', fontSize: 13, color: 'white' }}>
             Cancelled
           </Text>
         </TouchableOpacity>
       </View>
 
-      <View style={{flex: 0.7}}>{renderComponent(activeButton)}</View>
+      <View style={{ flex: 0.7 }}>{renderComponent(activeButton)}</View>
     </Screen>
   );
 };
 
-const styles = StyleSheet.create({
-  NoticationContainer: {
-    height: 40,
-    width: 40,
-    borderRadius: 40,
-    backgroundColor: '#252525',
-    marginHorizontal: 2,
-    alignItems: 'center',
-    justifyContent: 'center',
-    // backgroundColor:'green'
-  },
-  Button: {
-    flex: 0.3,
-    height: '65%',
-    alignItems: 'center',
-    backgroundColor: '#252525',
-    justifyContent: 'center',
-    borderRadius: 40,
-  },
-});
+// const styles = StyleSheet.create({
+//   NoticationContainer: {
+//     height: 40,
+//     width: 40,
+//     borderRadius: 40,
+//     backgroundColor: '#252525',
+//     marginHorizontal: 2,
+//     alignItems: 'center',
+//     justifyContent: 'center',
+//     // backgroundColor:'green'
+//   },
+//   Button: {
+//     flex: 0.3,
+//     height: '65%',
+//     alignItems: 'center',
+//     backgroundColor: '#252525',
+//     justifyContent: 'center',
+//     borderRadius: 40,
+//   },
+// });
 
 export default MyBooking;

@@ -12,8 +12,7 @@ const ChooseImage = ({setProfileImage, refRBSheet,}) => {
       cropping: true,
     })
       .then(image => {
-        console.log(image);
-        setProfileImage(image.path);
+        setProfileImage(image);
         refRBSheet.current.close();
      
       })

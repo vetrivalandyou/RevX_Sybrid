@@ -1,4 +1,4 @@
-import React, {useState, useRef} from 'react';
+import React, {useState, useRef, useEffect} from 'react';
 import {
   View,
   Text,
@@ -24,10 +24,24 @@ import BottomSheet from '../../components/molecules/BottomSheetContent/BottomShe
 import LogoutBottom from '../LogoutBottom';
 import {screenSize} from '../../components/atom/ScreenSize';
 import {useNavigation} from '@react-navigation/native';
+import { imageUrl } from '../../AppConstants/urlConstants';
+import { getAsyncItem } from '../../utils/SettingAsyncStorage';
 
 const ProfileScreen = ({navigation}) => {
+  const [userDetails, setUserDetails] = useState();
   const [isSignOutModalVisible, setIsSignOutModalVisible] = useState(false);
   const refRBSheet = useRef();
+
+  useEffect(() => {
+    getAsyncData();
+  }, []);
+
+  const getAsyncData = async () => {
+    const userDetails = await getAsyncItem(
+      constants.AsyncStorageKeys.userDetails,
+    );
+    setUserDetails(userDetails);
+  };
 
   const BarberList = [
     {
@@ -56,6 +70,7 @@ const ProfileScreen = ({navigation}) => {
       title: 'Profile',
       icon: Icons.Entypo,
     },
+
     {
       id: 6,
       title: 'Loyalty Points',
@@ -221,17 +236,17 @@ const ProfileScreen = ({navigation}) => {
         }}>
         <View style={{flex: 0.1}}>
           <Image
-            source={profile}
+            source={{uri: `${imageUrl}${userDetails?.profileImage}`}}
             resizeMode="cover"
-            style={{width: 50, height: 50}}
+            style={{width: 50, height: 50, borderRadius: 100}}
           />
         </View>
         <View style={{flex: 0.7, flexDirection: 'column'}}>
           <Text style={{color: 'white', fontSize: 24, fontWeight: 400}}>
-            Jonna Emma
+            {userDetails?.userName}
           </Text>
           <Text style={{color: 'white', fontSize: 14, fontWeight: 400}}>
-            danielaustin@gmail.com
+            {userDetails?.loginEmailId}
           </Text>
         </View>
         <View>

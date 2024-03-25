@@ -12,16 +12,16 @@ import {
   Platform,
   RefreshControl,
 } from 'react-native';
-import { useIsFocused } from '@react-navigation/native';
+import {useIsFocused} from '@react-navigation/native';
 import ArrowDownIcon from 'react-native-vector-icons/MaterialIcons';
 import ButtonComponent from '../../../components/atom/CustomButtons/ButtonComponent';
 import CustomIcon, {
   Icons,
 } from '../../../components/molecules/CustomIcon/CustomIcon';
 import appColors from '../../../AppConstants/appColors';
-import { screenSize } from '../../../components/atom/ScreenSize';
+import {screenSize} from '../../../components/atom/ScreenSize';
 import Sizes from '../../../AppConstants/Sizes';
-import { AppImages } from '../../../AppConstants/AppImages';
+import {AppImages} from '../../../AppConstants/AppImages';
 import Screen from '../../../components/atom/ScreenContainer/Screen';
 import Header from '../../../components/molecules/Header';
 import {endPoint, imageUrl, messages} from '../../../AppConstants/urlConstants';
@@ -29,6 +29,7 @@ import {PostRequest} from '../../../services/apiCall';
 import {SimpleSnackBar} from '../../../components/atom/Snakbar/Snakbar';
 import {getAsyncItem} from '../../../utils/SettingAsyncStorage';
 import constant from '../../../AppConstants/Constants.json';
+import {Insert, approve, reject} from '../../../AppConstants/appConstants';
 
 const initialBarberApproveFields = {
   servicesId: null,
@@ -37,9 +38,7 @@ const initialBarberApproveFields = {
 };
 
 const AdminApproveBarber = ({navigation}) => {
-
   const isFocused = useIsFocused();
-
 
   const btnClicked = useRef(null);
   const animation = useRef(new Animated.Value(0)).current;
@@ -80,7 +79,7 @@ const AdminApproveBarber = ({navigation}) => {
       constant.AsyncStorageKeys.userDetails,
     );
     console.log('userDetails', userDetails);
-    setUserDetails(userDetails)
+    setUserDetails(userDetails);
   };
 
   const getBarberApproveService = () => {
@@ -141,10 +140,11 @@ const AdminApproveBarber = ({navigation}) => {
       .then(res => {
         console.log('res', res?.data);
         if (res?.data?.code === 200) {
+          SimpleSnackBar(res?.data?.message);
           setIsLoading(false);
           getBarberApproveService();
         } else {
-          SimpleSnackBar(res?.data?.message);
+          SimpleSnackBar(res?.data?.message, appColors.Red);
           setIsLoading(false);
         }
       })
@@ -154,19 +154,20 @@ const AdminApproveBarber = ({navigation}) => {
       });
   };
 
-  const handleAccept = item => {
+  const handleAction = (item, operation) => {
     const payload = {
       BarberId: item?.barberId,
-      StatusId: item?.statusId,
-      isApproved: true,
-      operations: 2,
+      operations: Insert,
       createdBy: userDetails?._RoleId,
       ud_Barber_Approve_Service_Type: selectedItems.map(service => ({
         servicesId: service,
       })),
     };
-    console.log('Payload', payload);
-    postBarberApproveService(payload);
+    if (operation == 'Accept') {
+      postBarberApproveService({...payload, StatusId: approve, isApproved: 1});
+    } else {
+      postBarberApproveService({...payload, StatusId: reject, isApproved: 0});
+    }
   };
 
   const toggleSelection = itemId => {
@@ -203,13 +204,11 @@ const AdminApproveBarber = ({navigation}) => {
   };
 
   const InnerContanier = useCallback(
-    ({item, itemIndex}) => {
+    ({item}) => {
       const isSelected = selectedItems.includes(item.servicesId);
-      console.log('key', itemIndex);
       return (
         <TouchableOpacity
-          // key={item.servicesId}
-          key={itemIndex}
+          key={item.servicesId}
           onPress={() => toggleSelection(item.servicesId)}
           style={{
             backgroundColor: '#252525',
@@ -293,7 +292,6 @@ const AdminApproveBarber = ({navigation}) => {
                   flex: 0.3,
                   alignItems: 'flex-start',
                   justifyContent: 'center',
-                 
                 }}>
                 <Image
                   source={{uri: `${imageUrl}${item.profileImage}`}}
@@ -324,7 +322,7 @@ const AdminApproveBarber = ({navigation}) => {
                       color: 'white',
                       fontSize: 12,
                     }}>
-                   Abda.Shaheen1@gmail.com
+                    Abda.Shaheen1@gmail.com
                   </Text>
                 </View>
               </View>
@@ -337,7 +335,7 @@ const AdminApproveBarber = ({navigation}) => {
                     flex: 0.2,
                     justifyContent: 'center',
                     // backgroundColor:'pink',
-                    alignItems:'center'
+                    alignItems: 'center',
                   },
                 ]}>
                 <View
@@ -355,12 +353,7 @@ const AdminApproveBarber = ({navigation}) => {
                       isCollapse == true ? 'arrow-drop-down' : 'arrow-drop-up'
                     }
                     color={appColors.Goldcolor}
-                    size={35}
-                    // style={{
-                    //   borderWidth: 1,
-                    //   borderColor: appColors.Goldcolor,
-                    //   borderRadius: 50,
-                    // }}
+                    size={30}
                   />
                 </View>
               </TouchableOpacity>
@@ -390,8 +383,8 @@ const AdminApproveBarber = ({navigation}) => {
                   alignItems: 'center',
                 }}>
                 <ButtonComponent
-                  btnColor={"#4F7942"}
-                  onPress={() => handleAccept(item)}
+                  btnColor={appColors.DarkGreen}
+                  onPress={() => handleAction(item, 'Accept')}
                   style={{
                     backgroundColor: appColors.Green,
                     width: '90%',
@@ -407,7 +400,8 @@ const AdminApproveBarber = ({navigation}) => {
                   alignItems: 'center',
                 }}>
                 <ButtonComponent
-                  btnColor={"#df2525"}
+                  btnColor={appColors.Red}
+                  onPress={() => handleAction(item, 'Reject')}
                   style={{
                     backgroundColor: appColors.Red,
                     width: '90%',
@@ -426,9 +420,9 @@ const AdminApproveBarber = ({navigation}) => {
                   showsVerticalScrollIndicator={false}
                   style={[ticketStyle.ticketDetailView]}>
                   <Fragment>
-                    {item?.barberServices?.map((service, i) => (
+                    {item?.barberServices?.map((service, index) => (
                       <InnerContanier
-                        itemIndex={i+5}
+                        key={index}
                         item={service}
                         selected={selectedItems}
                         onPress={() => setSelectedItems}
@@ -455,11 +449,11 @@ const AdminApproveBarber = ({navigation}) => {
 
   return (
     <Screen
-      viewStyle={{ padding: 15, flex: 1, backgroundColor: appColors.Black }}
+      viewStyle={{padding: 15, flex: 1, backgroundColor: appColors.Black}}
       statusBarColor={appColors.Black}>
-      <View style={{ flex: 0.1 }}>
+      <View style={{flex: 0.1}}>
         <Header
-          headerSubView={{ marginHorizontal: 5 }}
+          headerSubView={{marginHorizontal: 5}}
           lefttIcoType={Icons.Ionicons}
           onPressLeftIcon={() => navigation.goBack()}
           leftIcoName={'chevron-back'}

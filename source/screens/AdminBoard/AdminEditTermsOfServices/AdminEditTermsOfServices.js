@@ -78,7 +78,7 @@ const AdminEditTermsOfServices = ({ route, navigation }) => {
           logIn={'success'}
           rightIcoSize={20}
           onPressRightIcon={() => navigation.navigate(constants.AdminScreens.AdminNotification)}
-          leftIcoStyle={{ backgroundColor: appColors.lightBlack, borderRadius: 50, height: 50, width: 50, justifyContent: 'center', alignItems: 'center' }}
+          leftIcoStyle={{backgroundColor: appColors.lightBlack, borderRadius: 50, height: 50, width: 50, justifyContent: 'center', alignItems: 'center' }}
         />
       </View>
 

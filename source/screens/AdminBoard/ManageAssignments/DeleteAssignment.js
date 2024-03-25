@@ -2,49 +2,37 @@ import {StyleSheet, Text, View} from 'react-native';
 import React, {useRef} from 'react';
 import Screen from '../../../components/atom/ScreenContainer/Screen';
 import ButtonComponent from '../../../components/atom/CustomButtons/ButtonComponent';
+import styles from './styles';
 
 const DeleteAssignment = ({refRBSheet}) => {
   return (
-    <View style={{flex: 1, marginVertical: 15}}>
+    <View style={styles.mainView}>
       <View style={{flex: 0.6}}>
         <View
-          style={{flex: 0.4, alignItems: 'center', justifyContent: 'center'}}>
-          <Text style={{color: '#E81F1C', fontSize: 18}}>Delete Assgnments</Text>
+          style={styles.DeletetitleView}>
+          <Text style={styles.titleTextStyle}>Delete Assgnments</Text>
         </View>
-        <View style={{flex: 0.6, paddingHorizontal: '20%'}}>
-          <Text style={{color: 'white', fontSize: 16, textAlign: 'center'}}>
+        <View style={styles.TextView}>
+          <Text style={styles.TextStyle}>
             Are you sure you want to delete your Assigment?{' '}
           </Text>
         </View>
       </View>
       <View
-        style={{
-          flex: 0.4,
-          justifyContent: 'center',
-          flexDirection: 'row',
-          justifyContent: 'space-evenly',
-        }}>
+        style={styles.buttonsMainView}>
         <View
-          style={{flex: 0.4, justifyContent: 'center', alignItems: 'flex-end'}}>
+          style={styles.CanclebuttonView}>
           <ButtonComponent
-            style={{
-              backgroundColor: '#424242',
-              paddingVertical: 13,
-              width: '90%',
-            }}
+            style={styles.CanclebuttonStyle}
             btnTextColor={{color: 'white'}}
             title={'Cancel '}
             onPress={() => refRBSheet.current.close()}
           />
         </View>
         <View
-          style={{flex: 0.6, justifyContent: 'center', alignItems: 'center'}}>
+          style={styles.DeleteButtonView}>
           <ButtonComponent
-            style={{
-              backgroundColor: '#E81F1C',
-              paddingVertical: 13,
-              width: '85%',
-            }}  
+            style={styles.DeleteButtonStyle}  
             btnTextColor={{color: 'white'}}
             title={'Delete Asignment'}
           />
@@ -57,4 +45,3 @@ const DeleteAssignment = ({refRBSheet}) => {
 
 export default DeleteAssignment;
 
-const styles = StyleSheet.create({});

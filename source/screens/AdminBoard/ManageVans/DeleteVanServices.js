@@ -2,97 +2,84 @@ import { StyleSheet, Text, View } from 'react-native';
 import React, { useRef, useState } from 'react';
 import Screen from '../../../components/atom/ScreenContainer/Screen';
 import { Formik } from 'formik';
-
+import styles from './styles';
 import ButtonComponent from '../../../components/atom/CustomButtons/ButtonComponent';
 import { endPoint, messages } from '../../../AppConstants/urlConstants';
 import { PostRequest } from '../../../services/apiCall';
 import { SimpleSnackBar } from '../../../components/atom/Snakbar/Snakbar';
 import appColors from '../../../AppConstants/appColors';
+import { NavigationContainer } from '@react-navigation/native';
 
 const DeleteVanServices = ({ refRBSheet, vandetails }) => {
 
   console.log("test,", vandetails);
-  // const [editedDetails, setEditedDetails] = useState([vandetails])
+
   const VanInfo = () => {
-    const payload = {
-      vanId:vandetails.vanId,
-      vanName: vandetails.vanName,
-      vanRegistrationId: vandetails.vanRegistrationId,
-      vanRegistrationNo: vandetails.vanRegistrationNo,
-      vanModel: vandetails.vanModel,
+    const formData = new FormData();
+    formData.append('vanId', vandetails.vanId);
+    formData.append('UserIP', "::1");
+    formData.append('vanName', vandetails.vanName);
+    // formData.append('vanRegistrationNo', vandetails.vanRegistrationNo);
 
-      Operation: 4,
-      
-    }
-    console.log("testtttt", payload),
-    console.log(".......",vandetails)
+    formData.append('CreatedBy', '2');
+    formData.append('Operations', '4');
+    console.log("testtttt", formData);
 
-    
-      PostRequest(endPoint.DELETE_VANS, payload)
-        .then(res => {
-          console.log("Responseee", res?.data)
-          // console.log("........",setEditedDetails)
-        
-           refRBSheet.current.close()
-        })
-        .catch(err => {
-          SimpleSnackBar(messages.Catch, appColors.Red);
-          console.log(".................",err)
-         
-        });
+    PostRequest(endPoint.DELETE_VANS, formData)
+
+      .then(res => {
+        console.log("checkkk", res.data.data)
+        if (res?.data?.code == 200) {
+          console.log('response', res?.data.data);
+
+        } else {
+          SimpleSnackBar(res?.data?.message);
+        }
+      })
+      .catch(err => {
+        console.log(err)
+        SimpleSnackBar(messages.Catch, appColors.Red);
+        //else condition is running
+        console.log("errrrrrr", messages.Catch)
+      });
   };
   const handleDeleteServices = () => {
-    1 ();
-  // console.log(VanInfo()),
-    SimpleSnackBar('deleted sucessfully', appColors.Green)
-     // Call your API function here
+
+    VanInfo();
+
   };
-
-
+  
   return (
-    <View style={{ flex: 1, marginVertical: 15 }}> 
+    <View style={styles.mainView}>
       <View style={{ flex: 0.6 }}>
         <View
-          style={{ flex: 0.4, alignItems: 'center', justifyContent: 'center' }}>
-          <Text style={{ color: '#E81F1C', fontSize: 18 }}>Delete Services</Text>
+          style={styles.DeletetitleView}>
+          <Text style={styles.titleTextStyle}>Delete Services</Text>
         </View>
-        <View style={{ flex: 0.6, paddingHorizontal: '20%' }}>
-          <Text style={{ color: 'white', fontSize: 16, textAlign: 'center' }}>
+        <View style={styles.TextView}>
+          <Text style={styles.TextStyle}>
             Are you sure you want to delete your service?{' '}
           </Text>
         </View>
       </View>
 
       <View
-        style={{
-          flex: 0.4,
-          justifyContent: 'center',
-          flexDirection: 'row',
-          justifyContent: 'space-evenly',
-        }}>
+        style={styles.buttonsMainView}>
 
 
         <View
-          style={{ flex: 0.4, justifyContent: 'center', alignItems: 'flex-end' }}>
+          style={styles.CanclebuttonView}>
           <ButtonComponent
-            style={{
-              backgroundColor: '#424242',
-              paddingVertical: 13,
-              width: '90%',
-            }}
+            style={styles.CanclebuttonStyle}
             btnTextColor={{ color: 'white' }}
             title={'Cancel '}
             onPress={() => refRBSheet.current.close()}
           />
         </View>
         <View
-          style={{ flex: 0.6, justifyContent: 'center', alignItems: 'center' }}>
+          style={styles.DeleteButtonView}>
           <ButtonComponent
-            style={{
-              backgroundColor: '#E81F1C',
-              paddingVertical: 13,
-              width: '85%',
-            }}
+            style={styles.DeleteButtonStyle}
             btnTextColor={{ color: 'white' }}
             title={'Delete Services'}
             onPress={handleDeleteServices}
@@ -106,4 +93,4 @@ const DeleteVanServices = ({ refRBSheet, vandetails }) => {
 
 export default DeleteVanServices;
 
-const styles = StyleSheet.create({});
+
