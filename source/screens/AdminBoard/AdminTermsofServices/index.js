@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, View, FlatList, Platform } from 'react-native';
+import { useIsFocused } from '@react-navigation/native';
 import Screen from '../../../components/atom/ScreenContainer/Screen';
 import Header from '../../../components/molecules/Header';
 import { Icons } from '../../../components/molecules/CustomIcon/CustomIcon';
@@ -9,8 +10,18 @@ import { GetRequest } from '../../../services/apiCall';
 import ButtonComponent from '../../../components/atom/CustomButtons/ButtonComponent';
 
 const AdminTermsofServices = ({ navigation, route }) => {
-  const { aboutUsId } = route.params;
+  const { aboutUsId } = route.params || 0;
+  const isFocused = useIsFocused();
   const [termsServicesData, setTermsServicesData] = useState([]);
+
+  console.log("aboutUsId",aboutUsId)
+
+  useEffect(() => {
+    if (isFocused) {
+      getTermsOfServices();
+      console.log("asdasdasd")
+    }
+  }, [isFocused]);
 
   const getTermsOfServices = () => {
     GetRequest(`Common/Get_AboutUsType?aboutUsTypeId=${aboutUsId}`)
@@ -25,10 +36,6 @@ const AdminTermsofServices = ({ navigation, route }) => {
         console.log('Failed to fetch data', err);
       });
   };
-
-  useEffect(() => {
-    getTermsOfServices();
-  }, []);
 
   const handleEdit = () => {
     navigation.navigate(constants.AdminScreens.AdminEditTermsOfServices, {
@@ -46,7 +53,6 @@ const AdminTermsofServices = ({ navigation, route }) => {
           headerText={'Terms of Service'}
           rightIcoName={'bell-fill'}
           rightIcoType={Icons.Octicons}
-          logIn={'success'}
           rightIcoSize={20}
           onPressRightIcon={() => navigation.navigate(constants.AdminScreens.AdminNotification)}
           leftIcoStyle={{ backgroundColor: appColors.lightBlack, borderRadius: 50, height: 50, width: 50, justifyContent: 'center', alignItems: 'center' }}

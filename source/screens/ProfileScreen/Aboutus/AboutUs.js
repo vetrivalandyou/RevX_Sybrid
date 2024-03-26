@@ -89,7 +89,7 @@ const AboutUs = ({ navigation }) => {
         }}>
         {dropDownData.map(item => (
           <TouchableOpacity
-            key={item.id}
+          key={item.id || item.aboutUsId}          
             style={{
               flex: 0.1,
               backgroundColor: appColors.darkgrey,

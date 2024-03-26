@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, View, TextInput, Platform } from 'react-native';
 import Screen from '../../../components/atom/ScreenContainer/Screen';
 import Header from '../../../components/molecules/Header';
@@ -8,20 +8,38 @@ import appColors from '../../../AppConstants/appColors';
 import ButtonComponent from '../../../components/atom/CustomButtons/ButtonComponent';
 import { PostRequest } from '../../../services/apiCall';
 import { endPoint } from '../../../AppConstants/urlConstants';
+import { getAsyncItem } from '../../../utils/SettingAsyncStorage';
+import { SimpleSnackBar } from '../../../components/atom/Snakbar/Snakbar';
 
 const AdminEditTermsOfServices = ({ route, navigation }) => {
   const { description } = route.params;
-  const [editedDescription, setEditedDescription] = useState(description);
+  const [editedDescription, setEditedDescription] = useState(description?.[0]?.detail);
+  const [editedTitle, setEditedTitle] = useState(description?.[0]?.title);
   const [isFocused, setIsFocused] = useState(false);
-  console.log("editedDescription......>>>",description)
+  const [userDetails, setUserDetails] = useState();
+
+  const getAsyncData = async () => {
+    const userDetails = await getAsyncItem(
+      constants.AsyncStorageKeys.userDetails,
+    );
+    // console.log('userDetails......////', userDetails);
+    setUserDetails(userDetails)
+  };
+  useEffect(() => {
+
+    getAsyncData();
+  }, []);
+  // console.log("Descriptionmmmmmmmm......>>>", description)
 
   const postSaveAboutUsType = payload => {
     PostRequest(endPoint.SAVE_ABOUTUS_TYPE, payload)
       .then(res => {
+        console.log("res", res?.data)
         if (res?.data?.code === 200) {
-          console.log('Data saved successfully');
+          SimpleSnackBar(res?.data?.message)
+          // navigation.navigate(constants.AdminScreens.AdminTermsofServices, { aboutUsId: description[0].aboutUsTypeId })
         } else {
-          console.log(res?.data?.message);
+          SimpleSnackBar(res?.data?.message, appColors.Red)
         }
       })
       .catch(err => {
@@ -29,15 +47,24 @@ const AdminEditTermsOfServices = ({ route, navigation }) => {
       });
   };
 
+  console.log("description", description)
+
   const handleSave = () => {
     const payload = {
-      description: editedDescription,
+      aboutUsId: description?.[0]?.aboutUsId,
+      aboutUsTypeId: description?.[0]?.aboutUsTypeId,
+      title: editedTitle,
+      detail: editedDescription,
+      createdBy: userDetails?._RoleId,
     };
+
+    console.log("payload", payload)
+
     postSaveAboutUsType(payload);
-    navigation.goBack();
-    console.log("payloaddddd",payload)
   };
 
+
+  // console.log("editedDescription???????????????????", editedDescription)
   return (
     <Screen viewStyle={{ flex: 1, backgroundColor: appColors.Black, padding: 15 }} statusBarColor={appColors.Black}>
       <View style={{ flex: 0.1 }}>
@@ -56,16 +83,18 @@ const AdminEditTermsOfServices = ({ route, navigation }) => {
       </View>
 
       <View style={{ flex: 0.8, paddingVertical: 5 }}>
-        <View style={{ height: 'auto', backgroundColor: '#252525', borderRadius: 20, marginBottom: 20, alignContent: 'center', padding: 20, borderColor: isFocused ? '#C79646' : 'transparent', borderWidth: isFocused ? 1 : 0 }}>
-          <Text style={{ color: '#C79646', fontSize: 20, fontWeight: '500', paddingBottom: 5 }}>Type of date</Text>
-          <TextInput
-            style={{ fontSize: 16, color: 'white', lineHeight: 20 }}
-            multiline
-            value={editedDescription}
-            onChangeText={(text) => setEditedDescription(text)}
-            onBlur={() => setIsFocused(false)}
-          />
-        </View>
+        {description.map((item, index) => (
+          <View key={index} style={{ height: 'auto', backgroundColor: '#252525', borderRadius: 20, marginBottom: 20, alignContent: 'center', padding: 20, borderColor: isFocused ? '#C79646' : 'transparent', borderWidth: isFocused ? 1 : 0 }}>
+            <Text style={{ color: '#C79646', fontSize: 20, fontWeight: '500', paddingBottom: 5 }}>Type of date</Text>
+            <TextInput
+              style={{ fontSize: 16, color: 'white', lineHeight: 20 }}
+              multiline
+              value={editedDescription}
+              onChangeText={(text) => setEditedDescription(text)}
+              onBlur={() => setIsFocused(false)}
+            />
+          </View>
+        ))}
       </View>
 
       <View style={styles.buttonView}>
