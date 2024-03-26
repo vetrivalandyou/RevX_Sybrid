@@ -1,43 +1,50 @@
+import React, {useEffect, useRef, useState} from 'react';
 import {
   ActivityIndicator,
+  FlatList,
   Image,
   Platform,
-  ScrollView,
   Text,
   TouchableOpacity,
   View,
 } from 'react-native';
-import React, {useEffect, useRef, useState} from 'react';
-import {screenSize} from '../../../components/atom/ScreenSize';
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import Entypo from 'react-native-vector-icons/Entypo';
-import ButtonComponent from '../../../components/atom/CustomButtons/ButtonComponent';
 import styles from './styles';
-import {useNavigation} from '@react-navigation/native';
-// import BottomSheet from '../../components/atom/BottomSheet';
-
-import Screen from '../../../components/atom/ScreenContainer/Screen';
-import constants from '../../../AppConstants/Constants.json';
-import Header from '../../../components/molecules/Header';
+import {useIsFocused, useNavigation} from '@react-navigation/native';
 import {Icons} from '../../../components/molecules/CustomIcon/CustomIcon';
-
-import BottomSheet from '../../../components/molecules/BottomSheetContent/BottomSheet';
-import appColors from '../../../AppConstants/appColors';
-import DeleteAssignment from './DeleteAssignment';
-import {endPoint} from '../../../AppConstants/urlConstants';
+import {endPoint, imageUrl} from '../../../AppConstants/urlConstants';
 import {PostRequest} from '../../../services/apiCall';
 import {AppImages} from '../../../AppConstants/AppImages';
 import {SimpleSnackBar} from '../../../components/atom/Snakbar/Snakbar';
+import {getAsyncItem} from '../../../utils/SettingAsyncStorage';
+import ButtonComponent from '../../../components/atom/CustomButtons/ButtonComponent';
+import Screen from '../../../components/atom/ScreenContainer/Screen';
+import constants from '../../../AppConstants/Constants.json';
+import Header from '../../../components/molecules/Header';
+import BottomSheet from '../../../components/molecules/BottomSheetContent/BottomSheet';
+import appColors from '../../../AppConstants/appColors';
+import DeleteAssignment from './DeleteAssignment';
 
 const Assignments = ({}) => {
   const navigation = useNavigation();
+  const isFocused = useIsFocused();
+  const [userDetails, setUserDetails] = useState();
   const [selectedItem, setSelectedItem] = useState(null);
-  const [vanAssignment, setvanAssignment] = useState();
+  const [vanAssignment, setVanAssignment] = useState();
   const [loader, setLoader] = useState(true);
 
   useEffect(() => {
-    PostbarberVanAssignment();
-  },[]);
+    if (isFocused) {
+      getUserDetail();
+      PostbarberVanAssignment();
+    }
+  }, [isFocused]);
+
+  const getUserDetail = async () => {
+    const userDatail = await getAsyncItem(
+      constants.AsyncStorageKeys.userDetails,
+    );
+    setUserDetails(userDatail);
+  };
 
   const PostbarberVanAssignment = () => {
     payload = {
@@ -52,11 +59,10 @@ const Assignments = ({}) => {
     PostRequest(endPoint.GET_BARBER_VANASSIGNMENT, payload)
       .then(res => {
         if (res?.data?.code == 200) {
-          setvanAssignment(res?.data?.data);
+          setVanAssignment(res?.data?.data);
           setLoader(false);
         } else {
-          SimpleSnackBar(res?.data?.message);
-          console.log('................else', res.data);
+          SimpleSnackBar(res?.data?.message, appColors.Red);
           setLoader(false);
         }
       })
@@ -65,6 +71,62 @@ const Assignments = ({}) => {
         setLoader(false);
       });
   };
+
+  const VanAssignmentList = ({item, onPress, selected}) => {
+    const refRBSheet = useRef();
+    const navigation = useNavigation();
+
+    const handleEditPress = () => {
+      navigation.navigate(constants.AdminScreens.EditAssignment, {
+        item: item,
+        isAdded: false,
+        userDetails: userDetails,
+      });
+    };
+
+    return (
+      <TouchableOpacity onPress={onPress}>
+        <View
+          style={[
+            styles.container,
+            selected && {borderColor: '#c79647', borderWidth: 1.25},
+          ]}>
+          <View style={styles.Subcontainer}>
+            <View style={[styles.textView, {flex: 0.1}]}>
+              <Image
+                source={{uri: `${imageUrl}${item.vanPhoto}`}}
+                style={{width: 35, height: 35, borderRadius: 100}}
+              />
+            </View>
+            <View style={styles.textView}>
+              <Text style={styles.textStyle}>{item.vanName}</Text>
+            </View>
+            <TouchableOpacity
+              onPress={handleEditPress}
+              style={styles.editImageView}>
+              <Image
+                source={AppImages.Editimage}
+                style={styles.editImageStyle}
+              />
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => refRBSheet.current.open()}
+              style={styles.DeleteimageView}>
+              <Image
+                source={AppImages.deleteimage}
+                style={styles.Deleteimagestyle}
+              />
+            </TouchableOpacity>
+            <BottomSheet ref={refRBSheet} Height={200}>
+              <DeleteAssignment refRBSheet={refRBSheet} />
+            </BottomSheet>
+          </View>
+        </View>
+      </TouchableOpacity>
+    );
+  };
+
+  console.log('vanAssignment', vanAssignment);
 
   return (
     <Screen
@@ -76,7 +138,7 @@ const Assignments = ({}) => {
           lefttIcoType={Icons.Ionicons}
           onPressLeftIcon={() => navigation.goBack()}
           leftIcoName={'chevron-back'}
-          headerText={'Assignments'}
+          headerText={'Barber Van Assignments'}
         />
       </View>
       {loader ? (
@@ -86,18 +148,21 @@ const Assignments = ({}) => {
           style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}
         />
       ) : (
-        <ScrollView style={{flex: 0.8}}>
-          {vanAssignment?.map(item => (
-            <Servicelist
-              key={item.vanId}
-              item={item}
-              selected={selectedItem === item.vanId}
-              onPress={() => setSelectedItem(item.vanId)}
-            />
-          ))}
-        </ScrollView>
+        <View style={{flex: 0.8}}>
+          <FlatList
+            data={vanAssignment}
+            keyExtractor={item => item.barberId.toString()}
+            renderItem={({item}) => (
+              <VanAssignmentList
+                key={item.vanId}
+                item={item}
+                selected={selectedItem === item.vanId}
+                onPress={() => setSelectedItem(item.vanId)}
+              />
+            )}
+          />
+        </View>
       )}
-
       <View style={styles.buttonView}>
         <ButtonComponent
           style={{
@@ -107,60 +172,16 @@ const Assignments = ({}) => {
             position: 'absolute',
           }}
           btnTextColor={{color: 'white'}}
-          title={'Add Assignment'}
+          title={'Assign Vans'}
           onPress={() =>
             navigation.navigate(constants.AdminScreens.EditAssignment, {
               isAdded: true,
+              userDetails: userDetails,
             })
           }
         />
       </View>
     </Screen>
-  );
-};
-
-const Servicelist = ({item, onPress, selected}) => {
-  const refRBSheet = useRef();
-  const navigation = useNavigation();
-  const handleEditPress = () => {
-    navigation.navigate(constants.AdminScreens.EditAssignment, {
-      serviceName: item.vanName,
-      isAdded: false,
-    });
-  };
-
-  return (
-    <TouchableOpacity onPress={onPress}>
-      <View
-        style={[
-          styles.container,
-          selected && {borderColor: '#c79647', borderWidth: 1.25},
-        ]}>
-        <View style={styles.Subcontainer}>
-          <View style={styles.textView}>
-            <Text style={styles.textStyle}>{item.vanName}</Text>
-          </View>
-
-          <TouchableOpacity
-            onPress={handleEditPress}
-            style={styles.editImageView}>
-            <Image source={AppImages.Editimage} style={styles.editImageStyle} />
-          </TouchableOpacity>
-          <TouchableOpacity
-            onPress={() => refRBSheet.current.open()}
-            style={styles.DeleteimageView}>
-            <Image
-              source={AppImages.deleteimage}
-              style={styles.Deleteimagestyle}
-            />
-          </TouchableOpacity>
-
-          <BottomSheet ref={refRBSheet} Height={200}>
-            <DeleteAssignment refRBSheet={refRBSheet} />
-          </BottomSheet>
-        </View>
-      </View>
-    </TouchableOpacity>
   );
 };
 

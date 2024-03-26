@@ -34,7 +34,7 @@ const DeleteAssignment = ({refRBSheet}) => {
           <ButtonComponent
             style={styles.DeleteButtonStyle}  
             btnTextColor={{color: 'white'}}
-            title={'Delete Asignment'}
+            title={'Delete Assigned Van'}
           />
         </View>
 

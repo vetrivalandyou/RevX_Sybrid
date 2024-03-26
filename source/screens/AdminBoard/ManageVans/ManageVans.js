@@ -62,7 +62,7 @@ const ManageVans = ({navigation}) => {
       });
   };
 
-  const Servicelist = ({item, onPress, selected}) => {
+  const VanList = ({item, onPress, selected}) => {
     const refRBSheet = useRef();
     const navigation = useNavigation();
     const handleEditPress = item => {
@@ -146,7 +146,7 @@ const ManageVans = ({navigation}) => {
             data={vans}
             keyExtractor={item => item.vanId.toString()}
             renderItem={({item}) => (
-              <Servicelist
+              <VanList
                 key={item.vanId}
                 item={item}
                 selected={selectedItem === item.vanId}
