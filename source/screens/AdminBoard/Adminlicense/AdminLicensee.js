@@ -15,7 +15,7 @@ const AdminLicensee = ({ navigation, route }) => {
   const [termsServicesData, setTermsServicesData] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
-  console.log("aboutUsId",aboutUsId)
+  console.log("aboutUsId", aboutUsId)
 
   useEffect(() => {
     if (isFocused) {
