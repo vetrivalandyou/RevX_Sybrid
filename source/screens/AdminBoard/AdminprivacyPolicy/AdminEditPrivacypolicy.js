@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, Text, View, TextInput, Platform } from 'react-native';
+import { StyleSheet, Text, View, TextInput, Platform, ActivityIndicator } from 'react-native';
 import Screen from '../../../components/atom/ScreenContainer/Screen';
 import Header from '../../../components/molecules/Header';
 import { Icons } from '../../../components/molecules/CustomIcon/CustomIcon';
@@ -17,37 +17,37 @@ const AdminEditPrivacypolicy = ({ route, navigation }) => {
   const [editedTitle, setEditedTitle] = useState(description?.[0]?.title);
   const [isFocused, setIsFocused] = useState(false);
   const [userDetails, setUserDetails] = useState();
+  const [loading, setLoading] = useState(false); // State for loading indicator
 
   const getAsyncData = async () => {
     const userDetails = await getAsyncItem(
       constants.AsyncStorageKeys.userDetails,
     );
-    // console.log('userDetails......////', userDetails);
-    setUserDetails(userDetails)
+    setUserDetails(userDetails);
   };
-  useEffect(() => {
 
+  useEffect(() => {
     getAsyncData();
   }, []);
-  // console.log("Descriptionmmmmmmmm......>>>", description)
 
   const postSaveAboutUsType = payload => {
+    setLoading(true); // Set loading to true when sending request
     PostRequest(endPoint.SAVE_ABOUTUS_TYPE, payload)
       .then(res => {
         console.log("res", res?.data)
         if (res?.data?.code === 200) {
-          SimpleSnackBar(res?.data?.message)
-          // navigation.navigate(constants.AdminScreens.AdminTermsofServices, { aboutUsId: description[0].aboutUsTypeId })
+          SimpleSnackBar(res?.data?.message);
+          // Navigate back after saving
+          navigation.goBack();
         } else {
-          SimpleSnackBar(res?.data?.message, appColors.Red)
+          SimpleSnackBar(res?.data?.message, appColors.Red);
         }
       })
       .catch(err => {
         console.log('Error while saving data', err);
-      });
+      })
+      .finally(() => setLoading(false)); // Set loading to false when request is complete
   };
-
-  console.log("description", description)
 
   const handleSave = () => {
     const payload = {
@@ -58,13 +58,9 @@ const AdminEditPrivacypolicy = ({ route, navigation }) => {
       createdBy: userDetails?._RoleId,
     };
 
-    console.log("payload", payload)
-
     postSaveAboutUsType(payload);
   };
 
-
-  // console.log("editedDescription???????????????????", editedDescription)
   return (
     <Screen viewStyle={{ flex: 1, backgroundColor: appColors.Black, padding: 15 }} statusBarColor={appColors.Black}>
       <View style={{ flex: 0.1 }}>
@@ -97,6 +93,10 @@ const AdminEditPrivacypolicy = ({ route, navigation }) => {
         ))}
       </View>
 
+      {loading && (
+        <ActivityIndicator style={styles.loader} color={appColors.White} size="large" />
+      )}
+
       <View style={styles.buttonView}>
         <ButtonComponent
           style={{ backgroundColor: '#C79646', paddingVertical: Platform.OS == 'ios' ? 18 : 13, bottom: 1, position: 'absolute' }}
@@ -115,5 +115,10 @@ const styles = StyleSheet.create({
     flex: 0.1,
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  loader: {
+    position: 'absolute',
+    top: '50%',
+    alignSelf: 'center',
   },
 });
