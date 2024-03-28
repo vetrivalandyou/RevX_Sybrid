@@ -53,15 +53,6 @@ const Bookingcompleted = ({data}) => {
             <View style={styles.DashLinestyle}></View>
           </View>
 
-          {/* <View
-            style={{
-              fontSize: 25,
-              marginHorizontal: 14,
-              borderBottomWidth: 2,
-              borderStyle: 'dashed',
-              borderBottomColor: '#c79647',
-            }}></View> */}
-
           <View
             style={styles.containerSecondview}>
             <View style={styles.completedImageview}>
@@ -114,25 +105,4 @@ const Bookingcompleted = ({data}) => {
     />
   );
 };
-
-
-//   Containerstyle: {
-//     height: screenSize.height / 2.8,
-//     width: screenSize.width / 1.1,
-//     marginBottom: 10,
-//     backgroundColor: '#252525',
-//     borderWidth: 1,
-//     borderRadius: 20,
-//     marginHorizontal: 20,
-//   },
-//   Ratingbox: {
-//     height: screenSize.height / 28,
-//     width: screenSize.width / 7.1,
-//     justifyContent: 'center',
-//     borderWidth: 0.75,
-//     borderRadius: 7,
-//     borderColor: '#c79647',
-//   },
-// });
-
 export default Bookingcompleted;

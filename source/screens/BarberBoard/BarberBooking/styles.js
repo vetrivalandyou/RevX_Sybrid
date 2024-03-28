@@ -8,88 +8,77 @@ export default StyleSheet.create({
     //     alignItems: 'center',
     //     flex: 0.09,
     // },
-    // Containerstyle: {
-    //     height: screenSize.height / 3.7,
-    //     width: screenSize.width / 1.11,
-    //     marginBottom: 10,
-    //     backgroundColor: '#252525',
-    //     borderWidth: 1,
-    //     borderRadius: 20,
-    //     borderColor: 'black',
-    //     marginHorizontal: 7,
-    // },
+    Containerstyle: {
+            height: screenSize.height / 3.5,
+            width: screenSize.width / 1.1,
+            marginBottom: 10,
+            backgroundColor: '#252525',
+            borderWidth: 1,
+            borderRadius: 20,
+            borderColor: 'black',
+            marginHorizontal: 20,
+          },
+    
 
-    // ContainerInnerview: {
-    //     flexDirection: 'row',
-    //     flex: 0.25,
-    //     justifyContent: 'space-between',
-    //     alignItems: 'center',
-    //     marginHorizontal: 15,
-    //     marginTop: 5,
+    ContainerInnerview:{
+        flexDirection: 'row',
+        flex: 0.25,
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        marginHorizontal: 15,
+        marginTop: 5,
+      },
+    Dateview:
+    {
+        flex: 0.6,
+    },
+    DateTextstyle:
+    {
+        color: 'white',
+        fontSize: 14
+    },
+    CancelbuttonView:
+    {
+        flex: 0.25,
+    },
+    ContainerSecondview:
+    {
+        flexDirection: 'row',
+        flex: 0.72,
+        justifyContent: 'center',
+        alignItems: 'center',
 
-    // },
-    // Dateview:
-    // {
-    //     flex: 0.6,
-    // },
-    // DateTextstyle:
-    // {
-    //     color: 'white',
-    //     fontSize: 14
-    // },
-    // CancelbuttonView:
-    // {
-    //     flex: 0.25,
-    // },
-    // DashedrowView:
-    // {
-    //     height: 1,
-    //     position: 'relative',
-    //     marginHorizontal: 15,
-    // },
-    // ContainerSecondview:
-    // {
-    //     flexDirection: 'row',
-    //     flex: 0.72,
-    //     justifyContent: 'center',
-    //     alignItems: 'center',
-
-    // },
-    // imageView:
-    // {
-    //     flex: 0.35,
-    //     alignItems: 'center',
-    // },
-    // imageStyle: {
-    //     height: '80%',
-    //     width: '82%',
-    //     borderRadius: 7,
-    //     marginTop: 5,
-    // },
-    // Textview:
-    // {
-    //     flexDirection: 'column',
-    //     flex: 0.63,
-    // },
-    // nameStyle:
-    // {
-    //     fontSize: 18,
-    //     fontWeight: '600',
-    //     color: 'white'
-    // },
-    // titleStyle: {
-    //     fontSize: 13,
-    //     fontWeight: '400',
-    //     color: 'white',
-    //     marginVertical: 9,
-    // },
-    // labelStyle:
-    // {
-    //     fontSize: 10,
-    //     fontWeight: '400',
-    //     color: '#c79647'
-    // },
-
+    },
+    imageView:
+    {
+        flex: 0.35,
+        alignItems: 'center',
+    },
+    imageStyle: {
+        height: '89%',
+        width: '82%',
+        borderRadius: 7,
+        marginTop: 10,
+      },
+    Textview:
+    {
+        flexDirection: 'column',
+        flex: 0.63,
+    },
+    nameStyle:
+    {
+        fontSize: 22,
+        fontWeight: '600',
+        color: 'white'
+    },
+    titleStyle: {
+        fontSize: 14,
+        fontWeight: '400',
+        color: '#9E9E9E',
+        marginVertical: 9,
+      },
+    labelStyle:
+    {fontSize: 12, fontWeight: '400', color: '#c79647'},
 
     completedContaierstyle:
     {
@@ -108,7 +97,6 @@ export default StyleSheet.create({
               justifyContent: 'space-between',
               marginHorizontal: 20,
               marginTop: 5,
-            backgroundColor:'red',
     },
 
     CompletedDateview:
@@ -123,13 +111,11 @@ export default StyleSheet.create({
     {
             flex: 0.25,
             justifyContent: 'center',
-            backgroundColor: 'pink',  
     },
     EreciptView: {
         
             flex: 0.35,
             justifyContent: 'center',
-            // backgroundColor: 'pink',
           
     },
     EreciptInnerView: {
@@ -152,7 +138,8 @@ export default StyleSheet.create({
         position: 'relative',
         marginHorizontal: 15
     },
-    DashLinestyle:{ position: 'absolute', top: 0, bottom: 0, left: 0, right: 0, borderWidth: 1, borderColor: appColors.Goldcolor, borderStyle: 'dashed', backgroundColor:'transparent'  },
+    DashLinestyle:
+    { position: 'absolute', top: 0, bottom: 0, left: 0, right: 0, borderWidth: 1, borderColor: appColors.Goldcolor, borderStyle: 'dashed', backgroundColor:'transparent'  },
     containerSecondview: {
         flexDirection: 'row',
         flex: 0.58,
@@ -235,14 +222,12 @@ export default StyleSheet.create({
     {
         flex: 0.6,
         alignItems: 'flex-end',
-        backgroundColor:'yellow',
       },
       EreciptInnerView: {
         color: 'white',
         flexDirection: 'row',
         justifyContent: 'space-evenly',
         alignItems: 'center',
-        backgroundColor:'red'
       },
       EreciptButtonstyle:
      {
@@ -257,7 +242,6 @@ export default StyleSheet.create({
         flex: 0.58,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor:'red',
       },
     bookingImageview:
     {
@@ -275,27 +259,50 @@ export default StyleSheet.create({
         flexDirection: 'column',
         flex: 0.63
     },
-    // Buttosview: {
-    //     flex: 0.25,
-    //     justifyContent: 'center',
-    //     flexDirection: 'row',
-    //     justifyContent: 'space-evenly',
-    // },
-    // Buttonview: {
-    //     flex: 0.3,
-    //     height: '65%',
-    //     alignItems: 'center',
-    //     backgroundColor: '#252525',
-    //     justifyContent: 'center',
-    //     borderRadius: 40,
-    // },
-    // ButtonscontainerView: {
-    //     flexDirection: 'row',
-    //     justifyContent: 'space-evenly',
-    //     alignItems: 'center',
-    //     flex: 0.09,
-    
+    NoticationContainer: {
+        height: screenSize.height / 18.5,
+        width: screenSize.width / 9,
+        borderRadius: 40,
+        backgroundColor: '#252525',
+        marginHorizontal: 2,
+        alignItems: 'center',
+        justifyContent: 'center',
+      },
+
+      barberDetailsContainer: {
+        height: screenSize.height / 2.95,
+        width: screenSize.width / 1.1,
+        paddingVertical: 17,
+        marginTop: 5,
+        backgroundColor: '#252525',
+        borderWidth: 1,
+        borderRadius: 20,
+        borderColor: 'black',
+        marginHorizontal: 17,
+      },
+
+      barberSevicesContainer:{
+        height: screenSize.height / 4.1,
+        width: screenSize.width / 1.1,
+        justifyContent: 'center',
+        marginTop: 10,
+        backgroundColor: '#252525',
+        borderWidth: 1,
+        borderRadius: 20,
+        borderColor: 'black',
+        marginHorizontal: 17,
+      },
+      Button: {
+    alignItems: 'center',
+    backgroundColor: '#c79647',
+    paddingVertical: 15,
+    marginHorizontal: 13,
+    borderRadius: 40,
+    position: 'absolute',
+    bottom: 5,
+    width: screenSize.width / 1.07,
+  },
+});
 
 
 
-})

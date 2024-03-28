@@ -44,4 +44,5 @@ export const AppImages = {
   Percentage: require(`${path}Percentage.png`),
   Editimage:require(`${path}editimage.png`),
   deleteimage:require(`${path}deleteimage.png`),
+  dummyVan:require(`${path}dummyVan.png`),
 };

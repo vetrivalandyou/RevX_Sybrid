@@ -80,11 +80,12 @@ export default StyleSheet.create({
     borderRadius: 80,
     borderWidth: 3,
     borderColor: appColors.Goldcolor,
+    backgroundColor:'grey'
   },
   Iconstyle: {
     position: 'absolute',
     left: screenSize.width / 4,
-    top: screenSize.height / 8.3,
+    top: screenSize.height / 8.2
   },
   textFieldView: {flex: 0.19, justifyContent: 'space-evenly'},
   buttonStyle: {
