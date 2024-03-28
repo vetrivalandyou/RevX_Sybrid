@@ -28,6 +28,7 @@ import {getAsyncItem} from '../../../utils/SettingAsyncStorage';
 import {imageUrl} from '../../../AppConstants/urlConstants';
 
 const HomeBarber = ({navigation}) => {
+
   const [userDetails, setUserDetails] = useState();
 
   const data = [
@@ -302,6 +303,7 @@ const HomeBarber = ({navigation}) => {
 
   return (
     <Screen statusBarColor={appColors.Black} viewStyle={styles.MianContainer}>
+    
       <View style={{flex: 0.1}}>
         <HomeHeader
           heading={userDetails?.userName}
@@ -345,13 +347,14 @@ const HomeBarber = ({navigation}) => {
 export default HomeBarber;
 
 const styless = StyleSheet.create({
+
   container: {
     width: '49%',
     flexDirection: 'row',
     alignItems: 'center',
     padding: 10,
     borderRadius: 10,
-    backgroundColor: appColors.darkgrey,
+    backgroundColor: appColors.darkgrey,                          
     borderColor: '#ccc',
     marginBottom: 10,
     overflow: 'hidden', // Ensures that the border radius is applied correctly
