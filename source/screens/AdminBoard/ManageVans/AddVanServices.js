@@ -119,7 +119,7 @@ const AddVanservices = ({navigation, route}) => {
                       />
                     ) : (
                       <Image
-                        source={AppImages.ProfileSlider}
+                        source={AppImages.dummyVan}
                         style={styles.imageStyle}
                       />
                     )}
