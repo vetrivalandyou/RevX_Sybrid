@@ -1,15 +1,9 @@
-import {
-  Image,
-  Text,
-  TouchableOpacity,
-  View,
-  Platform,
-} from 'react-native';
-import React, { useRef, useState } from 'react';
+import {Image, Text, TouchableOpacity, View, Platform} from 'react-native';
+import React, {useRef, useState} from 'react';
 import Screen from '../../../components/atom/ScreenContainer/Screen';
 import ButtonComponent from '../../../components/atom/CustomButtons/ButtonComponent';
 import styles from './styles';
-import { Formik } from 'formik';
+import {Formik} from 'formik';
 import * as Yup from 'yup';
 import BottomSheet from '../../../components/molecules/BottomSheetContent/BottomSheet';
 import Header from '../../../components/molecules/Header';
@@ -17,23 +11,20 @@ import CustomIcon, {
   Icons,
 } from '../../../components/molecules/CustomIcon/CustomIcon';
 
-import { endPoint, messages } from '../../../AppConstants/urlConstants';
+import {endPoint, messages} from '../../../AppConstants/urlConstants';
 import SimpleTextField from '../../../components/molecules/TextFeilds/SimpleTextField';
 import appColors from '../../../AppConstants/appColors';
-import { PostRequest } from '../../../services/apiCall';
+import {PostRequest} from '../../../services/apiCall';
 
-import { AppImages } from '../../../AppConstants/AppImages';
-import { SimpleSnackBar } from '../../../components/atom/Snakbar/Snakbar';
+import {AppImages} from '../../../AppConstants/AppImages';
+import {SimpleSnackBar} from '../../../components/atom/Snakbar/Snakbar';
 import ChooseImage from '../../../components/molecules/ChooseImage';
-import { generateRandomNumber } from '../../../functions/AppFunctions';
+import {generateRandomNumber} from '../../../functions/AppFunctions';
 
-const AddVanservices = ({ navigation }) => {
+const AddVanservices = ({navigation, route}) => {
+  const {userDetails} = route?.params || {};
   const refRBSheet = useRef();
   const [profileImage, setProfileImage] = useState(null);
-  const handleImageCaptured = image => {
-    setProfileImage(image);
-    refRBSheet.current.close();
-  };
 
   const validationSchema = Yup.object().shape({
     VanName: Yup.string().required(' Van name is required'),
@@ -41,49 +32,53 @@ const AddVanservices = ({ navigation }) => {
     VanModel: Yup.string().required('Van Model is required'),
   });
 
-  console.log("profileImage", profileImage)
-
   const VanInfo = (values, setSubmitting) => {
     const formData = new FormData();
     Object.keys(values).forEach(key => {
       formData.append(key, values[key]);
     });
     formData.append('VanId', 0);
-    formData.append('UserIP', "::1");
     formData.append('Operations', 1);
-    formData.append('CreatedBy', 2);
-    formData.append('VanPhoto', {
+    formData.append('CreatedBy', userDetails?.userId);
+    formData.append('UserIP', '::1');
+    formData.append('VanPhotos', {
       uri: profileImage?.path,
       name: `${generateRandomNumber()}.jpg`,
       type: profileImage?.mime,
     });
     console.log('formData', formData);
-    PostRequest(endPoint.ADD_VANS, formData)
+    PostRequest(endPoint.CRUD_VAN, formData)
       .then(res => {
+        console.log('response', res?.data);
         if (res?.data?.code == 200) {
-          console.log('test', res?.data);
           SimpleSnackBar(res?.data?.message);
           navigation.goBack();
         } else {
-          SimpleSnackBar(res?.data?.message);
+          SimpleSnackBar(res?.data?.message, appColors.Red);
         }
         setSubmitting(false);
       })
       .catch(err => {
-        console.log(err)
+        console.log(err);
         SimpleSnackBar(messages.Catch, appColors.Red);
         setSubmitting(false);
       });
-  }
+  };
 
+  console.log('profileImage', profileImage);
+
+  const handleImageCaptured = image => {
+    setProfileImage(image);
+    refRBSheet.current.close();
+  };
 
   return (
     <Screen
-      viewStyle={{ flex: 1, padding: 15, backgroundColor: appColors.Black }}
+      viewStyle={{flex: 1, padding: 15, backgroundColor: appColors.Black}}
       statusBarColor={appColors.Black}>
-      <View style={{ flex: 0.1 }}>
+      <View style={{flex: 0.1}}>
         <Header
-          headerSubView={{ marginHorizontal: 5 }}
+          headerSubView={{marginHorizontal: 5}}
           lefttIcoType={Icons.Ionicons}
           onPressLeftIcon={() => navigation.goBack()}
           leftIcoName={'chevron-back'}
@@ -91,7 +86,6 @@ const AddVanservices = ({ navigation }) => {
           logIn={'success'}
         />
       </View>
-
       <Formik
         initialValues={{
           VanName: '',
@@ -99,7 +93,7 @@ const AddVanservices = ({ navigation }) => {
           VanModel: '',
         }}
         validationSchema={validationSchema}
-        onSubmit={(values, { setSubmitting }) => {
+        onSubmit={(values, {setSubmitting}) => {
           VanInfo(values, setSubmitting);
         }}>
         {({
@@ -112,16 +106,17 @@ const AddVanservices = ({ navigation }) => {
           isSubmitting,
         }) => (
           <>
-            <View style={{ flex: 0.8, }}>
+            <View style={{flex: 0.8}}>
               <View style={styles.ProfileMainView}>
                 <View style={styles.ProfileouterView}>
-                  <TouchableOpacity onPress={() => refRBSheet.current.open()} style={styles.profileView} >
+                  <TouchableOpacity
+                    onPress={() => refRBSheet.current.open()}
+                    style={styles.profileView}>
                     {profileImage?.path ? (
                       <Image
-                        source={{ uri: profileImage?.path }}
+                        source={{uri: profileImage?.path}}
                         style={styles.imageStyle}
                       />
-
                     ) : (
                       <Image
                         source={AppImages.ProfileSlider}
@@ -129,12 +124,18 @@ const AddVanservices = ({ navigation }) => {
                       />
                     )}
 
-                    <CustomIcon type={Icons.AntDesign} size={20} name={'pluscircle'} color={'white'} style={styles.Iconstyle} />
+                    <CustomIcon
+                      type={Icons.AntDesign}
+                      size={20}
+                      name={'pluscircle'}
+                      color={'white'}
+                      style={styles.Iconstyle}
+                    />
                   </TouchableOpacity>
                 </View>
               </View>
 
-              <View style={{ flex: 0.65, }}>
+              <View style={{flex: 0.65}}>
                 <View style={styles.textFieldView}>
                   <SimpleTextField
                     placeholder={'Enter Van Name'}
@@ -147,8 +148,7 @@ const AddVanservices = ({ navigation }) => {
                   <View>
                     {touched.VanName && errors.VanName && (
                       <View style={styles.validationTextview}>
-                        <Text
-                          style={styles.validationTextStyle}>
+                        <Text style={styles.validationTextStyle}>
                           {errors.VanName}
                         </Text>
                       </View>
@@ -165,15 +165,13 @@ const AddVanservices = ({ navigation }) => {
                   />
 
                   <View>
-                    {touched.VanRegistrationNo &&
-                      errors.VanRegistrationNo && (
-                        <View style={styles.validationTextview}>
-                          <Text
-                            style={styles.validationTextStyle}>
-                            {errors.VanRegistrationNo}
-                          </Text>
-                        </View>
-                      )}
+                    {touched.VanRegistrationNo && errors.VanRegistrationNo && (
+                      <View style={styles.validationTextview}>
+                        <Text style={styles.validationTextStyle}>
+                          {errors.VanRegistrationNo}
+                        </Text>
+                      </View>
+                    )}
                   </View>
                 </View>
 
@@ -186,45 +184,38 @@ const AddVanservices = ({ navigation }) => {
                     value={values.VanModel}
                   />
 
-
                   {touched.VanModel && errors.VanModel && (
-                    <View
-                      style={styles.validationTextview}>
-                      <Text
-                        style={styles.validationTextStyle}>
+                    <View style={styles.validationTextview}>
+                      <Text style={styles.validationTextStyle}>
                         {errors.VanModel}
                       </Text>
                     </View>
                   )}
-
                 </View>
-
               </View>
             </View>
             <View style={styles.buttonView}>
               <ButtonComponent
                 style={styles.buttonStyle}
-                btnTextColor={{ color: 'white' }}
+                btnTextColor={{color: 'white'}}
                 title={'Save'}
                 disabled={isSubmitting}
                 onPress={handleSubmit}
                 isLoading={isSubmitting}
               />
             </View>
-
           </>
         )}
       </Formik>
 
       <BottomSheet ref={refRBSheet} Height={120}>
-        <ChooseImage refRBSheet={refRBSheet} setProfileImage={handleImageCaptured} />
+        <ChooseImage
+          refRBSheet={refRBSheet}
+          setProfileImage={handleImageCaptured}
+        />
       </BottomSheet>
     </Screen>
   );
 };
 
 export default AddVanservices;
-
-
-
-

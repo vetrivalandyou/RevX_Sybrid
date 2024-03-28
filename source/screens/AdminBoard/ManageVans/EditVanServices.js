@@ -1,67 +1,63 @@
-
-import {
-  Text,
-  TouchableOpacity,
-  View,
-  Platform,
-  Image,
-} from 'react-native';
-import React, { useRef, useState } from 'react';
-import Screen from '../../../components/atom/ScreenContainer/Screen';
-import styles from './styles';
-import ButtonComponent from '../../../components/atom/CustomButtons/ButtonComponent';
-import { Formik } from 'formik';
+import {Text, TouchableOpacity, View, Platform, Image} from 'react-native';
+import React, {useRef, useState} from 'react';
+import {Formik} from 'formik';
 import * as Yup from 'yup';
+import styles from './styles';
+import {endPoint, imageUrl} from '../../../AppConstants/urlConstants';
+import {PostRequest} from '../../../services/apiCall';
+import {SimpleSnackBar} from '../../../components/atom/Snakbar/Snakbar';
+import {generateRandomNumber} from '../../../functions/AppFunctions';
+import BottomSheet from '../../../components/molecules/BottomSheetContent/BottomSheet';
+import SimpleTextField from '../../../components/molecules/TextFeilds/SimpleTextField';
+import ChooseImage from '../../../components/molecules/ChooseImage';
+import ButtonComponent from '../../../components/atom/CustomButtons/ButtonComponent';
 import Header from '../../../components/molecules/Header';
+import Screen from '../../../components/atom/ScreenContainer/Screen';
 import CustomIcon, {
   Icons,
 } from '../../../components/molecules/CustomIcon/CustomIcon';
-import { endPoint, imageUrl } from '../../../AppConstants/urlConstants';
-import SimpleTextField from '../../../components/molecules/TextFeilds/SimpleTextField';
-import { PostRequest } from '../../../services/apiCall';
-import { SimpleSnackBar } from '../../../components/atom/Snakbar/Snakbar';
-import { AppImages } from '../../../AppConstants/AppImages';
-import BottomSheet from '../../../components/molecules/BottomSheetContent/BottomSheet';
-import ChooseImage from '../../../components/molecules/ChooseImage';
 
-const EditVanservices = ({ route, navigation }) => {
-  const { vanDetil } = route.params;
+const EditVanservices = ({route, navigation}) => {
+  const {vanDetails, userDetails} = route.params || {};
   const refRBSheet = useRef();
-  const [profileImage, setProfileImage] = useState(`${imageUrl}${vanDetil?.vanPhotos}`);
+  const [profileImage, setProfileImage] = useState(
+    `${imageUrl}${vanDetails?.vanPhotos}`,
+  );
+  const [changedImage, setChangedImage] = useState('');
 
   const handleImageCaptured = image => {
-
-    setProfileImage(image);
-    // Update the profile image state with the captured image URI
+    setChangedImage(image);
     refRBSheet.current.close();
   };
 
-
   const validationSchema = Yup.object().shape({
     VanName: Yup.string().required(' Van name is required'),
-    VanRegistrationNo: Yup.string()
-      .required('Van Registration no is required'),
+    VanRegistrationNo: Yup.string().required('Van Registration no is required'),
     VanModel: Yup.string().required('Van Model is required'),
   });
-
 
   const VanInfo = (values, setSubmitting) => {
     const formData = new FormData();
     Object.keys(values).forEach(key => {
       formData.append(key, values[key]);
     });
-    formData.append('VanId', 10);
-    formData.append('UserIP', "::1");
-    formData.append('Operations', 2);
-    formData.append('CreatedBy', 2);
-    formData.append('VanPhoto', {
-      uri: profileImage?.path,
-      name: `${generateRandomNumber()}.jpg`,
-      type: profileImage?.mime,
-    });
+    formData.append('VanId', vanDetails?.vanId);
+    formData.append('Operations', 1);
+    formData.append('CreatedBy', userDetails?.userId);
+    formData.append('UserIP', '::1');
+    if (changedImage == '') {
+      formData.append('VanPhotos', profileImage);
+    } else {
+      formData.append('VanPhotos', {
+        uri: changedImage?.path,
+        name: `${generateRandomNumber()}.jpg`,
+        type: changedImage?.mime,
+      });
+    }
+
     console.log('formData', formData);
 
-    PostRequest(endPoint.Edit_VANS, formData)
+    PostRequest(endPoint.CRUD_VAN, formData)
       .then(res => {
         console.log('response', res.data);
         if (res?.data?.code === 200) {
@@ -76,16 +72,16 @@ const EditVanservices = ({ route, navigation }) => {
       .catch(err => {
         console.log('Error', err);
         SimpleSnackBar(messages.Catch, appColors.Red);
-        console.log(';;;;;;;;;;')
+        console.log(';;;;;;;;;;');
         setSubmitting(false);
       });
   };
 
   return (
     <Screen
-      viewStyle={{ flex: 1, padding: 15, backgroundColor: appColors.Black }}
+      viewStyle={{flex: 1, padding: 15, backgroundColor: appColors.Black}}
       statusBarColor={appColors.Black}>
-      <View style={{ flex: 0.1 }}>
+      <View style={{flex: 0.1}}>
         <Header
           lefttIcoType={Icons.Ionicons}
           onPressLeftIcon={() => navigation.goBack()}
@@ -94,15 +90,14 @@ const EditVanservices = ({ route, navigation }) => {
           logIn={'success'}
         />
       </View>
-
       <Formik
         initialValues={{
-          VanName: vanDetil.vanName,
-          VanRegistrationNo: vanDetil.vanRegistrationNo,
-          VanModel: vanDetil.vanModel,
+          VanName: vanDetails.vanName,
+          VanRegistrationNo: vanDetails.vanRegistrationNo,
+          VanModel: vanDetails.vanModel,
         }}
         validationSchema={validationSchema}
-        onSubmit={(values, { setSubmitting }) => {
+        onSubmit={(values, {setSubmitting}) => {
           VanInfo(values, setSubmitting);
         }}>
         {({
@@ -115,27 +110,35 @@ const EditVanservices = ({ route, navigation }) => {
           isSubmitting,
         }) => (
           <>
-            <View style={{ flex: 0.8, }}>
+            <View style={{flex: 0.8}}>
               <View style={styles.ProfileMainView}>
                 <View style={styles.ProfileouterView}>
-                  <TouchableOpacity onPress={() => refRBSheet.current.open()} style={styles.profileView} >
-                    {profileImage?.path ? (
+                  <TouchableOpacity
+                    onPress={() => refRBSheet.current.open()}
+                    style={styles.profileView}>
+                    {changedImage != '' ? (
                       <Image
-                        source={{ uri: profileImage?.path }}
+                        source={{uri: changedImage?.path}}
                         style={styles.imageStyle}
                       />
                     ) : (
                       <Image
-                        source={{ uri: profileImage }}
+                        source={{uri: profileImage}}
                         style={styles.imageStyle}
                       />
                     )}
-                    <CustomIcon type={Icons.AntDesign} size={20} name={'pluscircle'} color={'white'} style={styles.Iconstyle} />
+                    <CustomIcon
+                      type={Icons.AntDesign}
+                      size={20}
+                      name={'pluscircle'}
+                      color={'white'}
+                      style={styles.Iconstyle}
+                    />
                   </TouchableOpacity>
                 </View>
               </View>
 
-              <View style={{ flex: 0.65, }}>
+              <View style={{flex: 0.65}}>
                 <View style={styles.textFieldView}>
                   <SimpleTextField
                     placeholder={'Enter Van Name'}
@@ -148,8 +151,7 @@ const EditVanservices = ({ route, navigation }) => {
                   <View>
                     {touched.VanName && errors.VanName && (
                       <View style={styles.validationTextview}>
-                        <Text
-                          style={styles.validationTextStyle}>
+                        <Text style={styles.validationTextStyle}>
                           {errors.VanName}
                         </Text>
                       </View>
@@ -166,15 +168,13 @@ const EditVanservices = ({ route, navigation }) => {
                   />
 
                   <View>
-                    {touched.VanRegistrationNo &&
-                      errors.VanRegistrationNo && (
-                        <View style={styles.validationTextview}>
-                          <Text
-                            style={styles.validationTextStyle}>
-                            {errors.VanRegistrationNo}
-                          </Text>
-                        </View>
-                      )}
+                    {touched.VanRegistrationNo && errors.VanRegistrationNo && (
+                      <View style={styles.validationTextview}>
+                        <Text style={styles.validationTextStyle}>
+                          {errors.VanRegistrationNo}
+                        </Text>
+                      </View>
+                    )}
                   </View>
                 </View>
 
@@ -187,40 +187,36 @@ const EditVanservices = ({ route, navigation }) => {
                     value={values.VanModel}
                   />
 
-
                   {touched.VanModel && errors.VanModel && (
-                    <View
-                      style={styles.validationTextview}>
-                      <Text
-                        style={styles.validationTextStyle}>
+                    <View style={styles.validationTextview}>
+                      <Text style={styles.validationTextStyle}>
                         {errors.VanModel}
                       </Text>
                     </View>
                   )}
-
                 </View>
-
               </View>
             </View>
 
             <View style={styles.buttonView}>
               <ButtonComponent
                 style={styles.buttonStyle}
-                btnTextColor={{ color: 'white' }}
+                btnTextColor={{color: 'white'}}
                 title={'Save Vans'}
                 disabled={isSubmitting}
                 onPress={handleSubmit}
                 isLoading={isSubmitting}
-
               />
             </View>
           </>
         )}
       </Formik>
 
-
       <BottomSheet ref={refRBSheet} Height={120}>
-        <ChooseImage refRBSheet={refRBSheet} setProfileImage={handleImageCaptured} />
+        <ChooseImage
+          refRBSheet={refRBSheet}
+          setProfileImage={handleImageCaptured}
+        />
       </BottomSheet>
     </Screen>
   );
