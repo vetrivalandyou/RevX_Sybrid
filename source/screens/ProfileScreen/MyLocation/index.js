@@ -1,16 +1,14 @@
 import React, {useEffect, useRef, useState} from 'react';
-import {Image, Text, Touchable, TouchableOpacity, View} from 'react-native';
+import {TouchableOpacity, View} from 'react-native';
 import Screen from '../../../components/atom/ScreenContainer/Screen';
 import appColors from '../../../AppConstants/appColors';
-import MapView, {Marker, PROVIDER_GOOGLE} from 'react-native-maps';
-import CustomDarkMapStyle from '../../Location/CustomMapStyle.json';
-import CustomMarkerImage from '../../../assets/mapMarker.png';
 import {screenSize} from '../../../components/atom/ScreenSize';
 import LocationBottomSheet from './LocationBottomSheet';
 import BottomSheet from '../../../components/molecules/BottomSheetContent/BottomSheet';
 import CustomIcon, {
   Icons,
 } from '../../../components/molecules/CustomIcon/CustomIcon';
+import GoogleMap from '../../../components/molecules/MapView/MapView';
 
 const MyLocation = ({navigation}) => {
   const mapRef = useRef();
@@ -54,71 +52,26 @@ const MyLocation = ({navigation}) => {
       statusBarColor={appColors.Black}
       barStyle="light-content"
       viewStyle={{backgroundColor: appColors.Black, padding: 0}}>
-      {/* <View style={{flex: 0.1}}>
-        <Header
-        headerSubView={{marginHorizontal: 5}}
-          lefttIcoType={Icons.Ionicons}
-          onPressLeftIcon={() => navigation.goBack()}
-          leftIcoName={'chevron-back'}
-          headerText={'About Us'}
-          rightIcoName={'bell'}
-          rightIcoType={Icons.SimpleLineIcons}
-          logIn={'success'}
-          onPressRightIcon={() =>
-            navigation.navigate(constants.screen.Notification)
-          }
-          rightIcoSize={20}
-          leftIcoStyle={{
-            backgroundColor: appColors.lightBlack,
-            borderRadius: 50,
-            height: 50,
-            width: 50,
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}
-        />
-      </View> */}
       <BottomSheet ref={refRBSheet} Height={screenSize.height / 2}>
-        <LocationBottomSheet refRBSheet={refRBSheet} handleUseMyCurrentLoc={handleLocationSelect} />
+        <LocationBottomSheet
+          refRBSheet={refRBSheet}
+          handleUseMyCurrentLoc={handleLocationSelect}
+        />
       </BottomSheet>
       <View
         style={{
           flex: 1,
           flexDirection: 'column',
         }}>
-        <MapView
-          style={{flex: 1}}
-          ref={mapRef}
-          provider={PROVIDER_GOOGLE}
-          initialRegion={region}
-          onRegionChange={setRegion}
-          customMapStyle={CustomDarkMapStyle}
-          zoomEnabled={true}
-          scrollEnabled={true}
-          rotateEnabled={true}
-          pitchEnabled={true}
-          // onPress={handleMapPress}
-        >
-          {selectedLocation && (
-            <Marker
-              coordinate={{
-                latitude: selectedLocation.latitude,
-                longitude: selectedLocation.longitude,
-              }}
-              title={'Marker Title'}
-              description={'Marker Description'}>
-              <Image
-                source={CustomMarkerImage}
-                style={{
-                  width: 50,
-                  height: 50,
-                  backgroundColor: 'transparent',
-                  // borderColor: '#FFD700',
-                }}
-              />
-            </Marker>
-          )}
-        </MapView>
+          <GoogleMap
+          mapRef={mapRef}
+          region={region}
+          setRegion={setRegion}
+          title={'Marker Title'}
+          description={'Marker Description'}
+          selectedLocation={selectedLocation}
+          // handleMapPress={handleMapPress}
+        />
         <TouchableOpacity
           onPress={() => navigation.goBack()}
           style={{
