@@ -1,6 +1,7 @@
 // import Geolocation from '@react-native-community/geolocation';
 import Geolocation from 'react-native-geolocation-service';
-import {PermissionsAndroid} from 'react-native';
+import {PermissionsAndroid, Platform} from 'react-native';
+import { request, PERMISSIONS, RESULT } from 'react-native-permissions'
 
 const GetLocation = () => {
   const result = requestLocationPermission();
@@ -19,23 +20,38 @@ const GetLocation = () => {
       );
     }
   });
-  // console.log(location);
 };
 
 const requestLocationPermission = async () => {
   try {
-    const granted = await PermissionsAndroid.request(
-      PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
-      {
-        title: 'Location Permission',
-        message: 'Can we access your location?',
-        buttonNeutral: 'Ask Me Later',
-        buttonNegative: 'Cancel',
-        buttonPositive: 'OK',
-      },
-    );
+    let granted;
+
+    if(Platform.OS == 'android'){
+      granted = await PermissionsAndroid.request(
+        PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+        {
+          title: 'Location Permission',
+          message: 'Can we access your location?',
+          buttonNeutral: 'Ask Me Later',
+          buttonNegative: 'Cancel',
+          buttonPositive: 'OK',
+        },
+      );
+    }else{
+      granted = await request(
+        PERMISSIONS.IOS.LOCATION_WHEN_IN_USE,
+        {
+          title: 'Location Permission',
+          message: 'Can we access your location?',
+          buttonNeutral: 'Ask Me Later',
+          buttonNegative: 'Cancel',
+          buttonPositive: 'OK',
+        },
+      );
+    }
+    
     console.log('granted', granted);
-    if (granted === 'granted') {
+    if (granted === 'granted' || granted == RESULT.GRANTED) {
       console.log('You can use Geolocation');
       return true;
     } else {

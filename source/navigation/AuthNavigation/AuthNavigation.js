@@ -26,6 +26,7 @@ const AuthIndex = () => {
   const {loggedIn} = useSelector(state => state.AuthReducer);
 
   useEffect(() => {
+    console.log("hello")
     GetLocation();
   }, []);
 

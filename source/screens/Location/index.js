@@ -39,7 +39,19 @@ const LocationScreen = () => {
   //   destination.longitude,
   // ).toFixed(2);
 
-  // console.log('distance', distance);
+  //  const handleAnimateToLocation = () => {
+  //   if (selectedLocation) {
+  //     mapRef.current.animateToRegion(
+  //       {
+  //         latitude: selectedLocation.latitude,
+  //         longitude: selectedLocation.longitude,
+  //         latitudeDelta: 0.05,
+  //         longitudeDelta: 0.05,
+  //       },
+  //       1000, // Animation duration in milliseconds
+  //     );
+  //   }
+  // };
 
   const handleLocationSelect = (data, details) => {
     // 'details' contains additional information about the selected place
@@ -62,7 +74,6 @@ const LocationScreen = () => {
   };
 
   const handleMapPress = event => {
-    // Handle map press action
     const {coordinate} = event.nativeEvent;
     setSelectedLocation({
       latitude: coordinate.latitude,
@@ -70,25 +81,6 @@ const LocationScreen = () => {
       latitudeDelta: 0.0922,
       longitudeDelta: 0.0421,
     });
-    // setSelectedLocation({
-    //   latitude: coordinate.latitude,
-    //   longitude: coordinate.longitude,
-    //   name: 'Custom Location',
-    // });
-  };
-
-  const handleAnimateToLocation = () => {
-    if (selectedLocation) {
-      mapRef.current.animateToRegion(
-        {
-          latitude: selectedLocation.latitude,
-          longitude: selectedLocation.longitude,
-          latitudeDelta: 0.05,
-          longitudeDelta: 0.05,
-        },
-        1000, // Animation duration in milliseconds
-      );
-    }
   };
 
   return (
@@ -168,6 +160,7 @@ const LocationScreen = () => {
           handleMapPress={handleMapPress}
           selectedLocation={selectedLocation}
           CustomMarkerImage={CustomMarkerImage}
+
         />
       </View>
     </Screen>
