@@ -23,6 +23,7 @@ const DeepLinking = () => {
       const userDetail = await getAsyncItem(
         constant.AsyncStorageKeys.userDetails,
       );
+      console.log('userDetailuserDetail', userDetail);
       handleDeepLink(userDetail, url);
     };
     Linking.addEventListener('url', getAsyncDetail);
