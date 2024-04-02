@@ -60,7 +60,7 @@ const HomeScreen = ({navigation}) => {
   const OurServicesData = [
     {
       id: 1,
-      title: 'Haircutasdasadsasd for Men',
+      title: 'Haircut for Men',
       Imagesource: AppImages.ourservices,
     },
     {
@@ -488,7 +488,7 @@ const HomeScreen = ({navigation}) => {
       <View style={{flex: 0.1}}>
         <HomeHeader
           heading={userDetails?.userName}
-          sunHeading={'Washington DCs'}
+          sunHeading={'Washington DC'}
           source={`${imageUrl}${userDetails?.profileImage}`}
         />
       </View>
