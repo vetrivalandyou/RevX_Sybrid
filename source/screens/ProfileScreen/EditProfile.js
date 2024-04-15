@@ -114,7 +114,6 @@ const EditProfile = ({navigation}) => {
       });
   };
 
-
   return (
     <Screen
       viewStyle={{flex: 1, padding: 15, backgroundColor: appColors.Black}}
