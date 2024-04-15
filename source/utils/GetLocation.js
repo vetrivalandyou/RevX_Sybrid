@@ -9,7 +9,6 @@ const GetLocation = () => {
   const dispatch = useDispatch();
   
   useEffect(() => {
-    console.log('Hello');
     saveLocation();
   }, []);
 
@@ -61,7 +60,7 @@ const GetLocation = () => {
         Geolocation.getCurrentPosition(
           position => {
             console.log('IOS Position', position);
-            // UpdateLocation(position);
+            dispatch(UpdateLocation(position));
           },
           error => {
             console.log(error.code, error.message);
