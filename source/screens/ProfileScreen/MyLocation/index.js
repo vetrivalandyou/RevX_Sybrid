@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Image, Text, Touchable, TouchableOpacity, View } from 'react-native';
+import { useSelector } from 'react-redux';
 import Screen from '../../../components/atom/ScreenContainer/Screen';
 import appColors from '../../../AppConstants/appColors';
 import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
@@ -13,7 +14,10 @@ import CustomIcon, {
 } from '../../../components/molecules/CustomIcon/CustomIcon';
 import GoogleMap from '../../../components/atom/GoogleMap';
 
+
 const MyLocation = ({ navigation }) => {
+  const {coords} = useSelector(state => state.LocationReducer);
+  const {loggedIn, token} = useSelector(state => state.AuthReducer);
   const mapRef = useRef();
   const refRBSheet = useRef();
 
@@ -45,6 +49,9 @@ const MyLocation = ({ navigation }) => {
       1000, // Animation duration in milliseconds
     );
   };
+
+  console.log("coordsAnas",coords)
+  console.log("loggedIn",loggedIn, token)
 
   useEffect(() => {
     refRBSheet.current.open();
