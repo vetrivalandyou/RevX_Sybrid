@@ -104,7 +104,7 @@ const AdminUserDetails = ({ navigation }) => {
 }
 
 const Detailslist = ({ item, onPress }) => {
-  const navigation=useNavigation()
+  const navigation = useNavigation()
   return (
     <View style={styles.Containerstyle}>
       <View style={{ flex: 1,}}>

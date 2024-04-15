@@ -72,6 +72,7 @@ export const endPoint = {
 
   // `Common/Get_AboutUsType?aboutUsTypeId=${BARBERID}`
   SAVE_ABOUTUS_TYPE: 'Common/SaveAboutUsTypeTitleDetail',
+  BARBER_SET_UP_LOCATION_SERVICES:'Barber/SetupLocation_CRUD',
 };
 
 export const messages = {
