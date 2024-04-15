@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, Text, View, TextInput, Platform } from 'react-native';
+import { StyleSheet, Text, View, TextInput, Platform, ActivityIndicator } from 'react-native';
 import Screen from '../../../components/atom/ScreenContainer/Screen';
 import Header from '../../../components/molecules/Header';
 import { Icons } from '../../../components/molecules/CustomIcon/CustomIcon';
@@ -17,6 +17,7 @@ const AdminEditTermsOfServices = ({ route, navigation }) => {
   const [editedTitle, setEditedTitle] = useState(description?.[0]?.title);
   const [isFocused, setIsFocused] = useState(false);
   const [userDetails, setUserDetails] = useState();
+  const [loading, setLoading] = useState(false); // State for loading indicator
 
   const getAsyncData = async () => {
     const userDetails = await getAsyncItem(
@@ -32,6 +33,7 @@ const AdminEditTermsOfServices = ({ route, navigation }) => {
   // console.log("Descriptionmmmmmmmm......>>>", description)
 
   const postSaveAboutUsType = payload => {
+    setLoading(true); // Set loading to true when sending request
     PostRequest(endPoint.SAVE_ABOUTUS_TYPE, payload)
       .then(res => {
         console.log("res", res?.data)
@@ -44,7 +46,8 @@ const AdminEditTermsOfServices = ({ route, navigation }) => {
       })
       .catch(err => {
         console.log('Error while saving data', err);
-      });
+      })
+      .finally(() => setLoading(false)); // Set loading to false when request is complete
   };
 
   console.log("description", description)
@@ -61,8 +64,8 @@ const AdminEditTermsOfServices = ({ route, navigation }) => {
     console.log("payload", payload)
 
     postSaveAboutUsType(payload);
+    navigation.goBack();
   };
-
 
   // console.log("editedDescription???????????????????", editedDescription)
   return (
@@ -78,23 +81,27 @@ const AdminEditTermsOfServices = ({ route, navigation }) => {
           logIn={'success'}
           rightIcoSize={20}
           onPressRightIcon={() => navigation.navigate(constants.AdminScreens.AdminNotification)}
-          leftIcoStyle={{backgroundColor: appColors.lightBlack, borderRadius: 50, height: 50, width: 50, justifyContent: 'center', alignItems: 'center' }}
+          leftIcoStyle={{ backgroundColor: appColors.lightBlack, borderRadius: 50, height: 50, width: 50, justifyContent: 'center', alignItems: 'center' }}
         />
       </View>
 
       <View style={{ flex: 0.8, paddingVertical: 5 }}>
-        {description.map((item, index) => (
-          <View key={index} style={{ height: 'auto', backgroundColor: '#252525', borderRadius: 20, marginBottom: 20, alignContent: 'center', padding: 20, borderColor: isFocused ? '#C79646' : 'transparent', borderWidth: isFocused ? 1 : 0 }}>
-            <Text style={{ color: '#C79646', fontSize: 20, fontWeight: '500', paddingBottom: 5 }}>Type of date</Text>
-            <TextInput
-              style={{ fontSize: 16, color: 'white', lineHeight: 20 }}
-              multiline
-              value={editedDescription}
-              onChangeText={(text) => setEditedDescription(text)}
-              onBlur={() => setIsFocused(false)}
-            />
-          </View>
-        ))}
+        {loading ? (
+          <ActivityIndicator style={styles.loader} color={appColors.White} size="large" />
+        ) : (
+          description.map((item, index) => (
+            <View key={index} style={{ height: 'auto', backgroundColor: '#252525', borderRadius: 20, marginBottom: 20, alignContent: 'center', padding: 20, borderColor: isFocused ? '#C79646' : 'transparent', borderWidth: isFocused ? 1 : 0 }}>
+              <Text style={{ color: '#C79646', fontSize: 20, fontWeight: '500', paddingBottom: 5 }}>Type of date</Text>
+              <TextInput
+                style={{ fontSize: 16, color: 'white', lineHeight: 20 }}
+                multiline
+                value={editedDescription}
+                onChangeText={(text) => setEditedDescription(text)}
+                onBlur={() => setIsFocused(false)}
+              />
+            </View>
+          ))
+        )}
       </View>
 
       <View style={styles.buttonView}>
@@ -113,6 +120,11 @@ export default AdminEditTermsOfServices;
 const styles = StyleSheet.create({
   buttonView: {
     flex: 0.1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  loader: {
+    flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
   },

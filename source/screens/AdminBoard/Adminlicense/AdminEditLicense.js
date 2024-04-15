@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, Text, View, TextInput, Platform } from 'react-native';
+import { StyleSheet, Text, View, TextInput, Platform, ActivityIndicator } from 'react-native';
 import Screen from '../../../components/atom/ScreenContainer/Screen';
 import Header from '../../../components/molecules/Header';
 import { Icons } from '../../../components/molecules/CustomIcon/CustomIcon';
@@ -17,37 +17,36 @@ const AdminEditLicense = ({ route, navigation }) => {
   const [editedTitle, setEditedTitle] = useState(description?.[0]?.title);
   const [isFocused, setIsFocused] = useState(false);
   const [userDetails, setUserDetails] = useState();
+  const [isLoading, setIsLoading] = useState(false);
 
   const getAsyncData = async () => {
     const userDetails = await getAsyncItem(
       constants.AsyncStorageKeys.userDetails,
     );
-    // console.log('userDetails......////', userDetails);
-    setUserDetails(userDetails)
+    setUserDetails(userDetails);
   };
-  useEffect(() => {
 
+  useEffect(() => {
     getAsyncData();
   }, []);
-  // console.log("Descriptionmmmmmmmm......>>>", description)
 
   const postSaveAboutUsType = payload => {
+    setIsLoading(true); // Set loading to true before making the request
     PostRequest(endPoint.SAVE_ABOUTUS_TYPE, payload)
       .then(res => {
-        console.log("res", res?.data)
+        setIsLoading(false); // Set loading to false after receiving response
         if (res?.data?.code === 200) {
-          SimpleSnackBar(res?.data?.message)
-          // navigation.navigate(constants.AdminScreens.AdminTermsofServices, { aboutUsId: description[0].aboutUsTypeId })
+          SimpleSnackBar(res?.data?.message);
+          navigation.goBack(); // Navigate back after saving successfully
         } else {
-          SimpleSnackBar(res?.data?.message, appColors.Red)
+          SimpleSnackBar(res?.data?.message, appColors.Red);
         }
       })
       .catch(err => {
+        setIsLoading(false); // Set loading to false in case of error
         console.log('Error while saving data', err);
       });
   };
-
-  console.log("description", description)
 
   const handleSave = () => {
     const payload = {
@@ -57,14 +56,9 @@ const AdminEditLicense = ({ route, navigation }) => {
       detail: editedDescription,
       createdBy: userDetails?._RoleId,
     };
-
-    console.log("payload", payload)
-
     postSaveAboutUsType(payload);
   };
 
-
-  // console.log("editedDescription???????????????????", editedDescription)
   return (
     <Screen viewStyle={{ flex: 1, backgroundColor: appColors.Black, padding: 15 }} statusBarColor={appColors.Black}>
       <View style={{ flex: 0.1 }}>
@@ -96,6 +90,10 @@ const AdminEditLicense = ({ route, navigation }) => {
           </View>
         ))}
       </View>
+
+      {isLoading && (
+        <ActivityIndicator size="large" color="#C79646" style={{ position: 'absolute', alignSelf: 'center', marginTop: '50%' }} />
+      )}
 
       <View style={styles.buttonView}>
         <ButtonComponent

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, Text, View, FlatList, Platform } from 'react-native';
+import { StyleSheet, Text, View, FlatList, Platform, ActivityIndicator } from 'react-native';
 import { useIsFocused } from '@react-navigation/native';
 import Screen from '../../../components/atom/ScreenContainer/Screen';
 import Header from '../../../components/molecules/Header';
@@ -13,17 +13,16 @@ const AdminPrivacypolicy = ({ navigation, route }) => {
   const { aboutUsId } = route.params || 0;
   const isFocused = useIsFocused();
   const [termsServicesData, setTermsServicesData] = useState([]);
-
-  console.log("aboutUsId",aboutUsId)
+  const [loading, setLoading] = useState(false); // State for loading indicator
 
   useEffect(() => {
     if (isFocused) {
       getTermsOfServices();
-      console.log("asdasdasd")
     }
   }, [isFocused]);
 
   const getTermsOfServices = () => {
+    setLoading(true); // Set loading to true when fetching data
     GetRequest(`Common/Get_AboutUsType?aboutUsTypeId=${aboutUsId}`)
       .then(res => {
         if (res?.data?.code === 200) {
@@ -34,7 +33,8 @@ const AdminPrivacypolicy = ({ navigation, route }) => {
       })
       .catch(err => {
         console.log('Failed to fetch data', err);
-      });
+      })
+      .finally(() => setLoading(false)); // Set loading to false when data fetching is complete
   };
 
   const handleEdit = () => {
@@ -60,10 +60,14 @@ const AdminPrivacypolicy = ({ navigation, route }) => {
       </View>
 
       <View style={{ flex: 0.8, paddingVertical: 5 }}>
-        <FlatList
-          data={termsServicesData}
-          renderItem={({ item, index }) => <TermServices item={item} index={index} />}
-        />
+        {loading ? (
+          <ActivityIndicator style={styles.loader} color={appColors.White} size="large" />
+        ) : (
+          <FlatList
+            data={termsServicesData}
+            renderItem={({ item, index }) => <TermServices item={item} index={index} />}
+          />
+        )}
       </View>
 
       <View style={styles.buttonView}>
@@ -91,6 +95,11 @@ export default AdminPrivacypolicy;
 const styles = StyleSheet.create({
   buttonView: {
     flex: 0.1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  loader: {
+    flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
   },

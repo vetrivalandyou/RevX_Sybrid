@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {useSelector} from 'react-redux';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
@@ -19,11 +19,16 @@ import BarberStack from '../../../source/navigation/BarberBoardNavigation/index'
 import AdminStack from '../../../source/navigation/AdminBoardNavigation/index';
 import CreateAccountBarber from '../../screens/Auth/CreateAccountBarber';
 import OTP_Verification from '../../screens/Auth/ForgotPassword/OTP_Verification';
-import DeepLinking from '../../utils/DeepLinking';
+import GetLocation from '../../utils/GetLocation';
 
 const AuthIndex = () => {
   const Stack = createNativeStackNavigator();
   const {loggedIn} = useSelector(state => state.AuthReducer);
+
+  useEffect(() => {
+    GetLocation();
+  }, []);
+
   if (loggedIn == 4) {
     return <Main />;
   } else if (loggedIn == 3) {
