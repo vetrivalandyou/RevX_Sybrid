@@ -66,8 +66,10 @@
     "ManageVans": "ManageVans",
     "AddVanservices": "AddVanservices",
     "DeleteVanServices": "DeleteVanServices",
-    "EditVanservices": "EditVanservices",
-    "ServiceList": "ServiceList"
+   "EditVanservices": "EditVanservices",
+    "ServiceList": "ServiceList",
+    "EditProfile":"EditProfile",
+    "Profile": "Profile"
   },
   "AdminScreens": {
     "AdminBottomTabNavigation": "AdminBottomTabNavigation",
@@ -93,11 +95,15 @@
     "MyBooking": "MyBooking",
     "AdminProfile": "AdminProfile",
     "AdminViewUsers": "AdminViewUsers",
+    "AdminBlockUsers": "AdminBlockUsers",
     "ManageVans": "ManageVans",
     "AddVanservices": "AddVanservices",
     "DeleteVanServices": "DeleteVanServices",
     "EditVanservices": "EditVanservices",
-    "AdminApproveBarber": "AdminApproveBarber"
+    "AdminApproveBarber": "AdminApproveBarber",
+    "Assignments":"Assignments",
+   "EditAssignment":"EditAssignment",
+   "DeleteAssignment":"DeleteAssignment"
   },
   "AsyncStorageKeys": {
     "token": "token",

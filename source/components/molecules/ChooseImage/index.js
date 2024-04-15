@@ -3,7 +3,8 @@ import {View, StyleSheet} from 'react-native';
 import ButtonComponent from '../../../components/atom/CustomButtons/ButtonComponent';
 import ImagePicker from 'react-native-image-crop-picker';
 import {Icons} from '../../../components/molecules/CustomIcon/CustomIcon';
-const ChooseImage = ({setProfileImage, refRBSheet}) => {
+import { ref } from 'yup';
+const ChooseImage = ({setProfileImage, refRBSheet,}) => {
   const openCamera = () => {
     ImagePicker.openCamera({
       width: 300,
@@ -11,9 +12,9 @@ const ChooseImage = ({setProfileImage, refRBSheet}) => {
       cropping: true,
     })
       .then(image => {
-        console.log(image);
         setProfileImage(image);
         refRBSheet.current.close();
+     
       })
       .catch(error => {
         console.log('Error:', error);
@@ -27,9 +28,11 @@ const ChooseImage = ({setProfileImage, refRBSheet}) => {
       cropping: true,
     })
       .then(image => {
-        console.log(image);
-        setProfileImage(image);
+        console.log(image.path);
+     
+        setProfileImage(image.path);
         refRBSheet.current.close();
+    
       })
       .catch(error => {
         console.log('Error:', error);

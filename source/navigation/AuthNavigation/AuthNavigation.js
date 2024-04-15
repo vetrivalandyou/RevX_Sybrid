@@ -19,21 +19,19 @@ import BarberStack from '../../../source/navigation/BarberBoardNavigation/index'
 import AdminStack from '../../../source/navigation/AdminBoardNavigation/index';
 import CreateAccountBarber from '../../screens/Auth/CreateAccountBarber';
 import OTP_Verification from '../../screens/Auth/ForgotPassword/OTP_Verification';
+import DeepLinking from '../../utils/DeepLinking';
 
 const AuthIndex = () => {
   const Stack = createNativeStackNavigator();
-
   const {loggedIn} = useSelector(state => state.AuthReducer);
 
-  if (loggedIn == 2) {
+  if (loggedIn == 4) {
     return <Main />;
   } else if (loggedIn == 3) {
     return <BarberStack />;
-  } else if (loggedIn == 4) {
+  } else if (loggedIn == 1) {
     return <AdminStack />;
   } else {
-    console.log('loggedIn');
-
     return (
       <NavigationContainer>
         <Stack.Navigator screenOptions={{animation: 'slide_from_right'}}>

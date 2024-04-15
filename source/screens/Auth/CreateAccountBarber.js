@@ -1,47 +1,28 @@
-import React, {useEffect, useState} from 'react';
+import React, {Fragment, useEffect, useState} from 'react';
 import {Text, View, TouchableOpacity, StyleSheet} from 'react-native';
 import {Formik} from 'formik';
 import * as Yup from 'yup';
-
 import AuthHeader from '../../components/molecules/AuthHeader';
 import Screen from '../../components/atom/ScreenContainer/Screen';
 import constants from '../../AppConstants/Constants.json';
 import SimpleTextField from '../../components/molecules/TextFeilds/SimpleTextField';
-import appColors from '../../AppConstants/appColors';
-import CustomIcon, {
-  Icons,
-} from '../../components/molecules/CustomIcon/CustomIcon';
 import ButtonComponent from '../../components/atom/CustomButtons/ButtonComponent';
 import RememberMe from '../../components/molecules/RememberMe';
 import SocailLogin from '../../components/molecules/SocailLogin';
 import {endPoint, messages} from '../../AppConstants/urlConstants';
 import {PostRequest} from '../../services/apiCall';
 import {SimpleSnackBar} from '../../components/atom/Snakbar/Snakbar';
-import Dropdown from '../../components/molecules/Dropdown/Dropdown';
 import {screenSize} from '../../components/atom/ScreenSize';
-import CustomDropdownPicker from '../../components/molecules/Dropdown/Dropdown';
+import CustomDropdownPicker from '../../components/molecules/CustomDropdownPicker';
 
 const CreateAccountBarber = ({navigation}) => {
   const [isEye, setIsEye] = useState(false);
-  const items = ['Item 1', 'Item 2', 'Item 3'];
-
-  const [selectedValues, setSelectedValues] = useState([]); // State for storing selected values
-
-  const [showDropdown, setShowDropdown] = useState(false);
   const [selectedItems, setSelectedItems] = useState([]);
+  const [services, setServices] = useState([]);
 
-  const toggleDropdown = () => {
-    setShowDropdown(!showDropdown);
-  };
-
-  const handleItemPress = item => {
-    const isSelected = selectedItems.includes(item);
-    if (isSelected) {
-      setSelectedItems(selectedItems.filter(selected => selected !== item));
-    } else {
-      setSelectedItems([...selectedItems, item]);
-    }
-  };
+  useEffect(() => {
+    getServices();
+  }, []);
 
   const validationSchema = Yup.object().shape({
     FullName: Yup.string().required('Name is required'),
@@ -55,30 +36,27 @@ const CreateAccountBarber = ({navigation}) => {
         'Invalid phone number format. Use (555) 555-7439',
       ),
     UserPassword: Yup.string().required('Password is required'),
-    // AddBio: Yup.string().required('Add Bio is required'),
     Description: Yup.string().required('Description is required'),
-    Barber_Specialties: Yup.string().required(
-      'Barber Specialties are required',
-    ),
+    BarberCategories: Yup.array()
+      .min(1, 'Select at least one option')
+      .required('Select at least one option'),
   });
 
   const barberRegisterUser = (values, setSubmitting) => {
-    console.log('Values==>>..', values);
-
     const payload = {
       ...values,
-      Barber_Specialties: [values.Barber_Specialties],
+      BarberCategories: [services?.map(obj => obj.setupDetailId)?.join(',')],
     };
 
-    console.log('payload', payload);
+    console.log(payload);
 
     PostRequest(endPoint.REGISTERAS_BARBER, payload)
       .then(res => {
         console.log('RESPONSEDATA', res?.data);
         if (res?.data?.code == 200) {
-          console.log(res?.data);
-        } else {
           SimpleSnackBar(res?.data?.message);
+        } else {
+          SimpleSnackBar(res?.data?.message, appColors.Red);
         }
         setSubmitting(false);
       })
@@ -88,36 +66,28 @@ const CreateAccountBarber = ({navigation}) => {
       });
   };
 
-  const DropdownData = (values, setSubmitting) => {
-    console.log('test', values);
-
+  const getServices = () => {
     const payload = {
       MasterId: 2,
+      IsActive: true,
+      ParentId: null,
+      Name: null,
+      masterDetaildId: null,
     };
 
-    console.log('payload', payload);
-
-    PostRequest(endPoint.DROPDOWN_DATA, payload)
+    PostRequest(endPoint.MASTER_DETAIL, payload)
       .then(res => {
-        console.log('RESPONSEDATA', res?.data);
         if (res?.data?.code == 200) {
           setSelectedItems(res?.data?.data);
-          console.log('test>>>>', res?.data);
         } else {
-          SimpleSnackBar(res?.data?.message);
+          SimpleSnackBar(res?.data?.message, appColors.Red);
         }
-        setSubmitting(false);
       })
       .catch(err => {
         SimpleSnackBar(messages.Catch, appColors.Red);
-        setSubmitting(false);
       });
   };
 
-  useEffect(() => {
-    DropdownData();
-  }, []);
-  console.log(selectedItems);
   return (
     <Screen
       authStyle={{flex: 1, backgroundColor: appColors.Goldcolor}}
@@ -133,21 +103,15 @@ const CreateAccountBarber = ({navigation}) => {
           onPress={() => navigation.goBack()}
         />
       </View>
-      <View
-        style={{
-          flex: 0.8,
-          padding: 15,
-          backgroundColor: appColors.Black,
-        }}>
+      <View style={styles.fieldsMainView}>
         <Formik
           initialValues={{
             FullName: '',
             UserEmail: '',
             UserPassword: '',
             UserPhone: '',
-            // AddBio: '',
             Description: '',
-            Barber_Specialties: '',
+            BarberCategories: [],
           }}
           validationSchema={validationSchema}
           onSubmit={(values, {setSubmitting}) => {
@@ -157,12 +121,13 @@ const CreateAccountBarber = ({navigation}) => {
             handleChange,
             handleBlur,
             handleSubmit,
+            setFieldValue,
             values,
             errors,
             touched,
             isSubmitting,
           }) => (
-            <>
+            <Fragment>
               <View style={{flex: 0.8, justifyContent: 'space-evenly'}}>
                 <View style={{flex: 0.15, justifyContent: 'center'}}>
                   <SimpleTextField
@@ -198,12 +163,10 @@ const CreateAccountBarber = ({navigation}) => {
                     </View>
                   )}
                 </View>
-
                 <View
                   style={{
                     flex: 0.15,
                     justifyContent: 'center',
-                    // borderStartColor: 'red',
                   }}>
                   <SimpleTextField
                     placeholder={'Enter Your Password'}
@@ -240,24 +203,6 @@ const CreateAccountBarber = ({navigation}) => {
                     </View>
                   )}
                 </View>
-
-                {/* <View style={{flex: 0.4, justifyContent: 'center'}}>
-                  <SimpleTextField
-                    placeholder={'Add Bio'}
-                    placeholderTextColor={appColors.AppLightGray}
-                    onChangeText={handleChange('AddBio')}
-                    onBlur={handleBlur('AddBio')}
-                    value={values.AddBio}
-                  />
-                  {touched.AddBio && errors.AddBio && (
-                    <View style={{marginLeft: 10, margin: 5}}>
-                      <Text style={{color: appColors.Goldcolor, fontSize: 10}}>
-                        {errors.AddBio}
-                      </Text>
-                    </View>
-                  )}
-                </View> */}
-
                 <View style={{flex: 0.15, justifyContent: 'center'}}>
                   <SimpleTextField
                     placeholder={'Add Description'}
@@ -274,72 +219,40 @@ const CreateAccountBarber = ({navigation}) => {
                     </View>
                   )}
                 </View>
-
                 <View style={{flex: 0.15}}>
                   <CustomDropdownPicker
-                    items={selectedItems.map(item => item.setupDetailName)}
-                  />
-
-                  {/* <Dropdown
-                    label="Add Barber Specialties"
-                    value={selectedValues}
-                    onValueChange={(itemValue, itemIndex) => {
-                      const updatedValues = [...selectedValues];
-                      const selectedIndex = updatedValues.findIndex(value => value === itemValue);
-
-                      if (selectedIndex >= 0) {
-                        updatedValues.splice(selectedIndex, 1); // Deselect the item if already selected
+                    items={selectedItems}
+                    values={services}
+                    setValues={setServices}
+                    onChange={newValues => {
+                      const isSelected = values?.BarberCategories?.some(
+                        selected => selected == newValues.setupDetailId,
+                      );
+                      if (isSelected) {
+                        setFieldValue(
+                          'BarberCategories',
+                          values?.BarberCategories?.filter(
+                            selected => selected !== newValues.setupDetailId,
+                          ),
+                        );
                       } else {
-                        updatedValues.push(itemValue); // Select the item if not selected
+                        setFieldValue('BarberCategories', [
+                          ...values?.BarberCategories,
+                          newValues?.setupDetailId,
+                        ]);
                       }
-
-                      setSelectedValues(updatedValues); // Update selected values
                     }}
-                    dropDownData={dropDownData}
-                    style={{
-                      marginTop: 10,
-                      backgroundColor: appColors.Black,
-                      borderColor: appColors.AppLightGray,
-                      borderRadius: 25,
-                      paddingHorizontal: 10,
-                    }}
-                    multiSelect // Indicate that it's a multi-select dropdown
-                    renderSelectedItem={(item, index, isSelected) => (
-                      <TouchableOpacity
-                        style={{
-                          backgroundColor: isSelected ? appColors.red : appColors.Black,
-                          paddingHorizontal: 10,
-                          paddingVertical: 5,
-                          borderRadius: 15,
-                          margin: 5,
-                        }}
-                        onPress={() => {
-                          const updatedValues = [...selectedValues];
-                          updatedValues.splice(index, 1);
-                          setSelectedValues(updatedValues);
-                        }}>
-                        <Text style={{ color: isSelected ? appColors.AppBlue : appColors.White }}>{item.label}</Text>
-                      </TouchableOpacity>
-                    )}
-               />
-                  
-                  {touched.Barber_Specialties && errors.Barber_Specialties && (
-                    <View style={{ marginLeft: 10, margin: 5 }}>
-                      <Text style={{ color: appColors.Goldcolor, fontSize: 10 }}>
-                        {errors.Barber_Specialties}
+                    onBlur={() => handleBlur('BarberCategories')}
+                  />
+                  {touched.BarberCategories && errors.BarberCategories && (
+                    <View style={{marginLeft: 10, margin: 5}}>
+                      <Text style={{color: appColors.Goldcolor, fontSize: 10}}>
+                        {errors.BarberCategories}
                       </Text>
                     </View>
-                  )} */}
+                  )}
                 </View>
               </View>
-
-              {/* <View style={{ flex: 0.1, justifyContent: 'center' }}>
-                <RememberMe
-                  RememberTex={'Remember me'}
-                  ForgetPasswordText={'Terms & Conditions'}
-                />
-              </View> */}
-
               <View style={{flex: 0.1}}>
                 <ButtonComponent
                   title={'Create Account'}
@@ -348,35 +261,20 @@ const CreateAccountBarber = ({navigation}) => {
                   isLoading={isSubmitting}
                 />
               </View>
-            </>
+            </Fragment>
           )}
         </Formik>
-        <View
-          style={{
-            flex: 0.1,
-            flexDirection: 'row',
-            justifyContent: 'center',
-            marginTop: 5,
-            // backgroundColor: 'red',
-          }}>
+        <View style={styles.buttonView}>
           <TouchableOpacity>
             <Text style={{color: appColors.GrayColor}}>
               Already have an Account ?
             </Text>
           </TouchableOpacity>
-
           <TouchableOpacity
             onPress={() => navigation.navigate(constants.AuthScreen.Login)}>
             <Text style={{color: appColors.Goldcolor}}> Login</Text>
           </TouchableOpacity>
         </View>
-
-        {/* <SocailLogin
-          SocailLogin={'or Login Using'}
-          iconName={'facebook'}
-          iconType={Icons.FontAwesome}
-          color={appColors.White}
-        /> */}
       </View>
     </Screen>
   );
@@ -388,6 +286,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: 'red',
+  },
+  fieldsMainView: {
+    flex: 0.8,
+    padding: 15,
+    backgroundColor: appColors.Black,
   },
   header: {
     flexDirection: 'row',
@@ -419,5 +322,11 @@ const styles = StyleSheet.create({
   },
   selectedContainer: {
     marginTop: 10,
+  },
+  buttonView: {
+    flex: 0.1,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    marginTop: 5,
   },
 });

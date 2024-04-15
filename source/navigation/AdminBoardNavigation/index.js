@@ -20,7 +20,6 @@ import {
   RecentTransactions,
   RecentTransactionsMain,
   Report,
-
 } from '../../screens';
 import {NavigationContainer} from '@react-navigation/native';
 import constants from '../../AppConstants/Constants.json';
@@ -31,8 +30,11 @@ import AddVanservices from '../../screens/AdminBoard/ManageVans/AddVanServices';
 import DeleteVanServices from '../../screens/AdminBoard/ManageVans/DeleteVanServices';
 import EditVanservices from '../../screens/AdminBoard/ManageVans/EditVanServices';
 import AdminApproveBarber from '../../screens/AdminBoard/AdminApproveBarber';
-
-
+import AdminBlockUsers from '../../screens/AdminBoard/AdminBlockUsers';
+import Assignments from '../../screens/AdminBoard/ManageAssignments/Assignment';
+import EditAssignment from '../../screens/AdminBoard/ManageAssignments/EditAssignment';
+import DeleteAssignment from '../../screens/AdminBoard/ManageAssignments/DeleteAssignment';
+import DeepLinking from '../../utils/DeepLinking';
 
 const AdminStack = () => {
   const Stack = createNativeStackNavigator();
@@ -100,7 +102,6 @@ const AdminStack = () => {
           component={AdminManageContent}
           options={{headerShown: false}}
         />
-            
 
         <Stack.Screen
           name={constants.AdminScreens.AdminTermsofServices}
@@ -143,6 +144,11 @@ const AdminStack = () => {
           options={{headerShown: false}}
         />
         <Stack.Screen
+          name={constants.AdminScreens.AdminBlockUsers}
+          component={AdminBlockUsers}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
           name={constants.AdminScreens.ManageVans}
           component={ManageVans}
           options={{headerShown: false}}
@@ -164,12 +170,30 @@ const AdminStack = () => {
           component={EditVanservices}
           options={{headerShown: false}}
         />
-          <Stack.Screen
+        <Stack.Screen
           name={constants.AdminScreens.AdminApproveBarber}
           component={AdminApproveBarber}
           options={{headerShown: false}}
         />
+
+        <Stack.Screen
+          name={constants.AdminScreens.Assignments}
+          component={Assignments}
+          options={{headerShown: false}}
+        />
+
+        <Stack.Screen
+          name={constants.AdminScreens.EditAssignment}
+          component={EditAssignment}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name={constants.AdminScreens.DeleteAssignment}
+          component={DeleteAssignment}
+          options={{headerShown: false}}
+        />
       </Stack.Navigator>
+      <DeepLinking />
     </NavigationContainer>
   );
 };

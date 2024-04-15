@@ -1,34 +1,68 @@
-import React, {useState, useRef} from 'react';
-import {
-  View,
-  Text,
-  Image,
-  FlatList,
-  AppRegistry,
-  TouchableOpacity,
-  Modal,
-  Alert,
-} from 'react-native';
+import React, {useEffect, useRef, useState} from 'react';
+import {View, Text, Image, TouchableOpacity} from 'react-native';
+import Share from 'react-native-share';
+import {useNavigation} from '@react-navigation/native';
 import Screen from '../../../components/atom/ScreenContainer/Screen';
 import appColors from '../../../AppConstants/appColors';
-import Header from '../../../components/molecules/Header';
-import CustomIcon, {
-  Icons,
-} from '../../../components/molecules/CustomIcon/CustomIcon';
-import {AppImages} from '../../AppConstants/AppImages';
-import ButtonComponent from '../../../components/atom/CustomButtons/ButtonComponent';
-import Entypo from 'react-native-vector-icons/Entypo';
+import {Icons} from '../../../components/molecules/CustomIcon/CustomIcon';
 import profile from '../../../assets/chatfive.png';
 import constants from '../../../AppConstants/Constants.json';
 import BottomSheet from '../../../components/molecules/BottomSheetContent/BottomSheet';
 import LogoutBottom from '../../LogoutBottom';
 import {screenSize} from '../../../components/atom/ScreenSize';
-import {useNavigation} from '@react-navigation/native';
+import {GetRequest} from '../../../services/apiCall';
+import Entypo from 'react-native-vector-icons/Entypo';
+import {getAsyncItem} from '../../../utils/SettingAsyncStorage';
+import {imageUrl} from '../../../AppConstants/urlConstants';
 
 const BaberProfileScreen = () => {
   const navigation = useNavigation();
-
   const refRBSheet = useRef();
+
+  const [userDetails, setUserDetails] = useState();
+
+  useEffect(() => {
+    getAsyncData();
+  }, []);
+
+  const getAsyncData = async () => {
+    const userDetails = await getAsyncItem(
+      constants.AsyncStorageKeys.userDetails,
+    );
+    setUserDetails(userDetails);
+  };
+
+  const getbarberProfile = () => {
+    GetRequest(`Admin/Barber_Detail?id=${21}`)
+      .then(res => {
+        console.log('res', res?.data);
+        shareProfile(res?.data?.data);
+      })
+      .catch(err => {
+        console.log('Hello', err);
+      });
+  };
+
+  const shareProfile = async barberDetails => {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const constructedUrl = await constructProfileUrl(barberDetails);
+        const options = {
+          message: 'Check out My Profile!',
+          url: constructedUrl,
+        };
+        await Share.open(options);
+      } catch (error) {
+        console.log('Error sharing:', error.message);
+      }
+    });
+  };
+
+  const constructProfileUrl = barberDetails => {
+    return Promise.resolve(
+      `revx://revx.com/barberprofile/profileId=${barberDetails?.userId}`,
+    );
+  };
 
   const BarberList = [
     {
@@ -52,6 +86,7 @@ const BaberProfileScreen = () => {
       title: 'Manage Services',
       icon: Icons.Entypo,
     },
+
     {
       id: 5,
       title: 'Sign Out',
@@ -61,14 +96,16 @@ const BaberProfileScreen = () => {
 
   const handleNavigation = index => {
     switch (index) {
-      // case 0:
-      //   navigation.navigate(constants.screen.AboutUs);
-      //   break;
+      case 0:
+        navigation.navigate(constants.BarberScreen.Profile);
+        break;
+      case 1:
+        getbarberProfile();
+        break;
       case 3:
         navigation.navigate(constants.BarberScreen.Servicesboard);
         break;
-      case 4: // Index of 'Sign Out' item
-        // setIsSignOutModalVisible(true);
+      case 4:
         refRBSheet.current.open();
         break;
       default:
@@ -132,21 +169,23 @@ const BaberProfileScreen = () => {
         }}>
         <View style={{flex: 0.1}}>
           <Image
-            source={profile}
+            source={{uri: `${imageUrl}${userDetails?.profileImage}`}}
             resizeMode="cover"
-            style={{width: 50, height: 50}}
+            style={{width: 50, height: 50, borderRadius: 100}}
           />
         </View>
         <View style={{flex: 0.7, flexDirection: 'column'}}>
           <Text style={{color: 'white', fontSize: 24, fontWeight: 400}}>
-            Michel Smith
+            {userDetails?.userName}
           </Text>
           <Text style={{color: 'white', fontSize: 14, fontWeight: 400}}>
-            Michelsmith@gmail.com{' '}
+            {userDetails?.loginEmailId}
           </Text>
         </View>
         <View>
-          <TouchableOpacity onPress={()=> navigation.navigate(constants.screen.EditProfile)}>
+          <TouchableOpacity
+          // onPress={() => navigation.navigate(constants.screen.EditProfile)}
+          >
             <View
               style={{
                 paddingHorizontal: 12,
@@ -173,10 +212,26 @@ const BaberProfileScreen = () => {
         </View>
       </View>
 
-          <View style={{ height: 1, position:'relative', marginHorizontal: 15, 
-            margin: 10}}>
-            <View style={{ position: 'absolute', top: 0, bottom: 0, left: 0, right: 0, borderWidth: 1, borderColor: appColors.Goldcolor, borderStyle: 'dashed', backgroundColor:'transparent'  }}></View>
-          </View>
+      <View
+        style={{
+          height: 1,
+          position: 'relative',
+          marginHorizontal: 15,
+          margin: 10,
+        }}>
+        <View
+          style={{
+            position: 'absolute',
+            top: 0,
+            bottom: 0,
+            left: 0,
+            right: 0,
+            borderWidth: 1,
+            borderColor: appColors.Goldcolor,
+            borderStyle: 'dashed',
+            backgroundColor: 'transparent',
+          }}></View>
+      </View>
 
       {/* <View
         style={{

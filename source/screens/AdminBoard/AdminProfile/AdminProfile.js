@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, {useState, useRef} from 'react';
 import {
   View,
   Text,
@@ -15,15 +15,15 @@ import Header from '../../../components/molecules/Header';
 import CustomIcon, {
   Icons,
 } from '../../../components/molecules/CustomIcon/CustomIcon';
-import { AppImages } from '../../AppConstants/AppImages';
+import {AppImages} from '../../AppConstants/AppImages';
 import ButtonComponent from '../../../components/atom/CustomButtons/ButtonComponent';
 import Entypo from 'react-native-vector-icons/Entypo';
 import profile from '../../../assets/chatfive.png';
 import constants from '../../../AppConstants/Constants.json';
 import BottomSheet from '../../../components/molecules/BottomSheetContent/BottomSheet';
 import LogoutBottom from '../../LogoutBottom';
-import { screenSize } from '../../../components/atom/ScreenSize';
-import { useNavigation } from '@react-navigation/native';
+import {screenSize} from '../../../components/atom/ScreenSize';
+import {useNavigation} from '@react-navigation/native';
 
 const AdminProfile = () => {
   const navigation = useNavigation();
@@ -54,16 +54,22 @@ const AdminProfile = () => {
     },
     {
       id: 5,
-      title: 'Manage  Vans',
+      title: 'Manage Vans',
       icon: Icons.Entypo,
     },
     {
       id: 6,
+      title: 'Van Assignments',
+      icon: Icons.Entypo,
+    },
+
+    {
+      id: 7,
       title: 'Approve Barber',
       icon: Icons.Entypo,
     },
     {
-      id: 7,
+      id: 8,
       title: 'Sign Out',
       icon: Icons.Entypo,
     },
@@ -87,10 +93,12 @@ const AdminProfile = () => {
         navigation.navigate(constants.AdminScreens.ManageVans);
         break;
       case 5:
+        navigation.navigate(constants.AdminScreens.Assignments);
+        break;
+      case 6:
         navigation.navigate(constants.AdminScreens.AdminApproveBarber);
         break;
-      case 6: // Index of 'Sign Out' item
-        // setIsSignOutModalVisible(true);
+      case 7:
         refRBSheet.current.open();
         break;
       default:
@@ -98,7 +106,7 @@ const AdminProfile = () => {
     }
   };
 
-  const ProfileContainer = ({ item, onPress }) => {
+  const ProfileContainer = ({item, onPress}) => {
     return (
       <TouchableOpacity onPress={onPress}>
         <View
@@ -136,7 +144,7 @@ const AdminProfile = () => {
     <Screen
       statusBarColor={appColors.Black}
       barStyle="light-content"
-      viewStyle={{ backgroundColor: 'appColors.Black' }}>
+      viewStyle={{backgroundColor: 'appColors.Black'}}>
       {/* <BottomSheet ref={refRBSheet} Height={screenSize.height - 452}>
         <LocationBottom refRBSheet={refRBSheet} />
       </BottomSheet> */}
@@ -151,28 +159,32 @@ const AdminProfile = () => {
           justifyContent: 'space-between',
           alignItems: 'center',
           padding: 14,
-         
         }}>
-        <View style={{flex: 0.13,}}>
+        <View style={{flex: 0.13}}>
           <Image
             source={profile}
             resizeMode="cover"
-            style={{ width: 50, height: 50 }}
+            style={{width: 50, height: 50}}
           />
-     
-          <CustomIcon type={Icons.AntDesign} size={18} name={'pluscircle'} color={'white'}style={{position:'absolute',left:35, top:33}}/>
 
+          <CustomIcon
+            type={Icons.AntDesign}
+            size={18}
+            name={'pluscircle'}
+            color={'white'}
+            style={{position: 'absolute', left: 35, top: 33}}
+          />
         </View>
-        <View style={{flex: 0.58, flexDirection: 'column',}}>
+        <View style={{flex: 0.58, flexDirection: 'column'}}>
           <Text style={{color: 'white', fontSize: 24, fontWeight: 400}}>
             Michel Smith
           </Text>
-          <Text style={{ color: 'white', fontSize: 14, fontWeight: 400 }}>
+          <Text style={{color: 'white', fontSize: 14, fontWeight: 400}}>
             Michelsmith@gmail.com{' '}
           </Text>
         </View>
-        <View style={{flex:0.2,}}>
-          <TouchableOpacity >
+        <View style={{flex: 0.2}}>
+          <TouchableOpacity>
             <View
               style={{
                 paddingHorizontal: 12,
@@ -180,7 +192,6 @@ const AdminProfile = () => {
                 // marginVertical: 5,
                 justifyContent: 'space-between',
                 alignItems: 'center',
-
               }}>
               <Text
                 style={{
@@ -200,8 +211,25 @@ const AdminProfile = () => {
         </View>
       </View>
 
-      <View style={{ height: 1, position: 'relative', marginHorizontal: 15, margin: 10 }}>
-        <View style={{ position: 'absolute', top: 0, bottom: 0, left: 0, right: 0, borderWidth: 1, borderColor: appColors.Goldcolor, borderStyle: 'dashed', backgroundColor: 'transparent' }}></View>
+      <View
+        style={{
+          height: 1,
+          position: 'relative',
+          marginHorizontal: 15,
+          margin: 10,
+        }}>
+        <View
+          style={{
+            position: 'absolute',
+            top: 0,
+            bottom: 0,
+            left: 0,
+            right: 0,
+            borderWidth: 1,
+            borderColor: appColors.Goldcolor,
+            borderStyle: 'dashed',
+            backgroundColor: 'transparent',
+          }}></View>
       </View>
 
       {/* <View
@@ -214,7 +242,7 @@ const AdminProfile = () => {
           marginHorizontal: 20,
         }}></View> */}
 
-      <View style={{ flex: 0.9, padding: 2, backgroundColor: appColors.Black }}>
+      <View style={{flex: 0.9, padding: 2, backgroundColor: appColors.Black}}>
         {BarberList.map((item, index) => (
           <ProfileContainer
             key={index}

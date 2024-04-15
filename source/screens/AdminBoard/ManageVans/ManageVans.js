@@ -9,44 +9,50 @@ import {
   View,
 } from 'react-native';
 import React, {useEffect, useRef, useState} from 'react';
-import {screenSize} from '../../../components/atom/ScreenSize';
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import Entypo from 'react-native-vector-icons/Entypo';
-import ButtonComponent from '../../../components/atom/CustomButtons/ButtonComponent';
+import {useIsFocused, useNavigation} from '@react-navigation/native';
 import styles from './styles';
-import {useNavigation} from '@react-navigation/native';
-// import BottomSheet from '../../components/atom/BottomSheet';
-
+import ButtonComponent from '../../../components/atom/CustomButtons/ButtonComponent';
 import Screen from '../../../components/atom/ScreenContainer/Screen';
 import constants from '../../../AppConstants/Constants.json';
 import Header from '../../../components/molecules/Header';
 import {Icons} from '../../../components/molecules/CustomIcon/CustomIcon';
-
 import BottomSheet from '../../../components/molecules/BottomSheetContent/BottomSheet';
 import appColors from '../../../AppConstants/appColors';
 import DeleteVanServices from './DeleteVanServices';
-import {GetRequest, PostRequest} from '../../../services/apiCall';
-import {endPoint} from '../../../AppConstants/urlConstants';
+import {GetRequest} from '../../../services/apiCall';
+import {endPoint, imageUrl} from '../../../AppConstants/urlConstants';
+import {AppImages} from '../../../AppConstants/AppImages';
+import {getAsyncItem} from '../../../utils/SettingAsyncStorage';
 
 const ManageVans = ({navigation}) => {
+  const isFocused = useIsFocused();
+  const [userDetails, setUserDetails] = useState();
   const [selectedItem, setSelectedItem] = useState(null);
   const [vans, setVans] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    VanServices();
-  }, []);
+    if (isFocused) {
+      getUserDetail();
+      VanServices();
+    }
+  }, [isFocused]);
+
+  const getUserDetail = async () => {
+    const userDatail = await getAsyncItem(
+      constants.AsyncStorageKeys.userDetails,
+    );
+    setUserDetails(userDatail);
+  };
 
   const VanServices = () => {
     GetRequest(endPoint.VAN_SERVICES)
       .then(res => {
-        console.log('RESPONSEDATA', res?.data);
         if (res?.data?.code == 200) {
-          setLoading(false);
-          console.log(res?.data);
           setVans(res?.data?.data);
+          setLoading(false);
         } else {
-          SimpleSnackBar(res?.data?.message);
+          SimpleSnackBar(res?.data?.message, appColors.Red);
           setLoading(false);
         }
       })
@@ -55,6 +61,65 @@ const ManageVans = ({navigation}) => {
         setLoading(false);
       });
   };
+
+  const VanList = ({item, onPress, selected}) => {
+    const refRBSheet = useRef();
+    const navigation = useNavigation();
+    const handleEditPress = item => {
+      navigation.navigate(constants.AdminScreens.EditVanservices, {
+        vanDetails: item,
+        userDetails: userDetails,
+      });
+      console.log(item);
+    };
+
+    return (
+      <TouchableOpacity onPress={onPress}>
+        <View
+          style={[
+            styles.container,
+            selected && {borderColor: '#c79647', borderWidth: 1.25},
+          ]}>
+          <View style={styles.Subcontainer}>
+            <View style={[styles.textView, {flex: 0.1}]}>
+              <Image
+                source={{uri: `${imageUrl}${item.vanPhotos}`}}
+                style={{width: 35, height: 35, borderRadius: 100}}
+              />
+            </View>
+            <View style={styles.textView}>
+              <Text style={styles.textStyle}>{item.vanName}</Text>
+            </View>
+            <TouchableOpacity
+              onPress={() => handleEditPress(item)}
+              style={styles.editImageView}>
+              <Image
+                source={AppImages.Editimage}
+                style={styles.editImageStyle}
+              />
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => refRBSheet.current.open()}
+              style={styles.DeleteimageView}>
+              <Image
+                source={AppImages.deleteimage}
+                style={styles.Deleteimagestyle}
+              />
+            </TouchableOpacity>
+            <BottomSheet ref={refRBSheet} Height={200}>
+              <DeleteVanServices
+                refRBSheet={refRBSheet}
+                vanDetails={item}
+                userDetails={userDetails}
+                VanServices={VanServices}
+              />
+            </BottomSheet>
+          </View>
+        </View>
+      </TouchableOpacity>
+    );
+  };
+
   return (
     <Screen
       viewStyle={{flex: 1, padding: 15, backgroundColor: appColors.Black}}
@@ -69,9 +134,8 @@ const ManageVans = ({navigation}) => {
           logIn={'success'}
         />
       </View>
-
       <View style={{flex: 0.8}}>
-        {loading ? ( // Show loader if loading is true s
+        {loading ? (
           <ActivityIndicator
             size="large"
             color="#C79646"
@@ -82,7 +146,7 @@ const ManageVans = ({navigation}) => {
             data={vans}
             keyExtractor={item => item.vanId.toString()}
             renderItem={({item}) => (
-              <Servicelist
+              <VanList
                 key={item.vanId}
                 item={item}
                 selected={selectedItem === item.vanId}
@@ -92,7 +156,6 @@ const ManageVans = ({navigation}) => {
           />
         )}
       </View>
-
       <View style={styles.buttonView}>
         <ButtonComponent
           style={{
@@ -104,59 +167,13 @@ const ManageVans = ({navigation}) => {
           btnTextColor={{color: 'white'}}
           title={'Add Vans'}
           onPress={() =>
-            navigation.navigate(constants.AdminScreens.AddVanservices)
+            navigation.navigate(constants.AdminScreens.AddVanservices, {
+              userDetails: userDetails,
+            })
           }
         />
       </View>
     </Screen>
-  );
-};
-
-const Servicelist = ({item, onPress, selected}) => {
-  const refRBSheet = useRef();
-  const navigation = useNavigation();
-  const handleEditPress = item => {
-    navigation.navigate(constants.AdminScreens.EditVanservices, {
-      vanDetil: item,
-    });
-    console.log(item);
-  };
-
-  return (
-    <TouchableOpacity onPress={onPress}>
-      <View
-        style={[
-          styles.container,
-          selected && {borderColor: '#c79647', borderWidth: 1.25},
-        ]}>
-        <View style={styles.Subcontainer}>
-          <View style={styles.textView}>
-            <Text style={styles.textStyle}>{item.vanName}</Text>
-          </View>
-
-          <TouchableOpacity
-            onPress={() => handleEditPress(item)}
-            style={styles.editImageView}>
-            <Image
-              source={require('../../../assets/editimage.png')}
-              style={styles.editImageStyle}
-            />
-          </TouchableOpacity>
-          <TouchableOpacity
-            onPress={() => refRBSheet.current.open()}
-            style={styles.DeleteimageView}>
-            <Image
-              source={require('../../../assets/deleteimage.png')}
-              style={styles.Deleteimagestyle}
-            />
-          </TouchableOpacity>
-
-          <BottomSheet ref={refRBSheet} Height={200}>
-            <DeleteVanServices refRBSheet={refRBSheet} vandetails={item} />
-          </BottomSheet>
-        </View>
-      </View>
-    </TouchableOpacity>
   );
 };
 

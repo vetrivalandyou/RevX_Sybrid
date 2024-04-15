@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {FlatList, Text, View} from 'react-native';
 import Screen from '../../../components/atom/ScreenContainer/Screen';
 import appColors from '../../../AppConstants/appColors';
@@ -7,16 +7,43 @@ import CustomIcon, {
   Icons,
 } from '../../../components/molecules/CustomIcon/CustomIcon';
 import constants from '../../../AppConstants/Constants.json';
+import { GetRequest } from '../../../services/apiCall';
 
-const TermsOfService = ({navigation}) => {
-  data = [
-    {
-      id: 1,
-      title: 'Type of date',
-      description:
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sem odio enim ut nullam tortor, bibendum interdum. Varius at amet, dignissim morbi ac pulvinar eu blandit lorem. Est pellentesque bibendum quam odio ac, tortor sit. Sed tellus at tellus amet mi.',
-    },
-  ];
+const TermsOfService = ({navigation,route}) => {
+
+  const { aboutUsId } = route.params;
+  const [TermsServicesData, seTermsServicesData] = useState([]);
+
+
+  const getTermsOfServices = () => {
+
+    GetRequest(`Common/Get_AboutUsType?aboutUsTypeId=${aboutUsId}`)
+      .then(res => {
+        console.log('data.........', res?.data);
+        if (res?.data?.code === 200) {
+          console.log(res?.data);
+          seTermsServicesData(res?.data?.data);
+        } else {
+          SimpleSnackBar(res?.data?.message || 'Failed to fetch data');
+        }
+      })
+      .catch(err => {
+        SimpleSnackBar('Failed to fetch data');
+      });
+  };
+
+  useEffect(() => {
+    getTermsOfServices();
+  }, []);
+
+  // data = [
+  //   {
+  //     id: 1,
+  //     title: 'Type of date',
+  //     description:
+  //       'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sem odio enim ut nullam tortor, bibendum interdum. Varius at amet, dignissim morbi ac pulvinar eu blandit lorem. Est pellentesque bibendum quam odio ac, tortor sit. Sed tellus at tellus amet mi.',
+  //   },
+  // ];
   return (
     <Screen
       statusBarColor={appColors.Black}
@@ -55,8 +82,8 @@ const TermsOfService = ({navigation}) => {
         }}>
         <View>
           <FlatList
-            data={data}
-            renderItem={({item}) => <TermServices item={item} />}
+            data={TermsServicesData}
+            renderItem={({item,index}) => <TermServices item={item} index={index} />}
           />
         </View>
       </View>
@@ -64,7 +91,7 @@ const TermsOfService = ({navigation}) => {
   );
 };
 
-const TermServices = ({item}) => {
+const TermServices = ({item, index}) => {
   return (
     <View
       style={{
@@ -83,10 +110,10 @@ const TermServices = ({item}) => {
           fontWeight: 400,
           paddingBottom: 10,
         }}>
-        {item.title}
+       {index + 1}. {item.title}
       </Text>
       <Text style={{fontSize: 16, color: 'white', lineHeight: 20}}>
-        {item.description}
+        {item.detail}
       </Text>
     </View>
   );

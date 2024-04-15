@@ -1,32 +1,51 @@
-import { FlatList, Platform, StyleSheet, Text, View } from 'react-native'
-import React, { useState } from 'react'
-
-import { screenSize } from '../../../components/atom/ScreenSize';
+import React, { useEffect, useState } from 'react';
+import { StyleSheet, Text, View, FlatList, ActivityIndicator } from 'react-native';
+import { useIsFocused } from '@react-navigation/native';
 import Screen from '../../../components/atom/ScreenContainer/Screen';
-import ButtonComponent from '../../../components/atom/CustomButtons/ButtonComponent';
 import Header from '../../../components/molecules/Header';
 import { Icons } from '../../../components/molecules/CustomIcon/CustomIcon';
-import constants from "../../../AppConstants/Constants.json"
+import constants from "../../../AppConstants/Constants.json";
 import appColors from '../../../AppConstants/appColors';
+import { GetRequest } from '../../../services/apiCall';
+import ButtonComponent from '../../../components/atom/CustomButtons/ButtonComponent';
 
-const AdminTermsofServices = ({ navigation, }) => {
+const AdminTermsofServices = ({ navigation, route }) => {
+  const { aboutUsId } = route.params || 0;
+  const isFocused = useIsFocused();
+  const [termsServicesData, setTermsServicesData] = useState([]);
+  const [loading, setLoading] = useState(true); // State for loading indicator
 
+  useEffect(() => {
+    if (isFocused) {
+      getTermsOfServices();
+    }
+  }, [isFocused]);
 
-  const [Termsdescription, setTermdescription] = useState('Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sem odio enim ut nullam tortor, bibendum interdum. Varius at amet, dignissim morbi ac pulvinar eu blandit lorem. Est pellentesque bibendum quam odio ac, tortor sit. Sed tellus at tellus amet mi.');
+  const getTermsOfServices = () => {
+    setLoading(true); // Set loading to true when fetching data
+    GetRequest(`Common/Get_AboutUsType?aboutUsTypeId=${aboutUsId}`)
+      .then(res => {
+        if (res?.data?.code === 200) {
+          setTermsServicesData(res?.data?.data);
+        } else {
+          console.log(res?.data?.message || 'Failed to fetch data');
+        }
+      })
+      .catch(err => {
+        console.log('Failed to fetch data', err);
+      })
+      .finally(() => setLoading(false)); // Set loading to false when data is fetched
+  };
 
-  data = [
+  const handleEdit = () => {
+    navigation.navigate(constants.AdminScreens.AdminEditTermsOfServices, {
+      description: termsServicesData,
+    });
+  };
 
-    {
-      id: 1,
-      title: 'Type of date',
-      description: Termsdescription,
-    },
-  ];
   return (
-
     <Screen viewStyle={{ flex: 1, backgroundColor: appColors.Black, padding: 15 }} statusBarColor={appColors.Black}>
-
-      <View style={{ flex: 0.1, }}>
+      <View style={{ flex: 0.1 }}>
         <Header
           lefttIcoType={Icons.Ionicons}
           onPressLeftIcon={() => navigation.goBack()}
@@ -34,90 +53,54 @@ const AdminTermsofServices = ({ navigation, }) => {
           headerText={'Terms of Service'}
           rightIcoName={'bell-fill'}
           rightIcoType={Icons.Octicons}
-          logIn={'success'}
           rightIcoSize={20}
-          onPressRightIcon={() =>
-            navigation.navigate(constants.AdminScreens.AdminNotification)
-          }
-          leftIcoStyle={{
-            backgroundColor: appColors.lightBlack,
-            borderRadius: 50,
-            height: 50,
-            width: 50,
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}
+          onPressRightIcon={() => navigation.navigate(constants.AdminScreens.AdminNotification)}
+          leftIcoStyle={{ backgroundColor: appColors.lightBlack, borderRadius: 50, height: 50, width: 50, justifyContent: 'center', alignItems: 'center' }}
         />
-
-
       </View>
 
-      <View
-        style={{
-          flex: 0.8,
-          paddingVertical: 5,
-        }}>
+      {loading ? ( // Conditional rendering of loader
+        <ActivityIndicator style={styles.loader} color={appColors.White} size="large" />
+      ) : (
+        <View style={{ flex: 0.8, paddingVertical: 5 }}>
+          <FlatList
+            data={termsServicesData}
+            renderItem={({ item, index }) => <TermServices item={item} index={index} />}
+          />
+        </View>
+      )}
 
-        <FlatList
-          data={data}
-          renderItem={({ item }) => <TermServices item={item} />}
-        />
-
-      </View>
       <View style={styles.buttonView}>
         <ButtonComponent
-          style={{ backgroundColor: '#C79646', paddingVertical: Platform.OS == 'ios' ? 18 : 13, bottom: 1, position: 'absolute' }}
+          style={{ backgroundColor: '#C79646', paddingVertical: Platform.OS == 'ios' ? 18 : 13 }}
           title={'Edit'}
-          onPress={() =>
-            navigation.navigate(constants.AdminScreens.AdminEditTermsOfServices, {
-              description: Termsdescription,// Pass the current description to the edit screen
-              // Pass the function to update the description
-            })
-          }
+          onPress={handleEdit}
         />
       </View>
     </Screen>
   );
 };
 
-const TermServices = ({ item }) => {
+const TermServices = ({ item, index }) => {
   return (
-    <View
-      style={{
-        height: 'auto',
-
-        backgroundColor: '#252525',
-        borderRadius: 20,
-        marginBottom: 20,
-
-        alignContent: 'center',
-        padding: 20,
-      }}>
-      <Text
-        style={{
-          color: '#C79646',
-          fontSize: 20,
-          fontWeight: '500',
-          paddingBottom: 10,
-
-        }}>
-        {item.title}
-      </Text>
-      <Text style={{ fontSize: 16, color: 'white', lineHeight: 20, }}>
-        {item.description}
-      </Text>
+    <View style={{ height: 'auto', backgroundColor: '#252525', borderRadius: 20, marginBottom: 20, alignContent: 'center', padding: 20 }}>
+      <Text style={{ color: '#C79646', fontSize: 20, fontWeight: '500', paddingBottom: 10 }}>{index + 1}. {item.title}</Text>
+      <Text style={{ fontSize: 16, color: 'white', lineHeight: 20 }}>{item.detail}</Text>
     </View>
   );
 };
 
-
-
 export default AdminTermsofServices;
 
 const styles = StyleSheet.create({
+  loader: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   buttonView: {
     flex: 0.1,
     justifyContent: 'center',
     alignItems: 'center',
   },
-})
+});

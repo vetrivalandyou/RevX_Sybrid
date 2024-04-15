@@ -15,14 +15,13 @@ import {
 
 import BarberBottomTabNavigation from './BarberBottomTabNavigation';
 import DeleteServices from '../../screens/BarberBoard/BarberServices/DeleteServices';
-import EditVanservices from '../../screens/AdminBoard/ManageVans/EditVanServices';
-import AddVanservices from '../../screens/AdminBoard/ManageVans/AddVanServices';
-import DeleteVanServices from '../../screens/AdminBoard/ManageVans/DeleteVanServices';
-import ManageVans from '../../screens/AdminBoard/ManageVans/ManageVans';
+
 import ServiceList from '../../screens/BarberBoard/BarberServices/ServiceList';
+import Profile from '../../screens/BarberBoard/BarberProfile/Profile/Profile';
+import DeepLinking from '../../utils/DeepLinking';
+import EditProfile from '../../screens/ProfileScreen/EditProfile';
 
 const BarberStack = () => {
-  
   const Stack = createNativeStackNavigator();
   return (
     <NavigationContainer>
@@ -63,7 +62,6 @@ const BarberStack = () => {
           options={{headerShown: false}}
         />
 
-
         <Stack.Screen
           name={constants.BarberScreen.Addservices}
           component={Addservices}
@@ -80,32 +78,25 @@ const BarberStack = () => {
           component={Editservices}
           options={{headerShown: false}}
         />
-          <Stack.Screen
-          name={constants.AdminScreens.ManageVans}
-          component={ManageVans}
-          options={{headerShown: false}}
-        />
-
         <Stack.Screen
-          name={constants.AdminScreens.AddVanservices}
-          component={AddVanservices}
+          name={constants.BarberScreen.ServiceList}
+          component={ServiceList}
           options={{headerShown: false}}
         />
         <Stack.Screen
-          name={constants.AdminScreens.DeleteVanServices}
-          component={DeleteVanServices}
+          name={constants.BarberScreen.Profile}
+          component={Profile}
           options={{headerShown: false}}
         />
-
-        <Stack.Screen
-          name={constants.AdminScreens.DeleteVanServices}
-          component={EditVanservices}
-          options={{headerShown: false}}
-        />
+        
+         
+       
+       
 
 
 
       </Stack.Navigator>
+      <DeepLinking />
     </NavigationContainer>
   );
 };

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {FlatList, Text, View} from 'react-native';
 import Screen from '../../../components/atom/ScreenContainer/Screen';
 import appColors from '../../../AppConstants/appColors';
@@ -7,8 +7,33 @@ import CustomIcon, {
   Icons,
 } from '../../../components/molecules/CustomIcon/CustomIcon';
 import constants from '../../../AppConstants/Constants.json';
+import { GetRequest } from '../../../services/apiCall';
 
-const PrivacyPolicy = ({navigation}) => {
+const PrivacyPolicy = ({navigation,route}) => {
+  const { aboutUsId } = route.params;
+  const [TermsServicesData, seTermsServicesData] = useState([]);
+
+
+  const getTermsOfServices = () => {
+
+    GetRequest(`Common/Get_AboutUsType?aboutUsTypeId=${aboutUsId}`)
+      .then(res => {
+        console.log('data.........', res?.data);
+        if (res?.data?.code === 200) {
+          console.log(res?.data);
+          seTermsServicesData(res?.data?.data);
+        } else {
+          SimpleSnackBar(res?.data?.message || 'Failed to fetch data');
+        }
+      })
+      .catch(err => {
+        SimpleSnackBar('Failed to fetch data');
+      });
+  };
+
+  useEffect(() => {
+    getTermsOfServices();
+  }, []);
   data = [
     {
       id: 1,
@@ -73,7 +98,7 @@ const PrivacyPolicy = ({navigation}) => {
         }}>
         <View>
           <FlatList
-            data={data}
+            data={TermsServicesData}
             renderItem={({item}) => <PrivacyDetails item={item} />}
           />
         </View>
@@ -104,7 +129,7 @@ const PrivacyDetails = ({item}) => {
         {item.title}
       </Text>
       <Text style={{fontSize: 16, color: 'white', lineHeight: 20}}>
-        {item.description}
+        {item.detail}
       </Text>
     </View>
   );

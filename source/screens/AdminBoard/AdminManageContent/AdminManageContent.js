@@ -1,18 +1,60 @@
-import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { ActivityIndicator, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import Screen from '../../../components/atom/ScreenContainer/Screen';
-import {screenSize} from '../../../components/atom/ScreenSize';
+import { screenSize } from '../../../components/atom/ScreenSize';
 import Header from '../../../components/molecules/Header';
-import {Icons} from '../../../components/molecules/CustomIcon/CustomIcon';
+import CustomIcon, { Icons } from '../../../components/molecules/CustomIcon/CustomIcon';
 import constants from '../../../AppConstants/Constants.json';
 import appColors from '../../../AppConstants/appColors';
+import { GetRequest } from '../../../services/apiCall';
+import { endPoint } from '../../../AppConstants/urlConstants';
 
-const AdminManageContent = ({navigation}) => {
+const AdminManageContent = ({ navigation }) => {
+  const [dropDownData, setDropDownData] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  const getAboutUs = () => {
+    GetRequest(endPoint.GET_ABOUT_US)
+      .then(res => {
+        console.log('data.........', res?.data);
+        if (res?.data?.code === 200) {
+          console.log(res?.data);
+          setDropDownData(res?.data?.data);
+        } else {
+          SimpleSnackBar(res?.data?.message || 'Failed to fetch data');
+        }
+      })
+      .catch(err => {
+        SimpleSnackBar('Failed to fetch data');
+      })
+      .finally(() => setLoading(false)); // Set loading to false when request is complete
+  };
+
+  useEffect(() => {
+    getAboutUs();
+  }, []);
+
+  const handleNavigation = (aboutUsId) => {
+    switch (aboutUsId) {
+      case 360:
+        navigation.navigate(constants.AdminScreens.AdminTermsofServices, { aboutUsId });
+        break;
+      case 361:
+        navigation.navigate(constants.AdminScreens.AdminPrivacypolicy, { aboutUsId });
+        break;
+      case 362:
+        navigation.navigate(constants.AdminScreens.AdminLicensee, { aboutUsId });
+        break;
+      default:
+        break;
+    }
+  };
+
   return (
-    <Screen viewStyle={{ flex: 1, backgroundColor: appColors.Black, padding: 15}} statusBarColor={appColors.Black}>
-      <View style={{flex: 0.1}}>
+    <Screen viewStyle={{ flex: 1, backgroundColor: appColors.Black, padding: 15 }} statusBarColor={appColors.Black}>
+      <View style={{ flex: 0.1 }}>
         <Header
-          headerSubView={{marginHorizontal: 5}}
+          headerSubView={{ marginHorizontal: 5 }}
           lefttIcoType={Icons.Ionicons}
           onPressLeftIcon={() => navigation.goBack()}
           leftIcoName={'chevron-back'}
@@ -34,94 +76,36 @@ const AdminManageContent = ({navigation}) => {
           }}
         />
       </View>
-      <View style={{flex: 0.9}}>
-        <View
-          style={{flex: 0.12, alignItems: 'center', justifyContent: 'center'}}>
-          <View style={styles.container}>
-            <View style={{flexDirection: 'row', flex: 1}}>
-              <View
-                style={{flex: 0.8, justifyContent: 'center', paddingLeft: 20}}>
-                <Text style={{color: '#FFFFFF', fontSize: 17, fontWeight: 400}}>
-                  Terms of Services
-                </Text>
-              </View>
-
-              <TouchableOpacity
-                onPress={() =>
-                  navigation.navigate(
-                    constants.AdminScreens.AdminTermsofServices,
-                  )
-                }
-                style={{
-                  flex: 0.2,
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                }}>
-                <Image
-                  source={require('../../../assets/editimage.png')}
-                  style={{width: '40%', height: '40%'}}
-                />
-              </TouchableOpacity>
-            </View>
-          </View>
-        </View>
-        <View
-          style={{flex: 0.12, alignItems: 'center', justifyContent: 'center'}}>
-          <View style={styles.container}>
-            <View style={{flexDirection: 'row', flex: 1}}>
-              <View
-                style={{flex: 0.8, justifyContent: 'center', paddingLeft: 20}}>
-                <Text style={{color: '#FFFFFF', fontSize: 17, fontWeight: 400}}>
-                  Privacy Policy
-                </Text>
-              </View>
-
-              <TouchableOpacity
-                onPress={() =>
-                  navigation.navigate(constants.AdminScreens.AdminPrivacypolicy)
-                }
-                style={{
-                  flex: 0.2,
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                }}>
-                <Image
-                  source={require('../../../assets/editimage.png')}
-                  style={{width: '40%', height: '40%'}}
-                />
-              </TouchableOpacity>
-            </View>
-          </View>
-        </View>
-
-        <View
-          style={{flex: 0.12, alignItems: 'center', justifyContent: 'center'}}>
-          <View style={styles.container}>
-            <View style={{flexDirection: 'row', flex: 1}}>
-              <View
-                style={{flex: 0.8, justifyContent: 'center', paddingLeft: 20}}>
-                <Text style={{color: '#FFFFFF', fontSize: 17, fontWeight: 400}}>
-                  License
-                </Text>
-              </View>
-
-              <TouchableOpacity
-                onPress={() =>
-                  navigation.navigate(constants.AdminScreens.AdminLicensee)
-                }
-                style={{
-                  flex: 0.2,
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                }}>
-                <Image
-                  source={require('../../../assets/editimage.png')}
-                  style={{width: '40%', height: '40%'}}
-                />
-              </TouchableOpacity>
-            </View>
-          </View>
-        </View>
+      <View style={{ flex: 1, flexDirection: 'column', padding: 3 }}>
+        {loading ? ( 
+          <ActivityIndicator style={styles.loader} color={appColors.White} size="large" />
+        ) : (
+          dropDownData.map(item => (
+            <TouchableOpacity
+              key={item.id || item.aboutUsId}
+              style={{
+                flex: 0.1,
+                backgroundColor: appColors.darkgrey,
+                borderRadius: 16,
+                marginBottom: 20,
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                paddingHorizontal: 20,
+              }}
+              onPress={() => handleNavigation(item.aboutUsId)}>
+              <Text style={{ color: 'white', fontSize: 17, fontWeight: '400' }}>
+                {item.aboutUs}
+              </Text>
+              <CustomIcon
+                type={Icons.FontAwesome5}
+                name={'edit'}
+                color={appColors.White}
+                size={18}
+              />
+            </TouchableOpacity>
+          ))
+        )}
       </View>
     </Screen>
   );
@@ -130,13 +114,9 @@ const AdminManageContent = ({navigation}) => {
 export default AdminManageContent;
 
 const styles = StyleSheet.create({
-  container: {
-    width: screenSize.width / 1.1,
-    height: screenSize.height / 13,
-    borderWidth: 1,
-    borderRadius: 10,
-    backgroundColor: '#252525',
-    marginVertical: 5,
-    paddingHorizontal: 5,
+  loader: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });

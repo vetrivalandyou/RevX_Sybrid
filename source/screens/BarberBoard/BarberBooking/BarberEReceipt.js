@@ -7,6 +7,7 @@ import Screen from '../../../components/atom/ScreenContainer/Screen';
 import Header from '../../../components/molecules/Header';
 import {Icons} from '../../../components/molecules/CustomIcon/CustomIcon';
 import constants from '../../../AppConstants/Constants.json';
+import styles from './styles';
 
 const BarberEReceipt = ({navigation}) => {
   const data = [
@@ -91,32 +92,21 @@ const BarberEReceipt = ({navigation}) => {
         />
       </View>
 
-      <View style={styles.Containerstyle}>
+      <View style={styles.barberDetailsContainer}>
         {data.map(item => (
           <Barberdetails key={item.id} item={item} />
         ))}
       </View>
 
-      <View style={styles.Containerstyle2}>
+      <View style={styles.barberSevicesContainer}>
         {data2.map(item => (
           <Pricedetails key={item.id} item={item} />
         ))}
 
-          <View style={{ height: 1, position:'relative', marginHorizontal: 15, marginTop: 10,
-            marginBottom: 10}}>
-            <View style={{ position: 'absolute', top: 0, bottom: 0, left: 0, right: 0, borderWidth: 1, borderColor: appColors.Goldcolor, borderStyle: 'dashed', backgroundColor:'transparent'  }}></View>
+<View style={{ height: 1, position:'relative', marginHorizontal: 15, margin: 10 }}>
+            <View style={styles.DashLinestyle}></View>
           </View>
-        {/* <View
-          style={{
-            backgroundColor: '#c79647',
-            fontSize: 25,
-            marginHorizontal: 14,
-            borderBottomWidth: 2,
-            borderStyle: 'dotted',
-            marginTop: 10,
-            marginBottom: 5,
-          }}></View> */}
-
+    
         <View
           style={{
             flexDirection: 'row',
@@ -190,50 +180,6 @@ const Pricedetails = ({item}) => {
 
 export default BarberEReceipt;
 
-const styles = StyleSheet.create({
-  NoticationContainer: {
-    height: screenSize.height / 18.5,
-    width: screenSize.width / 9,
-    borderRadius: 40,
-    backgroundColor: '#252525',
-    marginHorizontal: 2,
-
-    alignItems: 'center',
-    justifyContent: 'center',
-
-    // backgroundColor:'green'
-  },
-  Containerstyle: {
-    height: screenSize.height / 2.95,
-    width: screenSize.width / 1.1,
-    paddingVertical: 17,
-    marginTop: 5,
-    backgroundColor: '#252525',
-    borderWidth: 1,
-    borderRadius: 20,
-    borderColor: 'black',
-    marginHorizontal: 17,
-  },
-  Containerstyle2: {
-    height: screenSize.height / 4.1,
-    width: screenSize.width / 1.1,
-    justifyContent: 'center',
-    // alignItems:'center',
-    marginTop: 10,
-    backgroundColor: '#252525',
-    borderWidth: 1,
-    borderRadius: 20,
-    borderColor: 'black',
-    marginHorizontal: 17,
-  },
-  Button: {
-    alignItems: 'center',
-    backgroundColor: '#c79647',
-    paddingVertical: 15,
-    marginHorizontal: 13,
-    borderRadius: 40,
-    position: 'absolute',
-    bottom: 5,
-    width: screenSize.width / 1.07,
-  },
-});
+// const styles = StyleSheet.create({
+ 
+ 

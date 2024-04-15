@@ -1,114 +1,101 @@
-import React, { useState } from 'react'
-import { FlatList, Platform, StyleSheet, Text, View } from 'react-native'
-import { screenSize } from '../../../components/atom/ScreenSize';
-import Screen from '../../../components/atom/ScreenContainer/Screen'
-import ButtonComponent from '../../../components/atom/CustomButtons/ButtonComponent';
+import React, { useEffect, useState } from 'react';
+import { StyleSheet, Text, View, FlatList, Platform, ActivityIndicator } from 'react-native';
+import { useIsFocused } from '@react-navigation/native';
+import Screen from '../../../components/atom/ScreenContainer/Screen';
 import Header from '../../../components/molecules/Header';
 import { Icons } from '../../../components/molecules/CustomIcon/CustomIcon';
-import constants from "../../../AppConstants/Constants.json"
+import constants from "../../../AppConstants/Constants.json";
 import appColors from '../../../AppConstants/appColors';
-const AdminLicensee = ({ navigation, }) => {
+import { GetRequest } from '../../../services/apiCall';
+import ButtonComponent from '../../../components/atom/CustomButtons/ButtonComponent';
 
-  const [Termsdescription, setTermdescription] = useState('Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sem odio enim ut nullam tortor, bibendum interdum. Varius at amet, dignissim morbi ac pulvinar eu blandit lorem. Est pellentesque bibendum quam odio ac, tortor sit. Sed tellus at tellus amet mi.');
+const AdminLicensee = ({ navigation, route }) => {
+  const { aboutUsId } = route.params || 0;
+  const isFocused = useIsFocused();
+  const [termsServicesData, setTermsServicesData] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
-  data = [
-    {
-      id: 1,
-      title: 'Lorem Ipsum Text',
-      description: Termsdescription,
-    },
-  ];
+  console.log("aboutUsId", aboutUsId)
+
+  useEffect(() => {
+    if (isFocused) {
+      getTermsOfServices();
+      console.log("asdasdasd")
+    }
+  }, [isFocused]);
+
+  const getTermsOfServices = () => {
+    setIsLoading(true); // Set loading to true before making the request
+    GetRequest(`Common/Get_AboutUsType?aboutUsTypeId=${aboutUsId}`)
+      .then(res => {
+        if (res?.data?.code === 200) {
+          setTermsServicesData(res?.data?.data);
+        } else {
+          console.log(res?.data?.message || 'Failed to fetch data');
+        }
+      })
+      .catch(err => {
+        console.log('Failed to fetch data', err);
+      })
+      .finally(() => {
+        setIsLoading(false); // Set loading to false after receiving response
+      });
+  };
+
+  const handleEdit = () => {
+    navigation.navigate(constants.AdminScreens.AdminEditTermsOfServices, {
+      description: termsServicesData,
+    });
+  };
+
   return (
     <Screen viewStyle={{ flex: 1, backgroundColor: appColors.Black, padding: 15 }} statusBarColor={appColors.Black}>
-      <View style={{ flex: 0.1, }}>
+      <View style={{ flex: 0.1 }}>
         <Header
-         headerSubView={{ marginHorizontal: 5}}
           lefttIcoType={Icons.Ionicons}
           onPressLeftIcon={() => navigation.goBack()}
           leftIcoName={'chevron-back'}
-          headerText={'License'}
+          headerText={'Terms of Service'}
           rightIcoName={'bell-fill'}
           rightIcoType={Icons.Octicons}
-          logIn={'success'}
           rightIcoSize={20}
-          onPressRightIcon={() =>
-            navigation.navigate(constants.AdminScreens.AdminNotification)
-          }
-          leftIcoStyle={{
-            backgroundColor: appColors.lightBlack,
-            borderRadius: 50,
-            height: 50,
-            width: 50,
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}
+          onPressRightIcon={() => navigation.navigate(constants.AdminScreens.AdminNotification)}
+          leftIcoStyle={{ backgroundColor: appColors.lightBlack, borderRadius: 50, height: 50, width: 50, justifyContent: 'center', alignItems: 'center' }}
         />
-
-
       </View>
 
-      <View
-        style={{
-          flex: 0.8,
-
-          paddingVertical: 5,
-        }}>
-
-        <FlatList
-          data={data}
-          renderItem={({ item }) => <Licenseinfo item={item} />}
-        />
-
+      <View style={{ flex: 0.8, paddingVertical: 5 }}>
+        {isLoading ? ( // Show loader if isLoading is true
+          <ActivityIndicator size="large" color="#C79646" />
+        ) : (
+          <FlatList
+            data={termsServicesData}
+            renderItem={({ item, index }) => <TermServices item={item} index={index} />}
+          />
+        )}
       </View>
+
       <View style={styles.buttonView}>
         <ButtonComponent
-          style={{ backgroundColor: '#C79646', paddingVertical: Platform.OS == 'ios' ? 18 : 13, bottom: 1, position: 'absolute' }}
+          style={{ backgroundColor: '#C79646', paddingVertical: Platform.OS == 'ios' ? 18 : 13 }}
           title={'Edit'}
-          onPress={() =>
-            navigation.navigate(constants.AdminScreens.AdminEditLicense, {
-              description: Termsdescription,// Pass the current description to the edit screen
-              // Pass the function to update the description
-            })
-          }
+          onPress={handleEdit}
         />
       </View>
     </Screen>
   );
 };
 
-const Licenseinfo = ({ item }) => {
+const TermServices = ({ item, index }) => {
   return (
-    <View
-      style={{
-        height: 'auto',
-
-        backgroundColor: '#252525',
-        borderRadius: 20,
-        marginBottom: 20,
-
-        alignContent: 'center',
-        padding: 20,
-      }}>
-      <Text
-        style={{
-          color: '#C79646',
-          fontSize: 20,
-          fontWeight: '500',
-          paddingBottom: 10,
-
-        }}>
-        {item.title}
-      </Text>
-      <Text style={{ fontSize: 16, color: 'white', lineHeight: 20, }}>
-        {item.description}
-      </Text>
+    <View style={{ height: 'auto', backgroundColor: '#252525', borderRadius: 20, marginBottom: 20, alignContent: 'center', padding: 20 }}>
+      <Text style={{ color: '#C79646', fontSize: 20, fontWeight: '500', paddingBottom: 10 }}>{index + 1}. {item.title}</Text>
+      <Text style={{ fontSize: 16, color: 'white', lineHeight: 20 }}>{item.detail}</Text>
     </View>
   );
 };
 
-
-
-export default AdminLicensee
+export default AdminLicensee;
 
 const styles = StyleSheet.create({
   buttonView: {
@@ -116,4 +103,4 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-})
+});

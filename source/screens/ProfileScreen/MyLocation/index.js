@@ -1,18 +1,19 @@
-import React, {useEffect, useRef, useState} from 'react';
-import {Image, Text, Touchable, TouchableOpacity, View} from 'react-native';
+import React, { useEffect, useRef, useState } from 'react';
+import { Image, Text, Touchable, TouchableOpacity, View } from 'react-native';
 import Screen from '../../../components/atom/ScreenContainer/Screen';
 import appColors from '../../../AppConstants/appColors';
-import MapView, {Marker, PROVIDER_GOOGLE} from 'react-native-maps';
-import CustomDarkMapStyle from '../../Location/CustomMapStyle.json';
+import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
+import CustomDarkMapStyle from '../../../utils/CustomMapStyle.json';
 import CustomMarkerImage from '../../../assets/mapMarker.png';
-import {screenSize} from '../../../components/atom/ScreenSize';
+import { screenSize } from '../../../components/atom/ScreenSize';
 import LocationBottomSheet from './LocationBottomSheet';
 import BottomSheet from '../../../components/molecules/BottomSheetContent/BottomSheet';
 import CustomIcon, {
   Icons,
 } from '../../../components/molecules/CustomIcon/CustomIcon';
+import GoogleMap from '../../../components/atom/GoogleMap';
 
-const MyLocation = ({navigation}) => {
+const MyLocation = ({ navigation }) => {
   const mapRef = useRef();
   const refRBSheet = useRef();
 
@@ -45,47 +46,33 @@ const MyLocation = ({navigation}) => {
     );
   };
 
+  useEffect(() => {
+    refRBSheet.current.open();
+  }, []);
+
   return (
     <Screen
       statusBarColor={appColors.Black}
       barStyle="light-content"
-      viewStyle={{backgroundColor: appColors.Black, padding: 0}}>
-      {/* <View style={{flex: 0.1}}>
-        <Header
-        headerSubView={{marginHorizontal: 5}}
-          lefttIcoType={Icons.Ionicons}
-          onPressLeftIcon={() => navigation.goBack()}
-          leftIcoName={'chevron-back'}
-          headerText={'About Us'}
-          rightIcoName={'bell'}
-          rightIcoType={Icons.SimpleLineIcons}
-          logIn={'success'}
-          onPressRightIcon={() =>
-            navigation.navigate(constants.screen.Notification)
-          }
-          rightIcoSize={20}
-          leftIcoStyle={{
-            backgroundColor: appColors.lightBlack,
-            borderRadius: 50,
-            height: 50,
-            width: 50,
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}
-        />
-      </View> */}
-
-      <BottomSheet ref={refRBSheet} Height={screenSize.height / 3}>
-        <LocationBottomSheet refRBSheet={refRBSheet} />
+      viewStyle={{ backgroundColor: appColors.Black, padding: 0 }}>
+      <BottomSheet ref={refRBSheet} Height={screenSize.height / 2}>
+        <LocationBottomSheet refRBSheet={refRBSheet} handleUseMyCurrentLoc={handleLocationSelect} />
       </BottomSheet>
-
       <View
         style={{
           flex: 1,
           flexDirection: 'column',
         }}>
-          
-        <MapView
+        <GoogleMap
+          mapRef={mapRef}
+          region={region}
+          setRegion={setRegion}
+          title={'Marker Title'}
+          description={'Marker Description'}
+          selectedLocation={selectedLocation}
+        // handleMapPress={handleMapPress}
+        />
+        {/* <MapView
           style={{flex: 1}}
           ref={mapRef}
           provider={PROVIDER_GOOGLE}
@@ -111,14 +98,13 @@ const MyLocation = ({navigation}) => {
                 style={{
                   width: 50,
                   height: 50,
-                  backgroundColor:'transparent'
+                  backgroundColor: 'transparent',
                   // borderColor: '#FFD700',
                 }}
               />
             </Marker>
           )}
-        </MapView>
-
+        </MapView> */}
         <TouchableOpacity
           onPress={() => navigation.goBack()}
           style={{
@@ -126,7 +112,7 @@ const MyLocation = ({navigation}) => {
             top: 20,
             left: 20,
             backgroundColor: appColors.Black,
-            padding: 8,
+            padding: 10,
             borderRadius: 100,
           }}>
           <CustomIcon
@@ -143,12 +129,12 @@ const MyLocation = ({navigation}) => {
             top: 20,
             right: 20,
             backgroundColor: appColors.Black,
-            padding: 8,
+            padding: 10,
             borderRadius: 100,
           }}>
           <CustomIcon
             type={Icons.Ionicons}
-            name={'search'}
+            name={'paper-plane-sharp'}
             size={25}
             color={appColors.Goldcolor}
           />
