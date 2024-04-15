@@ -30,12 +30,36 @@ const LocationScreen = () => {
 
   useEffect(() => { }, [selectedLocation]);
 
+  useEffect(() => {
+  postSetupLocation();
+  }, []);
+
+
   const [region, setRegion] = useState({
     latitude: 31.5203696,
     longitude: 74.35874729999999,
     latitudeDelta: 0.0922,
     longitudeDelta: 0.0421,
   });
+
+  const postSetupLocation= payload => {
+    
+    PostRequest(endPoint.BARBER_SET_UP_LOCATION_SERVICES, payload)
+      .then(res => {
+        console.log('ressssssss>>>', res?.data);
+        if (res?.data?.code === 200) {
+          SimpleSnackBar(res?.data?.message);
+          setIsLoading(false);
+        } else {
+          SimpleSnackBar(res?.data?.message, appColors.Red);
+          setIsLoading(false);
+        }
+      })
+      .catch(err => {
+        SimpleSnackBar(messages.Catch, appColors.Red);
+        setIsLoading(false);
+      });
+  };
 
   // const distance = calculateDistance(
   //   origin.latitude,

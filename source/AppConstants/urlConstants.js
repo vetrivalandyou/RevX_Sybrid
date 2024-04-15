@@ -45,13 +45,15 @@ export const endPoint = {
   OTP_SENDING: 'Auth/OTP_Sending',
   OTP_VERIFICATION: 'Auth/OTP_Verification',
   REGISTERAS_BARBER: 'Barber/Barber_Signup',
-
+  
   //User End Points
   EDIT_PROFILE_USER: 'Auth/User_CRUD',
 
   //Barbers End Points
   BARBER_SERVICES: 'Admin/Barber_Detail?id=94',
   BARBER_APPROVE_SERVICES: 'Barber/GetBarberApproveService',
+  SETUP_CATEGORIES_CU: 'Barber/SetupCategories_CU',
+  GET_SETUP_CATEGORIES: 'Barber/GetSetupCategories',
 
   //Admin End Points
   BARBER_LIST: 'Admin/Barber_List',
@@ -72,6 +74,7 @@ export const endPoint = {
 
   // `Common/Get_AboutUsType?aboutUsTypeId=${BARBERID}`
   SAVE_ABOUTUS_TYPE: 'Common/SaveAboutUsTypeTitleDetail',
+  BARBER_SET_UP_LOCATION_SERVICES:'Barber/SetupLocation_CRUD',
 };
 
 export const messages = {
