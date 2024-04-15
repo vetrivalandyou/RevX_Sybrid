@@ -23,6 +23,7 @@ const GoogleMap = ({
       initialRegion={region}
       onRegionChange={setRegion}
       customMapStyle={CustomDarkMapStyle}
+      userLocationCalloutEnabled={true}
       zoomEnabled={true}
       scrollEnabled={true}
       rotateEnabled={true}
