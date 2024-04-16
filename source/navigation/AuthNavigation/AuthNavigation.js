@@ -25,8 +25,6 @@ const AuthIndex = () => {
   const Stack = createNativeStackNavigator();
   const {loggedIn} = useSelector(state => state.AuthReducer);
 
-  GetLocation();
-
   if (loggedIn == 4) {
     return <Main />;
   } else if (loggedIn == 3) {

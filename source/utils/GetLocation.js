@@ -1,75 +1,46 @@
-import {useEffect} from 'react';
+import {Platform} from 'react-native';
+import { PERMISSIONS, request, check, RESULTS } from 'react-native-permissions';
 import Geolocation from 'react-native-geolocation-service';
-import {PermissionsAndroid, Platform} from 'react-native';
-import {useDispatch} from 'react-redux';
-import {UpdateLocation} from '../redux/Action/LocationAction/UpdateLocationAction';
-import {UPDATE_LOCATION} from '../redux/Action/LocationAction/UpdateLocationActionType';
 
-const GetLocation = () => {
-  const dispatch = useDispatch();
-  
-  useEffect(() => {
-    saveLocation();
-  }, []);
-
-  const requestLocationPermission = async () => {
-    try {
-      const granted = await PermissionsAndroid.request(
-        PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
-        {
-          title: 'Location Permission',
-          message: 'Can we access your location?',
-          buttonNeutral: 'Ask Me Later',
-          buttonNegative: 'Cancel',
-          buttonPositive: 'OK',
-        },
-      );
-      console.log('granted', granted);
-      if (granted === 'granted') {
-        console.log('You can use Geolocation');
-        return true;
-      } else {
-        console.log('You cannot use Geolocation');
-        return false;
-      }
-    } catch (err) {
-      return false;
-    }
-  };
-
-  const saveLocation = async () => {
-    if (Platform.OS == 'android') {
-      const result = requestLocationPermission();
-      result.then(res => {
-        if (res) {
-          Geolocation.getCurrentPosition(
-            position => {
-              console.log('Android Position', position);
-              dispatch(UpdateLocation(position));
-            },
-            error => {
-              console.log(error.code, error.message);
-            },
-            {enableHighAccuracy: true, timeout: 15000, maximumAge: 10000},
-          );
-        }
-      });
+export const requestLocationPermissionAndGetLocation = async () => {
+  try {
+    let permission;
+    if (Platform.OS === 'ios') {
+      permission = PERMISSIONS.IOS.LOCATION_WHEN_IN_USE;
     } else {
-      Geolocation.requestAuthorization('whenInUse').then(res => {
-        console.log('asas', res);
-        Geolocation.getCurrentPosition(
-          position => {
-            console.log('IOS Position', position);
-            dispatch(UpdateLocation(position));
-          },
-          error => {
-            console.log(error.code, error.message);
-          },
-          {enableHighAccuracy: true, timeout: 15000, maximumAge: 10000},
-        );
-      });
+      permission = PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION;
     }
-  };
+
+    const permissionStatus = await check(permission);
+    if (permissionStatus === RESULTS.GRANTED) {
+      return getCurrentLocation();
+    } else if (permissionStatus === RESULTS.DENIED) {
+      const requestResult = await request(permission);
+      if (requestResult === RESULTS.GRANTED) {
+        return getCurrentLocation();
+      } else {
+        throw new Error('Location permission not granted');
+      }
+    } else {
+      throw new Error('Location permission denied by user');
+    }
+  } catch (error) {
+    console.warn(error);
+    throw error;
+  }
 };
 
-export default GetLocation;
+export const getCurrentLocation = () => {
+  return new Promise((resolve, reject) => {
+    Geolocation.getCurrentPosition(
+      position => {
+        const { latitude, longitude } = position;
+        resolve(position);
+      },
+      error => {
+        reject(error);
+      },
+      { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 },
+    );
+  });
+};
