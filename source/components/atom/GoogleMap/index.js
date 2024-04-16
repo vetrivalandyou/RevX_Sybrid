@@ -44,6 +44,7 @@ const GoogleMap = ({
       style={{flex: 1}}
       ref={mapRef}
       provider={PROVIDER_GOOGLE}
+      loadingEnabled={true}
       initialRegion={region}
       onRegionChange={setRegion}
       customMapStyle={CustomDarkMapStyle}
