@@ -1,11 +1,6 @@
-<<<<<<< HEAD
-import { PermissionsAndroid, Platform } from 'react-native';
-import Geolocation from "react-native-geolocation-service"
-=======
 import {Platform} from 'react-native';
 import { PERMISSIONS, request, check, RESULTS } from 'react-native-permissions';
 import Geolocation from 'react-native-geolocation-service';
->>>>>>> cb26afa5fb1995e8cf78a0ebf5a2cb14f3010704
 
 export const requestLocationPermissionAndGetLocation = async () => {
   try {
