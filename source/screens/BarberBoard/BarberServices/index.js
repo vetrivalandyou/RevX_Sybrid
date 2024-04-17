@@ -1,5 +1,5 @@
 import { Image, Platform, ScrollView, Text, TouchableOpacity, View } from 'react-native';
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { screenSize } from '../../../components/atom/ScreenSize';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Entypo from 'react-native-vector-icons/Entypo';
@@ -15,60 +15,57 @@ import { Icons } from '../../../components/molecules/CustomIcon/CustomIcon';
 import DeleteServices from './DeleteServices';
 import BottomSheet from '../../../components/molecules/BottomSheetContent/BottomSheet';
 import appColors from '../../../AppConstants/appColors';
+import { endPoint, messages } from '../../../AppConstants/urlConstants';
+import { SimpleSnackBar } from '../../../components/atom/Snakbar/Snakbar';
+import { GetRequest, PostRequest } from '../../../services/apiCall';
+import { AppImages } from '../../../AppConstants/AppImages';
 
 const Servicesboard = ({ navigation }) => {
   const [selectedItem, setSelectedItem] = useState(null);
-  const data = [
-    {
-      id: 1,
-      name: 'Hair Cut',
-      editimage: require('../../../assets/editimage.png'),
-      deleteimage: require('../../../assets/deleteimage.png'),
-    },
-    {
-      id: 2,
-      name: 'Hair Coloring',
-      editimage: require('../../../assets/editimage.png'),
-      deleteimage: require('../../../assets/deleteimage.png'),
-    },
-    {
-      id: 3,
-      name: 'Hair Wash',
-      editimage: require('../../../assets/editimage.png'),
-      deleteimage: require('../../../assets/deleteimage.png'),
-    },
-    {
-      id: 4,
-      name: 'Shaving',
-      editimage: require('../../../assets/editimage.png'),
-      deleteimage: require('../../../assets/deleteimage.png'),
-    },
-    {
-      id: 5,
-      name: 'Skin Care',
-      editimage: require('../../../assets/editimage.png'),
-      deleteimage: require('../../../assets/deleteimage.png'),
-    },
+  const [servicesList, setServiceslist] = useState([]);
 
-    {
-      id: 6,
-      name: 'Hair Dryer',
-      editimage: require('../../../assets/editimage.png'),
-      deleteimage: require('../../../assets/deleteimage.png'),
-    },
-  ];
+  useEffect(() => {
+    GetsetupCategories();
+  }, []);
+
+  const GetsetupCategories = () => {
+    const payload = {
+      categoryId: 0,
+      categoryName: "",
+      operations: 3,
+      createdBy: 0
+    }
+    PostRequest(endPoint.GET_SETUP_CATEGORIES,payload)
+
+      .then(res => {
+        console.log('responseeee>>>>.>', res?.data?.data)
+        if (res?.data?.code == 200) {
+          setServiceslist(res?.data?.data);
+
+        } else {
+          SimpleSnackBar(res?.data?.message, appColors.Red);
+
+        }
+      })
+      .catch(err => {
+        SimpleSnackBar(messages.Catch, appColors.Red);
+
+      });
+  };
+
 
   const handleItemPress = (item) => {
-    setSelectedItem(item.id);
+    setSelectedItem(item.categoryId);
     navigation.navigate(constants.BarberScreen.ServiceList, {
-      serviceName: item.name,
+      serviceName: item.categoryName,
     });
   };
+  console.log("servielist===", servicesList)
   return (
-    <Screen viewStyle={{ flex: 1, padding: 15 , backgroundColor: appColors.Black}} statusBarColor={appColors.Black} >
+    <Screen viewStyle={{ flex: 1, padding: 15, backgroundColor: appColors.Black }} statusBarColor={appColors.Black} >
       <View style={{ flex: 0.1, backgroundColor: appColors.Black }}>
         <Header
-          headerSubView={{ marginHorizontal: 5}}
+          headerSubView={{ marginHorizontal: 5 }}
           lefttIcoType={Icons.Ionicons}
           onPressLeftIcon={() => navigation.goBack()}
           leftIcoName={'chevron-back'}
@@ -77,14 +74,13 @@ const Servicesboard = ({ navigation }) => {
         />
       </View>
 
-      <ScrollView style={{ flex: 0.8 }}>
-        {data?.map(item => (
+      <ScrollView style={{ flex: 0.8, }}>
+        {servicesList?.map(item => (
           <Servicelist
-            key={item.id}
+            key={item.categoryId}
             item={item}
-            selected={selectedItem === item.id}
+            selected={selectedItem === item.categoryId}
             onPress={() => handleItemPress(item)}
-            
           />
         ))}
       </ScrollView>
@@ -113,7 +109,7 @@ const Servicelist = ({ item, onPress, selected }) => {
   const navigation = useNavigation();
   const handleEditPress = () => {
     navigation.navigate(constants.BarberScreen.Editservices, {
-      serviceName: item.name,
+      serviceName: item.categoryName,
     });
   };
 
@@ -126,22 +122,22 @@ const Servicelist = ({ item, onPress, selected }) => {
         ]}>
         <View style={styles.Subcontainer}>
           <View style={styles.textView}>
-            <Text style={styles.textStyle}>{item.name}</Text>
+            <Text style={styles.textStyle}>{item.categoryName}</Text>
           </View>
 
           <TouchableOpacity
             onPress={handleEditPress}
             style={styles.editImageView}>
-            <Image source={item.editimage} style={styles.editImageStyle} />
+            <Image source={AppImages.Editimage} style={styles.editImageStyle} />
           </TouchableOpacity>
           <TouchableOpacity
             onPress={() => refRBSheet.current.open()}
             style={styles.DeleteimageView}>
-            <Image source={item.deleteimage} style={styles.Deleteimagestyle} />
+            <Image source={AppImages.deleteimage} style={styles.Deleteimagestyle} />
           </TouchableOpacity>
 
           <BottomSheet ref={refRBSheet} Height={200}>
-            <DeleteServices refRBSheet={refRBSheet} />
+            <DeleteServices refRBSheet={refRBSheet}/>
           </BottomSheet>
         </View>
       </View>

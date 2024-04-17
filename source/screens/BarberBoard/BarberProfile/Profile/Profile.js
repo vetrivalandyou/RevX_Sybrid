@@ -169,8 +169,8 @@ const Profile = ({navigation}) => {
                 doubleIcon={true}
                 color={appColors.Black}
                 headerText={'Barber Special List'}
-                rightIcoName={'filter'}
-                rightIcoType={Icons.Feather}
+                rightIcoName={'bell'}
+                rightIcoType={Icons.FontAwesome5}
                 rightIcoSize={20}
                 iconStyle={{color:appColors.Black,fontWeight:'bold'}}
                 iconContainerStyle1={{
@@ -181,18 +181,18 @@ const Profile = ({navigation}) => {
                   justifyContent: 'center',
                   alignItems: 'center',
                 }}
-                rightIcoName2={'bell'}
-                rightIcoType2={Icons.FontAwesome5}
-                rightIcoSize2={20}
-                rightIcoColor={appColors.Black}
-                iconContainerStyle2={{
-                  backgroundColor: appColors.White,
-                  borderRadius: 50,
-                  height: 50,
-                  width: 50,
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                }}
+                // rightIcoName2={'bell'}
+                // rightIcoType2={Icons.FontAwesome5}
+                // rightIcoSize2={20}
+                // rightIcoColor={appColors.Black}
+                // iconContainerStyle2={{
+                //   backgroundColor: appColors.White,
+                //   borderRadius: 50,
+                //   height: 50,
+                //   width: 50,
+                //   justifyContent: 'center',
+                //   alignItems: 'center',
+                // }}
               />
             </View>
           </View>
@@ -272,8 +272,88 @@ const Profile = ({navigation}) => {
           </View>
           <View></View>
         </View>
-        <View style={{flex: 0.11, flexDirection: 'row', paddingHorizontal: 5}}>
-          <View style={{flex: 0.2}}>
+        <View style={{flex: 0.11, flexDirection: 'row', paddingHorizontal: 5,}}>
+          <View style={{flex: 0.2,}}>
+            <View
+              style={{
+                flex: 0.73,
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}>
+              <TouchableOpacity
+                onPress={getbarberProfile}
+                style={{
+                  borderRadius: 50,
+                  height: 55,
+                  width: 55,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  borderColor: appColors.White,
+                  borderWidth: 2,
+                }}>
+                <CustomIcon
+                  type={Icons.Ionicons}
+                  name={'location-outline'}
+                  color={appColors.White}
+                  size={25}
+                />
+              </TouchableOpacity>
+            </View>
+
+            <View style={{flex: 0.27}}>
+              <View style={{alignItems: 'center'}}>
+                <Text
+                  style={{
+                    color: appColors.White,
+                    fontSize: 17,
+                    fontWeight: '500',
+                  }}>
+                  Location
+                </Text>
+              </View>
+            </View>
+          </View>
+          <View style={{flex: 0.2,}}>
+            <View
+              style={{
+                flex: 0.73,
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}>
+              <TouchableOpacity
+                onPress={getbarberProfile}
+                style={{
+                  borderRadius: 50,
+                  height: 55,
+                  width: 55,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  borderColor: appColors.White,
+                  borderWidth: 2,
+                }}>
+                <CustomIcon
+                  type={Icons.Ionicons}
+                  name={'chatbubble-ellipses-outline'}
+                  color={appColors.White}
+                  size={25}
+                />
+              </TouchableOpacity>
+            </View>
+
+            <View style={{flex: 0.27}}>
+              <View style={{alignItems: 'center'}}>
+                <Text
+                  style={{
+                    color: appColors.White,
+                    fontSize: 17,
+                    fontWeight: '500',
+                  }}>
+                  Chat
+                </Text>
+              </View>
+            </View>
+          </View>
+          <View style={{flex: 0.2,}}>
             <View
               style={{
                 flex: 0.73,
@@ -367,23 +447,32 @@ const Profile = ({navigation}) => {
                       flexDirection: 'row',
                       marginVertical: 5,
                       marginHorizontal: 6,
+                    
                     }}>
                     <View
                       style={{
-                        flex: 0.2,
+                        flex: 0.17,
                         flexDirection: 'row',
                       }}>
                       <Image source={AppImages.bb1} />
                     </View>
                     <View
                       style={{
-                        flex: 0.8,
+                        flex: 0.55,
                         flexDirection: 'row',
                         alignItems: 'center',
+              
                       }}>
                       <Text style={{color: appColors.White, fontSize: 16, marginLeft: 10}}>
                         {x.serviceName}
                       </Text>
+                    </View>
+                    <View style={{flex:0.28,justifyContent:'center',alignItems:'center',}}>
+                    <View style={{backgroundColor:appColors.Goldcolor,borderRadius:40,justifyContent:'center',alignItems:'center',height:50,width:100,}}>
+                    <Text style={{color: appColors.White, fontSize: 16,fontWeight:'bold' }}>
+                       View
+                      </Text>
+                    </View>
                     </View>
                   </View>
                 </View>

@@ -27,35 +27,35 @@ const ForgotCheckEmail = ({navigation,route}) => {
       />
       </View>
       
-      <View style={{ flex: 0.5, justifyContent:'center', alignItems:'center'}}>
+      <View style={{ flex: 0.5, justifyContent:'center', alignItems:'center',}}>
         <Image
           source={checkEmailImage}
           style={{
             marginHorizontal: 50,
             height: "75%",
-            width: "60%",
+            width: "67%",
           }}
           resizeMode="cover"
         />
       </View>
-      <View style={{flex: 0.1}}>
+      <View style={{flex: 0.06,}}>
         <Text
           style={{
             color: 'white',
-            fontSize: 30,
+            fontSize: 33,
             textAlign: 'center',
-            marginTop: 20,
+        
           }}>
           Check Your Email
         </Text>
       </View>
-      <View style={{flex: 0.1}}>
+      <View style={{flex: 0.07,}}>
         <Text
           style={{
             color: 'white',
-            fontSize: 18,
+            fontSize: 17,
             textAlign: 'center',
-            marginTop: 10,
+          
             marginHorizontal: 30,
           }}>
           We have sent a password recover instructions to your email.
@@ -69,11 +69,12 @@ const ForgotCheckEmail = ({navigation,route}) => {
         }}>
         <View
           style={{
-            flex: 0.4,
+            flex: 0.35,
             alignItems: 'center',
             justifyContent: 'center',
             marginHorizontal: 20,
             fontSize: 16,
+            // backgroundColor:'yellow'
           }}>
           <ButtonComponent
             title={'Continue'}
@@ -81,19 +82,27 @@ const ForgotCheckEmail = ({navigation,route}) => {
           />
         </View>
 
-        <View style={{flex: 0.6}}>
+        {/* <View style={{flex: 0.45,justifyContent:'center',alignItems:'center',flexDirection:'row'}}>
           <Text
             style={{
               color: 'white',
               fontSize: 16,
               textAlign: 'center',
-              marginTop: 20,
               marginHorizontal: 30,
+              
+            
             }}>
             Did not receive the email? Check your spam folder, or try another
             email address{' '}
           </Text>
-        </View>
+        </View> */}
+
+<View style={{ flex: 0.6, justifyContent:'center', flexDirection: 'row', flexWrap: 'wrap', }}>
+  <Text style={{ fontSize: 16, textAlign: 'center', marginHorizontal: 30,color:appColors.White,marginVertical:25,}}>
+    Did not receive the email? Check your spam folder, or
+    <Text style={{ color: 'gold',}}> try another email address</Text>
+  </Text>
+</View>
       </View>
     </Screen>
   );

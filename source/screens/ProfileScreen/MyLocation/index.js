@@ -1,21 +1,16 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { Image, Text, Touchable, TouchableOpacity, View } from 'react-native';
+import React, {useEffect, useRef, useState} from 'react';
+import {TouchableOpacity, View} from 'react-native';
+import {useSelector} from 'react-redux';
 import Screen from '../../../components/atom/ScreenContainer/Screen';
 import appColors from '../../../AppConstants/appColors';
-import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
-import CustomDarkMapStyle from '../../../utils/CustomMapStyle.json';
-import CustomMarkerImage from '../../../assets/mapMarker.png';
-import { screenSize } from '../../../components/atom/ScreenSize';
-import LocationBottomSheet from './LocationBottomSheet';
-import BottomSheet from '../../../components/molecules/BottomSheetContent/BottomSheet';
 import CustomIcon, {
   Icons,
 } from '../../../components/molecules/CustomIcon/CustomIcon';
 import GoogleMap from '../../../components/atom/GoogleMap';
 
-const MyLocation = ({ navigation }) => {
+const MyLocation = ({navigation}) => {
+  const {coords} = useSelector(state => state.LocationReducer);
   const mapRef = useRef();
-  const refRBSheet = useRef();
 
   const [selectedLocation, setSelectedLocation] = useState(null);
 
@@ -26,19 +21,18 @@ const MyLocation = ({ navigation }) => {
     longitudeDelta: 0.0421,
   });
 
-  const handleLocationSelect = (data, details) => {
-    // 'details' contains additional information about the selected place
+  const handleLocationSelect = () => {
     setSelectedLocation({
-      latitude: 38.8951,
-      longitude: -77.0364,
+      latitude: coords?.coords?.latitude,
+      longitude: coords?.coords?.longitude,
       latitudeDelta: 0.0922,
       longitudeDelta: 0.0421,
     });
 
-    mapRef.current.animateToRegion(
+    mapRef?.current?.animateToRegion(
       {
-        latitude: 38.8951,
-        longitude: -77.0364,
+        latitude: coords?.coords?.latitude,
+        longitude: coords?.coords?.longitude,
         latitudeDelta: 0.05,
         longitudeDelta: 0.05,
       },
@@ -46,18 +40,29 @@ const MyLocation = ({ navigation }) => {
     );
   };
 
-  useEffect(() => {
-    refRBSheet.current.open();
-  }, []);
+  const handleMapPress = e => {
+    setSelectedLocation({
+      latitude: e.nativeEvent.coordinate?.latitude,
+      longitude: e.nativeEvent.coordinate?.longitude,
+      latitudeDelta: 0.0922,
+      longitudeDelta: 0.0421,
+    });
+    mapRef.current.animateToRegion(
+      {
+        latitude: e.nativeEvent.coordinate?.latitude,
+        longitude: e.nativeEvent.coordinate?.longitude,
+        latitudeDelta: 0.05,
+        longitudeDelta: 0.05,
+      },
+      1000, // Animation duration in milliseconds
+    );
+  };
 
   return (
     <Screen
       statusBarColor={appColors.Black}
       barStyle="light-content"
-      viewStyle={{ backgroundColor: appColors.Black, padding: 0 }}>
-      <BottomSheet ref={refRBSheet} Height={screenSize.height / 2}>
-        <LocationBottomSheet refRBSheet={refRBSheet} handleUseMyCurrentLoc={handleLocationSelect} />
-      </BottomSheet>
+      viewStyle={{backgroundColor: appColors.Black, padding: 0}}>
       <View
         style={{
           flex: 1,
@@ -70,7 +75,7 @@ const MyLocation = ({ navigation }) => {
           title={'Marker Title'}
           description={'Marker Description'}
           selectedLocation={selectedLocation}
-        // handleMapPress={handleMapPress}
+          handleMapPress={handleMapPress}
         />
         {/* <MapView
           style={{flex: 1}}
@@ -118,23 +123,6 @@ const MyLocation = ({ navigation }) => {
           <CustomIcon
             type={Icons.Entypo}
             name={'cross'}
-            size={25}
-            color={appColors.Goldcolor}
-          />
-        </TouchableOpacity>
-        <TouchableOpacity
-          onPress={() => refRBSheet.current.open()}
-          style={{
-            position: 'absolute',
-            top: 20,
-            right: 20,
-            backgroundColor: appColors.Black,
-            padding: 10,
-            borderRadius: 100,
-          }}>
-          <CustomIcon
-            type={Icons.Ionicons}
-            name={'paper-plane-sharp'}
             size={25}
             color={appColors.Goldcolor}
           />
