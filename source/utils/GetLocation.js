@@ -1,5 +1,5 @@
-import Geolocation from 'react-native-geolocation-service';
 import { PermissionsAndroid, Platform } from 'react-native';
+import Geolocation from "react-native-geolocation-service"
 
 const GetLocation = async () => {
   // var result;

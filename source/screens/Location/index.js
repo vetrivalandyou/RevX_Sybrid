@@ -16,6 +16,8 @@ import CustomMarkerImage from '../../assets/barberImage.jpg';
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
 import MapViewDirections from 'react-native-maps-directions';
 import GoogleMap from '../../components/atom/GoogleMap';
+import { PostRequest } from '../../services/apiCall';
+import { endPoint } from '../../AppConstants/urlConstants';
 
 const LocationScreen = () => {
   const navigation = useNavigation();

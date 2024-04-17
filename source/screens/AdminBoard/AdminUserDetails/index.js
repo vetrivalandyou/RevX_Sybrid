@@ -59,7 +59,9 @@ const AdminUserDetails = ({ navigation }) => {
       Blockbutton: 'Block User',
     },
   ];
+
   return (
+    
     <Screen viewStyle={{ padding: 15, flex: 1 , backgroundColor: appColors.Black}} statusBarColor={appColors.Black}
     >
       <View style={{ flex: 0.1 }}>
@@ -93,10 +95,6 @@ const AdminUserDetails = ({ navigation }) => {
           <Detailslist key={item.id} item={item} onPress={() => navigation.navigate(constants.AdminScreens.AdminViewUsers)} />
         ))}
       </ScrollView>
-
-
-
-
 
     </Screen>
 
