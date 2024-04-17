@@ -7,6 +7,8 @@ import CustomIcon, {
   Icons,
 } from '../../../components/molecules/CustomIcon/CustomIcon';
 import GoogleMap from '../../../components/atom/GoogleMap';
+import LocationBottomSheet from '../../../components/atom/LocationButtomSheet';
+import MyLocationBottomSheet from '../../../components/atom/MyLocationBottomSheet';
 
 const MyLocation = ({navigation}) => {
   const {coords} = useSelector(state => state.LocationReducer);
@@ -62,7 +64,14 @@ const MyLocation = ({navigation}) => {
     <Screen
       statusBarColor={appColors.Black}
       barStyle="light-content"
-      viewStyle={{backgroundColor: appColors.Black, padding: 0}}>
+      viewStyle={
+        {
+          // backgroundColor: appColors.Red,
+          // borderTopRightRadius: 30,
+          // borderTopLeftRadius: 30,
+          // padding: 0,
+        }
+      }>
       <View
         style={{
           flex: 1,
@@ -77,6 +86,7 @@ const MyLocation = ({navigation}) => {
           selectedLocation={selectedLocation}
           handleMapPress={handleMapPress}
         />
+
         {/* <MapView
           style={{flex: 1}}
           ref={mapRef}
@@ -131,7 +141,7 @@ const MyLocation = ({navigation}) => {
           onPress={handleLocationSelect}
           style={{
             position: 'absolute',
-            bottom: 20,
+            bottom: 270,
             right: 20,
             backgroundColor: appColors.Black,
             padding: 12,
@@ -144,6 +154,8 @@ const MyLocation = ({navigation}) => {
             color={appColors.Goldcolor}
           />
         </TouchableOpacity>
+
+        <MyLocationBottomSheet />
       </View>
     </Screen>
   );

@@ -7,8 +7,9 @@ import CustomIcon, {
 import {screenSize} from '../ScreenSize';
 import constants from '../../../AppConstants/Constants.json';
 import {useNavigation} from '@react-navigation/native';
+import SimpleTextField from '../../molecules/TextFeilds/SimpleTextField';
 
-const LocationBottomSheet = ({handleUseMyCurrentLoc, refRBSheet}) => {
+const MyLocationBottomSheet = ({handleUseMyCurrentLoc, refRBSheet}) => {
   const [selectedItem, setSelectedItem] = useState('');
   const [colorChange, setColorChange] = useState(true);
   const navigation = useNavigation();
@@ -18,6 +19,11 @@ const LocationBottomSheet = ({handleUseMyCurrentLoc, refRBSheet}) => {
     setColorChange(!colorChange);
     setSelectedItem(item);
   };
+
+  const [locationName, setLocationName] = useState('');
+  const [nearestLandmark, setNearestLandmark] = useState('');
+
+  const isButtonDisabled = !locationName || !nearestLandmark;
 
   const data = [
     {
@@ -119,73 +125,70 @@ const LocationBottomSheet = ({handleUseMyCurrentLoc, refRBSheet}) => {
 
   return (
     <View style={lbStyle.mainContainer}>
-      <TouchableOpacity onPress={handleLocation} style={[lbStyle.clContainer]}>
-        <View style={lbStyle.clIconView}>
-          <CustomIcon
-            type={Icons.Ionicons}
-            name={'paper-plane-sharp'}
-            size={20}
-            color={appColors.White}
-          />
-        </View>
-        <View style={lbStyle.clTextView}>
-          <Text style={lbStyle.clTextStyle}>Use Current Location</Text>
-        </View>
-      </TouchableOpacity>
-      <View style={{flex: 0.6}}>
-        <FlatList
-          data={data}
-          keyExtractor={item => item.LocationId}
-          renderItem={({item}) => <LocationList item={item} />}
+      <View
+        style={{
+          flex: 0.3,
+          borderRadius: 3,
+        }}>
+        <SimpleTextField
+          placeholder={'Location Name'}
+          placeholderTextColor={appColors.LightGray}
+          onChangeText={text => setLocationName(text)}
+          value={locationName}
+          //   onChangeText={handleChange('UserEmail')}
+          //   onBlur={handleBlur('UserEmail')}
+          //   value={values.UserEmail}
         />
       </View>
-      <TouchableOpacity
-        onPress={openLocationScreen}
-        style={lbStyle.clContainer}>
-        <View style={lbStyle.clIconView}>
-          <CustomIcon
-            type={Icons.Entypo}
-            name={'plus'}
-            size={20}
-            color={appColors.White}
-          />
-        </View>
-        <View style={lbStyle.clTextView}>
-          <Text style={lbStyle.clTextStyle}>Add New Location</Text>
-        </View>
-      </TouchableOpacity>
-      <TouchableOpacity
-        onPress={() => refRBSheet.current.close()}
-        style={[
-          lbStyle.clContainer,
-          {justifyContent: 'center', alignItems: 'flex-end'},
-        ]}>
-        <View style={lbStyle.clButotnView}>
-          <Text style={[lbStyle.clTextStyle, {textAlign: 'center'}]}>
-            Confirm Location
-          </Text>
-        </View>
-      </TouchableOpacity>
+      <View
+        style={{
+          flex: 0.3,
+        }}>
+        <SimpleTextField
+          placeholder={'Nearst Landmark'}
+          placeholderTextColor={appColors.LightGray}
+          onChangeText={text => setNearestLandmark(text)}
+          value={nearestLandmark}
+          //   onChangeText={handleChange('UserEmail')}
+          //   onBlur={handleBlur('UserEmail')}
+          //   value={values.UserEmail}
+        />
+      </View>
+      <View style={{flex: 0.3}}>
+        <TouchableOpacity
+          onPress={() => refRBSheet.current.close()}
+          style={[
+            lbStyle.clContainer,
+            {justifyContent: 'center', alignItems: 'center'},
+            (disabled = {isButtonDisabled}),
+          ]}>
+          <View style={lbStyle.clButotnView}>
+            <Text style={[lbStyle.clTextStyle, {textAlign: 'center'}]}>
+              Add address details
+            </Text>
+          </View>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 };
 
 const lbStyle = StyleSheet.create({
   mainContainer: {
-    flex: 1,
-    backgroundColor: appColors.Black,
+    flex: 0.4,
     paddingHorizontal: 15,
     paddingVertical: 15,
+    // borderTopRightRadius: 30,
+    // borderTopLeftRadius: 30,
+    // backgroundColor: appColors.AppBlue,
   },
-  clContainer: {flex: 0.13, flexDirection: 'row'},
-  clIconView: {flex: 0.15, justifyContent: 'center', alignItems: 'center'},
-  clTextView: {flex: 0.8, justifyContent: 'center'},
+
   clTextStyle: {fontSize: 13, fontWeight: '500', color: appColors.White},
   clSelectLocation: {
-    flex: 1,
     borderRadius: 20,
     flexDirection: 'row',
   },
+
   OuterCircle: {
     height: 25,
     width: 25,
@@ -203,13 +206,14 @@ const lbStyle = StyleSheet.create({
     backgroundColor: appColors.Goldcolor,
     position: 'absolute',
   },
+
   clButotnView: {
     backgroundColor: appColors.Goldcolor,
-    width: 250,
+    width: '100%',
     height: '80%',
     justifyContent: 'center',
     borderRadius: 10,
   },
 });
 
-export default LocationBottomSheet;
+export default MyLocationBottomSheet;
