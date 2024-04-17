@@ -45,13 +45,15 @@ export const endPoint = {
   OTP_SENDING: 'Auth/OTP_Sending',
   OTP_VERIFICATION: 'Auth/OTP_Verification',
   REGISTERAS_BARBER: 'Barber/Barber_Signup',
-
+  
   //User End Points
   EDIT_PROFILE_USER: 'Auth/User_CRUD',
 
   //Barbers End Points
   BARBER_SERVICES: 'Admin/Barber_Detail?id=94',
   BARBER_APPROVE_SERVICES: 'Barber/GetBarberApproveService',
+  SETUP_CATEGORIES_CU: 'Barber/SetupCategories_CU',
+  GET_SETUP_CATEGORIES: 'Barber/GetSetupCategories',
 
   //Admin End Points
   BARBER_LIST: 'Admin/Barber_List',
