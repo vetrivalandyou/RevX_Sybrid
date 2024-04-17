@@ -44,3 +44,18 @@ export const getCurrentLocation = () => {
     );
   });
 };
+
+
+// Geolocation.requestAuthorization('whenInUse').then(res => {
+//   console.log('asas', res);
+//   Geolocation.getCurrentPosition(
+//     position => {
+//       console.log('IOS Position', position);
+//       // dispatch(UpdateLocation(position));
+//     },
+//     error => {
+//       console.log(error.code, error.message);
+//     },
+//     {enableHighAccuracy: true, timeout: 15000, maximumAge: 10000},
+//   );
+// });
