@@ -1,39 +1,38 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { View, Image } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
-import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
-import {
-  Icons,
-} from '../../components/molecules/CustomIcon/CustomIcon';
+import React, {useEffect, useRef, useState} from 'react';
+import {View, Image} from 'react-native';
+import {useNavigation} from '@react-navigation/native';
+import MapView, {Marker, PROVIDER_GOOGLE} from 'react-native-maps';
+import {Icons} from '../../components/molecules/CustomIcon/CustomIcon';
 import Header from '../../components/molecules/Header';
 import Screen from '../../components/atom/ScreenContainer/Screen';
 import appColors from '../../AppConstants/appColors';
-import { screenSize } from '../../components/atom/ScreenSize';
+import {screenSize} from '../../components/atom/ScreenSize';
 import BottomSheet from '../../components/molecules/BottomSheetContent/BottomSheet';
 import LocationBottom from '../LocationBottom';
 import CustomDarkMapStyle from '../../utils/CustomMapStyle.json';
 import CustomMarkerImage from '../../assets/barberImage.jpg';
-import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
+import {GooglePlacesAutocomplete} from 'react-native-google-places-autocomplete';
 import MapViewDirections from 'react-native-maps-directions';
 import GoogleMap from '../../components/atom/GoogleMap';
+import {PostRequest} from '../../services/apiCall';
+import {endPoint} from '../../AppConstants/urlConstants';
 
 const LocationScreen = () => {
   const navigation = useNavigation();
 
   const refRBSheet = useRef();
 
-  const origin = { latitude: 24.86146, longitude: 74.329376 };
-  const destination = { latitude: 31.582045, longitude: 74.329376 };
+  const origin = {latitude: 24.86146, longitude: 74.329376};
+  const destination = {latitude: 31.582045, longitude: 74.329376};
   const [selectedLocation, setSelectedLocation] = useState(null);
 
   const mapRef = useRef(null);
 
-  useEffect(() => { }, [selectedLocation]);
+  useEffect(() => {}, [selectedLocation]);
 
   useEffect(() => {
-  postSetupLocation();
+    postSetupLocation();
   }, []);
-
 
   const [region, setRegion] = useState({
     latitude: 31.5203696,
@@ -42,8 +41,7 @@ const LocationScreen = () => {
     longitudeDelta: 0.0421,
   });
 
-  const postSetupLocation= payload => {
-    
+  const postSetupLocation = payload => {
     PostRequest(endPoint.BARBER_SET_UP_LOCATION_SERVICES, payload)
       .then(res => {
         console.log('ressssssss>>>', res?.data);
@@ -94,7 +92,7 @@ const LocationScreen = () => {
 
   const handleMapPress = event => {
     // Handle map press action
-    const { coordinate } = event.nativeEvent;
+    const {coordinate} = event.nativeEvent;
     setSelectedLocation({
       latitude: coordinate.latitude,
       longitude: coordinate.longitude,
@@ -126,14 +124,14 @@ const LocationScreen = () => {
     <Screen
       statusBarColor={appColors.Black}
       barStyle="light-content"
-      viewStyle={{ backgroundColor: appColors.Black, padding: 10, flex: 0.9 }}>
+      viewStyle={{backgroundColor: appColors.Black, padding: 10, flex: 0.9}}>
       <BottomSheet ref={refRBSheet} Height={screenSize.height - 500}>
         <LocationBottom refRBSheet={refRBSheet} />
       </BottomSheet>
 
-      <View style={{ flex: 0.1 }}>
+      <View style={{flex: 0.1}}>
         <Header
-          headerSubView={{ marginHorizontal: 5 }}
+          headerSubView={{marginHorizontal: 5}}
           lefttIcoType={Icons.Ionicons}
           onPressLeftIcon={() => navigation.goBack()}
           leftIcoName={'chevron-back'}
@@ -150,11 +148,11 @@ const LocationScreen = () => {
             justifyContent: 'center',
             alignItems: 'center',
           }}
-          headerTextViewStyle={{ alignItems: 'center' }}
+          headerTextViewStyle={{alignItems: 'center'}}
         />
       </View>
 
-      <View style={{ flex: 0.1 }}>
+      <View style={{flex: 0.1}}>
         <GooglePlacesAutocomplete
           placeholder="Search"
           onPress={handleLocationSelect}
@@ -189,7 +187,7 @@ const LocationScreen = () => {
         />
       </View>
 
-      <View style={{ flex: 0.8, borderRadius: 20, overflow: 'hidden' }}>
+      <View style={{flex: 0.8, borderRadius: 20, overflow: 'hidden'}}>
         <GoogleMap
           mapRef={mapRef}
           region={region}
@@ -199,7 +197,6 @@ const LocationScreen = () => {
           handleMapPress={handleMapPress}
           selectedLocation={selectedLocation}
           CustomMarkerImage={CustomMarkerImage}
-
         />
         {/* <MapView
           style={{flex: 1}}
