@@ -1,5 +1,5 @@
 import {Platform} from 'react-native';
-import { PERMISSIONS, request, check, RESULTS } from 'react-native-permissions';
+import {PERMISSIONS, request, check, RESULTS} from 'react-native-permissions';
 import Geolocation from 'react-native-geolocation-service';
 
 export const requestLocationPermissionAndGetLocation = async () => {
@@ -34,17 +34,16 @@ export const getCurrentLocation = () => {
   return new Promise((resolve, reject) => {
     Geolocation.getCurrentPosition(
       position => {
-        const { latitude, longitude } = position;
+        const {latitude, longitude} = position;
         resolve(position);
       },
       error => {
         reject(error);
       },
-      { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 },
+      {enableHighAccuracy: true, timeout: 20000, maximumAge: 1000},
     );
   });
 };
-
 
 // Geolocation.requestAuthorization('whenInUse').then(res => {
 //   console.log('asas', res);

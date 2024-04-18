@@ -28,6 +28,7 @@ const MyLocationBottomSheet = ({selectedLocation}) => {
   const [colorChange, setColorChange] = useState(true);
   const navigation = useNavigation();
   const [userDetails, setUserDetails] = useState('');
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     getUserDetails();
@@ -168,8 +169,10 @@ const MyLocationBottomSheet = ({selectedLocation}) => {
     PostRequest(endPoint.BARBER_SET_UP_LOCATION_SERVICES, payload)
       .then(res => {
         if (res?.data?.code == 200) {
+          //   setIsLoading(false);
+
           SimpleSnackBar(res?.data?.message);
-          navigation.goBack();
+          //   navigation.goBack();
         } else {
           SimpleSnackBar(res?.data?.message);
         }
