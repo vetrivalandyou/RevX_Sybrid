@@ -88,7 +88,7 @@ const CreateAccount = ({navigation}) => {
             touched,
           }) => (
             <>
-              <View style={{flex: 0.5, justifyContent: 'space-evenly',}}>
+              <View style={{flex: 0.5, justifyContent: 'space-evenly'}}>
                 <View style={{flex: 0.25, justifyContent: 'center'}}>
                   <SimpleTextField
                     placeholder={'Enter Full Name'}
@@ -164,8 +164,7 @@ const CreateAccount = ({navigation}) => {
                 </View>
               </View>
 
-             
-              <View style={{flex: 0.15,justifyContent:'center',}}>
+              <View style={{flex: 0.15, justifyContent: 'center'}}>
                 <ButtonComponent
                   title={'Create Account'}
                   onPress={handleSubmit}
@@ -175,7 +174,7 @@ const CreateAccount = ({navigation}) => {
           )}
         </Formik>
         <View
-          style={{flex: 0.1, flexDirection: 'row', justifyContent: 'center',}}>
+          style={{flex: 0.1, flexDirection: 'row', justifyContent: 'center'}}>
           <TouchableOpacity>
             <Text style={{color: appColors.GrayColor}}>
               Already have an Account?{` `}

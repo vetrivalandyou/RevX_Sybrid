@@ -31,6 +31,14 @@ const LocationScreen = () => {
     longitudeDelta: 0.0421,
   });
 
+
+  // const distance = calculateDistance(
+  //   origin.latitude,
+  //   origin.longitude,
+  //   destination.latitude,
+  //   destination.longitude,
+  // ).toFixed(2);
+
   // console.log('distance', distance);
 
   const handleMapPress = event => {

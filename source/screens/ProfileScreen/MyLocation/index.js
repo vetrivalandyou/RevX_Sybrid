@@ -7,13 +7,14 @@ import CustomIcon, {
   Icons,
 } from '../../../components/molecules/CustomIcon/CustomIcon';
 import GoogleMap from '../../../components/atom/GoogleMap';
+import LocationBottomSheet from '../../../components/atom/LocationButtomSheet';
+import MyLocationBottomSheet from '../../../components/atom/MyLocationBottomSheet';
 
 const MyLocation = ({navigation}) => {
   const {coords} = useSelector(state => state.LocationReducer);
   const mapRef = useRef();
 
   const [selectedLocation, setSelectedLocation] = useState(null);
-
   const [region, setRegion] = useState({
     latitude: 31.5203696,
     longitude: 74.35874729999999,
@@ -41,6 +42,7 @@ const MyLocation = ({navigation}) => {
   };
 
   const handleMapPress = e => {
+    console.log('Live Cordinates', e.nativeEvent.coordinate);
     setSelectedLocation({
       latitude: e.nativeEvent.coordinate?.latitude,
       longitude: e.nativeEvent.coordinate?.longitude,
@@ -56,13 +58,12 @@ const MyLocation = ({navigation}) => {
       },
       1000, // Animation duration in milliseconds
     );
+
+    console.log(selectedLocation?.latitude);
   };
 
   return (
-    <Screen
-      statusBarColor={appColors.Black}
-      barStyle="light-content"
-      viewStyle={{backgroundColor: appColors.Black, padding: 0}}>
+    <Screen statusBarColor={appColors.Black} barStyle="light-content">
       <View
         style={{
           flex: 1,
@@ -77,6 +78,7 @@ const MyLocation = ({navigation}) => {
           selectedLocation={selectedLocation}
           handleMapPress={handleMapPress}
         />
+
         {/* <MapView
           style={{flex: 1}}
           ref={mapRef}
@@ -131,7 +133,7 @@ const MyLocation = ({navigation}) => {
           onPress={handleLocationSelect}
           style={{
             position: 'absolute',
-            bottom: 20,
+            bottom: 270,
             right: 20,
             backgroundColor: appColors.Black,
             padding: 12,
@@ -144,6 +146,8 @@ const MyLocation = ({navigation}) => {
             color={appColors.Goldcolor}
           />
         </TouchableOpacity>
+
+        <MyLocationBottomSheet selectedLocation={selectedLocation} />
       </View>
     </Screen>
   );

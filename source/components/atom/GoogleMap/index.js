@@ -15,7 +15,7 @@ const GoogleMap = ({
   handleMapPress,
   CustomMarkerImage,
 }) => {
-  console.log('GoogleMapGoogleMap', selectedLocation);
+  // console.log('GoogleMapGoogleMap', selectedLocation);
   // const Markers = useMemo(
   //   () =>
   //     selectedLocation?.map(marker => {
