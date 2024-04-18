@@ -8,7 +8,7 @@ import {
   TextInput,
   Platform,
 } from 'react-native';
-import React, {useRef, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import Screen from '../../../components/atom/ScreenContainer/Screen';
 import {screenSize} from '../../Utills/AppConstants';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
@@ -21,49 +21,71 @@ import Header from '../../../components/molecules/Header';
 import {Icons} from '../../../components/molecules/CustomIcon/CustomIcon';
 import DeleteServices from './DeleteServices';
 import constants from '../../../AppConstants/Constants.json';
+import { PostRequest } from '../../../services/apiCall';
+import { endPoint } from '../../../AppConstants/urlConstants';
+import { AppImages } from '../../../AppConstants/AppImages';
+import Servicesboard from '.';
+import { SimpleSnackBar } from '../../../components/atom/Snakbar/Snakbar';
 
 const Addservices = ({navigation}) => {
   const [selectedItem, setSelectedItem] = useState(null);
   const [newService, setNewService] = useState('');
-  const [data, setData] = useState([
-    {
-      id: 1,
-      name: 'Hair Cut',
-      editimage: require('../../../assets/editimage.png'),
-      deleteimage: require('../../../assets/deleteimage.png'),
-    },
-    {
-      id: 2,
-      name: 'Hair Coloring',
-      editimage: require('../../../assets/editimage.png'),
-      deleteimage: require('../../../assets/deleteimage.png'),
-    },
-    {
-      id: 3,
-      name: 'Hair Wash',
-      editimage: require('../../../assets/editimage.png'),
-      deleteimage: require('../../../assets/deleteimage.png'),
-    },
-    {
-      id: 4,
-      name: 'Shaving',
-      editimage: require('../../../assets/editimage.png'),
-      deleteimage: require('../../../assets/deleteimage.png'),
-    },
-    {
-      id: 5,
-      name: 'Skin Care',
-      editimage: require('../../../assets/editimage.png'),
-      deleteimage: require('../../../assets/deleteimage.png'),
-    },
+  const [servicesList, setServiceslist] = useState([]);
 
-    {
-      id: 6,
-      name: 'Hair Dryer',
-      editimage: require('../../../assets/editimage.png'),
-      deleteimage: require('../../../assets/deleteimage.png'),
-    },
-  ]);
+  useEffect(() => {
+    GetsetupCategories();
+    
+  }, []);
+
+  const GetsetupCategories = () => {
+    const payload = {
+      categoryId: 0,
+      categoryName: "",
+      operations: 3,
+      createdBy: 0
+    }
+    PostRequest(endPoint.GET_SETUP_CATEGORIES,payload)
+
+      .then(res => {
+        console.log('responseeee>>>>.>', res?.data?.data)
+        if (res?.data?.code == 200) {
+          setServiceslist(res?.data?.data);
+
+        } else {
+          SimpleSnackBar(res?.data?.message, appColors.Red);
+
+        }
+      })
+      .catch(err => {
+        SimpleSnackBar(messages.Catch, appColors.Red);
+
+      });
+  };
+
+  const handleAddService = () => {
+    if (newService.trim() !== '') {
+      const payload = {
+        categoryId: 0, // Set appropriate category ID if needed
+        categoryName: newService.trim(),
+        operations: 1, // Operation ID for adding service
+        createdBy: 2 // Set appropriate user ID if needed
+      };
+      PostRequest(endPoint.SETUP_CATEGORIES_CU, payload)
+        .then(res => {
+          if (res?.data?.code === 200) {
+            // If service added successfully, update the list
+            setServiceslist([...servicesList, res?.data?.data]);
+         GetsetupCategories();
+          } else {
+            console.error('Error:', res?.data?.message);
+          }
+        })
+        .catch(err => {
+          console.error('Error:', err);
+        });
+    }
+  };
+
   return (
     <Screen viewStyle={{ flex: 1, padding: 15 , backgroundColor: appColors.Black}} statusBarColor={appColors.Black}>
       <View style={{flex: 0.1}}>
@@ -107,18 +129,7 @@ const Addservices = ({navigation}) => {
                 }}
                 btnTextColor={{color: 'white'}}
                 title={'Add'}
-                onPress={() => {
-                  if (newService.trim() !== '') {
-                    const newItem = {
-                      id: data.length + 1,
-                      name: newService.trim(),
-                      editimage: require('../../../assets/editimage.png'),
-                      deleteimage: require('../../../assets/deleteimage.png'),
-                    };
-                    setData([...data, newItem]);
-                    setNewService(''); // Clear the input after adding the service
-                  }
-                }}
+                onPress={handleAddService}
               />
             </View>
           </View>
@@ -126,12 +137,12 @@ const Addservices = ({navigation}) => {
       </View>
 
       <ScrollView style={{flex: 0.65}}>
-        {data?.map(item => (
+        {servicesList?.map(item => (
           <Servicelist
-            key={item.id}
+            key={item.categoryId}
             item={item}
-            selected={selectedItem === item.id}
-            onPress={() => setSelectedItem(item.id)}
+            selected={selectedItem === item.categoryId}
+            onPress={() => setSelectedItem(item.categoryId)}
           />
         ))}
       </ScrollView>
@@ -158,8 +169,8 @@ const Servicelist = ({item, onPress, selected}) => {
   const refRBSheet = useRef();
 
   const handleEditPress = () => {
-    navigation.navigate(constants.BarberScreen.Editservices, {
-      serviceName: item.name,
+    navigation.navigate(constants.BarberScreen.ServiceList, {
+      serviceName: item.categoryName,
     });
   };
 
@@ -172,18 +183,18 @@ const Servicelist = ({item, onPress, selected}) => {
         ]}>
         <View style={styles.Subcontainer}>
           <View style={styles.textView}>
-            <Text style={styles.textStyle}>{item.name}</Text>
+            <Text style={styles.textStyle}>{item.categoryName}</Text>
           </View>
 
           <TouchableOpacity
             onPress={handleEditPress}
             style={styles.editImageView}>
-            <Image source={item.editimage} style={styles.editImageStyle} />
+            <Image source={AppImages.Editimage} style={styles.editImageStyle} />
           </TouchableOpacity>
           <TouchableOpacity
             onPress={() => refRBSheet.current.open()}
             style={styles.DeleteimageView}>
-            <Image source={item.deleteimage} style={styles.Deleteimagestyle} />
+            <Image source={AppImages.deleteimage} style={styles.Deleteimagestyle} />
           </TouchableOpacity>
 
           <BottomSheet ref={refRBSheet} Height={200}>
