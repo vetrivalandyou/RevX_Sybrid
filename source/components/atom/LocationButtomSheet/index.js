@@ -30,7 +30,7 @@ const LocationBottomSheet = ({handleUseMyCurrentLoc, refRBSheet}) => {
 
   const handleClickLocation = item => {
     setSelectedItem(item);
-    setId(item?.LocationId);
+    setId(item?.id);
     setLocationName(item?.locationName);
     setLocationLatitude(item?.locationLatitude);
     setLocationLongitude(item?.locationLongitude);
@@ -38,11 +38,9 @@ const LocationBottomSheet = ({handleUseMyCurrentLoc, refRBSheet}) => {
     setNearestLandmark(item?.nearestLandmark);
   };
 
-  // const handleClickLocation = item => {
-  //   console.log('handleClickLocation');
-  //   setColorChange(!colorChange);
-  //   setSelectedItem(item);
-  // };
+  const handleClickEdit = () => {
+    navigation.navigate(constants.screen.MyLocation);
+  };
 
   const getAsyncData = async () => {
     const userDetailsData = await getAsyncItem(
@@ -85,37 +83,6 @@ const LocationBottomSheet = ({handleUseMyCurrentLoc, refRBSheet}) => {
       });
   };
 
-  // const handleClickLocation = item => {
-  //   setSelectedItem(item);
-  // };
-
-  // const data = [
-  //   {
-  //     LocationId: 1,
-  //     locationName: 'Lakson Group of Companies',
-  //   },
-  //   {
-  //     LocationId: 2,
-  //     locationName: 'My Home',
-  //   },
-  //   {
-  //     LocationId: 3,
-  //     locationName: 'Ayesha Manzil',
-  //   },
-  //   {
-  //     LocationId: 4,
-  //     locationName: 'Karimabad',
-  //   },
-  //   {
-  //     LocationId: 5,
-  //     locationName: 'Machar Colony',
-  //   },
-  //   {
-  //     LocationId: 6,
-  //     locationName: 'Dehli Colony',
-  //   },
-  // ];
-
   const handleLocation = () => {
     handleUseMyCurrentLoc();
     // refRBSheet.current.close();
@@ -125,6 +92,7 @@ const LocationBottomSheet = ({handleUseMyCurrentLoc, refRBSheet}) => {
     navigation.navigate(constants.screen.MyLocation),
       refRBSheet.current.close();
   };
+  console.log('location id ///////////', selectedItem?.id);
 
   const LocationList = ({item}) => {
     return (
@@ -136,7 +104,7 @@ const LocationBottomSheet = ({handleUseMyCurrentLoc, refRBSheet}) => {
           flexDirection: 'row',
         }}>
         <TouchableOpacity
-          key={item?.LocationId}
+          key={item?.id}
           onPress={() => {
             handleClickLocation(item);
           }}
@@ -144,9 +112,7 @@ const LocationBottomSheet = ({handleUseMyCurrentLoc, refRBSheet}) => {
             lbStyle.clSelectLocation,
             {
               backgroundColor:
-                selectedItem?.LocationId == item.LocationId
-                  ? '#202020'
-                  : appColors.Black,
+                selectedItem?.id == item.id ? '#202020' : appColors.Black,
             },
           ]}>
           <View style={lbStyle.clIconView}>
@@ -157,7 +123,7 @@ const LocationBottomSheet = ({handleUseMyCurrentLoc, refRBSheet}) => {
                   backgroundColor: appColors.White,
                 },
               ]}>
-              {selectedItem?.LocationId == item.LocationId && (
+              {selectedItem?.id == item.id && (
                 <View style={lbStyle.innerCircle}></View>
               )}
             </View>
@@ -172,13 +138,14 @@ const LocationBottomSheet = ({handleUseMyCurrentLoc, refRBSheet}) => {
               {item.locationName}
             </Text>
           </View>
-          {selectedItem?.LocationId == item.LocationId && (
+          {selectedItem?.id == item.id && (
             <View style={[lbStyle.clTextView, {flex: 0.1}]}>
               <CustomIcon
                 type={Icons.MaterialIcons}
                 name={'edit-location-alt'}
                 size={20}
                 color={appColors.White}
+                onPress={handleClickEdit}
               />
             </View>
           )}
@@ -210,7 +177,7 @@ const LocationBottomSheet = ({handleUseMyCurrentLoc, refRBSheet}) => {
             data={locations}
             keyExtractor={item => item.id.toString()} // Ensure key is a string
             renderItem={({item, index}) => {
-              console.log('Current item:', item);
+              // console.log('Current item:', item);
               return <LocationList item={item} index={index} />;
             }}
           />
