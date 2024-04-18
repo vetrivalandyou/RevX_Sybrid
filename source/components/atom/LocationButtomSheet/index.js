@@ -32,8 +32,20 @@ const LocationBottomSheet = ({ handleUseMyCurrentLoc, refRBSheet }) => {
 
   // console.log("locations======>>>>>>>>>>", locations)
 
+  // const handleClickLocation = item => {
+  //   setSelectedItem(item);
+  //   setId(item?.LocationId);
+  //   setLocationName(item?.locationName);
+  //   setLocationLatitude(item?.locationLatitude);
+  //   setLocationLongitude(item?.locationLongitude);
+  //   setAddress(item?.address);
+  //   setNearestLandmark(item?.nearestLandmark);
+  // };
+
+  // ... other functions and useEffect
+
   const handleClickLocation = item => {
-    setSelectedItem(item);
+    setSelectedItem(prev => (prev?.LocationId === item.LocationId ? null : item));
     setId(item?.LocationId);
     setLocationName(item?.locationName);
     setLocationLatitude(item?.locationLatitude);
@@ -42,6 +54,7 @@ const LocationBottomSheet = ({ handleUseMyCurrentLoc, refRBSheet }) => {
     setNearestLandmark(item?.nearestLandmark);
   };
 
+  // ... rest of your component
 
   // const handleClickLocation = item => {
   //   console.log('handleClickLocation');
@@ -53,7 +66,7 @@ const LocationBottomSheet = ({ handleUseMyCurrentLoc, refRBSheet }) => {
     const userDetailsData = await getAsyncItem(
       constants.AsyncStorageKeys.userDetails,
     );
-    console.log("userDetails......>>>", userDetailsData)
+    // console.log("userDetails......>>>", userDetailsData)
     setUserDetails(userDetailsData);
   };
 
@@ -72,10 +85,10 @@ const LocationBottomSheet = ({ handleUseMyCurrentLoc, refRBSheet }) => {
     mobileNo: userDetails.userPhone,
     userId: userDetails.userId,
     operations: LATEST_SELECT,
-    createdBy: userDetails.userId,
+    createdBy: userDetails.userId,                                                                                                                                                                                               
     userIP: "::1"
   };
-  console.log("payload,,,", payload)
+  // console.log("payload,,,", payload)
 
   const fetchLocations = () => {
     PostRequest(endPoint.BARBER_GET_SET_UP_LOCATION, payload)
@@ -87,11 +100,11 @@ const LocationBottomSheet = ({ handleUseMyCurrentLoc, refRBSheet }) => {
           setLocations(res?.data?.data);
 
         } else {
-          console.log("Error fetching locations:", res?.data?.message);
+          // console.log("Error fetching locations:", res?.data?.message);
         }
       })
       .catch(err => {
-        console.log('Error while fetching locations', err);
+        // console.log('Error while fetching locations', err);
       });
   };
 
@@ -109,7 +122,7 @@ const LocationBottomSheet = ({ handleUseMyCurrentLoc, refRBSheet }) => {
   //   },
   //   {
   //     LocationId: 2,
-  //     locationName: 'My Home',
+  //     locationName: 'My Home', 
   //   },
   //   {
   //     LocationId: 3,
@@ -134,66 +147,64 @@ const LocationBottomSheet = ({ handleUseMyCurrentLoc, refRBSheet }) => {
     // refRBSheet.current.close();
   };
 
-  const LocationList = ({item}) => {
-    return (
-      <View
-        style={{
-          height: screenSize.height / 15,
-          width: 'auto',
-          margin: 5,
-          flexDirection: 'row',
-        }}>
-        <TouchableOpacity
-          key={item?.LocationId}
-          onPress={() => {
-            handleClickLocation(item);
-          }}
-          style={[
-            lbStyle.clSelectLocation,
-            {
-              backgroundColor:
-                selectedItem?.LocationId == item.LocationId
-                  ? '#202020'
-                  : appColors.Black,
-            },
-          ]}>
-          <View style={lbStyle.clIconView}>
-            <View
-              style={[
-                lbStyle.OuterCircle,
-                selectedItem?.LocationId == item.LocationId && {
-                  backgroundColor: appColors.White,
-                },
-              ]}>
-              {selectedItem?.LocationId == item.LocationId && (
-                <View style={lbStyle.innerCircle}></View>
-              )}
-            </View>
+ const LocationList = ({ item }) => {
+  return (
+    <View
+      style={{
+        height: screenSize.height / 15,
+        width: 'auto',
+        margin: 5,
+        flexDirection: 'row',
+      }}>
+      <TouchableOpacity
+        key={item?.LocationId}
+        onPress={() => {
+          handleClickLocation(item);
+        }}
+        style={[
+          lbStyle.clSelectLocation,
+          {
+            backgroundColor:
+              selectedItem?.LocationId === item.LocationId
+                ? '#202020'
+                : appColors.Black,
+          },
+        ]}>
+        <View style={lbStyle.clIconView}>
+          <View
+            style={[
+              lbStyle.OuterCircle,
+              { backgroundColor: selectedItem?.LocationId === item.LocationId ? appColors.Goldcolor : appColors.White },
+            ]}>
+            {selectedItem?.LocationId === item.LocationId && (
+              <View style={lbStyle.innerCircle}></View>
+            )}
           </View>
-          <View style={[lbStyle.clTextView, {flex: 0.7}]}>
-            <Text
-              style={{
-                fontSize: 13,
-                fontWeight: 'bold',
-                color: appColors.White,
-              }}>
-              {item.locationName}
-            </Text>
+        </View>
+        <View style={[lbStyle.clTextView, { flex: 0.7 }]}>
+          <Text
+            style={{
+              fontSize: 13,
+              fontWeight: 'bold',
+              color: appColors.White,
+            }}>
+            {item.locationName}
+          </Text>
+        </View>
+        {selectedItem?.LocationId === item.LocationId && (
+          <View style={[lbStyle.clTextView, { flex: 0.1 }]}>
+            <CustomIcon
+              type={Icons.MaterialIcons}
+              name={'edit-location-alt'}
+              size={20}
+              color={appColors.White}
+            />
           </View>
-          {selectedItem?.LocationId == item.LocationId && (
-            <View style={[lbStyle.clTextView, {flex: 0.1}]}>
-              <CustomIcon
-                type={Icons.MaterialIcons}
-                name={'edit-location-alt'}
-                size={20}
-                color={appColors.White}
-              />
-            </View>
-          )}
-        </TouchableOpacity>
-      </View>
-    );
-  };
+        )}
+      </TouchableOpacity>
+    </View>
+  );
+};
 
   return (
     <View style={lbStyle.mainContainer}>
