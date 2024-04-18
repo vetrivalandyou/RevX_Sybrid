@@ -33,14 +33,11 @@ const MyLocationBottomSheet = ({selectedLocation}) => {
     getUserDetails();
   }, []);
 
-  console.log('get latitude ==================', selectedLocation);
-
   const getUserDetails = async () => {
     const userDetail = await getAsyncItem(
       constants.AsyncStorageKeys.userDetails,
     );
     setUserDetails(userDetail);
-    console.log('User get info', userDetails);
   };
 
   const handleClickLocation = item => {
@@ -162,11 +159,11 @@ const MyLocationBottomSheet = ({selectedLocation}) => {
       locationLongitude: selectedLocation?.longitude,
       mobileNo: userDetails?.userPhone,
       userId: userDetails?.userId,
+      address: values.locationName,
       operations: 1,
       createdBy: userDetails?.userId,
       userIP: '::1',
     };
-    console.log('values check', initialValues);
 
     PostRequest(endPoint.BARBER_SET_UP_LOCATION_SERVICES, payload)
       .then(res => {
@@ -188,7 +185,6 @@ const MyLocationBottomSheet = ({selectedLocation}) => {
         <Formik
           initialValues={{
             locationName: '',
-            address: 'Location',
             nearstLandmark: '',
           }}
           validationSchema={validationSchema}

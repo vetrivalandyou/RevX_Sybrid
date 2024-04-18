@@ -62,8 +62,6 @@ const MyLocation = ({navigation}) => {
     console.log(selectedLocation?.latitude);
   };
 
-  console.log('Selected Location', selectedLocation?.latitude);
-
   return (
     <Screen statusBarColor={appColors.Black} barStyle="light-content">
       <View
