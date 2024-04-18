@@ -1,9 +1,40 @@
 import {StyleSheet, Text, View} from 'react-native';
-import React, {useRef} from 'react';
+import React, {useRef, useState} from 'react';
 import Screen from '../../../components/atom/ScreenContainer/Screen';
 import ButtonComponent from '../../../components/atom/CustomButtons/ButtonComponent';
+import { PostRequest } from '../../../services/apiCall';
+import { endPoint, messages } from '../../../AppConstants/urlConstants';
+import { SimpleSnackBar } from '../../../components/atom/Snakbar/Snakbar';
 
-const DeleteServices = ({refRBSheet}) => {
+const DeleteServices = ({refRBSheet, DeleteService}) => {
+
+  const DeletesetupCategories = () => {
+    console.log('detailssservices',DeleteService.categoryName)
+    const payload = {
+      categoryId: DeleteService.categoryId,
+      categoryName: DeleteService.categoryName,
+      operations: 4,
+      createdBy: 2
+    }
+    PostRequest(endPoint.SETUP_CATEGORIES_DELETE,payload)
+
+      .then(res => {
+        console.log('responseeee>>>>.>', res?.data)
+        if (res?.data?.code == 200) {
+          refRBSheet.current.close();
+
+        } else {
+          SimpleSnackBar(res?.data?.message, appColors.Red);
+
+        }
+      })
+      .catch(err => {
+        SimpleSnackBar(messages.Catch, appColors.Red);
+
+      });
+  };
+
+ 
   return (
     <View style={{flex: 1, marginVertical: 15}}>
       <View style={{flex: 0.6}}>
@@ -47,6 +78,7 @@ const DeleteServices = ({refRBSheet}) => {
             }}
             btnTextColor={{color: 'white'}}
             title={'Delete Services'}
+            onPress={DeletesetupCategories}
           />
         </View>
       </View>

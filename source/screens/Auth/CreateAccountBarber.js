@@ -45,6 +45,7 @@ const CreateAccountBarber = ({navigation}) => {
   const barberRegisterUser = (values, setSubmitting) => {
     const payload = {
       ...values,
+      userProfile: '',
       BarberCategories: [services?.map(obj => obj.setupDetailId)?.join(',')],
     };
 
@@ -61,6 +62,7 @@ const CreateAccountBarber = ({navigation}) => {
         setSubmitting(false);
       })
       .catch(err => {
+        console.log('error', err)
         SimpleSnackBar(messages.Catch, appColors.Red);
         setSubmitting(false);
       });
