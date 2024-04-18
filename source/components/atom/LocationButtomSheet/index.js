@@ -24,7 +24,7 @@ const LocationBottomSheet = ({handleUseMyCurrentLoc, refRBSheet}) => {
   const [address, setAddress] = useState('');
   const [nearestLandmark, setNearestLandmark] = useState('');
   const [isLoading, setIsLoading] = useState(true);
-  const [selectedItem, setSelectedItem] = useState('');
+  const [selectedItem, setSelectedItem] = useState(null);
   const [colorChange, setColorChange] = useState(true);
   const navigation = useNavigation();
 
@@ -40,16 +40,24 @@ const LocationBottomSheet = ({handleUseMyCurrentLoc, refRBSheet}) => {
 
   // ... other functions and useEffect
 
+  // const handleClickLocation = item => {
+  //   setSelectedItem(prev => (prev?.LocationId === item.LocationId ? null : item));
+  //   setId(item?.LocationId);
+  //   setLocationName(item?.locationName);
+  //   setLocationLatitude(item?.locationLatitude);
+  //   setLocationLongitude(item?.locationLongitude);
+  //   setAddress(item?.address);
+  //   setNearestLandmark(item?.nearestLandmark);
+  // };
   const handleClickLocation = item => {
-    setSelectedItem(prev => (prev?.LocationId === item.LocationId ? null : item));
-    setId(item?.LocationId);
-    setLocationName(item?.locationName);
-    setLocationLatitude(item?.locationLatitude);
-    setLocationLongitude(item?.locationLongitude);
-    setAddress(item?.address);
-    setNearestLandmark(item?.nearestLandmark);
+    console.log('handleClickLocation');
+    setColorChange(!colorChange);
+    setSelectedItem(item);
   };
-
+  const openLocationScreen = () => {
+    navigation.navigate(constants.screen.MyLocation),
+      refRBSheet.current.close();
+  }
   // ... rest of your component
 
   // const handleClickLocation = item => {
@@ -135,65 +143,68 @@ const LocationBottomSheet = ({handleUseMyCurrentLoc, refRBSheet}) => {
     handleUseMyCurrentLoc();
     // refRBSheet.current.close();
   };
+  const LocationList = ({item}) => {
+    return (
+      <View
+        style={{
+          height: screenSize.height / 15,
+          width: 'auto',
+          margin: 5,
+          flexDirection: 'row',
+        }}>
+        <TouchableOpacity
+          key={item?.LocationId}
+          onPress={() => {
+            handleClickLocation(item);
+          }}
+          style={[
+            lbStyle.clSelectLocation,
+            {
+              backgroundColor:
+                selectedItem?.LocationId == item.LocationId
+                  ? '#202020'
+                  : appColors.Black,
+            },
+          ]}>
+          <View style={lbStyle.clIconView}>
+            <View
+              style={[
+                lbStyle.OuterCircle,
+                selectedItem?.LocationId == item.LocationId && {
+                  backgroundColor: appColors.White,
+                },
+              ]}>
+              {selectedItem?.LocationId == item.LocationId && (
+                <View style={lbStyle.innerCircle}></View>
+              )}
+            </View>
+          </View>
+          <View style={[lbStyle.clTextView, {flex: 0.7}]}>
+            <Text
+              style={{
+                fontSize: 13,
+                fontWeight: 'bold',
+                color: appColors.White,
+              }}>
+              {item.locationName}
+            </Text>
+          </View>
+          {selectedItem?.LocationId == item.LocationId && (
+            <View style={[lbStyle.clTextView, {flex: 0.1}]}>
+              <CustomIcon
+              onPress={openLocationScreen}
+                type={Icons.MaterialIcons}
+                name={'edit-location-alt'}
+                size={20}
+                color={appColors.White}
+              />
+            </View>
+          )}
+        </TouchableOpacity>
+      </View>
+    );
+  };
 
- const LocationList = ({ item }) => {
-  return (
-    <View
-      style={{
-        height: screenSize.height / 15,
-        width: 'auto',
-        margin: 5,
-        flexDirection: 'row',
-      }}>
-      <TouchableOpacity
-        key={item?.LocationId}
-        onPress={() => {
-          handleClickLocation(item);
-        }}
-        style={[
-          lbStyle.clSelectLocation,
-          {
-            backgroundColor:
-              selectedItem?.LocationId === item.LocationId
-                ? '#202020'
-                : appColors.Black,
-          },
-        ]}>
-        <View style={lbStyle.clIconView}>
-          <View
-            style={[
-              lbStyle.OuterCircle,
-              { backgroundColor: selectedItem?.LocationId === item.LocationId ? appColors.Goldcolor : appColors.White },
-            ]}>
-            {selectedItem?.LocationId === item.LocationId && (
-              <View style={lbStyle.innerCircle}></View>
-            )}
-          </View>
-        </View>
-        <View style={[lbStyle.clTextView, { flex: 0.7 }]}>
-          <Text
-            style={{
-              fontSize: 13,
-              fontWeight: 'bold',
-              color: appColors.White,
-            }}>
-            {item.locationName}
-          </Text>
-        </View>
-        {selectedItem?.LocationId === item.LocationId && (
-          <View style={[lbStyle.clTextView, { flex: 0.1 }]}>
-            <CustomIcon
-              type={Icons.MaterialIcons}
-              name={'edit-location-alt'}
-              size={20}
-              color={appColors.White}
-            />
-          </View>
-        )}
-      </TouchableOpacity>
-    </View>
-  );
-};
 
   return (
     <View style={lbStyle.mainContainer}>
@@ -225,7 +236,7 @@ const LocationBottomSheet = ({handleUseMyCurrentLoc, refRBSheet}) => {
         )}
       </View>
       <TouchableOpacity
-        onPress={openLocationScreen}
+         onPress={openLocationScreen}
         style={lbStyle.clContainer}>
         <View style={lbStyle.clIconView}>
           <CustomIcon
