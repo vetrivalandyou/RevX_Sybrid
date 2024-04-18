@@ -14,8 +14,9 @@ import { ActivityIndicator } from 'react-native'; // Import the ActivityIndicato
 import { Geolocation } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { requestLocationPermissionAndGetLocation } from '../../../utils/GetLocation';
+import { SimpleSnackBar } from '../Snakbar/Snakbar';
 
-const LocationBottomSheet = ({ handleUseMyCurrentLoc, refRBSheet, selectedLocation }) => {
+const LocationBottomSheet = ({  refRBSheet, selectedLocation }) => {
   const [locations, setLocations] = useState([]);
   const [userDetails, setUserDetails] = useState({});
   const [id, setId] = useState(null);
@@ -29,7 +30,49 @@ const LocationBottomSheet = ({ handleUseMyCurrentLoc, refRBSheet, selectedLocati
   const [colorChange, setColorChange] = useState(true);
   const navigation = useNavigation();
   const [currentLocation, setCurrentLocation] = useState(null);
+  
 
+  const handleUseMyCurrentLoc = async () => {
+    const location = await requestLocationPermissionAndGetLocation();
+    // setLocationLatitude(location?.coords?.latitude);
+    // setLocationLongitude(location?.coords?.longitude);
+    console.log('Current Location,,,,,,,,,:', location?.coords?.longitude);
+    
+    // Call locatioDetails after setting the location latitude and longitude
+    locatioDetails(location);
+  };
+  
+  const locatioDetails = (location) => {
+    const payload = {
+      locationName: "kk",
+      nearstLandmark: "abh",
+      id: userDetails?.userId,
+      locationLatitude: location?.coords?.latitude,
+      locationLongitude: location?.coords?.longitude,
+      mobileNo: userDetails?.userPhone,
+      userId: userDetails?.userId,
+      address: "abc",
+      operations: 1,
+      createdBy: userDetails?.userId,
+      userIP: '::1',
+    };
+    console.log("payload.........", payload);
+    
+   
+    PostRequest(endPoint.BARBER_SET_UP_LOCATION_SERVICES, payload)
+      .then(res => {
+        if (res?.data?.code == 200) {
+          console.log("api respob=nse.....",res.data)
+          SimpleSnackBar(res?.data?.message);
+        
+        } else {
+          SimpleSnackBar(res?.data?.message);
+        }
+      })
+      .catch(err => {
+        SimpleSnackBar(messages?.Catch, appColors.Red);
+      });
+  };
 
   // const handleClickLocation = item => {
   //   setSelectedItem(item);
@@ -59,37 +102,10 @@ const LocationBottomSheet = ({ handleUseMyCurrentLoc, refRBSheet, selectedLocati
     const userDetailsData = await getAsyncItem(
       constants.AsyncStorageKeys.userDetails,
     );
+    
     setUserDetails(userDetailsData);
   };
-  const locatioDetails = () => {
-    const payload = {
-      
-      locationName: "kk",
-      nearstLandmark: "abh",
-      id: userDetails?.userId,
-      locationLatitude: handleUseMyCurrentLoc.locations,
-      locationLongitude: handleUseMyCurrentLoc.locations,
-      mobileNo: userDetails?.userPhone,
-      userId: userDetails?.userId,
-      address: "abc",
-      operations: 1,
-      createdBy: userDetails?.userId,
-      userIP: '::1',
-    };
-    console.log("payload", payload)
-    // PostRequest(endPoint.BARBER_SET_UP_LOCATION_SERVICES, payload)
-    //   .then(res => {
-    //     if (res?.data?.code == 200) {
-    //       SimpleSnackBar(res?.data?.message);
-    //       navigation.goBack();
-    //     } else {
-    //       SimpleSnackBar(res?.data?.message);
-    //     }
-    //   })
-    //   .catch(err => {
-    //     SimpleSnackBar(messages?.Catch, appColors.Red);
-    //   });
-  };
+ 
 
   const handleClickLocation = item => {
     console.log('handleClickLocation');
@@ -175,15 +191,15 @@ const LocationBottomSheet = ({ handleUseMyCurrentLoc, refRBSheet, selectedLocati
   //   },
   // ];
 
-  const handleLocation = () => {
-    handleUseMyCurrentLoc();
-    console.log("handleUseMyCurrentLoc.....",handleUseMyCurrentLoc)
-    // refRBSheet.current.close();
-  };
+  // const handleLocation = () => {
+  //   handleUseMyCurrentLoc();
+  //   console.log("handleUseMyCurrentLoc.....",handleUseMyCurrentLoc)
+  //   // refRBSheet.current.close();
+  // };
   useEffect(() => {
     getAsyncData();
     fetchLocations();
-    locatioDetails();
+    // locatioDetails();
   }, []);
   const LocationList = ({ item }) => {
     return (
@@ -250,10 +266,10 @@ const LocationBottomSheet = ({ handleUseMyCurrentLoc, refRBSheet, selectedLocati
 
   return (
     <View style={lbStyle.mainContainer}>
-      <TouchableOpacity onPress={handleLocation} style={[lbStyle.clContainer]}>
+      <TouchableOpacity onPress={handleUseMyCurrentLoc} style={[lbStyle.clContainer]}>
         <View style={lbStyle.clIconView}>
           <CustomIcon
-            onPress={locatioDetails}
+            // onPress={locatioDetails}
             type={Icons.Ionicons}
             name={'paper-plane-sharp'}
             size={20}
