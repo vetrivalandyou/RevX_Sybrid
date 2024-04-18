@@ -43,12 +43,15 @@ const CreateAccountBarber = ({navigation}) => {
   });
 
   const barberRegisterUser = (values, setSubmitting) => {
+    const categoryArray = [];
+    services?.map(obj => {
+      categoryArray.push(obj.setupDetailId);
+    });
     const payload = {
       ...values,
-      BarberCategories: [services?.map(obj => obj.setupDetailId)?.join(',')],
+      BarberCategories: categoryArray,
     };
-
-    console.log(payload);
+    console.log('BarberSignup Payload', payload);
 
     PostRequest(endPoint.REGISTERAS_BARBER, payload)
       .then(res => {
@@ -57,8 +60,8 @@ const CreateAccountBarber = ({navigation}) => {
           SimpleSnackBar(res?.data?.message);
         } else {
           SimpleSnackBar(res?.data?.message, appColors.Red);
+          setSubmitting(false);
         }
-        setSubmitting(false);
       })
       .catch(err => {
         SimpleSnackBar(messages.Catch, appColors.Red);
