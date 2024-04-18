@@ -64,6 +64,7 @@ const CreateAccountBarber = ({navigation}) => {
         }
       })
       .catch(err => {
+        console.log('error', err)
         SimpleSnackBar(messages.Catch, appColors.Red);
         setSubmitting(false);
       });

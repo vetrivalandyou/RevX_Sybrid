@@ -54,6 +54,8 @@ export const endPoint = {
   BARBER_APPROVE_SERVICES: 'Barber/GetBarberApproveService',
   SETUP_CATEGORIES_CU: 'Barber/SetupCategories_CU',
   GET_SETUP_CATEGORIES: 'Barber/GetSetupCategories',
+  SETUP_CATEGORIES_DELETE: 'Barber/SetupCategories_Delete',
+  CUSTOMER_SERVICES: 'Customer/Category_Services',
 
   //Admin End Points
   BARBER_LIST: 'Admin/Barber_List',

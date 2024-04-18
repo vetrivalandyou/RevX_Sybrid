@@ -5,7 +5,7 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Entypo from 'react-native-vector-icons/Entypo';
 import ButtonComponent from '../../../components/atom/CustomButtons/ButtonComponent';
 import styles from './styles';
-import { useNavigation } from '@react-navigation/native';
+import { useIsFocused, useNavigation } from '@react-navigation/native';
 // import BottomSheet from '../../components/atom/BottomSheet';
 
 import Screen from '../../../components/atom/ScreenContainer/Screen';
@@ -19,48 +19,61 @@ import { endPoint, messages } from '../../../AppConstants/urlConstants';
 import { SimpleSnackBar } from '../../../components/atom/Snakbar/Snakbar';
 import { GetRequest, PostRequest } from '../../../services/apiCall';
 import { AppImages } from '../../../AppConstants/AppImages';
+import { getAsyncItem } from '../../../utils/SettingAsyncStorage';
 
 const Servicesboard = ({ navigation }) => {
   const [selectedItem, setSelectedItem] = useState(null);
-  const [servicesList, setServiceslist] = useState([]);
+  const [barberServices, setBarberServices] = useState([]);
+  const [userDetails,] = useState([]);
 
+
+  const isFocused = useIsFocused();
   useEffect(() => {
-    GetsetupCategories();
-  }, []);
+    if (isFocused) {
+      getUserDetail();
+      getBarberServices();
 
-  const GetsetupCategories = () => {
-    const payload = {
-      categoryId: 0,
-      categoryName: "",
-      operations: 3,
-      createdBy: 0
     }
-    PostRequest(endPoint.GET_SETUP_CATEGORIES,payload)
+  }, [isFocused]);
 
+  const getUserDetail = async () => {
+    const userDatail = await getAsyncItem(
+      constants.AsyncStorageKeys.userDetails,
+    );
+    setUserDetails(userDatail);
+  };
+
+
+  function getBarberServices() {
+
+    GetRequest(`${endPoint.SERVICE_CATEGORIES}?id=${94}`)
       .then(res => {
-        console.log('responseeee>>>>.>', res?.data?.data)
+        // setLoading(false);
+        console.log(res?.data?.data);
         if (res?.data?.code == 200) {
-          setServiceslist(res?.data?.data);
-
+          setBarberServices(res?.data?.data);
         } else {
-          SimpleSnackBar(res?.data?.message, appColors.Red);
-
+          SimpleSnackBar(res?.data?.message);
+          // setLoading(false);
         }
       })
       .catch(err => {
-        SimpleSnackBar(messages.Catch, appColors.Red);
-
+        console.log(err);
+        // setLoading(false);
       });
-  };
+  }
 
 
   const handleItemPress = (item) => {
-    setSelectedItem(item.categoryId);
+    setSelectedItem(item.serviceCategoryId);
     navigation.navigate(constants.BarberScreen.ServiceList, {
-      serviceName: item.categoryName,
+
+      item: item
     });
+
+
   };
-  console.log("servielist===", servicesList)
+
   return (
     <Screen viewStyle={{ flex: 1, padding: 15, backgroundColor: appColors.Black }} statusBarColor={appColors.Black} >
       <View style={{ flex: 0.1, backgroundColor: appColors.Black }}>
@@ -75,11 +88,11 @@ const Servicesboard = ({ navigation }) => {
       </View>
 
       <ScrollView style={{ flex: 0.8, }}>
-        {servicesList?.map(item => (
+        {barberServices?.map(item => (
           <Servicelist
-            key={item.categoryId}
+            key={item.serviceCategoryId}
             item={item}
-            selected={selectedItem === item.categoryId}
+            selected={selectedItem === item.serviceCategoryId}
             onPress={() => handleItemPress(item)}
           />
         ))}
@@ -108,8 +121,9 @@ const Servicelist = ({ item, onPress, selected }) => {
   const refRBSheet = useRef();
   const navigation = useNavigation();
   const handleEditPress = () => {
-    navigation.navigate(constants.BarberScreen.Editservices, {
-      serviceName: item.categoryName,
+    navigation.navigate(constants.BarberScreen.ServiceList, {
+      Barberservice: item.categoryName,
+      // item:item
     });
   };
 
@@ -122,7 +136,7 @@ const Servicelist = ({ item, onPress, selected }) => {
         ]}>
         <View style={styles.Subcontainer}>
           <View style={styles.textView}>
-            <Text style={styles.textStyle}>{item.categoryName}</Text>
+            <Text style={styles.textStyle}>{item.service_Category}</Text>
           </View>
 
           <TouchableOpacity
@@ -137,7 +151,7 @@ const Servicelist = ({ item, onPress, selected }) => {
           </TouchableOpacity>
 
           <BottomSheet ref={refRBSheet} Height={200}>
-            <DeleteServices refRBSheet={refRBSheet}/>
+            <DeleteServices refRBSheet={refRBSheet} DeleteService={item} />
           </BottomSheet>
         </View>
       </View>
