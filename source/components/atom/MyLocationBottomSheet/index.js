@@ -1,5 +1,12 @@
-import React, {useState} from 'react';
-import {FlatList, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {
+  ActivityIndicator,
+  FlatList,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import appColors from '../../../AppConstants/appColors';
 import CustomIcon, {
   Icons,
@@ -8,22 +15,39 @@ import {screenSize} from '../ScreenSize';
 import constants from '../../../AppConstants/Constants.json';
 import {useNavigation} from '@react-navigation/native';
 import SimpleTextField from '../../molecules/TextFeilds/SimpleTextField';
+import {Formik} from 'formik';
+import * as Yup from 'yup';
+import {PostRequest} from '../../../services/apiCall';
+import {endPoint} from '../../../AppConstants/urlConstants';
+import ButtonComponent from '../CustomButtons/ButtonComponent';
+import {getAsyncItem} from '../../../utils/SettingAsyncStorage';
+import {SimpleSnackBar} from '../Snakbar/Snakbar';
 
-const MyLocationBottomSheet = ({handleUseMyCurrentLoc, refRBSheet}) => {
+const MyLocationBottomSheet = ({selectedLocation}) => {
   const [selectedItem, setSelectedItem] = useState('');
   const [colorChange, setColorChange] = useState(true);
   const navigation = useNavigation();
+  const [userDetails, setUserDetails] = useState('');
+
+  useEffect(() => {
+    getUserDetails();
+  }, []);
+
+  console.log('get latitude ==================', selectedLocation);
+
+  const getUserDetails = async () => {
+    const userDetail = await getAsyncItem(
+      constants.AsyncStorageKeys.userDetails,
+    );
+    setUserDetails(userDetail);
+    console.log('User get info', userDetails);
+  };
 
   const handleClickLocation = item => {
     console.log('handleClickLocation');
     setColorChange(!colorChange);
     setSelectedItem(item);
   };
-
-  const [locationName, setLocationName] = useState('');
-  const [nearestLandmark, setNearestLandmark] = useState('');
-
-  const isButtonDisabled = !locationName || !nearestLandmark;
 
   const data = [
     {
@@ -123,52 +147,130 @@ const MyLocationBottomSheet = ({handleUseMyCurrentLoc, refRBSheet}) => {
     );
   };
 
+  //   Input adress fields validation fuction
+  const validationSchema = Yup.object().shape({
+    locationName: Yup.string().required('Please enter your location name'),
+    nearstLandmark: Yup.string().required('Please enter your Nearest Mark'),
+  });
+
+  //   location details save function
+  const locatioDetails = values => {
+    const payload = {
+      ...values,
+      id: userDetails?.userId,
+      locationLatitude: selectedLocation?.latitude,
+      locationLongitude: selectedLocation?.longitude,
+      mobileNo: userDetails?.userPhone,
+      userId: userDetails?.userId,
+      operations: 1,
+      createdBy: userDetails?.userId,
+      userIP: '::1',
+    };
+    console.log('values check', initialValues);
+
+    PostRequest(endPoint.BARBER_SET_UP_LOCATION_SERVICES, payload)
+      .then(res => {
+        if (res?.data?.code == 200) {
+          SimpleSnackBar(res?.data?.message);
+          navigation.goBack();
+        } else {
+          SimpleSnackBar(res?.data?.message);
+        }
+      })
+      .catch(err => {
+        SimpleSnackBar(messages?.Catch, appColors.Red);
+      });
+  };
+
   return (
     <View style={lbStyle.mainContainer}>
-      <View
-        style={{
-          flex: 0.3,
-          borderRadius: 3,
-        }}>
-        <SimpleTextField
-          placeholder={'Location Name'}
-          placeholderTextColor={appColors.LightGray}
-          onChangeText={text => setLocationName(text)}
-          value={locationName}
-          //   onChangeText={handleChange('UserEmail')}
-          //   onBlur={handleBlur('UserEmail')}
-          //   value={values.UserEmail}
-        />
-      </View>
-      <View
-        style={{
-          flex: 0.3,
-        }}>
-        <SimpleTextField
-          placeholder={'Nearst Landmark'}
-          placeholderTextColor={appColors.LightGray}
-          onChangeText={text => setNearestLandmark(text)}
-          value={nearestLandmark}
-          //   onChangeText={handleChange('UserEmail')}
-          //   onBlur={handleBlur('UserEmail')}
-          //   value={values.UserEmail}
-        />
-      </View>
-      <View style={{flex: 0.3}}>
-        <TouchableOpacity
-          onPress={() => refRBSheet.current.close()}
-          style={[
-            lbStyle.clContainer,
-            {justifyContent: 'center', alignItems: 'center'},
-            (disabled = {isButtonDisabled}),
-          ]}>
-          <View style={lbStyle.clButotnView}>
-            <Text style={[lbStyle.clTextStyle, {textAlign: 'center'}]}>
-              Add address details
-            </Text>
-          </View>
-        </TouchableOpacity>
-      </View>
+      {userDetails ? (
+        <Formik
+          initialValues={{
+            locationName: '',
+            address: 'Location',
+            nearstLandmark: '',
+          }}
+          validationSchema={validationSchema}
+          onSubmit={values => {
+            locatioDetails(values);
+          }}>
+          {({
+            handleChange,
+            handleBlur,
+            handleSubmit,
+            values,
+            errors,
+            touched,
+            isSubmitting,
+          }) => (
+            <>
+              <View
+                style={{
+                  flex: 0.4,
+                  borderRadius: 3,
+                }}>
+                <SimpleTextField
+                  placeholder={'Location Name'}
+                  placeholderTextColor={appColors.LightGray}
+                  onChangeText={handleChange('locationName')}
+                  onBlur={handleBlur('locationName')}
+                  value={values.locationName}
+                />
+                {touched.locationName && errors.locationName && (
+                  <View style={{marginLeft: 10, margin: 5}}>
+                    <Text style={{color: appColors.Red, fontSize: 12}}>
+                      {errors.locationName}
+                    </Text>
+                  </View>
+                )}
+              </View>
+              <View
+                style={{
+                  flex: 0.4,
+                }}>
+                <SimpleTextField
+                  placeholder={'Nearst Landmark'}
+                  placeholderTextColor={appColors.LightGray}
+                  onChangeText={handleChange('nearstLandmark')}
+                  onBlur={handleBlur('nearstLandmark')}
+                  value={values.nearstLandmark}
+                />
+                {touched.nearstLandmark && errors.nearstLandmark && (
+                  <View style={{marginLeft: 10, margin: 5}}>
+                    <Text style={{color: appColors.Red, fontSize: 12}}>
+                      {errors.nearstLandmark}
+                    </Text>
+                  </View>
+                )}
+              </View>
+              <View style={{flex: 0.3}}>
+                {/* <TouchableOpacity
+                onPress={() => refRBSheet.current.close()}
+                style={[
+                  lbStyle.clContainer,
+                  {justifyContent: 'center', alignItems: 'center'},
+                  (disabled = {isButtonDisabled}),
+                ]}>
+                <View style={lbStyle.clButotnView}>
+                  <Text style={[lbStyle.clTextStyle, {textAlign: 'center'}]}>
+                    Add address details
+                  </Text>
+                </View>
+              </TouchableOpacity> */}
+                <ButtonComponent
+                  title={'Add address details'}
+                  onPress={handleSubmit}
+                  //   disabled={isButtonDisabled}
+                  isLoading={isSubmitting}
+                />
+              </View>
+            </>
+          )}
+        </Formik>
+      ) : (
+        <ActivityIndicator size="large" color="#C79646" />
+      )}
     </View>
   );
 };

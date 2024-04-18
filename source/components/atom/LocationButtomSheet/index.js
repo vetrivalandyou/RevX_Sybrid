@@ -12,6 +12,7 @@ import {LATEST_SELECT} from '../../../AppConstants/appConstants';
 import constants from '../../../AppConstants/Constants.json';
 import {ActivityIndicator} from 'react-native'; // Import the ActivityIndicator
 import {Geolocation} from 'react-native';
+import {useNavigation} from '@react-navigation/native';
 
 const LocationBottomSheet = ({handleUseMyCurrentLoc, refRBSheet}) => {
   const [locations, setLocations] = useState([]);
@@ -26,8 +27,6 @@ const LocationBottomSheet = ({handleUseMyCurrentLoc, refRBSheet}) => {
   const [selectedItem, setSelectedItem] = useState('');
   const [colorChange, setColorChange] = useState(true);
   const navigation = useNavigation();
-
-  // console.log("locations======>>>>>>>>>>", locations)
 
   const handleClickLocation = item => {
     setSelectedItem(item);
@@ -49,7 +48,6 @@ const LocationBottomSheet = ({handleUseMyCurrentLoc, refRBSheet}) => {
     const userDetailsData = await getAsyncItem(
       constants.AsyncStorageKeys.userDetails,
     );
-    console.log('userDetails......>>>', userDetailsData);
     setUserDetails(userDetailsData);
   };
 
@@ -71,22 +69,19 @@ const LocationBottomSheet = ({handleUseMyCurrentLoc, refRBSheet}) => {
     createdBy: userDetails.userId,
     userIP: '::1',
   };
-  console.log('payload,,,', payload);
 
   const fetchLocations = () => {
     PostRequest(endPoint.BARBER_GET_SET_UP_LOCATION, payload)
       .then(res => {
-        //  console.log("API Response:", res.data);
-
         if (res?.data?.code === 200) {
           setIsLoading(false);
           setLocations(res?.data?.data);
         } else {
-          console.log('Error fetching locations:', res?.data?.message);
+          // console.log('Error fetching locations:', res?.data?.message);
         }
       })
       .catch(err => {
-        console.log('Error while fetching locations', err);
+        // console.log('Error while fetching locations', err);
       });
   };
 
@@ -215,7 +210,7 @@ const LocationBottomSheet = ({handleUseMyCurrentLoc, refRBSheet}) => {
             data={locations}
             keyExtractor={item => item.id.toString()} // Ensure key is a string
             renderItem={({item, index}) => {
-              console.log('Current item:', item);
+              // console.log('Current item:', item);
               return <LocationList item={item} index={index} />;
             }}
           />
@@ -287,7 +282,7 @@ const lbStyle = StyleSheet.create({
   },
   clButotnView: {
     backgroundColor: appColors.Goldcolor,
-    width: 250,
+    width: '90%',
     height: '80%',
     justifyContent: 'center',
     borderRadius: 10,

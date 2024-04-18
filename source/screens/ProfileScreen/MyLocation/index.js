@@ -15,7 +15,6 @@ const MyLocation = ({navigation}) => {
   const mapRef = useRef();
 
   const [selectedLocation, setSelectedLocation] = useState(null);
-
   const [region, setRegion] = useState({
     latitude: 31.5203696,
     longitude: 74.35874729999999,
@@ -43,6 +42,7 @@ const MyLocation = ({navigation}) => {
   };
 
   const handleMapPress = e => {
+    console.log('Live Cordinates', e.nativeEvent.coordinate);
     setSelectedLocation({
       latitude: e.nativeEvent.coordinate?.latitude,
       longitude: e.nativeEvent.coordinate?.longitude,
@@ -58,20 +58,14 @@ const MyLocation = ({navigation}) => {
       },
       1000, // Animation duration in milliseconds
     );
+
+    console.log(selectedLocation?.latitude);
   };
 
+  console.log('Selected Location', selectedLocation?.latitude);
+
   return (
-    <Screen
-      statusBarColor={appColors.Black}
-      barStyle="light-content"
-      viewStyle={
-        {
-          // backgroundColor: appColors.Red,
-          // borderTopRightRadius: 30,
-          // borderTopLeftRadius: 30,
-          // padding: 0,
-        }
-      }>
+    <Screen statusBarColor={appColors.Black} barStyle="light-content">
       <View
         style={{
           flex: 1,
@@ -155,7 +149,7 @@ const MyLocation = ({navigation}) => {
           />
         </TouchableOpacity>
 
-        <MyLocationBottomSheet />
+        <MyLocationBottomSheet selectedLocation={selectedLocation} />
       </View>
     </Screen>
   );
