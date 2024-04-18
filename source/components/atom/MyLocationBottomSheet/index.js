@@ -169,7 +169,7 @@ const MyLocationBottomSheet = ({selectedLocation}) => {
       .then(res => {
         if (res?.data?.code == 200) {
           SimpleSnackBar(res?.data?.message);
-          navigation.goBack();
+          //   navigation.goBack();
         } else {
           SimpleSnackBar(res?.data?.message);
         }
@@ -258,7 +258,7 @@ const MyLocationBottomSheet = ({selectedLocation}) => {
                   title={'Add address details'}
                   onPress={handleSubmit}
                   //   disabled={isButtonDisabled}
-                  isLoading={isSubmitting}
+                  //   isLoading={isSubmitting}
                 />
               </View>
             </>
