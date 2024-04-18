@@ -1,9 +1,5 @@
 
-<<<<<<< HEAD
-import React, { useEffect }  from "react";
-=======
 import React from "react";
->>>>>>> 5760164d7a4498bd7794da1825e2e003f8b7db58
 import { useState } from "react";
 
 import { FlatList, Text, TextInput, TouchableOpacity, View,Image } from "react-native";
@@ -25,74 +21,6 @@ import { AppImages } from "../../../AppConstants/AppImages";
 
 
 
-<<<<<<< HEAD
-const ServiceList =({navigation, route})=>{
-  const {item} = route.params;
-    const [selectedValue, setSelectedValue] = useState(null);
-    const [newService, setNewService] = useState('');
-    const [Services, setServices] = useState([]);
-    const [selectedItems, setSelectedItems] = useState([]);
-    // const [dropDownData, SetdropdownData]  = useState([])
-    // const [servicesList, setServiceslist] = useState([]);
-    useEffect(() => {
-      customerservices();
-    }, []);
-  
-    const customerservices = () => {
-      const payload = {
-        servicesId: 0,
-        barberId: 94,
-        categoryServicesId: item.serviceCategoryId,
-  
-      };
-  
-      PostRequest(endPoint.CUSTOMER_SERVICES, payload)
-        .then(res => {
-          // setLoading(false);
-          if (res?.data?.code == 200) {
-            console.log(res?.data);
-            setServices(res?.data?.data);
-          } else {
-            SimpleSnackBar(res?.data?.message);
-            // setLoading(false);
-          }
-        })
-        .catch(res => {
-          SimpleSnackBar(messages.Catch, appColors.Red);
-          setLoading(false);
-        });
-    };
-   
-
-   
-    return(
-      
-        <Screen viewStyle={{ flex: 1, padding: 15 , backgroundColor: appColors.Black}} statusBarColor={appColors.Black} >
-        <View style={{ flex: 0.1, backgroundColor: appColors.Black }}>
-          <Header
-            headerSubView={{ marginHorizontal: 5}}
-            lefttIcoType={Icons.Ionicons}
-            onPressLeftIcon={() => navigation.goBack()}
-            leftIcoName={'chevron-back'}
-            headerText={'Sub Services'}
-           
-          />
-        </View>
-        <View style={{flex: 0.8}}>
-          <FlatList
-            data={Services}
-            renderItem={({item}) => (
-              <Servicedetails
-                item={item}
-                selected={selectedItems === item.serviceCategoryId}
-                onPress={() => setSelectedItems(item.serviceCategoryId)}
-              />
-            )}
-            keyExtractor={item => item.id}
-          />
-        </View>
-        <View style={styles.buttonView}>
-=======
 const ServiceList = ({ navigation, }) => {
   const [selectedValue, setSelectedValue] = useState(null);
   const [selectedItems, setSelectedItems] = useState([]);
@@ -179,7 +107,6 @@ const ServiceList = ({ navigation, }) => {
 
       </View>
       <View style={styles.buttonView}>
->>>>>>> 5760164d7a4498bd7794da1825e2e003f8b7db58
         <ButtonComponent
           style={{
             backgroundColor: '#C79646',
@@ -187,15 +114,9 @@ const ServiceList = ({ navigation, }) => {
             bottom: 1,
             position: 'absolute',
           }}
-<<<<<<< HEAD
-          btnTextColor={{color: 'white'}}
-          title={'Add'}
-          // onPress={handleditService}
-=======
           btnTextColor={{ color: 'white' }}
           title={'Save'}
           onPress={() => navigation.goBack()}
->>>>>>> 5760164d7a4498bd7794da1825e2e003f8b7db58
         />
       </View>
      
