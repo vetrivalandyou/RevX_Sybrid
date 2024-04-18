@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, {useEffect} from 'react';
 import {useSelector} from 'react-redux';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
@@ -24,10 +24,6 @@ import GetLocation from '../../utils/GetLocation';
 const AuthIndex = () => {
   const Stack = createNativeStackNavigator();
   const {loggedIn} = useSelector(state => state.AuthReducer);
-
-  useEffect(() => {
-    GetLocation();
-  }, []);
 
   if (loggedIn == 4) {
     return <Main />;

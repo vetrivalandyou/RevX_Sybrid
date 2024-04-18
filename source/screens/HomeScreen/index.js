@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useRef, useState} from 'react';
 import {
   Image,
   Text,
@@ -25,10 +25,17 @@ import Carousel, {Pagination, ParallaxImage} from 'react-native-snap-carousel';
 import {endPoint, imageUrl} from '../../AppConstants/urlConstants';
 import {PostRequest} from '../../services/apiCall';
 import {getAsyncItem} from '../../utils/SettingAsyncStorage';
+import LocationBottomSheet from '../../components/atom/LocationButtomSheet';
+import BottomSheet from '../../components/molecules/BottomSheetContent/BottomSheet';
+import {useSelector} from 'react-redux';
+import {requestLocationPermissionAndGetLocation} from '../../utils/GetLocation';
 const HomeScreen = ({navigation}) => {
+  const {coords} = useSelector(state => state.LocationReducer);
+  const locationBottomSheetRef = useRef(null);
   const [userDetails, setUserDetails] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
   const [barberList, setBarberList] = useState([0]);
+  const [selectedLocation, setSelectedLocation] = useState();
 
   useEffect(() => {
     getAsyncData();
@@ -387,8 +394,20 @@ const HomeScreen = ({navigation}) => {
     );
   };
 
-  const HomeHeader = ({heading, sunHeading, source}) => {
-    // console.log("source",source)
+  const handleLocationSelect = async () => {
+    console.log('Hello');
+    const location = await requestLocationPermissionAndGetLocation();
+    console.log('Current Location:', location);
+    // setSelectedLocation({
+    //   latitude: coords?.coords?.latitude,
+    //   longitude: coords?.coords?.longitude,
+    //   latitudeDelta: 0.0922,
+    //   longitudeDelta: 0.0421,
+    // });
+    // locationBottomSheetRef.current.close();
+  };
+
+  const HomeHeader = ({heading, sunHeading, source, refRBSheet}) => {
     return (
       <View style={{flex: 1, justifyContent: 'center'}}>
         <View
@@ -398,8 +417,11 @@ const HomeScreen = ({navigation}) => {
             justifyContent: 'space-between',
           }}>
           <View
-            style={{flex: 0.2, alignItems: 'center', justifyContent: 'center',}}>
-            <Image source={{uri: source}} style={{ width: 60, height: 60, borderRadius: 100}}/>
+            style={{flex: 0.2, alignItems: 'center', justifyContent: 'center'}}>
+            <Image
+              source={{uri: source}}
+              style={{width: 60, height: 60, borderRadius: 100}}
+            />
           </View>
 
           <View
@@ -414,19 +436,20 @@ const HomeScreen = ({navigation}) => {
                   {heading}
                 </Text>
               </View>
-              <View style={{flex: 0.4, flexDirection: 'row'}}>
+              <TouchableOpacity
+                onPress={() => refRBSheet.current.open()}
+                style={{flex: 0.4, flexDirection: 'row'}}>
                 <CustomIcon
                   type={Icons.Feather}
                   name={'map-pin'}
                   color={appColors.White}
                   size={18}
                 />
-
                 <Text
                   style={{marginLeft: 5, color: appColors.White, fontSize: 14}}>
                   {sunHeading}
                 </Text>
-              </View>
+              </TouchableOpacity>
             </View>
 
             <View
@@ -479,17 +502,22 @@ const HomeScreen = ({navigation}) => {
     );
   };
 
-  console.log("userDetails",userDetails)
-
   return (
     <Screen
       statusBarColor={appColors.Black}
       viewStyle={{padding: 15, flex: 0.9}}>
+      <BottomSheet ref={locationBottomSheetRef} Height={screenSize.height / 2}>
+        <LocationBottomSheet
+          refRBSheet={locationBottomSheetRef}
+          handleUseMyCurrentLoc={handleLocationSelect}
+        />
+      </BottomSheet>
       <View style={{flex: 0.1}}>
         <HomeHeader
           heading={userDetails?.userName}
           sunHeading={'Washington DC'}
           source={`${imageUrl}${userDetails?.profileImage}`}
+          refRBSheet={locationBottomSheetRef}
         />
       </View>
 

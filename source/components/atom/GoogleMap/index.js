@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useMemo} from 'react';
 import {Image, StyleSheet} from 'react-native';
 import MapView, {Marker, PROVIDER_GOOGLE} from 'react-native-maps';
 import CustomDarkMapStyle from '../../../utils/CustomMapStyle.json';
@@ -15,11 +15,36 @@ const GoogleMap = ({
   handleMapPress,
   CustomMarkerImage,
 }) => {
+  // console.log('GoogleMapGoogleMap', selectedLocation);
+  // const Markers = useMemo(
+  //   () =>
+  //     selectedLocation?.map(marker => {
+  //       return (
+  //         <Marker
+  //           key={`marker-${marker?.longitude}-${marker?.longitude}`}
+  //           tracksViewChanges={false}
+  //           coordinate={{
+  //             latitude: marker?.latitude ? marker.latitude : 0,
+  //             longitude: marker.longitude ? marker.longitude : 0,
+  //           }}
+  //           onPress={() => onMarkerPress(marker)}
+  //           title={title}
+  //           description={description}>
+  //           <Image
+  //             source={CustomMarkerImage ? CustomMarkerImage : MarkerImage}
+  //             style={CustomMarkerImage ? style.barberStyle : style.markerStyle}
+  //           />
+  //         </Marker>
+  //       );
+  //     }),
+  //   [selectedLocation],
+  // );
   return (
     <MapView
       style={{flex: 1}}
       ref={mapRef}
       provider={PROVIDER_GOOGLE}
+      loadingEnabled={true}
       initialRegion={region}
       onRegionChange={setRegion}
       customMapStyle={CustomDarkMapStyle}
@@ -32,8 +57,12 @@ const GoogleMap = ({
       {selectedLocation && (
         <Marker
           coordinate={{
-            latitude: selectedLocation.latitude,
-            longitude: selectedLocation.longitude,
+            latitude: selectedLocation?.latitude
+              ? selectedLocation.latitude
+              : 0,
+            longitude: selectedLocation.longitude
+              ? selectedLocation.longitude
+              : 0,
           }}
           title={title}
           description={description}>
