@@ -10,6 +10,7 @@ export default StyleSheet.create({
     backgroundColor: '#252525',
     marginVertical: 5,
     paddingHorizontal: 5,
+    justifyContent:'center',
   },
   buttonView: {
     flex: 0.1,
@@ -35,10 +36,13 @@ export default StyleSheet.create({
     flex: 0.15,
     justifyContent: 'center',
     alignItems: 'flex-end',
+   
+  
   },
   editImageStyle: {
     width: '40%',
     height: '40%',
+  
   },
 
   DeleteimageView: {

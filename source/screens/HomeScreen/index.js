@@ -394,7 +394,7 @@ const HomeScreen = ({navigation}) => {
     );
   };
 
-  const handleLocationSelect = async () => {
+  const handleUseMyCurrentLoc = async () => {
     console.log('Hello');
     const location = await requestLocationPermissionAndGetLocation();
     console.log('Current Location:', location);
@@ -509,7 +509,7 @@ const HomeScreen = ({navigation}) => {
       <BottomSheet ref={locationBottomSheetRef} Height={screenSize.height / 2}>
         <LocationBottomSheet
           refRBSheet={locationBottomSheetRef}
-          handleUseMyCurrentLoc={handleLocationSelect}
+          handleUseMyCurrentLoc={handleUseMyCurrentLoc}
         />
       </BottomSheet>
       <View style={{flex: 0.1}}>
