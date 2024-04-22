@@ -78,25 +78,26 @@ const AdminApproveBarber = ({navigation}) => {
     const userDetails = await getAsyncItem(
       constant.AsyncStorageKeys.userDetails,
     );
-    console.log('userDetails', userDetails);
+    // console.log('userDetails', userDetails);
     setUserDetails(userDetails);
   };
 
   const getBarberApproveService = () => {
     if (!hasMoreData) {
-      console.log('inside hasMoreData');
+      // console.log('inside hasMoreData');
       return;
     }
-    console.log('Outside');
+    // console.log('Outside');
     setIsLoading(true);
     const payload = {
       ...initialBarberApproveFields,
       pageNumber: pageRef.current,
       pageSize: 5,
     };
-    console.log('Payload', payload);
+    console.log('Payload.........../////////>>', payload);
     PostRequest(endPoint.BARBER_APPROVE_SERVICES, payload)
       .then(res => {
+        console.log("Helo", res?.data?.data)
         if (res?.data?.data?.length > 0) {
           let newData = res?.data?.data;
           setBarberApprove([...BarberApprove, ...newData]);
@@ -136,9 +137,10 @@ const AdminApproveBarber = ({navigation}) => {
   };
 
   const postBarberApproveService = payload => {
+    // console.log('payload',payload)
     PostRequest(endPoint.BARBER_APPROVE_SERVICE_POST, payload)
+ 
       .then(res => {
-        console.log('res', res?.data);
         if (res?.data?.code === 200) {
           SimpleSnackBar(res?.data?.message);
           setIsLoading(false);

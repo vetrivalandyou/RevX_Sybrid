@@ -56,6 +56,7 @@ export const endPoint = {
   GET_SETUP_CATEGORIES: 'Barber/GetSetupCategories',
   SETUP_CATEGORIES_DELETE: 'Barber/SetupCategories_Delete',
   CUSTOMER_SERVICES: 'Customer/Category_Services',
+  BARBER_SERVICE_CATEGORY:'Admin/BarberServiceCategry',
 
   //Admin End Points
   BARBER_LIST: 'Admin/Barber_List',
