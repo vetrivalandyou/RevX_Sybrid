@@ -10,13 +10,13 @@ import {endPoint} from '../../../AppConstants/urlConstants';
 import {getAsyncItem} from '../../../utils/SettingAsyncStorage';
 import {LATEST_SELECT} from '../../../AppConstants/appConstants';
 import constants from '../../../AppConstants/Constants.json';
-import { ActivityIndicator } from 'react-native'; // Import the ActivityIndicator
-import { Geolocation } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
-import { requestLocationPermissionAndGetLocation } from '../../../utils/GetLocation';
-import { SimpleSnackBar } from '../Snakbar/Snakbar';
+import {ActivityIndicator} from 'react-native'; // Import the ActivityIndicator
+import {Geolocation} from 'react-native';
+import {useNavigation} from '@react-navigation/native';
+import {requestLocationPermissionAndGetLocation} from '../../../utils/GetLocation';
+import {SimpleSnackBar} from '../Snakbar/Snakbar';
 
-const LocationBottomSheet = ({handleUseMyCurrentLoc, refRBSheet}) => {
+const LocationBottomSheet = ({refRBSheet}) => {
   const [locations, setLocations] = useState([]);
   const [userDetails, setUserDetails] = useState({});
   const [id, setId] = useState(null);
@@ -30,41 +30,48 @@ const LocationBottomSheet = ({handleUseMyCurrentLoc, refRBSheet}) => {
   const [colorChange, setColorChange] = useState(true);
   const navigation = useNavigation();
   const [currentLocation, setCurrentLocation] = useState(null);
-  
 
   const handleUseMyCurrentLoc = async () => {
     const location = await requestLocationPermissionAndGetLocation();
     // setLocationLatitude(location?.coords?.latitude);
     // setLocationLongitude(location?.coords?.longitude);
-    console.log('Current Location,,,,,,,,,:', location?.coords?.longitude);
-    
+    // console.log('Current Location,,,,,,,,,:', location?.coords?.longitude);
+
     // Call locatioDetails after setting the location latitude and longitude
     locatioDetails(location);
   };
-  
-  const locatioDetails = (location) => {
+
+  const handleClickLocation = item => {
+    setSelectedItem(item);
+    setId(item?.id);
+    setLocationName(item?.locationName);
+    setLocationLatitude(item?.locationLatitude);
+    setLocationLongitude(item?.locationLongitude);
+    setAddress(item?.address);
+    setNearestLandmark(item?.nearestLandmark);
+  };
+
+  const locatioDetails = location => {
     const payload = {
-      locationName: "kk",
-      nearstLandmark: "abh",
+      locationName: 'Location Name 12',
+      nearstLandmark: 'Nearst LandMark',
       id: userDetails?.userId,
       locationLatitude: location?.coords?.latitude,
       locationLongitude: location?.coords?.longitude,
       mobileNo: userDetails?.userPhone,
       userId: userDetails?.userId,
-      address: "abc",
+      address: 'Address',
       operations: 1,
       createdBy: userDetails?.userId,
       userIP: '::1',
     };
-    console.log("payload.........", payload);
-    
-   
+    console.log('payload.........', payload);
+
     PostRequest(endPoint.BARBER_SET_UP_LOCATION_SERVICES, payload)
       .then(res => {
         if (res?.data?.code == 200) {
-          console.log("api respob=nse.....",res.data)
+          console.log('api respob=nse.....', res.data);
           SimpleSnackBar(res?.data?.message);
-        
         } else {
           SimpleSnackBar(res?.data?.message);
         }
@@ -74,18 +81,16 @@ const LocationBottomSheet = ({handleUseMyCurrentLoc, refRBSheet}) => {
       });
   };
 
-  const handleClickEdit = () => {
-    navigation.navigate(constants.screen.MyLocation);
+  const handleClickEdit = id => {
+    navigation.navigate(constants.screen.MyLocation, {id});
   };
 
   const getAsyncData = async () => {
     const userDetailsData = await getAsyncItem(
       constants.AsyncStorageKeys.userDetails,
     );
-    
     setUserDetails(userDetailsData);
   };
- 
 
   useEffect(() => {
     getAsyncData();
@@ -113,7 +118,6 @@ const LocationBottomSheet = ({handleUseMyCurrentLoc, refRBSheet}) => {
           setIsLoading(false);
           setLocations(res?.data?.data);
         } else {
-          // console.log('Error fetching locations:', res?.data?.message);
         }
       })
       .catch(err => {
@@ -121,14 +125,13 @@ const LocationBottomSheet = ({handleUseMyCurrentLoc, refRBSheet}) => {
       });
   };
 
-  const handleLocation = () => {
-    handleUseMyCurrentLoc();
-    // refRBSheet.current.close();
-  };
+  // const handleLocation = () => {
+  //   handleUseMyCurrentLoc();
+  //   // refRBSheet.current.close();
+  // };
 
   const openLocationScreen = () => {
-    navigation.navigate(constants.screen.MyLocation),
-      refRBSheet.current.close();
+    navigation.navigate(constants.screen.MyLocation);
   };
   console.log('location id ///////////', selectedItem?.id);
 
@@ -194,7 +197,9 @@ const LocationBottomSheet = ({handleUseMyCurrentLoc, refRBSheet}) => {
 
   return (
     <View style={lbStyle.mainContainer}>
-      <TouchableOpacity onPress={handleUseMyCurrentLoc} style={[lbStyle.clContainer]}>
+      <TouchableOpacity
+        onPress={handleUseMyCurrentLoc}
+        style={[lbStyle.clContainer]}>
         <View style={lbStyle.clIconView}>
           <CustomIcon
             // onPress={locatioDetails}
