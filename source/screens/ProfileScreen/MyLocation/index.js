@@ -1,15 +1,15 @@
-import React, {useEffect, useRef, useState} from 'react';
-import {TouchableOpacity, View} from 'react-native';
-import {useSelector} from 'react-redux';
+import React, { useEffect, useRef, useState } from 'react';
+import { TouchableOpacity, View } from 'react-native';
+import { useSelector } from 'react-redux';
 import Screen from '../../../components/atom/ScreenContainer/Screen';
 import appColors from '../../../AppConstants/appColors';
 import CustomIcon, {
   Icons,
 } from '../../../components/molecules/CustomIcon/CustomIcon';
 import GoogleMap from '../../../components/atom/GoogleMap';
-import LocationBottomSheet from '../../../components/atom/LocationButtomSheet';
 import MyLocationBottomSheet from '../../../components/atom/MyLocationBottomSheet';
-import {useRoute} from '@react-navigation/native';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import { screenSize } from '../../../components/atom/ScreenSize';
 
 const MyLocation = ({navigation}) => {
   const route = useRoute();
@@ -33,12 +33,12 @@ const MyLocation = ({navigation}) => {
   });
 
   const handleLocationSelect = () => {
-    setSelectedLocation({
+    setSelectedLocation([{
       latitude: coords?.coords?.latitude,
       longitude: coords?.coords?.longitude,
       latitudeDelta: 0.0922,
       longitudeDelta: 0.0421,
-    });
+    }]);
 
     mapRef?.current?.animateToRegion(
       {
@@ -68,8 +68,6 @@ const MyLocation = ({navigation}) => {
       },
       1000, // Animation duration in milliseconds
     );
-
-    // console.log(selectedLocation?.latitude);
   };
 
   return (
@@ -110,15 +108,25 @@ const MyLocation = ({navigation}) => {
                 longitude: selectedLocation.longitude,
               }}
               title={'Marker Title'}
-              description={'Marker Description'}>
-              <Image
-                source={CustomMarkerImage}
-                style={{
-                  width: 50,
-                  height: 50,
-                  backgroundColor: 'transparent',
-                  // borderColor: '#FFD700',
-                }}
+              description={'Marker Description'}
+              selectedLocation={selectedLocation}
+              handleMapPress={handleMapPress}
+            />
+            <TouchableOpacity
+              onPress={() => navigation.goBack()}
+              style={{
+                position: 'absolute',
+                top: 20,
+                left: 20,
+                backgroundColor: appColors.Black,
+                padding: 10,
+                borderRadius: 100,
+              }}>
+              <CustomIcon
+                type={Icons.Entypo}
+                name={'cross'}
+                size={25}
+                color={appColors.Goldcolor}
               />
             </Marker>
           )}

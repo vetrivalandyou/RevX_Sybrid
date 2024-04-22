@@ -21,7 +21,7 @@ const LocationScreen = () => {
   const navigation = useNavigation();
   const refRBSheet = useRef();
   const mapRef = useRef(null);
-  const [selectedLocation, setSelectedLocation] = useState(null);
+  const [selectedLocation, setSelectedLocation] = useState([]);
   // const origin = {latitude: 24.86146, longitude: 74.329376};
   // const destination = {latitude: 31.582045, longitude: 74.329376};
   const [region, setRegion] = useState({
@@ -43,12 +43,12 @@ const LocationScreen = () => {
   const handleMapPress = event => {
     // Handle map press action
     const {coordinate} = event.nativeEvent;
-    setSelectedLocation({
+    setSelectedLocation([{
       latitude: coordinate.latitude,
       longitude: coordinate.longitude,
       latitudeDelta: 0.0922,
       longitudeDelta: 0.0421,
-    });
+    }]);
     // setSelectedLocation({
     //   latitude: coordinate.latitude,
     //   longitude: coordinate.longitude,
@@ -57,12 +57,12 @@ const LocationScreen = () => {
   };
   const handleLocationSelect = (data, details) => {
     // 'details' contains additional information about the selected place
-    setSelectedLocation({
+    setSelectedLocation([{
       latitude: details.geometry.location.lat,
       longitude: details.geometry.location.lng,
       latitudeDelta: 0.0922,
       longitudeDelta: 0.0421,
-    });
+    }]);
 
     mapRef.current.animateToRegion(
       {
@@ -119,50 +119,12 @@ const LocationScreen = () => {
           headerTextViewStyle={{alignItems: 'center'}}
         />
       </View>
-
-      {/* <View style={{ flex: 0.1 }}>
-        <GooglePlacesAutocomplete
-          placeholder="Search"
-          onPress={handleLocationSelect}
-          query={{
-            key: 'AIzaSyC7Y3a-Q8qZXj5XgLzpHa92b_nw3sR8aWE',
-            language: 'en', // Optional: specify the language for results
-          }}
-          // fetchDetails
-          autoFocus={false}
-          returnKeyType={'default'}
-          fetchDetails={true}
-          styles={{
-            container: {
-              position: 'absolute',
-              zIndex: 1,
-              top: 10,
-              width: '100%',
-            },
-
-            // textInputContainer: {
-            //   backgroundColor: 'grey',
-            // },
-            textInput: {
-              height: 38,
-              color: '#5d5d5d',
-              fontSize: 16,
-            },
-            predefinedPlacesDescription: {
-              color: '#000',
-            },
-          }}
-        />
-      </View> */}
-
       <View style={{flex: 0.9, borderRadius: 20, overflow: 'hidden'}}>
         <GoogleMap
           mapRef={mapRef}
           region={region}
           setRegion={setRegion}
-          title={'Marker Title'}
-          description={'Marker Description'}
-          handleMapPress={handleMapPress}
+          // handleMapPress={handleMapPress}
           selectedLocation={selectedLocation}
           CustomMarkerImage={CustomMarkerImage}
         />

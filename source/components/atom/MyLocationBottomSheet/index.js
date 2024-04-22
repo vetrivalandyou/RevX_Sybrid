@@ -2,10 +2,12 @@ import React, { useEffect, useState } from 'react';
 import {
   ActivityIndicator,
   FlatList,
+  Platform,
   StyleSheet,
   Text,
   TouchableOpacity,
   View,
+  ScrollView
 } from 'react-native';
 import appColors from '../../../AppConstants/appColors';
 import CustomIcon, {
@@ -339,9 +341,6 @@ const lbStyle = StyleSheet.create({
     flex: 1,
     paddingHorizontal: 15,
     paddingVertical: 15,
-    // borderTopRightRadius: 30,
-    // borderTopLeftRadius: 30,
-    // backgroundColor: appColors.AppBlue,
   },
 
   clTextStyle: { fontSize: 13, fontWeight: '500', color: appColors.White },
