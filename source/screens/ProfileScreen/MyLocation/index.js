@@ -9,9 +9,12 @@ import CustomIcon, {
 import GoogleMap from '../../../components/atom/GoogleMap';
 import LocationBottomSheet from '../../../components/atom/LocationButtomSheet';
 import MyLocationBottomSheet from '../../../components/atom/MyLocationBottomSheet';
+import {useRoute} from '@react-navigation/native';
 
 const MyLocation = ({navigation}) => {
   const {coords} = useSelector(state => state.LocationReducer);
+
+  console.log("coords....",coords)
   const mapRef = useRef();
 
   const [selectedLocation, setSelectedLocation] = useState(null);
@@ -42,7 +45,7 @@ const MyLocation = ({navigation}) => {
   };
 
   const handleMapPress = e => {
-    console.log('Live Cordinates', e.nativeEvent.coordinate);
+    // console.log('Live Cordinates', e.nativeEvent.coordinate);
     setSelectedLocation({
       latitude: e.nativeEvent.coordinate?.latitude,
       longitude: e.nativeEvent.coordinate?.longitude,
@@ -59,15 +62,16 @@ const MyLocation = ({navigation}) => {
       1000, // Animation duration in milliseconds
     );
 
-    console.log(selectedLocation?.latitude);
+    // console.log(selectedLocation?.latitude);
   };
 
   return (
     <Screen statusBarColor={appColors.Black} barStyle="light-content">
       <View
         style={{
-          flex: 1,
+          flex: 0.8,
           flexDirection: 'column',
+          backgroundColor:'red'
         }}>
         <GoogleMap
           mapRef={mapRef}
@@ -133,7 +137,7 @@ const MyLocation = ({navigation}) => {
           onPress={handleLocationSelect}
           style={{
             position: 'absolute',
-            bottom: 270,
+            bottom: 20,
             right: 20,
             backgroundColor: appColors.Black,
             padding: 12,
@@ -146,9 +150,13 @@ const MyLocation = ({navigation}) => {
             color={appColors.Goldcolor}
           />
         </TouchableOpacity>
-
+      </View>
+      <View style={{flex: 0.3}}>
         <MyLocationBottomSheet selectedLocation={selectedLocation} />
       </View>
+      {/* {selectedLocation && (
+     
+      )} */}
     </Screen>
   );
 };

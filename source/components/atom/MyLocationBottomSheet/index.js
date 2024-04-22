@@ -28,10 +28,12 @@ const MyLocationBottomSheet = ({selectedLocation}) => {
   const [colorChange, setColorChange] = useState(true);
   const navigation = useNavigation();
   const [userDetails, setUserDetails] = useState('');
+  const [isButtonDisabled, setIsButtonDisabled] = useState(true);
 
   useEffect(() => {
     getUserDetails();
-  }, []);
+    setIsButtonDisabled(!selectedLocation);
+  }, [selectedLocation]);
 
   const getUserDetails = async () => {
     const userDetail = await getAsyncItem(
@@ -169,7 +171,7 @@ const MyLocationBottomSheet = ({selectedLocation}) => {
       .then(res => {
         if (res?.data?.code == 200) {
           SimpleSnackBar(res?.data?.message);
-          navigation.goBack();
+          //   navigation.goBack();
         } else {
           SimpleSnackBar(res?.data?.message);
         }
@@ -203,7 +205,7 @@ const MyLocationBottomSheet = ({selectedLocation}) => {
             <>
               <View
                 style={{
-                  flex: 0.4,
+                  flex: 0.5,
                   borderRadius: 3,
                 }}>
                 <SimpleTextField
@@ -214,7 +216,7 @@ const MyLocationBottomSheet = ({selectedLocation}) => {
                   value={values.locationName}
                 />
                 {touched.locationName && errors.locationName && (
-                  <View style={{marginLeft: 10, margin: 5}}>
+                  <View style={{marginLeft: 10, margin: 1}}>
                     <Text style={{color: appColors.Red, fontSize: 12}}>
                       {errors.locationName}
                     </Text>
@@ -223,7 +225,7 @@ const MyLocationBottomSheet = ({selectedLocation}) => {
               </View>
               <View
                 style={{
-                  flex: 0.4,
+                  flex: 0.5,
                 }}>
                 <SimpleTextField
                   placeholder={'Nearst Landmark'}
@@ -233,14 +235,14 @@ const MyLocationBottomSheet = ({selectedLocation}) => {
                   value={values.nearstLandmark}
                 />
                 {touched.nearstLandmark && errors.nearstLandmark && (
-                  <View style={{marginLeft: 10, margin: 5}}>
+                  <View style={{marginLeft: 10, margin: 1}}>
                     <Text style={{color: appColors.Red, fontSize: 12}}>
                       {errors.nearstLandmark}
                     </Text>
                   </View>
                 )}
               </View>
-              <View style={{flex: 0.3}}>
+              <View style={{flex: 0.32}}>
                 {/* <TouchableOpacity
                 onPress={() => refRBSheet.current.close()}
                 style={[
@@ -254,11 +256,14 @@ const MyLocationBottomSheet = ({selectedLocation}) => {
                   </Text>
                 </View>
               </TouchableOpacity> */}
+
                 <ButtonComponent
                   title={'Add address details'}
                   onPress={handleSubmit}
+                  disable={!selectedLocation}
+                  style={{opacity: selectedLocation ? 1 : 0.5}}
                   //   disabled={isButtonDisabled}
-                  isLoading={isSubmitting}
+                  //   isLoading={isSubmitting}
                 />
               </View>
             </>
@@ -273,7 +278,7 @@ const MyLocationBottomSheet = ({selectedLocation}) => {
 
 const lbStyle = StyleSheet.create({
   mainContainer: {
-    flex: 0.4,
+    flex: 1,
     paddingHorizontal: 15,
     paddingVertical: 15,
     // borderTopRightRadius: 30,

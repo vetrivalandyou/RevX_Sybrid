@@ -31,7 +31,6 @@ const LocationScreen = () => {
     longitudeDelta: 0.0421,
   });
 
-
   // const distance = calculateDistance(
   //   origin.latitude,
   //   origin.longitude,
