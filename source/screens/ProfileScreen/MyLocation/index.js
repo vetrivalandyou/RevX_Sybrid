@@ -1,6 +1,6 @@
-import React, {useEffect, useRef, useState} from 'react';
-import {TouchableOpacity, View} from 'react-native';
-import {useSelector} from 'react-redux';
+import React, { useEffect, useRef, useState } from 'react';
+import { TouchableOpacity, View } from 'react-native';
+import { useSelector } from 'react-redux';
 import Screen from '../../../components/atom/ScreenContainer/Screen';
 import appColors from '../../../AppConstants/appColors';
 import CustomIcon, {
@@ -9,12 +9,14 @@ import CustomIcon, {
 import GoogleMap from '../../../components/atom/GoogleMap';
 import LocationBottomSheet from '../../../components/atom/LocationButtomSheet';
 import MyLocationBottomSheet from '../../../components/atom/MyLocationBottomSheet';
-import {useRoute} from '@react-navigation/native';
+import { useRoute } from '@react-navigation/native';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import { screenSize } from '../../../components/atom/ScreenSize';
 
-const MyLocation = ({navigation}) => {
-  const {coords} = useSelector(state => state.LocationReducer);
+const MyLocation = ({ navigation }) => {
+  const { coords } = useSelector(state => state.LocationReducer);
 
-  console.log("coords....",coords)
+  console.log("coords....", coords)
   const mapRef = useRef();
 
   const [selectedLocation, setSelectedLocation] = useState(null);
@@ -67,96 +69,62 @@ const MyLocation = ({navigation}) => {
 
   return (
     <Screen statusBarColor={appColors.Black} barStyle="light-content">
-      <View
-        style={{
-          flex: 0.8,
-          flexDirection: 'column',
-          backgroundColor:'red'
-        }}>
-        <GoogleMap
-          mapRef={mapRef}
-          region={region}
-          setRegion={setRegion}
-          title={'Marker Title'}
-          description={'Marker Description'}
-          selectedLocation={selectedLocation}
-          handleMapPress={handleMapPress}
-        />
-
-        {/* <MapView
-          style={{flex: 1}}
-          ref={mapRef}
-          provider={PROVIDER_GOOGLE}
-          initialRegion={region}
-          onRegionChange={setRegion}
-          customMapStyle={CustomDarkMapStyle}
-          zoomEnabled={true}
-          scrollEnabled={true}
-          rotateEnabled={true}
-          pitchEnabled={true}
-          // onPress={handleMapPress}
-        >
-          {selectedLocation && (
-            <Marker
-              coordinate={{
-                latitude: selectedLocation.latitude,
-                longitude: selectedLocation.longitude,
-              }}
+      <KeyboardAwareScrollView contentContainerStyle={{ flexGrow: 1 }} extraScrollHeight={0} extraHeight={0} keyboardShouldPersistTaps="handled">
+        <View style={{ flex: 1 }}>
+          <View
+            style={{
+              flex: 1,
+              flexDirection: 'column',
+            }}>
+            <GoogleMap
+              mapRef={mapRef}
+              region={region}
+              setRegion={setRegion}
               title={'Marker Title'}
-              description={'Marker Description'}>
-              <Image
-                source={CustomMarkerImage}
-                style={{
-                  width: 50,
-                  height: 50,
-                  backgroundColor: 'transparent',
-                  // borderColor: '#FFD700',
-                }}
+              description={'Marker Description'}
+              selectedLocation={selectedLocation}
+              handleMapPress={handleMapPress}
+            />
+            <TouchableOpacity
+              onPress={() => navigation.goBack()}
+              style={{
+                position: 'absolute',
+                top: 20,
+                left: 20,
+                backgroundColor: appColors.Black,
+                padding: 10,
+                borderRadius: 100,
+              }}>
+              <CustomIcon
+                type={Icons.Entypo}
+                name={'cross'}
+                size={25}
+                color={appColors.Goldcolor}
               />
-            </Marker>
-          )}
-        </MapView> */}
-        <TouchableOpacity
-          onPress={() => navigation.goBack()}
-          style={{
-            position: 'absolute',
-            top: 20,
-            left: 20,
-            backgroundColor: appColors.Black,
-            padding: 10,
-            borderRadius: 100,
-          }}>
-          <CustomIcon
-            type={Icons.Entypo}
-            name={'cross'}
-            size={25}
-            color={appColors.Goldcolor}
-          />
-        </TouchableOpacity>
-        <TouchableOpacity
-          onPress={handleLocationSelect}
-          style={{
-            position: 'absolute',
-            bottom: 20,
-            right: 20,
-            backgroundColor: appColors.Black,
-            padding: 12,
-            borderRadius: 100,
-          }}>
-          <CustomIcon
-            type={Icons.MaterialCommunityIcons}
-            name={'crosshairs-gps'}
-            size={30}
-            color={appColors.Goldcolor}
-          />
-        </TouchableOpacity>
-      </View>
-      <View style={{flex: 0.3}}>
-        <MyLocationBottomSheet selectedLocation={selectedLocation} />
-      </View>
-      {/* {selectedLocation && (
-     
-      )} */}
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={handleLocationSelect}
+              style={{
+                position: 'absolute',
+                top: 20,
+                right: 20,
+                backgroundColor: appColors.Black,
+                padding: 12,
+                borderRadius: 100,
+              }}>
+              <CustomIcon
+                type={Icons.MaterialCommunityIcons}
+                name={'crosshairs-gps'}
+                size={30}
+                color={appColors.Goldcolor}
+              />
+            </TouchableOpacity>
+          </View>
+          <View style={{ height: screenSize.height / 3.5, width: screenSize.width, position: 'absolute', bottom: 0, backgroundColor: appColors.Black }}>
+            <MyLocationBottomSheet selectedLocation={selectedLocation} />
+          </View>
+        </View>
+      </KeyboardAwareScrollView>
     </Screen>
   );
 };
