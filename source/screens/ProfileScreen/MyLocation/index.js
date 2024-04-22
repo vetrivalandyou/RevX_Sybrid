@@ -7,19 +7,15 @@ import CustomIcon, {
   Icons,
 } from '../../../components/molecules/CustomIcon/CustomIcon';
 import GoogleMap from '../../../components/atom/GoogleMap';
-import LocationBottomSheet from '../../../components/atom/LocationButtomSheet';
 import MyLocationBottomSheet from '../../../components/atom/MyLocationBottomSheet';
-import { useRoute } from '@react-navigation/native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { screenSize } from '../../../components/atom/ScreenSize';
 
 const MyLocation = ({ navigation }) => {
   const { coords } = useSelector(state => state.LocationReducer);
-
-  console.log("coords....", coords)
   const mapRef = useRef();
 
-  const [selectedLocation, setSelectedLocation] = useState(null);
+  const [selectedLocation, setSelectedLocation] = useState([]);
   const [region, setRegion] = useState({
     latitude: 31.5203696,
     longitude: 74.35874729999999,
@@ -28,12 +24,12 @@ const MyLocation = ({ navigation }) => {
   });
 
   const handleLocationSelect = () => {
-    setSelectedLocation({
+    setSelectedLocation([{
       latitude: coords?.coords?.latitude,
       longitude: coords?.coords?.longitude,
       latitudeDelta: 0.0922,
       longitudeDelta: 0.0421,
-    });
+    }]);
 
     mapRef?.current?.animateToRegion(
       {
@@ -48,12 +44,12 @@ const MyLocation = ({ navigation }) => {
 
   const handleMapPress = e => {
     // console.log('Live Cordinates', e.nativeEvent.coordinate);
-    setSelectedLocation({
+    setSelectedLocation([{
       latitude: e.nativeEvent.coordinate?.latitude,
       longitude: e.nativeEvent.coordinate?.longitude,
       latitudeDelta: 0.0922,
       longitudeDelta: 0.0421,
-    });
+    }]);
     mapRef.current.animateToRegion(
       {
         latitude: e.nativeEvent.coordinate?.latitude,
@@ -63,8 +59,6 @@ const MyLocation = ({ navigation }) => {
       },
       1000, // Animation duration in milliseconds
     );
-
-    // console.log(selectedLocation?.latitude);
   };
 
   return (
