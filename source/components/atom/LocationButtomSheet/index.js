@@ -1,44 +1,108 @@
-import React, {useEffect, useState} from 'react';
-import {FlatList, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { FlatList, Platform, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import appColors from '../../../AppConstants/appColors';
 import CustomIcon, {
   Icons,
 } from '../../../components/molecules/CustomIcon/CustomIcon';
-import {screenSize} from '../ScreenSize';
-import {PostRequest} from '../../../services/apiCall';
-import {endPoint} from '../../../AppConstants/urlConstants';
-import {getAsyncItem} from '../../../utils/SettingAsyncStorage';
-import {LATEST_SELECT} from '../../../AppConstants/appConstants';
+import { screenSize } from '../ScreenSize';
+import { PostRequest } from '../../../services/apiCall';
+import { endPoint, messages } from '../../../AppConstants/urlConstants';
+import { getAsyncItem } from '../../../utils/SettingAsyncStorage';
+import { LATEST_SELECT } from '../../../AppConstants/appConstants';
 import constants from '../../../AppConstants/Constants.json';
-import {ActivityIndicator} from 'react-native'; // Import the ActivityIndicator
-import {Geolocation} from 'react-native';
-import {useNavigation} from '@react-navigation/native';
-import {requestLocationPermissionAndGetLocation} from '../../../utils/GetLocation';
-import {SimpleSnackBar} from '../Snakbar/Snakbar';
+import { ActivityIndicator } from 'react-native'; // Import the ActivityIndicator
+import Geolocation from 'react-native-geolocation-service';
+import { useNavigation } from '@react-navigation/native';
+import { requestLocationPermissionAndGetLocation } from '../../../utils/GetLocation';
+import { SimpleSnackBar } from '../Snakbar/Snakbar';
 
-const LocationBottomSheet = ({refRBSheet}) => {
-  const [locations, setLocations] = useState([]);
-  const [userDetails, setUserDetails] = useState({});
+const LocationBottomSheet = ({ refRBSheet }) => {
+
+  const navigation = useNavigation();
   const [id, setId] = useState(null);
+  const [address, setAddress] = useState('');
+  const [locationList, setLocationList] = useState([]);
+  const [userDetails, setUserDetails] = useState({});
   const [locationName, setLocationName] = useState('');
   const [locationLatitude, setLocationLatitude] = useState('');
   const [locationLongitude, setLocationLongitude] = useState('');
-  const [address, setAddress] = useState('');
   const [nearestLandmark, setNearestLandmark] = useState('');
   const [isLoading, setIsLoading] = useState(true);
   const [selectedItem, setSelectedItem] = useState('');
   const [colorChange, setColorChange] = useState(true);
-  const navigation = useNavigation();
   const [currentLocation, setCurrentLocation] = useState(null);
 
-  const handleUseMyCurrentLoc = async () => {
-    const location = await requestLocationPermissionAndGetLocation();
-    // setLocationLatitude(location?.coords?.latitude);
-    // setLocationLongitude(location?.coords?.longitude);
-    // console.log('Current Location,,,,,,,,,:', location?.coords?.longitude);
+  const initialGetLocationFields = {
+    id: 0,
+    locationName: '',
+    locationLatitude: 0.0,
+    locationLongitude: 0.0,
+    address: '',
+    nearestLandmark: '', // Corrected property name
+    mobileNo: userDetails.userPhone,
+    userId: userDetails.userId,
+    operations: LATEST_SELECT,
+    createdBy: userDetails.userId,
+    userIP: '::1',
+  };
 
-    // Call locatioDetails after setting the location latitude and longitude
-    locatioDetails(location);
+  const handleUseMyCurrentLoc = async () => {
+    var userCurrentLocation;
+    if (Platform.OS == 'android') {
+      userCurrentLocation = await requestLocationPermissionAndGetLocation();
+      setCurrentLocation(userCurrentLocation)
+    } else {
+     Geolocation.requestAuthorization('whenInUse').then(res => {
+        return new Promise((resolve, reject) => {
+          Geolocation.getCurrentPosition(
+            position => {
+              console.log("Inside", position)
+              resolve(setCurrentLocation(position))
+              
+            },
+            error => {
+              console.log(error)
+            },
+            { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 },
+          );
+        })
+      });
+    }
+    console.log("currentLocation", currentLocation)
+    if (currentLocation) {
+      locatioDetails(currentLocation);
+    }
+  };
+
+
+  const locatioDetails = location => {
+    const payload = {
+      locationName: 'My Location',
+      nearstLandmark: 'Nearst LandMark',
+      id: userDetails?.userId,
+      locationLatitude: location?.coords?.latitude,
+      locationLongitude: location?.coords?.longitude,
+      mobileNo: userDetails?.userPhone,
+      userId: userDetails?.userId,
+      address: 'Address',
+      operations: 1,
+      createdBy: userDetails?.userId,
+      userIP: '::1',
+    };
+    console.log('payload.........', payload);
+    PostRequest(endPoint.BARBER_SET_UP_LOCATION_SERVICES, payload)
+      .then(res => {
+        if (res?.data?.code == 200) {
+          console.log('api respob=nse.....', res.data);
+          SimpleSnackBar(res?.data?.message);
+        } else {
+          SimpleSnackBar(res?.data?.message);
+        }
+      })
+      .catch(err => {
+        console.log("Hello", err)
+        SimpleSnackBar(messages?.Catch, appColors.Red);
+      });
   };
 
   const handleClickLocation = item => {
@@ -51,38 +115,8 @@ const LocationBottomSheet = ({refRBSheet}) => {
     setNearestLandmark(item?.nearestLandmark);
   };
 
-  const locatioDetails = location => {
-    const payload = {
-      locationName: 'Location Name 12',
-      nearstLandmark: 'Nearst LandMark',
-      id: userDetails?.userId,
-      locationLatitude: location?.coords?.latitude, 
-      locationLongitude: location?.coords?.longitude,
-      mobileNo: userDetails?.userPhone,
-      userId: userDetails?.userId,
-      address: 'Address',
-      operations: 1,
-      createdBy: userDetails?.userId,
-      userIP: '::1',
-    };
-    console.log('payload.........', payload);
-
-    PostRequest(endPoint.BARBER_SET_UP_LOCATION_SERVICES, payload)
-      .then(res => {
-        if (res?.data?.code == 200) {
-          console.log('api respob=nse.....', res.data);
-          SimpleSnackBar(res?.data?.message);
-        } else {
-          SimpleSnackBar(res?.data?.message);
-        }
-      })
-      .catch(err => {
-        SimpleSnackBar(messages?.Catch, appColors.Red);
-      });
-  };
-
   const handleClickEdit = id => {
-    navigation.navigate(constants.screen.MyLocation, {id});
+    navigation.navigate(constants.screen.MyLocation, { id });
   };
 
   const getAsyncData = async () => {
@@ -97,26 +131,14 @@ const LocationBottomSheet = ({refRBSheet}) => {
     fetchLocations();
   }, []);
 
-  const payload = {
-    id: 0,
-    locationName: '',
-    locationLatitude: 0.0,
-    locationLongitude: 0.0,
-    address: '',
-    nearestLandmark: '', // Corrected property name
-    mobileNo: userDetails.userPhone,
-    userId: userDetails.userId,
-    operations: LATEST_SELECT,
-    createdBy: userDetails.userId,
-    userIP: '::1',
-  };
+
 
   const fetchLocations = () => {
-    PostRequest(endPoint.BARBER_GET_SET_UP_LOCATION, payload)
+    PostRequest(endPoint.BARBER_GET_SET_UP_LOCATION, initialGetLocationFields)
       .then(res => {
         if (res?.data?.code === 200) {
           setIsLoading(false);
-          setLocations(res?.data?.data);
+          setLocationList(res?.data?.data);
         } else {
         }
       })
@@ -133,9 +155,8 @@ const LocationBottomSheet = ({refRBSheet}) => {
   const openLocationScreen = () => {
     navigation.navigate(constants.screen.MyLocation);
   };
-  console.log('location id ///////////', selectedItem?.id);
 
-  const LocationList = ({item}) => {
+  const LocationList = ({ item }) => {
     return (
       <View
         style={{
@@ -169,7 +190,7 @@ const LocationBottomSheet = ({refRBSheet}) => {
               )}
             </View>
           </View>
-          <View style={[lbStyle.clTextView, {flex: 0.7}]}>
+          <View style={[lbStyle.clTextView, { flex: 0.7 }]}>
             <Text
               style={{
                 fontSize: 13,
@@ -180,7 +201,7 @@ const LocationBottomSheet = ({refRBSheet}) => {
             </Text>
           </View>
           {selectedItem?.id == item.id && (
-            <View style={[lbStyle.clTextView, {flex: 0.1}]}>
+            <View style={[lbStyle.clTextView, { flex: 0.1 }]}>
               <CustomIcon
                 type={Icons.MaterialIcons}
                 name={'edit-location-alt'}
@@ -213,14 +234,14 @@ const LocationBottomSheet = ({refRBSheet}) => {
           <Text style={lbStyle.clTextStyle}>Use Current Location</Text>
         </View>
       </TouchableOpacity>
-      <View style={{flex: 0.6}}>
+      <View style={{ flex: 0.6 }}>
         {isLoading ? (
           <ActivityIndicator size="large" color={appColors.Goldcolor} /> // Render the loader
         ) : (
           <FlatList
-            data={locations}
+            data={locationList}
             keyExtractor={item => item.id.toString()} // Ensure key is a string
-            renderItem={({item, index}) => {
+            renderItem={({ item, index }) => {
               // console.log('Current item:', item);
               return <LocationList item={item} index={index} />;
             }}
@@ -246,10 +267,10 @@ const LocationBottomSheet = ({refRBSheet}) => {
         onPress={() => refRBSheet.current.close()}
         style={[
           lbStyle.clContainer,
-          {justifyContent: 'center', alignItems: 'flex-end'},
+          { justifyContent: 'center', alignItems: 'flex-end' },
         ]}>
         <View style={lbStyle.clButotnView}>
-          <Text style={[lbStyle.clTextStyle, {textAlign: 'center'}]}>
+          <Text style={[lbStyle.clTextStyle, { textAlign: 'center' }]}>
             Confirm Location
           </Text>
         </View>
@@ -265,10 +286,10 @@ const lbStyle = StyleSheet.create({
     paddingHorizontal: 15,
     paddingVertical: 15,
   },
-  clContainer: {flex: 0.13, flexDirection: 'row'},
-  clIconView: {flex: 0.15, justifyContent: 'center', alignItems: 'center'},
-  clTextView: {flex: 0.8, justifyContent: 'center'},
-  clTextStyle: {fontSize: 13, fontWeight: '500', color: appColors.White},
+  clContainer: { flex: 0.13, flexDirection: 'row' },
+  clIconView: { flex: 0.15, justifyContent: 'center', alignItems: 'center' },
+  clTextView: { flex: 0.8, justifyContent: 'center' },
+  clTextStyle: { fontSize: 13, fontWeight: '500', color: appColors.White },
   clSelectLocation: {
     flex: 1,
     borderRadius: 20,

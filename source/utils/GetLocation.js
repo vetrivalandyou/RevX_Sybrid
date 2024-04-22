@@ -1,6 +1,7 @@
 import { Platform } from 'react-native';
 import { PERMISSIONS, request, check, RESULTS } from 'react-native-permissions';
 import Geolocation from 'react-native-geolocation-service';
+import { useEffect, useState } from 'react';
 
 export const requestLocationPermissionAndGetLocation = async () => {
   try {
@@ -22,24 +23,24 @@ export const requestLocationPermissionAndGetLocation = async () => {
       }
     } else {
       Geolocation.requestAuthorization('whenInUse').then(res => {
-        console.log('asas', res);
-        Geolocation.getCurrentPosition(
-          position => {
-            console.log('IOS Position', position);
-            return position;
-          },
-          error => {
-            console.log(error.code, error.message);
-          },
-          { enableHighAccuracy: true, timeout: 15000, maximumAge: 10000 },
-        );
+        return new Promise((resolve, reject) => {
+          Geolocation.getCurrentPosition(
+            position => {
+              const { latitude, longitude } = position;
+              console.log("Inside", position)
+              resolve(position);
+            },
+            error => {
+              reject(error);
+            },
+            { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 },
+          );
+        });
       });
     }
   }
-
   catch (error) {
-    console.warn(error);
-    throw error;
+    console.log(error);
   }
 };
 
@@ -48,6 +49,7 @@ export const getCurrentLocation = () => {
     Geolocation.getCurrentPosition(
       position => {
         const { latitude, longitude } = position;
+        console.log("Inside", position)
         resolve(position);
       },
       error => {
