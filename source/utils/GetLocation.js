@@ -1,7 +1,6 @@
 import { Platform } from 'react-native';
 import { PERMISSIONS, request, check, RESULTS } from 'react-native-permissions';
 import Geolocation from 'react-native-geolocation-service';
-import { useEffect, useState } from 'react';
 
 export const requestLocationPermissionAndGetLocation = async () => {
   try {
