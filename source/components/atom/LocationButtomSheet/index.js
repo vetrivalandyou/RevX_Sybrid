@@ -10,15 +10,6 @@ import {endPoint} from '../../../AppConstants/urlConstants';
 import {getAsyncItem} from '../../../utils/SettingAsyncStorage';
 import {LATEST_SELECT} from '../../../AppConstants/appConstants';
 import constants from '../../../AppConstants/Constants.json';
-<<<<<<< HEAD
-import { ActivityIndicator } from 'react-native'; // Import the ActivityIndicator
-import { Geolocation } from 'react-native'; 
-import { useNavigation } from '@react-navigation/native';
-import { requestLocationPermissionAndGetLocation } from '../../../utils/GetLocation';
-import { SimpleSnackBar } from '../Snakbar/Snakbar';
-
-const LocationBottomSheet = ({ refRBSheet}) => {
-=======
 import {ActivityIndicator} from 'react-native'; // Import the ActivityIndicator
 import {Geolocation} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
@@ -26,7 +17,6 @@ import {requestLocationPermissionAndGetLocation} from '../../../utils/GetLocatio
 import {SimpleSnackBar} from '../Snakbar/Snakbar';
 
 const LocationBottomSheet = ({refRBSheet}) => {
->>>>>>> c32f32da3cfcfc79071708e25c29cc33539483b0
   const [locations, setLocations] = useState([]);
   const [userDetails, setUserDetails] = useState({});
   const [id, setId] = useState(null);
@@ -63,13 +53,8 @@ const LocationBottomSheet = ({refRBSheet}) => {
 
   const locatioDetails = location => {
     const payload = {
-<<<<<<< HEAD
-      locationName: "kkkkkkkkkk",
-      nearstLandmark: "abh",
-=======
       locationName: 'Location Name 12',
       nearstLandmark: 'Nearst LandMark',
->>>>>>> c32f32da3cfcfc79071708e25c29cc33539483b0
       id: userDetails?.userId,
       locationLatitude: location?.coords?.latitude, 
       locationLongitude: location?.coords?.longitude,

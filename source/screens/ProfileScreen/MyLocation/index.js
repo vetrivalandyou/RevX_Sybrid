@@ -14,10 +14,7 @@ import {useRoute} from '@react-navigation/native';
 const MyLocation = ({navigation}) => {
   const {coords} = useSelector(state => state.LocationReducer);
 
-<<<<<<< HEAD
   console.log("coords....",coords)
-=======
->>>>>>> c32f32da3cfcfc79071708e25c29cc33539483b0
   const mapRef = useRef();
 
   const [selectedLocation, setSelectedLocation] = useState(null);
