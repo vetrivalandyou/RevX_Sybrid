@@ -32,6 +32,7 @@ const ServiceList =({navigation, route})=>{
     useEffect(() => {
       customerservices();
     }, []);
+    
   
     const customerservices = () => {
       const payload = {

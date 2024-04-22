@@ -58,6 +58,7 @@ const CreateAccountBarber = ({navigation}) => {
         console.log('RESPONSEDATA', res?.data);
         if (res?.data?.code == 200) {
           SimpleSnackBar(res?.data?.message);
+          navigation.goBack();
         } else {
           SimpleSnackBar(res?.data?.message, appColors.Red);
           setSubmitting(false);

@@ -23,15 +23,16 @@ import { getAsyncItem } from '../../../utils/SettingAsyncStorage';
 
 const Servicesboard = ({ navigation }) => {
   const [selectedItem, setSelectedItem] = useState(null);
+  const [userDetails, setUserDetails] = useState();
   const [barberServices, setBarberServices] = useState([]);
-  const [userDetails,] = useState([]);
+  
+
 
 
   const isFocused = useIsFocused();
   useEffect(() => {
     if (isFocused) {
       getUserDetail();
-      getBarberServices();
 
     }
   }, [isFocused]);
@@ -41,12 +42,15 @@ const Servicesboard = ({ navigation }) => {
       constants.AsyncStorageKeys.userDetails,
     );
     setUserDetails(userDatail);
+    getBarberServices(userDatail?.userId)
+    // console.log('userdetails',userDetails?.userId)
   };
 
 
-  function getBarberServices() {
+  function getBarberServices(userId) {
+    console.log(userId)
 
-    GetRequest(`${endPoint.SERVICE_CATEGORIES}?id=${94}`)
+    GetRequest(`${endPoint.SERVICE_CATEGORIES}?id=${userId}`)
       .then(res => {
         // setLoading(false);
         console.log(res?.data?.data);
