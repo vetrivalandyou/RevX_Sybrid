@@ -12,6 +12,8 @@ import MyLocationBottomSheet from '../../../components/atom/MyLocationBottomShee
 
 const MyLocation = ({navigation}) => {
   const {coords} = useSelector(state => state.LocationReducer);
+
+  console.log("coords....",coords)
   const mapRef = useRef();
 
   const [selectedLocation, setSelectedLocation] = useState(null);
@@ -68,6 +70,7 @@ const MyLocation = ({navigation}) => {
         style={{
           flex: 1,
           flexDirection: 'column',
+          backgroundColor:'red'
         }}>
         <GoogleMap
           mapRef={mapRef}

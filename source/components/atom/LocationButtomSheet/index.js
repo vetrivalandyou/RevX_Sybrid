@@ -11,12 +11,12 @@ import {getAsyncItem} from '../../../utils/SettingAsyncStorage';
 import {LATEST_SELECT} from '../../../AppConstants/appConstants';
 import constants from '../../../AppConstants/Constants.json';
 import { ActivityIndicator } from 'react-native'; // Import the ActivityIndicator
-import { Geolocation } from 'react-native';
+import { Geolocation } from 'react-native'; 
 import { useNavigation } from '@react-navigation/native';
 import { requestLocationPermissionAndGetLocation } from '../../../utils/GetLocation';
 import { SimpleSnackBar } from '../Snakbar/Snakbar';
 
-const LocationBottomSheet = ({handleUseMyCurrentLoc, refRBSheet}) => {
+const LocationBottomSheet = ({ refRBSheet}) => {
   const [locations, setLocations] = useState([]);
   const [userDetails, setUserDetails] = useState({});
   const [id, setId] = useState(null);
@@ -44,10 +44,10 @@ const LocationBottomSheet = ({handleUseMyCurrentLoc, refRBSheet}) => {
   
   const locatioDetails = (location) => {
     const payload = {
-      locationName: "kk",
+      locationName: "kkkkkkkkkk",
       nearstLandmark: "abh",
       id: userDetails?.userId,
-      locationLatitude: location?.coords?.latitude,
+      locationLatitude: location?.coords?.latitude, 
       locationLongitude: location?.coords?.longitude,
       mobileNo: userDetails?.userPhone,
       userId: userDetails?.userId,
@@ -121,10 +121,10 @@ const LocationBottomSheet = ({handleUseMyCurrentLoc, refRBSheet}) => {
       });
   };
 
-  const handleLocation = () => {
-    handleUseMyCurrentLoc();
-    // refRBSheet.current.close();
-  };
+  // const handleLocation = () => {
+  //   handleUseMyCurrentLoc();
+  //   // refRBSheet.current.close();
+  // };
 
   const openLocationScreen = () => {
     navigation.navigate(constants.screen.MyLocation),
