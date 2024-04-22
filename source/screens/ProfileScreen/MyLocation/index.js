@@ -12,12 +12,19 @@ import MyLocationBottomSheet from '../../../components/atom/MyLocationBottomShee
 import {useRoute} from '@react-navigation/native';
 
 const MyLocation = ({navigation}) => {
+  const route = useRoute();
+  
+  // Extract params
+  const { item } = route.params;
+  console.log("item.............", item)
+
   const {coords} = useSelector(state => state.LocationReducer);
 
   console.log("coords....",coords)
   const mapRef = useRef();
 
   const [selectedLocation, setSelectedLocation] = useState(null);
+  
   const [region, setRegion] = useState({
     latitude: 31.5203696,
     longitude: 74.35874729999999,
@@ -45,7 +52,7 @@ const MyLocation = ({navigation}) => {
   };
 
   const handleMapPress = e => {
-    // console.log('Live Cordinates', e.nativeEvent.coordinate);
+    console.log('Live Cordinates>>>>....', e.nativeEvent.coordinate);
     setSelectedLocation({
       latitude: e.nativeEvent.coordinate?.latitude,
       longitude: e.nativeEvent.coordinate?.longitude,
@@ -71,7 +78,7 @@ const MyLocation = ({navigation}) => {
         style={{
           flex: 0.8,
           flexDirection: 'column',
-          backgroundColor:'red'
+          backgroundColor:'pink'
         }}>
         <GoogleMap
           mapRef={mapRef}
@@ -152,7 +159,7 @@ const MyLocation = ({navigation}) => {
         </TouchableOpacity>
       </View>
       <View style={{flex: 0.3}}>
-        <MyLocationBottomSheet selectedLocation={selectedLocation} />
+      <MyLocationBottomSheet item={item} selectedLocation={selectedLocation} />
       </View>
       {/* {selectedLocation && (
      

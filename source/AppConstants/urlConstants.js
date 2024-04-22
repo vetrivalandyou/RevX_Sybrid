@@ -78,6 +78,8 @@ export const endPoint = {
   SAVE_ABOUTUS_TYPE: 'Common/SaveAboutUsTypeTitleDetail',
   BARBER_SET_UP_LOCATION_SERVICES: 'Barber/SetupLocation_CU',
   BARBER_GET_SET_UP_LOCATION: 'Barber/GetSetupLocation',
+  AUTH_CUSTOMER_LOCATION_UPDATED :'Auth/Customer_Location_Updated'
+  
 };
 
 export const messages = {
