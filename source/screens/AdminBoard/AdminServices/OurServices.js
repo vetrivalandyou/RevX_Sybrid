@@ -69,8 +69,9 @@ const OurServices = ({navigation}) => {
       });
   };
 
-  const addSubService = () => {
-    navigation.navigate(constants.AdminScreens.SubService);
+  const addSubService = item => {
+    console.log('item', item);
+    navigation.navigate(constants.AdminScreens.SubService, {parentService: item});
   };
 
   const addService = () => {
@@ -102,12 +103,11 @@ const OurServices = ({navigation}) => {
               key={item?.categoryId}
               item={item}
               userId={userDetails?.userId}
-              onPress={addSubService}
+              onPress={() => addSubService(item)}
             />
           )}
         />
       </View>
-
       <View style={styles.buttonView}>
         <ButtonComponent
           style={{
@@ -146,7 +146,6 @@ const Servicelist = ({item, userId, onPress, selected}) => {
           <View style={styles.textView}>
             <Text style={styles.textStyle}>{item.categoryName}</Text>
           </View>
-
           <TouchableOpacity
             onPress={() => handleEditPress(item)}
             style={styles.editImageView}>

@@ -1,37 +1,3 @@
-// const urlConstants = {
-//   // UAT URL
-//   baseUrl: 'http://124.29.235.8:8786/api/',
-
-//   endPoint: {
-//     BARBER_SERVICES: 'Barber/Barber_Services',
-//   },
-
-//   methods: {
-//     GET: 'GET',
-//     POST: 'POST',
-//     PUT: 'PUT',
-//   },
-
-//   response: {
-//     success: true,
-//     failure: false,
-//   },
-
-//   responseCode: {
-//     OK: 200,
-//     NOTFOUND: 400,
-//   },
-
-//   messages: {
-//     WentWrong: 'Something went wrong, please try again later.',
-//     Catch:
-//       'May be your internet is not connected or there is something went wrong on server.',
-//     SeesionExpire: 'Your app session has been expired, please login again.',
-//   },
-// };
-
-// export default urlConstants;
-
 export const baseUrl = 'http://124.29.235.8:8786/api/';
 export const imageUrl = 'http://124.29.235.8:8786';
 
@@ -56,7 +22,7 @@ export const endPoint = {
   GET_SETUP_CATEGORIES: 'Barber/GetSetupCategories',
   SETUP_CATEGORIES_DELETE: 'Barber/SetupCategories_Delete',
   CUSTOMER_SERVICES: 'Customer/Category_Services',
-  BARBER_SERVICE_CATEGORY:'Admin/BarberServiceCategry',
+  BARBER_SERVICE_CATEGORY: 'Admin/BarberServiceCategry',
 
   //Admin End Points
   BARBER_LIST: 'Admin/Barber_List',
@@ -69,6 +35,8 @@ export const endPoint = {
   GET_BARBER_VANASSIGNMENT: 'Barber/GetBarberVanAssignment',
   VAN_SERVICES: 'Common/Get_Vans',
   BARBER_APPROVE_SERVICE_POST: 'Barber/ApproveBarberService',
+  BARBER_SERVICES_GET: 'Barber/Barber_Services_Get',
+  BARBER_SERVICES_CU: 'Barber/Barber_Services_CU',
 
   // Customer End Points
   SERVICE_CATEGORIES: 'Customer/Service_Categories',
@@ -79,8 +47,7 @@ export const endPoint = {
   SAVE_ABOUTUS_TYPE: 'Common/SaveAboutUsTypeTitleDetail',
   BARBER_SET_UP_LOCATION_SERVICES: 'Barber/SetupLocation_CU',
   BARBER_GET_SET_UP_LOCATION: 'Barber/GetSetupLocation',
-  AUTH_CUSTOMER_LOCATION_UPDATED :'Auth/Customer_Location_Updated'
-  
+  AUTH_CUSTOMER_LOCATION_UPDATED: 'Auth/Customer_Location_Updated',
 };
 
 export const messages = {
