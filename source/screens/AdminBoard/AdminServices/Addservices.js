@@ -1,53 +1,35 @@
-import {
-  Image,
-  ScrollView,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-  TextInput,
-  Platform,
-} from 'react-native';
-import React, {useEffect, useRef, useState} from 'react';
-import Screen from '../../../components/atom/ScreenContainer/Screen';
-import {screenSize} from '../../Utills/AppConstants';
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import Entypo from 'react-native-vector-icons/Entypo';
-import ButtonComponent from '../../../components/atom/CustomButtons/ButtonComponent';
+import React, {useState} from 'react';
+import {View, TextInput, Platform} from 'react-native';
 import styles from './styles';
 import {useNavigation} from '@react-navigation/native';
-import BottomSheet from '../../../components/molecules/BottomSheetContent/BottomSheet';
-import Header from '../../../components/molecules/Header';
-import {Icons} from '../../../components/molecules/CustomIcon/CustomIcon';
-import DeleteServices from './DeleteServices';
-import constants from '../../../AppConstants/Constants.json';
 import {PostRequest} from '../../../services/apiCall';
-import {endPoint} from '../../../AppConstants/urlConstants';
-import {AppImages} from '../../../AppConstants/AppImages';
-import Servicesboard from '.';
+import appColors from '../../../AppConstants/appColors';
+import Header from '../../../components/molecules/Header';
+import Screen from '../../../components/atom/ScreenContainer/Screen';
+import {endPoint, messages} from '../../../AppConstants/urlConstants';
 import {SimpleSnackBar} from '../../../components/atom/Snakbar/Snakbar';
+import {Icons} from '../../../components/molecules/CustomIcon/CustomIcon';
+import {LATEST_INSERT, SUCCESS_CODE} from '../../../AppConstants/appConstants';
+import ButtonComponent from '../../../components/atom/CustomButtons/ButtonComponent';
 
-const Addservices = ({navigation}) => {
-  const [selectedItem, setSelectedItem] = useState(null);
+const Addservices = ({route}) => {
+  const navigation = useNavigation();
+  const {userId} = route.params;
   const [newService, setNewService] = useState('');
-  const [servicesList, setServiceslist] = useState([]);
 
-  useEffect(() => {
-    GetsetupCategories();
-  }, []);
-
-  const GetsetupCategories = () => {
+  const handleAddService = () => {
     const payload = {
       categoryId: 0,
-      categoryName: '',
-      operations: 3,
-      createdBy: 0,
+      categoryName: newService.trim(),
+      operations: LATEST_INSERT,
+      createdBy: userId,
     };
-    PostRequest(endPoint.GET_SETUP_CATEGORIES, payload)
+    console.log('payloadf', payload);
+    PostRequest(endPoint.SETUP_CATEGORIES_CU, payload)
       .then(res => {
-        console.log('responseeee>>>>.>', res?.data?.data);
-        if (res?.data?.code == 200) {
-          setServiceslist(res?.data?.data);
+        if (res?.data?.code === SUCCESS_CODE) {
+          SimpleSnackBar(res?.data?.message);
+          navigation.goBack();
         } else {
           SimpleSnackBar(res?.data?.message, appColors.Red);
         }
@@ -55,30 +37,6 @@ const Addservices = ({navigation}) => {
       .catch(err => {
         SimpleSnackBar(messages.Catch, appColors.Red);
       });
-  };
-
-  const handleAddService = () => {
-    if (newService.trim() !== '') {
-      const payload = {
-        categoryId: 0, // Set appropriate category ID if needed
-        categoryName: newService.trim(),
-        operations: 1, // Operation ID for adding service
-        createdBy: 2, // Set appropriate user ID if needed
-      };
-      PostRequest(endPoint.SETUP_CATEGORIES_CU, payload)
-        .then(res => {
-          if (res?.data?.code === 200) {
-            // If service added successfully, update the list
-            setServiceslist([...servicesList, res?.data?.data]);
-            GetsetupCategories();
-          } else {
-            console.error('Error:', res?.data?.message);
-          }
-        })
-        .catch(err => {
-          console.error('Error:', err);
-        });
-    }
   };
 
   return (
@@ -112,19 +70,19 @@ const Addservices = ({navigation}) => {
           </View>
         </View>
       </View>
-
       <View style={styles.buttonView}>
         <ButtonComponent
           style={{
-            backgroundColor: '#C79646',
+            backgroundColor: 'red',
             paddingVertical: Platform.OS == 'ios' ? 17 : 13,
             bottom: 1,
             position: 'absolute',
+            opacity: newService.trim() !== '' ? 1 : 0.3,
           }}
           btnTextColor={{color: 'white'}}
           title={'Save Service'}
-          // onPress={handleAddService}
-          onPress={() => navigation.goBack()}
+          disable={newService.trim() !== '' ? false : true}
+          onPress={handleAddService}
         />
       </View>
     </Screen>
