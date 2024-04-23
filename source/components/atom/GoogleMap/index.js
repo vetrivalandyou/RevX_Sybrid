@@ -40,42 +40,70 @@ const GoogleMap = ({
   //   [selectedLocation],
   // );
   return (
+    // <MapView
+    //   style={{ flex: 1 }}
+    //   ref={mapRef}
+    //   provider={PROVIDER_GOOGLE}
+    //   loadingEnabled={true}
+    //   initialRegion={region}
+    //   onRegionChange={setRegion}
+    //   customMapStyle={CustomDarkMapStyle}
+    //   userLocationCalloutEnabled={true}
+    //   zoomEnabled={true}
+    //   scrollEnabled={true}
+    //   rotateEnabled={true}
+    //   pitchEnabled={true}
+    //   onPress={handleMapPress}>
+    //   {selectedLocation && (
+    //     selectedLocation?.map((x) => (
+    //       <Marker
+    //       key={`marker-${x?.longitude}-${x?.longitude}`}
+    //         coordinate={{
+    //           latitude: x?.latitude
+    //             ? x.latitude
+    //             : 0,
+    //           longitude: x.longitude
+    //             ? x.longitude
+    //             : 0,
+    //         }}
+    //         title={title ? title : x?.barberName}
+    //         description={description ? description : x?.description}>
+    //         <Image
+    //           source={CustomMarkerImage ? CustomMarkerImage : MarkerImage}
+    //           style={CustomMarkerImage ? style.barberStyle : style.markerStyle}
+    //         />
+    //       </Marker>
+    //     ))
+    //   )}
+    // </MapView>
     <MapView
-      style={{ flex: 1 }}
-      ref={mapRef}
-      provider={PROVIDER_GOOGLE}
-      loadingEnabled={true}
-      initialRegion={region}
-      onRegionChange={setRegion}
-      customMapStyle={CustomDarkMapStyle}
-      userLocationCalloutEnabled={true}
-      zoomEnabled={true}
-      scrollEnabled={true}
-      rotateEnabled={true}
-      pitchEnabled={true}
-      onPress={handleMapPress}>
-      {selectedLocation && (
-        selectedLocation?.map((x) => (
-          <Marker
-          key={`marker-${x?.longitude}-${x?.longitude}`}
-            coordinate={{
-              latitude: x?.latitude
-                ? x.latitude
-                : 0,
-              longitude: x.longitude
-                ? x.longitude
-                : 0,
-            }}
-            title={title ? title : x?.barberName}
-            description={description ? description : x?.description}>
-            <Image
-              source={CustomMarkerImage ? CustomMarkerImage : MarkerImage}
-              style={CustomMarkerImage ? style.barberStyle : style.markerStyle}
-            />
-          </Marker>
-        ))
-      )}
-    </MapView>
+    style={{ flex: 1 }}
+    ref={mapRef}
+    provider={PROVIDER_GOOGLE}
+    loadingEnabled={true}
+    initialRegion={region}
+    onRegionChange={setRegion}
+    customMapStyle={CustomDarkMapStyle}
+    userLocationCalloutEnabled={true}
+    zoomEnabled={true}
+    scrollEnabled={true}
+    rotateEnabled={true}
+    pitchEnabled={true}
+    onPress={handleMapPress}>
+    {Array.isArray(selectedLocation) && selectedLocation.map((x) => (
+  <Marker
+    key={`marker-${x?.longitude}-${x?.longitude}`}
+    coordinate={{
+      latitude: x?.latitude ? x.latitude : 0,
+      longitude: x.longitude ? x.longitude : 0,
+    }}>
+    <Image
+      source={CustomMarkerImage ? CustomMarkerImage : MarkerImage}
+      style={CustomMarkerImage ? style.barberStyle : style.markerStyle}
+    />
+  </Marker>
+))}
+  </MapView>
   );
 };
 

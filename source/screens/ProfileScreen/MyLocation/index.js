@@ -10,6 +10,7 @@ import GoogleMap from '../../../components/atom/GoogleMap';
 import MyLocationBottomSheet from '../../../components/atom/MyLocationBottomSheet';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { screenSize } from '../../../components/atom/ScreenSize';
+import { useRoute } from '@react-navigation/native';
 
 const MyLocation = ({navigation}) => {
   const route = useRoute();
@@ -87,6 +88,7 @@ const MyLocation = ({navigation}) => {
           selectedLocation={selectedLocation}
           handleMapPress={handleMapPress}
         />
+        
 
         {/* <MapView
           style={{flex: 1}}
@@ -167,7 +169,7 @@ const MyLocation = ({navigation}) => {
         </TouchableOpacity>
       </View>
       <View style={{flex: 0.3}}>
-      <MyLocationBottomSheet item={item} selectedLocation={selectedLocation} />
+      <MyLocationBottomSheet route={route} selectedLocation={selectedLocation} />
       </View>
       {/* {selectedLocation && (
      

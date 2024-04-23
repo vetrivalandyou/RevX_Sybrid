@@ -17,6 +17,9 @@ import { requestLocationPermissionAndGetLocation } from '../../../utils/GetLocat
 import { SimpleSnackBar } from '../Snakbar/Snakbar';
 
 const LocationBottomSheet = ({ refRBSheet }) => {
+
+  const navigation = useNavigation();
+  
   const [locations, setLocations] = useState([]);
   const [id, setId] = useState(null);
   const [address, setAddress] = useState('');
