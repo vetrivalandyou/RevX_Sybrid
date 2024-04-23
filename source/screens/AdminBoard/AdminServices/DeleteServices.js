@@ -15,18 +15,18 @@ const DeleteServices = ({refRBSheet, DeleteService}) => {
       operations: 4,
       createdBy: 2,
     };
-    PostRequest(endPoint.SETUP_CATEGORIES_DELETE, payload)
-      .then(res => {
-        console.log('responseeee>>>>.>', res?.data);
-        if (res?.data?.code == 200) {
-          refRBSheet.current.close();
-        } else {
-          SimpleSnackBar(res?.data?.message, appColors.Red);
-        }
-      })
-      .catch(err => {
-        SimpleSnackBar(messages.Catch, appColors.Red);
-      });
+    // PostRequest(endPoint.SETUP_CATEGORIES_DELETE, payload)
+    //   .then(res => {
+    //     console.log('responseeee>>>>.>', res?.data);
+    //     if (res?.data?.code == 200) {
+    //       refRBSheet.current.close();
+    //     } else {
+    //       SimpleSnackBar(res?.data?.message, appColors.Red);
+    //     }
+    //   })
+    //   .catch(err => {
+    //     SimpleSnackBar(messages.Catch, appColors.Red);
+    //   });
   };
 
   return (
