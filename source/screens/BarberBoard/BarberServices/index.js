@@ -30,6 +30,7 @@ import {getAsyncItem} from '../../../utils/SettingAsyncStorage';
 
 const Servicesboard = ({navigation}) => {
   const [selectedItem, setSelectedItem] = useState(null);
+  // const [userDetails, setUserDetails] = useState();
   const [barberServices, setBarberServices] = useState([]);
   const [userDetails] = useState([]);
 

@@ -7,13 +7,20 @@ import CustomIcon, {
   Icons,
 } from '../../../components/molecules/CustomIcon/CustomIcon';
 import GoogleMap from '../../../components/atom/GoogleMap';
-import LocationBottomSheet from '../../../components/atom/LocationButtomSheet';
 import MyLocationBottomSheet from '../../../components/atom/MyLocationBottomSheet';
-import {useRoute} from '@react-navigation/native';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
+import {screenSize} from '../../../components/atom/ScreenSize';
 
 const MyLocation = ({navigation}) => {
+  const route = useRoute();
+
+  // Extract params
+  const {item} = route.params;
+  console.log('item.............', item);
+
   const {coords} = useSelector(state => state.LocationReducer);
 
+  console.log('coords....', coords);
   const mapRef = useRef();
 
   const [selectedLocation, setSelectedLocation] = useState(null);
@@ -26,12 +33,14 @@ const MyLocation = ({navigation}) => {
   });
 
   const handleLocationSelect = () => {
-    setSelectedLocation({
-      latitude: coords?.coords?.latitude,
-      longitude: coords?.coords?.longitude,
-      latitudeDelta: 0.0922,
-      longitudeDelta: 0.0421,
-    });
+    setSelectedLocation([
+      {
+        latitude: coords?.coords?.latitude,
+        longitude: coords?.coords?.longitude,
+        latitudeDelta: 0.0922,
+        longitudeDelta: 0.0421,
+      },
+    ]);
 
     mapRef?.current?.animateToRegion(
       {
@@ -45,7 +54,7 @@ const MyLocation = ({navigation}) => {
   };
 
   const handleMapPress = e => {
-    // console.log('Live Cordinates', e.nativeEvent.coordinate);
+    console.log('Live Cordinates>>>>....', e.nativeEvent.coordinate);
     setSelectedLocation({
       latitude: e.nativeEvent.coordinate?.latitude,
       longitude: e.nativeEvent.coordinate?.longitude,
@@ -61,8 +70,6 @@ const MyLocation = ({navigation}) => {
       },
       1000, // Animation duration in milliseconds
     );
-
-    // console.log(selectedLocation?.latitude);
   };
 
   return (
@@ -71,6 +78,7 @@ const MyLocation = ({navigation}) => {
         style={{
           flex: 0.8,
           flexDirection: 'column',
+          backgroundColor: 'pink',
         }}>
         <GoogleMap
           mapRef={mapRef}
@@ -102,15 +110,25 @@ const MyLocation = ({navigation}) => {
                 longitude: selectedLocation.longitude,
               }}
               title={'Marker Title'}
-              description={'Marker Description'}>
-              <Image
-                source={CustomMarkerImage}
-                style={{
-                  width: 50,
-                  height: 50,
-                  backgroundColor: 'transparent',
-                  // borderColor: '#FFD700',
-                }}
+              description={'Marker Description'}
+              selectedLocation={selectedLocation}
+              handleMapPress={handleMapPress}
+            />
+            <TouchableOpacity
+              onPress={() => navigation.goBack()}
+              style={{
+                position: 'absolute',
+                top: 20,
+                left: 20,
+                backgroundColor: appColors.Black,
+                padding: 10,
+                borderRadius: 100,
+              }}>
+              <CustomIcon
+                type={Icons.Entypo}
+                name={'cross'}
+                size={25}
+                color={appColors.Goldcolor}
               />
             </Marker>
           )}
@@ -151,7 +169,10 @@ const MyLocation = ({navigation}) => {
         </TouchableOpacity>
       </View>
       <View style={{flex: 0.3}}>
-        <MyLocationBottomSheet selectedLocation={selectedLocation} />
+        <MyLocationBottomSheet
+          item={item}
+          selectedLocation={selectedLocation}
+        />
       </View>
       {/* {selectedLocation && (
      

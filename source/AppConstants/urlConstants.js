@@ -56,6 +56,7 @@ export const endPoint = {
   GET_SETUP_CATEGORIES: 'Barber/GetSetupCategories',
   SETUP_CATEGORIES_DELETE: 'Barber/SetupCategories_Delete',
   CUSTOMER_SERVICES: 'Customer/Category_Services',
+  BARBER_SERVICE_CATEGORY:'Admin/BarberServiceCategry',
 
   //Admin End Points
   BARBER_LIST: 'Admin/Barber_List',
@@ -78,6 +79,8 @@ export const endPoint = {
   SAVE_ABOUTUS_TYPE: 'Common/SaveAboutUsTypeTitleDetail',
   BARBER_SET_UP_LOCATION_SERVICES: 'Barber/SetupLocation_CU',
   BARBER_GET_SET_UP_LOCATION: 'Barber/GetSetupLocation',
+  AUTH_CUSTOMER_LOCATION_UPDATED :'Auth/Customer_Location_Updated'
+  
 };
 
 export const messages = {
