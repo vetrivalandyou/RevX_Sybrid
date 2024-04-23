@@ -42,14 +42,32 @@ export default StyleSheet.create({
   },
 
   DeleteimageView: {
-    flex: 0.15,
+    flex: 0.18,
     justifyContent: 'center',
-    alignItems: 'flex-end',
+    alignItems: 'center',
     textAlign: 'right',
+    // backgroundColor: 'red',
   },
 
   Deleteimagestyle: {
     width: '40%',
     height: '40%',
+  },
+  DropdownView: {
+    width: screenSize.width / 1.12,
+    height: screenSize.height / 16,
+    justifyContent: 'center',
+  },
+  buttonStyle: {
+    backgroundColor: '#C79646',
+    paddingVertical: Platform.OS == 'ios' ? 17 : 13,
+    bottom: 1,
+    position: 'absolute',
+  },
+  dropDownStyle: {
+    backgroundColor: 'black',
+    borderColor: appColors.AppLightGray,
+    borderRadius: 30,
+    paddingHorizontal: 10,
   },
 });

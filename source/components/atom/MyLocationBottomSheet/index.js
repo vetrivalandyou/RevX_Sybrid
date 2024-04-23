@@ -24,21 +24,23 @@ import { endPoint } from '../../../AppConstants/urlConstants';
 import ButtonComponent from '../CustomButtons/ButtonComponent';
 import { getAsyncItem } from '../../../utils/SettingAsyncStorage';
 import { SimpleSnackBar } from '../Snakbar/Snakbar';
-import { useRoute } from '@react-navigation/native';
 
-const MyLocationBottomSheet = ({ selectedLocation }) => {
+const MyLocationBottomSheet = ({ selectedLocation,route }) => {
+  const navigation = useNavigation();
+
   const [selectedItem, setSelectedItem] = useState('');
   const [colorChange, setColorChange] = useState(true);
-  const navigation = useNavigation();
+ 
   const [userDetails, setUserDetails] = useState('');
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);
-  const [operationType, setOperationType] = useState('setup'); // default is 'setup'
+  const [operationType, setOperationType] = useState('setup'); 
+  // default is 'setup'
 
 
-  const route = useRoute();
+  // const route = useRoute();
   
   // Extract params
-  const { item } = route.params;
+  const { item } = route?.params || {};
   console.log("item", item?.nearstLandmark)
 
   useEffect(() => {
