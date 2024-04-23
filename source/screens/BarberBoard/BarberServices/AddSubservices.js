@@ -29,7 +29,7 @@ import Servicesboard from '.';
 import {SimpleSnackBar} from '../../../components/atom/Snakbar/Snakbar';
 import Dropdown from '../../../components/molecules/Dropdown/Dropdown';
 
-const Addservices = ({navigation}) => {
+const AddSubservices = ({navigation}) => {
   const [selectedItem, setSelectedItem] = useState(null);
   const [newService, setNewService] = useState('');
   const [servicesList, setServiceslist] = useState([]);
@@ -100,7 +100,7 @@ const Addservices = ({navigation}) => {
           lefttIcoType={Icons.Ionicons}
           onPressLeftIcon={() => navigation.goBack()}
           leftIcoName={'chevron-back'}
-          headerText={'Add Services'}
+          headerText={'Add Sub Services'}
           logIn={'success'}
         />
       </View>
@@ -181,4 +181,4 @@ const Servicelist = ({item, onPress, selected}) => {
   );
 };
 
-export default Addservices;
+export default AddSubservices;
