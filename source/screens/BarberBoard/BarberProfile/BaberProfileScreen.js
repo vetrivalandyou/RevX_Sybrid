@@ -83,7 +83,7 @@ const BaberProfileScreen = () => {
     },
     {
       id: 4,
-      title: 'Manage Services',
+      title: 'My Services',
       icon: Icons.Entypo,
     },
 

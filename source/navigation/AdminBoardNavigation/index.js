@@ -35,6 +35,16 @@ import Assignments from '../../screens/AdminBoard/ManageAssignments/Assignment';
 import EditAssignment from '../../screens/AdminBoard/ManageAssignments/EditAssignment';
 import DeleteAssignment from '../../screens/AdminBoard/ManageAssignments/DeleteAssignment';
 import DeepLinking from '../../utils/DeepLinking';
+import ServiceList from '../../screens/AdminBoard/AdminServices/ServiceList';
+import Editservices from '../../screens/AdminBoard/AdminServices/Editservices';
+import DeleteServices from '../../screens/AdminBoard/AdminServices/DeleteServices';
+import Addservices from '../../screens/AdminBoard/AdminServices/Addservices';
+import OurServices from '../../screens/AdminBoard/AdminServices/OurServices';
+import AddSubService from '../../screens/AdminBoard/AdminServices/SubService';
+import SubService from '../../screens/AdminBoard/AdminServices/SubService';
+import AddSubServices from '../../screens/AdminBoard/AdminServices/AddSubServices';
+import SubServiceList from '../../screens/AdminBoard/AdminServices/SubServiceList';
+import EditSubServices from '../../screens/AdminBoard/AdminServices/EditSubServices';
 
 const AdminStack = () => {
   const Stack = createNativeStackNavigator();
@@ -190,6 +200,53 @@ const AdminStack = () => {
         <Stack.Screen
           name={constants.AdminScreens.DeleteAssignment}
           component={DeleteAssignment}
+          options={{headerShown: false}}
+        />
+
+        <Stack.Screen
+          name={constants.AdminScreens.OurServices}
+          component={OurServices}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name={constants.AdminScreens.Addservices}
+          component={Addservices}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name={constants.AdminScreens.DeleteServices}
+          component={DeleteServices}
+          options={{headerShown: false}}
+        />
+
+        <Stack.Screen
+          name={constants.AdminScreens.Editservices}
+          component={Editservices}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name={constants.AdminScreens.ServiceList}
+          component={ServiceList}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name={constants.AdminScreens.SubService}
+          component={SubService}
+          options={{headerShown: false}}
+        />
+        {/* <Stack.Screen
+          name={constants.AdminScreens.SubServiceList}
+          component={SubServiceList}
+          options={{headerShown: false}}
+        /> */}
+        <Stack.Screen
+          name={constants.AdminScreens.AddSubServices}
+          component={AddSubServices}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name={constants.AdminScreens.EditSubServices}
+          component={EditSubServices}
           options={{headerShown: false}}
         />
       </Stack.Navigator>

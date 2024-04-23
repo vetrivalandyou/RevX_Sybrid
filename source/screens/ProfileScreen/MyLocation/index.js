@@ -17,6 +17,7 @@ const MyLocation = ({navigation}) => {
   const mapRef = useRef();
 
   const [selectedLocation, setSelectedLocation] = useState(null);
+
   const [region, setRegion] = useState({
     latitude: 31.5203696,
     longitude: 74.35874729999999,
