@@ -66,10 +66,11 @@
     "ManageVans": "ManageVans",
     "AddVanservices": "AddVanservices",
     "DeleteVanServices": "DeleteVanServices",
-   "EditVanservices": "EditVanservices",
+    "EditVanservices": "EditVanservices",
     "ServiceList": "ServiceList",
-    "EditProfile":"EditProfile",
-    "Profile": "Profile"
+    "EditProfile": "EditProfile",
+    "Profile": "Profile",
+    "AddSubservices": "AddSubservices"
   },
   "AdminScreens": {
     "AdminBottomTabNavigation": "AdminBottomTabNavigation",
@@ -101,9 +102,17 @@
     "DeleteVanServices": "DeleteVanServices",
     "EditVanservices": "EditVanservices",
     "AdminApproveBarber": "AdminApproveBarber",
-    "Assignments":"Assignments",
-   "EditAssignment":"EditAssignment",
-   "DeleteAssignment":"DeleteAssignment"
+    "Assignments": "Assignments",
+    "EditAssignment": "EditAssignment",
+    "DeleteAssignment": "DeleteAssignment",
+    "Addservices": "Addservices",
+    "DeleteServices": "DeleteServices",
+    "Editservices": "Editservices",
+    "ServiceList": "ServiceList",
+    "OurServices": "OurServices",
+    "SubService": "SubService",
+    "AddSubServices": "AddSubServices",
+    "EditSubServices": "EditSubServices"
   },
   "AsyncStorageKeys": {
     "token": "token",

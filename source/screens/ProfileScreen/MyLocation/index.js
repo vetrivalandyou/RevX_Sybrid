@@ -1,6 +1,6 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { TouchableOpacity, View } from 'react-native';
-import { useSelector } from 'react-redux';
+import React, {useEffect, useRef, useState} from 'react';
+import {TouchableOpacity, View} from 'react-native';
+import {useSelector} from 'react-redux';
 import Screen from '../../../components/atom/ScreenContainer/Screen';
 import appColors from '../../../AppConstants/appColors';
 import CustomIcon, {
@@ -14,18 +14,18 @@ import { useRoute } from '@react-navigation/native';
 
 const MyLocation = ({navigation}) => {
   const route = useRoute();
-  
+
   // Extract params
-  const { item } = route.params;
-  console.log("item.............", item)
+  const {item} = route.params;
+  console.log('item.............', item);
 
   const {coords} = useSelector(state => state.LocationReducer);
 
-  console.log("coords....",coords)
+  console.log('coords....', coords);
   const mapRef = useRef();
 
   const [selectedLocation, setSelectedLocation] = useState(null);
-  
+
   const [region, setRegion] = useState({
     latitude: 31.5203696,
     longitude: 74.35874729999999,
@@ -34,12 +34,14 @@ const MyLocation = ({navigation}) => {
   });
 
   const handleLocationSelect = () => {
-    setSelectedLocation([{
-      latitude: coords?.coords?.latitude,
-      longitude: coords?.coords?.longitude,
-      latitudeDelta: 0.0922,
-      longitudeDelta: 0.0421,
-    }]);
+    setSelectedLocation([
+      {
+        latitude: coords?.coords?.latitude,
+        longitude: coords?.coords?.longitude,
+        latitudeDelta: 0.0922,
+        longitudeDelta: 0.0421,
+      },
+    ]);
 
     mapRef?.current?.animateToRegion(
       {
@@ -77,7 +79,7 @@ const MyLocation = ({navigation}) => {
         style={{
           flex: 0.8,
           flexDirection: 'column',
-          backgroundColor:'pink'
+          backgroundColor: 'pink',
         }}>
         <GoogleMap
           mapRef={mapRef}

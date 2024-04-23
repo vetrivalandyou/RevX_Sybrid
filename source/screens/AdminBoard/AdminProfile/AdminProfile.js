@@ -62,14 +62,19 @@ const AdminProfile = () => {
       title: 'Van Assignments',
       icon: Icons.Entypo,
     },
-
     {
       id: 7,
+      title: 'Our Services',
+      icon: Icons.Entypo,
+    },
+
+    {
+      id: 8,
       title: 'Approve Barber',
       icon: Icons.Entypo,
     },
     {
-      id: 8,
+      id: 9,
       title: 'Sign Out',
       icon: Icons.Entypo,
     },
@@ -96,9 +101,12 @@ const AdminProfile = () => {
         navigation.navigate(constants.AdminScreens.Assignments);
         break;
       case 6:
-        navigation.navigate(constants.AdminScreens.AdminApproveBarber);
+        navigation.navigate(constants.AdminScreens.OurServices);
         break;
       case 7:
+        navigation.navigate(constants.AdminScreens.AdminApproveBarber);
+        break;
+      case 8:
         refRBSheet.current.open();
         break;
       default:

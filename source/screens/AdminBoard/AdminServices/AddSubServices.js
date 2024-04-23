@@ -15,7 +15,6 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Entypo from 'react-native-vector-icons/Entypo';
 import ButtonComponent from '../../../components/atom/CustomButtons/ButtonComponent';
 import styles from './styles';
-
 import {useNavigation} from '@react-navigation/native';
 import BottomSheet from '../../../components/molecules/BottomSheetContent/BottomSheet';
 import Header from '../../../components/molecules/Header';
@@ -27,13 +26,11 @@ import {endPoint} from '../../../AppConstants/urlConstants';
 import {AppImages} from '../../../AppConstants/AppImages';
 import Servicesboard from '.';
 import {SimpleSnackBar} from '../../../components/atom/Snakbar/Snakbar';
-import Dropdown from '../../../components/molecules/Dropdown/Dropdown';
 
-const Addservices = ({navigation}) => {
+const AddSubServices = ({navigation}) => {
   const [selectedItem, setSelectedItem] = useState(null);
   const [newService, setNewService] = useState('');
   const [servicesList, setServiceslist] = useState([]);
-  const [selectedValue, setSelectedValue] = useState(null);
 
   useEffect(() => {
     GetsetupCategories();
@@ -84,12 +81,6 @@ const Addservices = ({navigation}) => {
     }
   };
 
-  const dropDownData = [
-    {label: 'Option 1', value: 'option1'},
-    {label: 'Option 2', value: 'option2'},
-    {label: 'Option 3', value: 'option3'},
-  ];
-
   return (
     <Screen
       viewStyle={{flex: 1, padding: 15, backgroundColor: appColors.Black}}
@@ -100,22 +91,25 @@ const Addservices = ({navigation}) => {
           lefttIcoType={Icons.Ionicons}
           onPressLeftIcon={() => navigation.goBack()}
           leftIcoName={'chevron-back'}
-          headerText={'Add Services'}
+          headerText={'Add Sub Service'}
           logIn={'success'}
         />
       </View>
       <View style={{flex: 0.9, alignItems: 'center'}}>
-        <View style={styles.DropdownView}>
-          <Dropdown
-            label={'Select Barber'}
-            value={selectedValue}
-            onValueChange={itemValue => setSelectedValue(itemValue)}
-            dropDownData={dropDownData}
-            style={styles.dropDownStyle}
-            custompickerstyle={{
-              color: selectedValue ? appColors.White : appColors.AppLightGray,
-            }}
-          />
+        <View style={styles.container}>
+          <View style={{flex: 1, justifyContent: 'center'}}>
+            <TextInput
+              style={{
+                paddingLeft: 16,
+                fontSize: 15,
+                color: 'white',
+              }}
+              placeholder="Enter your Sub Services"
+              placeholderTextColor={'grey'}
+              value={newService}
+              onChangeText={text => setNewService(text)}
+            />
+          </View>
         </View>
       </View>
 
@@ -128,7 +122,8 @@ const Addservices = ({navigation}) => {
             position: 'absolute',
           }}
           btnTextColor={{color: 'white'}}
-          title={'Request For Approval'}
+          title={'Save Sub Services'}
+          // onPress={handleAddService}
           onPress={() => navigation.goBack()}
         />
       </View>
@@ -136,49 +131,4 @@ const Addservices = ({navigation}) => {
   );
 };
 
-const Servicelist = ({item, onPress, selected}) => {
-  const navigation = useNavigation();
-  const refRBSheet = useRef();
-
-  const handleEditPress = () => {
-    navigation.navigate(constants.BarberScreen.ServiceList, {
-      serviceName: item.categoryName,
-    });
-  };
-
-  return (
-    <TouchableOpacity onPress={onPress}>
-      <View
-        style={[
-          styles.container,
-          selected && {borderColor: '#c79647', borderWidth: 1.25},
-        ]}>
-        <View style={styles.Subcontainer}>
-          <View style={styles.textView}>
-            <Text style={styles.textStyle}>{item.categoryName}</Text>
-          </View>
-
-          <TouchableOpacity
-            onPress={handleEditPress}
-            style={styles.editImageView}>
-            <Image source={AppImages.Editimage} style={styles.editImageStyle} />
-          </TouchableOpacity>
-          <TouchableOpacity
-            onPress={() => refRBSheet.current.open()}
-            style={styles.DeleteimageView}>
-            <Image
-              source={AppImages.deleteimage}
-              style={styles.Deleteimagestyle}
-            />
-          </TouchableOpacity>
-
-          <BottomSheet ref={refRBSheet} Height={200}>
-            <DeleteServices refRBSheet={refRBSheet} />
-          </BottomSheet>
-        </View>
-      </View>
-    </TouchableOpacity>
-  );
-};
-
-export default Addservices;
+export default AddSubServices;

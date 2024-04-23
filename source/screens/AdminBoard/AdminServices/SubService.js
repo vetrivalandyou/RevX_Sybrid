@@ -15,7 +15,6 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Entypo from 'react-native-vector-icons/Entypo';
 import ButtonComponent from '../../../components/atom/CustomButtons/ButtonComponent';
 import styles from './styles';
-
 import {useNavigation} from '@react-navigation/native';
 import BottomSheet from '../../../components/molecules/BottomSheetContent/BottomSheet';
 import Header from '../../../components/molecules/Header';
@@ -27,13 +26,12 @@ import {endPoint} from '../../../AppConstants/urlConstants';
 import {AppImages} from '../../../AppConstants/AppImages';
 import Servicesboard from '.';
 import {SimpleSnackBar} from '../../../components/atom/Snakbar/Snakbar';
-import Dropdown from '../../../components/molecules/Dropdown/Dropdown';
+import DeleteSubServices from './DeleteSubServices';
 
-const Addservices = ({navigation}) => {
+const SubService = ({navigation}) => {
   const [selectedItem, setSelectedItem] = useState(null);
   const [newService, setNewService] = useState('');
   const [servicesList, setServiceslist] = useState([]);
-  const [selectedValue, setSelectedValue] = useState(null);
 
   useEffect(() => {
     GetsetupCategories();
@@ -84,11 +82,13 @@ const Addservices = ({navigation}) => {
     }
   };
 
-  const dropDownData = [
-    {label: 'Option 1', value: 'option1'},
-    {label: 'Option 2', value: 'option2'},
-    {label: 'Option 3', value: 'option3'},
-  ];
+  const addSubService = () => {
+    navigation.navigate(constants.AdminScreens.AddSubServices);
+  };
+
+  const editService = () => {
+    // navigation.navigate(constants.AdminScreens.Addservices);
+  };
 
   return (
     <Screen
@@ -100,24 +100,59 @@ const Addservices = ({navigation}) => {
           lefttIcoType={Icons.Ionicons}
           onPressLeftIcon={() => navigation.goBack()}
           leftIcoName={'chevron-back'}
-          headerText={'Add Services'}
+          headerText={'Sub services'}
           logIn={'success'}
         />
       </View>
-      <View style={{flex: 0.9, alignItems: 'center'}}>
-        <View style={styles.DropdownView}>
-          <Dropdown
-            label={'Select Barber'}
-            value={selectedValue}
-            onValueChange={itemValue => setSelectedValue(itemValue)}
-            dropDownData={dropDownData}
-            style={styles.dropDownStyle}
-            custompickerstyle={{
-              color: selectedValue ? appColors.White : appColors.AppLightGray,
-            }}
+      {/* <View style={{flex: 0.15, alignItems: 'center'}}>
+            <View style={styles.container}>
+              <View style={{flex: 1, flexDirection: 'row'}}>
+                <View style={{flex: 0.74, justifyContent: 'center'}}>
+                  <TextInput
+                    style={{
+                      paddingLeft: 16,
+                      fontSize: 15,
+                      color: 'white',
+                    }}
+                    placeholder="Enter your Services"
+                    placeholderTextColor={'grey'}
+                    value={newService}
+                    onChangeText={text => setNewService(text)}
+                  />
+                </View>
+                <View
+                  style={{
+                    flex: 0.26,
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                  }}>
+                  <ButtonComponent
+                    style={{
+                      width: '82%',
+                      backgroundColor: '#C79646',
+                      borderRadius: 5,
+                      paddingVertical: 11,
+                    }}
+                    btnTextColor={{color: 'white'}}
+                    title={'Add'}
+                    onPress={handleAddService}
+                  />
+                </View>
+              </View>
+            </View>
+          </View> */}
+
+      <ScrollView style={{flex: 0.65}}>
+        {servicesList?.map(item => (
+          <Servicelist
+            key={item.categoryId}
+            item={item}
+            // selected={selectedItem === item.categoryId}
+            // onPress={() => setSelectedItem(item.categoryId)}
+            // onPress={editService}
           />
-        </View>
-      </View>
+        ))}
+      </ScrollView>
 
       <View style={styles.buttonView}>
         <ButtonComponent
@@ -128,8 +163,8 @@ const Addservices = ({navigation}) => {
             position: 'absolute',
           }}
           btnTextColor={{color: 'white'}}
-          title={'Request For Approval'}
-          onPress={() => navigation.goBack()}
+          title={'Add Sub Service'}
+          onPress={addSubService}
         />
       </View>
     </Screen>
@@ -141,9 +176,10 @@ const Servicelist = ({item, onPress, selected}) => {
   const refRBSheet = useRef();
 
   const handleEditPress = () => {
-    navigation.navigate(constants.BarberScreen.ServiceList, {
-      serviceName: item.categoryName,
-    });
+    // navigation.navigate(constants.AdminScreens.Addservices, {
+    //   serviceName: item.categoryName,
+    // });
+    navigation.navigate(constants.AdminScreens.EditSubServices);
   };
 
   return (
@@ -173,7 +209,7 @@ const Servicelist = ({item, onPress, selected}) => {
           </TouchableOpacity>
 
           <BottomSheet ref={refRBSheet} Height={200}>
-            <DeleteServices refRBSheet={refRBSheet} />
+            <DeleteSubServices refRBSheet={refRBSheet} />
           </BottomSheet>
         </View>
       </View>
@@ -181,4 +217,4 @@ const Servicelist = ({item, onPress, selected}) => {
   );
 };
 
-export default Addservices;
+export default SubService;

@@ -30,7 +30,6 @@ import {getAsyncItem} from '../../../utils/SettingAsyncStorage';
 
 const Servicesboard = ({navigation}) => {
   const [selectedItem, setSelectedItem] = useState(null);
-  // const [userDetails, setUserDetails] = useState();
   const [barberServices, setBarberServices] = useState([]);
   const [userDetails] = useState([]);
 
@@ -46,7 +45,7 @@ const Servicesboard = ({navigation}) => {
     const userDatail = await getAsyncItem(
       constants.AsyncStorageKeys.userDetails,
     );
-    // setUserDetails(userDatail);
+    setUserDetails(userDatail);
   };
 
   function getBarberServices() {
@@ -84,7 +83,7 @@ const Servicesboard = ({navigation}) => {
           lefttIcoType={Icons.Ionicons}
           onPressLeftIcon={() => navigation.goBack()}
           leftIcoName={'chevron-back'}
-          headerText={'My Services'}
+          headerText={'Our Services'}
           logIn={'success'}
         />
       </View>
@@ -109,7 +108,7 @@ const Servicesboard = ({navigation}) => {
             position: 'absolute',
           }}
           btnTextColor={{color: 'white'}}
-          title={'Request Service'}
+          title={'Add Services'}
           onPress={() =>
             navigation.navigate(constants.BarberScreen.Addservices)
           }
@@ -141,11 +140,11 @@ const Servicelist = ({item, onPress, selected}) => {
             <Text style={styles.textStyle}>{item.service_Category}</Text>
           </View>
 
-          {/* <TouchableOpacity
+          <TouchableOpacity
             onPress={handleEditPress}
             style={styles.editImageView}>
             <Image source={AppImages.Editimage} style={styles.editImageStyle} />
-          </TouchableOpacity> */}
+          </TouchableOpacity>
           <TouchableOpacity
             onPress={() => refRBSheet.current.open()}
             style={styles.DeleteimageView}>

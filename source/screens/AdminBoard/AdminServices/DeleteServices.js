@@ -15,18 +15,18 @@ const DeleteServices = ({refRBSheet, DeleteService}) => {
       operations: 4,
       createdBy: 2,
     };
-    PostRequest(endPoint.SETUP_CATEGORIES_DELETE, payload)
-      .then(res => {
-        console.log('responseeee>>>>.>', res?.data);
-        if (res?.data?.code == 200) {
-          refRBSheet.current.close();
-        } else {
-          SimpleSnackBar(res?.data?.message, appColors.Red);
-        }
-      })
-      .catch(err => {
-        SimpleSnackBar(messages.Catch, appColors.Red);
-      });
+    // PostRequest(endPoint.SETUP_CATEGORIES_DELETE, payload)
+    //   .then(res => {
+    //     console.log('responseeee>>>>.>', res?.data);
+    //     if (res?.data?.code == 200) {
+    //       refRBSheet.current.close();
+    //     } else {
+    //       SimpleSnackBar(res?.data?.message, appColors.Red);
+    //     }
+    //   })
+    //   .catch(err => {
+    //     SimpleSnackBar(messages.Catch, appColors.Red);
+    //   });
   };
 
   return (
@@ -34,9 +34,7 @@ const DeleteServices = ({refRBSheet, DeleteService}) => {
       <View style={{flex: 0.6}}>
         <View
           style={{flex: 0.4, alignItems: 'center', justifyContent: 'center'}}>
-          <Text style={{color: '#E81F1C', fontSize: 18}}>
-            Delete My Service
-          </Text>
+          <Text style={{color: '#E81F1C', fontSize: 18}}>Delete Service</Text>
         </View>
         <View style={{flex: 0.6, paddingHorizontal: '20%'}}>
           <Text style={{color: 'white', fontSize: 16, textAlign: 'center'}}>
@@ -73,7 +71,7 @@ const DeleteServices = ({refRBSheet, DeleteService}) => {
               width: '85%',
             }}
             btnTextColor={{color: 'white'}}
-            title={'Delete My Service'}
+            title={'Delete Service'}
             onPress={DeletesetupCategories}
           />
         </View>

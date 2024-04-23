@@ -5,7 +5,7 @@ import {
   Text,
   TouchableOpacity,
   View,
-  TextInput,
+  FlatList,
   Platform,
 } from 'react-native';
 import React, {useEffect, useRef, useState} from 'react';
@@ -15,8 +15,7 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Entypo from 'react-native-vector-icons/Entypo';
 import ButtonComponent from '../../../components/atom/CustomButtons/ButtonComponent';
 import styles from './styles';
-
-import {useNavigation} from '@react-navigation/native';
+import {useIsFocused, useNavigation} from '@react-navigation/native';
 import BottomSheet from '../../../components/molecules/BottomSheetContent/BottomSheet';
 import Header from '../../../components/molecules/Header';
 import {Icons} from '../../../components/molecules/CustomIcon/CustomIcon';
@@ -27,26 +26,36 @@ import {endPoint} from '../../../AppConstants/urlConstants';
 import {AppImages} from '../../../AppConstants/AppImages';
 import Servicesboard from '.';
 import {SimpleSnackBar} from '../../../components/atom/Snakbar/Snakbar';
-import Dropdown from '../../../components/molecules/Dropdown/Dropdown';
+import {LATEST_SELECT} from '../../../AppConstants/appConstants';
+import {getAsyncItem} from '../../../utils/SettingAsyncStorage';
 
-const Addservices = ({navigation}) => {
-  const [selectedItem, setSelectedItem] = useState(null);
-  const [newService, setNewService] = useState('');
+const OurServices = ({navigation}) => {
+  const initialServiceFields = {
+    categoryId: 0,
+    categoryName: '',
+    operations: LATEST_SELECT,
+    createdBy: 0,
+  };
+  const isFocused = useIsFocused();
+  const [userDetails, setUserDetails] = useState();
   const [servicesList, setServiceslist] = useState([]);
-  const [selectedValue, setSelectedValue] = useState(null);
 
   useEffect(() => {
-    GetsetupCategories();
-  }, []);
+    if (isFocused) {
+      GetsetupCategories();
+      getAsyncData();
+    }
+  }, [isFocused]);
+
+  const getAsyncData = async () => {
+    const userDetailsData = await getAsyncItem(
+      constants.AsyncStorageKeys.userDetails,
+    );
+    setUserDetails(userDetailsData);
+  };
 
   const GetsetupCategories = () => {
-    const payload = {
-      categoryId: 0,
-      categoryName: '',
-      operations: 3,
-      createdBy: 0,
-    };
-    PostRequest(endPoint.GET_SETUP_CATEGORIES, payload)
+    PostRequest(endPoint.GET_SETUP_CATEGORIES, initialServiceFields)
       .then(res => {
         console.log('responseeee>>>>.>', res?.data?.data);
         if (res?.data?.code == 200) {
@@ -60,35 +69,15 @@ const Addservices = ({navigation}) => {
       });
   };
 
-  const handleAddService = () => {
-    if (newService.trim() !== '') {
-      const payload = {
-        categoryId: 0, // Set appropriate category ID if needed
-        categoryName: newService.trim(),
-        operations: 1, // Operation ID for adding service
-        createdBy: 2, // Set appropriate user ID if needed
-      };
-      PostRequest(endPoint.SETUP_CATEGORIES_CU, payload)
-        .then(res => {
-          if (res?.data?.code === 200) {
-            // If service added successfully, update the list
-            setServiceslist([...servicesList, res?.data?.data]);
-            GetsetupCategories();
-          } else {
-            console.error('Error:', res?.data?.message);
-          }
-        })
-        .catch(err => {
-          console.error('Error:', err);
-        });
-    }
+  const addSubService = () => {
+    navigation.navigate(constants.AdminScreens.SubService);
   };
 
-  const dropDownData = [
-    {label: 'Option 1', value: 'option1'},
-    {label: 'Option 2', value: 'option2'},
-    {label: 'Option 3', value: 'option3'},
-  ];
+  const addService = () => {
+    navigation.navigate(constants.AdminScreens.Addservices, {
+      userId: userDetails?.userId,
+    });
+  };
 
   return (
     <Screen
@@ -100,23 +89,23 @@ const Addservices = ({navigation}) => {
           lefttIcoType={Icons.Ionicons}
           onPressLeftIcon={() => navigation.goBack()}
           leftIcoName={'chevron-back'}
-          headerText={'Add Services'}
+          headerText={'Our Services'}
           logIn={'success'}
         />
       </View>
-      <View style={{flex: 0.9, alignItems: 'center'}}>
-        <View style={styles.DropdownView}>
-          <Dropdown
-            label={'Select Barber'}
-            value={selectedValue}
-            onValueChange={itemValue => setSelectedValue(itemValue)}
-            dropDownData={dropDownData}
-            style={styles.dropDownStyle}
-            custompickerstyle={{
-              color: selectedValue ? appColors.White : appColors.AppLightGray,
-            }}
-          />
-        </View>
+      <View style={{flex: 0.8}}>
+        <FlatList
+          data={servicesList}
+          keyExtractor={item => item.categoryId.toString()}
+          renderItem={({item, index}) => (
+            <Servicelist
+              key={item?.categoryId}
+              item={item}
+              userId={userDetails?.userId}
+              onPress={addSubService}
+            />
+          )}
+        />
       </View>
 
       <View style={styles.buttonView}>
@@ -128,21 +117,21 @@ const Addservices = ({navigation}) => {
             position: 'absolute',
           }}
           btnTextColor={{color: 'white'}}
-          title={'Request For Approval'}
-          onPress={() => navigation.goBack()}
+          title={'Add Service'}
+          onPress={addService}
         />
       </View>
     </Screen>
   );
 };
 
-const Servicelist = ({item, onPress, selected}) => {
+const Servicelist = ({item, userId, onPress, selected}) => {
   const navigation = useNavigation();
   const refRBSheet = useRef();
-
-  const handleEditPress = () => {
-    navigation.navigate(constants.BarberScreen.ServiceList, {
-      serviceName: item.categoryName,
+  const handleEditPress = item => {
+    navigation.navigate(constants.AdminScreens.Editservices, {
+      item: item,
+      userId: userId,
     });
   };
 
@@ -159,12 +148,12 @@ const Servicelist = ({item, onPress, selected}) => {
           </View>
 
           <TouchableOpacity
-            onPress={handleEditPress}
+            onPress={() => handleEditPress(item)}
             style={styles.editImageView}>
             <Image source={AppImages.Editimage} style={styles.editImageStyle} />
           </TouchableOpacity>
           <TouchableOpacity
-            onPress={() => refRBSheet.current.open()}
+            // onPress={() => refRBSheet.current.open()}
             style={styles.DeleteimageView}>
             <Image
               source={AppImages.deleteimage}
@@ -181,4 +170,4 @@ const Servicelist = ({item, onPress, selected}) => {
   );
 };
 
-export default Addservices;
+export default OurServices;
