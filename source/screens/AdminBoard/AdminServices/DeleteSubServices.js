@@ -6,7 +6,7 @@ import {PostRequest} from '../../../services/apiCall';
 import {endPoint, messages} from '../../../AppConstants/urlConstants';
 import {SimpleSnackBar} from '../../../components/atom/Snakbar/Snakbar';
 
-const DeleteServices = ({refRBSheet, DeleteService}) => {
+const DeleteSubServices = ({refRBSheet, DeleteService}) => {
   const DeletesetupCategories = () => {
     console.log('detailssservices', DeleteService.categoryName);
     const payload = {
@@ -35,12 +35,12 @@ const DeleteServices = ({refRBSheet, DeleteService}) => {
         <View
           style={{flex: 0.4, alignItems: 'center', justifyContent: 'center'}}>
           <Text style={{color: '#E81F1C', fontSize: 18}}>
-            Delete My Service
+            Delete Sub Service
           </Text>
         </View>
         <View style={{flex: 0.6, paddingHorizontal: '20%'}}>
           <Text style={{color: 'white', fontSize: 16, textAlign: 'center'}}>
-            Are you sure you want to delete your service?{' '}
+            Are you sure you want to delete your sub service?{' '}
           </Text>
         </View>
       </View>
@@ -73,7 +73,7 @@ const DeleteServices = ({refRBSheet, DeleteService}) => {
               width: '85%',
             }}
             btnTextColor={{color: 'white'}}
-            title={'Delete My Service'}
+            title={'Delete sub Services'}
             onPress={DeletesetupCategories}
           />
         </View>
@@ -82,6 +82,6 @@ const DeleteServices = ({refRBSheet, DeleteService}) => {
   );
 };
 
-export default DeleteServices;
+export default DeleteSubServices;
 
 const styles = StyleSheet.create({});

@@ -1,0 +1,158 @@
+import {
+  Image,
+  Text,
+  TouchableOpacity,
+  View,
+  Platform,
+  FlatList,
+} from 'react-native';
+import React, {useEffect, useRef, useState} from 'react';
+import {useIsFocused, useNavigation} from '@react-navigation/native';
+import styles from './styles';
+import DeleteSubServices from './DeleteSubServices';
+import {PostRequest} from '../../../services/apiCall';
+import Header from '../../../components/molecules/Header';
+import {AppImages} from '../../../AppConstants/AppImages';
+import {endPoint} from '../../../AppConstants/urlConstants';
+import constants from '../../../AppConstants/Constants.json';
+import {getAsyncItem} from '../../../utils/SettingAsyncStorage';
+import Screen from '../../../components/atom/ScreenContainer/Screen';
+import {SimpleSnackBar} from '../../../components/atom/Snakbar/Snakbar';
+import {Icons} from '../../../components/molecules/CustomIcon/CustomIcon';
+import {LATEST_SELECT, SUCCESS_CODE} from '../../../AppConstants/appConstants';
+import ButtonComponent from '../../../components/atom/CustomButtons/ButtonComponent';
+import BottomSheet from '../../../components/molecules/BottomSheetContent/BottomSheet';
+
+const SubService = ({route, navigation}) => {
+  const {parentService} = route?.params;
+  const isFocused = useIsFocused();
+  const [userDetails, setUserDetails] = useState();
+  const [servicesList, setServiceslist] = useState([]);
+
+  useEffect(() => {
+    if (isFocused) {
+      getSubServices();
+      getAsyncData();
+    }
+  }, [isFocused]);
+
+  const getAsyncData = async () => {
+    const userDetailsData = await getAsyncItem(
+      constants.AsyncStorageKeys.userDetails,
+    );
+    setUserDetails(userDetailsData);
+  };
+
+  const getSubServices = () => {
+    const payload = {
+      serviceId: 0,
+      serviceName: '',
+      serviceCategoryId: parentService?.categoryId,
+      operations: LATEST_SELECT,
+    };
+    PostRequest(endPoint.BARBER_SERVICES_GET, payload)
+      .then(res => {
+        console.log('res?.data', res?.data?.data);
+        if (res?.data?.code == SUCCESS_CODE) {
+          setServiceslist(res?.data?.data);
+        } else {
+          SimpleSnackBar(res?.data?.message, appColors.Red);
+        }
+      })
+      .catch(err => {
+        SimpleSnackBar(messages.Catch, appColors.Red);
+      });
+  };
+
+  const addSubService = () => {
+    navigation.navigate(constants.AdminScreens.AddSubServices, {
+      parentService: parentService,
+      userId: userDetails?.userId,
+    });
+  };
+
+  return (
+    <Screen
+      viewStyle={{flex: 1, padding: 15, backgroundColor: appColors.Black}}
+      statusBarColor={appColors.Black}>
+      <View style={{flex: 0.1}}>
+        <Header
+          headerSubView={{marginHorizontal: 5}}
+          lefttIcoType={Icons.Ionicons}
+          onPressLeftIcon={() => navigation.goBack()}
+          leftIcoName={'chevron-back'}
+          headerText={'Sub services'}
+          logIn={'success'}
+        />
+      </View>
+      <View style={{flex: 0.8}}>
+        <FlatList
+          data={servicesList}
+          keyExtractor={item => item?.servicesId?.toString()}
+          renderItem={({item, index}) => (
+            <Servicelist
+              key={item?.servicesId}
+              item={item}
+              userId={userDetails?.userId}
+            />
+          )}
+        />
+      </View>
+      <View style={styles.buttonView}>
+        <ButtonComponent
+          style={{
+            backgroundColor: '#C79646',
+            paddingVertical: Platform.OS == 'ios' ? 17 : 13,
+            bottom: 1,
+            position: 'absolute',
+          }}
+          btnTextColor={{color: 'white'}}
+          title={'Add Sub Service'}
+          onPress={addSubService}
+        />
+      </View>
+    </Screen>
+  );
+};
+
+const Servicelist = ({key, item, userId}) => {
+  const navigation = useNavigation();
+  const refRBSheet = useRef();
+
+  const handleEditPress = () => {
+    navigation.navigate(constants.AdminScreens.EditSubServices, {
+      item: item,
+      userId: userId,
+    });
+  };
+
+  return (
+    <TouchableOpacity key={key}>
+      <View style={[styles.container]}>
+        <View style={styles.Subcontainer}>
+          <View style={styles.textView}>
+            <Text style={styles.textStyle}>{item.serviceName}</Text>
+          </View>
+          <TouchableOpacity
+            onPress={handleEditPress}
+            style={styles.editImageView}>
+            <Image source={AppImages.Editimage} style={styles.editImageStyle} />
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => refRBSheet.current.open()}
+            style={styles.DeleteimageView}>
+            <Image
+              source={AppImages.deleteimage}
+              style={styles.Deleteimagestyle}
+            />
+          </TouchableOpacity>
+          <BottomSheet ref={refRBSheet} Height={200}>
+            <DeleteSubServices refRBSheet={refRBSheet} />
+          </BottomSheet>
+        </View>
+      </View>
+    </TouchableOpacity>
+  );
+};
+
+export default SubService;

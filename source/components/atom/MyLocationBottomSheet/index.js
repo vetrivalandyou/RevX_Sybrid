@@ -1,40 +1,70 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   ActivityIndicator,
   FlatList,
+  Platform,
   StyleSheet,
   Text,
   TouchableOpacity,
   View,
+  ScrollView
 } from 'react-native';
 import appColors from '../../../AppConstants/appColors';
 import CustomIcon, {
   Icons,
 } from '../../../components/molecules/CustomIcon/CustomIcon';
-import {screenSize} from '../ScreenSize';
+import { screenSize } from '../ScreenSize';
 import constants from '../../../AppConstants/Constants.json';
-import {useNavigation} from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
 import SimpleTextField from '../../molecules/TextFeilds/SimpleTextField';
-import {Formik} from 'formik';
+import { Formik } from 'formik';
 import * as Yup from 'yup';
-import {PostRequest} from '../../../services/apiCall';
-import {endPoint} from '../../../AppConstants/urlConstants';
+import { PostRequest } from '../../../services/apiCall';
+import { endPoint } from '../../../AppConstants/urlConstants';
 import ButtonComponent from '../CustomButtons/ButtonComponent';
-import {getAsyncItem} from '../../../utils/SettingAsyncStorage';
-import {SimpleSnackBar} from '../Snakbar/Snakbar';
+import { getAsyncItem } from '../../../utils/SettingAsyncStorage';
+import { SimpleSnackBar } from '../Snakbar/Snakbar';
 
-const MyLocationBottomSheet = ({selectedLocation}) => {
+const MyLocationBottomSheet = ({ selectedLocation,route }) => {
+  const navigation = useNavigation();
+
   const [selectedItem, setSelectedItem] = useState('');
   const [colorChange, setColorChange] = useState(true);
-  const navigation = useNavigation();
+ 
   const [userDetails, setUserDetails] = useState('');
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);
+  const [operationType, setOperationType] = useState('setup'); 
+  // default is 'setup'
+
+
+  // const route = useRoute();
+  
+  // Extract params
+  const { item } = route?.params || {};
+  console.log("item", item?.nearstLandmark)
 
   useEffect(() => {
     getUserDetails();
     setIsButtonDisabled(!selectedLocation);
-  }, [selectedLocation]);
+    // locationUpdate();
 
+    // Set operation type based on id
+    if (item?.id) {
+      setOperationType('update');
+    } else {
+      setOperationType('setup');
+    }
+  }, [selectedLocation, item?.id]);
+
+  // ... (other functions remain unchanged)
+
+  const handleLocationAction = values => {
+    if (operationType === 'setup') {
+      locatioDetails(values);
+    } else if (operationType === 'update') {
+      locationUpdate(values);
+    }
+  };
   const getUserDetails = async () => {
     const userDetail = await getAsyncItem(
       constants.AsyncStorageKeys.userDetails,
@@ -43,37 +73,45 @@ const MyLocationBottomSheet = ({selectedLocation}) => {
   };
 
   const handleClickLocation = item => {
-    console.log('handleClickLocation');
-    setColorChange(!colorChange);
+    console.log('handleClickLocation', item);
+
+    // Populate form fields with selected location details
     setSelectedItem(item);
+    setValues({
+      locationName: item.locationName,
+      nearstLandmark: item.nearstLandmark,
+    });
+
+    // Update operation type to 'update' since a location item is clicked
+    setOperationType('update');
   };
 
-  const data = [
-    {
-      LocationId: 1,
-      locationName: 'Lakson Group of Companies',
-    },
-    {
-      LocationId: 2,
-      locationName: 'My Home',
-    },
-    {
-      LocationId: 3,
-      locationName: 'Ayesha Manzil',
-    },
-    {
-      LocationId: 4,
-      locationName: 'Karimabad',
-    },
-    {
-      LocationId: 5,
-      locationName: 'Machar Colony',
-    },
-    {
-      LocationId: 6,
-      locationName: 'Dehli Colony',
-    },
-  ];
+  // const data = [
+  //   {
+  //     LocationId: 1,
+  //     locationName: 'Lakson Group of Companies',
+  //   },
+  //   {
+  //     LocationId: 2,
+  //     locationName: 'My Home',
+  //   },
+  //   {
+  //     LocationId: 3,
+  //     locationName: 'Ayesha Manzil',
+  //   },
+  //   {
+  //     LocationId: 4,
+  //     locationName: 'Karimabad',
+  //   },
+  //   {
+  //     LocationId: 5,
+  //     locationName: 'Machar Colony',
+  //   },
+  //   {
+  //     LocationId: 6,
+  //     locationName: 'Dehli Colony',
+  //   },
+  // ];
 
   const handleLocation = () => {
     handleUseMyCurrentLoc();
@@ -85,7 +123,7 @@ const MyLocationBottomSheet = ({selectedLocation}) => {
       refRBSheet.current.close();
   };
 
-  const LocationList = ({item}) => {
+  const LocationList = ({ item }) => {
     return (
       <View
         style={{
@@ -121,7 +159,7 @@ const MyLocationBottomSheet = ({selectedLocation}) => {
               )}
             </View>
           </View>
-          <View style={[lbStyle.clTextView, {flex: 0.7}]}>
+          <View style={[lbStyle.clTextView, { flex: 0.7 }]}>
             <Text
               style={{
                 fontSize: 13,
@@ -132,7 +170,7 @@ const MyLocationBottomSheet = ({selectedLocation}) => {
             </Text>
           </View>
           {selectedItem?.LocationId == item.LocationId && (
-            <View style={[lbStyle.clTextView, {flex: 0.1}]}>
+            <View style={[lbStyle.clTextView, { flex: 0.1 }]}>
               <CustomIcon
                 type={Icons.MaterialIcons}
                 name={'edit-location-alt'}
@@ -182,95 +220,119 @@ const MyLocationBottomSheet = ({selectedLocation}) => {
         SimpleSnackBar(messages?.Catch, appColors.Red);
       });
   };
+  // const locationUpdate = values => {
+  //   console.log("values",values)
+
+  //   const payload = {
+  //     ...values,
+  //     locationId: selectedItem?.LocationId,
+  //     customerId: userDetails?.userId,
+  //     locationName: values?.locationName,
+  //     address: values?.locationName,
+  //     nearstLandmark: values?.nearstLandmark,
+  //     locationLatitude: selectedLocation?.latitude,
+  //     locationLongitude: selectedLocation?.longitude,
+  //     operations: 2,
+  //     createdBy: userDetails?.userId,
+  //   };
+  //   console.log("payload...",payload)
+
+  //   // PostRequest(endPoint.AUTH_CUSTOMER_LOCATION_UPDATED, payload)
+  //   //   .then(res => {
+  //   //     if (res?.data?.code == 200) {
+  //   //       console.log("api response",res.sdat)
+  //   //       SimpleSnackBar(res?.data?.message);
+
+  //   //       // Update the selected item in the list to reflect changes
+  //   //       setSelectedItem({
+  //   //         ...selectedItem,
+  //   //         locationName: values.locationName,
+  //   //         nearstLandmark: values.nearstLandmark,
+  //   //       });
+
+  //   //     } else {
+  //   //       SimpleSnackBar(res?.data?.message);
+  //   //     }
+  //   //   })
+  //   //   .catch(err => {
+  //   //     SimpleSnackBar(messages?.Catch, appColors.Red);
+  //   //   });
+  // };
 
   return (
     <View style={lbStyle.mainContainer}>
       {userDetails ? (
-        <Formik
-          initialValues={{
-            locationName: '',
-            nearstLandmark: '',
-          }}
-          validationSchema={validationSchema}
-          onSubmit={values => {
-            locatioDetails(values);
+    <Formik
+    initialValues={{
+      locationName: item?.id ? item?.locationName : selectedItem.locationName,
+      nearstLandmark: item?.id ? item?.nearstLandmark : selectedItem.nearstLandmark,
+    }}
+    validationSchema={validationSchema}
+    onSubmit={values => {
+      handleLocationAction(values);
+    }}>
+    {({
+      handleChange,
+      handleBlur,
+      handleSubmit,
+      values,
+      errors,
+      touched,
+      isSubmitting,
+    }) => (
+      <>
+        <View
+          style={{
+            flex: 0.5,
+            borderRadius: 3,
           }}>
-          {({
-            handleChange,
-            handleBlur,
-            handleSubmit,
-            values,
-            errors,
-            touched,
-            isSubmitting,
-          }) => (
-            <>
-              <View
-                style={{
-                  flex: 0.5,
-                  borderRadius: 3,
-                }}>
-                <SimpleTextField
-                  placeholder={'Location Name'}
-                  placeholderTextColor={appColors.LightGray}
-                  onChangeText={handleChange('locationName')}
-                  onBlur={handleBlur('locationName')}
-                  value={values.locationName}
-                />
-                {touched.locationName && errors.locationName && (
-                  <View style={{marginLeft: 10, margin: 1}}>
-                    <Text style={{color: appColors.Red, fontSize: 12}}>
-                      {errors.locationName}
-                    </Text>
-                  </View>
-                )}
-              </View>
-              <View
-                style={{
-                  flex: 0.5,
-                }}>
-                <SimpleTextField
-                  placeholder={'Nearst Landmark'}
-                  placeholderTextColor={appColors.LightGray}
-                  onChangeText={handleChange('nearstLandmark')}
-                  onBlur={handleBlur('nearstLandmark')}
-                  value={values.nearstLandmark}
-                />
-                {touched.nearstLandmark && errors.nearstLandmark && (
-                  <View style={{marginLeft: 10, margin: 1}}>
-                    <Text style={{color: appColors.Red, fontSize: 12}}>
-                      {errors.nearstLandmark}
-                    </Text>
-                  </View>
-                )}
-              </View>
-              <View style={{flex: 0.32}}>
-                {/* <TouchableOpacity
-                onPress={() => refRBSheet.current.close()}
-                style={[
-                  lbStyle.clContainer,
-                  {justifyContent: 'center', alignItems: 'center'},
-                  (disabled = {isButtonDisabled}),
-                ]}>
-                <View style={lbStyle.clButotnView}>
-                  <Text style={[lbStyle.clTextStyle, {textAlign: 'center'}]}>
-                    Add address details
-                  </Text>
-                </View>
-              </TouchableOpacity> */}
-
-                <ButtonComponent
-                  title={'Add address details'}
-                  onPress={handleSubmit}
-                  disable={!selectedLocation}
-                  style={{opacity: selectedLocation ? 1 : 0.5}}
-                  //   disabled={isButtonDisabled}
-                  //   isLoading={isSubmitting}
-                />
-              </View>
-            </>
+          <SimpleTextField
+            placeholder={'Location Name'}
+            placeholderTextColor={appColors.LightGray}
+            onChangeText={handleChange('locationName')}
+            onBlur={handleBlur('locationName')}
+            value={values.locationName}
+            editable={!item?.id}
+          />
+          {touched.locationName && errors.locationName && (
+            <View style={{ marginLeft: 10, margin: 1 }}>
+              <Text style={{ color: appColors.Red, fontSize: 12 }}>
+                {errors.locationName}
+              </Text>
+            </View>
           )}
-        </Formik>
+        </View>
+        <View
+          style={{
+            flex: 0.5,
+          }}>
+          <SimpleTextField
+            placeholder={'Nearest Landmark'}
+            placeholderTextColor={appColors.LightGray}
+            onChangeText={handleChange('nearstLandmark')}
+            onBlur={handleBlur('nearstLandmark')}
+            value={values.nearstLandmark}
+            editable={!item?.id}
+          />
+          {touched.nearstLandmark && errors.nearstLandmark && (
+            <View style={{ marginLeft: 10, margin: 1 }}>
+              <Text style={{ color: appColors.Red, fontSize: 12 }}>
+                {errors.nearstLandmark}
+              </Text>
+            </View>
+          )}
+        </View>
+        <View style={{ flex: 0.32 }}>
+          <ButtonComponent
+            title={operationType === 'setup' ? 'Add address details' : 'Update address details'}
+            onPress={handleSubmit}
+            disable={!selectedLocation || !values.locationName || !values.nearstLandmark}
+            style={{ opacity: (!selectedLocation || !values.locationName || !values.nearstLandmark) ? 0.5 : 1 }}
+          />
+        </View>
+      </>
+    )}
+  </Formik>
       ) : (
         <ActivityIndicator size="large" color="#C79646" />
       )}
@@ -283,12 +345,9 @@ const lbStyle = StyleSheet.create({
     flex: 1,
     paddingHorizontal: 15,
     paddingVertical: 15,
-    // borderTopRightRadius: 30,
-    // borderTopLeftRadius: 30,
-    // backgroundColor: appColors.AppBlue,
   },
 
-  clTextStyle: {fontSize: 13, fontWeight: '500', color: appColors.White},
+  clTextStyle: { fontSize: 13, fontWeight: '500', color: appColors.White },
   clSelectLocation: {
     borderRadius: 20,
     flexDirection: 'row',
