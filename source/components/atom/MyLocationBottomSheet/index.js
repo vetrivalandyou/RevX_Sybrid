@@ -169,7 +169,9 @@ const MyLocationBottomSheet = ({selectedLocation}) => {
 
     PostRequest(endPoint.BARBER_SET_UP_LOCATION_SERVICES, payload)
       .then(res => {
+        console.log("response",payload)
         if (res?.data?.code == 200) {
+          console.log("Responseeeeeeeeeeeeeeeee",payload)
           SimpleSnackBar(res?.data?.message);
           //   navigation.goBack();
         } else {
