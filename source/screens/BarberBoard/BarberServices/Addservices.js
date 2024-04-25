@@ -22,8 +22,6 @@ const Addservices = ({ navigation, route }) => {
   const [servicesList, setServiceslist] = useState([]);
   const [selectedValue, setSelectedValue] = useState('');
 
-  console.log("ASasaSas")
-
   useEffect(() => {
     getParentService();
   }, []);

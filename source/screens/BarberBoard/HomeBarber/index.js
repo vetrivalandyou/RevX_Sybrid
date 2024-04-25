@@ -24,15 +24,62 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 import Search from '../../../components/atom/Search/Search';
 import {AppImages} from '../../../AppConstants/AppImages';
 import Bookingbutton from '../../../components/atom/BookingButtons/Bookingbutton';
-import {getAsyncItem} from '../../../utils/SettingAsyncStorage';
-import {imageUrl} from '../../../AppConstants/urlConstants';
-import {useSelector} from 'react-redux';
+import {getAsyncItem, setLogLatAsync} from '../../../utils/SettingAsyncStorage';
+import {endPoint, imageUrl} from '../../../AppConstants/urlConstants';
+import {useDispatch, useSelector} from 'react-redux';
+import {useIsFocused} from '@react-navigation/native';
+import {UpdateLocation} from '../../../redux/Action/LocationAction/UpdateLocationAction';
+import {PostRequest} from '../../../services/apiCall';
+import {LATEST_UPDATE} from '../../../AppConstants/appConstants';
+import useLocationWatcher from '../../../services/useLocationWatcher';
 
 const HomeBarber = ({navigation}) => {
+  const dispatch = useDispatch();
   const {coords} = useSelector(state => state.LocationReducer);
+  const isFocused = useIsFocused();
   const [userDetails, setUserDetails] = useState();
 
-  console.log('BarberCords', coords);
+
+  useEffect(() => {
+    if (isFocused) {
+      getAsyncData();
+    }
+  }, [isFocused]);
+
+  const getAsyncData = async () => {
+    const userAsyncDetails = await getAsyncItem(
+      constants.AsyncStorageKeys.userDetails,
+    );
+    setUserDetails(userAsyncDetails);
+  };
+
+  const handleLocationChange = newCoords => {
+    console.log('newCoordsnewCoordsnewCoordsnewCoordsnewCoords', newCoords);
+    handleSaveBarberLocation(userDetails, newCoords)
+    dispatch(UpdateLocation(newCoords));
+    setLogLatAsync(constants.AsyncStorageKeys.longLat, newCoords);
+  };
+
+  const handleSaveBarberLocation = (userAsyncDetails, newCoords) => {
+    const payload = {
+      barberId: userAsyncDetails?.userId,
+      userLocationLatitude: newCoords?.latitude,
+      userLocationLongitude: newCoords?.longitude,
+      operations: LATEST_UPDATE,
+      createdBy: userAsyncDetails?.userId,
+    };
+    PostRequest(endPoint.BARBER_LOCATION_UPDATE, payload)
+      .then(res => {
+        console.log('RESPONSE BARBER LOCATION UPDATE', res?.data);
+      })
+      .catch(err => {
+        console.log('Err'.err);
+      });
+  };
+
+  useLocationWatcher(handleLocationChange);
+
+  console.log("asdasdasdsadasdasdsa", coords)
 
   const data = [
     {
@@ -48,17 +95,6 @@ const HomeBarber = ({navigation}) => {
       rating: '4.1',
     },
   ];
-
-  useEffect(() => {
-    getAsyncData();
-  }, []);
-
-  const getAsyncData = async () => {
-    const userDetails = await getAsyncItem(
-      constants.AsyncStorageKeys.userDetails,
-    );
-    setUserDetails(userDetails);
-  };
 
   const HomeHeader = ({heading, sunHeading, source}) => {
     return (
@@ -304,8 +340,6 @@ const HomeBarber = ({navigation}) => {
       </View>
     );
   };
-
-  console.log('userDetails', userDetails);
 
   return (
     <Screen statusBarColor={appColors.Black} viewStyle={styles.MianContainer}>

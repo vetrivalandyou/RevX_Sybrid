@@ -1,5 +1,5 @@
-import React, {useEffect} from 'react';
-import {NavigationContainer, useIsFocused} from '@react-navigation/native';
+import React from 'react';
+import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import constants from '../../AppConstants/Constants.json';
 import {
@@ -15,32 +15,14 @@ import {
 
 import BarberBottomTabNavigation from './BarberBottomTabNavigation';
 import DeleteServices from '../../screens/BarberBoard/BarberServices/DeleteServices';
-
 import ServiceList from '../../screens/BarberBoard/BarberServices/ServiceList';
 import Profile from '../../screens/BarberBoard/BarberProfile/Profile/Profile';
 import DeepLinking from '../../utils/DeepLinking';
 import EditProfile from '../../screens/ProfileScreen/EditProfile';
 import AddSubservices from '../../screens/BarberBoard/BarberServices/AddSubservices';
-import {requestLocationPermissionAndGetLocation} from '../../utils/GetLocation';
-import {useDispatch} from 'react-redux';
-import {UpdateLocation} from '../../redux/Action/LocationAction/UpdateLocationAction';
 
 const BarberStack = () => {
   const Stack = createNativeStackNavigator();
-  const dispatch = useDispatch();
-  // const isFocused = useIsFocused();
-
-  useEffect(() => {
-    // if (isFocused) {
-      handleBarberLocation();
-    // }
-  }, []);
-
-  const handleBarberLocation = async () => {
-    const userCurrentLocation = await requestLocationPermissionAndGetLocation(3);
-    console.log('userCurrentLocation', userCurrentLocation);
-    dispatch(UpdateLocation(userCurrentLocation));
-  };
   return (
     <NavigationContainer>
       <Stack.Navigator screenOptions={{animation: 'slide_from_right'}}>

@@ -1,6 +1,7 @@
 import {Platform} from 'react-native';
 import {PERMISSIONS, request, check, RESULTS} from 'react-native-permissions';
 import Geolocation from 'react-native-geolocation-service';
+import useLocationWatcher from '../services/useLocationWatcher';
 
 export const requestLocationPermissionAndGetLocation = async roleId => {
   try {
@@ -10,7 +11,7 @@ export const requestLocationPermissionAndGetLocation = async roleId => {
       const permissionStatus = await check(permission);
       if (permissionStatus === RESULTS.GRANTED) {
         if (roleId == 3) {
-          return watchUserLocation();
+          return permissionStatus;
         } else {
           return getCurrentLocation();
         }
@@ -18,7 +19,7 @@ export const requestLocationPermissionAndGetLocation = async roleId => {
         const requestResult = await request(permission);
         if (requestResult === RESULTS.GRANTED) {
           if (roleId == 3) {
-            return watchUserLocation();
+            return permissionStatus;
           } else {
             return getCurrentLocation();
           }
@@ -62,21 +63,6 @@ export const getCurrentLocation = () => {
         reject(error);
       },
       {enableHighAccuracy: true, timeout: 20000, maximumAge: 1000},
-    );
-  });
-};
-
-export const watchUserLocation = () => {
-  return new Promise((resolve, reject) => {
-    Geolocation.watchPosition(
-      position => {
-        const {latitude, longitude} = position.coords;
-        resolve(position);
-      },
-      error => {
-        reject(error);
-      },
-      {enableHighAccuracy: true, distanceFilter: 10},
     );
   });
 };
