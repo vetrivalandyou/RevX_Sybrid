@@ -25,13 +25,13 @@ export const endPoint = {
   BARBER_SERVICE_CATEGORY: 'Admin/BarberServiceCategry',
 
   //Admin End Points
-  BARBER_LIST: 'Admin/Barber_List',
-  CRUD_VAN: 'Common/Van_CRUD',
+  BARBER_LIST: 'Admin/Barber_List', //done
+  VAN_CU: 'Common/Van_CU',
   DELETE_VANS: 'Common/Van_Delete',
   CUSTOMER_SERVICES: 'Customer/Category_Services',
   BARBER_DETAIL: 'Admin/Barber_Detail',
   GET_VANS: 'Common/Get_Vans',
-  BARBER_VANASSIGNMENT_CRUD: 'Barber/BarberVanAssignment_Crud',
+  BARBER_VANASSIGNMENT_CU: 'Barber/BarberVanAssignment_CU',
   GET_BARBER_VANASSIGNMENT: 'Barber/GetBarberVanAssignment',
   VAN_SERVICES: 'Common/Get_Vans',
   BARBER_APPROVE_SERVICE_POST: 'Barber/ApproveBarberService',
