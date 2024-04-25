@@ -11,7 +11,7 @@ import {
 import styles from './styles';
 import {useIsFocused, useNavigation} from '@react-navigation/native';
 import {Icons} from '../../../components/molecules/CustomIcon/CustomIcon';
-import {endPoint, imageUrl} from '../../../AppConstants/urlConstants';
+import {endPoint, imageUrl, messages} from '../../../AppConstants/urlConstants';
 import {PostRequest} from '../../../services/apiCall';
 import {AppImages} from '../../../AppConstants/AppImages';
 import {SimpleSnackBar} from '../../../components/atom/Snakbar/Snakbar';
@@ -51,13 +51,15 @@ const Assignments = ({}) => {
       id: null,
       barberId: null,
       vanId: null,
-      operations: 0,
+      operations: 3,
       createdBy: 1,
       userIP: '::1',
     };
-
+   
     PostRequest(endPoint.GET_BARBER_VANASSIGNMENT, payload)
+    
       .then(res => {
+        console.log('payload',payload)
         if (res?.data?.code == 200) {
           setVanAssignment(res?.data?.data);
           setLoader(false);

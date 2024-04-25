@@ -18,7 +18,7 @@ import {Icons} from '../../../components/molecules/CustomIcon/CustomIcon';
 import CustomDropdownPicker from '../../../components/molecules/CustomDropdownPicker';
 import Dropdown from '../../../components/molecules/Dropdown/Dropdown';
 import appColors from '../../../AppConstants/appColors';
-import {endPoint} from '../../../AppConstants/urlConstants';
+import {endPoint, messages} from '../../../AppConstants/urlConstants';
 import {SimpleSnackBar} from '../../../components/atom/Snakbar/Snakbar';
 import {GetRequest, PostRequest} from '../../../services/apiCall';
 import {getAsyncItem} from '../../../utils/SettingAsyncStorage';
@@ -95,7 +95,7 @@ const EditAssignment = ({route}) => {
     };
 
     console.log('Payload', payload);
-    PostRequest(endPoint.BARBER_VANASSIGNMENT_CRUD, payload)
+    PostRequest(endPoint.BARBER_VANASSIGNMENT_CU, payload)
       .then(res => {
         console.log('Response:', res?.data?.data);
         if (res?.data?.code == 200) {

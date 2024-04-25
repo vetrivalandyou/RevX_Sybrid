@@ -47,7 +47,7 @@ const AddVanservices = ({navigation, route}) => {
       type: profileImage?.mime,
     });
     console.log('formData', formData);
-    PostRequest(endPoint.CRUD_VAN, formData)
+    PostRequest(endPoint.VAN_CU, formData)
       .then(res => {
         console.log('response', res?.data);
         if (res?.data?.code == 200) {

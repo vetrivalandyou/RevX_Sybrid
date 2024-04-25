@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import constants from '../../AppConstants/Constants.json';
@@ -20,9 +20,57 @@ import Profile from '../../screens/BarberBoard/BarberProfile/Profile/Profile';
 import DeepLinking from '../../utils/DeepLinking';
 import EditProfile from '../../screens/ProfileScreen/EditProfile';
 import AddSubservices from '../../screens/BarberBoard/BarberServices/AddSubservices';
+import {requestLocationPermissionAndGetLocation} from '../../utils/GetLocation';
+import {PostRequest} from '../../services/apiCall';
+import {endPoint} from '../../AppConstants/urlConstants';
+import {getAsyncItem, setLogLatAsync} from '../../utils/SettingAsyncStorage';
+import { LATEST_UPDATE } from '../../AppConstants/appConstants';
 
 const BarberStack = () => {
   const Stack = createNativeStackNavigator();
+
+  useEffect(() => {
+    getAsyncData();
+  }, []);
+
+  const getAsyncData = async () => {
+    const userAsyncDetails = await getAsyncItem(
+      constants.AsyncStorageKeys.userDetails,
+    );
+    getCurrentLocation(userAsyncDetails);
+  };
+
+  const getCurrentLocation = async userAsyncDetails => {
+    const userCurrentLocation = await requestLocationPermissionAndGetLocation();
+    console.log(userCurrentLocation);
+    handleLocationChange(userAsyncDetails, userCurrentLocation);
+  };
+
+  const handleLocationChange = (userAsyncDetails, newCoords) => {
+    console.log('newCoords', newCoords);
+    handleSaveBarberLocation(userAsyncDetails, newCoords?.coords);
+    setLogLatAsync(constants.AsyncStorageKeys.longLat, newCoords);
+  };
+
+  const handleSaveBarberLocation = (userAsyncDetails, newCoords) => {
+    const payload = {
+      barberId: userAsyncDetails?.userId,
+      userLocationLatitude: newCoords?.latitude,
+      userLocationLongitude: newCoords?.longitude,
+      operations: LATEST_UPDATE,
+      createdBy: userAsyncDetails?.userId,
+    };
+    console.log(payload,"----------------------------------------------------------------------------------------")
+    // PostRequest(endPoint.BARBER_LOCATION_UPDATE, payload)
+    //   .then(res => {
+    //     console.log('RESPONSE BARBER LOCATION UPDATE', res?.data);
+    //   })
+    //   .catch(err => {
+    //     console.log('Err'.err);
+    //   });
+  };
+
+
   return (
     <NavigationContainer>
       <Stack.Navigator screenOptions={{animation: 'slide_from_right'}}>
