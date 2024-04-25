@@ -27,13 +27,13 @@ const Dropdown = ({
         selectedValue={value}
         onValueChange={onValueChange}>
         <Picker.Item
-          style={{fontSize: 13, color: appColors.AppLightGray}}
+          style={{fontSize: 13, color: appColors.AppLightGray, backgroundColor: "white"}}
           label={label}
           value={null}
         />
         {dropDownData?.map((x, ind) => (
           <Picker.Item
-            style={{fontSize: 13}}
+            style={{fontSize: 13, color: appColors.White}}
             key={ind}
             label={x.label}
             value={x.value}
