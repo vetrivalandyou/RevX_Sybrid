@@ -118,7 +118,7 @@ const Addservices = ({ navigation, route }) => {
           <View style={{ flex: 0.3, justifyContent: 'center', }}>
             <Picker
               selectedValue={selectedValue}
-              style={{ height: 200, width: "100%", borderColor: appColors.Goldcolor, borderWidth: 1, borderRadius: 20, backgroundColor: appColors.Black }}
+              style={{ height: 200, width: "100%", borderColor: appColors.AppLightGray, borderWidth: 1, borderRadius: 20, backgroundColor: appColors.Black }}
               onValueChange={(itemValue, itemIndex) => setSelectedValue(itemValue)}
               itemStyle={{ color: appColors.Goldcolor }}
             >
