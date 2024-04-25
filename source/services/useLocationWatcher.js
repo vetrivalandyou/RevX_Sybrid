@@ -1,7 +1,7 @@
-import {Platform} from 'react-native';
-import {useEffect, useState} from 'react';
+import { Platform } from 'react-native';
+import { useEffect, useState } from 'react';
 import Geolocation from '@react-native-community/geolocation';
-import {PERMISSIONS, check, request} from 'react-native-permissions';
+import { PERMISSIONS, check, request } from 'react-native-permissions';
 
 const useLocationWatcher = callback => {
   const [permissionGranted, setPermissionGranted] = useState(false);
@@ -24,10 +24,6 @@ const useLocationWatcher = callback => {
           } else {
             throw new Error('Location permission denied by user');
           }
-        } else {
-          Geolocation.requestAuthorization('whenInUse').then(res => {
-            setPermissionGranted(true);
-          });
         }
       } catch (error) {
         console.log(error);
@@ -37,15 +33,28 @@ const useLocationWatcher = callback => {
   }, []);
 
   useEffect(() => {
+    const requestLocationPermission = async () => {
+      if (Platform.OS === 'ios') {
+        Geolocation.requestAuthorization();
+      }
+    };
+
+    requestLocationPermission();
+  }, []);
+
+
+  useEffect(() => {
+    if (Platform.OS == 'ios') {
+      Geolocation.setRNConfiguration({ authorizationLevel: 'whenInUse' });
+    }
     const watchId = Geolocation.watchPosition(
       position => {
-        // Call the callback function with the new position
         callback(position.coords);
       },
       error => {
         console.error('Error getting location:', error);
       },
-      {enableHighAccuracy: true, distanceFilter: 10}, // Adjust distanceFilter as needed
+      { enableHighAccuracy: true, distanceFilter: 10 }, // Adjust distanceFilter as needed
     );
 
     return () => {

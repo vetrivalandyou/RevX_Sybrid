@@ -56,8 +56,9 @@ const HomeBarber = ({navigation}) => {
   const handleLocationChange = newCoords => {
     console.log('newCoordsnewCoordsnewCoordsnewCoordsnewCoords', newCoords);
     handleSaveBarberLocation(userDetails, newCoords)
-    dispatch(UpdateLocation(newCoords));
     setLogLatAsync(constants.AsyncStorageKeys.longLat, newCoords);
+    // dispatch(UpdateLocation(newCoords))
+    // dispatch(UpdateLocation(newCoords));
   };
 
   const handleSaveBarberLocation = (userAsyncDetails, newCoords) => {
@@ -78,8 +79,6 @@ const HomeBarber = ({navigation}) => {
   };
 
   useLocationWatcher(handleLocationChange);
-
-  console.log("asdasdasdsadasdasdsa", coords)
 
   const data = [
     {
