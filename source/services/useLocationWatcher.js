@@ -1,7 +1,7 @@
 import { Platform } from 'react-native';
 import { useEffect, useState } from 'react';
 import Geolocation from '@react-native-community/geolocation';
-import { PERMISSIONS, check, request } from 'react-native-permissions';
+import { PERMISSIONS, RESULTS, check, request } from 'react-native-permissions';
 
 const useLocationWatcher = callback => {
   const [permissionGranted, setPermissionGranted] = useState(false);
@@ -49,7 +49,7 @@ const useLocationWatcher = callback => {
     }
     const watchId = Geolocation.watchPosition(
       position => {
-        callback(position.coords);
+        callback(position);
       },
       error => {
         console.error('Error getting location:', error);
