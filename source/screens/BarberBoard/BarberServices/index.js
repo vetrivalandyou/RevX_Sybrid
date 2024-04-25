@@ -7,38 +7,32 @@ import {
   View,
 } from 'react-native';
 import React, {useEffect, useRef, useState} from 'react';
-import {screenSize} from '../../../components/atom/ScreenSize';
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import Entypo from 'react-native-vector-icons/Entypo';
-import ButtonComponent from '../../../components/atom/CustomButtons/ButtonComponent';
 import styles from './styles';
 import {useIsFocused, useNavigation} from '@react-navigation/native';
-// import BottomSheet from '../../components/atom/BottomSheet';
-
-import Screen from '../../../components/atom/ScreenContainer/Screen';
-import constants from '../../../AppConstants/Constants.json';
-import Header from '../../../components/molecules/Header';
-import {Icons} from '../../../components/molecules/CustomIcon/CustomIcon';
 import DeleteServices from './DeleteServices';
-import BottomSheet from '../../../components/molecules/BottomSheetContent/BottomSheet';
+import {PostRequest} from '../../../services/apiCall';
 import appColors from '../../../AppConstants/appColors';
+import Header from '../../../components/molecules/Header';
+import {AppImages} from '../../../AppConstants/AppImages';
+import constants from '../../../AppConstants/Constants.json';
+import {getAsyncItem} from '../../../utils/SettingAsyncStorage';
+import Screen from '../../../components/atom/ScreenContainer/Screen';
 import {endPoint, messages} from '../../../AppConstants/urlConstants';
 import {SimpleSnackBar} from '../../../components/atom/Snakbar/Snakbar';
-import {GetRequest, PostRequest} from '../../../services/apiCall';
-import {AppImages} from '../../../AppConstants/AppImages';
-import {getAsyncItem} from '../../../utils/SettingAsyncStorage';
+import {Icons} from '../../../components/molecules/CustomIcon/CustomIcon';
+import BottomSheet from '../../../components/molecules/BottomSheetContent/BottomSheet';
+import ButtonComponent from '../../../components/atom/CustomButtons/ButtonComponent';
 
 const Servicesboard = ({navigation}) => {
-  const [selectedItem, setSelectedItem] = useState(null);
-  // const [userDetails, setUserDetails] = useState();
-  const [barberServices, setBarberServices] = useState([]);
-  const [userDetails] = useState([]);
-
   const isFocused = useIsFocused();
+  const [barberServices, setBarberServices] = useState([]);
+  const [userDetails, setUserDetails] = useState([]);
+
+  console.log('userDetailsuserDetailsuserDetails', userDetails);
+
   useEffect(() => {
     if (isFocused) {
       getUserDetail();
-      getBarberServices();
     }
   }, [isFocused]);
 
@@ -46,31 +40,31 @@ const Servicesboard = ({navigation}) => {
     const userDatail = await getAsyncItem(
       constants.AsyncStorageKeys.userDetails,
     );
-    // setUserDetails(userDatail);
+    setUserDetails(userDatail);
+    getBarberServices(userDatail?.userId);
   };
 
-  function getBarberServices() {
-    GetRequest(`${endPoint.SERVICE_CATEGORIES}?id=${94}`)
+  function getBarberServices(userId) {
+    const payload = {
+      serviceCategoryId: 0,
+      barberId: userId,
+      statusId: 0,
+    };
+    PostRequest(endPoint.BARBER_SERVICE_CATEGORY, payload)
       .then(res => {
-        // setLoading(false);
         console.log(res?.data?.data);
-        if (res?.data?.code == 200) {
-          setBarberServices(res?.data?.data);
-        } else {
-          SimpleSnackBar(res?.data?.message);
-          // setLoading(false);
-        }
+        setBarberServices(res?.data?.data);
       })
       .catch(err => {
         console.log(err);
-        // setLoading(false);
+        SimpleSnackBar(messages.WentWrong, appColors.Red);
       });
   }
 
   const handleItemPress = item => {
-    setSelectedItem(item.serviceCategoryId);
     navigation.navigate(constants.BarberScreen.ServiceList, {
       item: item,
+      userId: userDetails?.userId,
     });
   };
 
@@ -90,11 +84,10 @@ const Servicesboard = ({navigation}) => {
       </View>
 
       <ScrollView style={{flex: 0.8}}>
-        {barberServices?.map(item => (
+        {barberServices?.[0]?.categories?.map(item => (
           <Servicelist
-            key={item.serviceCategoryId}
+            key={item?.barberServiceCategryId}
             item={item}
-            selected={selectedItem === item.serviceCategoryId}
             onPress={() => handleItemPress(item)}
           />
         ))}
@@ -111,7 +104,9 @@ const Servicesboard = ({navigation}) => {
           btnTextColor={{color: 'white'}}
           title={'Request Service'}
           onPress={() =>
-            navigation.navigate(constants.BarberScreen.Addservices)
+            navigation.navigate(constants.BarberScreen.Addservices, {
+              userId: userDetails?.userId,
+            })
           }
         />
       </View>
@@ -119,33 +114,33 @@ const Servicesboard = ({navigation}) => {
   );
 };
 
-const Servicelist = ({item, onPress, selected}) => {
+const Servicelist = ({key, item, onPress}) => {
   const refRBSheet = useRef();
   const navigation = useNavigation();
-  const handleEditPress = () => {
-    navigation.navigate(constants.BarberScreen.ServiceList, {
-      Barberservice: item.categoryName,
-      // item:item
-    });
-  };
 
   return (
-    <TouchableOpacity onPress={onPress}>
-      <View
-        style={[
-          styles.container,
-          selected && {borderColor: '#c79647', borderWidth: 1.25},
-        ]}>
-        <View style={styles.Subcontainer}>
-          <View style={styles.textView}>
-            <Text style={styles.textStyle}>{item.service_Category}</Text>
+    <TouchableOpacity key={key} onPress={onPress}>
+      <View style={[styles.container]}>
+        <View style={[styles.Subcontainer]}>
+          <View style={[styles.textView]}>
+            <View style={{flex: 0.6, justifyContent: 'center'}}>
+              <Text style={styles.textStyle}>{item.barberServiceCategry}</Text>
+            </View>
+            <View style={{flex: 0.4, justifyContent: 'center'}}>
+              <Text
+                style={[
+                  styles.textStyle,
+                  {
+                    color:
+                      item?.isApproved == true
+                        ? appColors.AppGreen
+                        : appColors.AppLightGray,
+                  },
+                ]}>
+                {item.isApproved == true ? 'Approved' : 'Pending'}
+              </Text>
+            </View>
           </View>
-
-          {/* <TouchableOpacity
-            onPress={handleEditPress}
-            style={styles.editImageView}>
-            <Image source={AppImages.Editimage} style={styles.editImageStyle} />
-          </TouchableOpacity> */}
           <TouchableOpacity
             onPress={() => refRBSheet.current.open()}
             style={styles.DeleteimageView}>

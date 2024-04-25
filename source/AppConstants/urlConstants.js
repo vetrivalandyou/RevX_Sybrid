@@ -23,6 +23,8 @@ export const endPoint = {
   SETUP_CATEGORIES_DELETE: 'Barber/SetupCategories_Delete',
   CUSTOMER_SERVICES: 'Customer/Category_Services',
   BARBER_SERVICE_CATEGORY: 'Admin/BarberServiceCategry',
+  REAPPLY_APPROVE_BARBER_SERVICE_CATEGORY: 'Admin/ReApplyApproveBarberServiceCategry',
+  APPROVE_BARBER_SERVICE: 'Barber/ApproveBarberService',
 
   //Admin End Points
   BARBER_LIST: 'Admin/Barber_List',

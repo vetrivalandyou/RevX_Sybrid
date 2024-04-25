@@ -1,59 +1,66 @@
 import {
   Image,
-  ScrollView,
-  StyleSheet,
   Text,
   TouchableOpacity,
   View,
-  TextInput,
   Platform,
+  TextInput,
 } from 'react-native';
-import React, {useEffect, useRef, useState} from 'react';
-import Screen from '../../../components/atom/ScreenContainer/Screen';
-import {screenSize} from '../../Utills/AppConstants';
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import Entypo from 'react-native-vector-icons/Entypo';
-import ButtonComponent from '../../../components/atom/CustomButtons/ButtonComponent';
+import React, { useEffect, useRef, useState } from 'react';
+import { useNavigation } from '@react-navigation/native';
 import styles from './styles';
-
-import {useNavigation} from '@react-navigation/native';
-import BottomSheet from '../../../components/molecules/BottomSheetContent/BottomSheet';
-import Header from '../../../components/molecules/Header';
-import {Icons} from '../../../components/molecules/CustomIcon/CustomIcon';
 import DeleteServices from './DeleteServices';
+import { PostRequest } from '../../../services/apiCall';
+import appColors from '../../../AppConstants/appColors';
+import { AppImages } from '../../../AppConstants/AppImages';
+import Header from '../../../components/molecules/Header';
+import { endPoint } from '../../../AppConstants/urlConstants';
 import constants from '../../../AppConstants/Constants.json';
-import {PostRequest} from '../../../services/apiCall';
-import {endPoint} from '../../../AppConstants/urlConstants';
-import {AppImages} from '../../../AppConstants/AppImages';
-import Servicesboard from '.';
-import {SimpleSnackBar} from '../../../components/atom/Snakbar/Snakbar';
+import Screen from '../../../components/atom/ScreenContainer/Screen';
 import Dropdown from '../../../components/molecules/Dropdown/Dropdown';
+import { SimpleSnackBar } from '../../../components/atom/Snakbar/Snakbar';
+import { Icons } from '../../../components/molecules/CustomIcon/CustomIcon';
+import ButtonComponent from '../../../components/atom/CustomButtons/ButtonComponent';
+import BottomSheet from '../../../components/molecules/BottomSheetContent/BottomSheet';
+import {
+  LATEST_INSERT,
+  LATEST_SELECT,
+  SUCCESS_CODE,
+  pending,
+} from '../../../AppConstants/appConstants';
+import { Picker } from '@react-native-picker/picker';
 
-const AddSubservices = ({navigation}) => {
-  const [selectedItem, setSelectedItem] = useState(null);
-  const [newService, setNewService] = useState('');
-  const [servicesList, setServiceslist] = useState([]);
-  const [selectedValue, setSelectedValue] = useState(null);
+const AddSubservices = ({ navigation, route }) => {
+  const { parentService, userId } = route.params;
+  const [subServiceList, setSubServiceList] = useState([]);
+  const [selectedValue, setSelectedValue] = useState('');
+  const [selectedValueDetails, setSelectedValueDetails] = useState('');
+
+  // console.log('userId', userId);
+  // console.log('parentService', parentService);
+  // console.log('subServiceList', subServiceList);
 
   useEffect(() => {
     GetsetupCategories();
-  }, []);
+  }, [selectedValueDetails]);
 
   const GetsetupCategories = () => {
     const payload = {
-      categoryId: 0,
-      categoryName: '',
-      operations: 3,
-      createdBy: 0,
+      serviceId: 0,
+      serviceName: '',
+      serviceCategoryId: parentService?.barberServiceCategryId,
+      operations: LATEST_SELECT,
     };
-    PostRequest(endPoint.GET_SETUP_CATEGORIES, payload)
+    PostRequest(endPoint.BARBER_SERVICES_GET, payload)
       .then(res => {
-        console.log('responseeee>>>>.>', res?.data?.data);
-        if (res?.data?.code == 200) {
-          setServiceslist(res?.data?.data);
-        } else {
-          SimpleSnackBar(res?.data?.message, appColors.Red);
-        }
+        // console.log('responseeee>>>>.>', res?.data?.data);
+        setSubServiceList(
+          res?.data?.data?.map(x => ({
+            ...x,
+            label: x.serviceName,
+            value: x.servicesId,
+          })),
+        );
       })
       .catch(err => {
         SimpleSnackBar(messages.Catch, appColors.Red);
@@ -61,42 +68,54 @@ const AddSubservices = ({navigation}) => {
   };
 
   const handleAddService = () => {
-    if (newService.trim() !== '') {
+    if (selectedValue !== '') {
       const payload = {
-        categoryId: 0, // Set appropriate category ID if needed
-        categoryName: newService.trim(),
-        operations: 1, // Operation ID for adding service
-        createdBy: 2, // Set appropriate user ID if needed
+        barberId: userId,
+        statusId: pending,
+        isApproved: false,
+        operations: LATEST_INSERT,
+        createdBy: userId,
+        ud_Barber_Approve_Service_Type: [
+          {
+            servicesId: selectedValue,
+          },
+        ],
       };
-      PostRequest(endPoint.SETUP_CATEGORIES_CU, payload)
+
+      console.log('payload', payload);
+      PostRequest(endPoint.APPROVE_BARBER_SERVICE, payload)
         .then(res => {
-          if (res?.data?.code === 200) {
-            // If service added successfully, update the list
-            setServiceslist([...servicesList, res?.data?.data]);
-            GetsetupCategories();
+          console.log('res', res?.data);
+          if (res?.data?.code === SUCCESS_CODE) {
+            SimpleSnackBar(res?.data?.message);
+            navigation.goBack();
           } else {
             console.error('Error:', res?.data?.message);
+            SimpleSnackBar(res?.data?.message, appColors.Red);
           }
         })
         .catch(err => {
           console.error('Error:', err);
+          SimpleSnackBar(err?.data?.message, appColors.Red);
         });
     }
   };
 
-  const dropDownData = [
-    {label: 'Option 1', value: 'option1'},
-    {label: 'Option 2', value: 'option2'},
-    {label: 'Option 3', value: 'option3'},
-  ];
+  const handleSelectSubService = e => {
+    // console.log('eeeeeeeeee', e);
+    setSelectedValue(e);
+    const getValue = subServiceList?.find(x => x.servicesId == e);
+    console.log('getValue', getValue);
+    setSelectedValueDetails(getValue);
+  };
 
   return (
     <Screen
-      viewStyle={{flex: 1, padding: 15, backgroundColor: appColors.Black}}
+      viewStyle={{ flex: 1, padding: 15, backgroundColor: appColors.Black }}
       statusBarColor={appColors.Black}>
-      <View style={{flex: 0.1}}>
+      <View style={{ flex: 0.1 }}>
         <Header
-          headerSubView={{marginHorizontal: 5}}
+          headerSubView={{ marginHorizontal: 5 }}
           lefttIcoType={Icons.Ionicons}
           onPressLeftIcon={() => navigation.goBack()}
           leftIcoName={'chevron-back'}
@@ -104,21 +123,139 @@ const AddSubservices = ({navigation}) => {
           logIn={'success'}
         />
       </View>
-      <View style={{flex: 0.9, alignItems: 'center'}}>
-        <View style={styles.DropdownView}>
-          <Dropdown
-            label={'Select Barber'}
-            value={selectedValue}
-            onValueChange={itemValue => setSelectedValue(itemValue)}
-            dropDownData={dropDownData}
-            style={styles.dropDownStyle}
-            custompickerstyle={{
-              color: selectedValue ? appColors.White : appColors.AppLightGray,
-            }}
-          />
+      <View style={{ flex: 0.8 }}>
+        {
+          Platform.OS == 'android' ?
+            (
+              <View style={{ flex: 0.18 }}>
+                <View
+                  style={{
+                    flex: 0.4,
+                    justifyContent: 'flex-end',
+                    margin: 5,
+                    paddingLeft: 5,
+                  }}>
+                  <Text style={{ color: appColors.White, fontSize: 15 }}>
+                    Sub Service
+                  </Text>
+                </View>
+                <View
+                  style={{
+                    flex: 0.6,
+                    justifyContent: 'center',
+                  }}>
+                  <Dropdown
+                    label={'Select Sub Service'}
+                    value={selectedValue}
+                    onValueChange={e => handleSelectSubService(e)}
+                    dropDownData={subServiceList}
+                    style={[styles.dropDownStyle, { borderRadius: 20 }]}
+                    custompickerstyle={{
+                      color: selectedValue ? appColors.White : appColors.AppLightGray,
+                    }}
+                  />
+                </View>
+              </View>
+            ) :
+            (
+              <View style={{ flex: 0.3 }}>
+                <View
+                  style={{
+                    flex: 0.1,
+                    justifyContent: 'flex-end',
+                    margin: 5,
+                    paddingLeft: 5,
+                  }}>
+                  <Text style={{ color: appColors.White, fontSize: 15 }}>
+                    Sub Service
+                  </Text>
+                </View>
+                <View style={{ flex: 0.9}}>
+                <Picker
+                  selectedValue={selectedValue}
+                  style={{ height: "100%", width: "100%", justifyContent:'center', borderColor: appColors.AppLightGray, borderWidth: 1, borderRadius: 20, backgroundColor: appColors.Black }}
+                  onValueChange={e => handleSelectSubService(e)}
+                  itemStyle={{ color: appColors.Goldcolor }}
+                >
+                  <Picker.Item
+                    style={{fontSize: 13, color: appColors.AppLightGray, backgroundColor: "white" }}
+                    label={'Select Sub Service'}
+                    value={null}
+                  />
+                  {subServiceList?.map((x, ind) => (
+                    <Picker.Item
+                      style={{ fontSize: 13, color: appColors.White }}
+                      key={ind}
+                      label={x.label}
+                      value={x.value}
+                    />
+                  ))}
+                </Picker>
+                </View>
+              </View>
+            )
+        }
+
+        <View style={{ flex: 0.18 }}>
+          <View
+            style={{
+              flex: 0.4,
+              justifyContent: 'flex-end',
+              margin: 5,
+              paddingLeft: 5,
+            }}>
+            <Text style={{ color: appColors.White, fontSize: 15 }}>
+              Sub Service Price
+            </Text>
+          </View>
+          <View
+            style={{
+              flex: 0.6,
+              justifyContent: 'center',
+            }}>
+            <TextInput
+              style={[
+                styles.container,
+                { color: 'white', paddingHorizontal: 25, fontSize: 15 },
+              ]}
+              placeholder="Service Price"
+              placeholderTextColor={appColors.LightGray}
+              value={selectedValueDetails?.servicePrice?.toString()}
+              editable={false}
+            />
+          </View>
+        </View>
+        <View style={{ flex: 0.18 }}>
+          <View
+            style={{
+              flex: 0.4,
+              justifyContent: 'flex-end',
+              margin: 5,
+              paddingLeft: 5,
+            }}>
+            <Text style={{ color: appColors.White, fontSize: 15 }}>
+              Sub Service Duration
+            </Text>
+          </View>
+          <View
+            style={{
+              flex: 0.6,
+              justifyContent: 'center',
+            }}>
+            <TextInput
+              style={[
+                styles.container,
+                { color: 'white', paddingHorizontal: 25, fontSize: 15 },
+              ]}
+              placeholder="Service Duration"
+              placeholderTextColor={appColors.LightGray}
+              value={selectedValueDetails?.serviceDuration?.toString()}
+              editable={false}
+            // onChangeText={text => setSubServiceDescription(text)}
+            />
+          </View>
         </View>
       </View>
-
       <View style={styles.buttonView}>
         <ButtonComponent
           style={{
@@ -127,57 +264,12 @@ const AddSubservices = ({navigation}) => {
             bottom: 1,
             position: 'absolute',
           }}
-          btnTextColor={{color: 'white'}}
+          btnTextColor={{ color: 'white' }}
           title={'Request For Approval'}
-          onPress={() => navigation.goBack()}
+          onPress={handleAddService}
         />
       </View>
     </Screen>
-  );
-};
-
-const Servicelist = ({item, onPress, selected}) => {
-  const navigation = useNavigation();
-  const refRBSheet = useRef();
-
-  const handleEditPress = () => {
-    navigation.navigate(constants.BarberScreen.ServiceList, {
-      serviceName: item.categoryName,
-    });
-  };
-
-  return (
-    <TouchableOpacity onPress={onPress}>
-      <View
-        style={[
-          styles.container,
-          selected && {borderColor: '#c79647', borderWidth: 1.25},
-        ]}>
-        <View style={styles.Subcontainer}>
-          <View style={styles.textView}>
-            <Text style={styles.textStyle}>{item.categoryName}</Text>
-          </View>
-
-          <TouchableOpacity
-            onPress={handleEditPress}
-            style={styles.editImageView}>
-            <Image source={AppImages.Editimage} style={styles.editImageStyle} />
-          </TouchableOpacity>
-          <TouchableOpacity
-            onPress={() => refRBSheet.current.open()}
-            style={styles.DeleteimageView}>
-            <Image
-              source={AppImages.deleteimage}
-              style={styles.Deleteimagestyle}
-            />
-          </TouchableOpacity>
-
-          <BottomSheet ref={refRBSheet} Height={200}>
-            <DeleteServices refRBSheet={refRBSheet} />
-          </BottomSheet>
-        </View>
-      </View>
-    </TouchableOpacity>
   );
 };
 

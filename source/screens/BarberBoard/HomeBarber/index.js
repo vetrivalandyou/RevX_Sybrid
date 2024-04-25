@@ -26,10 +26,13 @@ import {AppImages} from '../../../AppConstants/AppImages';
 import Bookingbutton from '../../../components/atom/BookingButtons/Bookingbutton';
 import {getAsyncItem} from '../../../utils/SettingAsyncStorage';
 import {imageUrl} from '../../../AppConstants/urlConstants';
+import {useSelector} from 'react-redux';
 
 const HomeBarber = ({navigation}) => {
-
+  const {coords} = useSelector(state => state.LocationReducer);
   const [userDetails, setUserDetails] = useState();
+
+  console.log('BarberCords', coords);
 
   const data = [
     {
@@ -68,7 +71,10 @@ const HomeBarber = ({navigation}) => {
           }}>
           <View
             style={{flex: 0.2, alignItems: 'center', justifyContent: 'center'}}>
-            <Image source={{uri: `${imageUrl}${source}`}} style={{ width: 55, height: 55, borderRadius: 100}}/>
+            <Image
+              source={{uri: `${imageUrl}${source}`}}
+              style={{width: 55, height: 55, borderRadius: 100}}
+            />
           </View>
 
           <View
@@ -303,7 +309,6 @@ const HomeBarber = ({navigation}) => {
 
   return (
     <Screen statusBarColor={appColors.Black} viewStyle={styles.MianContainer}>
-    
       <View style={{flex: 0.1}}>
         <HomeHeader
           heading={userDetails?.userName}
@@ -347,14 +352,13 @@ const HomeBarber = ({navigation}) => {
 export default HomeBarber;
 
 const styless = StyleSheet.create({
-
   container: {
     width: '49%',
     flexDirection: 'row',
     alignItems: 'center',
     padding: 10,
     borderRadius: 10,
-    backgroundColor: appColors.darkgrey,                          
+    backgroundColor: appColors.darkgrey,
     borderColor: '#ccc',
     marginBottom: 10,
     overflow: 'hidden', // Ensures that the border radius is applied correctly
