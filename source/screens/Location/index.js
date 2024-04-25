@@ -43,12 +43,14 @@ const LocationScreen = () => {
   const handleMapPress = event => {
     // Handle map press action
     const {coordinate} = event.nativeEvent;
-    setSelectedLocation([{
-      latitude: coordinate.latitude,
-      longitude: coordinate.longitude,
-      latitudeDelta: 0.0922,
-      longitudeDelta: 0.0421,
-    }]);
+    setSelectedLocation([
+      {
+        latitude: coordinate.latitude,
+        longitude: coordinate.longitude,
+        latitudeDelta: 0.0922,
+        longitudeDelta: 0.0421,
+      },
+    ]);
     // setSelectedLocation({
     //   latitude: coordinate.latitude,
     //   longitude: coordinate.longitude,
@@ -57,12 +59,14 @@ const LocationScreen = () => {
   };
   const handleLocationSelect = (data, details) => {
     // 'details' contains additional information about the selected place
-    setSelectedLocation([{
-      latitude: details.geometry.location.lat,
-      longitude: details.geometry.location.lng,
-      latitudeDelta: 0.0922,
-      longitudeDelta: 0.0421,
-    }]);
+    setSelectedLocation([
+      {
+        latitude: details.geometry.location.lat,
+        longitude: details.geometry.location.lng,
+        latitudeDelta: 0.0922,
+        longitudeDelta: 0.0421,
+      },
+    ]);
 
     mapRef.current.animateToRegion(
       {

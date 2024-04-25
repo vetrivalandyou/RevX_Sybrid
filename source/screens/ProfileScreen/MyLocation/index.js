@@ -1,6 +1,6 @@
 import React, {useEffect, useRef, useState} from 'react';
 import {TouchableOpacity, View} from 'react-native';
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import Screen from '../../../components/atom/ScreenContainer/Screen';
 import appColors from '../../../AppConstants/appColors';
 import CustomIcon, {
@@ -8,45 +8,49 @@ import CustomIcon, {
 } from '../../../components/molecules/CustomIcon/CustomIcon';
 import GoogleMap from '../../../components/atom/GoogleMap';
 import MyLocationBottomSheet from '../../../components/atom/MyLocationBottomSheet';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import { screenSize } from '../../../components/atom/ScreenSize';
-import { useRoute } from '@react-navigation/native';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
+import {screenSize} from '../../../components/atom/ScreenSize';
+import {useRoute} from '@react-navigation/native';
 
 const MyLocation = ({navigation}) => {
   const route = useRoute();
+  const dispatch = useDispatch();
 
   // Extract params
-  const {item} = route.params;
-  console.log('item.............', item);
+  // const {item} = route.params;
+  // console.log('item.............', item);
 
   const {coords} = useSelector(state => state.LocationReducer);
 
-  console.log('coords....', coords);
   const mapRef = useRef();
-
   const [selectedLocation, setSelectedLocation] = useState(null);
 
+  useEffect(() => {
+    handleLocationSelect();
+  }, [coords]);
+
   const [region, setRegion] = useState({
-    latitude: 31.5203696,
-    longitude: 74.35874729999999,
+    latitude: 24.8607,
+    longitude: 67.0011,
     latitudeDelta: 0.0922,
     longitudeDelta: 0.0421,
   });
 
   const handleLocationSelect = () => {
+    const latitude = coords?.coords?.latitude;
+    const longitude = coords?.coords?.longitude;
     setSelectedLocation([
       {
-        latitude: coords?.coords?.latitude,
-        longitude: coords?.coords?.longitude,
+        latitude: latitude,
+        longitude: longitude,
         latitudeDelta: 0.0922,
         longitudeDelta: 0.0421,
       },
     ]);
-
     mapRef?.current?.animateToRegion(
       {
-        latitude: coords?.coords?.latitude,
-        longitude: coords?.coords?.longitude,
+        latitude: latitude,
+        longitude: longitude,
         latitudeDelta: 0.05,
         longitudeDelta: 0.05,
       },
@@ -55,13 +59,15 @@ const MyLocation = ({navigation}) => {
   };
 
   const handleMapPress = e => {
-    console.log('Live Cordinates>>>>....', e.nativeEvent.coordinate);
-    setSelectedLocation({
-      latitude: e.nativeEvent.coordinate?.latitude,
-      longitude: e.nativeEvent.coordinate?.longitude,
-      latitudeDelta: 0.0922,
-      longitudeDelta: 0.0421,
-    });
+    // console.log('Live Cordinates>>>>....', e.nativeEvent.coordinate);
+    setSelectedLocation([
+      {
+        latitude: e.nativeEvent.coordinate?.latitude,
+        longitude: e.nativeEvent.coordinate?.longitude,
+        latitudeDelta: 0.0922,
+        longitudeDelta: 0.0421,
+      },
+    ]);
     mapRef.current.animateToRegion(
       {
         latitude: e.nativeEvent.coordinate?.latitude,
@@ -90,7 +96,6 @@ const MyLocation = ({navigation}) => {
           selectedLocation={selectedLocation}
           handleMapPress={handleMapPress}
         />
-        
 
         {/* <MapView
           style={{flex: 1}}
@@ -171,11 +176,11 @@ const MyLocation = ({navigation}) => {
         </TouchableOpacity>
       </View>
       <View style={{flex: 0.3}}>
-      <MyLocationBottomSheet route={route} selectedLocation={selectedLocation} />
+        <MyLocationBottomSheet
+          selectedLocation={[selectedLocation]}
+          route={route}
+        />
       </View>
-      {/* {selectedLocation && (
-     
-      )} */}
     </Screen>
   );
 };

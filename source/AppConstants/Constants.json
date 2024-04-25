@@ -116,6 +116,7 @@
   },
   "AsyncStorageKeys": {
     "token": "token",
-    "userDetails": "userDetails"
+    "userDetails": "userDetails",
+    "longLat": "longLat"
   }
 }

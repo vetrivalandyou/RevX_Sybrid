@@ -24,8 +24,8 @@ import BottomSheet from '../../components/molecules/BottomSheetContent/BottomShe
 import LogoutBottom from '../LogoutBottom';
 import {screenSize} from '../../components/atom/ScreenSize';
 import {useNavigation} from '@react-navigation/native';
-import { imageUrl } from '../../AppConstants/urlConstants';
-import { getAsyncItem } from '../../utils/SettingAsyncStorage';
+import {imageUrl} from '../../AppConstants/urlConstants';
+import {getAsyncItem} from '../../utils/SettingAsyncStorage';
 
 const ProfileScreen = ({navigation}) => {
   const [userDetails, setUserDetails] = useState();
@@ -44,50 +44,50 @@ const ProfileScreen = ({navigation}) => {
   };
 
   const BarberList = [
+    // {
+    //   id: 1,
+    //   title: 'My Location',
+    //   icon: Icons.Entypo,
+    // },
     {
       id: 1,
-      title: 'My Location',
-      icon: Icons.Entypo,
-    },
-    {
-      id: 2,
       title: 'About Us',
       icon: Icons.Entypo,
     },
 
     {
-      id: 3,
+      id: 2,
       title: 'Appointment',
       icon: Icons.Entypo,
     },
     {
-      id: 4,
+      id: 3,
       title: 'Nearby Vans',
       icon: Icons.Entypo,
     },
     {
-      id: 5,
+      id: 4,
       title: 'Profile',
       icon: Icons.Entypo,
     },
 
     {
-      id: 6,
+      id: 5,
       title: 'Loyalty Points',
       icon: Icons.Entypo,
     },
     {
-      id: 7,
+      id: 6,
       title: 'Notification',
       icon: Icons.Entypo,
     },
     {
-      id: 8,
+      id: 7,
       title: 'Refer a Friend',
       icon: Icons.Entypo,
     },
     {
-      id: 9,
+      id: 8,
       title: 'Sign Out',
       icon: Icons.Entypo,
     },
@@ -100,12 +100,12 @@ const ProfileScreen = ({navigation}) => {
   const handleNavigation = index => {
     switch (index) {
       case 0:
-        navigation.navigate(constants.screen.MyLocation);
-        break;
-      case 1:
+        // navigation.navigate(constants.screen.MyLocation);
+        // break;
         navigation.navigate(constants.screen.AboutUs);
         break;
-      case 8:
+
+      case 7:
         refRBSheet.current.open();
         break;
       default:

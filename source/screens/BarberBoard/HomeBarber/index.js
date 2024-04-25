@@ -24,12 +24,65 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 import Search from '../../../components/atom/Search/Search';
 import {AppImages} from '../../../AppConstants/AppImages';
 import Bookingbutton from '../../../components/atom/BookingButtons/Bookingbutton';
-import {getAsyncItem} from '../../../utils/SettingAsyncStorage';
-import {imageUrl} from '../../../AppConstants/urlConstants';
+import {getAsyncItem, getLogLatAsync, setLogLatAsync} from '../../../utils/SettingAsyncStorage';
+import {endPoint, imageUrl} from '../../../AppConstants/urlConstants';
+import {useDispatch, useSelector} from 'react-redux';
+import {useIsFocused} from '@react-navigation/native';
+import {UpdateLocation} from '../../../redux/Action/LocationAction/UpdateLocationAction';
+import {PostRequest} from '../../../services/apiCall';
+import {LATEST_UPDATE} from '../../../AppConstants/appConstants';
+import useLocationWatcher from '../../../services/useLocationWatcher';
 
 const HomeBarber = ({navigation}) => {
-
+  const {coords} = useSelector(state => state.LocationReducer);
+  const dispatch = useDispatch();
+  const isFocused = useIsFocused();
   const [userDetails, setUserDetails] = useState();
+
+
+  useEffect(() => {
+    if (isFocused) {
+      getAsyncData();
+      // getAsyncLocation()
+    }
+  }, [isFocused]);
+
+  const getAsyncData = async () => {
+    const userAsyncDetails = await getAsyncItem(
+      constants.AsyncStorageKeys.userDetails,
+    );
+    setUserDetails(userAsyncDetails);
+  };
+
+  const handleLocationChange = newCoords => {
+    console.log('newCoordsnewCoordsnewCoordsnewCoordsnewCoords', newCoords);
+    handleSaveBarberLocation(userDetails, newCoords?.coords)
+    setLogLatAsync(constants.AsyncStorageKeys.longLat, newCoords);
+  };
+
+  const handleSaveBarberLocation = (userAsyncDetails, newCoords) => {
+    const payload = {
+      barberId: userAsyncDetails?.userId,
+      userLocationLatitude: newCoords?.latitude,
+      userLocationLongitude: newCoords?.longitude,
+      operations: LATEST_UPDATE,
+      createdBy: userAsyncDetails?.userId,
+    };
+    PostRequest(endPoint.BARBER_LOCATION_UPDATE, payload)
+      .then(res => {
+        console.log('RESPONSE BARBER LOCATION UPDATE', res?.data);
+      })
+      .catch(err => {
+        console.log('Err'.err);
+      });
+  };
+
+  useLocationWatcher(handleLocationChange);
+
+  // const getAsyncLocation = async() => {
+  //   const barberCurrentLocation = await getLogLatAsync(constants.AsyncStorageKeys.longLat)
+  //   console.log("Barber",barberCurrentLocation )
+  // }
 
   const data = [
     {
@@ -46,17 +99,6 @@ const HomeBarber = ({navigation}) => {
     },
   ];
 
-  useEffect(() => {
-    getAsyncData();
-  }, []);
-
-  const getAsyncData = async () => {
-    const userDetails = await getAsyncItem(
-      constants.AsyncStorageKeys.userDetails,
-    );
-    setUserDetails(userDetails);
-  };
-
   const HomeHeader = ({heading, sunHeading, source}) => {
     return (
       <View style={{flex: 1, justifyContent: 'center'}}>
@@ -68,7 +110,10 @@ const HomeBarber = ({navigation}) => {
           }}>
           <View
             style={{flex: 0.2, alignItems: 'center', justifyContent: 'center'}}>
-            <Image source={{uri: `${imageUrl}${source}`}} style={{ width: 55, height: 55, borderRadius: 100}}/>
+            <Image
+              source={{uri: `${imageUrl}${source}`}}
+              style={{width: 55, height: 55, borderRadius: 100}}
+            />
           </View>
 
           <View
@@ -299,11 +344,8 @@ const HomeBarber = ({navigation}) => {
     );
   };
 
-  console.log('userDetails', userDetails);
-
   return (
     <Screen statusBarColor={appColors.Black} viewStyle={styles.MianContainer}>
-    
       <View style={{flex: 0.1}}>
         <HomeHeader
           heading={userDetails?.userName}
@@ -347,14 +389,13 @@ const HomeBarber = ({navigation}) => {
 export default HomeBarber;
 
 const styless = StyleSheet.create({
-
   container: {
     width: '49%',
     flexDirection: 'row',
     alignItems: 'center',
     padding: 10,
     borderRadius: 10,
-    backgroundColor: appColors.darkgrey,                          
+    backgroundColor: appColors.darkgrey,
     borderColor: '#ccc',
     marginBottom: 10,
     overflow: 'hidden', // Ensures that the border radius is applied correctly
