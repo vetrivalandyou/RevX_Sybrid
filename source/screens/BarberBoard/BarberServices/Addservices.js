@@ -1,94 +1,86 @@
-import {
-  Image,
-  ScrollView,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-  TextInput,
-  Platform,
-} from 'react-native';
-import React, {useEffect, useRef, useState} from 'react';
-import Screen from '../../../components/atom/ScreenContainer/Screen';
-import {screenSize} from '../../Utills/AppConstants';
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import Entypo from 'react-native-vector-icons/Entypo';
-import ButtonComponent from '../../../components/atom/CustomButtons/ButtonComponent';
+import {View, Platform} from 'react-native';
+import React, {useEffect, useState} from 'react';
 import styles from './styles';
-
-import {useNavigation} from '@react-navigation/native';
-import BottomSheet from '../../../components/molecules/BottomSheetContent/BottomSheet';
-import Header from '../../../components/molecules/Header';
-import {Icons} from '../../../components/molecules/CustomIcon/CustomIcon';
-import DeleteServices from './DeleteServices';
-import constants from '../../../AppConstants/Constants.json';
 import {PostRequest} from '../../../services/apiCall';
-import {endPoint} from '../../../AppConstants/urlConstants';
-import {AppImages} from '../../../AppConstants/AppImages';
-import Servicesboard from '.';
+import appColors from '../../../AppConstants/appColors';
+import Header from '../../../components/molecules/Header';
+import Screen from '../../../components/atom/ScreenContainer/Screen';
+import {Icons} from '../../../components/molecules/CustomIcon/CustomIcon';
+import {endPoint, messages} from '../../../AppConstants/urlConstants';
 import {SimpleSnackBar} from '../../../components/atom/Snakbar/Snakbar';
 import Dropdown from '../../../components/molecules/Dropdown/Dropdown';
+import {
+  LATEST_SELECT,
+  SUCCESS_CODE,
+  pending,
+} from '../../../AppConstants/appConstants';
+import ButtonComponent from '../../../components/atom/CustomButtons/ButtonComponent';
 
-const Addservices = ({navigation}) => {
-  const [selectedItem, setSelectedItem] = useState(null);
-  const [newService, setNewService] = useState('');
+const Addservices = ({navigation, route}) => {
+  const {userId} = route.params;
   const [servicesList, setServiceslist] = useState([]);
-  const [selectedValue, setSelectedValue] = useState(null);
+  const [selectedValue, setSelectedValue] = useState('');
 
   useEffect(() => {
-    GetsetupCategories();
+    getParentService();
   }, []);
 
-  const GetsetupCategories = () => {
+  const getParentService = () => {
     const payload = {
       categoryId: 0,
       categoryName: '',
-      operations: 3,
+      operations: LATEST_SELECT,
       createdBy: 0,
     };
     PostRequest(endPoint.GET_SETUP_CATEGORIES, payload)
       .then(res => {
-        console.log('responseeee>>>>.>', res?.data?.data);
         if (res?.data?.code == 200) {
-          setServiceslist(res?.data?.data);
+          console.log(res?.data?.data);
+          setServiceslist(
+            res?.data?.data?.map(x => ({
+              ...x,
+              label: x.categoryName,
+              value: x.categoryId,
+            })),
+          );
         } else {
-          SimpleSnackBar(res?.data?.message, appColors.Red);
+          SimpleSnackBar(res?.data?.message);
         }
       })
-      .catch(err => {
+      .catch(res => {
         SimpleSnackBar(messages.Catch, appColors.Red);
+        setLoading(false);
       });
   };
 
   const handleAddService = () => {
-    if (newService.trim() !== '') {
+    if (selectedValue != '') {
       const payload = {
-        categoryId: 0, // Set appropriate category ID if needed
-        categoryName: newService.trim(),
-        operations: 1, // Operation ID for adding service
-        createdBy: 2, // Set appropriate user ID if needed
+        barberId: userId,
+        statusId: pending,
+        ud_Barber_Categoryies_Type: [
+          {
+            barberServiceCategryId: parseInt(selectedValue),
+          },
+        ],
       };
-      PostRequest(endPoint.SETUP_CATEGORIES_CU, payload)
+      console.log('payload', payload);
+      PostRequest(endPoint.REAPPLY_APPROVE_BARBER_SERVICE_CATEGORY, payload)
         .then(res => {
-          if (res?.data?.code === 200) {
-            // If service added successfully, update the list
-            setServiceslist([...servicesList, res?.data?.data]);
-            GetsetupCategories();
+          if (res?.data?.code === SUCCESS_CODE) {
+            SimpleSnackBar(res?.data?.message);
+            navigation.goBack();
           } else {
             console.error('Error:', res?.data?.message);
+            SimpleSnackBar(res?.data?.message, appColors.Red);
           }
         })
         .catch(err => {
           console.error('Error:', err);
+          SimpleSnackBar(messages.WentWrong, appColors.Red);
         });
     }
   };
-
-  const dropDownData = [
-    {label: 'Option 1', value: 'option1'},
-    {label: 'Option 2', value: 'option2'},
-    {label: 'Option 3', value: 'option3'},
-  ];
 
   return (
     <Screen
@@ -104,13 +96,13 @@ const Addservices = ({navigation}) => {
           logIn={'success'}
         />
       </View>
-      <View style={{flex: 0.9, alignItems: 'center'}}>
+      <View style={{flex: 0.8, alignItems: 'center'}}>
         <View style={styles.DropdownView}>
           <Dropdown
-            label={'Select Barber'}
+            label={'Select Service'}
             value={selectedValue}
             onValueChange={itemValue => setSelectedValue(itemValue)}
-            dropDownData={dropDownData}
+            dropDownData={servicesList}
             style={styles.dropDownStyle}
             custompickerstyle={{
               color: selectedValue ? appColors.White : appColors.AppLightGray,
@@ -118,7 +110,6 @@ const Addservices = ({navigation}) => {
           />
         </View>
       </View>
-
       <View style={styles.buttonView}>
         <ButtonComponent
           style={{
@@ -126,58 +117,14 @@ const Addservices = ({navigation}) => {
             paddingVertical: Platform.OS == 'ios' ? 17 : 13,
             bottom: 1,
             position: 'absolute',
+            opacity: selectedValue == '' ? 0.3 : 1,
           }}
           btnTextColor={{color: 'white'}}
           title={'Request For Approval'}
-          onPress={() => navigation.goBack()}
+          onPress={handleAddService}
         />
       </View>
     </Screen>
-  );
-};
-
-const Servicelist = ({item, onPress, selected}) => {
-  const navigation = useNavigation();
-  const refRBSheet = useRef();
-
-  const handleEditPress = () => {
-    navigation.navigate(constants.BarberScreen.ServiceList, {
-      serviceName: item.categoryName,
-    });
-  };
-
-  return (
-    <TouchableOpacity onPress={onPress}>
-      <View
-        style={[
-          styles.container,
-          selected && {borderColor: '#c79647', borderWidth: 1.25},
-        ]}>
-        <View style={styles.Subcontainer}>
-          <View style={styles.textView}>
-            <Text style={styles.textStyle}>{item.categoryName}</Text>
-          </View>
-
-          <TouchableOpacity
-            onPress={handleEditPress}
-            style={styles.editImageView}>
-            <Image source={AppImages.Editimage} style={styles.editImageStyle} />
-          </TouchableOpacity>
-          <TouchableOpacity
-            onPress={() => refRBSheet.current.open()}
-            style={styles.DeleteimageView}>
-            <Image
-              source={AppImages.deleteimage}
-              style={styles.Deleteimagestyle}
-            />
-          </TouchableOpacity>
-
-          <BottomSheet ref={refRBSheet} Height={200}>
-            <DeleteServices refRBSheet={refRBSheet} />
-          </BottomSheet>
-        </View>
-      </View>
-    </TouchableOpacity>
   );
 };
 

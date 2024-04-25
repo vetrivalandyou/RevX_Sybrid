@@ -1,69 +1,56 @@
-import React, {useEffect, useRef} from 'react';
-import {useState} from 'react';
-
-import {
-  FlatList,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  View,
-  Image,
-} from 'react-native';
-import Screen from '../../../components/atom/ScreenContainer/Screen';
-import Header from '../../../components/molecules/Header';
-import CustomIcon, {
-  Icons,
-} from '../../../components/molecules/CustomIcon/CustomIcon';
-
+import React, {useState, useEffect, useRef} from 'react';
+import {FlatList, Text, TouchableOpacity, View, Image} from 'react-native';
 import styles from './styles';
-import ButtonComponent from '../../../components/atom/CustomButtons/ButtonComponent';
-import constants from '../../../AppConstants/Constants.json';
-
-import appColors from '../../../AppConstants/appColors';
-import {PostRequest} from '../../../services/apiCall';
-import {endPoint, messages} from '../../../AppConstants/urlConstants';
-import Dropdown from '../../../components/molecules/Dropdown/Dropdown';
-import Servicesboard from '.';
-import BottomSheet from '../../../components/molecules/BottomSheetContent/BottomSheet';
-
-import {SimpleSnackBar} from '../../../components/atom/Snakbar/Snakbar';
-import {AppImages} from '../../../AppConstants/AppImages';
+import {useIsFocused} from '@react-navigation/native';
 import DeleteSubServices from './DeleteSubServices';
+import {PostRequest} from '../../../services/apiCall';
+import appColors from '../../../AppConstants/appColors';
+import Header from '../../../components/molecules/Header';
+import {AppImages} from '../../../AppConstants/AppImages';
+import constants from '../../../AppConstants/Constants.json';
+import {getAsyncItem} from '../../../utils/SettingAsyncStorage';
+import {LATEST_SELECT} from '../../../AppConstants/appConstants';
+import Screen from '../../../components/atom/ScreenContainer/Screen';
+import {SimpleSnackBar} from '../../../components/atom/Snakbar/Snakbar';
+import {Icons} from '../../../components/molecules/CustomIcon/CustomIcon';
+import {endPoint, imageUrl, messages} from '../../../AppConstants/urlConstants';
+import ButtonComponent from '../../../components/atom/CustomButtons/ButtonComponent';
+import BottomSheet from '../../../components/molecules/BottomSheetContent/BottomSheet';
 
 const ServiceList = ({navigation, route}) => {
   const {item} = route.params;
-  const [selectedValue, setSelectedValue] = useState(null);
-  const [newService, setNewService] = useState('');
-  const [Services, setServices] = useState([]);
-  const [selectedItems, setSelectedItems] = useState([]);
+  const isFocused = useIsFocused();
+  const [subServices, setSubServices] = useState([]);
+  const [userDetails, setUserDetails] = useState([]);
 
-  // const [dropDownData, SetdropdownData]  = useState([])
-  // const [servicesList, setServiceslist] = useState([]);
   useEffect(() => {
-    customerservices();
-  }, []);
+    if (isFocused) {
+      getUserDetail();
+    }
+  }, [isFocused]);
 
-  const customerservices = () => {
+  const getUserDetail = async () => {
+    const userDatail = await getAsyncItem(
+      constants.AsyncStorageKeys.userDetails,
+    );
+    setUserDetails(userDatail);
+    getChildService(userDatail?.userId);
+  };
+
+  const getChildService = () => {
     const payload = {
-      servicesId: 0,
-      barberId: 94,
-      categoryServicesId: item.serviceCategoryId,
+      serviceId: 0,
+      serviceName: '',
+      serviceCategoryId: item?.barberServiceCategryId,
+      operations: LATEST_SELECT,
     };
-
-    PostRequest(endPoint.CUSTOMER_SERVICES, payload)
+    PostRequest(endPoint.BARBER_SERVICES_GET, payload)
       .then(res => {
-        // setLoading(false);
-        if (res?.data?.code == 200) {
-          console.log(res?.data);
-          setServices(res?.data?.data);
-        } else {
-          SimpleSnackBar(res?.data?.message);
-          // setLoading(false);
-        }
+        console.log('res', res?.data?.data[0]);
+        setSubServices(res?.data?.data);
       })
       .catch(res => {
         SimpleSnackBar(messages.Catch, appColors.Red);
-        setLoading(false);
       });
   };
 
@@ -82,15 +69,15 @@ const ServiceList = ({navigation, route}) => {
       </View>
       <View style={{flex: 0.8}}>
         <FlatList
-          data={Services}
+          data={subServices}
+          keyExtractor={item => item.servicesId}
           renderItem={({item}) => (
             <Servicedetails
+              key={item.servicesId}
               item={item}
-              selected={selectedItems === item.serviceCategoryId}
               onPress={() => setSelectedItems(item.serviceCategoryId)}
             />
           )}
-          keyExtractor={item => item.id}
         />
       </View>
       <View style={styles.buttonView}>
@@ -104,36 +91,43 @@ const ServiceList = ({navigation, route}) => {
           btnTextColor={{color: 'white'}}
           title={'Request Sub Service'}
           onPress={() =>
-            navigation.navigate(constants.BarberScreen.AddSubservices)
+            navigation.navigate(constants.BarberScreen.AddSubservices, {
+              parentService: item,
+              userId: userDetails?.userId,
+            })
           }
-          // onPress={handleditService}
         />
       </View>
     </Screen>
   );
 };
 
-const Servicedetails = ({item, selected, onPress}) => {
+const Servicedetails = ({item, key, onPress}) => {
   const refRBSheet = useRef();
-
   return (
-    <TouchableOpacity onPress={onPress}>
-      <View
-        style={[
-          styles.container,
-          selected && {borderColor: appColors.Goldcolor, borderWidth: 1.25},
-        ]}>
+    <TouchableOpacity key={key} onPress={onPress}>
+      <View style={[styles.container]}>
         <View style={styles.Subcontainer}>
-          <View style={{paddingVertical: 8, flex: 0.2}}>
-            {item.serviceImage && <Image source={item.serviceImage} />}
+          <View
+            style={{
+              paddingVertical: 8,
+              flex: 0.2,
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}>
+            {item.serviceImage != '' && (
+              <Image
+                style={{width: 40, height: 40, borderRadius: 100}}
+                source={{uri: `${imageUrl}/${item.serviceImage}`}}
+              />
+            )}
           </View>
-
           <View style={{flex: 0.45, justifyContent: 'center'}}>
             <Text
               style={{
                 color: 'white',
                 fontWeight: '400',
-                fontSize: 18,
+                fontSize: 15,
               }}>
               {item.serviceName}
             </Text>
@@ -141,16 +135,14 @@ const Servicedetails = ({item, selected, onPress}) => {
           <View
             style={{
               flexDirection: 'row',
-              justifyContent: 'space-between',
+              justifyContent: 'center',
               alignItems: 'center',
-              flex: 0.3,
+              flex: 0.2,
             }}>
-            {/* <Text style={{color:'white', textAlign:'center', paddingVertical:12, fontSize:12, fontWeight:'bold'}}>View</Text> */}
-            <Text style={{color: '#c79647', fontSize: 19, fontWeight: '600'}}>
+            <Text style={{color: '#c79647', fontSize: 15, fontWeight: '600'}}>
               ${item.servicePrice}
             </Text>
           </View>
-
           <TouchableOpacity
             onPress={() => refRBSheet.current.open()}
             style={styles.DeleteimageView}>
@@ -162,15 +154,6 @@ const Servicedetails = ({item, selected, onPress}) => {
           <BottomSheet ref={refRBSheet} Height={200}>
             <DeleteSubServices refRBSheet={refRBSheet} DeleteService={item} />
           </BottomSheet>
-
-          {/* <TouchableOpacity
-            style={{
-              flex: 0.15,
-              justifyContent: 'center',
-              alignItems: 'center',
-            }}>
-            <Image source={AppImages.Editimage} style={styles.editImageStyle} />
-          </TouchableOpacity> */}
         </View>
       </View>
     </TouchableOpacity>

@@ -46,7 +46,7 @@ const Dropdown = ({
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#FAF9F6',
+    backgroundColor: appColors.Black,
     borderColor: 'grey',
     borderWidth: 1,
     borderRadius: 10,
