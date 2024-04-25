@@ -42,7 +42,7 @@ export const AppImages = {
   ourservices2: require(`${path}ourservices2.png`),
   ourservices3: require(`${path}ourservices3.png`),
   Percentage: require(`${path}Percentage.png`),
-  Editimage:require(`${path}editimage.png`),
-  deleteimage:require(`${path}deleteimage.png`),
-  dummyVan:require(`${path}dummyVan.png`),
+  Editimage: require(`${path}editimage.png`),
+  deleteimage: require(`${path}deleteimage.png`),
+  dummyVan: require(`${path}dummyVan.png`),
 };

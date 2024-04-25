@@ -1,6 +1,6 @@
-import React, { useMemo } from 'react';
-import { Image, StyleSheet, Text, View } from 'react-native';
-import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
+import React, {useMemo} from 'react';
+import {Image, StyleSheet, Text, View} from 'react-native';
+import MapView, {Marker, PROVIDER_GOOGLE} from 'react-native-maps';
 import CustomDarkMapStyle from '../../../utils/CustomMapStyle.json';
 import MarkerImage from '../../../assets/mapMarker.png';
 import appColors from '../../../AppConstants/appColors';
@@ -16,6 +16,7 @@ const GoogleMap = ({
   CustomMarkerImage,
 }) => {
   console.log('GoogleMapGoogleMap', selectedLocation);
+
   // const Markers = useMemo(
   //   () =>
   //     selectedLocation?.map(marker => {
@@ -76,34 +77,36 @@ const GoogleMap = ({
     //     ))
     //   )}
     // </MapView>
+
     <MapView
-    style={{ flex: 1 }}
-    ref={mapRef}
-    provider={PROVIDER_GOOGLE}
-    loadingEnabled={true}
-    initialRegion={region}
-    onRegionChange={setRegion}
-    customMapStyle={CustomDarkMapStyle}
-    userLocationCalloutEnabled={true}
-    zoomEnabled={true}
-    scrollEnabled={true}
-    rotateEnabled={true}
-    pitchEnabled={true}
-    onPress={handleMapPress}>
-    {Array.isArray(selectedLocation) && selectedLocation.map((x) => (
-  <Marker
-    key={`marker-${x?.longitude}-${x?.longitude}`}
-    coordinate={{
-      latitude: x?.latitude ? x.latitude : 0,
-      longitude: x.longitude ? x.longitude : 0,
-    }}>
-    <Image
-      source={CustomMarkerImage ? CustomMarkerImage : MarkerImage}
-      style={CustomMarkerImage ? style.barberStyle : style.markerStyle}
-    />
-  </Marker>
-))}
-  </MapView>
+      style={{flex: 1}}
+      ref={mapRef}
+      provider={PROVIDER_GOOGLE}
+      loadingEnabled={true}
+      initialRegion={region}
+      onRegionChange={setRegion}
+      customMapStyle={CustomDarkMapStyle}
+      userLocationCalloutEnabled={true}
+      zoomEnabled={true}
+      scrollEnabled={true}
+      rotateEnabled={true}
+      pitchEnabled={true}
+      onPress={handleMapPress}>
+      {Array.isArray(selectedLocation) &&
+        selectedLocation.map(x => (
+          <Marker
+            key={`marker-${x?.longitude}-${x?.longitude}`}
+            coordinate={{
+              latitude: x?.latitude ? x.latitude : 0,
+              longitude: x.longitude ? x.longitude : 0,
+            }}>
+            <Image
+              source={CustomMarkerImage ? CustomMarkerImage : MarkerImage}
+              style={CustomMarkerImage ? style.barberStyle : style.markerStyle}
+            />
+          </Marker>
+        ))}
+    </MapView>
   );
 };
 

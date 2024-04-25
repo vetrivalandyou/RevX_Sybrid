@@ -23,9 +23,7 @@ const Successfull = ({route}) => {
   };
 
   return (
-    <Screen
-      statusBarColor={appColors.Black}
-      barStyle="light-content">
+    <Screen statusBarColor={appColors.Black} barStyle="light-content">
       <View style={{flex: 0.1, justifyContent: 'center'}}>
         <Header
           lefttIcoType={Icons.Ionicons}
@@ -56,7 +54,10 @@ const Successfull = ({route}) => {
           style={{alignItems: 'center', flex: 0.2, justifyContent: 'flex-end'}}>
           <ButtonComponent
             onPress={() => {
-              console.log("userDetails?.user?._RoleId", userDetails?.user?._RoleId)
+              console.log(
+                'userDetails?.user?._RoleId',
+                userDetails?.user?._RoleId,
+              );
               dispatch(
                 LogIn(userDetails?.user?._RoleId, userDetails?.token, null),
               );
