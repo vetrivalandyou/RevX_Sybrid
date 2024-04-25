@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   ActivityIndicator,
   FlatList,
@@ -7,28 +7,33 @@ import {
   Text,
   TouchableOpacity,
   View,
-  ScrollView
+  ScrollView,
 } from 'react-native';
 import appColors from '../../../AppConstants/appColors';
 import CustomIcon, {
   Icons,
 } from '../../../components/molecules/CustomIcon/CustomIcon';
-import { screenSize } from '../ScreenSize';
+import {screenSize} from '../ScreenSize';
 import constants from '../../../AppConstants/Constants.json';
-import { useNavigation } from '@react-navigation/native';
+import {useNavigation} from '@react-navigation/native';
 import SimpleTextField from '../../molecules/TextFeilds/SimpleTextField';
-import { Formik } from 'formik';
+import {Formik} from 'formik';
 import * as Yup from 'yup';
-import { PostRequest } from '../../../services/apiCall';
-import { endPoint } from '../../../AppConstants/urlConstants';
+import {PostRequest} from '../../../services/apiCall';
+import {endPoint} from '../../../AppConstants/urlConstants';
 import ButtonComponent from '../CustomButtons/ButtonComponent';
-import { getAsyncItem } from '../../../utils/SettingAsyncStorage';
-import { SimpleSnackBar } from '../Snakbar/Snakbar';
+import {getAsyncItem} from '../../../utils/SettingAsyncStorage';
+import {SimpleSnackBar} from '../Snakbar/Snakbar';
+import {useDispatch, useSelector} from 'react-redux';
 
+<<<<<<< HEAD
 const MyLocationBottomSheet = ({ selectedLocation, route }) => {
+=======
+const MyLocationBottomSheet = ({selectedLocation, route}) => {
+>>>>>>> 5c75b3aea31019174370765267a69011fe648a01
   const navigation = useNavigation();
-
   const [selectedItem, setSelectedItem] = useState('');
+<<<<<<< HEAD
   const [userDetails, setUserDetails] = useState('');
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);
   const [operationType, setOperationType] = useState('setup'); // default is 'setup'
@@ -39,8 +44,23 @@ const MyLocationBottomSheet = ({ selectedLocation, route }) => {
   useEffect(() => {
     getUserDetails();
     setIsButtonDisabled(!selectedLocation);
+=======
+  const [colorChange, setColorChange] = useState(true);
+  const [userDetails, setUserDetails] = useState('');
+  const [isButtonDisabled, setIsButtonDisabled] = useState(true);
+  const [operationType, setOperationType] = useState('setup');
+  // default is 'setup'
+  // const route = useRoute();
+  // Extract params
+  const {item} = route?.params || {};
 
-    // Set operation type based on id
+  console.log('update sadsadsad sadsadsa sadsadas', item);
+
+  useEffect(() => {
+    getUserDetails();
+    setIsButtonDisabled(!selectedLocation); // Update isButtonDisabled based on selectedLocation
+>>>>>>> 5c75b3aea31019174370765267a69011fe648a01
+
     if (item?.id) {
       setOperationType('update');
     } else {
@@ -48,15 +68,15 @@ const MyLocationBottomSheet = ({ selectedLocation, route }) => {
     }
   }, [selectedLocation, item?.id]);
 
-  // ... (other functions remain unchanged)
-
   const handleLocationAction = values => {
     if (operationType === 'setup') {
       locatioDetails(values);
     } else if (operationType === 'update') {
+      console.log('location update', values);
       locationUpdate(values);
     }
   };
+
   const getUserDetails = async () => {
     const userDetail = await getAsyncItem(
       constants.AsyncStorageKeys.userDetails,
@@ -67,43 +87,13 @@ const MyLocationBottomSheet = ({ selectedLocation, route }) => {
   const handleClickLocation = item => {
     console.log('handleClickLocation', item);
 
-    // Populate form fields with selected location details
     setSelectedItem(item);
     setValues({
       locationName: item.locationName,
       nearstLandmark: item.nearstLandmark,
     });
-
-    // Update operation type to 'update' since a location item is clicked
     setOperationType('update');
   };
-
-  // const data = [
-  //   {
-  //     LocationId: 1,
-  //     locationName: 'Lakson Group of Companies',
-  //   },
-  //   {
-  //     LocationId: 2,
-  //     locationName: 'My Home',
-  //   },
-  //   {
-  //     LocationId: 3,
-  //     locationName: 'Ayesha Manzil',
-  //   },
-  //   {
-  //     LocationId: 4,
-  //     locationName: 'Karimabad',
-  //   },
-  //   {
-  //     LocationId: 5,
-  //     locationName: 'Machar Colony',
-  //   },
-  //   {
-  //     LocationId: 6,
-  //     locationName: 'Dehli Colony',
-  //   },
-  // ];
 
   const handleLocation = () => {
     handleUseMyCurrentLoc();
@@ -115,7 +105,7 @@ const MyLocationBottomSheet = ({ selectedLocation, route }) => {
       refRBSheet.current.close();
   };
 
-  const LocationList = ({ item }) => {
+  const LocationList = ({item}) => {
     return (
       <View
         style={{
@@ -151,7 +141,7 @@ const MyLocationBottomSheet = ({ selectedLocation, route }) => {
               )}
             </View>
           </View>
-          <View style={[lbStyle.clTextView, { flex: 0.7 }]}>
+          <View style={[lbStyle.clTextView, {flex: 0.7}]}>
             <Text
               style={{
                 fontSize: 13,
@@ -162,7 +152,7 @@ const MyLocationBottomSheet = ({ selectedLocation, route }) => {
             </Text>
           </View>
           {selectedItem?.LocationId == item.LocationId && (
-            <View style={[lbStyle.clTextView, { flex: 0.1 }]}>
+            <View style={[lbStyle.clTextView, {flex: 0.1}]}>
               <CustomIcon
                 type={Icons.MaterialIcons}
                 name={'edit-location-alt'}
@@ -182,13 +172,41 @@ const MyLocationBottomSheet = ({ selectedLocation, route }) => {
     nearstLandmark: Yup.string().required('Please enter your Nearest Mark'),
   });
 
+  const locationUpdate = values => {
+    const payload = {
+      ...values,
+      locationId: item?.id,
+      locationLatitude: selectedLocation[0][0]?.latitude,
+      locationLongitude: selectedLocation[0][0]?.longitude,
+      mobileNo: userDetails?.userPhone,
+      customerId: userDetails?.userId,
+      address: values.locationName,
+      operations: 2, // assuming 2 means update operation
+      createdBy: userDetails?.userId,
+      userIP: '::1',
+    };
+    console.log('location update payload', payload);
+
+    PostRequest(endPoint.AUTH_CUSTOMER_LOCATION_UPDATED, payload)
+      .then(res => {
+        if (res?.data?.code == 200) {
+          SimpleSnackBar(res?.data?.message);
+        } else {
+          SimpleSnackBar(res?.data?.message);
+        }
+      })
+      .catch(err => {
+        SimpleSnackBar(message?.Catch, appColors.Red);
+      });
+  };
+
   //   location details save function
   const locatioDetails = values => {
     const payload = {
       ...values,
       id: userDetails?.userId,
-      locationLatitude: selectedLocation?.latitude,
-      locationLongitude: selectedLocation?.longitude,
+      locationLatitude: selectedLocation[0][0]?.latitude,
+      locationLongitude: selectedLocation[0][0]?.longitude,
       mobileNo: userDetails?.userPhone,
       userId: userDetails?.userId,
       address: values.locationName,
@@ -196,66 +214,37 @@ const MyLocationBottomSheet = ({ selectedLocation, route }) => {
       createdBy: userDetails?.userId,
       userIP: '::1',
     };
-
     PostRequest(endPoint.BARBER_SET_UP_LOCATION_SERVICES, payload)
       .then(res => {
+        console.log("response",payload)
         if (res?.data?.code == 200) {
+          console.log("Responseeeeeeeeeeeeeeeee",payload)
           SimpleSnackBar(res?.data?.message);
-          //   navigation.goBack();
         } else {
           SimpleSnackBar(res?.data?.message);
         }
       })
       .catch(err => {
-        SimpleSnackBar(messages?.Catch, appColors.Red);
+        SimpleSnackBar(message?.Catch, appColors.Red);
       });
   };
-  // const locationUpdate = values => {
-  //   console.log("values",values)
-
-  //   const payload = {
-  //     ...values,
-  //     locationId: selectedItem?.LocationId,
-  //     customerId: userDetails?.userId,
-  //     locationName: values?.locationName,
-  //     address: values?.locationName,
-  //     nearstLandmark: values?.nearstLandmark,
-  //     locationLatitude: selectedLocation?.latitude,
-  //     locationLongitude: selectedLocation?.longitude,
-  //     operations: 2,
-  //     createdBy: userDetails?.userId,
-  //   };
-  //   console.log("payload...",payload)
-
-  //   // PostRequest(endPoint.AUTH_CUSTOMER_LOCATION_UPDATED, payload)
-  //   //   .then(res => {
-  //   //     if (res?.data?.code == 200) {
-  //   //       console.log("api response",res.sdat)
-  //   //       SimpleSnackBar(res?.data?.message);
-
-  //   //       // Update the selected item in the list to reflect changes
-  //   //       setSelectedItem({
-  //   //         ...selectedItem,
-  //   //         locationName: values.locationName,
-  //   //         nearstLandmark: values.nearstLandmark,
-  //   //       });
-
-  //   //     } else {
-  //   //       SimpleSnackBar(res?.data?.message);
-  //   //     }
-  //   //   })
-  //   //   .catch(err => {
-  //   //     SimpleSnackBar(messages?.Catch, appColors.Red);
-  //   //   });
-  // };
 
   return (
     <View style={lbStyle.mainContainer}>
       {userDetails ? (
         <Formik
           initialValues={{
+<<<<<<< HEAD
             locationName: item?.id ? item?.locationName : selectedItem.locationName,
             nearstLandmark: item?.id ? item?.nearstLandmark : selectedItem.nearstLandmark,
+=======
+            locationName: item?.id
+              ? item?.locationName
+              : selectedItem.locationName,
+            nearstLandmark: item?.id
+              ? item?.nearstLandmark
+              : selectedItem.nearstLandmark,
+>>>>>>> 5c75b3aea31019174370765267a69011fe648a01
           }}
           validationSchema={validationSchema}
           onSubmit={values => {
@@ -285,8 +274,13 @@ const MyLocationBottomSheet = ({ selectedLocation, route }) => {
                   editable={!item?.id}
                 />
                 {touched.locationName && errors.locationName && (
+<<<<<<< HEAD
                   <View style={{ marginLeft: 10, margin: 1 }}>
                     <Text style={{ color: appColors.Red, fontSize: 12 }}>
+=======
+                  <View style={{marginLeft: 10, margin: 1}}>
+                    <Text style={{color: appColors.Red, fontSize: 12}}>
+>>>>>>> 5c75b3aea31019174370765267a69011fe648a01
                       {errors.locationName}
                     </Text>
                   </View>
@@ -305,13 +299,19 @@ const MyLocationBottomSheet = ({ selectedLocation, route }) => {
                   editable={!item?.id}
                 />
                 {touched.nearstLandmark && errors.nearstLandmark && (
+<<<<<<< HEAD
                   <View style={{ marginLeft: 10, margin: 1 }}>
                     <Text style={{ color: appColors.Red, fontSize: 12 }}>
+=======
+                  <View style={{marginLeft: 10, margin: 1}}>
+                    <Text style={{color: appColors.Red, fontSize: 12}}>
+>>>>>>> 5c75b3aea31019174370765267a69011fe648a01
                       {errors.nearstLandmark}
                     </Text>
                   </View>
                 )}
               </View>
+<<<<<<< HEAD
               <View style={{ flex: 0.32 }}>
                 <ButtonComponent
                   title={operationType === 'setup' ? 'Add address details' : 'Update address details'}
@@ -319,6 +319,32 @@ const MyLocationBottomSheet = ({ selectedLocation, route }) => {
                   disable={!selectedLocation || !values.locationName || !values.nearstLandmark}
                   style={{ opacity: (!selectedLocation || !values.locationName || !values.nearstLandmark) ? 0.5 : 1 }}
                 />
+=======
+              <View style={{flex: 0.32}}>
+                {!isButtonDisabled && (
+                  <ButtonComponent
+                    title={
+                      operationType === 'setup'
+                        ? 'Add address details'
+                        : 'Update address details'
+                    }
+                    onPress={handleSubmit}
+                    disable={
+                      !selectedLocation ||
+                      !values.locationName ||
+                      !values.nearstLandmark
+                    }
+                    style={{
+                      opacity:
+                        !selectedLocation ||
+                        !values.locationName ||
+                        !values.nearstLandmark
+                          ? 0.5
+                          : 1,
+                    }}
+                  />
+                )}
+>>>>>>> 5c75b3aea31019174370765267a69011fe648a01
               </View>
             </>
           )}
@@ -337,7 +363,7 @@ const lbStyle = StyleSheet.create({
     paddingVertical: 15,
   },
 
-  clTextStyle: { fontSize: 13, fontWeight: '500', color: appColors.White },
+  clTextStyle: {fontSize: 13, fontWeight: '500', color: appColors.White},
   clSelectLocation: {
     borderRadius: 20,
     flexDirection: 'row',

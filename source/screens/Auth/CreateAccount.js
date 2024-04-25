@@ -33,6 +33,7 @@ const CreateAccount = ({navigation}) => {
   });
 
   const registerUser = values => {
+    console.log(values);
     PostRequest(endPoint.SIGNUP, values)
       .then(res => {
         if (res?.data?.code == 200) {

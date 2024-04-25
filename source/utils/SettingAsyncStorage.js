@@ -28,3 +28,17 @@ export const getAsyncItem = async key => {
     return null;
   }
 };
+
+export const setLogLatAsync = async (key, item) => {
+  try {
+    if (key == undefined || item == undefined) {
+      console.log(`No item found with key '${key}'.`);
+      return null;
+    } else {
+      await AsyncStorage.setItem(key, JSON.stringify(item));
+    }
+  } catch (err) {
+    console.log(err);
+    return null;
+  }
+};

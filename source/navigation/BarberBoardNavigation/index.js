@@ -15,7 +15,6 @@ import {
 
 import BarberBottomTabNavigation from './BarberBottomTabNavigation';
 import DeleteServices from '../../screens/BarberBoard/BarberServices/DeleteServices';
-
 import ServiceList from '../../screens/BarberBoard/BarberServices/ServiceList';
 import Profile from '../../screens/BarberBoard/BarberProfile/Profile/Profile';
 import DeepLinking from '../../utils/DeepLinking';

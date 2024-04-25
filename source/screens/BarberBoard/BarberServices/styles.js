@@ -1,5 +1,6 @@
 import {StyleSheet} from 'react-native';
 import {screenSize} from '../../../components/atom/ScreenSize';
+import appColors from '../../../AppConstants/appColors';
 
 export default StyleSheet.create({
   container: {
@@ -23,8 +24,8 @@ export default StyleSheet.create({
   },
   textView: {
     flex: 0.8,
-    justifyContent: 'center',
     paddingLeft: 20,
+    flexDirection:'row'
   },
 
   textStyle: {
@@ -65,7 +66,7 @@ export default StyleSheet.create({
     position: 'absolute',
   },
   dropDownStyle: {
-    backgroundColor: 'black',
+    backgroundColor: appColors.Black,
     borderColor: appColors.AppLightGray,
     borderRadius: 30,
     paddingHorizontal: 10,
