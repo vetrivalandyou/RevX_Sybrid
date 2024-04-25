@@ -26,25 +26,9 @@ import {getAsyncItem} from '../../../utils/SettingAsyncStorage';
 import {SimpleSnackBar} from '../Snakbar/Snakbar';
 import {useDispatch, useSelector} from 'react-redux';
 
-<<<<<<< HEAD
-const MyLocationBottomSheet = ({ selectedLocation, route }) => {
-=======
 const MyLocationBottomSheet = ({selectedLocation, route}) => {
->>>>>>> 5c75b3aea31019174370765267a69011fe648a01
   const navigation = useNavigation();
   const [selectedItem, setSelectedItem] = useState('');
-<<<<<<< HEAD
-  const [userDetails, setUserDetails] = useState('');
-  const [isButtonDisabled, setIsButtonDisabled] = useState(true);
-  const [operationType, setOperationType] = useState('setup'); // default is 'setup'
-
-  const item = route?.params?.item || {};
-  console.log("test", item)
-
-  useEffect(() => {
-    getUserDetails();
-    setIsButtonDisabled(!selectedLocation);
-=======
   const [colorChange, setColorChange] = useState(true);
   const [userDetails, setUserDetails] = useState('');
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);
@@ -59,7 +43,6 @@ const MyLocationBottomSheet = ({selectedLocation, route}) => {
   useEffect(() => {
     getUserDetails();
     setIsButtonDisabled(!selectedLocation); // Update isButtonDisabled based on selectedLocation
->>>>>>> 5c75b3aea31019174370765267a69011fe648a01
 
     if (item?.id) {
       setOperationType('update');
@@ -231,20 +214,15 @@ const MyLocationBottomSheet = ({selectedLocation, route}) => {
 
   return (
     <View style={lbStyle.mainContainer}>
-      {userDetails ? (
+      {userDetails ? ( 
         <Formik
           initialValues={{
-<<<<<<< HEAD
-            locationName: item?.id ? item?.locationName : selectedItem.locationName,
-            nearstLandmark: item?.id ? item?.nearstLandmark : selectedItem.nearstLandmark,
-=======
             locationName: item?.id
               ? item?.locationName
               : selectedItem.locationName,
             nearstLandmark: item?.id
               ? item?.nearstLandmark
               : selectedItem.nearstLandmark,
->>>>>>> 5c75b3aea31019174370765267a69011fe648a01
           }}
           validationSchema={validationSchema}
           onSubmit={values => {
@@ -274,13 +252,8 @@ const MyLocationBottomSheet = ({selectedLocation, route}) => {
                   editable={!item?.id}
                 />
                 {touched.locationName && errors.locationName && (
-<<<<<<< HEAD
-                  <View style={{ marginLeft: 10, margin: 1 }}>
-                    <Text style={{ color: appColors.Red, fontSize: 12 }}>
-=======
                   <View style={{marginLeft: 10, margin: 1}}>
                     <Text style={{color: appColors.Red, fontSize: 12}}>
->>>>>>> 5c75b3aea31019174370765267a69011fe648a01
                       {errors.locationName}
                     </Text>
                   </View>
@@ -299,27 +272,13 @@ const MyLocationBottomSheet = ({selectedLocation, route}) => {
                   editable={!item?.id}
                 />
                 {touched.nearstLandmark && errors.nearstLandmark && (
-<<<<<<< HEAD
-                  <View style={{ marginLeft: 10, margin: 1 }}>
-                    <Text style={{ color: appColors.Red, fontSize: 12 }}>
-=======
                   <View style={{marginLeft: 10, margin: 1}}>
                     <Text style={{color: appColors.Red, fontSize: 12}}>
->>>>>>> 5c75b3aea31019174370765267a69011fe648a01
                       {errors.nearstLandmark}
                     </Text>
                   </View>
                 )}
               </View>
-<<<<<<< HEAD
-              <View style={{ flex: 0.32 }}>
-                <ButtonComponent
-                  title={operationType === 'setup' ? 'Add address details' : 'Update address details'}
-                  onPress={handleSubmit}
-                  disable={!selectedLocation || !values.locationName || !values.nearstLandmark}
-                  style={{ opacity: (!selectedLocation || !values.locationName || !values.nearstLandmark) ? 0.5 : 1 }}
-                />
-=======
               <View style={{flex: 0.32}}>
                 {!isButtonDisabled && (
                   <ButtonComponent
@@ -344,7 +303,6 @@ const MyLocationBottomSheet = ({selectedLocation, route}) => {
                     }}
                   />
                 )}
->>>>>>> 5c75b3aea31019174370765267a69011fe648a01
               </View>
             </>
           )}

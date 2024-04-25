@@ -79,11 +79,7 @@ const GoogleMap = ({
     // </MapView>
 
     <MapView
-<<<<<<< HEAD
-      style={{ flex: 1 }}
-=======
       style={{flex: 1}}
->>>>>>> 5c75b3aea31019174370765267a69011fe648a01
       ref={mapRef}
       provider={PROVIDER_GOOGLE}
       loadingEnabled={true}
@@ -96,21 +92,6 @@ const GoogleMap = ({
       rotateEnabled={true}
       pitchEnabled={true}
       onPress={handleMapPress}>
-<<<<<<< HEAD
-      {Array.isArray(selectedLocation) && selectedLocation.map((x) => (
-        <Marker
-          key={`marker-${x?.longitude}-${x?.longitude}`}
-          coordinate={{
-            latitude: x?.latitude ? x.latitude : 0,
-            longitude: x.longitude ? x.longitude : 0,
-          }}>
-          <Image
-            source={CustomMarkerImage ? CustomMarkerImage : MarkerImage}
-            style={CustomMarkerImage ? style.barberStyle : style.markerStyle}
-          />
-        </Marker>
-      ))}
-=======
       {Array.isArray(selectedLocation) &&
         selectedLocation.map(x => (
           <Marker
@@ -125,7 +106,6 @@ const GoogleMap = ({
             />
           </Marker>
         ))}
->>>>>>> 5c75b3aea31019174370765267a69011fe648a01
     </MapView>
   );
 };
