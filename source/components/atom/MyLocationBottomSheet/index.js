@@ -25,28 +25,20 @@ import ButtonComponent from '../CustomButtons/ButtonComponent';
 import { getAsyncItem } from '../../../utils/SettingAsyncStorage';
 import { SimpleSnackBar } from '../Snakbar/Snakbar';
 
-const MyLocationBottomSheet = ({ selectedLocation,route }) => {
+const MyLocationBottomSheet = ({ selectedLocation, route }) => {
   const navigation = useNavigation();
 
   const [selectedItem, setSelectedItem] = useState('');
-  const [colorChange, setColorChange] = useState(true);
- 
   const [userDetails, setUserDetails] = useState('');
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);
-  const [operationType, setOperationType] = useState('setup'); 
-  // default is 'setup'
+  const [operationType, setOperationType] = useState('setup'); // default is 'setup'
 
-
-  // const route = useRoute();
-  
-  // Extract params
-  const { item } = route?.params || {};
-  console.log("item", item?.nearstLandmark)
+  const item = route?.params?.item || {};
+  console.log("test", item)
 
   useEffect(() => {
     getUserDetails();
     setIsButtonDisabled(!selectedLocation);
-    // locationUpdate();
 
     // Set operation type based on id
     if (item?.id) {
@@ -260,77 +252,77 @@ const MyLocationBottomSheet = ({ selectedLocation,route }) => {
   return (
     <View style={lbStyle.mainContainer}>
       {userDetails ? (
-    <Formik
-    initialValues={{
-      locationName: item?.id ? item?.locationName : selectedItem.locationName,
-      nearstLandmark: item?.id ? item?.nearstLandmark : selectedItem.nearstLandmark,
-    }}
-    validationSchema={validationSchema}
-    onSubmit={values => {
-      handleLocationAction(values);
-    }}>
-    {({
-      handleChange,
-      handleBlur,
-      handleSubmit,
-      values,
-      errors,
-      touched,
-      isSubmitting,
-    }) => (
-      <>
-        <View
-          style={{
-            flex: 0.5,
-            borderRadius: 3,
+        <Formik
+          initialValues={{
+            locationName: item?.id ? item?.locationName : selectedItem.locationName,
+            nearstLandmark: item?.id ? item?.nearstLandmark : selectedItem.nearstLandmark,
+          }}
+          validationSchema={validationSchema}
+          onSubmit={values => {
+            handleLocationAction(values);
           }}>
-          <SimpleTextField
-            placeholder={'Location Name'}
-            placeholderTextColor={appColors.LightGray}
-            onChangeText={handleChange('locationName')}
-            onBlur={handleBlur('locationName')}
-            value={values.locationName}
-            editable={!item?.id}
-          />
-          {touched.locationName && errors.locationName && (
-            <View style={{ marginLeft: 10, margin: 1 }}>
-              <Text style={{ color: appColors.Red, fontSize: 12 }}>
-                {errors.locationName}
-              </Text>
-            </View>
+          {({
+            handleChange,
+            handleBlur,
+            handleSubmit,
+            values,
+            errors,
+            touched,
+            isSubmitting,
+          }) => (
+            <>
+              <View
+                style={{
+                  flex: 0.5,
+                  borderRadius: 3,
+                }}>
+                <SimpleTextField
+                  placeholder={'Location Name'}
+                  placeholderTextColor={appColors.LightGray}
+                  onChangeText={handleChange('locationName')}
+                  onBlur={handleBlur('locationName')}
+                  value={values.locationName}
+                  editable={!item?.id}
+                />
+                {touched.locationName && errors.locationName && (
+                  <View style={{ marginLeft: 10, margin: 1 }}>
+                    <Text style={{ color: appColors.Red, fontSize: 12 }}>
+                      {errors.locationName}
+                    </Text>
+                  </View>
+                )}
+              </View>
+              <View
+                style={{
+                  flex: 0.5,
+                }}>
+                <SimpleTextField
+                  placeholder={'Nearest Landmark'}
+                  placeholderTextColor={appColors.LightGray}
+                  onChangeText={handleChange('nearstLandmark')}
+                  onBlur={handleBlur('nearstLandmark')}
+                  value={values.nearstLandmark}
+                  editable={!item?.id}
+                />
+                {touched.nearstLandmark && errors.nearstLandmark && (
+                  <View style={{ marginLeft: 10, margin: 1 }}>
+                    <Text style={{ color: appColors.Red, fontSize: 12 }}>
+                      {errors.nearstLandmark}
+                    </Text>
+                  </View>
+                )}
+              </View>
+              <View style={{ flex: 0.32 }}>
+                <ButtonComponent
+                  title={operationType === 'setup' ? 'Add address details' : 'Update address details'}
+                  onPress={handleSubmit}
+                  disable={!selectedLocation || !values.locationName || !values.nearstLandmark}
+                  style={{ opacity: (!selectedLocation || !values.locationName || !values.nearstLandmark) ? 0.5 : 1 }}
+                />
+              </View>
+            </>
           )}
-        </View>
-        <View
-          style={{
-            flex: 0.5,
-          }}>
-          <SimpleTextField
-            placeholder={'Nearest Landmark'}
-            placeholderTextColor={appColors.LightGray}
-            onChangeText={handleChange('nearstLandmark')}
-            onBlur={handleBlur('nearstLandmark')}
-            value={values.nearstLandmark}
-            editable={!item?.id}
-          />
-          {touched.nearstLandmark && errors.nearstLandmark && (
-            <View style={{ marginLeft: 10, margin: 1 }}>
-              <Text style={{ color: appColors.Red, fontSize: 12 }}>
-                {errors.nearstLandmark}
-              </Text>
-            </View>
-          )}
-        </View>
-        <View style={{ flex: 0.32 }}>
-          <ButtonComponent
-            title={operationType === 'setup' ? 'Add address details' : 'Update address details'}
-            onPress={handleSubmit}
-            disable={!selectedLocation || !values.locationName || !values.nearstLandmark}
-            style={{ opacity: (!selectedLocation || !values.locationName || !values.nearstLandmark) ? 0.5 : 1 }}
-          />
-        </View>
-      </>
-    )}
-  </Formik>
+        </Formik>
       ) : (
         <ActivityIndicator size="large" color="#C79646" />
       )}
