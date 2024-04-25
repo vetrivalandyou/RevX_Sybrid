@@ -38,8 +38,6 @@ const MyLocationBottomSheet = ({selectedLocation, route}) => {
   // Extract params
   const {item} = route?.params || {};
 
-  console.log('update sadsadsad sadsadsa sadsadas', item);
-
   useEffect(() => {
     getUserDetails();
     setIsButtonDisabled(!selectedLocation); // Update isButtonDisabled based on selectedLocation
@@ -199,9 +197,9 @@ const MyLocationBottomSheet = ({selectedLocation, route}) => {
     };
     PostRequest(endPoint.BARBER_SET_UP_LOCATION_SERVICES, payload)
       .then(res => {
-        console.log("response",payload)
+        console.log('response', payload);
         if (res?.data?.code == 200) {
-          console.log("Responseeeeeeeeeeeeeeeee",payload)
+          console.log('Responseeeeeeeeeeeeeeeee', payload);
           SimpleSnackBar(res?.data?.message);
         } else {
           SimpleSnackBar(res?.data?.message);
