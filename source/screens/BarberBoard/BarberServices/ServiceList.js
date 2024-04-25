@@ -75,7 +75,6 @@ const ServiceList = ({navigation, route}) => {
             <Servicedetails
               key={item.servicesId}
               item={item}
-              onPress={() => setSelectedItems(item.serviceCategoryId)}
             />
           )}
         />

@@ -27,7 +27,7 @@ const Dropdown = ({
         selectedValue={value}
         onValueChange={onValueChange}>
         <Picker.Item
-          style={{fontSize: 13, color: appColors.AppLightGray, backgroundColor: "white"}}
+          style={{fontSize: 13, color: appColors.AppLightGray}}
           label={label}
           value={null}
         />
