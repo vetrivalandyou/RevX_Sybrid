@@ -67,7 +67,7 @@ const ServiceList =({navigation, route})=>{
           <Header
             headerSubView={{ marginHorizontal: 5}}
             lefttIcoType={Icons.Ionicons}
-            onPressLeftIcon={() => navigation.goBack()}
+            // onPressLeftIcon={() => navigation.goBack()}
             leftIcoName={'chevron-back'}
             headerText={'Sub Services'}
            
