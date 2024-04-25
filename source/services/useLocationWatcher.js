@@ -1,7 +1,7 @@
-import { Platform } from 'react-native';
-import { useEffect, useState } from 'react';
+import {PermissionsAndroid, Platform} from 'react-native';
+import {useEffect, useState} from 'react';
 import Geolocation from '@react-native-community/geolocation';
-import { PERMISSIONS, RESULTS, check, request } from 'react-native-permissions';
+import {PERMISSIONS, RESULTS, check, request} from 'react-native-permissions';
 
 const useLocationWatcher = callback => {
   const [permissionGranted, setPermissionGranted] = useState(false);
@@ -42,20 +42,27 @@ const useLocationWatcher = callback => {
     requestLocationPermission();
   }, []);
 
-
   useEffect(() => {
     if (Platform.OS == 'ios') {
-      Geolocation.setRNConfiguration({ authorizationLevel: 'whenInUse' });
+      Geolocation.setRNConfiguration({authorizationLevel: 'whenInUse'});
     }
+
     const watchId = Geolocation.watchPosition(
       position => {
-        console.log("asdasdasdasdsadasdasdasdasdadssdaasd----------------------------")
+        console.log('----------------------------Watch Position', position);
         callback(position);
       },
       error => {
-        console.error('Error getting location:', error);
+        console.log('Error getting locationsss:', error);
       },
-      { enableHighAccuracy: true, distanceFilter: 10 }, // Adjust distanceFilter as needed
+      {
+        enableHighAccuracy: true,
+        timeout: 20000,
+        maximumAge: 1000,
+        distanceFilter: 10, // Minimum distance (in meters) the device must move horizontally before an update event is generated.
+        interval: 5000,
+      },
+      // { enableHighAccuracy: true, distanceFilter: 10 }, // Adjust distanceFilter as needed
     );
 
     return () => {

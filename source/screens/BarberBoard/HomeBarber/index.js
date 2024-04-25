@@ -24,7 +24,11 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 import Search from '../../../components/atom/Search/Search';
 import {AppImages} from '../../../AppConstants/AppImages';
 import Bookingbutton from '../../../components/atom/BookingButtons/Bookingbutton';
-import {getAsyncItem, getLogLatAsync, setLogLatAsync} from '../../../utils/SettingAsyncStorage';
+import {
+  getAsyncItem,
+  getLogLatAsync,
+  setLogLatAsync,
+} from '../../../utils/SettingAsyncStorage';
 import {endPoint, imageUrl} from '../../../AppConstants/urlConstants';
 import {useDispatch, useSelector} from 'react-redux';
 import {useIsFocused} from '@react-navigation/native';
@@ -32,6 +36,7 @@ import {UpdateLocation} from '../../../redux/Action/LocationAction/UpdateLocatio
 import {PostRequest} from '../../../services/apiCall';
 import {LATEST_UPDATE} from '../../../AppConstants/appConstants';
 import useLocationWatcher from '../../../services/useLocationWatcher';
+import {requestLocationPermissionAndGetLocation} from '../../../utils/GetLocation';
 
 const HomeBarber = ({navigation}) => {
   const {coords} = useSelector(state => state.LocationReducer);
@@ -39,11 +44,9 @@ const HomeBarber = ({navigation}) => {
   const isFocused = useIsFocused();
   const [userDetails, setUserDetails] = useState();
 
-
   useEffect(() => {
     if (isFocused) {
       getAsyncData();
-      // getAsyncLocation()
     }
   }, [isFocused]);
 
@@ -56,7 +59,7 @@ const HomeBarber = ({navigation}) => {
 
   const handleLocationChange = newCoords => {
     console.log('newCoordsnewCoordsnewCoordsnewCoordsnewCoords', newCoords);
-    handleSaveBarberLocation(userDetails, newCoords?.coords)
+    handleSaveBarberLocation(userDetails, newCoords?.coords);
     setLogLatAsync(constants.AsyncStorageKeys.longLat, newCoords);
   };
 
@@ -78,11 +81,6 @@ const HomeBarber = ({navigation}) => {
   };
 
   useLocationWatcher(handleLocationChange);
-
-  // const getAsyncLocation = async() => {
-  //   const barberCurrentLocation = await getLogLatAsync(constants.AsyncStorageKeys.longLat)
-  //   console.log("Barber",barberCurrentLocation )
-  // }
 
   const data = [
     {
