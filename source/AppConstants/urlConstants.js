@@ -25,6 +25,7 @@ export const endPoint = {
   BARBER_SERVICE_CATEGORY: 'Admin/BarberServiceCategry',
   REAPPLY_APPROVE_BARBER_SERVICE_CATEGORY: 'Admin/ReApplyApproveBarberServiceCategry',
   APPROVE_BARBER_SERVICE: 'Barber/ApproveBarberService',
+  BARBER_LOCATION_UPDATE: 'Auth/Barber_Location_Updated',
 
   //Admin End Points
   BARBER_LIST: 'Admin/Barber_List',
