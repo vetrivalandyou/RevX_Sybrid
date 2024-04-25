@@ -49,6 +49,7 @@ const useLocationWatcher = callback => {
     }
     const watchId = Geolocation.watchPosition(
       position => {
+        console.log("asdasdasdasdsadasdasdasdasdadssdaasd----------------------------")
         callback(position);
       },
       error => {
