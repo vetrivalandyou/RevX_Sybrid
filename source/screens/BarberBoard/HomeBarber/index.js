@@ -24,7 +24,11 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 import Search from '../../../components/atom/Search/Search';
 import {AppImages} from '../../../AppConstants/AppImages';
 import Bookingbutton from '../../../components/atom/BookingButtons/Bookingbutton';
-import {getAsyncItem, setLogLatAsync} from '../../../utils/SettingAsyncStorage';
+import {
+  getAsyncItem,
+  getLogLatAsync,
+  setLogLatAsync,
+} from '../../../utils/SettingAsyncStorage';
 import {endPoint, imageUrl} from '../../../AppConstants/urlConstants';
 import {useDispatch, useSelector} from 'react-redux';
 import {useIsFocused} from '@react-navigation/native';
@@ -32,13 +36,13 @@ import {UpdateLocation} from '../../../redux/Action/LocationAction/UpdateLocatio
 import {PostRequest} from '../../../services/apiCall';
 import {LATEST_UPDATE} from '../../../AppConstants/appConstants';
 import useLocationWatcher from '../../../services/useLocationWatcher';
+import {requestLocationPermissionAndGetLocation} from '../../../utils/GetLocation';
 
 const HomeBarber = ({navigation}) => {
-  const dispatch = useDispatch();
   const {coords} = useSelector(state => state.LocationReducer);
+  const dispatch = useDispatch();
   const isFocused = useIsFocused();
   const [userDetails, setUserDetails] = useState();
-
 
   useEffect(() => {
     if (isFocused) {
@@ -55,8 +59,7 @@ const HomeBarber = ({navigation}) => {
 
   const handleLocationChange = newCoords => {
     console.log('newCoordsnewCoordsnewCoordsnewCoordsnewCoords', newCoords);
-    handleSaveBarberLocation(userDetails, newCoords)
-    dispatch(UpdateLocation(newCoords));
+    handleSaveBarberLocation(userDetails, newCoords?.coords);
     setLogLatAsync(constants.AsyncStorageKeys.longLat, newCoords);
   };
 
@@ -78,8 +81,6 @@ const HomeBarber = ({navigation}) => {
   };
 
   useLocationWatcher(handleLocationChange);
-
-  console.log("asdasdasdsadasdasdsa", coords)
 
   const data = [
     {

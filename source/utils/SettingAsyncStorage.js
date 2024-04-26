@@ -42,3 +42,18 @@ export const setLogLatAsync = async (key, item) => {
     return null;
   }
 };
+
+export const getLogLatAsync = async key => {
+  try {
+    const asyncItem = await AsyncStorage.getItem(key);
+    if (asyncItem !== null) {
+      return JSON.parse(asyncItem);
+    } else {
+      console.log(`No item found with key '${asyncItem}'.`);
+      return null;
+    }
+  } catch (error) {
+    console.log(error);
+    return null;
+  }
+};
