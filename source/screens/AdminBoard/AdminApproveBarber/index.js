@@ -71,14 +71,14 @@ const AdminApproveBarber = ({navigation}) => {
 
   useEffect(() => {
     getAsyncData();
-    getBarberApproveService();
+    // getBarberApproveService();
   }, []);
 
   const getAsyncData = async () => {
     const userDetails = await getAsyncItem(
       constant.AsyncStorageKeys.userDetails,
     );
-    // console.log('userDetails', userDetails);
+    console.log('userDetails', userDetails);
     setUserDetails(userDetails);
   };
 
@@ -94,10 +94,10 @@ const AdminApproveBarber = ({navigation}) => {
       pageNumber: pageRef.current,
       pageSize: 5,
     };
-    console.log('Payload.........../////////>>', payload);
+    console.log('Payload....................', payload);
     PostRequest(endPoint.BARBER_APPROVE_SERVICES, payload)
       .then(res => {
-        console.log("Helo", res?.data?.data)
+        console.log('Helo', res?.data?.data);
         if (res?.data?.data?.length > 0) {
           let newData = res?.data?.data;
           setBarberApprove([...BarberApprove, ...newData]);
@@ -139,7 +139,6 @@ const AdminApproveBarber = ({navigation}) => {
   const postBarberApproveService = payload => {
     // console.log('payload',payload)
     PostRequest(endPoint.BARBER_APPROVE_SERVICE_POST, payload)
- 
       .then(res => {
         if (res?.data?.code === 200) {
           SimpleSnackBar(res?.data?.message);
@@ -465,7 +464,7 @@ const AdminApproveBarber = ({navigation}) => {
           logIn={'success'}
           rightIcoSize={20}
           onPressRightIcon={() =>
-            navigation.navigate(constants.AdminScreens.AdminNotification)
+            navigation.navigate(constant.AdminScreens.AdminNotification)
           }
           leftIcoStyle={{
             backgroundColor: appColors.lightBlack,
