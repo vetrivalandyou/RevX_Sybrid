@@ -1,6 +1,6 @@
-import React, {useMemo} from 'react';
-import {Image, StyleSheet, Text, View} from 'react-native';
-import MapView, {Marker, PROVIDER_GOOGLE} from 'react-native-maps';
+import React, { useMemo } from 'react';
+import { Image, StyleSheet, Text, View } from 'react-native';
+import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
 import CustomDarkMapStyle from '../../../utils/CustomMapStyle.json';
 import MarkerImage from '../../../assets/mapMarker.png';
 import appColors from '../../../AppConstants/appColors';
@@ -79,7 +79,7 @@ const GoogleMap = ({
     // </MapView>
 
     <MapView
-      style={{flex: 1}}
+      style={{ flex: 1 }}
       ref={mapRef}
       provider={PROVIDER_GOOGLE}
       loadingEnabled={true}

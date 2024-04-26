@@ -1,22 +1,22 @@
-import React, {useEffect, useState} from 'react';
-import {FlatList, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { FlatList, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import appColors from '../../../AppConstants/appColors';
 import CustomIcon, {
   Icons,
 } from '../../../components/molecules/CustomIcon/CustomIcon';
-import {screenSize} from '../ScreenSize';
-import {PostRequest} from '../../../services/apiCall';
-import {endPoint} from '../../../AppConstants/urlConstants';
-import {getAsyncItem} from '../../../utils/SettingAsyncStorage';
-import {LATEST_SELECT} from '../../../AppConstants/appConstants';
+import { screenSize } from '../ScreenSize';
+import { PostRequest } from '../../../services/apiCall';
+import { endPoint } from '../../../AppConstants/urlConstants';
+import { getAsyncItem } from '../../../utils/SettingAsyncStorage';
+import { LATEST_SELECT } from '../../../AppConstants/appConstants';
 import constants from '../../../AppConstants/Constants.json';
-import {ActivityIndicator} from 'react-native'; // Import the ActivityIndicator
-import {Geolocation} from 'react-native';
-import {useNavigation} from '@react-navigation/native';
-import {requestLocationPermissionAndGetLocation} from '../../../utils/GetLocation';
-import {SimpleSnackBar} from '../Snakbar/Snakbar';
+import { ActivityIndicator } from 'react-native'; // Import the ActivityIndicator
+import { Geolocation } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import { requestLocationPermissionAndGetLocation } from '../../../utils/GetLocation';
+import { SimpleSnackBar } from '../Snakbar/Snakbar';
 
-const LocationBottomSheet = ({refRBSheet}) => {
+const LocationBottomSheet = ({ refRBSheet }) => {
   const navigation = useNavigation();
 
   const [locations, setLocations] = useState([]);
@@ -63,7 +63,7 @@ const LocationBottomSheet = ({refRBSheet}) => {
             error => {
               console.log(error);
             },
-            {enableHighAccuracy: true, timeout: 20000, maximumAge: 1000},
+            { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 },
           );
         });
       });
@@ -184,7 +184,7 @@ const LocationBottomSheet = ({refRBSheet}) => {
     navigation.navigate(constants.screen.MyLocation);
   };
 
-  const LocationList = ({item}) => {
+  const LocationList = ({ item }) => {
     return (
       <View
         style={{
@@ -218,7 +218,7 @@ const LocationBottomSheet = ({refRBSheet}) => {
               )}
             </View>
           </View>
-          <View style={[lbStyle.clTextView, {flex: 0.7}]}>
+          <View style={[lbStyle.clTextView, { flex: 0.7 }]}>
             <Text
               style={{
                 fontSize: 13,
@@ -229,7 +229,7 @@ const LocationBottomSheet = ({refRBSheet}) => {
             </Text>
           </View>
           {selectedItem?.id == item.id && (
-            <View style={[lbStyle.clTextView, {flex: 0.1}]}>
+            <View style={[lbStyle.clTextView, { flex: 0.1 }]}>
               <CustomIcon
                 type={Icons.MaterialIcons}
                 name={'edit-location-alt'}
@@ -262,14 +262,14 @@ const LocationBottomSheet = ({refRBSheet}) => {
           <Text style={lbStyle.clTextStyle}>Use Current Location</Text>
         </View>
       </TouchableOpacity>
-      <View style={{flex: 0.6}}>
+      <View style={{ flex: 0.6 }}> 
         {isLoading ? (
           <ActivityIndicator size="large" color={appColors.Goldcolor} /> // Render the loader
         ) : (
           <FlatList
             data={locationList}
             keyExtractor={item => item.id.toString()} // Ensure key is a string
-            renderItem={({item, index}) => {
+            renderItem={({ item, index }) => {
               // console.log('Current item:', item);
               return <LocationList item={item} index={index} />;
             }}
@@ -295,10 +295,10 @@ const LocationBottomSheet = ({refRBSheet}) => {
         onPress={() => refRBSheet.current.close()}
         style={[
           lbStyle.clContainer,
-          {justifyContent: 'center', alignItems: 'flex-end'},
+          { justifyContent: 'center', alignItems: 'flex-end' },
         ]}>
         <View style={lbStyle.clButotnView}>
-          <Text style={[lbStyle.clTextStyle, {textAlign: 'center'}]}>
+          <Text style={[lbStyle.clTextStyle, { textAlign: 'center' }]}>
             Confirm Location
           </Text>
         </View>
@@ -314,10 +314,10 @@ const lbStyle = StyleSheet.create({
     paddingHorizontal: 15,
     paddingVertical: 15,
   },
-  clContainer: {flex: 0.13, flexDirection: 'row'},
-  clIconView: {flex: 0.15, justifyContent: 'center', alignItems: 'center'},
-  clTextView: {flex: 0.8, justifyContent: 'center'},
-  clTextStyle: {fontSize: 13, fontWeight: '500', color: appColors.White},
+  clContainer: { flex: 0.13, flexDirection: 'row' },
+  clIconView: { flex: 0.15, justifyContent: 'center', alignItems: 'center' },
+  clTextView: { flex: 0.8, justifyContent: 'center' },
+  clTextStyle: { fontSize: 13, fontWeight: '500', color: appColors.White },
   clSelectLocation: {
     flex: 1,
     borderRadius: 20,
