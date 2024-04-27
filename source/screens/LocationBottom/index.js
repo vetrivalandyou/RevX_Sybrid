@@ -10,7 +10,7 @@
 // }
 // export default LocationBottom;
 
-import React from 'react';
+import React, {useEffect} from 'react';
 import {
   Text,
   View,
@@ -47,6 +47,12 @@ const LocationBottom = ({
     setCalculateDirection(true);
     refRBSheet?.current?.close();
   };
+
+  useEffect(() => {
+    return () => {
+      refRBSheet?.current?.close();
+    };
+  }, []);
 
   return (
     <View style={[logoutStyle.container]}>

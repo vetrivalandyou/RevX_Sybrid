@@ -67,6 +67,7 @@ const LocationScreen = () => {
       longitude: asyncUserLongLat?.coords?.longitude,
       distance: 25,
     };
+    console.log("longitude",payload)
     PostRequest(endPoint.GET_VANS_NEAR_CUSTOMER, payload)
       .then(res => {
         if (res?.data?.code == SUCCESS_CODE) {
@@ -130,7 +131,6 @@ const LocationScreen = () => {
           setCalculateDirection={setCalculateDirection}
         />
       </BottomSheet>
-
       <View style={{flex: 0.1}}>
         <Header
           headerSubView={{marginHorizontal: 5}}

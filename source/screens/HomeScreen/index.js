@@ -395,18 +395,6 @@ const HomeScreen = ({navigation}) => {
     );
   };
 
-  const handleUseMyCurrentLoc = async () => {
-    console.log('Hello');
-    const location = await requestLocationPermissionAndGetLocation();
-    console.log('Current Location:', location);
-    // setSelectedLocation({
-    //   latitude: coords?.coords?.latitude,
-    //   longitude: coords?.coords?.longitude,
-    //   latitudeDelta: 0.0922,
-    //   longitudeDelta: 0.0421,
-    // });
-    // locationBottomSheetRef.current.close();
-  };
 
   const HomeHeader = ({heading, sunHeading, source, refRBSheet}) => {
     return (
@@ -510,7 +498,6 @@ const HomeScreen = ({navigation}) => {
       <BottomSheet ref={locationBottomSheetRef} Height={screenSize.height / 2}>
         <LocationBottomSheet
           refRBSheet={locationBottomSheetRef}
-          handleUseMyCurrentLoc={handleUseMyCurrentLoc}
         />
       </BottomSheet>
       <View style={{flex: 0.1}}>

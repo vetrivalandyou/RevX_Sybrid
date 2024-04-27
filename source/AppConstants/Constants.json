@@ -117,6 +117,7 @@
   "AsyncStorageKeys": {
     "token": "token",
     "userDetails": "userDetails",
-    "longLat": "longLat"
+    "longLat": "longLat",
+    "selected_Location": "selectedLocation"
   }
 }

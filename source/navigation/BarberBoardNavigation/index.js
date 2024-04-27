@@ -24,7 +24,7 @@ import {requestLocationPermissionAndGetLocation} from '../../utils/GetLocation';
 import {PostRequest} from '../../services/apiCall';
 import {endPoint} from '../../AppConstants/urlConstants';
 import {getAsyncItem, setLogLatAsync} from '../../utils/SettingAsyncStorage';
-import { LATEST_UPDATE } from '../../AppConstants/appConstants';
+import {LATEST_UPDATE} from '../../AppConstants/appConstants';
 
 const BarberStack = () => {
   const Stack = createNativeStackNavigator();
@@ -47,7 +47,6 @@ const BarberStack = () => {
   };
 
   const handleLocationChange = (userAsyncDetails, newCoords) => {
-    console.log('newCoords', newCoords);
     handleSaveBarberLocation(userAsyncDetails, newCoords?.coords);
     setLogLatAsync(constants.AsyncStorageKeys.longLat, newCoords);
   };
@@ -60,7 +59,6 @@ const BarberStack = () => {
       operations: LATEST_UPDATE,
       createdBy: userAsyncDetails?.userId,
     };
-    console.log(payload,"----------------------------------------------------------------------------------------")
     PostRequest(endPoint.BARBER_LOCATION_UPDATE, payload)
       .then(res => {
         console.log('RESPONSE BARBER LOCATION UPDATE', res?.data);
@@ -69,7 +67,6 @@ const BarberStack = () => {
         console.log('Err'.err);
       });
   };
-
 
   return (
     <NavigationContainer>

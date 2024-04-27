@@ -43,6 +43,9 @@ const GoogleMap = ({
       }),
     [selectedLocation],
   );
+
+  console.log("userCoordinates",userCoordinates?.coords)
+
   return (
     <MapView
       style={{ flex: 1 }}
