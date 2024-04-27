@@ -36,7 +36,8 @@ const HomeScreen = ({navigation}) => {
   const [isLoading, setIsLoading] = useState(true);
   const [barberList, setBarberList] = useState([0]);
   const [selectedLocation, setSelectedLocation] = useState();
-
+  
+  const sunHeading = selectedLocation ? selectedLocation.locationName : 'Default Location';
   useEffect(() => {
     getAsyncData();
   }, []);
@@ -515,7 +516,7 @@ const HomeScreen = ({navigation}) => {
       <View style={{flex: 0.1}}>
         <HomeHeader
           heading={userDetails?.userName}
-          sunHeading={'Washington DC'}
+          sunHeading={sunHeading}
           source={`${imageUrl}${userDetails?.profileImage}`}
           refRBSheet={locationBottomSheetRef}
         />

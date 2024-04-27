@@ -30,11 +30,10 @@ import ChooseImage from '../../components/molecules/ChooseImage';
 import {generateRandomNumber} from '../../functions/AppFunctions';
 
 const EditProfile = ({navigation}) => {
-
-  const handleImagepress = image=>{
+  const handleImagepress = image => {
     setProfileImage(image);
     refRBSheet.current.close();
-  }
+  };
   const refRBSheet = useRef();
   const [isEye, setIsEye] = useState(false);
   const [userDetails, setUserDetails] = useState();

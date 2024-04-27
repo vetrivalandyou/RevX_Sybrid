@@ -1,22 +1,23 @@
-import React, {useEffect, useState} from 'react';
-import {FlatList, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { FlatList, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import appColors from '../../../AppConstants/appColors';
 import CustomIcon, {
   Icons,
 } from '../../../components/molecules/CustomIcon/CustomIcon';
-import {screenSize} from '../ScreenSize';
-import {PostRequest} from '../../../services/apiCall';
-import {endPoint} from '../../../AppConstants/urlConstants';
-import {getAsyncItem} from '../../../utils/SettingAsyncStorage';
-import {LATEST_SELECT} from '../../../AppConstants/appConstants';
+import { screenSize } from '../ScreenSize';
+import { PostRequest } from '../../../services/apiCall';
+import { endPoint } from '../../../AppConstants/urlConstants';
+import { getAsyncItem } from '../../../utils/SettingAsyncStorage';
+import { LATEST_SELECT } from '../../../AppConstants/appConstants';
 import constants from '../../../AppConstants/Constants.json';
-import {ActivityIndicator} from 'react-native'; // Import the ActivityIndicator
-import {Geolocation} from 'react-native';
-import {useNavigation} from '@react-navigation/native';
-import {requestLocationPermissionAndGetLocation} from '../../../utils/GetLocation';
-import {SimpleSnackBar} from '../Snakbar/Snakbar';
+import { ActivityIndicator } from 'react-native'; // Import the ActivityIndicator
+import { Geolocation } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import { requestLocationPermissionAndGetLocation } from '../../../utils/GetLocation';
+import { SimpleSnackBar } from '../Snakbar/Snakbar';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const LocationBottomSheet = ({refRBSheet}) => {
+const LocationBottomSheet = ({ refRBSheet }) => {
   const navigation = useNavigation();
 
   const [locations, setLocations] = useState([]);
@@ -32,6 +33,7 @@ const LocationBottomSheet = ({refRBSheet}) => {
   const [selectedItem, setSelectedItem] = useState('');
   const [colorChange, setColorChange] = useState(true);
   const [currentLocation, setCurrentLocation] = useState(null);
+  const [selectedLocation, setSelectedLocation] = useState(null);
 
   const initialGetLocationFields = {
     id: 0,
@@ -63,7 +65,7 @@ const LocationBottomSheet = ({refRBSheet}) => {
             error => {
               console.log(error);
             },
-            {enableHighAccuracy: true, timeout: 20000, maximumAge: 1000},
+            { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 },
           );
         });
       });
@@ -103,8 +105,37 @@ const LocationBottomSheet = ({refRBSheet}) => {
   //       SimpleSnackBar(messages?.Catch, appColors.Red);
   //     });
   // };
+  // useEffect(() => {
+  //   const loadSelectedLocation = async () => {
+  //     try {
+  //       const storedLocation = await AsyncStorage.getItem('selectedLocation');
+  //       if (storedLocation) {
+  //         setSelectedLocation(JSON.parse(storedLocation));
+  //       }
+  //     } catch (error) {
+  //       console.error('Error loading selected location:', error);
+  //     }
+  //   };
+  //   loadSelectedLocation();
+  // }, []);
+  useEffect(() => {
+    const loadSelectedLocation = async () => {
+      try {
+        const storedLocation = await AsyncStorage.getItem('selectedLocation');
+        if (storedLocation) {
+          setSelectedLocation(JSON.parse(storedLocation));
+        }
+      } catch (error) {
+        console.error('Error loading selected location:', error);
+      }
+    };
+    loadSelectedLocation();
+  }, []);
 
   const handleClickLocation = item => {
+    setSelectedLocation(item);
+    AsyncStorage.setItem('selectedLocation', JSON.stringify(item));
+    setSelectedLocation(item); // Update selected location
     setSelectedItem(item);
     setId(item?.id);
     setLocationName(item?.locationName);
@@ -154,6 +185,7 @@ const LocationBottomSheet = ({refRBSheet}) => {
   useEffect(() => {
     getAsyncData();
     fetchLocations();
+    handleConfirmLocation()
   }, []);
 
   const fetchLocations = () => {
@@ -184,7 +216,21 @@ const LocationBottomSheet = ({refRBSheet}) => {
     navigation.navigate(constants.screen.MyLocation);
   };
 
-  const LocationList = ({item}) => {
+ const handleConfirmLocation = async () => {
+  try {
+    if (selectedLocation) {
+      await AsyncStorage.setItem('selectedLocation', JSON.stringify(selectedLocation));
+      console.log('Selected location stored successfully:', selectedLocation);
+      // Optionally, you can close the bottom sheet here if needed
+      // refRBSheet.current.close();
+    } else {
+      console.log('No location selected');
+    }
+  } catch (error) {
+    console.error('Error storing selected location:', error);
+  }
+};
+  const LocationList = ({ item }) => {
     return (
       <View
         style={{
@@ -194,31 +240,23 @@ const LocationBottomSheet = ({refRBSheet}) => {
           flexDirection: 'row',
         }}>
         <TouchableOpacity
-          key={item?.id}
           onPress={() => {
             handleClickLocation(item);
           }}
           style={[
             lbStyle.clSelectLocation,
             {
-              backgroundColor:
-                selectedItem?.id == item.id ? '#202020' : appColors.Black,
+              backgroundColor: selectedLocation?.id === item.id ? '#202020' : appColors.Black,
             },
           ]}>
           <View style={lbStyle.clIconView}>
-            <View
-              style={[
-                lbStyle.OuterCircle,
-                selectedItem?.LocationId == item.LocationId && {
-                  backgroundColor: appColors.White,
-                },
-              ]}>
-              {selectedItem?.id == item.id && (
+            <View style={lbStyle.OuterCircle}>
+              {selectedLocation?.id === item.id && (
                 <View style={lbStyle.innerCircle}></View>
               )}
             </View>
           </View>
-          <View style={[lbStyle.clTextView, {flex: 0.7}]}>
+          <View style={[lbStyle.clTextView, { flex: 0.7 }]}>
             <Text
               style={{
                 fontSize: 13,
@@ -228,14 +266,14 @@ const LocationBottomSheet = ({refRBSheet}) => {
               {item.locationName}
             </Text>
           </View>
-          {selectedItem?.id == item.id && (
-            <View style={[lbStyle.clTextView, {flex: 0.1}]}>
+          {selectedLocation?.id === item.id && (
+            <View style={[lbStyle.clTextView, { flex: 0.1 }]}>
               <CustomIcon
                 type={Icons.MaterialIcons}
                 name={'edit-location-alt'}
                 size={20}
                 color={appColors.White}
-                onPress={() => handleClickEdit(item)} // Updated onPress
+                onPress={() => handleClickEdit(item)}
               />
             </View>
           )}
@@ -243,7 +281,6 @@ const LocationBottomSheet = ({refRBSheet}) => {
       </View>
     );
   };
-
   return (
     <View style={lbStyle.mainContainer}>
       <TouchableOpacity
@@ -262,14 +299,14 @@ const LocationBottomSheet = ({refRBSheet}) => {
           <Text style={lbStyle.clTextStyle}>Use Current Location</Text>
         </View>
       </TouchableOpacity>
-      <View style={{flex: 0.6}}>
+      <View style={{ flex: 0.6 }}>
         {isLoading ? (
           <ActivityIndicator size="large" color={appColors.Goldcolor} /> // Render the loader
         ) : (
           <FlatList
             data={locationList}
             keyExtractor={item => item.id.toString()} // Ensure key is a string
-            renderItem={({item, index}) => {
+            renderItem={({ item, index }) => {
               // console.log('Current item:', item);
               return <LocationList item={item} index={index} />;
             }}
@@ -292,13 +329,13 @@ const LocationBottomSheet = ({refRBSheet}) => {
         </View>
       </TouchableOpacity>
       <TouchableOpacity
-        onPress={() => refRBSheet.current.close()}
+        onPress={handleConfirmLocation} // Update onPress event
         style={[
           lbStyle.clContainer,
-          {justifyContent: 'center', alignItems: 'flex-end'},
+          { justifyContent: 'center', alignItems: 'flex-end' },
         ]}>
         <View style={lbStyle.clButotnView}>
-          <Text style={[lbStyle.clTextStyle, {textAlign: 'center'}]}>
+          <Text style={[lbStyle.clTextStyle, { textAlign: 'center' }]}>
             Confirm Location
           </Text>
         </View>
@@ -314,10 +351,10 @@ const lbStyle = StyleSheet.create({
     paddingHorizontal: 15,
     paddingVertical: 15,
   },
-  clContainer: {flex: 0.13, flexDirection: 'row'},
-  clIconView: {flex: 0.15, justifyContent: 'center', alignItems: 'center'},
-  clTextView: {flex: 0.8, justifyContent: 'center'},
-  clTextStyle: {fontSize: 13, fontWeight: '500', color: appColors.White},
+  clContainer: { flex: 0.13, flexDirection: 'row' },
+  clIconView: { flex: 0.15, justifyContent: 'center', alignItems: 'center' },
+  clTextView: { flex: 0.8, justifyContent: 'center' },
+  clTextStyle: { fontSize: 13, fontWeight: '500', color: appColors.White },
   clSelectLocation: {
     flex: 1,
     borderRadius: 20,

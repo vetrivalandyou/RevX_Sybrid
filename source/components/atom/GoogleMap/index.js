@@ -1,5 +1,5 @@
 import React, {useMemo} from 'react';
-import {Image, StyleSheet} from 'react-native';
+import { Image, StyleSheet, Text, View } from 'react-native';
 import MarkerImage from '../../../assets/mapMarker.png';
 import appColors from '../../../AppConstants/appColors';
 import {imageUrl} from '../../../AppConstants/urlConstants';
@@ -45,7 +45,7 @@ const GoogleMap = ({
   );
   return (
     <MapView
-      style={{flex: 1}}
+      style={{ flex: 1 }}
       ref={mapRef}
       provider={PROVIDER_GOOGLE}
       loadingEnabled={true}
