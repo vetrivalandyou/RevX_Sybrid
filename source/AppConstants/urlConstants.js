@@ -23,9 +23,11 @@ export const endPoint = {
   SETUP_CATEGORIES_DELETE: 'Barber/SetupCategories_Delete',
   CUSTOMER_SERVICES: 'Customer/Category_Services',
   BARBER_SERVICE_CATEGORY: 'Admin/BarberServiceCategry',
-  REAPPLY_APPROVE_BARBER_SERVICE_CATEGORY: 'Admin/ReApplyApproveBarberServiceCategry',
+  REAPPLY_APPROVE_BARBER_SERVICE_CATEGORY:
+    'Admin/ReApplyApproveBarberServiceCategry',
   APPROVE_BARBER_SERVICE: 'Barber/ApproveBarberService',
   BARBER_LOCATION_UPDATE: 'Auth/Barber_Location_Updated',
+  BARBER_PARENTCHILD_SERVICES: 'Barber/Barber_ParentChildServices',
 
   //Admin End Points
   BARBER_LIST: 'Admin/Barber_List', //done
@@ -40,6 +42,8 @@ export const endPoint = {
   BARBER_APPROVE_SERVICE_POST: 'Barber/ApproveBarberService',
   BARBER_SERVICES_GET: 'Barber/Barber_Services_Get',
   BARBER_SERVICES_CU: 'Barber/Barber_Services_CU',
+  GET_VANS_NEAR_CUSTOMER: 'Auth/Get_Vans_Near_Customer',
+  ADMIN_USERDETAILS: 'Admin/Admin_UserDetails',
 
   // Customer End Points
   SERVICE_CATEGORIES: 'Customer/Service_Categories',

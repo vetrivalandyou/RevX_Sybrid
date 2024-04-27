@@ -61,13 +61,13 @@ const BarberStack = () => {
       createdBy: userAsyncDetails?.userId,
     };
     console.log(payload,"----------------------------------------------------------------------------------------")
-    // PostRequest(endPoint.BARBER_LOCATION_UPDATE, payload)
-    //   .then(res => {
-    //     console.log('RESPONSE BARBER LOCATION UPDATE', res?.data);
-    //   })
-    //   .catch(err => {
-    //     console.log('Err'.err);
-    //   });
+    PostRequest(endPoint.BARBER_LOCATION_UPDATE, payload)
+      .then(res => {
+        console.log('RESPONSE BARBER LOCATION UPDATE', res?.data);
+      })
+      .catch(err => {
+        console.log('Err'.err);
+      });
   };
 
 

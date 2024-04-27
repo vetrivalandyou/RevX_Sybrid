@@ -1,6 +1,6 @@
 import React, {useEffect, useRef, useState} from 'react';
 import {View, Image} from 'react-native';
-import {useNavigation} from '@react-navigation/native';
+import {useIsFocused, useNavigation} from '@react-navigation/native';
 import MapView, {Marker, PROVIDER_GOOGLE} from 'react-native-maps';
 import {Icons} from '../../components/molecules/CustomIcon/CustomIcon';
 import Header from '../../components/molecules/Header';
@@ -15,15 +15,27 @@ import {GooglePlacesAutocomplete} from 'react-native-google-places-autocomplete'
 import MapViewDirections from 'react-native-maps-directions';
 import GoogleMap from '../../components/atom/GoogleMap';
 import {PostRequest} from '../../services/apiCall';
-import {endPoint} from '../../AppConstants/urlConstants';
+import {endPoint, messages} from '../../AppConstants/urlConstants';
+import {getAsyncItem, getLogLatAsync} from '../../utils/SettingAsyncStorage';
+import constants from '../../AppConstants/Constants.json';
+import {
+  LATEST_SELECT,
+  SUCCESS_CODE,
+  approve,
+} from '../../AppConstants/appConstants';
+import {SimpleSnackBar} from '../../components/atom/Snakbar/Snakbar';
 
 const LocationScreen = () => {
   const navigation = useNavigation();
+  const isFocused = useIsFocused();
   const refRBSheet = useRef();
   const mapRef = useRef(null);
   const [selectedLocation, setSelectedLocation] = useState([]);
-  // const origin = {latitude: 24.86146, longitude: 74.329376};
-  // const destination = {latitude: 31.582045, longitude: 74.329376};
+  const [userDetails, setUserDetails] = useState([]);
+  const [userCoordinates, setUserCoordinates] = useState();
+  const [selectedBarberDetails, setSelectedBarberDetails] = useState();
+  const [calculateDirection, setCalculateDirection] = useState(false);
+  const [selectedBarberLongLat, setSelectedBarberLongLat] = useState();
   const [region, setRegion] = useState({
     latitude: 31.5203696,
     longitude: 74.35874729999999,
@@ -31,65 +43,79 @@ const LocationScreen = () => {
     longitudeDelta: 0.0421,
   });
 
-  // const distance = calculateDistance(
-  //   origin.latitude,
-  //   origin.longitude,
-  //   destination.latitude,
-  //   destination.longitude,
-  // ).toFixed(2);
+  useEffect(() => {
+    if (isFocused) {
+      getUserDetails();
+    }
+  }, [isFocused]);
 
-  // console.log('distance', distance);
-
-  const handleMapPress = event => {
-    // Handle map press action
-    const {coordinate} = event.nativeEvent;
-    setSelectedLocation([
-      {
-        latitude: coordinate.latitude,
-        longitude: coordinate.longitude,
-        latitudeDelta: 0.0922,
-        longitudeDelta: 0.0421,
-      },
-    ]);
-    // setSelectedLocation({
-    //   latitude: coordinate.latitude,
-    //   longitude: coordinate.longitude,
-    //   name: 'Custom Location',
-    // });
+  const getUserDetails = async () => {
+    const asyncUserLongLat = await getLogLatAsync(
+      constants.AsyncStorageKeys.longLat,
+    );
+    const userDetail = await getAsyncItem(
+      constants.AsyncStorageKeys.userDetails,
+    );
+    setUserCoordinates(asyncUserLongLat);
+    setUserDetails(userDetail);
+    getNearByBarber(asyncUserLongLat);
   };
-  const handleLocationSelect = (data, details) => {
-    // 'details' contains additional information about the selected place
-    setSelectedLocation([
-      {
-        latitude: details.geometry.location.lat,
-        longitude: details.geometry.location.lng,
-        latitudeDelta: 0.0922,
-        longitudeDelta: 0.0421,
-      },
-    ]);
 
+  const getNearByBarber = asyncUserLongLat => {
+    const payload = {
+      latitude: asyncUserLongLat?.coords?.latitude,
+      longitude: asyncUserLongLat?.coords?.longitude,
+      distance: 25,
+    };
+    PostRequest(endPoint.GET_VANS_NEAR_CUSTOMER, payload)
+      .then(res => {
+        if (res?.data?.code == SUCCESS_CODE) {
+          setSelectedLocation(res?.data?.data);
+        }
+        mapAnimation();
+      })
+      .catch(err => {
+        console.log(err);
+        SimpleSnackBar('Please select location', appColors.PrimaryColor);
+      });
+  };
+
+  const mapAnimation = () => {
     mapRef.current.animateToRegion(
       {
-        latitude: details.geometry.location.lat,
-        longitude: details.geometry.location.lng,
+        latitude: userCoordinates?.coords?.latitude,
+        longitude: userCoordinates?.coords?.longitude,
         latitudeDelta: 0.05,
         longitudeDelta: 0.05,
       },
-      1000, // Animation duration in milliseconds
+      3000, // Animation duration in milliseconds
     );
   };
-  const handleAnimateToLocation = () => {
-    if (selectedLocation) {
-      mapRef.current.animateToRegion(
-        {
-          latitude: selectedLocation.latitude,
-          longitude: selectedLocation.longitude,
-          latitudeDelta: 0.05,
-          longitudeDelta: 0.05,
-        },
-        1000, // Animation duration in milliseconds
-      );
-    }
+
+  const handleMultiMarkerPress = x => {
+    setSelectedBarberLongLat(x);
+    const payload = {
+      operationID: LATEST_SELECT,
+      roleID: 3,
+      isActive: true,
+      userID: x?.userId,
+      userIP: '',
+      pageSize: 1,
+      pageNumber: 1,
+    };
+    PostRequest(endPoint.ADMIN_USERDETAILS, payload)
+      .then(res => {
+        if (res?.data?.length > 0) {
+          setSelectedBarberDetails(res?.data?.[0]);
+          refRBSheet.current.open();
+        } else {
+          SimpleSnackBar('Barber Details not Found', appColors.Red);
+        }
+      })
+      .catch(err => {
+        console.log('Error', err);
+        SimpleSnackBar(messages.WentWrong, appColors.Red);
+      });
   };
 
   return (
@@ -98,7 +124,11 @@ const LocationScreen = () => {
       barStyle="light-content"
       viewStyle={{backgroundColor: appColors.Black, padding: 10, flex: 0.9}}>
       <BottomSheet ref={refRBSheet} Height={screenSize.height - 500}>
-        <LocationBottom refRBSheet={refRBSheet} />
+        <LocationBottom
+          refRBSheet={refRBSheet}
+          selectedBarberDetails={selectedBarberDetails}
+          setCalculateDirection={setCalculateDirection}
+        />
       </BottomSheet>
 
       <View style={{flex: 0.1}}>
@@ -128,9 +158,13 @@ const LocationScreen = () => {
           mapRef={mapRef}
           region={region}
           setRegion={setRegion}
-          // handleMapPress={handleMapPress}
+          userLocation={true}
+          userCoordinates={userCoordinates}
           selectedLocation={selectedLocation}
-          CustomMarkerImage={CustomMarkerImage}
+          handleMultiMarkerPress={handleMultiMarkerPress}
+          calculateDirection={calculateDirection}
+          setCalculateDirection={setCalculateDirection}
+          selectedBarberLongLat={selectedBarberLongLat}
         />
       </View>
     </Screen>
@@ -138,19 +172,6 @@ const LocationScreen = () => {
 };
 
 export default LocationScreen;
-
-{
-  /* <MapViewDirections
-            origin={origin}
-            destination={destination}
-            apikey={'AIzaSyC7Y3a-Q8qZXj5XgLzpHa92b_nw3sR8aWE'}
-            strokeWidth={5} // Set the width of the route line
-            strokeColor="#FFD700"
-          /> */
-}
-{
-  /* </MapView> */
-}
 
 // const distance = calculateDistance(
 //   origin.latitude,

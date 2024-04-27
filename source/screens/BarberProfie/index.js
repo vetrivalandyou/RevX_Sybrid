@@ -32,7 +32,7 @@ import Share from 'react-native-share';
 const BarberProfile = ({navigation, route}) => {
   const {barberId} = route.params || {};
 
-  console.log("barberIdbarberId",barberId)
+  console.log("barberIdbarberId222111",barberId)
 
   const [barberDetails, setBarberDetails] = useState();
   const [activeSlide, setActiveSlide] = useState(0);
@@ -118,7 +118,7 @@ const BarberProfile = ({navigation, route}) => {
     return (
       <View style={styles.slide}>
         <Image source={item.illustration} style={styles.image} />
-        <Text style={styles.title}>{item.title}</Text>
+        {/* <Text style={styles.title}>{item.title}</Text> */}
       </View>
     );
   };
@@ -138,7 +138,7 @@ const BarberProfile = ({navigation, route}) => {
           onSnapToItem={index => setActiveSlide(index)}
           sliderWidth={screenSize.width}
           itemWidth={screenSize.width}
-          autoplay={true}
+          autoplay={false}
         />
         <Pagination
           dotsLength={Profiles.length}
