@@ -19,6 +19,7 @@ const SimpleTextField = ({
   value,
   onChangeText,
   textUpperView,
+  maxLength,
   textStyle,
   // onPressIcon,
   // eyeOpen,
@@ -33,16 +34,19 @@ const SimpleTextField = ({
     <View style={styles.mainContainer}>
       <View style={[styles.innerContainner, textUpperView]}>
         <TextInput
-          style={[ {flex: 0.9, color: AppColors.White}]}
+          style={[{flex: 0.9, color: AppColors.White}]}
           placeholder={placeholder}
           placeholderTextColor={placeholderTextColor}
           value={value}
-          keyboardType={keyboardType}
+          keyboardType={keyboardType && keyboardType}
           onChangeText={onChangeText}
           secureTextEntry={isPasswordVisible}
+          maxLength={maxLength && maxLength}
         />
         {secureTextEntry && (
-          <TouchableOpacity style={{ flex: 0.1, alignItems:'flex-end', paddingVertical: 0}} onPress={togglePasswordVisibility}>
+          <TouchableOpacity
+            style={{flex: 0.1, alignItems: 'flex-end', paddingVertical: 0}}
+            onPress={togglePasswordVisibility}>
             <CustomIcon
               type={Icons.Ionicons}
               name={isPasswordVisible ? 'eye-outline' : 'eye-off-outline'}

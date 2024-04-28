@@ -32,13 +32,13 @@ import constant from '../../../AppConstants/Constants.json';
 import {Insert, approve, reject} from '../../../AppConstants/appConstants';
 
 const initialBarberApproveFields = {
-  servicesId: 0,
-  barberId: 20,
-  statusId: 0,
-  serviceCategoryId: 406,
+  serviceCategoryId: 0,
+  barberId: 250,
+  statusId: 9,
+  categoryStatusId: 0,
 };
 
-const AdminApproveBarber = ({navigation}) => {
+const BarberListApprove = ({navigation}) => {
   const isFocused = useIsFocused();
   const btnClicked = useRef(null);
   const animation = useRef(new Animated.Value(0)).current;
@@ -83,8 +83,10 @@ const AdminApproveBarber = ({navigation}) => {
 
   const getBarberApproveService = () => {
     if (!hasMoreData) {
+      // console.log('inside hasMoreData');
       return;
     }
+    // console.log('Outside');
     setIsLoading(true);
     const payload = {
       ...initialBarberApproveFields,
@@ -92,7 +94,7 @@ const AdminApproveBarber = ({navigation}) => {
       pageSize: 5,
     };
     console.log('Payload....................', payload);
-    PostRequest(endPoint.BARBER_APPROVE_SERVICES, payload)
+    PostRequest(endPoint.BARBER_SERVICE_CATEGORY, payload)
       .then(res => {
         console.log('Helo', res?.data?.data);
         if (res?.data?.data?.length > 0) {
@@ -118,7 +120,7 @@ const AdminApproveBarber = ({navigation}) => {
       pageNumber: pageRef.current,
       pageSize: 5,
     };
-    PostRequest(endPoint.BARBER_APPROVE_SERVICES, payload)
+    PostRequest(endPoint.BARBER_SERVICE_CATEGORY, payload)
       .then(res => {
         if (res?.data?.data?.length > 0) {
           let newData = res?.data?.data;
@@ -292,7 +294,7 @@ const AdminApproveBarber = ({navigation}) => {
                   justifyContent: 'center',
                 }}>
                 <Image
-                  source={{uri: `${imageUrl}${item.profileImage}`}}
+                  source={{uri: `${imageUrl}${item.userProfile}`}}
                   style={{
                     height: Platform.OS == 'ios' ? 80 : 63,
                     width: Platform.OS == 'ios' ? 80 : 63,
@@ -508,7 +510,7 @@ const AdminApproveBarber = ({navigation}) => {
   );
 };
 
-export default AdminApproveBarber;
+export default BarberListApprove;
 
 const ticketStyle = StyleSheet.create({
   container: {

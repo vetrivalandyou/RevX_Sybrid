@@ -212,7 +212,7 @@ const MyLocationBottomSheet = ({selectedLocation, route}) => {
 
   return (
     <View style={lbStyle.mainContainer}>
-      {userDetails ? ( 
+      {userDetails ? (
         <Formik
           initialValues={{
             locationName: item?.id

@@ -23,7 +23,8 @@ export const endPoint = {
   SETUP_CATEGORIES_DELETE: 'Barber/SetupCategories_Delete',
   CUSTOMER_SERVICES: 'Customer/Category_Services',
   BARBER_SERVICE_CATEGORY: 'Admin/BarberServiceCategry',
-  REAPPLY_APPROVE_BARBER_SERVICE_CATEGORY: 'Admin/ReApplyApproveBarberServiceCategry',
+  REAPPLY_APPROVE_BARBER_SERVICE_CATEGORY:
+    'Admin/ReApplyApproveBarberServiceCategry',
   APPROVE_BARBER_SERVICE: 'Barber/ApproveBarberService',
   BARBER_LOCATION_UPDATE: 'Auth/Barber_Location_Updated',
 
@@ -51,6 +52,12 @@ export const endPoint = {
   BARBER_SET_UP_LOCATION_SERVICES: 'Barber/SetupLocation_CU',
   BARBER_GET_SET_UP_LOCATION: 'Barber/GetSetupLocation',
   AUTH_CUSTOMER_LOCATION_UPDATED: 'Auth/Customer_Location_Updated',
+
+  // admin view get user details and barber details
+  Get_USER_BARBER_DETAILS: 'Admin/Admin_UserDetails',
+
+  //admin create slots for barber
+  CREATE_SETUP_SLOTS: 'Admin/Admin_SetupSlots',
 };
 
 export const messages = {

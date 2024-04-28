@@ -16,20 +16,21 @@ import Entypo from 'react-native-vector-icons/Entypo';
 import ButtonComponent from '../../../components/atom/CustomButtons/ButtonComponent';
 import styles from './styles';
 import {useIsFocused, useNavigation} from '@react-navigation/native';
-import BottomSheet from '../../../components/molecules/BottomSheetContent/BottomSheet';
 import Header from '../../../components/molecules/Header';
 import {Icons} from '../../../components/molecules/CustomIcon/CustomIcon';
-import DeleteServices from './DeleteServices';
 import constants from '../../../AppConstants/Constants.json';
 import {PostRequest} from '../../../services/apiCall';
 import {endPoint} from '../../../AppConstants/urlConstants';
 import {AppImages} from '../../../AppConstants/AppImages';
-import Servicesboard from '.';
 import {SimpleSnackBar} from '../../../components/atom/Snakbar/Snakbar';
 import {LATEST_SELECT} from '../../../AppConstants/appConstants';
 import {getAsyncItem} from '../../../utils/SettingAsyncStorage';
+import DeleteSlot from './DeleteSlot';
+import BottomSheet from '../../../components/molecules/BottomSheetContent/BottomSheet';
 
-const OurServices = ({navigation}) => {
+const AdminSetupSlots = ({navigation}) => {
+  const refRBSheet = useRef();
+
   const initialServiceFields = {
     categoryId: 0,
     categoryName: '',
@@ -55,18 +56,18 @@ const OurServices = ({navigation}) => {
   };
 
   const GetsetupCategories = () => {
-    PostRequest(endPoint.GET_SETUP_CATEGORIES, initialServiceFields)
-      .then(res => {
-        console.log('responseeee>>>>.>', res?.data?.data);
-        if (res?.data?.code == 200) {
-          setServiceslist(res?.data?.data);
-        } else {
-          SimpleSnackBar(res?.data?.message, appColors.Red);
-        }
-      })
-      .catch(err => {
-        SimpleSnackBar(messages.Catch, appColors.Red);
-      });
+    // PostRequest(endPoint.GET_SETUP_CATEGORIES, initialServiceFields)
+    //   .then(res => {
+    //     console.log('responseeee>>>>.>', res?.data?.data);
+    //     if (res?.data?.code == 200) {
+    //       setServiceslist(res?.data?.data);
+    //     } else {
+    //       SimpleSnackBar(res?.data?.message, appColors.Red);
+    //     }
+    //   })
+    //   .catch(err => {
+    //     SimpleSnackBar(messages.Catch, appColors.Red);
+    //   });
   };
 
   const addSubService = item => {
@@ -76,10 +77,8 @@ const OurServices = ({navigation}) => {
     });
   };
 
-  const addService = () => {
-    navigation.navigate(constants.AdminScreens.Addservices, {
-      userId: userDetails?.userId,
-    });
+  const createSlot = () => {
+    navigation.navigate(constants.AdminScreens.CreateSlot);
   };
 
   return (
@@ -92,23 +91,28 @@ const OurServices = ({navigation}) => {
           lefttIcoType={Icons.Ionicons}
           onPressLeftIcon={() => navigation.goBack()}
           leftIcoName={'chevron-back'}
-          headerText={'Our Services'}
+          headerText={'Setup Slots'}
           logIn={'success'}
         />
       </View>
       <View style={{flex: 0.8}}>
-        <FlatList
-          data={servicesList}
-          keyExtractor={item => item.categoryId.toString()}
-          renderItem={({item, index}) => (
-            <Servicelist
-              key={item?.categoryId}
-              item={item}
-              userId={userDetails?.userId}
-              onPress={() => addSubService(item)}
-            />
-          )}
-        />
+        <View
+          style={[
+            styles.container,
+            // selected && {borderColor: '#c79647', borderWidth: 1.25},
+          ]}>
+          <View style={styles.Subcontainer}>
+            <View style={styles.textView}>
+              <Text style={styles.textStyle}>{'Slot one'}</Text>
+            </View>
+            <View style={styles.textView}>
+              <Text style={styles.textStyle}>{'Slot one'}</Text>
+            </View>
+            <View style={styles.textView}>
+              <Text style={styles.textStyle}>{'Slot one'}</Text>
+            </View>
+          </View>
+        </View>
       </View>
       <View style={styles.buttonView}>
         <ButtonComponent
@@ -119,8 +123,8 @@ const OurServices = ({navigation}) => {
             position: 'absolute',
           }}
           btnTextColor={{color: 'white'}}
-          title={'Add Service'}
-          onPress={addService}
+          title={'Create Slots'}
+          onPress={createSlot}
         />
       </View>
     </Screen>
@@ -171,4 +175,4 @@ const Servicelist = ({item, userId, onPress, selected}) => {
   );
 };
 
-export default OurServices;
+export default AdminSetupSlots;

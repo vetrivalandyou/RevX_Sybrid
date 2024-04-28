@@ -6,14 +6,9 @@ import {PostRequest} from '../../../services/apiCall';
 import {endPoint, messages} from '../../../AppConstants/urlConstants';
 import {SimpleSnackBar} from '../../../components/atom/Snakbar/Snakbar';
 
-const DeleteServices = ({refRBSheet, DeleteService}) => {
-  const DeletesetupCategories = () => {
-    const payload = {
-      categoryId: DeleteService.categoryId,
-      categoryName: DeleteService.categoryName,
-      operations: 4,
-      createdBy: 2,
-    };
+const DeleteSlot = ({refRBSheet, DeleteService}) => {
+  const DeletesetupSlot = () => {
+    const payload = {};
     // PostRequest(endPoint.SETUP_CATEGORIES_DELETE, payload)
     //   .then(res => {
     //     console.log('responseeee>>>>.>', res?.data);
@@ -33,11 +28,11 @@ const DeleteServices = ({refRBSheet, DeleteService}) => {
       <View style={{flex: 0.6}}>
         <View
           style={{flex: 0.4, alignItems: 'center', justifyContent: 'center'}}>
-          <Text style={{color: '#E81F1C', fontSize: 18}}>Delete Service</Text>
+          <Text style={{color: '#E81F1C', fontSize: 18}}>Delete Slot</Text>
         </View>
         <View style={{flex: 0.6, paddingHorizontal: '20%'}}>
           <Text style={{color: 'white', fontSize: 16, textAlign: 'center'}}>
-            Are you sure you want to delete your service?{' '}
+            Are you sure you want to delete your Slot?{' '}
           </Text>
         </View>
       </View>
@@ -70,8 +65,8 @@ const DeleteServices = ({refRBSheet, DeleteService}) => {
               width: '85%',
             }}
             btnTextColor={{color: 'white'}}
-            title={'Delete Service'}
-            onPress={DeletesetupCategories}
+            title={'Delete Slot'}
+            onPress={DeletesetupSlot}
           />
         </View>
       </View>
@@ -79,6 +74,6 @@ const DeleteServices = ({refRBSheet, DeleteService}) => {
   );
 };
 
-export default DeleteServices;
+export default DeleteSlot;
 
 const styles = StyleSheet.create({});

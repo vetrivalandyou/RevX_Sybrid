@@ -68,11 +68,11 @@ export default StyleSheet.create({
   ProfileMainView: {flex: 0.35},
   ProfileouterView: {flex: 1, justifyContent: 'center', alignItems: 'center'},
   profileView: {
-    width: '34%',
+    width: '32%',
+    height: '56%',
     justifyContent: 'center',
     alignItems: 'center',
-    height: '58%',
-    backgroundColor: 'black',
+    // backgroundColor: 'black',
   },
   imageStyle: {
     width: '100%',
@@ -80,12 +80,12 @@ export default StyleSheet.create({
     borderRadius: 80,
     borderWidth: 3,
     borderColor: appColors.Goldcolor,
-    backgroundColor:'grey'
+    backgroundColor: 'grey',
   },
   Iconstyle: {
     position: 'absolute',
-    left: screenSize.width / 4,
-    top: screenSize.height / 8.2
+    left: screenSize.width / 4.4,
+    top: screenSize.height / 8.2,
   },
   textFieldView: {flex: 0.19, justifyContent: 'space-evenly'},
   buttonStyle: {

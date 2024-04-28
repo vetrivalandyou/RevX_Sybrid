@@ -31,10 +31,12 @@ const Login = () => {
   });
 
   const LoginUser = (values, setSubmitting) => {
+    console.log('values', values);
     PostRequest(endPoint.LOGIN, values)
       .then(res => {
+        console.log('res', res?.data);
+
         if (res?.data?.code == 200) {
-          console.log(res?.data);
           setAsyncItem(
             constants.AsyncStorageKeys.token,
             res?.data?.data?.token,

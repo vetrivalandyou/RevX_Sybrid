@@ -45,6 +45,11 @@ import SubService from '../../screens/AdminBoard/AdminServices/SubService';
 import AddSubServices from '../../screens/AdminBoard/AdminServices/AddSubServices';
 import SubServiceList from '../../screens/AdminBoard/AdminServices/SubServiceList';
 import EditSubServices from '../../screens/AdminBoard/AdminServices/EditSubServices';
+import BarberListApprove from '../../screens/AdminBoard/BarberListApprove';
+import AdminBarberDetails from '../../screens/AdminBoard/AdminBarberDetails';
+import AdminSetupSlots from '../../screens/AdminBoard/AdminSetupSlots';
+import CreateSlot from '../../screens/AdminBoard/AdminSetupSlots/CreateSlot';
+import AdminViewBarber from '../../screens/AdminBoard/AdminViewBarber';
 
 const AdminStack = () => {
   const Stack = createNativeStackNavigator();
@@ -149,8 +154,18 @@ const AdminStack = () => {
           options={{headerShown: false}}
         />
         <Stack.Screen
+          name={constants.AdminScreens.AdminBarberDetails}
+          component={AdminBarberDetails}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
           name={constants.AdminScreens.AdminViewUsers}
           component={AdminViewUsers}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name={constants.AdminScreens.AdminViewBarber}
+          component={AdminViewBarber}
           options={{headerShown: false}}
         />
         <Stack.Screen
@@ -247,6 +262,21 @@ const AdminStack = () => {
         <Stack.Screen
           name={constants.AdminScreens.EditSubServices}
           component={EditSubServices}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name={constants.AdminScreens.BarberListApprove}
+          component={BarberListApprove}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name={constants.AdminScreens.AdminSetupSlots}
+          component={AdminSetupSlots}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name={constants.AdminScreens.CreateSlot}
+          component={CreateSlot}
           options={{headerShown: false}}
         />
       </Stack.Navigator>

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import {FlatList, Text, View} from 'react-native';
 import Screen from '../../../components/atom/ScreenContainer/Screen';
 import appColors from '../../../AppConstants/appColors';
@@ -7,16 +7,13 @@ import CustomIcon, {
   Icons,
 } from '../../../components/molecules/CustomIcon/CustomIcon';
 import constants from '../../../AppConstants/Constants.json';
-import { GetRequest } from '../../../services/apiCall';
+import {GetRequest} from '../../../services/apiCall';
 
-const TermsOfService = ({navigation,route}) => {
-
-  const { aboutUsId } = route.params;
+const TermsOfService = ({navigation, route}) => {
+  const {aboutUsId} = route.params;
   const [TermsServicesData, seTermsServicesData] = useState([]);
 
-
   const getTermsOfServices = () => {
-
     GetRequest(`Common/Get_AboutUsType?aboutUsTypeId=${aboutUsId}`)
       .then(res => {
         console.log('data.........', res?.data);
@@ -83,7 +80,9 @@ const TermsOfService = ({navigation,route}) => {
         <View>
           <FlatList
             data={TermsServicesData}
-            renderItem={({item,index}) => <TermServices item={item} index={index} />}
+            renderItem={({item, index}) => (
+              <TermServices item={item} index={index} />
+            )}
           />
         </View>
       </View>
@@ -110,7 +109,7 @@ const TermServices = ({item, index}) => {
           fontWeight: 400,
           paddingBottom: 10,
         }}>
-       {index + 1}. {item.title}
+        {index + 1}. {item.title}
       </Text>
       <Text style={{fontSize: 16, color: 'white', lineHeight: 20}}>
         {item.detail}

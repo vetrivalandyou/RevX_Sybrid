@@ -20,61 +20,18 @@ import constants from '../../../AppConstants/Constants.json';
 import appColors from '../../../AppConstants/appColors';
 import {useNavigation} from '@react-navigation/native';
 import BottomSheet from '../../../components/molecules/BottomSheetContent/BottomSheet';
-import BlockUser from './BlockUser';
 import {SimpleSnackBar} from '../../../components/atom/Snakbar/Snakbar';
 import {PostRequest} from '../../../services/apiCall';
 import {endPoint, imageUrl, messages} from '../../../AppConstants/urlConstants';
 import {getAsyncItem} from '../../../utils/SettingAsyncStorage';
 import {LATEST_SELECT} from '../../../AppConstants/appConstants';
+import BlockBarber from './BlockBarber';
 
-const AdminUserDetails = ({navigation}) => {
+const AdminBarberDetails = ({navigation}) => {
   const [userList, setUserlist] = useState([]);
   const pageRef = useRef(1);
   const [hasMoreData, setHasMoreData] = useState(true);
   const [isLoading, setIsLoading] = useState(true);
-
-  const data = [
-    {
-      id: 1,
-      name: 'Nathan Alexender',
-      title: 'Senior Barber',
-      Imagesource: AppImages.chatone,
-      Viewbutton: 'View User',
-      Blockbutton: 'Block User',
-    },
-    {
-      id: 2,
-      name: 'Nathan Alexender',
-      title: 'Senior Barber',
-      Imagesource: AppImages.chatone,
-      Viewbutton: 'View User',
-      Blockbutton: 'Block User',
-    },
-    {
-      id: 3,
-      name: 'Nathan Alexender',
-      title: 'Senior Barber',
-      Imagesource: AppImages.chatone,
-      Viewbutton: 'View User',
-      Blockbutton: 'Block User',
-    },
-    {
-      id: 4,
-      name: 'Nathan Alexender',
-      title: 'Senior Barber',
-      Imagesource: AppImages.chatone,
-      Viewbutton: 'View User',
-      Blockbutton: 'Block User',
-    },
-    {
-      id: 5,
-      name: 'Nathan Alexender',
-      title: 'Senior Barber',
-      Imagesource: AppImages.chatone,
-      Viewbutton: 'View User',
-      Blockbutton: 'Block User',
-    },
-  ];
 
   useEffect(() => {
     getAllUsers();
@@ -97,7 +54,7 @@ const AdminUserDetails = ({navigation}) => {
     setIsLoading(true);
     const payload = {
       operationID: LATEST_SELECT,
-      roleID: 4,
+      roleID: 3,
       isActive: true,
       userID: 0,
       userIP: '::1',
@@ -123,7 +80,7 @@ const AdminUserDetails = ({navigation}) => {
   const getAllUsers = () => {
     const payload = {
       operationID: 3,
-      roleID: 4,
+      roleID: 3,
       isActive: true,
       userID: 0,
       userIP: '::1',
@@ -156,7 +113,7 @@ const AdminUserDetails = ({navigation}) => {
           lefttIcoType={Icons.Ionicons}
           onPressLeftIcon={() => navigation.goBack()}
           leftIcoName={'chevron-back'}
-          headerText={'User Details'}
+          headerText={'Barber Details'}
           rightIcoName={'bell-fill'}
           rightIcoType={Icons.Octicons}
           logIn={'success'}
@@ -199,7 +156,7 @@ const Detailslist = ({item, onPress}) => {
   const navigation = useNavigation();
   const refRBSheet = useRef();
   const handleViewUser = item => {
-    navigation.navigate(constants.AdminScreens.AdminViewUsers, {item});
+    navigation.navigate(constants.AdminScreens.AdminViewBarber, {item});
   };
 
   return (
@@ -243,7 +200,7 @@ const Detailslist = ({item, onPress}) => {
                   paddingVertical: 4,
                 }}>
                 {/* {item.title} */}
-                {'User'}
+                {'Barber'}
               </Text>
             </View>
           </View>
@@ -285,7 +242,7 @@ const Detailslist = ({item, onPress}) => {
                   width: '90%',
                   paddingVertical: 9,
                 }}
-                title={'View User'}
+                title={'View Barber'}
               />
             </View>
           ) : (
@@ -303,7 +260,7 @@ const Detailslist = ({item, onPress}) => {
                   paddingVertical: 9,
                 }}
                 disable={true}
-                title={'View User'}
+                title={'View Barber'}
               />
             </View>
           )}
@@ -313,28 +270,28 @@ const Detailslist = ({item, onPress}) => {
             {item.IsActive == true ? (
               <ButtonComponent
                 style={{
-                  backgroundColor: '#E81F1C',
+                  // backgroundColor: '#E81F1C',
                   width: '90%',
                   paddingVertical: 9,
                 }}
                 btnColor={appColors.Red}
-                title={'Block User'}
+                title={'Block Barber'}
                 onPress={() => refRBSheet.current.open()}
               />
             ) : (
               <ButtonComponent
                 style={{
+                  backgroundColor: '#E81F1C',
                   width: '90%',
                   paddingVertical: 9,
                 }}
-                btnColor={appColors.Red}
-                title={'This User is Blocked by Admin'}
+                title={'This Barber is Blocked by Admin'}
                 // onPress={() => refRBSheet.current.open()}
               />
             )}
 
             <BottomSheet ref={refRBSheet} Height={200}>
-              <BlockUser refRBSheet={refRBSheet} />
+              <BlockBarber refRBSheet={refRBSheet} />
             </BottomSheet>
           </View>
         </View>
@@ -343,4 +300,4 @@ const Detailslist = ({item, onPress}) => {
   );
 };
 
-export default AdminUserDetails;
+export default AdminBarberDetails;

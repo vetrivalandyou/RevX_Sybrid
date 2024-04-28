@@ -30,7 +30,7 @@ const AdminBottomTabNavigation = () => {
   return (
     <Tab.Navigator
       screenOptions={{
-        lazy:true,
+        lazy: true,
         // unmountOnBlur: true,
         tabBarShowLabel: false,
         tabBarStyle: {...styles.BottomBarContainer},
@@ -42,13 +42,18 @@ const AdminBottomTabNavigation = () => {
         component={HomeSuperAdmin}
         options={{
           tabBarIcon: ({focused}) => (
-            <View style={{ padding: 14, borderRadius: 20, backgroundColor: focused ? 'white' : 'transparent'}}>
-            <CustomIcon
-              //style={{backgroundColor:'red'}}
-              type={Icons.Feather}
-              name="home"
-              color={focused ? appColors.Black : appColors.White}
-            />
+            <View
+              style={{
+                padding: 14,
+                borderRadius: 20,
+                backgroundColor: focused ? 'white' : 'transparent',
+              }}>
+              <CustomIcon
+                //style={{backgroundColor:'red'}}
+                type={Icons.Feather}
+                name="home"
+                color={focused ? appColors.Black : appColors.White}
+              />
             </View>
           ),
         }}
@@ -58,13 +63,18 @@ const AdminBottomTabNavigation = () => {
         component={AdminBooking}
         options={{
           tabBarIcon: ({focused}) => (
-            <View style={{ padding: 14, borderRadius: 20, backgroundColor: focused ? 'white' : 'transparent'}}>
-            <CustomIcon
-              //style={{backgroundColor:'red'}}
-              type={Icons.SimpleLineIcons}
-              name="notebook"
-              color={focused ? appColors.Black : appColors.White}
-            />
+            <View
+              style={{
+                padding: 14,
+                borderRadius: 20,
+                backgroundColor: focused ? 'white' : 'transparent',
+              }}>
+              <CustomIcon
+                //style={{backgroundColor:'red'}}
+                type={Icons.SimpleLineIcons}
+                name="notebook"
+                color={focused ? appColors.Black : appColors.White}
+              />
             </View>
           ),
         }}
@@ -79,13 +89,18 @@ const AdminBottomTabNavigation = () => {
         component={AdminInbox}
         options={{
           tabBarIcon: ({focused}) => (
-            <View style={{ padding: 14, borderRadius: 20, backgroundColor: focused ? 'white' : 'transparent'}}>
-            <CustomIcon
-              //style={{backgroundColor:'red'}}
-              name={'message1'}
-              type={Icons.AntDesign}
-              color={focused ? appColors.Black : appColors.White}
-            />
+            <View
+              style={{
+                padding: 14,
+                borderRadius: 20,
+                backgroundColor: focused ? 'white' : 'transparent',
+              }}>
+              <CustomIcon
+                //style={{backgroundColor:'red'}}
+                name={'message1'}
+                type={Icons.AntDesign}
+                color={focused ? appColors.Black : appColors.White}
+              />
             </View>
           ),
         }}
@@ -96,12 +111,17 @@ const AdminBottomTabNavigation = () => {
         options={{
           // tabBarLabel: 'Home',
           tabBarIcon: ({focused}) => (
-            <View style={{ padding: 14, borderRadius: 20, backgroundColor: focused ? 'white' : 'transparent'}}>
-            <CustomIcon
-              name={'person-outline'}
-              type={Icons.Ionicons}
-              color={focused ? appColors.Black : appColors.White}
-            />
+            <View
+              style={{
+                padding: 14,
+                borderRadius: 20,
+                backgroundColor: focused ? 'white' : 'transparent',
+              }}>
+              <CustomIcon
+                name={'person-outline'}
+                type={Icons.Ionicons}
+                color={focused ? appColors.Black : appColors.White}
+              />
             </View>
           ),
         }}
@@ -202,7 +222,7 @@ const styles = StyleSheet.create({
     bottom: Platform.OS == 'ios' ? 30 : 2,
     height: 70,
     margin: 10,
-    paddingBottom:0,
+    paddingBottom: 0,
 
     // shadowColor: appColors.AppBlue,
     // botton: 0,

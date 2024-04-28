@@ -1,16 +1,22 @@
-import React, { useEffect, useState } from 'react';
-import { StyleSheet, Text, View, FlatList, ActivityIndicator } from 'react-native';
-import { useIsFocused } from '@react-navigation/native';
+import React, {useEffect, useState} from 'react';
+import {
+  StyleSheet,
+  Text,
+  View,
+  FlatList,
+  ActivityIndicator,
+} from 'react-native';
+import {useIsFocused} from '@react-navigation/native';
 import Screen from '../../../components/atom/ScreenContainer/Screen';
 import Header from '../../../components/molecules/Header';
-import { Icons } from '../../../components/molecules/CustomIcon/CustomIcon';
-import constants from "../../../AppConstants/Constants.json";
+import {Icons} from '../../../components/molecules/CustomIcon/CustomIcon';
+import constants from '../../../AppConstants/Constants.json';
 import appColors from '../../../AppConstants/appColors';
-import { GetRequest } from '../../../services/apiCall';
+import {GetRequest} from '../../../services/apiCall';
 import ButtonComponent from '../../../components/atom/CustomButtons/ButtonComponent';
 
-const AdminTermsofServices = ({ navigation, route }) => {
-  const { aboutUsId } = route.params || 0;
+const AdminTermsofServices = ({navigation, route}) => {
+  const {aboutUsId} = route.params || 0;
   const isFocused = useIsFocused();
   const [termsServicesData, setTermsServicesData] = useState([]);
   const [loading, setLoading] = useState(true); // State for loading indicator
@@ -44,8 +50,10 @@ const AdminTermsofServices = ({ navigation, route }) => {
   };
 
   return (
-    <Screen viewStyle={{ flex: 1, backgroundColor: appColors.Black, padding: 15 }} statusBarColor={appColors.Black}>
-      <View style={{ flex: 0.1 }}>
+    <Screen
+      viewStyle={{flex: 1, backgroundColor: appColors.Black, padding: 15}}
+      statusBarColor={appColors.Black}>
+      <View style={{flex: 0.1}}>
         <Header
           lefttIcoType={Icons.Ionicons}
           onPressLeftIcon={() => navigation.goBack()}
@@ -54,25 +62,43 @@ const AdminTermsofServices = ({ navigation, route }) => {
           rightIcoName={'bell-fill'}
           rightIcoType={Icons.Octicons}
           rightIcoSize={20}
-          onPressRightIcon={() => navigation.navigate(constants.AdminScreens.AdminNotification)}
-          leftIcoStyle={{ backgroundColor: appColors.lightBlack, borderRadius: 50, height: 50, width: 50, justifyContent: 'center', alignItems: 'center' }}
+          onPressRightIcon={() =>
+            navigation.navigate(constants.AdminScreens.AdminNotification)
+          }
+          leftIcoStyle={{
+            backgroundColor: appColors.lightBlack,
+            borderRadius: 50,
+            height: 50,
+            width: 50,
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}
         />
       </View>
 
       {loading ? ( // Conditional rendering of loader
-        <ActivityIndicator style={styles.loader} color={appColors.White} size="large" />
+        <ActivityIndicator
+          style={styles.loader}
+          color={appColors.White}
+          size="large"
+        />
       ) : (
-        <View style={{ flex: 0.8, paddingVertical: 5 }}>
+        <View style={{flex: 0.8, paddingVertical: 5}}>
           <FlatList
             data={termsServicesData}
-            renderItem={({ item, index }) => <TermServices item={item} index={index} />}
+            renderItem={({item, index}) => (
+              <TermServices item={item} index={index} />
+            )}
           />
         </View>
       )}
 
       <View style={styles.buttonView}>
         <ButtonComponent
-          style={{ backgroundColor: '#C79646', paddingVertical: Platform.OS == 'ios' ? 18 : 13 }}
+          style={{
+            backgroundColor: '#C79646',
+            paddingVertical: Platform.OS == 'ios' ? 18 : 13,
+          }}
           title={'Edit'}
           onPress={handleEdit}
         />
@@ -81,11 +107,30 @@ const AdminTermsofServices = ({ navigation, route }) => {
   );
 };
 
-const TermServices = ({ item, index }) => {
+const TermServices = ({item, index}) => {
   return (
-    <View style={{ height: 'auto', backgroundColor: '#252525', borderRadius: 20, marginBottom: 20, alignContent: 'center', padding: 20 }}>
-      <Text style={{ color: '#C79646', fontSize: 20, fontWeight: '500', paddingBottom: 10 }}>{index + 1}. {item.title}</Text>
-      <Text style={{ fontSize: 16, color: 'white', lineHeight: 20 }}>{item.detail}</Text>
+    <View
+      style={{
+        height: 'auto',
+        backgroundColor: '#252525',
+        borderRadius: 20,
+        marginBottom: 20,
+        alignContent: 'center',
+        padding: 20,
+      }}>
+      <Text
+        style={{
+          color: '#C79646',
+          fontSize: 20,
+          fontWeight: '500',
+          paddingBottom: 10,
+        }}>
+        {/* {index + 1}. {'Content Terms of Service'} */}
+        {'Content Terms of Service'}
+      </Text>
+      <Text style={{fontSize: 16, color: 'white', lineHeight: 20}}>
+        {item.detail}
+      </Text>
     </View>
   );
 };
