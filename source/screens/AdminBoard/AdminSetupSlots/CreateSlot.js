@@ -36,9 +36,11 @@ const CreateSlot = ({navigation}) => {
     const payload = {
       ...values,
     };
+    console.log('values', values);
     PostRequest(endPoint.CREATE_SETUP_SLOTS, payload)
       .then(res => {
         if (res?.data?.length > 0) {
+          console.log('res?.data', res?.data);
           SimpleSnackBar(res?.data?.[0]?.Message);
           navigation.goBack();
         } else {
@@ -54,10 +56,12 @@ const CreateSlot = ({navigation}) => {
   };
 
   const validationSchema = Yup.object().shape({
-    NoofBussinessHours: Yup.string().required('Business Hours is required'),
-    DurationInMins: Yup.string().required(
-      'Duration per slot in minutes is required',
-    ),
+    NoofBussinessHours: Yup.number()
+      .min(1, 'Business Hours must be greater than 0')
+      .required('Business Hours is required'),
+    DurationInMins: Yup.number()
+      .min(1, 'Duration per slot in minutes must be greater than 0')
+      .required('Duration per slot in minutes is required'),
   });
 
   return (
