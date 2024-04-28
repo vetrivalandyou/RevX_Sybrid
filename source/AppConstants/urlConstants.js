@@ -13,7 +13,7 @@ export const endPoint = {
   REGISTERAS_BARBER: 'Barber/Barber_Signup',
 
   //User End Points
-  EDIT_PROFILE_USER: 'Auth/User_CRUD',
+  EDIT_PROFILE_USER: 'Auth/User_CU',
 
   //Barbers End Points
   BARBER_SERVICES: 'Admin/Barber_Detail?id=94',
@@ -27,6 +27,7 @@ export const endPoint = {
     'Admin/ReApplyApproveBarberServiceCategry',
   APPROVE_BARBER_SERVICE: 'Barber/ApproveBarberService',
   BARBER_LOCATION_UPDATE: 'Auth/Barber_Location_Updated',
+  BARBER_PARENTCHILD_SERVICES: 'Barber/Barber_ParentChildServices',
 
   //Admin End Points
   BARBER_LIST: 'Admin/Barber_List', //done
@@ -41,6 +42,8 @@ export const endPoint = {
   BARBER_APPROVE_SERVICE_POST: 'Barber/ApproveBarberService',
   BARBER_SERVICES_GET: 'Barber/Barber_Services_Get',
   BARBER_SERVICES_CU: 'Barber/Barber_Services_CU',
+  GET_VANS_NEAR_CUSTOMER: 'Auth/Get_Vans_Near_Customer',
+  ADMIN_USERDETAILS: 'Admin/Admin_UserDetails',
 
   // Customer End Points
   SERVICE_CATEGORIES: 'Customer/Service_Categories',

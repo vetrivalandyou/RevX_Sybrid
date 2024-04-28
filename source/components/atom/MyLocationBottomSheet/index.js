@@ -306,7 +306,9 @@ const MyLocationBottomSheet = ({selectedLocation, route}) => {
           )}
         </Formik>
       ) : (
-        <ActivityIndicator size="large" color="#C79646" />
+        <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+          <ActivityIndicator size="small" color= {appColors.Goldcolor} />
+        </View>
       )}
     </View>
   );

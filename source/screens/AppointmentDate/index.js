@@ -1,14 +1,15 @@
 import React from 'react';
 import Header from '../../components/molecules/Header';
 import {Calendar, LocaleConfig} from 'react-native-calendars';
-import {Text, View} from 'react-native';
+import {StyleSheet, Text, View} from 'react-native';
 import Screen from '../../components/atom/ScreenContainer/Screen';
 import {Icons} from '../../components/molecules/CustomIcon/CustomIcon';
 import appColors from '../../AppConstants/appColors';
 import ButtonComponent from '../../components/atom/CustomButtons/ButtonComponent';
 import constants from '../../AppConstants/Constants.json';
 
-const AppointmentDate = ({navigation}) => {
+const AppointmentDate = ({route, navigation}) => {
+  const {barberId} = route.params;
   const originalData = [
     {time: '10.00 AM'},
     {time: '10.00 AM'},
@@ -39,7 +40,11 @@ const AppointmentDate = ({navigation}) => {
       title2: '01:30 PM',
     },
   ];
-  const [selected, setSelected] = React.useState('');
+  const [seelectedDate, setSelectedDate] = React.useState('');
+  const currentDate = new Date();
+  const threeMonthsAhead = new Date();
+  const markedDates = {};
+  threeMonthsAhead.setMonth(currentDate.getMonth() + 3);
 
   const SelectedHourse = ({item}) => {
     return (
@@ -120,8 +125,64 @@ const AppointmentDate = ({navigation}) => {
 
       <View style={{flex: 0.42}}>
         <Calendar
+          style={{
+            borderRadius: 20,
+            height: 'auto',
+            width: 'auto',
+            paddingBottom: 10,
+          }}
+          theme={{
+            arrowColor: 'white',
+            calendarBackground: appColors.darkgrey,
+            textSectionTitleColor: appColors.White,
+            selectedDayBackgroundColor: appColors.Goldcolor,
+            selectedDayTextColor: appColors.White,
+            todayTextColor: appColors.White,
+            dayTextColor: appColors.White,
+            textDisabledColor: appColors.Gray,
+            textDayFontSize: 11,
+            textMonthFontSize: 15,
+            textDayHeaderFontSize: 13,
+            textMonthFontWeight: 'bold',
+            textDayFontWeight: 'bold',
+            monthTextColor: appColors.White,
+            'stylesheet.day.basic': {
+              base: {
+                width: 22,
+                marginBottom: 0,
+                justifyContent: 'center',
+                alignItems: 'center',
+                borderRadius: 100,
+              },
+            },
+            'stylesheet.calendar.header': {
+              monthText: {
+                margin: 5,
+                color: appColors.White,
+                fontSize: 14,
+              },
+            },
+          }}
+          hideExtraDays={true}
+          showSixWeeks={true}
+          minDate={currentDate.toISOString().split('T')[0]}
+          maxDate={threeMonthsAhead.toISOString().split('T')[0]}
+          markedDates={{
+            [seelectedDate]: {
+              selected: true,
+              disableTouchEvent: true,
+              selectedDotColor: appColors.Goldcolor,
+            },
+          }}
+          onDayPress={day => {
+            setSelectedDate(day.dateString);
+          }}
+        />
+        {/* <Calendar
           hideExtraDays={false}
           showSixWeeks={true}
+          minDate={currentDateString}
+          maxDate={threeMonthsLaterString}
           style={{
             borderRadius: 20,
             backgroundColor: appColors.darkgrey,
@@ -162,7 +223,7 @@ const AppointmentDate = ({navigation}) => {
             },
           }}
           onDayPress={day => {
-            setSelected(day.dateString);
+            setSelectedDate(day.dateString);
           }}
           markedDates={{
             [selected]: {
@@ -171,7 +232,7 @@ const AppointmentDate = ({navigation}) => {
               selectedDotColor: appColors.Goldcolor,
             },
           }}
-        />
+        /> */}
       </View>
 
       <View
@@ -204,4 +265,6 @@ const AppointmentDate = ({navigation}) => {
     </Screen>
   );
 };
+
+const appointmentDateStyle = StyleSheet.create({});
 export default AppointmentDate;

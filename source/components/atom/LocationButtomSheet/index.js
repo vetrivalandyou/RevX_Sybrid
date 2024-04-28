@@ -1,190 +1,219 @@
-import React, { useEffect, useState } from 'react';
-import { FlatList, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {FlatList, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import appColors from '../../../AppConstants/appColors';
 import CustomIcon, {
   Icons,
 } from '../../../components/molecules/CustomIcon/CustomIcon';
-import { screenSize } from '../ScreenSize';
-import { PostRequest } from '../../../services/apiCall';
-import { endPoint } from '../../../AppConstants/urlConstants';
-import { getAsyncItem } from '../../../utils/SettingAsyncStorage';
-import { LATEST_SELECT } from '../../../AppConstants/appConstants';
+import {screenSize} from '../ScreenSize';
+import {GetRequest, PostRequest} from '../../../services/apiCall';
+import {endPoint, messages} from '../../../AppConstants/urlConstants';
+import {getAsyncItem} from '../../../utils/SettingAsyncStorage';
+import {
+  LATEST_INSERT,
+  LATEST_SELECT,
+  LATEST_UPDATE,
+  SUCCESS_CODE,
+} from '../../../AppConstants/appConstants';
 import constants from '../../../AppConstants/Constants.json';
-import { ActivityIndicator } from 'react-native'; // Import the ActivityIndicator
-import { Geolocation } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
-import { requestLocationPermissionAndGetLocation } from '../../../utils/GetLocation';
-import { SimpleSnackBar } from '../Snakbar/Snakbar';
+import {ActivityIndicator} from 'react-native'; // Import the ActivityIndicator
+import {Geolocation} from 'react-native';
+import {useNavigation} from '@react-navigation/native';
+import {requestLocationPermissionAndGetLocation} from '../../../utils/GetLocation';
+import {SimpleSnackBar} from '../Snakbar/Snakbar';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const LocationBottomSheet = ({ refRBSheet }) => {
+const LocationBottomSheet = ({refRBSheet}) => {
   const navigation = useNavigation();
-
-  const [locations, setLocations] = useState([]);
-  const [id, setId] = useState(null);
-  const [address, setAddress] = useState('');
   const [locationList, setLocationList] = useState([]);
   const [userDetails, setUserDetails] = useState({});
-  const [locationName, setLocationName] = useState('');
-  const [locationLatitude, setLocationLatitude] = useState('');
-  const [locationLongitude, setLocationLongitude] = useState('');
-  const [nearestLandmark, setNearestLandmark] = useState('');
   const [isLoading, setIsLoading] = useState(true);
-  const [selectedItem, setSelectedItem] = useState('');
-  const [colorChange, setColorChange] = useState(true);
-  const [currentLocation, setCurrentLocation] = useState(null);
+  const [selectedLocation, setSelectedLocation] = useState(null);
+  const [makingAsyncData, setMakingAsyncData] = useState();
 
-  const initialGetLocationFields = {
-    id: 0,
-    locationName: '',
-    locationLatitude: 0.0,
-    locationLongitude: 0.0,
-    address: '',
-    nearestLandmark: '', // Corrected property name
-    mobileNo: userDetails.userPhone,
-    userId: userDetails.userId,
-    operations: LATEST_SELECT,
-    createdBy: userDetails.userId,
-    userIP: '::1',
-  };
-
-  const handleUseMyCurrentLoc = async () => {
-    var userCurrentLocation;
-    if (Platform.OS == 'android') {
-      userCurrentLocation = await requestLocationPermissionAndGetLocation();
-      setCurrentLocation(userCurrentLocation);
-    } else {
-      Geolocation.requestAuthorization('whenInUse').then(res => {
-        return new Promise((resolve, reject) => {
-          Geolocation.getCurrentPosition(
-            position => {
-              console.log('Inside', position);
-              resolve(setCurrentLocation(position));
-            },
-            error => {
-              console.log(error);
-            },
-            { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 },
-          );
-        });
-      });
-    }
-    console.log('currentLocation', currentLocation);
-    if (currentLocation) {
-      locatioDetails(currentLocation);
-    }
-  };
-
-  // const locatioDetails = location => {
-  //   const payload = {
-  //     locationName: 'My Location',
-  //     nearstLandmark: 'Nearst LandMark',
-  //     id: userDetails?.userId,
-  //     locationLatitude: location?.coords?.latitude,
-  //     locationLongitude: location?.coords?.longitude,
-  //     mobileNo: userDetails?.userPhone,
-  //     userId: userDetails?.userId,
-  //     address: 'Address',
-  //     operations: 1,
-  //     createdBy: userDetails?.userId,
-  //     userIP: '::1',
-  //   };
-  //   console.log('payload.........', payload);
-  //   PostRequest(endPoint.BARBER_SET_UP_LOCATION_SERVICES, payload)
-  //     .then(res => {
-  //       if (res?.data?.code == 200) {
-  //         console.log('api respob=nse.....', res.data);
-  //         SimpleSnackBar(res?.data?.message);
-  //       } else {
-  //         SimpleSnackBar(res?.data?.message);
-  //       }
-  //     })
-  //     .catch(err => {
-  //       console.log("Hello", err)
-  //       SimpleSnackBar(messages?.Catch, appColors.Red);
-  //     });
-  // };
-
-  const handleClickLocation = item => {
-    setSelectedItem(item);
-    setId(item?.id);
-    setLocationName(item?.locationName);
-    setLocationLatitude(item?.locationLatitude);
-    setLocationLongitude(item?.locationLongitude);
-    setAddress(item?.address);
-    setNearestLandmark(item?.nearestLandmark);
-  };
-
-  const locatioDetails = location => {
-    const payload = {
-      locationName: 'Location New',
-      nearstLandmark: 'Nearst LandMark New',
-      id: userDetails?.userId,
-      locationLatitude: location?.coords?.latitude,
-      locationLongitude: location?.coords?.longitude,
-      mobileNo: userDetails?.userPhone,
-      userId: userDetails?.userId,
-      address: 'Address',
-      operations: 1,
-      createdBy: userDetails?.userId,
-      userIP: '::1',
-    };
-    console.log('payload.........', payload);
-
-    PostRequest(endPoint.BARBER_SET_UP_LOCATION_SERVICES, payload)
-      .then(res => {
-        if (res?.data?.code == 200) {
-          console.log('api respob=nse.....', res.data);
-          SimpleSnackBar(res?.data?.message);
-        } else {
-          SimpleSnackBar(res?.data?.message);
-        }
-      })
-      .catch(err => {
-        SimpleSnackBar(messages?.Catch, appColors.Red);
-      });
-  };
+  useEffect(() => {
+    getAsyncData();
+  }, []);
 
   const getAsyncData = async () => {
     const userDetailsData = await getAsyncItem(
       constants.AsyncStorageKeys.userDetails,
     );
     setUserDetails(userDetailsData);
+    fetchLocations(userDetailsData);
   };
 
-  useEffect(() => {
-    getAsyncData();
-    fetchLocations();
-  }, []);
-
-  const fetchLocations = () => {
-    PostRequest(endPoint.BARBER_GET_SET_UP_LOCATION, initialGetLocationFields)
+  const fetchLocations = userDetailsData => {
+    const payload = {
+      id: 0,
+      locationName: '',
+      locationLatitude: 0.0,
+      locationLongitude: 0.0,
+      address: '',
+      nearestLandmark: '', // Corrected property name
+      mobileNo: userDetailsData.userPhone,
+      userId: userDetailsData.userId,
+      operations: LATEST_SELECT,
+      createdBy: userDetailsData.userId,
+      userIP: '::1',
+    };
+    PostRequest(endPoint.BARBER_GET_SET_UP_LOCATION, payload)
       .then(res => {
-        if (res?.data?.code === 200) {
-          setIsLoading(false);
+        if (res?.data?.code === SUCCESS_CODE) {
           setLocationList(res?.data?.data);
         } else {
+          SimpleSnackBar(res?.data?.message, appColors.Red);
         }
+        setIsLoading(false);
       })
       .catch(err => {
-        // console.log('Error while fetching locations', err);
+        console.log('Error while fetching locations', err);
       });
   };
 
-  // const handleLocation = () => {
-  //   handleUseMyCurrentLoc();
-  //   // refRBSheet.current.close();
-  // };
+  useEffect(() => {
+    const loadSelectedLocation = async () => {
+      try {
+        const storedLocation = await AsyncStorage.getItem(
+          constants?.AsyncStorageKeys?.selected_Location,
+        );
+        if (storedLocation) {
+          setSelectedLocation(JSON.parse(storedLocation));
+        }
+      } catch (error) {
+        console.error('Error loading selected location:', error);
+      }
+    };
+    loadSelectedLocation();
+  }, []);
+
+  const handleUseMyCurrentLoc = async () => {
+    var userCurrentLocation;
+    if (Platform.OS == 'android') {
+      userCurrentLocation = await requestLocationPermissionAndGetLocation();
+    } else {
+      Geolocation.requestAuthorization('whenInUse').then(res => {
+        return new Promise((resolve, reject) => {
+          Geolocation.getCurrentPosition(
+            position => {
+              console.log('Inside', position);
+              userCurrentLocation = position;
+            },
+            error => {
+              console.log(error);
+            },
+            {enableHighAccuracy: true, timeout: 20000, maximumAge: 1000},
+          );
+        });
+      });
+    }
+    if (userCurrentLocation) {
+      fetchAddress(userCurrentLocation);
+      await AsyncStorage.setItem(
+        constants?.AsyncStorageKeys?.longLat,
+        JSON.stringify(userCurrentLocation),
+      );
+    }
+  };
+
+  const fetchAddress = userCurrentLocation => {
+    GetRequest(
+      `https://maps.googleapis.com/maps/api/geocode/json?latlng=${userCurrentLocation?.coords?.latitude},${userCurrentLocation?.coords?.longitude}&key=AIzaSyC7Y3a-Q8qZXj5XgLzpHa92b_nw3sR8aWE`,
+    )
+      .then(res => {
+        console.log(
+          'Hello',
+          res?.data?.results?.[0]?.address_components?.[3]?.long_name,
+        );
+        AsyncStorage.setItem(
+          constants?.AsyncStorageKeys?.address,
+          JSON.stringify(res?.data?.results?.[0]?.formatted_address),
+        );
+        AsyncStorage.setItem(
+          constants?.AsyncStorageKeys?.nearest_landmark,
+          JSON.stringify(
+            res?.data?.results?.[0]?.address_components?.[3]?.long_name,
+          ),
+        );
+
+        locatioDetails(userCurrentLocation, res?.data?.results?.[0]);
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  };
+
+  const handleClickLocation = item => {
+    const makingData = {
+      coords: {
+        latitude: item?.locationLatitude,
+        longitude: item?.locationLongitude,
+      },
+    };
+    setMakingAsyncData(makingData);
+    setSelectedLocation(item);
+  };
+
+  const locatioDetails = (location, address) => {
+    const payload = {
+      id: 0,
+      locationName: address?.address_components?.[3]?.long_name,
+      locationLatitude: location?.coords?.longitude,
+      locationLongitude: location?.coords?.latitude,
+      address: address?.formatted_address,
+      nearstLandmark: address?.address_components?.[3]?.long_name,
+      mobileNo: 'string',
+      userId: userDetails?.userId,
+      operations: LATEST_INSERT,
+      createdBy: userDetails?.userId,
+      userIP: '',
+    };
+    PostRequest(endPoint.BARBER_SET_UP_LOCATION_SERVICES, payload)
+      .then(res => {
+        if (res?.data?.code == SUCCESS_CODE) {
+          SimpleSnackBar(res?.data?.message);
+        } else {
+          SimpleSnackBar(res?.data?.message);
+        }
+        refRBSheet.current.close();
+      })
+      .catch(err => {
+        console.log(err);
+        SimpleSnackBar(messages?.Catch, appColors.Red);
+      });
+  };
+
   const handleClickEdit = item => {
     console.log(item);
     navigation.navigate(constants.screen.MyLocation, {
       item: item,
     });
   };
-  const openLocationScreen = () => {
+
+  const AddNewLocation = () => {
     navigation.navigate(constants.screen.MyLocation);
   };
 
-  const LocationList = ({ item }) => {
+  const handleConfirmLocation = async () => {
+    try {
+      if (makingAsyncData) {
+        await AsyncStorage.setItem(
+          constants?.AsyncStorageKeys?.longLat,
+          JSON.stringify(makingAsyncData),
+        );
+        await AsyncStorage.setItem(
+          constants?.AsyncStorageKeys?.selected_Location,
+          JSON.stringify(selectedLocation),
+        );
+        refRBSheet.current.close();
+      } else {
+        console.log('No location selected');
+      }
+    } catch (error) {
+      console.error('Error storing selected location:', error);
+    }
+  };
+
+  const LocationList = ({item}) => {
     return (
       <View
         style={{
@@ -194,7 +223,6 @@ const LocationBottomSheet = ({ refRBSheet }) => {
           flexDirection: 'row',
         }}>
         <TouchableOpacity
-          key={item?.id}
           onPress={() => {
             handleClickLocation(item);
           }}
@@ -202,23 +230,17 @@ const LocationBottomSheet = ({ refRBSheet }) => {
             lbStyle.clSelectLocation,
             {
               backgroundColor:
-                selectedItem?.id == item.id ? '#202020' : appColors.Black,
+                selectedLocation?.id === item.id ? '#202020' : appColors.Black,
             },
           ]}>
           <View style={lbStyle.clIconView}>
-            <View
-              style={[
-                lbStyle.OuterCircle,
-                selectedItem?.LocationId == item.LocationId && {
-                  backgroundColor: appColors.White,
-                },
-              ]}>
-              {selectedItem?.id == item.id && (
+            <View style={lbStyle.OuterCircle}>
+              {selectedLocation?.id === item.id && (
                 <View style={lbStyle.innerCircle}></View>
               )}
             </View>
           </View>
-          <View style={[lbStyle.clTextView, { flex: 0.7 }]}>
+          <View style={[lbStyle.clTextView, {flex: 0.7}]}>
             <Text
               style={{
                 fontSize: 13,
@@ -228,14 +250,14 @@ const LocationBottomSheet = ({ refRBSheet }) => {
               {item.locationName}
             </Text>
           </View>
-          {selectedItem?.id == item.id && (
-            <View style={[lbStyle.clTextView, { flex: 0.1 }]}>
+          {selectedLocation?.id === item.id && (
+            <View style={[lbStyle.clTextView, {flex: 0.1}]}>
               <CustomIcon
                 type={Icons.MaterialIcons}
                 name={'edit-location-alt'}
                 size={20}
                 color={appColors.White}
-                onPress={() => handleClickEdit(item)} // Updated onPress
+                onPress={() => handleClickEdit(item)}
               />
             </View>
           )}
@@ -262,23 +284,21 @@ const LocationBottomSheet = ({ refRBSheet }) => {
           <Text style={lbStyle.clTextStyle}>Use Current Location</Text>
         </View>
       </TouchableOpacity>
-      <View style={{ flex: 0.6 }}> 
+      <View style={{flex: 0.6}}>
         {isLoading ? (
           <ActivityIndicator size="large" color={appColors.Goldcolor} /> // Render the loader
         ) : (
           <FlatList
             data={locationList}
             keyExtractor={item => item.id.toString()} // Ensure key is a string
-            renderItem={({ item, index }) => {
+            renderItem={({item, index}) => {
               // console.log('Current item:', item);
               return <LocationList item={item} index={index} />;
             }}
           />
         )}
       </View>
-      <TouchableOpacity
-        onPress={openLocationScreen}
-        style={lbStyle.clContainer}>
+      <TouchableOpacity onPress={AddNewLocation} style={lbStyle.clContainer}>
         <View style={lbStyle.clIconView}>
           <CustomIcon
             type={Icons.Entypo}
@@ -292,13 +312,13 @@ const LocationBottomSheet = ({ refRBSheet }) => {
         </View>
       </TouchableOpacity>
       <TouchableOpacity
-        onPress={() => refRBSheet.current.close()}
+        onPress={handleConfirmLocation} // Update onPress event
         style={[
           lbStyle.clContainer,
-          { justifyContent: 'center', alignItems: 'flex-end' },
+          {justifyContent: 'center', alignItems: 'flex-end'},
         ]}>
         <View style={lbStyle.clButotnView}>
-          <Text style={[lbStyle.clTextStyle, { textAlign: 'center' }]}>
+          <Text style={[lbStyle.clTextStyle, {textAlign: 'center'}]}>
             Confirm Location
           </Text>
         </View>
@@ -314,10 +334,10 @@ const lbStyle = StyleSheet.create({
     paddingHorizontal: 15,
     paddingVertical: 15,
   },
-  clContainer: { flex: 0.13, flexDirection: 'row' },
-  clIconView: { flex: 0.15, justifyContent: 'center', alignItems: 'center' },
-  clTextView: { flex: 0.8, justifyContent: 'center' },
-  clTextStyle: { fontSize: 13, fontWeight: '500', color: appColors.White },
+  clContainer: {flex: 0.13, flexDirection: 'row'},
+  clIconView: {flex: 0.15, justifyContent: 'center', alignItems: 'center'},
+  clTextView: {flex: 0.8, justifyContent: 'center'},
+  clTextStyle: {fontSize: 13, fontWeight: '500', color: appColors.White},
   clSelectLocation: {
     flex: 1,
     borderRadius: 20,

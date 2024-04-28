@@ -20,39 +20,75 @@ import CustomIcon, {
 } from '../../components/molecules/CustomIcon/CustomIcon';
 import {screenSize} from '../../components/atom/ScreenSize';
 import Entypo from 'react-native-vector-icons/Entypo';
-import {GetRequest} from '../../services/apiCall';
+import {GetRequest, PostRequest} from '../../services/apiCall';
 import {endPoint} from '../../AppConstants/urlConstants';
 import {SimpleSnackBar} from '../../components/atom/Snakbar/Snakbar';
+import {LATEST_SELECT, approve} from '../../AppConstants/appConstants';
+import {useDispatch, useSelector} from 'react-redux';
+import {RESET_CHILDSERVICES_DATA} from '../../redux/Action/AppointmentActionType';
 
 const Services = ({route}) => {
   const {userId} = route.params || 0;
-
   const navigation = useNavigation();
+  const dispatch = useDispatch();
+  const {SelectedChildServices} = useSelector(
+    state => state.AppointmentReducer,
+  );
+
+  console.log('userId', userId);
+
+  const [loading, setLoading] = useState(true);
   const [selectedItem, setSelectedItem] = useState(null);
   const [barberServices, setBarberServices] = useState([]);
-  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     getBarberServices();
+    return () => {
+      dispatch({type: RESET_CHILDSERVICES_DATA, payload: new Array(0)});
+    };
   }, []);
 
   function getBarberServices() {
-    GetRequest(`${endPoint.SERVICE_CATEGORIES}?id=${149}`)
+    const payload = {
+      operationID: LATEST_SELECT,
+      parameterID: 1,
+      barbarID: userId,
+      parentServiceID: 0,
+      parentServiceStatusID: 0,
+      childServiceID: 0,
+      childServiceStatusID: 0,
+      barbarSpecialityID: 0,
+      isActive: true,
+      userID: 0,
+      userIP: '',
+    };
+    console.log('Payload', payload);
+    PostRequest(endPoint.BARBER_PARENTCHILD_SERVICES, payload)
       .then(res => {
-        setLoading(false);
-        console.log(res?.data?.data);
-        if (res?.data?.code == 200) {
-          setBarberServices(res?.data?.data);
+        if (res?.data?.length > 0) {
+          setBarberServices(res?.data);
         } else {
-          SimpleSnackBar(res?.data?.message);
-          setLoading(false);
+          SimpleSnackBar('No Service Found', appColors.Red);
         }
+        setLoading(false);
       })
       .catch(err => {
         console.log(err);
         setLoading(false);
       });
   }
+
+  const returnTotal = () => {
+    if (SelectedChildServices?.length == 0) {
+      return 0;
+    } else {
+      const totalPrice = SelectedChildServices?.reduce(
+        (accumulator, currentValue) => accumulator + currentValue.ServicePrice,
+        0,
+      );
+      return totalPrice;
+    }
+  };
 
   return (
     <Screen viewStyle={{flex: 1}} statusBarColor={appColors.Black}>
@@ -87,27 +123,52 @@ const Services = ({route}) => {
         />
       ) : (
         <View style={{flex: 0.8}}>
-          <FlatList
-            data={barberServices}
-            renderItem={({item}) => (
-              <Barberinfo
-                item={item}
-                selected={selectedItem === item.serviceCategoryId}
-                onPress={() => setSelectedItem(item.serviceCategoryId)}
-              />
-            )}
-            keyExtractor={item => item.id}
-          />
+          {barberServices?.length > 0 ? (
+            <FlatList
+              data={barberServices}
+              keyExtractor={item => item?.ParentServiceID}
+              renderItem={({item}) => (
+                <Barberinfo
+                  item={item}
+                  selected={selectedItem === item.ParentServiceID}
+                  onPress={() => setSelectedItem(item.serviceCategoryId)}
+                />
+              )}
+            />
+          ) : (
+            <View
+              style={{
+                flex: 1,
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}>
+              <Text style={{ fontSize: 20, fontWeight: 'bold', color: appColors.White}}>No Service Found !!</Text>
+            </View>
+          )}
         </View>
       )}
 
       <View style={{flex: 0.1, justifyContent: 'center'}}>
         <TouchableOpacity
-          onPress={() => navigation.navigate(constants.screen.AppointmentDate)}
-          style={styles.ApplyNOWButton}>
+          onPress={() =>
+            navigation.navigate(constants.screen.AppointmentDate, {
+              barberId: userId,
+            })
+          }
+          disabled={SelectedChildServices?.length > 0 ? false : true}
+          style={[
+            styles.ApplyNOWButton,
+            {opacity: SelectedChildServices?.length > 0 ? 1 : 0.3},
+          ]}>
           <Text style={{fontWeight: '600', fontSize: 13, color: 'white'}}>
-            {' '}
-            Book Now
+            Book Now{' '}
+            {returnTotal() != 0 && (
+              <Text
+                style={{
+                  fontWeight: 'bold',
+                  fontSize: 16,
+                }}>{`/ $${returnTotal()}`}</Text>
+            )}
           </Text>
         </TouchableOpacity>
       </View>
@@ -119,7 +180,7 @@ const Barberinfo = ({item, onPress, selected, typeee}) => {
   const navigation = useNavigation();
 
   return (
-    <TouchableOpacity onPress={onPress}>
+    <TouchableOpacity key={item?.ParentServiceID} onPress={onPress}>
       <View
         style={[
           styles.container,
@@ -129,22 +190,14 @@ const Barberinfo = ({item, onPress, selected, typeee}) => {
           style={{
             flexDirection: 'row',
             justifyContent: 'space-between',
-            alignItems: 'center',
             paddingHorizontal: 20,
           }}>
-          <View style={{width: screenSize.width / 4}}>
+          <View style={{width: screenSize.width / 2}}>
             <Text
               style={{fontWeight: '400', fontSize: 15, color: appColors.White}}>
-              {item.service_Category}
+              {item?.ParentServices}
             </Text>
           </View>
-          {selected && ( // Show price only if the item is selected
-            <View style={{width: screenSize.width / 5}}>
-              <Text style={{fontWeight: '500', color: '#c79647', fontSize: 15}}>
-                {item.price}
-              </Text>
-            </View>
-          )}
           <View
             style={{
               flexDirection: 'row',
@@ -164,7 +217,7 @@ const Barberinfo = ({item, onPress, selected, typeee}) => {
                   color: appColors.White,
                   fontSize: 14,
                 }}>
-                {item.serviceCount}
+                {item?.ServiceCount}
               </Text>
               <Text
                 style={{
@@ -172,7 +225,7 @@ const Barberinfo = ({item, onPress, selected, typeee}) => {
                   color: appColors.White,
                   fontSize: 14,
                 }}>
-                {item.serviceCount > 1 ? 'types' : ' type'}
+                {item?.ServiceCount > 1 ? ' types' : ' type'}
               </Text>
             </View>
             <TouchableOpacity
@@ -200,7 +253,7 @@ export default Services;
 const styles = StyleSheet.create({
   container: {
     width: screenSize.width / 1.07,
-    height: screenSize.height / 13,
+    height: screenSize.height / 10,
     justifyContent: 'center',
     paddingVertical: Platform.OS == 'ios' ? 25 : 16,
     borderWidth: 1,
