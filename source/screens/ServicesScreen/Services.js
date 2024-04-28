@@ -23,15 +23,19 @@ import Entypo from 'react-native-vector-icons/Entypo';
 import {GetRequest, PostRequest} from '../../services/apiCall';
 import {endPoint} from '../../AppConstants/urlConstants';
 import {SimpleSnackBar} from '../../components/atom/Snakbar/Snakbar';
-import {LATEST_SELECT} from '../../AppConstants/appConstants';
+import {LATEST_SELECT, approve} from '../../AppConstants/appConstants';
 import {useDispatch, useSelector} from 'react-redux';
+import {RESET_CHILDSERVICES_DATA} from '../../redux/Action/AppointmentActionType';
 
 const Services = ({route}) => {
   const {userId} = route.params || 0;
   const navigation = useNavigation();
+  const dispatch = useDispatch();
   const {SelectedChildServices} = useSelector(
     state => state.AppointmentReducer,
   );
+
+  console.log('userId', userId);
 
   const [loading, setLoading] = useState(true);
   const [selectedItem, setSelectedItem] = useState(null);
@@ -39,6 +43,9 @@ const Services = ({route}) => {
 
   useEffect(() => {
     getBarberServices();
+    return () => {
+      dispatch({type: RESET_CHILDSERVICES_DATA, payload: new Array(0)});
+    };
   }, []);
 
   function getBarberServices() {
@@ -70,7 +77,7 @@ const Services = ({route}) => {
         setLoading(false);
       });
   }
-  console.log('SelectedChildServices', SelectedChildServices);
+
   const returnTotal = () => {
     if (SelectedChildServices?.length == 0) {
       return 0;
@@ -116,25 +123,43 @@ const Services = ({route}) => {
         />
       ) : (
         <View style={{flex: 0.8}}>
-          <FlatList
-            data={barberServices}
-            keyExtractor={item => item?.ParentServiceID}
-            renderItem={({item}) => (
-              <Barberinfo
-                item={item}
-                selected={selectedItem === item.ParentServiceID}
-                onPress={() => setSelectedItem(item.serviceCategoryId)}
-              />
-            )}
-          />
+          {barberServices?.length > 0 ? (
+            <FlatList
+              data={barberServices}
+              keyExtractor={item => item?.ParentServiceID}
+              renderItem={({item}) => (
+                <Barberinfo
+                  item={item}
+                  selected={selectedItem === item.ParentServiceID}
+                  onPress={() => setSelectedItem(item.serviceCategoryId)}
+                />
+              )}
+            />
+          ) : (
+            <View
+              style={{
+                flex: 1,
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}>
+              <Text style={{ fontSize: 20, fontWeight: 'bold', color: appColors.White}}>No Service Found !!</Text>
+            </View>
+          )}
         </View>
       )}
 
       <View style={{flex: 0.1, justifyContent: 'center'}}>
         <TouchableOpacity
-          onPress={() => navigation.navigate(constants.screen.AppointmentDate)}
+          onPress={() =>
+            navigation.navigate(constants.screen.AppointmentDate, {
+              barberId: userId,
+            })
+          }
           disabled={SelectedChildServices?.length > 0 ? false : true}
-          style={[styles.ApplyNOWButton,{ opacity: SelectedChildServices?.length > 0 ? 1 : 0.3}]}>
+          style={[
+            styles.ApplyNOWButton,
+            {opacity: SelectedChildServices?.length > 0 ? 1 : 0.3},
+          ]}>
           <Text style={{fontWeight: '600', fontSize: 13, color: 'white'}}>
             Book Now{' '}
             {returnTotal() != 0 && (

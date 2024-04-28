@@ -5,8 +5,8 @@ import CustomIcon, {
   Icons,
 } from '../../../components/molecules/CustomIcon/CustomIcon';
 import {screenSize} from '../ScreenSize';
-import {PostRequest} from '../../../services/apiCall';
-import {endPoint} from '../../../AppConstants/urlConstants';
+import {GetRequest, PostRequest} from '../../../services/apiCall';
+import {endPoint, messages} from '../../../AppConstants/urlConstants';
 import {getAsyncItem} from '../../../utils/SettingAsyncStorage';
 import {
   LATEST_INSERT,
@@ -107,12 +107,39 @@ const LocationBottomSheet = ({refRBSheet}) => {
       });
     }
     if (userCurrentLocation) {
-      locatioDetails(userCurrentLocation);
+      fetchAddress(userCurrentLocation);
       await AsyncStorage.setItem(
         constants?.AsyncStorageKeys?.longLat,
         JSON.stringify(userCurrentLocation),
       );
     }
+  };
+
+  const fetchAddress = userCurrentLocation => {
+    GetRequest(
+      `https://maps.googleapis.com/maps/api/geocode/json?latlng=${userCurrentLocation?.coords?.latitude},${userCurrentLocation?.coords?.longitude}&key=AIzaSyC7Y3a-Q8qZXj5XgLzpHa92b_nw3sR8aWE`,
+    )
+      .then(res => {
+        console.log(
+          'Hello',
+          res?.data?.results?.[0]?.address_components?.[3]?.long_name,
+        );
+        AsyncStorage.setItem(
+          constants?.AsyncStorageKeys?.address,
+          JSON.stringify(res?.data?.results?.[0]?.formatted_address),
+        );
+        AsyncStorage.setItem(
+          constants?.AsyncStorageKeys?.nearest_landmark,
+          JSON.stringify(
+            res?.data?.results?.[0]?.address_components?.[3]?.long_name,
+          ),
+        );
+
+        locatioDetails(userCurrentLocation, res?.data?.results?.[0]);
+      })
+      .catch(err => {
+        console.log(err);
+      });
   };
 
   const handleClickLocation = item => {
@@ -126,29 +153,31 @@ const LocationBottomSheet = ({refRBSheet}) => {
     setSelectedLocation(item);
   };
 
-  const locatioDetails = location => {
+  const locatioDetails = (location, address) => {
     const payload = {
-      locationId: 0,
-      customerId: userDetails?.userId,
-      locationName: 'My Location',
-      address: 'My Address',
-      nearstLandmark: 'My Nearest Landmark',
+      id: 0,
+      locationName: address?.address_components?.[3]?.long_name,
       locationLatitude: location?.coords?.longitude,
       locationLongitude: location?.coords?.latitude,
-      operations: LATEST_UPDATE,
+      address: address?.formatted_address,
+      nearstLandmark: address?.address_components?.[3]?.long_name,
+      mobileNo: 'string',
+      userId: userDetails?.userId,
+      operations: LATEST_INSERT,
       createdBy: userDetails?.userId,
+      userIP: '',
     };
-
-    PostRequest(endPoint.AUTH_CUSTOMER_LOCATION_UPDATED, payload)
+    PostRequest(endPoint.BARBER_SET_UP_LOCATION_SERVICES, payload)
       .then(res => {
-        console.log('api resposese.....', res.data);
         if (res?.data?.code == SUCCESS_CODE) {
           SimpleSnackBar(res?.data?.message);
         } else {
           SimpleSnackBar(res?.data?.message);
         }
+        refRBSheet.current.close();
       })
       .catch(err => {
+        console.log(err);
         SimpleSnackBar(messages?.Catch, appColors.Red);
       });
   };
@@ -175,8 +204,6 @@ const LocationBottomSheet = ({refRBSheet}) => {
           constants?.AsyncStorageKeys?.selected_Location,
           JSON.stringify(selectedLocation),
         );
-        console.log('makingAsyncData: ', makingAsyncData);
-        console.log('selectedLocation: ', selectedLocation);
         refRBSheet.current.close();
       } else {
         console.log('No location selected');

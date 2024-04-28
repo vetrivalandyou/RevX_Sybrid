@@ -118,6 +118,8 @@
     "token": "token",
     "userDetails": "userDetails",
     "longLat": "longLat",
+    "address": "address",
+    "nearest_landmark": "nearest_landmark",
     "selected_Location": "selectedLocation"
   }
 }

@@ -14,7 +14,7 @@ import CustomMarkerImage from '../../assets/barberImage.jpg';
 import {GooglePlacesAutocomplete} from 'react-native-google-places-autocomplete';
 import MapViewDirections from 'react-native-maps-directions';
 import GoogleMap from '../../components/atom/GoogleMap';
-import {PostRequest} from '../../services/apiCall';
+import {GetRequest, PostRequest} from '../../services/apiCall';
 import {endPoint, messages} from '../../AppConstants/urlConstants';
 import {getAsyncItem, getLogLatAsync} from '../../utils/SettingAsyncStorage';
 import constants from '../../AppConstants/Constants.json';
@@ -67,13 +67,13 @@ const LocationScreen = () => {
       longitude: asyncUserLongLat?.coords?.longitude,
       distance: 25,
     };
-    console.log("longitude",payload)
+    console.log('longitude', payload);
     PostRequest(endPoint.GET_VANS_NEAR_CUSTOMER, payload)
       .then(res => {
         if (res?.data?.code == SUCCESS_CODE) {
           setSelectedLocation(res?.data?.data);
         }
-        mapAnimation();
+        mapAnimation(asyncUserLongLat);
       })
       .catch(err => {
         console.log(err);
@@ -81,11 +81,11 @@ const LocationScreen = () => {
       });
   };
 
-  const mapAnimation = () => {
+  const mapAnimation = asyncUserLongLat => {
     mapRef.current.animateToRegion(
       {
-        latitude: userCoordinates?.coords?.latitude,
-        longitude: userCoordinates?.coords?.longitude,
+        latitude: asyncUserLongLat?.coords?.latitude,
+        longitude: asyncUserLongLat?.coords?.longitude,
         latitudeDelta: 0.05,
         longitudeDelta: 0.05,
       },
@@ -136,6 +136,7 @@ const LocationScreen = () => {
           headerSubView={{marginHorizontal: 5}}
           lefttIcoType={Icons.Ionicons}
           onPressLeftIcon={() => navigation.goBack()}
+          onPressRightIcon={() => navigation.navigate(constants.screen.Notification)}
           leftIcoName={'chevron-back'}
           headerText={'Location'}
           rightIcoName={'bell'}

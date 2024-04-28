@@ -18,6 +18,7 @@ import {GetRequest, PostRequest} from '../../services/apiCall';
 import {endPoint} from '../../AppConstants/urlConstants';
 import {AppImages} from '../../AppConstants/AppImages';
 import {SimpleSnackBar} from '../../components/atom/Snakbar/Snakbar';
+import { approve } from '../../AppConstants/appConstants';
 
 const BarberSpecialist = ({navigation}) => {
   const [barberList, setBarberList] = useState([]);
@@ -97,7 +98,7 @@ const BarberSpecialist = ({navigation}) => {
         setLoading(false);
         console.log('res', res?.data);
         if (res?.data?.code == 200) {
-          setBarberList(res?.data?.data);
+          setBarberList(res?.data?.data?.filter((x) => x.statusId == approve));
         } else SimpleSnackBar(res?.data?.message);
         setLoading(false);
       })
@@ -184,6 +185,7 @@ const BarberSpecialist = ({navigation}) => {
         <View style={{flex: 0.9}}>
           <FlatList
             data={barberList}
+            showsVerticalScrollIndicator={false}
             renderItem={({item}) => <BarberSpecialistContainer item={item} />}
             keyExtractor={item => item?.userId}
           />

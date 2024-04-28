@@ -13,7 +13,7 @@ export const endPoint = {
   REGISTERAS_BARBER: 'Barber/Barber_Signup',
 
   //User End Points
-  EDIT_PROFILE_USER: 'Auth/User_CRUD',
+  EDIT_PROFILE_USER: 'Auth/User_CU',
 
   //Barbers End Points
   BARBER_SERVICES: 'Admin/Barber_Detail?id=94',
