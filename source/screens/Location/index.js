@@ -154,7 +154,7 @@ const LocationScreen = () => {
           headerTextViewStyle={{alignItems: 'center'}}
         />
       </View>
-      <View style={{flex: 0.9, borderRadius: 20, overflow: 'hidden'}}>
+      <View style={{flex: 0.9, borderRadius: 20, overflow: 'hidden', backgroundColor: appColors.Black}}>
         <GoogleMap
           mapRef={mapRef}
           region={region}

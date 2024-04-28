@@ -1,5 +1,5 @@
 import React, {useMemo} from 'react';
-import { Image, StyleSheet, Text, View } from 'react-native';
+import {Image, StyleSheet, Text, View} from 'react-native';
 import MarkerImage from '../../../assets/mapMarker.png';
 import appColors from '../../../AppConstants/appColors';
 import {imageUrl} from '../../../AppConstants/urlConstants';
@@ -44,23 +44,26 @@ const GoogleMap = ({
     [selectedLocation],
   );
 
-  console.log("userCoordinates",userCoordinates)
+  console.log('userCoordinates', userCoordinates);
+  console.log('selectedLocation', selectedLocation);
 
   return (
     <MapView
-      style={{ flex: 1 }}
+      style={{flex: 1}}
       ref={mapRef}
       provider={PROVIDER_GOOGLE}
+      zoomEnabled={true}
+      pitchEnabled={true}
+      scrollEnabled={true}
+      rotateEnabled={true}
       loadingEnabled={true}
       initialRegion={region}
+      onPress={handleMapPress}
       onRegionChangeComplete={setRegion}
       customMapStyle={CustomDarkMapStyle}
       userLocationCalloutEnabled={true}
-      zoomEnabled={true}
-      scrollEnabled={true}
-      rotateEnabled={true}
-      pitchEnabled={true}
-      onPress={handleMapPress}>
+      loadingIndicatorColor={appColors.Goldcolor}
+      loadingBackgroundColor={appColors.Black}>
       {userLocation && (
         <Marker
           key={`marker-${userCoordinates?.coords?.latitude}-${userCoordinates?.coords?.longitude}`}

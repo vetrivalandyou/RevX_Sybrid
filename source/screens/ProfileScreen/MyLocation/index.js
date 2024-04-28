@@ -14,15 +14,8 @@ import {useRoute} from '@react-navigation/native';
 
 const MyLocation = ({navigation}) => {
   const route = useRoute();
-  const dispatch = useDispatch();
 
   console.log('route', route);
-
-  // Extract params
-  // const {item} = route.params;
-  // console.log('item.............', item);
-
-  const {coords} = useSelector(state => state.LocationReducer);
 
   const mapRef = useRef();
   const [selectedLocation, setSelectedLocation] = useState({});
@@ -32,8 +25,8 @@ const MyLocation = ({navigation}) => {
   }, []);
 
   const [region, setRegion] = useState({
-    latitude: 24.8607,
-    longitude: 67.0011,
+    latitude: 31.5203696,
+    longitude: 74.35874729999999,
     latitudeDelta: 0.0922,
     longitudeDelta: 0.0421,
   });
@@ -41,12 +34,15 @@ const MyLocation = ({navigation}) => {
   const handleLocationSelect = () => {
     const latitude = route?.params?.item?.locationLatitude;
     const longitude = route?.params?.item?.locationLongitude;
+
+    console.log("latitude",latitude)
+    console.log("longitude",longitude)
     setSelectedLocation({
       coords: {
         latitude: latitude,
         longitude: longitude,
-        latitudeDelta: 0.0922,
-        longitudeDelta: 0.0421,
+        latitudeDelta: 0.05,
+        longitudeDelta: 0.05,
       },
     });
     mapRef?.current?.animateToRegion(
@@ -56,7 +52,7 @@ const MyLocation = ({navigation}) => {
         latitudeDelta: 0.05,
         longitudeDelta: 0.05,
       },
-      300, // Animation duration in milliseconds
+      3000, // Animation duration in milliseconds
     );
   };
 
@@ -66,8 +62,8 @@ const MyLocation = ({navigation}) => {
       coords: {
         latitude: e.nativeEvent.coordinate?.latitude,
         longitude: e.nativeEvent.coordinate?.longitude,
-        latitudeDelta: 0.0922,
-        longitudeDelta: 0.0421,
+        latitudeDelta: 0.05,
+        longitudeDelta: 0.05,
       },
     });
     mapRef.current.animateToRegion(
@@ -77,7 +73,7 @@ const MyLocation = ({navigation}) => {
         latitudeDelta: 0.05,
         longitudeDelta: 0.05,
       },
-      1000, // Animation duration in milliseconds
+      3000, // Animation duration in milliseconds
     );
   };
 
@@ -135,7 +131,7 @@ const MyLocation = ({navigation}) => {
       </View>
       <View style={{flex: 0.3}}>
         <MyLocationBottomSheet
-          selectedLocation={[selectedLocation]}
+          selectedLocation={selectedLocation}
           route={route}
         />
       </View>

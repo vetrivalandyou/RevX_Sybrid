@@ -1,95 +1,124 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import Header from '../../components/molecules/Header';
 import {Calendar, LocaleConfig} from 'react-native-calendars';
-import {StyleSheet, Text, View} from 'react-native';
+import {StyleSheet, FlatList, Text, View, TouchableOpacity} from 'react-native';
 import Screen from '../../components/atom/ScreenContainer/Screen';
 import {Icons} from '../../components/molecules/CustomIcon/CustomIcon';
 import appColors from '../../AppConstants/appColors';
 import ButtonComponent from '../../components/atom/CustomButtons/ButtonComponent';
 import constants from '../../AppConstants/Constants.json';
+import {PostRequest} from '../../services/apiCall';
+import {endPoint} from '../../AppConstants/urlConstants';
+import {useSelector} from 'react-redux';
+import {screenSize} from '../../components/atom/ScreenSize';
 
 const AppointmentDate = ({route, navigation}) => {
   const {barberId} = route.params;
-  const originalData = [
-    {time: '10.00 AM'},
-    {time: '10.00 AM'},
-    {time: '10.00 AM'},
-    {time: '10.00 AM'},
-    {time: '10.00 AM'},
-  ];
+  const {SelectedChildServices} = useSelector(
+    state => state.AppointmentReducer,
+  );
 
-  const data3 = [
-    {
-      id: '1',
-      title: '10:00 AM',
-      title2: '10:30 AM',
-    },
-    {
-      id: '2',
-      title: '11:00 AM',
-      title2: '11:30 AM',
-    },
-    {
-      id: '3',
-      title: '12:00 PM',
-      title2: '12:30 AM',
-    },
-    {
-      id: '4',
-      title: '01:00 PM',
-      title2: '01:30 PM',
-    },
-  ];
-  const [seelectedDate, setSelectedDate] = React.useState('');
   const currentDate = new Date();
   const threeMonthsAhead = new Date();
   const markedDates = {};
   threeMonthsAhead.setMonth(currentDate.getMonth() + 3);
 
+  const [seelectedDate, setSelectedDate] = React.useState('');
+  const [availableSlots, setAvailableSlots] = React.useState([]);
+  const [selectedSlotId, setSelectedSlotId] = React.useState('');
+
+  const returnTotalDuration = () => {
+    if (SelectedChildServices?.length == 0) {
+      return 0;
+    } else {
+      const totalDuration = SelectedChildServices?.reduce(
+        (accumulator, currentValue) =>
+          accumulator + currentValue.ServiceDuration,
+        0,
+      );
+      return totalDuration;
+    }
+  };
+
+  const fetchSelectedTimeSlot = selectedData => {
+    const payload = {
+      operationID: 3,
+      durationMinutes: returnTotalDuration(),
+      bookingDate: selectedData,
+      barberID: barberId,
+      isActive: true,
+      userID: 0,
+      userIP: 'string',
+    };
+    console.log('payload', payload);
+    PostRequest(endPoint?.BARBER_AVAILABLESLOTS, payload)
+      .then(res => {
+        console.log('res?.data', res?.data);
+        setAvailableSlots(res?.data);
+      })
+      .catch(err => {
+        console.log('err', err);
+      });
+  };
+
   const SelectedHourse = ({item}) => {
     return (
-      <View style={{flexDirection: 'row', marginVertical: 5}}>
-        <View
+      <TouchableOpacity
+        onPress={() => setSelectedSlotId(item?.SlotID)}
+        style={{
+          marginVertical: 5,
+          marginHorizontal: 5,
+          borderWidth: 1,
+          borderColor:
+            selectedSlotId == item?.SlotID
+              ? appColors.Goldcolor
+              : appColors.GrayColor,
+          borderRadius: 10,
+          padding: 8,
+          width: '47%',
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}>
+        <Text
           style={{
-            marginHorizontal: 5,
-            borderWidth: 1,
-            borderColor: appColors.darkgrey,
-            borderRadius: 10,
-            padding: 8,
-            width: '48%',
-            justifyContent: 'center',
-            alignItems: 'center',
+            color: appColors.AppLightGray,
+            fontSize: 13.5,
+            fontWeight: '400',
           }}>
-          <Text
-            style={{
-              color: appColors.AppLightGray,
-              fontSize: 13.5,
-              fontWeight: '400',
-            }}>
-            {item.title}
-          </Text>
-        </View>
+          {item.TimeSlot.split(":")[0] + ":00"}
+        </Text>
+      </TouchableOpacity>
+    );
+  };
 
-        <View
-          style={{
-            marginHorizontal: 5,
-            borderWidth: 1,
-            borderColor: appColors.darkgrey,
-            borderRadius: 10,
-            padding: 8,
-            width: '48%',
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}>
+  const renderEmptyComponent = () => {
+    return (
+      <View
+        style={{
+          height: screenSize.height / 4,
+          width: screenSize.width,
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}>
+        {seelectedDate == '' ? (
           <Text
             style={{
-              color: appColors.AppLightGray,
-              fontSize: 13.5,
-              fontWeight: '400',
+              color: appColors.Goldcolor,
+              fontSize: 15,
+              fontWeight: 'bold',
             }}>
-            {item.title2}
+            Please Select Date for Time Slots.
           </Text>
-        </View>
+        ) : (
+          <Text
+            style={{
+              color: appColors.Goldcolor,
+              fontSize: 15,
+              fontWeight: 'bold',
+            }}>
+            We are sorry !! No Slot Available on {seelectedDate} date.
+          </Text>
+        )}
       </View>
     );
   };
@@ -176,6 +205,7 @@ const AppointmentDate = ({route, navigation}) => {
           }}
           onDayPress={day => {
             setSelectedDate(day.dateString);
+            fetchSelectedTimeSlot(day.dateString);
           }}
         />
         {/* <Calendar
@@ -239,26 +269,40 @@ const AppointmentDate = ({route, navigation}) => {
         style={{
           flexDirection: 'row',
           flex: 0.08,
-          justifyContent: 'space-between',
           alignItems: 'flex-end',
-          // backgroundColor:'red'
           marginHorizontal: 10,
         }}>
         <Text style={{color: appColors.White, fontSize: 20}}>
           Selected Hours
         </Text>
-        <Text style={{color: appColors.Goldcolor}}>See all</Text>
       </View>
 
-      <View style={{flex: 0.3, flexWrap: 'wrap', padding: 5}}>
-        {data3.map(item => (
-          <SelectedHourse key={item.id} item={item} />
-        ))}
+      <View
+        style={{
+          flex: 0.3,
+          padding: 5,
+          justifyContent: 'center',
+        }}>
+        <FlatList
+          data={availableSlots}
+          numColumns={2}
+          keyExtractor={item => item.SlotID.toString()}
+          ListEmptyComponent={renderEmptyComponent}
+          renderItem={({item, index}) => (
+            <SelectedHourse key={item.SlotID} item={item} />
+          )}
+        />
       </View>
 
-      <View style={{flex: 0.1, justifyContent: 'center'}}>
+      <View
+        style={{
+          flex: 0.1,
+          justifyContent: 'center',
+          opacity: selectedSlotId == '' ? 0.3 : 1,
+        }}>
         <ButtonComponent
           title={'Continue'}
+          disable={selectedSlotId == '' ? false : true}
           onPress={() => navigation.navigate(constants.screen.PaymentMethod)}
         />
       </View>

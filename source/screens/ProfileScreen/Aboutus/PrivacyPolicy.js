@@ -15,7 +15,6 @@ const PrivacyPolicy = ({navigation,route}) => {
 
 
   const getTermsOfServices = () => {
-
     GetRequest(`Common/Get_AboutUsType?aboutUsTypeId=${aboutUsId}`)
       .then(res => {
         console.log('data.........', res?.data);
@@ -34,32 +33,7 @@ const PrivacyPolicy = ({navigation,route}) => {
   useEffect(() => {
     getTermsOfServices();
   }, []);
-  data = [
-    {
-      id: 1,
-      title: '1: Type of data We Collect',
-      description:
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sem odio enim ut nullam tortor, bibendum interdum. Varius at amet, dignissim morbi ac pulvinar eu blandit lorem. Est pellentesque bibendum quam odio ac, tortor sit. Sed tellus at tellus amet mi.',
-    },
-    {
-      id: 2,
-      title: '2: Use Of Personal Data',
-      description:
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sem odio enim ut nullam tortor, bibendum interdum. Varius at amet, dignissim morbi ac pulvinar eu blandit lorem. Est pellentesque bibendum quam odio ac, tortor sit. Sed tellus at tellus amet mi.',
-    },
-    {
-      id: 3,
-      title: '3: Disclouser Of Your Personal Data',
-      description:
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sem odio enim ut nullam tortor, bibendum interdum. Varius at amet, dignissim morbi ac pulvinar eu blandit lorem. Est pellentesque bibendum quam odio ac, tortor sit. Sed tellus at tellus amet mi.',
-    },
-    // {
-    //   id: 3,
-    //   title: '3: Disclouser Of Your Personal Data',
-    //   description:
-    //     'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sem odio enim ut nullam tortor, bibendum interdum. Varius at amet, dignissim morbi ac pulvinar eu blandit lorem. Est pellentesque bibendum quam odio ac, tortor sit. Sed tellus at tellus amet mi.',
-    // },
-  ];
+
   return (
     <Screen
       statusBarColor={appColors.Black}
@@ -92,7 +66,6 @@ const PrivacyPolicy = ({navigation,route}) => {
       <View
         style={{
           flex: 1,
-          // backgroundColor: appColors.Black,
           flexDirection: 'column',
           padding: 10,
         }}>
@@ -121,12 +94,13 @@ const PrivacyDetails = ({item}) => {
       }}>
       <Text
         style={{
-          color: '#C79646',
+          color: appColors.Goldcolor,
           fontSize: 20,
           fontWeight: 400,
           paddingBottom: 10,
         }}>
-        {item.title}
+        {/* {item.title} */}
+        Privacy Policy
       </Text>
       <Text style={{fontSize: 16, color: 'white', lineHeight: 20}}>
         {item.detail}

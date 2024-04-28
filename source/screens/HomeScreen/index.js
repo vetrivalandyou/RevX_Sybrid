@@ -46,7 +46,6 @@ const HomeScreen = ({navigation}) => {
     if (isFocused) {
       getAsyncData();
     }
-    getServices();
   }, [isFocused]);
 
   const getAsyncData = async () => {
@@ -79,7 +78,7 @@ const HomeScreen = ({navigation}) => {
         } else {
           SimpleSnackBar(res?.data?.message);
         }
-        setIsLoading(false);
+        getServices();
       })
       .catch(err => {
         console.log(err);
@@ -100,44 +99,13 @@ const HomeScreen = ({navigation}) => {
         } else {
           SimpleSnackBar(res?.data?.message);
         }
+        setIsLoading(false);
       })
       .catch(err => {
         console.log(err);
+        setIsLoading(false);
       });
   }
-
-  const OurServicesData = [
-    {
-      id: 1,
-      title: 'Haircut for Men',
-      Imagesource: AppImages.ourservices,
-    },
-    {
-      id: 2,
-      title: 'Shave For Men',
-      Imagesource: AppImages.ourservices2,
-    },
-    {
-      id: 3,
-      title: 'Facial for Men',
-      Imagesource: AppImages.ourservices3,
-    },
-    {
-      id: 4,
-      title: 'Haircut for Men',
-      Imagesource: AppImages.ourservices,
-    },
-    {
-      id: 5,
-      title: 'Shave For Men',
-      Imagesource: AppImages.ourservices2,
-    },
-    {
-      id: 6,
-      title: 'Facial for Men',
-      Imagesource: AppImages.ourservices3,
-    },
-  ];
 
   const BarbersData = [
     {
@@ -200,21 +168,33 @@ const HomeScreen = ({navigation}) => {
         <View style={{flex: 1, width: '100%'}}>
           <View
             style={{
-              flex: 0.65,
+              flex: 0.6,
               justifyContent: 'center',
               alignItems: 'center',
             }}>
-            <Image
-              style={{resizeMode: 'contain', flex: 1}}
-              source={AppImages.ourservices3}
-            />
+            {item?.serviceImage == null ? (
+              <Image
+                style={{width: 80, height: 80, borderRadius: 10}}
+                source={AppImages.ourservices3}
+              />
+            ) : (
+              <Image
+                style={{resizeMode: 'contain', flex: 1}}
+                source={{uri: `${imageUrl}${item?.serviceImage}`}}
+              />
+            )}
           </View>
           <View
             style={{
-              flex: 0.35,
-              flexWrap: 'wrap',
+              flex: 0.4,
+              alignItems: 'center',
             }}>
-            <Text style={{color: appColors.White, fontSize: 14}}>
+            <Text
+              style={{
+                color: appColors.White,
+                fontSize: 14,
+                textAlign: 'center',
+              }}>
               {item.categoryName}
             </Text>
           </View>
@@ -263,9 +243,17 @@ const HomeScreen = ({navigation}) => {
               color={appColors.White}
               size={16}
             />
-            <Text style={{color: appColors.White, marginLeft: 5}}>{item?.distance.toFixed(2)} km</Text>
+            <Text style={{color: appColors.White, marginLeft: 5}}>
+              {item?.distance.toFixed(2)} km
+            </Text>
           </View>
-          <View style={{flexDirection: 'row', justifyContent:'center', alignItems:'center',flex: 0.5}}>
+          <View
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'center',
+              alignItems: 'center',
+              flex: 0.5,
+            }}>
             <CustomIcon
               type={Icons.AntDesign}
               name={'staro'}
@@ -458,7 +446,8 @@ const HomeScreen = ({navigation}) => {
               flexDirection: 'row',
             }}>
             <View style={{flex: 0.6}}>
-              <View style={{flex: 0.6, justifyContent: 'center', marginLeft: 3}}>
+              <View
+                style={{flex: 0.6, justifyContent: 'center', marginLeft: 3}}>
                 <Text style={{fontSize: 18, color: appColors.White}}>
                   {heading}
                 </Text>
@@ -555,53 +544,54 @@ const HomeScreen = ({navigation}) => {
       <ScrollView showsVerticalScrollIndicator={false} style={{flex: 0.8}}>
         <View
           style={{
-            height: screenSize.height / 12,
+            height: screenSize.height / 16,
             flexDirection: 'row',
             justifyContent: 'space-between',
             alignItems: 'center',
           }}>
-          <Text style={{fontSize: 18, color: appColors.White, marginLeft: 6}}>
+          <Text
+            style={{
+              fontSize: 18,
+              color: appColors.White,
+              marginLeft: 8,
+              fontWeight: 'bold',
+            }}>
             Our Services
           </Text>
-          {/* <TouchableOpacity
-          // onPress={() => navigation.navigate(constants.screen.Services)}
-          >
-            <Text style={{color: appColors.Goldcolor, fontSize: 16}}>
-              See all
-            </Text>
-          </TouchableOpacity> */}
         </View>
         <View style={{height: screenSize.height / 6}}>
-          <FlatList
-            data={ourServices}
-            horizontal={true}
-            showsHorizontalScrollIndicator={false}
-            keyExtractor={(item, index) => index.toString()}
-            renderItem={({item}) => <OurServices item={item} />}
-          />
+          {isLoading == false ? (
+            <FlatList
+              data={ourServices}
+              horizontal={true}
+              showsHorizontalScrollIndicator={false}
+              keyExtractor={(item, index) => index.toString()}
+              renderItem={({item}) => <OurServices item={item} />}
+            />
+          ) : (
+            <View
+              style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+              <ActivityIndicator size="small" color={appColors.Goldcolor} />
+            </View>
+          )}
         </View>
-
         <View
           style={{
-            height: screenSize.height / 12,
+            height: screenSize.height / 16,
             flexDirection: 'row',
             justifyContent: 'space-between',
             alignItems: 'center',
           }}>
-          <Text style={{fontSize: 18, color: appColors.White, marginLeft: 8}}>
+          <Text
+            style={{
+              fontSize: 18,
+              color: appColors.White,
+              marginLeft: 10,
+              fontWeight: 'bold',
+            }}>
             Nearby Barbers
           </Text>
-          {/* <TouchableOpacity
-            onPress={() =>
-              navigation.navigate(constants.screen.BarberSpecialist)
-            }
-            style={{}}>
-            <Text style={{color: appColors.Goldcolor, fontSize: 16}}>
-              See all
-            </Text>
-          </TouchableOpacity> */}
         </View>
-
         <View
           style={{height: screenSize.height / 2.9, justifyContent: 'center'}}>
           {isLoading == false ? (
@@ -615,20 +605,30 @@ const HomeScreen = ({navigation}) => {
               horizontal={true}
             />
           ) : (
-            <ActivityIndicator size="small" color={appColors.Goldcolor} />
+            <View
+              style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+              <ActivityIndicator size="small" color={appColors.Goldcolor} />
+            </View>
           )}
         </View>
-
         <View
           style={{
-            height: screenSize.height / 12,
+            height: screenSize.height / 16,
             flexDirection: 'row',
             justifyContent: 'space-between',
             alignItems: 'center',
             paddingHorizontal: 10,
           }}>
-          <Text style={{fontSize: 18, color: appColors.White}}>Best Offer</Text>
-          <TouchableOpacity
+          <Text
+            style={{
+              fontSize: 18,
+              color: appColors.White,
+              marginLeft: 8,
+              fontWeight: 'bold',
+            }}>
+            Best Offers
+          </Text>
+          {/* <TouchableOpacity
             onPress={() =>
               navigation.navigate(constants.screen.BarberSpecialist)
             }
@@ -636,9 +636,8 @@ const HomeScreen = ({navigation}) => {
             <Text style={{color: appColors.Goldcolor, fontSize: 16}}>
               See all
             </Text>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
         </View>
-
         <View style={{height: screenSize.height / 2.35}}>
           <FlatList
             data={BarbersData}

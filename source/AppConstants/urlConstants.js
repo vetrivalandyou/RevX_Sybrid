@@ -28,6 +28,7 @@ export const endPoint = {
   APPROVE_BARBER_SERVICE: 'Barber/ApproveBarberService',
   BARBER_LOCATION_UPDATE: 'Auth/Barber_Location_Updated',
   BARBER_PARENTCHILD_SERVICES: 'Barber/Barber_ParentChildServices',
+  BARBER_AVAILABLESLOTS: "Barber/Barber_AvailableSlots",
 
   //Admin End Points
   BARBER_LIST: 'Admin/Barber_List', //done

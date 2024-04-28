@@ -39,14 +39,14 @@ const EditProfile = ({navigation}) => {
 
   const checkDetails = async values => {
     let userUpdatedDetails = {
-      _RoleId: userDetails?._RoleId,
+      _RoleId: values?._RoleId,
       employeeId: 0,
       loginEmailId: values?.loginEmailId,
-      userId: userDetails?.userId,
+      userId: values?.userId,
       userName: values?.userName,
       userPhone: values?.userPhone,
       profileImage: values?.profileImage,
-      userTypeId: userDetails?.userTypeId,
+      userTypeId: values?.userTypeId,
     };
     await setAsyncItem(
       constants.AsyncStorageKeys.userDetails,
@@ -106,12 +106,12 @@ const EditProfile = ({navigation}) => {
     PostRequest(endPoint.EDIT_PROFILE_USER, formData)
       .then(res => {
         console.log('RESPONSEDATA', res?.data);
-        if (res?.data?.code == SUCCESS_CODE) {
+        if (res?.data?.[0]?.HasError == 0) {
           setIsUpdated(false);
-          checkDetails(values);
-          SimpleSnackBar(res?.data?.message);
+          checkDetails(res?.data?.[0]);
+          SimpleSnackBar(res?.data?.[0]?.Message);
         } else {
-          SimpleSnackBar(res?.data?.message);
+          SimpleSnackBar(res?.data?.[0]?.Message);
         }
         setSubmitting(false);
       })
