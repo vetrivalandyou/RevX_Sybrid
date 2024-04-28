@@ -135,9 +135,7 @@ const LocationScreen = () => {
         <Header
           headerSubView={{marginHorizontal: 5}}
           lefttIcoType={Icons.Ionicons}
-          onPressLeftIcon={() => navigation.goBack()}
           onPressRightIcon={() => navigation.navigate(constants.screen.Notification)}
-          leftIcoName={'chevron-back'}
           headerText={'Location'}
           rightIcoName={'bell'}
           rightIcoType={Icons.SimpleLineIcons}

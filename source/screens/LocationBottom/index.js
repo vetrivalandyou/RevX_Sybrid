@@ -36,6 +36,7 @@ import CustomIcon, {
 } from '../../components/molecules/CustomIcon/CustomIcon';
 import {useNavigation} from '@react-navigation/native';
 import constants from '../../AppConstants/Constants.json';
+import { imageUrl } from '../../AppConstants/urlConstants';
 
 const LocationBottom = ({
   refRBSheet,
@@ -48,21 +49,19 @@ const LocationBottom = ({
     refRBSheet?.current?.close();
   };
 
-  useEffect(() => {
-    return () => {
-      refRBSheet?.current?.close();
-    };
-  }, []);
+  console.log("sele", selectedBarberDetails)
+  console.log("sele", `${imageUrl}${selectedBarberDetails?.ProfileImage}`)
 
   return (
     <View style={[logoutStyle.container]}>
       <View
         style={{
-          flex: 0.1,
+          flex: 0.05,
           flexDirection: 'row',
           justifyContent: 'space-between',
+          marginLeft: 5
         }}>
-        <Text style={{color: appColors.White, fontSize: 22}}>Details</Text>
+        <Text style={{color: appColors.White, fontSize: 18, fontWeight: 'bold'}}>Details</Text>
       </View>
       <View style={{flex: 0.1, justifyContent: 'center'}}>
         <View style={{height: 1, backgroundColor: appColors.LightGray}} />
@@ -70,11 +69,12 @@ const LocationBottom = ({
       <View
         style={{flex: 0.3, backgroundColor: appColors.Gray, borderRadius: 20}}>
         <TouchableOpacity
-          onPress={() =>
+          onPress={() => {
+            refRBSheet?.current?.close();
             navigation.navigate(constants.screen.Services, {
               userId: selectedBarberDetails?.UserId,
-            })
-          }
+            });
+          }}
           style={{
             flex: 1,
             justifyContent: 'space-between',
@@ -83,9 +83,9 @@ const LocationBottom = ({
           }}>
           <View style={{flex: 0.3, alignItems: 'center'}}>
             <Image
-              // source={{uri: selectedBarberDetais?.ProfilePicture}}
-              source={AppImages.bottomsheetimg}
-              style={{flex: 1, resizeMode: 'contain'}}
+              source={{uri: `${imageUrl}${selectedBarberDetails?.ProfileImage}`}}
+              // source={AppImages.bottomsheetimg}
+              style={{ width: 80, height: 80, borderRadius: 10}}
             />
           </View>
           <View style={{flex: 0.7}}>
@@ -107,7 +107,7 @@ const LocationBottom = ({
                   flexDirection: 'row',
                   justifyContent: 'flex-end',
                 }}>
-                <View
+                {/* <View
                   style={{
                     flex: 0.6,
                     justifyContent: 'center',
@@ -120,7 +120,7 @@ const LocationBottom = ({
                     color={appColors.Goldcolor}
                   />
                 </View>
-                {/* <View
+                <View
                   style={{flex: 0.4, justifyContent: 'center', marginLeft: 2}}>
                   <Text style={{fontSize: 10, color: appColors.Goldcolor}}>
                     40 Mins
