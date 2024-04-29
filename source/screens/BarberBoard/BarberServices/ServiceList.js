@@ -116,12 +116,12 @@ const Servicedetails = ({item, key, onPress}) => {
             }}>
             {item.serviceImage != '' && (
               <Image
-                style={{width: 40, height: 40, borderRadius: 100}}
+                style={{width: 55, height: 55, borderRadius: 100}}
                 source={{uri: `${imageUrl}/${item.serviceImage}`}}
               />
             )}
           </View>
-          <View style={{flex: 0.45, justifyContent: 'center'}}>
+          <View style={{flex: 0.45, marginLeft: 10, justifyContent: 'center'}}>
             <Text
               style={{
                 color: 'white',
