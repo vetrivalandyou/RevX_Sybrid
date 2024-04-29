@@ -29,31 +29,73 @@ import LocationBottomSheet from '../../components/atom/LocationButtomSheet';
 import BottomSheet from '../../components/molecules/BottomSheetContent/BottomSheet';
 import {useSelector} from 'react-redux';
 import {requestLocationPermissionAndGetLocation} from '../../utils/GetLocation';
+import {LATEST_SELECT, SUCCESS_CODE} from '../../AppConstants/appConstants';
+import {useIsFocused} from '@react-navigation/native';
 const HomeScreen = ({navigation}) => {
   const {coords} = useSelector(state => state.LocationReducer);
+  const isFocused = useIsFocused();
   const locationBottomSheetRef = useRef(null);
   const [userDetails, setUserDetails] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
   const [barberList, setBarberList] = useState([0]);
+  const [ourServices, setOurServices] = useState([0]);
   const [selectedLocation, setSelectedLocation] = useState();
+  const [selectedLongLat, setSelectedLongLat] = useState();
 
   useEffect(() => {
-    getAsyncData();
-  }, []);
+    if (isFocused) {
+      getAsyncData();
+    }
+  }, [isFocused]);
 
   const getAsyncData = async () => {
     const userDetails = await getAsyncItem(
       constants.AsyncStorageKeys.userDetails,
     );
+    const asyncNearestLandmark = await getAsyncItem(
+      constants.AsyncStorageKeys.nearest_landmark,
+    );
+    const asyncLongLat = await getAsyncItem(constants.AsyncStorageKeys.longLat);
     setUserDetails(userDetails);
-    getBarberList();
+    setSelectedLocation(asyncNearestLandmark);
+    setSelectedLongLat(selectedLongLat);
+    getBarberList(asyncLongLat);
   };
 
-  function getBarberList() {
-    PostRequest(endPoint.BARBER_LIST)
+  function getBarberList(asyncLongLat) {
+    const payload = {
+      userId: userDetails?.userId,
+      latitude: asyncLongLat?.coords?.latitude,
+      longitude: asyncLongLat?.coords?.longitude,
+      distance: 25,
+      userName: '',
+      profileImage: '',
+    };
+    PostRequest(endPoint.GET_VANS_NEAR_CUSTOMER, payload)
       .then(res => {
         if (res?.data?.code == 200) {
           setBarberList(res?.data?.data);
+        } else {
+          SimpleSnackBar(res?.data?.message);
+        }
+        getServices();
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  }
+
+  function getServices() {
+    const payload = {
+      categoryId: 0,
+      categoryName: '',
+      operations: LATEST_SELECT,
+      createdBy: 0,
+    };
+    PostRequest(endPoint.GET_SETUP_CATEGORIES, payload)
+      .then(res => {
+        if (res?.data?.code == SUCCESS_CODE) {
+          setOurServices(res?.data?.data);
         } else {
           SimpleSnackBar(res?.data?.message);
         }
@@ -61,41 +103,9 @@ const HomeScreen = ({navigation}) => {
       })
       .catch(err => {
         console.log(err);
+        setIsLoading(false);
       });
   }
-
-  const OurServicesData = [
-    {
-      id: 1,
-      title: 'Haircut for Men',
-      Imagesource: AppImages.ourservices,
-    },
-    {
-      id: 2,
-      title: 'Shave For Men',
-      Imagesource: AppImages.ourservices2,
-    },
-    {
-      id: 3,
-      title: 'Facial for Men',
-      Imagesource: AppImages.ourservices3,
-    },
-    {
-      id: 4,
-      title: 'Haircut for Men',
-      Imagesource: AppImages.ourservices,
-    },
-    {
-      id: 5,
-      title: 'Shave For Men',
-      Imagesource: AppImages.ourservices2,
-    },
-    {
-      id: 6,
-      title: 'Facial for Men',
-      Imagesource: AppImages.ourservices3,
-    },
-  ];
 
   const BarbersData = [
     {
@@ -148,34 +158,44 @@ const HomeScreen = ({navigation}) => {
   const OurServices = ({item}) => {
     return (
       <View
+        key={item?.categoryId}
         style={{
           marginHorizontal: 3,
           height: screenSize.height / 5,
           width: screenSize.width / 3.9,
           alignItems: 'center',
-          // backgroundColor: 'red',
         }}>
         <View style={{flex: 1, width: '100%'}}>
           <View
             style={{
-              flex: 0.65,
+              flex: 0.6,
               justifyContent: 'center',
               alignItems: 'center',
-              // backgroundColor: 'green',
             }}>
-            <Image
-              style={{resizeMode: 'contain', flex: 1}}
-              source={item.Imagesource}
-            />
+            {item?.serviceImage == null ? (
+              <Image
+                style={{width: 80, height: 80, borderRadius: 10}}
+                source={AppImages.ourservices3}
+              />
+            ) : (
+              <Image
+                style={{resizeMode: 'contain', flex: 1}}
+                source={{uri: `${imageUrl}${item?.serviceImage}`}}
+              />
+            )}
           </View>
           <View
             style={{
-              flex: 0.35,
-              flexWrap: 'wrap',
-              // backgroundColor: 'pink',
+              flex: 0.4,
+              alignItems: 'center',
             }}>
-            <Text style={{color: appColors.White, fontSize: 14}}>
-              {item.title}
+            <Text
+              style={{
+                color: appColors.White,
+                fontSize: 14,
+                textAlign: 'center',
+              }}>
+              {item.categoryName}
             </Text>
           </View>
         </View>
@@ -201,7 +221,7 @@ const HomeScreen = ({navigation}) => {
           <ImageBackground
             style={{flex: 1}}
             source={{
-              uri: `${imageUrl}${item?.userProfilePath}`,
+              uri: `${imageUrl}${item?.profileImage}`,
             }}
             resizeMode="contain"></ImageBackground>
         </View>
@@ -223,16 +243,24 @@ const HomeScreen = ({navigation}) => {
               color={appColors.White}
               size={16}
             />
-            <Text style={{color: appColors.White, marginLeft: 5}}>0.8km</Text>
+            <Text style={{color: appColors.White, marginLeft: 5}}>
+              {item?.distance.toFixed(2)} km
+            </Text>
           </View>
-          <View style={{flexDirection: 'row', flex: 0.5}}>
+          <View
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'center',
+              alignItems: 'center',
+              flex: 0.5,
+            }}>
             <CustomIcon
               type={Icons.AntDesign}
               name={'staro'}
               color={appColors.Goldcolor}
               size={16}
             />
-            <Text style={{color: appColors.White, marginLeft: 5}}>0.8km</Text>
+            <Text style={{color: appColors.White, marginLeft: 5}}>4.5</Text>
           </View>
         </View>
         <View style={{flex: 0.1, justifyContent: 'center'}}>
@@ -394,19 +422,6 @@ const HomeScreen = ({navigation}) => {
     );
   };
 
-  const handleUseMyCurrentLoc = async () => {
-    console.log('Hello');
-    const location = await requestLocationPermissionAndGetLocation();
-    console.log('Current Location:', location);
-    // setSelectedLocation({
-    //   latitude: coords?.coords?.latitude,
-    //   longitude: coords?.coords?.longitude,
-    //   latitudeDelta: 0.0922,
-    //   longitudeDelta: 0.0421,
-    // });
-    // locationBottomSheetRef.current.close();
-  };
-
   const HomeHeader = ({heading, sunHeading, source, refRBSheet}) => {
     return (
       <View style={{flex: 1, justifyContent: 'center'}}>
@@ -420,7 +435,7 @@ const HomeScreen = ({navigation}) => {
             style={{flex: 0.2, alignItems: 'center', justifyContent: 'center'}}>
             <Image
               source={{uri: source}}
-              style={{width: 60, height: 60, borderRadius: 100}}
+              style={{width: 55, height: 55, borderRadius: 100}}
             />
           </View>
 
@@ -431,8 +446,9 @@ const HomeScreen = ({navigation}) => {
               flexDirection: 'row',
             }}>
             <View style={{flex: 0.6}}>
-              <View style={{flex: 0.6, justifyContent: 'center'}}>
-                <Text style={{fontSize: 22, color: appColors.White}}>
+              <View
+                style={{flex: 0.6, justifyContent: 'center', marginLeft: 3}}>
+                <Text style={{fontSize: 18, color: appColors.White}}>
                   {heading}
                 </Text>
               </View>
@@ -443,10 +459,10 @@ const HomeScreen = ({navigation}) => {
                   type={Icons.Feather}
                   name={'map-pin'}
                   color={appColors.White}
-                  size={18}
+                  size={15}
                 />
                 <Text
-                  style={{marginLeft: 5, color: appColors.White, fontSize: 14}}>
+                  style={{marginLeft: 3, color: appColors.White, fontSize: 12}}>
                   {sunHeading}
                 </Text>
               </TouchableOpacity>
@@ -507,105 +523,112 @@ const HomeScreen = ({navigation}) => {
       statusBarColor={appColors.Black}
       viewStyle={{padding: 15, flex: 0.9}}>
       <BottomSheet ref={locationBottomSheetRef} Height={screenSize.height / 2}>
-        <LocationBottomSheet
-          refRBSheet={locationBottomSheetRef}
-          handleUseMyCurrentLoc={handleUseMyCurrentLoc}
-        />
+        <LocationBottomSheet refRBSheet={locationBottomSheetRef} />
       </BottomSheet>
       <View style={{flex: 0.1}}>
         <HomeHeader
           heading={userDetails?.userName}
-          sunHeading={'Washington DC'}
+          sunHeading={selectedLocation}
           source={`${imageUrl}${userDetails?.profileImage}`}
           refRBSheet={locationBottomSheetRef}
         />
       </View>
-
       <View
         style={{
           flex: 0.1,
           justifyContent: 'center',
-          // backgroundColor: 'green',
           marginTop: 10,
         }}>
         <Search leaftIconType={Icons.Ionicons} leftIconName={'filter'} />
       </View>
-
-      <ScrollView style={{flex: 0.8}}>
+      <ScrollView showsVerticalScrollIndicator={false} style={{flex: 0.8}}>
         <View
           style={{
-            height: screenSize.height / 12,
+            height: screenSize.height / 16,
             flexDirection: 'row',
             justifyContent: 'space-between',
             alignItems: 'center',
           }}>
-          <Text style={{fontSize: 20, color: appColors.White}}>
+          <Text
+            style={{
+              fontSize: 18,
+              color: appColors.White,
+              marginLeft: 8,
+              fontWeight: 'bold',
+            }}>
             Our Services
           </Text>
-          <TouchableOpacity
-          // onPress={() => navigation.navigate(constants.screen.Services)}
-          >
-            <Text style={{color: appColors.Goldcolor, fontSize: 16}}>
-              See all
-            </Text>
-          </TouchableOpacity>
         </View>
         <View style={{height: screenSize.height / 6}}>
-          <FlatList
-            data={OurServicesData}
-            renderItem={({item}) => <OurServices item={item} />}
-            keyExtractor={item => item.id}
-            horizontal={true}
-          />
+          {isLoading == false ? (
+            <FlatList
+              data={ourServices}
+              horizontal={true}
+              showsHorizontalScrollIndicator={false}
+              keyExtractor={(item, index) => index.toString()}
+              renderItem={({item}) => <OurServices item={item} />}
+            />
+          ) : (
+            <View
+              style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+              <ActivityIndicator size="small" color={appColors.Goldcolor} />
+            </View>
+          )}
         </View>
-
         <View
           style={{
-            height: screenSize.height / 12,
+            height: screenSize.height / 16,
             flexDirection: 'row',
             justifyContent: 'space-between',
             alignItems: 'center',
           }}>
-          <Text style={{fontSize: 20, color: appColors.White}}>
+          <Text
+            style={{
+              fontSize: 18,
+              color: appColors.White,
+              marginLeft: 10,
+              fontWeight: 'bold',
+            }}>
             Nearby Barbers
           </Text>
-          <TouchableOpacity
-            onPress={() =>
-              navigation.navigate(constants.screen.BarberSpecialist)
-            }
-            style={{}}>
-            <Text style={{color: appColors.Goldcolor, fontSize: 16}}>
-              See all
-            </Text>
-          </TouchableOpacity>
         </View>
-
         <View
           style={{height: screenSize.height / 2.9, justifyContent: 'center'}}>
           {isLoading == false ? (
             <FlatList
               data={barberList}
+              showsHorizontalScrollIndicator={false}
               renderItem={({item, index}) => (
                 <NearbyBarbers item={item} key={index} />
               )}
-              keyExtractor={item => item.userId}
+              keyExtractor={(item, index) => index.toString()}
               horizontal={true}
             />
           ) : (
-            <ActivityIndicator size="small" color={appColors.Goldcolor} />
+            <View
+              style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+              <ActivityIndicator size="small" color={appColors.Goldcolor} />
+            </View>
           )}
         </View>
-
         <View
           style={{
-            height: screenSize.height / 12,
+            height: screenSize.height / 16,
             flexDirection: 'row',
             justifyContent: 'space-between',
             alignItems: 'center',
             paddingHorizontal: 10,
           }}>
-          <Text style={{fontSize: 20, color: appColors.White}}>Best Offer</Text>
-          <TouchableOpacity
+          <Text
+            style={{
+              fontSize: 18,
+              color: appColors.White,
+              marginLeft: 8,
+              fontWeight: 'bold',
+            }}>
+            Best Offers
+          </Text>
+          {/* <TouchableOpacity
             onPress={() =>
               navigation.navigate(constants.screen.BarberSpecialist)
             }
@@ -613,9 +636,8 @@ const HomeScreen = ({navigation}) => {
             <Text style={{color: appColors.Goldcolor, fontSize: 16}}>
               See all
             </Text>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
         </View>
-
         <View style={{height: screenSize.height / 2.35}}>
           <FlatList
             data={BarbersData}

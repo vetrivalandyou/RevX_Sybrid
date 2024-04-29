@@ -13,7 +13,7 @@ export const endPoint = {
   REGISTERAS_BARBER: 'Barber/Barber_Signup',
 
   //User End Points
-  EDIT_PROFILE_USER: 'Auth/User_CRUD',
+  EDIT_PROFILE_USER: 'Auth/User_CU',
 
   //Barbers End Points
   BARBER_SERVICES: 'Admin/Barber_Detail?id=94',
@@ -23,9 +23,12 @@ export const endPoint = {
   SETUP_CATEGORIES_DELETE: 'Barber/SetupCategories_Delete',
   CUSTOMER_SERVICES: 'Customer/Category_Services',
   BARBER_SERVICE_CATEGORY: 'Admin/BarberServiceCategry',
-  REAPPLY_APPROVE_BARBER_SERVICE_CATEGORY: 'Admin/ReApplyApproveBarberServiceCategry',
+  REAPPLY_APPROVE_BARBER_SERVICE_CATEGORY:
+    'Admin/ReApplyApproveBarberServiceCategry',
   APPROVE_BARBER_SERVICE: 'Barber/ApproveBarberService',
   BARBER_LOCATION_UPDATE: 'Auth/Barber_Location_Updated',
+  BARBER_PARENTCHILD_SERVICES: 'Barber/Barber_ParentChildServices',
+  BARBER_AVAILABLESLOTS: "Barber/Barber_AvailableSlots",
 
   //Admin End Points
   BARBER_LIST: 'Admin/Barber_List', //done
@@ -40,6 +43,8 @@ export const endPoint = {
   BARBER_APPROVE_SERVICE_POST: 'Barber/ApproveBarberService',
   BARBER_SERVICES_GET: 'Barber/Barber_Services_Get',
   BARBER_SERVICES_CU: 'Barber/Barber_Services_CU',
+  GET_VANS_NEAR_CUSTOMER: 'Auth/Get_Vans_Near_Customer',
+  ADMIN_USERDETAILS: 'Admin/Admin_UserDetails',
 
   // Customer End Points
   SERVICE_CATEGORIES: 'Customer/Service_Categories',
@@ -51,6 +56,12 @@ export const endPoint = {
   BARBER_SET_UP_LOCATION_SERVICES: 'Barber/SetupLocation_CU',
   BARBER_GET_SET_UP_LOCATION: 'Barber/GetSetupLocation',
   AUTH_CUSTOMER_LOCATION_UPDATED: 'Auth/Customer_Location_Updated',
+
+  // admin view get user details and barber details
+  Get_USER_BARBER_DETAILS: 'Admin/Admin_UserDetails',
+
+  //admin create slots for barber
+  CREATE_SETUP_SLOTS: 'Admin/Admin_SetupSlots',
 };
 
 export const messages = {

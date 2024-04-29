@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import {FlatList, Text, View} from 'react-native';
 import Screen from '../../../components/atom/ScreenContainer/Screen';
 import appColors from '../../../AppConstants/appColors';
@@ -7,16 +7,17 @@ import CustomIcon, {
   Icons,
 } from '../../../components/molecules/CustomIcon/CustomIcon';
 import constants from '../../../AppConstants/Constants.json';
-import { GetRequest } from '../../../services/apiCall';
+import {GetRequest} from '../../../services/apiCall';
 
-const TermsOfService = ({navigation,route}) => {
-
-  const { aboutUsId } = route.params;
+const TermsOfService = ({navigation, route}) => {
+  const {aboutUsId} = route.params;
   const [TermsServicesData, seTermsServicesData] = useState([]);
 
+  useEffect(() => {
+    getTermsOfServices();
+  }, []);
 
   const getTermsOfServices = () => {
-
     GetRequest(`Common/Get_AboutUsType?aboutUsTypeId=${aboutUsId}`)
       .then(res => {
         console.log('data.........', res?.data);
@@ -32,18 +33,8 @@ const TermsOfService = ({navigation,route}) => {
       });
   };
 
-  useEffect(() => {
-    getTermsOfServices();
-  }, []);
+  console.log("TermsServicesData",TermsServicesData)
 
-  // data = [
-  //   {
-  //     id: 1,
-  //     title: 'Type of date',
-  //     description:
-  //       'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sem odio enim ut nullam tortor, bibendum interdum. Varius at amet, dignissim morbi ac pulvinar eu blandit lorem. Est pellentesque bibendum quam odio ac, tortor sit. Sed tellus at tellus amet mi.',
-  //   },
-  // ];
   return (
     <Screen
       statusBarColor={appColors.Black}
@@ -76,14 +67,15 @@ const TermsOfService = ({navigation,route}) => {
       <View
         style={{
           flex: 1,
-          // backgroundColor: appColors.Black,
           flexDirection: 'column',
           padding: 10,
         }}>
         <View>
           <FlatList
             data={TermsServicesData}
-            renderItem={({item,index}) => <TermServices item={item} index={index} />}
+            renderItem={({item, index}) => (
+              <TermServices item={item} index={index} />
+            )}
           />
         </View>
       </View>
@@ -105,12 +97,13 @@ const TermServices = ({item, index}) => {
       }}>
       <Text
         style={{
-          color: '#C79646',
+          color: appColors.Goldcolor,
           fontSize: 20,
           fontWeight: 400,
           paddingBottom: 10,
         }}>
-       {index + 1}. {item.title}
+          Terms and Services
+        {/* {index + 1}. {item.title} */}
       </Text>
       <Text style={{fontSize: 16, color: 'white', lineHeight: 20}}>
         {item.detail}

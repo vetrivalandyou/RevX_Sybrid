@@ -11,7 +11,7 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
 import React, {useEffect, useState} from 'react';
-import {useNavigation} from '@react-navigation/native';
+import {useIsFocused, useNavigation} from '@react-navigation/native';
 import {AppImages} from '../../AppConstants/AppImages';
 import Screen from '../../components/atom/ScreenContainer/Screen';
 import {screenSize} from '../../components/atom/ScreenSize';
@@ -20,43 +20,89 @@ import {Icons} from '../../components/molecules/CustomIcon/CustomIcon';
 import constants from '../../AppConstants/Constants.json';
 import appColors from '../../AppConstants/appColors';
 import {GetRequest, PostRequest} from '../../services/apiCall';
-import {endPoint, messages} from '../../AppConstants/urlConstants';
+import {
+  baseUrl,
+  endPoint,
+  imageUrl,
+  messages,
+} from '../../AppConstants/urlConstants';
 import {SimpleSnackBar} from '../../components/atom/Snakbar/Snakbar';
+import {LATEST_SELECT, approve} from '../../AppConstants/appConstants';
+import {useDispatch, useSelector} from 'react-redux';
+import {
+  PULL_CHILDSERVICE_DATA,
+  PUSH_CHILDSERVICE_DATA,
+} from '../../redux/Action/AppointmentActionType';
 
 const ServiceSpecialist = ({route}) => {
   const {item} = route.params || {};
-
+  const {SelectedChildServices} = useSelector(
+    state => state.AppointmentReducer,
+  );
+  const dispatch = useDispatch();
+  const isFocused = useIsFocused();
   const navigation = useNavigation();
   const [Services, setServices] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [selectedItem, setSelectedItem] = useState(true);
 
   useEffect(() => {
-    customerservices();
-  }, []);
+    if (isFocused) {
+      customerservices();
+    }
+  }, [isFocused]);
 
   const customerservices = () => {
     const payload = {
-      Id: item?.serviceCategoryId,
-      UserId: item?.userId,
+      operationID: LATEST_SELECT,
+      parameterID: 2,
+      barbarID: item?.BarbarID,
+      parentServiceID: item?.ParentServiceID,
+      parentServiceStatusID: approve,
+      childServiceID: 0,
+      childServiceStatusID: 0,
+      barbarSpecialityID: 0,
+      isActive: true,
+      userID: 0,
+      userIP: '',
     };
-
-    PostRequest(endPoint.CUSTOMER_SERVICES, payload)
+    PostRequest(endPoint.BARBER_PARENTCHILD_SERVICES, payload)
       .then(res => {
-        setLoading(false);
-        if (res?.data?.code == 200) {
-          console.log(res?.data);
-          setServices(res?.data?.data);
+        if (res?.data?.length > 0) {
+          setServices(res?.data);
         } else {
-          SimpleSnackBar(res?.data?.message);
-          setLoading(false);
+          SimpleSnackBar('No Service Found', appColors.Red);
         }
+        setLoading(false);
       })
       .catch(res => {
         SimpleSnackBar(messages.Catch, appColors.Red);
         setLoading(false);
       });
   };
+
+  const handleSelectChildService = item => {
+    const isPresent = SelectedChildServices.some(
+      x => x.ChildServiceID === item?.ChildServiceID,
+    );
+    if (isPresent) {
+      dispatch({type: PULL_CHILDSERVICE_DATA, payload: item?.ChildServiceID});
+    } else {
+      dispatch({type: PUSH_CHILDSERVICE_DATA, payload: item});
+    }
+  };
+
+  const returnTotal = () => {
+    if (SelectedChildServices?.length == 0) {
+      return 0;
+    } else {
+      const totalPrice = SelectedChildServices?.reduce(
+        (accumulator, currentValue) => accumulator + currentValue.ServicePrice,
+        0,
+      );
+      return totalPrice;
+    }
+  };
+
   return (
     <Screen viewStyle={{flex: 1}} statusBarColor={appColors.Black}>
       <View style={{flex: 0.1}}>
@@ -64,7 +110,7 @@ const ServiceSpecialist = ({route}) => {
           lefttIcoType={Icons.Ionicons}
           onPressLeftIcon={() => navigation.goBack()}
           leftIcoName={'chevron-back'}
-          headerText={'Hair Cut'}
+          headerText={item?.ParentServices}
           rightIcoName={'bell'}
           rightIcoType={Icons.SimpleLineIcons}
           logIn={'success'}
@@ -92,39 +138,43 @@ const ServiceSpecialist = ({route}) => {
         <View style={{flex: 0.8}}>
           <FlatList
             data={Services}
+            keyExtractor={item => item.ChildServiceID}
             renderItem={({item}) => (
               <Servicedetails
                 item={item}
-                selected={selectedItem === item.UserId}
-                onPress={() => setSelectedItem(item.UserId)}
+                selectedItem={SelectedChildServices}
+                onPress={() => handleSelectChildService(item)}
               />
             )}
-            keyExtractor={item => item.id}
           />
         </View>
       )}
 
       <View style={{flex: 0.1, justifyContent: 'center'}}>
-        <TouchableOpacity
-          onPress={() => navigation.navigate(constants.screen.Services)}
-          style={styles.ApplyNOWButton}>
-          <Text style={{fontWeight: '600', fontSize: 13, color: '#fff'}}>
-            {' '}
-            Apply Now
+        <View style={styles.ApplyNOWButton}>
+          <Text style={{fontWeight: '600', fontSize: 14, color: appColors.White}}>
+            Total $ <Text style={{ fontWeight: 'bold', fontSize: 16}}>{`${returnTotal()}`}</Text>
           </Text>
-        </TouchableOpacity>
+        </View>
       </View>
     </Screen>
   );
 };
 
-const Servicedetails = ({item, selected, onPress}) => {
+const Servicedetails = ({item, selectedItem, onPress}) => {
+  const isItemIdPresent = itemId => {
+    return selectedItem?.some(x => x?.ChildServiceID === itemId);
+  };
+
   return (
-    <TouchableOpacity onPress={onPress}>
+    <TouchableOpacity key={item?.ChildServiceID} onPress={onPress}>
       <View
         style={[
           styles.container,
-          selected && {borderColor: appColors.Goldcolor, borderWidth: 1.25},
+          isItemIdPresent(item?.ChildServiceID) && {
+            borderColor: appColors.Goldcolor,
+            borderWidth: 1.25,
+          },
         ]}>
         <View
           style={{
@@ -137,29 +187,20 @@ const Servicedetails = ({item, selected, onPress}) => {
               justifyContent: 'space-evenly',
             }}>
             <View style={{paddingVertical: 8}}>
-              <Text> {item.serviceImage}</Text>
+              <Image
+                source={{uri: `${imageUrl}${item?.ServiceImage}`}}
+                style={{width: 50, height: 50, borderRadius: 100}}
+              />
             </View>
-
             <View style={{flexDirection: 'column', width: '40%'}}>
               <Text
                 style={{
                   color: 'white',
                   fontWeight: '400',
-                  fontSize: 18,
+                  fontSize: 15,
                 }}>
-                {item.serviceName}
+                {item.ChildService}
               </Text>
-
-              <View>
-                <Text
-                  style={{
-                    color: 'white',
-                    fontSize: 11.5,
-                  }}>
-                  {/* {item.title} */}
-                  824 Booked
-                </Text>
-              </View>
             </View>
             <View
               style={{
@@ -167,9 +208,8 @@ const Servicedetails = ({item, selected, onPress}) => {
                 justifyContent: 'space-between',
                 alignItems: 'center',
               }}>
-              {/* <Text style={{color:'white', textAlign:'center', paddingVertical:12, fontSize:12, fontWeight:'bold'}}>View</Text> */}
-              <Text style={{color: '#c79647', fontSize: 19, fontWeight: '600'}}>
-                ${item.servicePrice}
+              <Text style={{color: '#c79647', fontSize: 15, fontWeight: '600'}}>
+                ${item.ServicePrice}
               </Text>
             </View>
             <View style={[styles.Circlecontrainer]}>

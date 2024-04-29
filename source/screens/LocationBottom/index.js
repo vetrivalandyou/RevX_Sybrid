@@ -10,13 +10,14 @@
 // }
 // export default LocationBottom;
 
-import React from 'react';
+import React, {useEffect} from 'react';
 import {
   Text,
   View,
   KeyboardAvoidingView,
   StyleSheet,
   Image,
+  TouchableOpacity,
 } from 'react-native';
 // import {
 //   appColors,
@@ -33,33 +34,47 @@ import {AppImages} from '../../AppConstants/AppImages';
 import CustomIcon, {
   Icons,
 } from '../../components/molecules/CustomIcon/CustomIcon';
+import {useNavigation} from '@react-navigation/native';
+import constants from '../../AppConstants/Constants.json';
+import { imageUrl } from '../../AppConstants/urlConstants';
 
-const LocationBottom = ({refRBSheet}) => {
-  const onLogOut = () => {
+const LocationBottom = ({
+  refRBSheet,
+  selectedBarberDetails,
+  setCalculateDirection,
+}) => {
+  const navigation = useNavigation();
+  const onPressGetDirection = () => {
+    setCalculateDirection(true);
     refRBSheet?.current?.close();
   };
+
+  console.log("sele", selectedBarberDetails)
+  console.log("sele", `${imageUrl}${selectedBarberDetails?.ProfileImage}`)
 
   return (
     <View style={[logoutStyle.container]}>
       <View
         style={{
-          flex: 0.1,
+          flex: 0.05,
           flexDirection: 'row',
           justifyContent: 'space-between',
+          marginLeft: 5
         }}>
-        <Text style={{color: appColors.White, fontSize: 22}}>Details</Text>
-        <Text style={{fontSize: 16, color: appColors.Goldcolor}}>
-          See all barbers
-        </Text>
+        <Text style={{color: appColors.White, fontSize: 18, fontWeight: 'bold'}}>Details</Text>
       </View>
-      
-      <View style={{flex: 0.1, justifyContent: 'center',}}>
+      <View style={{flex: 0.1, justifyContent: 'center'}}>
         <View style={{height: 1, backgroundColor: appColors.LightGray}} />
       </View>
-
       <View
-        style={{flex: 0.3, backgroundColor: appColors.Gray, borderRadius: 20,}}>
-        <View
+        style={{flex: 0.3, backgroundColor: appColors.Gray, borderRadius: 20}}>
+        <TouchableOpacity
+          onPress={() => {
+            refRBSheet?.current?.close();
+            navigation.navigate(constants.screen.Services, {
+              userId: selectedBarberDetails?.UserId,
+            });
+          }}
           style={{
             flex: 1,
             justifyContent: 'space-between',
@@ -68,21 +83,21 @@ const LocationBottom = ({refRBSheet}) => {
           }}>
           <View style={{flex: 0.3, alignItems: 'center'}}>
             <Image
-              source={AppImages.bottomsheetimg}
-              style={{flex: 1, resizeMode: 'contain'}}
+              source={{uri: `${imageUrl}${selectedBarberDetails?.ProfileImage}`}}
+              // source={AppImages.bottomsheetimg}
+              style={{ width: 80, height: 80, borderRadius: 10}}
             />
           </View>
-
           <View style={{flex: 0.7}}>
             <View style={{flex: 0.25, flexDirection: 'row'}}>
-              <View style={{flex: 0.5, flexWrap: 'wrap'}}>
+              <View style={{flex: 0.5, flexWrap: 'wrap', marginLeft: 5}}>
                 <Text
                   style={{
                     fontSize: 16,
                     color: appColors.White,
                     fontWeight: '500',
                   }}>
-                  Nathan Alexender
+                  {selectedBarberDetails?.UserName}
                 </Text>
               </View>
 
@@ -92,7 +107,7 @@ const LocationBottom = ({refRBSheet}) => {
                   flexDirection: 'row',
                   justifyContent: 'flex-end',
                 }}>
-                <View
+                {/* <View
                   style={{
                     flex: 0.6,
                     justifyContent: 'center',
@@ -110,18 +125,18 @@ const LocationBottom = ({refRBSheet}) => {
                   <Text style={{fontSize: 10, color: appColors.Goldcolor}}>
                     40 Mins
                   </Text>
-                </View>
+                </View> */}
               </View>
             </View>
 
-            <View style={{flex: 0.65}}>
+            <View style={{flex: 0.65, marginLeft: 5}}>
               <View style={{flex: 0.5, justifyContent: 'center'}}>
                 <Text style={{color: appColors.White, fontSize: 12}}>
                   Senior Barber
                 </Text>
               </View>
               <View style={{flex: 0.5, flexDirection: 'row'}}>
-                <View style={{flexDirection: 'row', flex: 0.2}}>
+                {/* <View style={{flexDirection: 'row', flex: 0.2}}>
                   <CustomIcon
                     type={Icons.Feather}
                     name={'map-pin'}
@@ -136,7 +151,7 @@ const LocationBottom = ({refRBSheet}) => {
                     }}>
                     km
                   </Text>
-                </View>
+                </View> */}
                 <View style={{flexDirection: 'row', flex: 0.8}}>
                   <CustomIcon
                     type={Icons.AntDesign}
@@ -156,65 +171,34 @@ const LocationBottom = ({refRBSheet}) => {
               </View>
             </View>
           </View>
-        </View>
+        </TouchableOpacity>
       </View>
-      <View style={{flex: 0.5,}}>
+      <View style={{flex: 0.5}}>
         <ButtonComponent
-          title={'Get direction'}
-          style={{backgroundColor: appColors.Gray,marginTop:10}}
-          onPress={() => onLogOut()}
-          
+          title={'Get Direction'}
+          style={{backgroundColor: appColors.Gray, marginTop: 10}}
+          onPress={() => onPressGetDirection()}
         />
       </View>
-
-      {/* <View style={[logoutStyle.titleView]}>
-        <Text style={[logoutStyle.titleText]}>Logout?</Text>
-      </View> */}
-      {/* <View style={[logoutStyle.descriptionView]}>
-        <Text style={[logoutStyle.descriptionText]}>
-          Are you sure you want to logout
-        </Text>
-      </View> */}
-      {/* <View style={[logoutStyle.buttonsMainView]}>
-        <View style={[logoutStyle.buttonLeftView]}>
-          <ButtonComponent
-            style={[logoutStyle.cancelButtonStyle]}
-            textStyle={{color: appColors.AppGreen}}
-            title={'Cancel'}
-            onPress={onLogOut}
-          />
-        </View>
-        <View style={[logoutStyle.buttonRightView]}>
-          <ButtonComponent
-            style={[logoutStyle.logoutButtonStyle]}
-            title={'Logout'}
-            onPress={onLogOut}
-          />
-        </View>
-      </View> */}
     </View>
   );
 };
 
 const logoutStyle = StyleSheet.create({
   container: {
-    height:screenSize.height/1.99,
+    height: screenSize.height / 1.99,
     backgroundColor: appColors.darkgrey,
     borderTopEndRadius: 15,
     borderTopLeftRadius: 15,
     padding: 15,
-    // width:"100%"
   },
   titleView: {
-    //  height: screenSize.height / 20,
     justifyContent: 'flex-end',
     flex: 0.5,
   },
   titleText: {
-    // fontSize: sizes.large,
     marginLeft: 20,
     fontWeight: '500',
-    // fontWeight: fontWeight.bold,
     color: appColors.White,
   },
   descriptionView: {
@@ -222,7 +206,6 @@ const logoutStyle = StyleSheet.create({
     justifyContent: 'center',
   },
   descriptionText: {
-    // fontSize: sizes.medium,
     marginLeft: 20,
     color: appColors.White,
   },

@@ -28,11 +28,12 @@ import {endPoint} from '../../AppConstants/urlConstants';
 import {SimpleSnackBar} from '../../components/atom/Snakbar/Snakbar';
 import {TabRouter} from '@react-navigation/native';
 import Share from 'react-native-share';
+import { approve } from '../../AppConstants/appConstants';
 
 const BarberProfile = ({navigation, route}) => {
   const {barberId} = route.params || {};
 
-  console.log("barberIdbarberId",barberId)
+  console.log('barberIdbarberId222111', barberId);
 
   const [barberDetails, setBarberDetails] = useState();
   const [activeSlide, setActiveSlide] = useState(0);
@@ -118,7 +119,7 @@ const BarberProfile = ({navigation, route}) => {
     return (
       <View style={styles.slide}>
         <Image source={item.illustration} style={styles.image} />
-        <Text style={styles.title}>{item.title}</Text>
+        {/* <Text style={styles.title}>{item.title}</Text> */}
       </View>
     );
   };
@@ -138,7 +139,7 @@ const BarberProfile = ({navigation, route}) => {
           onSnapToItem={index => setActiveSlide(index)}
           sliderWidth={screenSize.width}
           itemWidth={screenSize.width}
-          autoplay={true}
+          autoplay={false}
         />
         <Pagination
           dotsLength={Profiles.length}
@@ -423,7 +424,7 @@ const BarberProfile = ({navigation, route}) => {
       <View style={{flex: 0.3, justifyContent: 'center'}}>
         {barberList?.length > 0 ? (
           <View style={{flex: 1}}>
-            {barberList?.slice(0, 3)?.map((x, i) => (
+            {barberList?.filter((y) => y.statusId == approve)?.slice(0, 3)?.map((x, i) => (
               <View key={i} style={{flex: 0.33, justifyContent: 'center'}}>
                 <View
                   style={{
@@ -504,8 +505,10 @@ const BarberProfile = ({navigation, route}) => {
           paddingHorizontal: 12,
         }}>
         <ButtonComponent
-          title={'Book Now'}
-          onPress={() => navigation.navigate(constants.screen.PaymentDetails)}
+          title={'View Services'}
+          onPress={() =>
+            navigation.navigate(constants.screen.Services, {userId: barberId})
+          }
         />
       </View>
     </View>

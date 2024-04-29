@@ -75,6 +75,11 @@ const AdminProfile = () => {
     },
     {
       id: 9,
+      title: 'Setup Slots',
+      icon: Icons.Entypo,
+    },
+    {
+      id: 10,
       title: 'Sign Out',
       icon: Icons.Entypo,
     },
@@ -86,7 +91,7 @@ const AdminProfile = () => {
         navigation.navigate(constants.AdminScreens.AdminUserDetails);
         break;
       case 1:
-        navigation.navigate(constants.AdminScreens.AdminUserDetails);
+        navigation.navigate(constants.AdminScreens.AdminBarberDetails);
         break;
       case 2:
         navigation.navigate(constants.AdminScreens.AdminNotification);
@@ -104,9 +109,12 @@ const AdminProfile = () => {
         navigation.navigate(constants.AdminScreens.OurServices);
         break;
       case 7:
-        navigation.navigate(constants.AdminScreens.AdminApproveBarber);
+        navigation.navigate(constants.AdminScreens.BarberListApprove);
         break;
       case 8:
+        navigation.navigate(constants.AdminScreens.AdminSetupSlots);
+        break;
+      case 9:
         refRBSheet.current.open();
         break;
       default:
@@ -169,30 +177,32 @@ const AdminProfile = () => {
           padding: 14,
         }}>
         <View style={{flex: 0.13}}>
-          <Image
-            source={profile}
-            resizeMode="cover"
-            style={{width: 50, height: 50}}
-          />
+          <TouchableOpacity>
+            <Image
+              source={profile}
+              resizeMode="cover"
+              style={{width: 50, height: 50}}
+            />
 
-          <CustomIcon
-            type={Icons.AntDesign}
-            size={18}
-            name={'pluscircle'}
-            color={'white'}
-            style={{position: 'absolute', left: 35, top: 33}}
-          />
+            <CustomIcon
+              type={Icons.AntDesign}
+              size={18}
+              name={'pluscircle'}
+              color={'white'}
+              style={{position: 'absolute', left: 35, top: 33}}
+            />
+          </TouchableOpacity>
         </View>
         <View style={{flex: 0.58, flexDirection: 'column'}}>
           <Text style={{color: 'white', fontSize: 24, fontWeight: 400}}>
-            Michel Smith
+            Super Admin
           </Text>
           <Text style={{color: 'white', fontSize: 14, fontWeight: 400}}>
-            Michelsmith@gmail.com{' '}
+            SuperAdmin@revx.com{' '}
           </Text>
         </View>
         <View style={{flex: 0.2}}>
-          <TouchableOpacity>
+          {/* <TouchableOpacity>
             <View
               style={{
                 paddingHorizontal: 12,
@@ -215,7 +225,7 @@ const AdminProfile = () => {
                 color={appColors.Goldcolor}
               />
             </View>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
         </View>
       </View>
 

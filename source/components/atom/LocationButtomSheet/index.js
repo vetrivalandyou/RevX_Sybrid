@@ -5,60 +5,98 @@ import CustomIcon, {
   Icons,
 } from '../../../components/molecules/CustomIcon/CustomIcon';
 import {screenSize} from '../ScreenSize';
-import {PostRequest} from '../../../services/apiCall';
-import {endPoint} from '../../../AppConstants/urlConstants';
+import {GetRequest, PostRequest} from '../../../services/apiCall';
+import {endPoint, messages} from '../../../AppConstants/urlConstants';
 import {getAsyncItem} from '../../../utils/SettingAsyncStorage';
-import {LATEST_SELECT} from '../../../AppConstants/appConstants';
+import {
+  LATEST_INSERT,
+  LATEST_SELECT,
+  LATEST_UPDATE,
+  SUCCESS_CODE,
+} from '../../../AppConstants/appConstants';
 import constants from '../../../AppConstants/Constants.json';
 import {ActivityIndicator} from 'react-native'; // Import the ActivityIndicator
 import {Geolocation} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {requestLocationPermissionAndGetLocation} from '../../../utils/GetLocation';
 import {SimpleSnackBar} from '../Snakbar/Snakbar';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const LocationBottomSheet = ({refRBSheet}) => {
   const navigation = useNavigation();
-
-  const [locations, setLocations] = useState([]);
-  const [id, setId] = useState(null);
-  const [address, setAddress] = useState('');
   const [locationList, setLocationList] = useState([]);
   const [userDetails, setUserDetails] = useState({});
-  const [locationName, setLocationName] = useState('');
-  const [locationLatitude, setLocationLatitude] = useState('');
-  const [locationLongitude, setLocationLongitude] = useState('');
-  const [nearestLandmark, setNearestLandmark] = useState('');
   const [isLoading, setIsLoading] = useState(true);
-  const [selectedItem, setSelectedItem] = useState('');
-  const [colorChange, setColorChange] = useState(true);
-  const [currentLocation, setCurrentLocation] = useState(null);
+  const [selectedLocation, setSelectedLocation] = useState(null);
+  const [makingAsyncData, setMakingAsyncData] = useState();
 
-  const initialGetLocationFields = {
-    id: 0,
-    locationName: '',
-    locationLatitude: 0.0,
-    locationLongitude: 0.0,
-    address: '',
-    nearestLandmark: '', // Corrected property name
-    mobileNo: userDetails.userPhone,
-    userId: userDetails.userId,
-    operations: LATEST_SELECT,
-    createdBy: userDetails.userId,
-    userIP: '::1',
+  useEffect(() => {
+    getAsyncData();
+  }, []);
+
+  const getAsyncData = async () => {
+    const userDetailsData = await getAsyncItem(
+      constants.AsyncStorageKeys.userDetails,
+    );
+    setUserDetails(userDetailsData);
+    fetchLocations(userDetailsData);
   };
+
+  const fetchLocations = userDetailsData => {
+    const payload = {
+      id: 0,
+      locationName: '',
+      locationLatitude: 0.0,
+      locationLongitude: 0.0,
+      address: '',
+      nearestLandmark: '', // Corrected property name
+      mobileNo: userDetailsData.userPhone,
+      userId: userDetailsData.userId,
+      operations: LATEST_SELECT,
+      createdBy: userDetailsData.userId,
+      userIP: '::1',
+    };
+    PostRequest(endPoint.BARBER_GET_SET_UP_LOCATION, payload)
+      .then(res => {
+        if (res?.data?.code === SUCCESS_CODE) {
+          setLocationList(res?.data?.data);
+        } else {
+          SimpleSnackBar(res?.data?.message, appColors.Red);
+        }
+        setIsLoading(false);
+      })
+      .catch(err => {
+        console.log('Error while fetching locations', err);
+      });
+  };
+
+  useEffect(() => {
+    const loadSelectedLocation = async () => {
+      try {
+        const storedLocation = await AsyncStorage.getItem(
+          constants?.AsyncStorageKeys?.selected_Location,
+        );
+        if (storedLocation) {
+          setSelectedLocation(JSON.parse(storedLocation));
+        }
+      } catch (error) {
+        console.error('Error loading selected location:', error);
+      }
+    };
+    loadSelectedLocation();
+  }, []);
 
   const handleUseMyCurrentLoc = async () => {
     var userCurrentLocation;
     if (Platform.OS == 'android') {
       userCurrentLocation = await requestLocationPermissionAndGetLocation();
-      setCurrentLocation(userCurrentLocation);
     } else {
       Geolocation.requestAuthorization('whenInUse').then(res => {
         return new Promise((resolve, reject) => {
           Geolocation.getCurrentPosition(
             position => {
               console.log('Inside', position);
-              resolve(setCurrentLocation(position));
+              userCurrentLocation = position;
             },
             error => {
               console.log(error);
@@ -68,120 +106,111 @@ const LocationBottomSheet = ({refRBSheet}) => {
         });
       });
     }
-    console.log('currentLocation', currentLocation);
-    if (currentLocation) {
-      locatioDetails(currentLocation);
+    if (userCurrentLocation) {
+      fetchAddress(userCurrentLocation);
+      await AsyncStorage.setItem(
+        constants?.AsyncStorageKeys?.longLat,
+        JSON.stringify(userCurrentLocation),
+      );
     }
   };
 
-  // const locatioDetails = location => {
-  //   const payload = {
-  //     locationName: 'My Location',
-  //     nearstLandmark: 'Nearst LandMark',
-  //     id: userDetails?.userId,
-  //     locationLatitude: location?.coords?.latitude,
-  //     locationLongitude: location?.coords?.longitude,
-  //     mobileNo: userDetails?.userPhone,
-  //     userId: userDetails?.userId,
-  //     address: 'Address',
-  //     operations: 1,
-  //     createdBy: userDetails?.userId,
-  //     userIP: '::1',
-  //   };
-  //   console.log('payload.........', payload);
-  //   PostRequest(endPoint.BARBER_SET_UP_LOCATION_SERVICES, payload)
-  //     .then(res => {
-  //       if (res?.data?.code == 200) {
-  //         console.log('api respob=nse.....', res.data);
-  //         SimpleSnackBar(res?.data?.message);
-  //       } else {
-  //         SimpleSnackBar(res?.data?.message);
-  //       }
-  //     })
-  //     .catch(err => {
-  //       console.log("Hello", err)
-  //       SimpleSnackBar(messages?.Catch, appColors.Red);
-  //     });
-  // };
+  const fetchAddress = userCurrentLocation => {
+    GetRequest(
+      `https://maps.googleapis.com/maps/api/geocode/json?latlng=${userCurrentLocation?.coords?.latitude},${userCurrentLocation?.coords?.longitude}&key=AIzaSyC7Y3a-Q8qZXj5XgLzpHa92b_nw3sR8aWE`,
+    )
+      .then(res => {
+        console.log(
+          'Hello',
+          res?.data?.results?.[0]?.address_components?.[3]?.long_name,
+        );
+        AsyncStorage.setItem(
+          constants?.AsyncStorageKeys?.address,
+          JSON.stringify(res?.data?.results?.[0]?.formatted_address),
+        );
+        AsyncStorage.setItem(
+          constants?.AsyncStorageKeys?.nearest_landmark,
+          JSON.stringify(
+            res?.data?.results?.[0]?.address_components?.[3]?.long_name,
+          ),
+        );
 
-  const handleClickLocation = item => {
-    setSelectedItem(item);
-    setId(item?.id);
-    setLocationName(item?.locationName);
-    setLocationLatitude(item?.locationLatitude);
-    setLocationLongitude(item?.locationLongitude);
-    setAddress(item?.address);
-    setNearestLandmark(item?.nearestLandmark);
+        locatioDetails(userCurrentLocation, res?.data?.results?.[0]);
+      })
+      .catch(err => {
+        console.log(err);
+      });
   };
 
-  const locatioDetails = location => {
-    const payload = {
-      locationName: 'Location New',
-      nearstLandmark: 'Nearst LandMark New',
-      id: userDetails?.userId,
-      locationLatitude: location?.coords?.latitude,
-      locationLongitude: location?.coords?.longitude,
-      mobileNo: userDetails?.userPhone,
-      userId: userDetails?.userId,
-      address: 'Address',
-      operations: 1,
-      createdBy: userDetails?.userId,
-      userIP: '::1',
+  const handleClickLocation = item => {
+    const makingData = {
+      coords: {
+        latitude: item?.locationLatitude,
+        longitude: item?.locationLongitude,
+      },
     };
-    console.log('payload.........', payload);
+    setMakingAsyncData(makingData);
+    setSelectedLocation(item);
+  };
 
+  const locatioDetails = (location, address) => {
+    const payload = {
+      id: 0,
+      locationName: address?.address_components?.[3]?.long_name,
+      locationLatitude: location?.coords?.longitude,
+      locationLongitude: location?.coords?.latitude,
+      address: address?.formatted_address,
+      nearstLandmark: address?.address_components?.[3]?.long_name,
+      mobileNo: 'string',
+      userId: userDetails?.userId,
+      operations: LATEST_INSERT,
+      createdBy: userDetails?.userId,
+      userIP: '',
+    };
     PostRequest(endPoint.BARBER_SET_UP_LOCATION_SERVICES, payload)
       .then(res => {
-        if (res?.data?.code == 200) {
-          console.log('api respob=nse.....', res.data);
+        if (res?.data?.code == SUCCESS_CODE) {
           SimpleSnackBar(res?.data?.message);
         } else {
           SimpleSnackBar(res?.data?.message);
         }
+        refRBSheet.current.close();
       })
       .catch(err => {
+        console.log(err);
         SimpleSnackBar(messages?.Catch, appColors.Red);
       });
   };
 
-  const getAsyncData = async () => {
-    const userDetailsData = await getAsyncItem(
-      constants.AsyncStorageKeys.userDetails,
-    );
-    setUserDetails(userDetailsData);
-  };
-
-  useEffect(() => {
-    getAsyncData();
-    fetchLocations();
-  }, []);
-
-  const fetchLocations = () => {
-    PostRequest(endPoint.BARBER_GET_SET_UP_LOCATION, initialGetLocationFields)
-      .then(res => {
-        if (res?.data?.code === 200) {
-          setIsLoading(false);
-          setLocationList(res?.data?.data);
-        } else {
-        }
-      })
-      .catch(err => {
-        // console.log('Error while fetching locations', err);
-      });
-  };
-
-  // const handleLocation = () => {
-  //   handleUseMyCurrentLoc();
-  //   // refRBSheet.current.close();
-  // };
   const handleClickEdit = item => {
     console.log(item);
     navigation.navigate(constants.screen.MyLocation, {
       item: item,
     });
   };
-  const openLocationScreen = () => {
+
+  const AddNewLocation = () => {
     navigation.navigate(constants.screen.MyLocation);
+  };
+
+  const handleConfirmLocation = async () => {
+    try {
+      if (makingAsyncData) {
+        await AsyncStorage.setItem(
+          constants?.AsyncStorageKeys?.longLat,
+          JSON.stringify(makingAsyncData),
+        );
+        await AsyncStorage.setItem(
+          constants?.AsyncStorageKeys?.selected_Location,
+          JSON.stringify(selectedLocation),
+        );
+        refRBSheet.current.close();
+      } else {
+        console.log('No location selected');
+      }
+    } catch (error) {
+      console.error('Error storing selected location:', error);
+    }
   };
 
   const LocationList = ({item}) => {
@@ -194,7 +223,6 @@ const LocationBottomSheet = ({refRBSheet}) => {
           flexDirection: 'row',
         }}>
         <TouchableOpacity
-          key={item?.id}
           onPress={() => {
             handleClickLocation(item);
           }}
@@ -202,18 +230,12 @@ const LocationBottomSheet = ({refRBSheet}) => {
             lbStyle.clSelectLocation,
             {
               backgroundColor:
-                selectedItem?.id == item.id ? '#202020' : appColors.Black,
+                selectedLocation?.id === item.id ? '#202020' : appColors.Black,
             },
           ]}>
           <View style={lbStyle.clIconView}>
-            <View
-              style={[
-                lbStyle.OuterCircle,
-                selectedItem?.LocationId == item.LocationId && {
-                  backgroundColor: appColors.White,
-                },
-              ]}>
-              {selectedItem?.id == item.id && (
+            <View style={lbStyle.OuterCircle}>
+              {selectedLocation?.id === item.id && (
                 <View style={lbStyle.innerCircle}></View>
               )}
             </View>
@@ -228,14 +250,14 @@ const LocationBottomSheet = ({refRBSheet}) => {
               {item.locationName}
             </Text>
           </View>
-          {selectedItem?.id == item.id && (
+          {selectedLocation?.id === item.id && (
             <View style={[lbStyle.clTextView, {flex: 0.1}]}>
               <CustomIcon
                 type={Icons.MaterialIcons}
                 name={'edit-location-alt'}
                 size={20}
                 color={appColors.White}
-                onPress={() => handleClickEdit(item)} // Updated onPress
+                onPress={() => handleClickEdit(item)}
               />
             </View>
           )}
@@ -276,9 +298,7 @@ const LocationBottomSheet = ({refRBSheet}) => {
           />
         )}
       </View>
-      <TouchableOpacity
-        onPress={openLocationScreen}
-        style={lbStyle.clContainer}>
+      <TouchableOpacity onPress={AddNewLocation} style={lbStyle.clContainer}>
         <View style={lbStyle.clIconView}>
           <CustomIcon
             type={Icons.Entypo}
@@ -292,7 +312,7 @@ const LocationBottomSheet = ({refRBSheet}) => {
         </View>
       </TouchableOpacity>
       <TouchableOpacity
-        onPress={() => refRBSheet.current.close()}
+        onPress={handleConfirmLocation} // Update onPress event
         style={[
           lbStyle.clContainer,
           {justifyContent: 'center', alignItems: 'flex-end'},

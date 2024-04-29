@@ -93,9 +93,11 @@
     "AdminLicensee": "AdminLicensee",
     "AdminEditLicense": "AdminEditLicense",
     "AdminUserDetails": "AdminUserDetails",
+    "AdminBarberDetails": "AdminBarberDetails",
     "MyBooking": "MyBooking",
     "AdminProfile": "AdminProfile",
     "AdminViewUsers": "AdminViewUsers",
+    "AdminViewBarber": "AdminViewBarber",
     "AdminBlockUsers": "AdminBlockUsers",
     "ManageVans": "ManageVans",
     "AddVanservices": "AddVanservices",
@@ -112,11 +114,17 @@
     "OurServices": "OurServices",
     "SubService": "SubService",
     "AddSubServices": "AddSubServices",
-    "EditSubServices": "EditSubServices"
+    "EditSubServices": "EditSubServices",
+    "BarberListApprove": "BarberListApprove",
+    "AdminSetupSlots": "AdminSetupSlots",
+    "CreateSlot": "CreateSlot"
   },
   "AsyncStorageKeys": {
     "token": "token",
     "userDetails": "userDetails",
-    "longLat": "longLat"
+    "longLat": "longLat",
+    "address": "address",
+    "nearest_landmark": "nearest_landmark",
+    "selected_Location": "selectedLocation"
   }
 }

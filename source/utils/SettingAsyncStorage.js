@@ -43,7 +43,6 @@ export const setLogLatAsync = async (key, item) => {
   }
 };
 
-
 export const getLogLatAsync = async key => {
   try {
     const asyncItem = await AsyncStorage.getItem(key);

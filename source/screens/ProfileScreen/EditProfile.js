@@ -18,7 +18,7 @@ import SimpleTextField from '../../components/molecules/TextFeilds/SimpleTextFie
 import ButtonComponent from '../../components/atom/CustomButtons/ButtonComponent';
 import appColors from '../../AppConstants/appColors';
 import {screenSize} from '../../components/atom/ScreenSize';
-import {endPoint, messages} from '../../AppConstants/urlConstants';
+import {endPoint, imageUrl, messages} from '../../AppConstants/urlConstants';
 import {PostRequest} from '../../services/apiCall';
 import {Formik} from 'formik';
 import * as Yup from 'yup';
@@ -28,28 +28,25 @@ import BottomSheet from '../../components/molecules/BottomSheetContent/BottomShe
 import {SimpleSnackBar} from '../../components/atom/Snakbar/Snakbar';
 import ChooseImage from '../../components/molecules/ChooseImage';
 import {generateRandomNumber} from '../../functions/AppFunctions';
+import {SUCCESS_CODE} from '../../AppConstants/appConstants';
 
 const EditProfile = ({navigation}) => {
-
-  const handleImagepress = image=>{
-    setProfileImage(image);
-    refRBSheet.current.close();
-  }
   const refRBSheet = useRef();
   const [isEye, setIsEye] = useState(false);
   const [userDetails, setUserDetails] = useState();
-  const [profileImage, setProfileImage] = useState(null);
+  const [profileImage, setProfileImage] = useState('');
+  const [isUpdated, setIsUpdated] = useState(false);
 
   const checkDetails = async values => {
     let userUpdatedDetails = {
-      _RoleId: userDetails?._RoleId,
+      _RoleId: values?._RoleId,
       employeeId: 0,
       loginEmailId: values?.loginEmailId,
-      userId: userDetails?.userId,
+      userId: values?.userId,
       userName: values?.userName,
       userPhone: values?.userPhone,
       profileImage: values?.profileImage,
-      userTypeId: userDetails?.userTypeId,
+      userTypeId: values?.userTypeId,
     };
     await setAsyncItem(
       constants.AsyncStorageKeys.userDetails,
@@ -67,6 +64,8 @@ const EditProfile = ({navigation}) => {
       constants.AsyncStorageKeys.userDetails,
     );
     setUserDetails(userDetail);
+    setProfileImage(userDetail?.profileImage);
+    console.log('userDetail', userDetail);
   };
 
   const validationSchema = Yup.object().shape({
@@ -89,22 +88,30 @@ const EditProfile = ({navigation}) => {
     formData.append('UserEmail', values.UserEmail);
     formData.append('PhoneNo', values.PhoneNo);
     formData.append('Operation', 2);
-    formData.append('profileImage', {
-      uri: profileImage?.path,
-      name: `${generateRandomNumber()}.${profileImage?.mime}`,
-      type: profileImage?.mime,
-    });
+    if (isUpdated == true) {
+      formData.append('profileImage', {
+        uri: profileImage?.path,
+        name: `${generateRandomNumber()}`,
+        type: profileImage?.mime,
+      });
+    } else {
+      formData.append('profileImage', profileImage);
+    }
 
     console.log('data', formData);
+    console.log('isYpdate', isUpdated);
+    console.log('ProfilePath', profileImage);
+    console.log('generateRandomNumber()', generateRandomNumber());
+
     PostRequest(endPoint.EDIT_PROFILE_USER, formData)
       .then(res => {
         console.log('RESPONSEDATA', res?.data);
-        if (res?.data?.code == 200) {
-          console.log(res?.data);
-          SimpleSnackBar(res?.data?.message);
-          checkDetails(values);
+        if (res?.data?.[0]?.HasError == 0) {
+          setIsUpdated(false);
+          checkDetails(res?.data?.[0]);
+          SimpleSnackBar(res?.data?.[0]?.Message);
         } else {
-          SimpleSnackBar(res?.data?.message);
+          SimpleSnackBar(res?.data?.[0]?.Message);
         }
         setSubmitting(false);
       })
@@ -112,6 +119,12 @@ const EditProfile = ({navigation}) => {
         SimpleSnackBar(messages.Catch, appColors.Red);
         setSubmitting(false);
       });
+  };
+
+  const handleImagepress = image => {
+    setProfileImage(image);
+    setIsUpdated(true);
+    refRBSheet.current.close();
   };
 
   return (
@@ -129,7 +142,7 @@ const EditProfile = ({navigation}) => {
         />
       </View>
 
-      <View style={{flex: 0.8}}>
+      <View style={{flex: 0.9}}>
         {userDetails ? (
           <Formik
             initialValues={{
@@ -152,48 +165,27 @@ const EditProfile = ({navigation}) => {
               isSubmitting,
             }) => (
               <>
-                <View style={{flex: 0.34}}>
+                <View style={{flex: 0.3}}>
                   <View
                     style={{
-                      flex: 0.5,
+                      flex: 0.7,
                       justifyContent: 'center',
                       alignItems: 'center',
                     }}>
-                    {/* <Image
-                      source={AppImages.ProfileSlider}
-                      style={{
-                        width: '22%',
-                        height: '82%',
-                        borderRadius: 80,
-                        borderWidth: 3,
-                        borderColor: appColors.Goldcolor,
-                      }}
-                    />
-                    <CustomIcon
-                      type={Icons.AntDesign}
-                      size={20}
-                      name={'pluscircle'}
-                      color={'white'}
-                      style={{
-                        position: 'absolute',
-                        top: screenSize.height / 11.1,
-                        left: screenSize.width / 1.96,
-                      }}
-                    /> */}
                     <TouchableOpacity
                       onPress={() => refRBSheet.current.open()}
                       style={{
-                        width: '25%',
+                        width: 100,
+                        height: 100,
                         justifyContent: 'center',
                         alignItems: 'center',
-                        height: '90%',
                       }}>
-                      {profileImage ? (
+                      {isUpdated == false ? (
                         <Image
-                          source={{uri: profileImage}}
+                          source={{uri: `${imageUrl}${profileImage}`}}
                           style={{
-                            width: '100%',
-                            height: '100%',
+                            width: 100,
+                            height: 100,
                             borderRadius: 80,
                             borderWidth: 3,
                             borderColor: appColors.Goldcolor,
@@ -201,7 +193,7 @@ const EditProfile = ({navigation}) => {
                         />
                       ) : (
                         <Image
-                          source={AppImages.ProfileSlider}
+                          source={{uri: profileImage?.path}}
                           style={{
                             width: '100%',
                             height: '100%',
@@ -215,11 +207,11 @@ const EditProfile = ({navigation}) => {
                         type={Icons.AntDesign}
                         size={20}
                         name={'pluscircle'}
-                        color={'white'}
+                        color={appColors.Goldcolor}
                         style={{
                           position: 'absolute',
-                          left: screenSize.width / 5.5,
-                          top: screenSize.height / 11.5,
+                          left: screenSize.width / 5,
+                          top: screenSize.height / 10,
                         }}
                       />
                     </TouchableOpacity>
@@ -233,38 +225,140 @@ const EditProfile = ({navigation}) => {
                     <Text
                       style={{
                         color: appColors.White,
-                        fontSize: 15,
+                        fontSize: 18,
                         fontWeight: 'bold',
                       }}>
                       {userDetails?.userName}
                     </Text>
                   </View>
-                  <View style={{flex: 0.4, alignItems: 'center'}}>
-                    <Text style={{color: appColors.White}}>
+                  <View style={{flex: 0.2, alignItems: 'center'}}>
+                    <Text style={{color: appColors.White, fontSize: 15}}>
                       {userDetails?.loginEmailId}
                     </Text>
                   </View>
                 </View>
 
-                <View style={{flex: 0.11}}>
-                  <SimpleTextField
-                    placeholder={'Enter Name'}
-                    placeholderTextColor={appColors.LightGray}
-                    onChangeText={handleChange('UserName')}
-                    onBlur={handleBlur('UserName')}
-                    value={values.UserName}
-                  />
-                  {touched.UserName && errors.UserName && (
-                    <View
-                      style={{marginLeft: 10, marginTop: 2, marginBottom: 15}}>
-                      <Text style={{color: appColors.Goldcolor, fontSize: 10}}>
-                        {errors.UserName}
-                      </Text>
-                    </View>
-                  )}
+                <View style={{flex: 0.15}}>
+                  <View
+                    style={{
+                      flex: 0.3,
+                      // backgroundColor: 'pink',
+                      marginLeft: 12,
+                      justifyContent: 'center',
+                    }}>
+                    <Text
+                      style={{
+                        fontSize: 15,
+                        fontWeight: 'bold',
+                        color: appColors.White,
+                      }}>
+                      Name
+                    </Text>
+                  </View>
+                  <View style={{flex: 0.7}}>
+                    <SimpleTextField
+                      textUpperView={{borderRadius: 20}}
+                      placeholder={'Enter Name'}
+                      placeholderTextColor={appColors.LightGray}
+                      onChangeText={handleChange('UserName')}
+                      onBlur={handleBlur('UserName')}
+                      value={values.UserName}
+                    />
+                    {touched.UserName && errors.UserName && (
+                      <View
+                        style={{
+                          marginLeft: 10,
+                          marginTop: 2,
+                          marginBottom: 15,
+                        }}>
+                        <Text
+                          style={{color: appColors.Goldcolor, fontSize: 10}}>
+                          {errors.UserName}
+                        </Text>
+                      </View>
+                    )}
+                  </View>
                 </View>
 
-                <View style={{flex: 0.11, marginTop: 6}}>
+                <View style={{flex: 0.15}}>
+                  <View
+                    style={{
+                      flex: 0.3,
+                      // backgroundColor: 'pink',
+                      marginLeft: 12,
+                      justifyContent: 'center',
+                    }}>
+                    <Text
+                      style={{
+                        fontSize: 15,
+                        fontWeight: 'bold',
+                        color: appColors.White,
+                      }}>
+                      Email
+                    </Text>
+                  </View>
+                  <View style={{flex: 0.7}}>
+                    <SimpleTextField
+                      textUpperView={{borderRadius: 20}}
+                      placeholder={'Enter Email'}
+                      placeholderTextColor={appColors.LightGray}
+                      onChangeText={handleChange('UserEmail')}
+                      onBlur={handleBlur('UserEmail')}
+                      value={values.UserEmail}
+                    />
+                    {touched.UserEmail && errors.UserEmail && (
+                      <View
+                        style={{
+                          marginLeft: 10,
+                          marginTop: 2,
+                          marginBottom: 15,
+                        }}>
+                        <Text
+                          style={{color: appColors.Goldcolor, fontSize: 10}}>
+                          {errors.UserEmail}
+                        </Text>
+                      </View>
+                    )}
+                  </View>
+                </View>
+
+                <View style={{flex: 0.15}}>
+                  <View
+                    style={{
+                      flex: 0.3,
+                      marginLeft: 12,
+                      justifyContent: 'center',
+                    }}>
+                    <Text
+                      style={{
+                        fontSize: 15,
+                        fontWeight: 'bold',
+                        color: appColors.White,
+                      }}>
+                      Phone Number
+                    </Text>
+                  </View>
+                  <View style={{flex: 0.7}}>
+                    <SimpleTextField
+                      textUpperView={{borderRadius: 20}}
+                      placeholder={'Enter Phone no'}
+                      placeholderTextColor={appColors.LightGray}
+                      onChangeText={handleChange('PhoneNo')}
+                      onBlur={handleBlur('PhoneNo')}
+                      value={values.PhoneNo}
+                    />
+                    {touched.PhoneNo && errors.PhoneNo && (
+                      <View style={{marginLeft: 10, margin: 5}}>
+                        <Text
+                          style={{color: appColors.Goldcolor, fontSize: 10}}>
+                          {errors.PhoneNo}
+                        </Text>
+                      </View>
+                    )}
+                  </View>
+                </View>
+
+                {/* <View style={{flex: 0.11, marginTop: 6}}>
                   <SimpleTextField
                     placeholder={'Enter Email'}
                     placeholderTextColor={appColors.LightGray}
@@ -280,9 +374,9 @@ const EditProfile = ({navigation}) => {
                       </Text>
                     </View>
                   )}
-                </View>
+                </View> */}
 
-                <View style={{flex: 0.11, marginTop: 6}}>
+                {/* <View style={{flex: 0.11, marginTop: 6}}>
                   <SimpleTextField
                     placeholder={'Enter Phone no'}
                     placeholderTextColor={appColors.LightGray}
@@ -297,28 +391,29 @@ const EditProfile = ({navigation}) => {
                       </Text>
                     </View>
                   )}
-                </View>
-
-                <View style={styles.buttonView}>
-                  <ButtonComponent
-                    style={{
-                      backgroundColor: '#C79646',
-                      paddingVertical: Platform.OS == 'ios' ? 17 : 13,
-                      bottom: 1,
-                      position: 'absolute',
-                    }}
-                    btnTextColor={{color: 'white'}}
-                    title={'Save'}
-                    disabled={isSubmitting}
-                    onPress={handleSubmit}
-                    isLoading={isSubmitting}
-                  />
+                </View> */}
+                <View style={{flex: 0.26, justifyContent: 'flex-end'}}>
+                  <View style={styles.buttonView}>
+                    <ButtonComponent
+                      style={{
+                        backgroundColor: '#C79646',
+                        paddingVertical: Platform.OS == 'ios' ? 17 : 13,
+                        bottom: 1,
+                        position: 'absolute',
+                      }}
+                      btnTextColor={{color: 'white'}}
+                      title={'Save'}
+                      disabled={isSubmitting}
+                      onPress={handleSubmit}
+                      isLoading={isSubmitting}
+                    />
+                  </View>
                 </View>
               </>
             )}
           </Formik>
         ) : (
-          <ActivityIndicator size="large" color="#C79646" />
+          <ActivityIndicator size="small" color="#C79646" />
         )}
       </View>
       <BottomSheet ref={refRBSheet} Height={120}>
@@ -335,7 +430,7 @@ export default EditProfile;
 
 const styles = StyleSheet.create({
   buttonView: {
-    flex: 0.1,
+    flex: 0.3,
     justifyContent: 'center',
     alignItems: 'center',
   },

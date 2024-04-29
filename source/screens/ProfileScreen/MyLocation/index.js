@@ -14,39 +14,37 @@ import {useRoute} from '@react-navigation/native';
 
 const MyLocation = ({navigation}) => {
   const route = useRoute();
-  const dispatch = useDispatch();
 
-  // Extract params
-  // const {item} = route.params;
-  // console.log('item.............', item);
-
-  const {coords} = useSelector(state => state.LocationReducer);
+  console.log('route', route);
 
   const mapRef = useRef();
-  const [selectedLocation, setSelectedLocation] = useState(null);
+  const [selectedLocation, setSelectedLocation] = useState({});
 
   useEffect(() => {
     handleLocationSelect();
-  }, [coords]);
+  }, []);
 
   const [region, setRegion] = useState({
-    latitude: 24.8607,
-    longitude: 67.0011,
+    latitude: 31.5203696,
+    longitude: 74.35874729999999,
     latitudeDelta: 0.0922,
     longitudeDelta: 0.0421,
   });
 
   const handleLocationSelect = () => {
-    const latitude = coords?.coords?.latitude;
-    const longitude = coords?.coords?.longitude;
-    setSelectedLocation([
-      {
+    const latitude = route?.params?.item?.locationLatitude;
+    const longitude = route?.params?.item?.locationLongitude;
+
+    console.log("latitude",latitude)
+    console.log("longitude",longitude)
+    setSelectedLocation({
+      coords: {
         latitude: latitude,
         longitude: longitude,
-        latitudeDelta: 0.0922,
-        longitudeDelta: 0.0421,
+        latitudeDelta: 0.05,
+        longitudeDelta: 0.05,
       },
-    ]);
+    });
     mapRef?.current?.animateToRegion(
       {
         latitude: latitude,
@@ -54,20 +52,20 @@ const MyLocation = ({navigation}) => {
         latitudeDelta: 0.05,
         longitudeDelta: 0.05,
       },
-      1000, // Animation duration in milliseconds
+      3000, // Animation duration in milliseconds
     );
   };
 
   const handleMapPress = e => {
-    // console.log('Live Cordinates>>>>....', e.nativeEvent.coordinate);
-    setSelectedLocation([
-      {
+    console.log('Live Cordinates>>>>....', e.nativeEvent.coordinate);
+    setSelectedLocation({
+      coords: {
         latitude: e.nativeEvent.coordinate?.latitude,
         longitude: e.nativeEvent.coordinate?.longitude,
-        latitudeDelta: 0.0922,
-        longitudeDelta: 0.0421,
+        latitudeDelta: 0.05,
+        longitudeDelta: 0.05,
       },
-    ]);
+    });
     mapRef.current.animateToRegion(
       {
         latitude: e.nativeEvent.coordinate?.latitude,
@@ -75,7 +73,7 @@ const MyLocation = ({navigation}) => {
         latitudeDelta: 0.05,
         longitudeDelta: 0.05,
       },
-      1000, // Animation duration in milliseconds
+      3000, // Animation duration in milliseconds
     );
   };
 
@@ -85,7 +83,6 @@ const MyLocation = ({navigation}) => {
         style={{
           flex: 0.8,
           flexDirection: 'column',
-          backgroundColor: 'pink',
         }}>
         <GoogleMap
           mapRef={mapRef}
@@ -93,53 +90,10 @@ const MyLocation = ({navigation}) => {
           setRegion={setRegion}
           title={'Marker Title'}
           description={'Marker Description'}
-          selectedLocation={selectedLocation}
+          userLocation={true}
+          userCoordinates={selectedLocation}
           handleMapPress={handleMapPress}
         />
-
-        {/* <MapView
-          style={{flex: 1}}
-          ref={mapRef}
-          provider={PROVIDER_GOOGLE}
-          initialRegion={region}
-          onRegionChange={setRegion}
-          customMapStyle={CustomDarkMapStyle}
-          zoomEnabled={true}
-          scrollEnabled={true}
-          rotateEnabled={true}
-          pitchEnabled={true}
-          // onPress={handleMapPress}
-        >
-          {selectedLocation && (
-            <Marker
-              coordinate={{
-                latitude: selectedLocation.latitude,
-                longitude: selectedLocation.longitude,
-              }}
-              title={'Marker Title'}
-              description={'Marker Description'}
-              selectedLocation={selectedLocation}
-              handleMapPress={handleMapPress}
-            />
-            <TouchableOpacity
-              onPress={() => navigation.goBack()}
-              style={{
-                position: 'absolute',
-                top: 20,
-                left: 20,
-                backgroundColor: appColors.Black,
-                padding: 10,
-                borderRadius: 100,
-              }}>
-              <CustomIcon
-                type={Icons.Entypo}
-                name={'cross'}
-                size={25}
-                color={appColors.Goldcolor}
-              />
-            </Marker>
-          )}
-        </MapView> */}
         <TouchableOpacity
           onPress={() => navigation.goBack()}
           style={{
@@ -177,7 +131,7 @@ const MyLocation = ({navigation}) => {
       </View>
       <View style={{flex: 0.3}}>
         <MyLocationBottomSheet
-          selectedLocation={[selectedLocation]}
+          selectedLocation={selectedLocation}
           route={route}
         />
       </View>

@@ -20,34 +20,31 @@ import SimpleTextField from '../../molecules/TextFeilds/SimpleTextField';
 import {Formik} from 'formik';
 import * as Yup from 'yup';
 import {PostRequest} from '../../../services/apiCall';
-import {endPoint} from '../../../AppConstants/urlConstants';
+import {endPoint, messages} from '../../../AppConstants/urlConstants';
 import ButtonComponent from '../CustomButtons/ButtonComponent';
 import {getAsyncItem} from '../../../utils/SettingAsyncStorage';
 import {SimpleSnackBar} from '../Snakbar/Snakbar';
 import {useDispatch, useSelector} from 'react-redux';
+import { SUCCESS_CODE } from '../../../AppConstants/appConstants';
 
 const MyLocationBottomSheet = ({selectedLocation, route}) => {
   const navigation = useNavigation();
   const [selectedItem, setSelectedItem] = useState('');
-  const [colorChange, setColorChange] = useState(true);
   const [userDetails, setUserDetails] = useState('');
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);
   const [operationType, setOperationType] = useState('setup');
-  // default is 'setup'
-  // const route = useRoute();
-  // Extract params
+
   const {item} = route?.params || {};
 
   useEffect(() => {
     getUserDetails();
     setIsButtonDisabled(!selectedLocation); // Update isButtonDisabled based on selectedLocation
-
     if (item?.id) {
       setOperationType('update');
     } else {
       setOperationType('setup');
     }
-  }, [selectedLocation, item?.id]);
+  }, []);
 
   const handleLocationAction = values => {
     if (operationType === 'setup') {
@@ -65,89 +62,6 @@ const MyLocationBottomSheet = ({selectedLocation, route}) => {
     setUserDetails(userDetail);
   };
 
-  const handleClickLocation = item => {
-    console.log('handleClickLocation', item);
-
-    setSelectedItem(item);
-    setValues({
-      locationName: item.locationName,
-      nearstLandmark: item.nearstLandmark,
-    });
-    setOperationType('update');
-  };
-
-  const handleLocation = () => {
-    handleUseMyCurrentLoc();
-    // refRBSheet.current.close();
-  };
-
-  const openLocationScreen = () => {
-    navigation.navigate(constants.screen.MyLocation),
-      refRBSheet.current.close();
-  };
-
-  const LocationList = ({item}) => {
-    return (
-      <View
-        style={{
-          height: screenSize.height / 15,
-          width: 'auto',
-          margin: 5,
-          flexDirection: 'row',
-        }}>
-        <TouchableOpacity
-          key={item?.LocationId}
-          onPress={() => {
-            handleClickLocation(item);
-          }}
-          style={[
-            lbStyle.clSelectLocation,
-            {
-              backgroundColor:
-                selectedItem?.LocationId == item.LocationId
-                  ? '#202020'
-                  : appColors.Black,
-            },
-          ]}>
-          <View style={lbStyle.clIconView}>
-            <View
-              style={[
-                lbStyle.OuterCircle,
-                selectedItem?.LocationId == item.LocationId && {
-                  backgroundColor: appColors.White,
-                },
-              ]}>
-              {selectedItem?.LocationId == item.LocationId && (
-                <View style={lbStyle.innerCircle}></View>
-              )}
-            </View>
-          </View>
-          <View style={[lbStyle.clTextView, {flex: 0.7}]}>
-            <Text
-              style={{
-                fontSize: 13,
-                fontWeight: 'bold',
-                color: appColors.White,
-              }}>
-              {item.locationName}
-            </Text>
-          </View>
-          {selectedItem?.LocationId == item.LocationId && (
-            <View style={[lbStyle.clTextView, {flex: 0.1}]}>
-              <CustomIcon
-                type={Icons.MaterialIcons}
-                name={'edit-location-alt'}
-                size={20}
-                color={appColors.White}
-              />
-            </View>
-          )}
-        </TouchableOpacity>
-      </View>
-    );
-  };
-
-  //   Input adress fields validation fuction
   const validationSchema = Yup.object().shape({
     locationName: Yup.string().required('Please enter your location name'),
     nearstLandmark: Yup.string().required('Please enter your Nearest Mark'),
@@ -157,8 +71,8 @@ const MyLocationBottomSheet = ({selectedLocation, route}) => {
     const payload = {
       ...values,
       locationId: item?.id,
-      locationLatitude: selectedLocation[0][0]?.latitude,
-      locationLongitude: selectedLocation[0][0]?.longitude,
+      locationLatitude: selectedLocation?.[0]?.coords?.latitude,
+      locationLongitude: selectedLocation?.[0]?.coords?.longitude,
       mobileNo: userDetails?.userPhone,
       customerId: userDetails?.userId,
       address: values.locationName,
@@ -170,14 +84,14 @@ const MyLocationBottomSheet = ({selectedLocation, route}) => {
 
     PostRequest(endPoint.AUTH_CUSTOMER_LOCATION_UPDATED, payload)
       .then(res => {
-        if (res?.data?.code == 200) {
+        if (res?.data?.code == SUCCESS_CODE) {
           SimpleSnackBar(res?.data?.message);
         } else {
           SimpleSnackBar(res?.data?.message);
         }
       })
       .catch(err => {
-        SimpleSnackBar(message?.Catch, appColors.Red);
+        SimpleSnackBar(messages?.Catch, appColors.Red);
       });
   };
 
@@ -186,8 +100,8 @@ const MyLocationBottomSheet = ({selectedLocation, route}) => {
     const payload = {
       ...values,
       id: userDetails?.userId,
-      locationLatitude: selectedLocation[0][0]?.latitude,
-      locationLongitude: selectedLocation[0][0]?.longitude,
+      locationLatitude: selectedLocation?.[0]?.coords?.latitude,
+      locationLongitude: selectedLocation?.[0]?.coords?.longitude,
       mobileNo: userDetails?.userPhone,
       userId: userDetails?.userId,
       address: values.locationName,
@@ -195,10 +109,12 @@ const MyLocationBottomSheet = ({selectedLocation, route}) => {
       createdBy: userDetails?.userId,
       userIP: '::1',
     };
+    console.log("payload", payload)
+    console.log("selectedLocation", selectedLocation)
     PostRequest(endPoint.BARBER_SET_UP_LOCATION_SERVICES, payload)
       .then(res => {
         console.log('response', payload);
-        if (res?.data?.code == 200) {
+        if (res?.data?.code == SUCCESS_CODE) {
           console.log('Responseeeeeeeeeeeeeeeee', payload);
           SimpleSnackBar(res?.data?.message);
         } else {
@@ -206,13 +122,14 @@ const MyLocationBottomSheet = ({selectedLocation, route}) => {
         }
       })
       .catch(err => {
-        SimpleSnackBar(message?.Catch, appColors.Red);
+        console.log(err)
+        SimpleSnackBar(messages?.Catch, appColors.Red);
       });
   };
 
   return (
     <View style={lbStyle.mainContainer}>
-      {userDetails ? ( 
+      {userDetails ? (
         <Formik
           initialValues={{
             locationName: item?.id
@@ -306,7 +223,9 @@ const MyLocationBottomSheet = ({selectedLocation, route}) => {
           )}
         </Formik>
       ) : (
-        <ActivityIndicator size="large" color="#C79646" />
+        <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+          <ActivityIndicator size="small" color= {appColors.Goldcolor} />
+        </View>
       )}
     </View>
   );

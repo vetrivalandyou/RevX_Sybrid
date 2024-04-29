@@ -19,7 +19,7 @@ import constants from '../../../AppConstants/Constants.json';
 import {BarChart, Grid} from 'react-native-svg-charts';
 import SimpleTextField from '../../../components/molecules/TextFeilds/SimpleTextField';
 
-const AdminViewUsers = ({navigation}) => {
+const AdminViewBarber = ({navigation}) => {
   const [passwordValue, setPasswordValue] = React.useState('');
   const [isPasswordVisible, setIsPasswordVisible] = React.useState(false);
 
@@ -33,7 +33,7 @@ const AdminViewUsers = ({navigation}) => {
           headerSubView={{marginHorizontal: 5}}
           lefttIcoType={Icons.Ionicons}
           leftIcoName={'chevron-back'}
-          headerText={'View Users'}
+          headerText={'View Barber'}
           logIn={'success'}
           rightIcoSize={20}
           headerTextViewStyle={{alignItems: 'center'}}
@@ -76,4 +76,4 @@ const AdminViewUsers = ({navigation}) => {
     </Screen>
   );
 };
-export default AdminViewUsers;
+export default AdminViewBarber;

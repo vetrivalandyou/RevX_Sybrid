@@ -1,15 +1,23 @@
-import React, { useEffect, useState } from 'react';
-import { ActivityIndicator, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {
+  ActivityIndicator,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import Screen from '../../../components/atom/ScreenContainer/Screen';
-import { screenSize } from '../../../components/atom/ScreenSize';
+import {screenSize} from '../../../components/atom/ScreenSize';
 import Header from '../../../components/molecules/Header';
-import CustomIcon, { Icons } from '../../../components/molecules/CustomIcon/CustomIcon';
+import CustomIcon, {
+  Icons,
+} from '../../../components/molecules/CustomIcon/CustomIcon';
 import constants from '../../../AppConstants/Constants.json';
 import appColors from '../../../AppConstants/appColors';
-import { GetRequest } from '../../../services/apiCall';
-import { endPoint } from '../../../AppConstants/urlConstants';
+import {GetRequest} from '../../../services/apiCall';
+import {endPoint} from '../../../AppConstants/urlConstants';
 
-const AdminManageContent = ({ navigation }) => {
+const AdminManageContent = ({navigation}) => {
   const [dropDownData, setDropDownData] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -34,16 +42,20 @@ const AdminManageContent = ({ navigation }) => {
     getAboutUs();
   }, []);
 
-  const handleNavigation = (aboutUsId) => {
+  const handleNavigation = aboutUsId => {
     switch (aboutUsId) {
       case 360:
-        navigation.navigate(constants.AdminScreens.AdminTermsofServices, { aboutUsId });
+        navigation.navigate(constants.AdminScreens.AdminTermsofServices, {
+          aboutUsId,
+        });
         break;
       case 361:
-        navigation.navigate(constants.AdminScreens.AdminPrivacypolicy, { aboutUsId });
+        navigation.navigate(constants.AdminScreens.AdminPrivacypolicy, {
+          aboutUsId,
+        });
         break;
       case 362:
-        navigation.navigate(constants.AdminScreens.AdminLicensee, { aboutUsId });
+        navigation.navigate(constants.AdminScreens.AdminLicensee, {aboutUsId});
         break;
       default:
         break;
@@ -51,10 +63,12 @@ const AdminManageContent = ({ navigation }) => {
   };
 
   return (
-    <Screen viewStyle={{ flex: 1, backgroundColor: appColors.Black, padding: 15 }} statusBarColor={appColors.Black}>
-      <View style={{ flex: 0.1 }}>
+    <Screen
+      viewStyle={{flex: 1, backgroundColor: appColors.Black, padding: 15}}
+      statusBarColor={appColors.Black}>
+      <View style={{flex: 0.1}}>
         <Header
-          headerSubView={{ marginHorizontal: 5 }}
+          headerSubView={{marginHorizontal: 5}}
           lefttIcoType={Icons.Ionicons}
           onPressLeftIcon={() => navigation.goBack()}
           leftIcoName={'chevron-back'}
@@ -76,9 +90,13 @@ const AdminManageContent = ({ navigation }) => {
           }}
         />
       </View>
-      <View style={{ flex: 1, flexDirection: 'column', padding: 3 }}>
-        {loading ? ( 
-          <ActivityIndicator style={styles.loader} color={appColors.White} size="large" />
+      <View style={{flex: 1, flexDirection: 'column', padding: 3}}>
+        {loading ? (
+          <ActivityIndicator
+            style={styles.loader}
+            color={appColors.White}
+            size="large"
+          />
         ) : (
           dropDownData.map(item => (
             <TouchableOpacity
@@ -94,7 +112,7 @@ const AdminManageContent = ({ navigation }) => {
                 paddingHorizontal: 20,
               }}
               onPress={() => handleNavigation(item.aboutUsId)}>
-              <Text style={{ color: 'white', fontSize: 17, fontWeight: '400' }}>
+              <Text style={{color: 'white', fontSize: 17, fontWeight: '400'}}>
                 {item.aboutUs}
               </Text>
               <CustomIcon

@@ -23,18 +23,21 @@ import constants from '../../AppConstants/Constants.json';
 import BottomSheet from '../../components/molecules/BottomSheetContent/BottomSheet';
 import LogoutBottom from '../LogoutBottom';
 import {screenSize} from '../../components/atom/ScreenSize';
-import {useNavigation} from '@react-navigation/native';
+import {useIsFocused, useNavigation} from '@react-navigation/native';
 import {imageUrl} from '../../AppConstants/urlConstants';
 import {getAsyncItem} from '../../utils/SettingAsyncStorage';
 
 const ProfileScreen = ({navigation}) => {
+  const refRBSheet = useRef();
+  const isFocused = useIsFocused()
   const [userDetails, setUserDetails] = useState();
   const [isSignOutModalVisible, setIsSignOutModalVisible] = useState(false);
-  const refRBSheet = useRef();
 
   useEffect(() => {
-    getAsyncData();
-  }, []);
+    if(isFocused){
+      getAsyncData();
+    }
+  }, [isFocused]);
 
   const getAsyncData = async () => {
     const userDetails = await getAsyncItem(
@@ -67,27 +70,21 @@ const ProfileScreen = ({navigation}) => {
     },
     {
       id: 4,
-      title: 'Profile',
-      icon: Icons.Entypo,
-    },
-
-    {
-      id: 5,
       title: 'Loyalty Points',
       icon: Icons.Entypo,
     },
     {
-      id: 6,
+      id: 5,
       title: 'Notification',
       icon: Icons.Entypo,
     },
     {
-      id: 7,
+      id: 6,
       title: 'Refer a Friend',
       icon: Icons.Entypo,
     },
     {
-      id: 8,
+      id: 7,
       title: 'Sign Out',
       icon: Icons.Entypo,
     },
@@ -100,12 +97,15 @@ const ProfileScreen = ({navigation}) => {
   const handleNavigation = index => {
     switch (index) {
       case 0:
-        // navigation.navigate(constants.screen.MyLocation);
-        // break;
         navigation.navigate(constants.screen.AboutUs);
         break;
-
-      case 7:
+      case 2:
+        navigation.navigate(constants.screen.LocationScreen);
+        break;
+      case 4:
+        navigation.navigate(constants.screen.Notification);
+        break;
+      case 6:
         refRBSheet.current.open();
         break;
       default:
@@ -241,11 +241,11 @@ const ProfileScreen = ({navigation}) => {
             style={{width: 50, height: 50, borderRadius: 100}}
           />
         </View>
-        <View style={{flex: 0.7, flexDirection: 'column'}}>
-          <Text style={{color: 'white', fontSize: 24, fontWeight: 400}}>
+        <View style={{flex: 0.7, flexDirection: 'column', marginLeft: 7}}>
+          <Text style={{color: 'white', fontSize: 18, fontWeight: 400}}>
             {userDetails?.userName}
           </Text>
-          <Text style={{color: 'white', fontSize: 14, fontWeight: 400}}>
+          <Text style={{color: 'white', fontSize: 12, fontWeight: 400}}>
             {userDetails?.loginEmailId}
           </Text>
         </View>

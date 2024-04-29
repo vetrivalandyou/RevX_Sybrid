@@ -6,13 +6,10 @@ import {PostRequest} from '../../../services/apiCall';
 import {endPoint, messages} from '../../../AppConstants/urlConstants';
 import {SimpleSnackBar} from '../../../components/atom/Snakbar/Snakbar';
 
-const DeleteServices = ({refRBSheet, DeleteService}) => {
-  const DeletesetupCategories = () => {
+const BlockBarber = ({refRBSheet}) => {
+  const blockBarberByAdmin = () => {
     const payload = {
-      categoryId: DeleteService.categoryId,
-      categoryName: DeleteService.categoryName,
       operations: 4,
-      createdBy: 2,
     };
     // PostRequest(endPoint.SETUP_CATEGORIES_DELETE, payload)
     //   .then(res => {
@@ -33,11 +30,11 @@ const DeleteServices = ({refRBSheet, DeleteService}) => {
       <View style={{flex: 0.6}}>
         <View
           style={{flex: 0.4, alignItems: 'center', justifyContent: 'center'}}>
-          <Text style={{color: '#E81F1C', fontSize: 18}}>Delete Service</Text>
+          <Text style={{color: '#E81F1C', fontSize: 18}}>Block Barber</Text>
         </View>
         <View style={{flex: 0.6, paddingHorizontal: '20%'}}>
           <Text style={{color: 'white', fontSize: 16, textAlign: 'center'}}>
-            Are you sure you want to delete your service?{' '}
+            Are you sure you want to Block Barber?{' '}
           </Text>
         </View>
       </View>
@@ -61,17 +58,18 @@ const DeleteServices = ({refRBSheet, DeleteService}) => {
             onPress={() => refRBSheet.current.close()}
           />
         </View>
+
         <View
           style={{flex: 0.6, justifyContent: 'center', alignItems: 'center'}}>
           <ButtonComponent
             style={{
-              backgroundColor: '#E81F1C',
               paddingVertical: 13,
               width: '85%',
             }}
+            btnColor={appColors.Red}
             btnTextColor={{color: 'white'}}
-            title={'Delete Service'}
-            onPress={DeletesetupCategories}
+            title={'Block Barber'}
+            onPress={blockBarberByAdmin}
           />
         </View>
       </View>
@@ -79,6 +77,6 @@ const DeleteServices = ({refRBSheet, DeleteService}) => {
   );
 };
 
-export default DeleteServices;
+export default BlockBarber;
 
 const styles = StyleSheet.create({});
