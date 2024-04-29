@@ -104,8 +104,10 @@ const LocationScreen = () => {
       pageSize: 1,
       pageNumber: 1,
     };
+    console.log("payload",payload)
     PostRequest(endPoint.ADMIN_USERDETAILS, payload)
       .then(res => {
+        console.log("res?.data", res?.data)
         if (res?.data?.length > 0) {
           setSelectedBarberDetails(res?.data?.[0]);
           refRBSheet.current.open();
