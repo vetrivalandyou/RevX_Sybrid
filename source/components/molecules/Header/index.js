@@ -8,9 +8,13 @@ import { useNavigation } from '@react-navigation/native';
 import { AppImages } from '../../../AppConstants/AppImages';
 
 const Header = ({
+  
   leftIcoStyle,
   onPressLeftIcon,
   onPressRightIcon,
+  onPressRightIcon2,
+doubleIconleft,
+doubleIconright,
   headerText,
   rightIcoType,
   rightIcoName,
@@ -61,32 +65,36 @@ const Header = ({
 
 
           <View style={{ flex: !doubleIcon ? 0.15 : 0.3, justifyContent: 'center' }}>
-            <TouchableOpacity
-              onPress={
-                onPressRightIcon
-                  ? onPressRightIcon
-                  : () => {
-                    navigation.navigate(
-                      constants.AdminScreens.AdminNotification,
-                    );
-                  }
-              }
-              style={leftIcoStyle}>
+           
+          
+             {/* onPress={!doubleIcon && onPressRightIcon ? 
+             onPressRightIcon : () => navigation.navigate(constants.AdminScreens.AdminNotification)}*/}
+              
               <View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
                 {
                   doubleIcon && (
-                    <View style={iconContainerStyle2}>
+                    <TouchableOpacity  onPress={doubleIconright} style={iconContainerStyle2}>
+                      <View style={{ iconStyle }}>
                       <CustomIcon
                         type={rightIcoType2}
                         name={rightIcoName2}
                         size={rightIcoSize2}
                         color={rightIcoColor}
+                       
                       />
-                    </View>
+                         </View>
+                    </TouchableOpacity>
+                 
                   )
                 }
 
-                <View style={iconContainerStyle1}>
+                <TouchableOpacity  onPress={doubleIcon?doubleIconleft:onPressRightIcon
+                              ? onPressRightIcon
+                              : () => {
+                                navigation.navigate(
+                                  constants.AdminScreens.AdminNotification,
+                                );
+                              }} style={doubleIcon? iconContainerStyle1:leftIcoStyle}>
                   <View style={{ iconStyle }}>
                     <CustomIcon
                       type={rightIcoType}
@@ -95,11 +103,12 @@ const Header = ({
                       color={!doubleIcon  ?appColors.White:appColors.Black}
                     />
                   </View>
-                </View>
+                </TouchableOpacity>
 
 
               </View>
-            </TouchableOpacity>
+          
+
           </View>
         </View>
       </View>
