@@ -126,7 +126,7 @@ const LocationScreen = () => {
       statusBarColor={appColors.Black}
       barStyle="light-content"
       viewStyle={{backgroundColor: appColors.Black, padding: 10, flex: 0.9}}>
-      <BottomSheet ref={refRBSheet} Height={screenSize.height - 500}>
+      <BottomSheet ref={refRBSheet} Height={screenSize.height / 3}>
         <LocationBottom
           refRBSheet={refRBSheet}
           selectedBarberDetails={selectedBarberDetails}
