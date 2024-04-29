@@ -31,6 +31,7 @@ import { useSelector } from 'react-redux';
 import { requestLocationPermissionAndGetLocation } from '../../utils/GetLocation';
 import { LATEST_SELECT, SUCCESS_CODE } from '../../AppConstants/appConstants';
 import { useIsFocused } from '@react-navigation/native';
+import { SimpleSnackBar } from '../../components/atom/Snakbar/Snakbar';
 const HomeScreen = ({ navigation }) => {
   const { coords } = useSelector(state => state.LocationReducer);
   const isFocused = useIsFocused();
