@@ -132,7 +132,7 @@ const EditProfile = ({ navigation }) => {
     <Screen
       viewStyle={{ flex: 1, padding: 15, backgroundColor: appColors.Black }}
       statusBarColor={appColors.Black}>
-      <View style={{ flex: 0.1}}>
+      <View style={{ flex: 0.1 }}>
         <Header
           headerSubView={{ marginHorizontal: 5 }}
           lefttIcoType={Icons.Ionicons}
@@ -143,8 +143,8 @@ const EditProfile = ({ navigation }) => {
         />
       </View>
 
-      <KeyboardAwareScrollView contentContainerStyle={{ flex: 1, justifyContent:'center', }}>
-      <View style={{ flex: 1 }}>
+      <KeyboardAwareScrollView contentContainerStyle={{ flex: 1, justifyContent: 'center', }}>
+        <View style={{ flex: 1 }}>
           {userDetails ? (
             <Formik
               initialValues={{
@@ -212,8 +212,8 @@ const EditProfile = ({ navigation }) => {
                           color={appColors.Goldcolor}
                           style={{
                             position: 'absolute',
-                            left: screenSize.width / 5,
-                            top: screenSize.height / 10,
+                            left: Platform?.OS == 'android' ? screenSize.width / 5 : screenSize.width / 6,
+                            top: Platform?.OS == 'android' ? screenSize.height / 10 : screenSize.height / 12,
                           }}
                         />
                       </TouchableOpacity>
