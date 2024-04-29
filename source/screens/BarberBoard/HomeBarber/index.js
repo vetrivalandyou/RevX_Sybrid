@@ -121,12 +121,12 @@ const HomeBarber = ({navigation}) => {
               flexDirection: 'row',
             }}>
             <View style={{flex: 0.6}}>
-              <View style={{flex: 0.6, justifyContent: 'center'}}>
-                <Text style={{fontSize: 22, color: appColors.White}}>
+              <View style={{flex: 1, justifyContent: 'center', marginLeft: 5}}>
+                <Text style={{fontSize: 20, color: appColors.White}}>
                   {heading}
                 </Text>
               </View>
-              <View style={{flex: 0.4, flexDirection: 'row'}}>
+              {/* <View style={{flex: 0.4, flexDirection: 'row'}}>
                 <CustomIcon
                   type={Icons.Feather}
                   name={'map-pin'}
@@ -138,7 +138,7 @@ const HomeBarber = ({navigation}) => {
                   style={{marginLeft: 5, color: appColors.White, fontSize: 14}}>
                   {sunHeading}
                 </Text>
-              </View>
+              </View> */}
             </View>
 
             <View
@@ -347,7 +347,7 @@ const HomeBarber = ({navigation}) => {
       <View style={{flex: 0.1}}>
         <HomeHeader
           heading={userDetails?.userName}
-          sunHeading={'Washington DC'}
+          // sunHeading={'Washington DC'}
           source={userDetails?.profileImage}
         />
       </View>

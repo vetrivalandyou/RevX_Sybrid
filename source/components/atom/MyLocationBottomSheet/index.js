@@ -25,35 +25,15 @@ import ButtonComponent from '../CustomButtons/ButtonComponent';
 import {getAsyncItem} from '../../../utils/SettingAsyncStorage';
 import {SimpleSnackBar} from '../Snakbar/Snakbar';
 import {useDispatch, useSelector} from 'react-redux';
-import { SUCCESS_CODE } from '../../../AppConstants/appConstants';
+import {LATEST_INSERT, LATEST_UPDATE, SUCCESS_CODE} from '../../../AppConstants/appConstants';
 
-const MyLocationBottomSheet = ({selectedLocation, route}) => {
+const MyLocationBottomSheet = ({selectedLocation, newLocation, item}) => {
   const navigation = useNavigation();
-  const [selectedItem, setSelectedItem] = useState('');
   const [userDetails, setUserDetails] = useState('');
-  const [isButtonDisabled, setIsButtonDisabled] = useState(true);
-  const [operationType, setOperationType] = useState('setup');
-
-  const {item} = route?.params || {};
 
   useEffect(() => {
     getUserDetails();
-    setIsButtonDisabled(!selectedLocation); // Update isButtonDisabled based on selectedLocation
-    if (item?.id) {
-      setOperationType('update');
-    } else {
-      setOperationType('setup');
-    }
   }, []);
-
-  const handleLocationAction = values => {
-    if (operationType === 'setup') {
-      locatioDetails(values);
-    } else if (operationType === 'update') {
-      console.log('location update', values);
-      locationUpdate(values);
-    }
-  };
 
   const getUserDetails = async () => {
     const userDetail = await getAsyncItem(
@@ -67,22 +47,21 @@ const MyLocationBottomSheet = ({selectedLocation, route}) => {
     nearstLandmark: Yup.string().required('Please enter your Nearest Mark'),
   });
 
-  const locationUpdate = values => {
+  const LocationUpdate = values => {
     const payload = {
-      ...values,
       locationId: item?.id,
-      locationLatitude: selectedLocation?.[0]?.coords?.latitude,
-      locationLongitude: selectedLocation?.[0]?.coords?.longitude,
+      locationName: values.locationName,
+      nearstLandmark: values?.nearstLandmark,
+      locationLatitude: selectedLocation?.coords?.latitude,
+      locationLongitude: selectedLocation?.coords?.longitude,
       mobileNo: userDetails?.userPhone,
       customerId: userDetails?.userId,
       address: values.locationName,
-      operations: 2, // assuming 2 means update operation
+      operations: LATEST_UPDATE, // assuming 2 means update operation
       createdBy: userDetails?.userId,
       userIP: '::1',
     };
-    console.log('location update payload', payload);
-
-    PostRequest(endPoint.AUTH_CUSTOMER_LOCATION_UPDATED, payload)
+    PostRequest(endPoint.BARBER_SET_UP_LOCATION_SERVICES, payload)
       .then(res => {
         if (res?.data?.code == SUCCESS_CODE) {
           SimpleSnackBar(res?.data?.message);
@@ -96,33 +75,31 @@ const MyLocationBottomSheet = ({selectedLocation, route}) => {
   };
 
   //   location details save function
-  const locatioDetails = values => {
+  const AddNewLocation = values => {
     const payload = {
-      ...values,
-      id: userDetails?.userId,
-      locationLatitude: selectedLocation?.[0]?.coords?.latitude,
-      locationLongitude: selectedLocation?.[0]?.coords?.longitude,
+      id: 0,
+      locationName: values.locationName,
+      nearstLandmark: values?.nearstLandmark,
+      locationLatitude: selectedLocation?.coords?.latitude,
+      locationLongitude: selectedLocation?.coords?.longitude,
       mobileNo: userDetails?.userPhone,
       userId: userDetails?.userId,
       address: values.locationName,
-      operations: 1,
+      operations: LATEST_INSERT,
       createdBy: userDetails?.userId,
       userIP: '::1',
     };
-    console.log("payload", payload)
-    console.log("selectedLocation", selectedLocation)
     PostRequest(endPoint.BARBER_SET_UP_LOCATION_SERVICES, payload)
       .then(res => {
-        console.log('response', payload);
         if (res?.data?.code == SUCCESS_CODE) {
-          console.log('Responseeeeeeeeeeeeeeeee', payload);
           SimpleSnackBar(res?.data?.message);
+          navigation.navigate(constants?.screen?.HomeScreen);
         } else {
           SimpleSnackBar(res?.data?.message);
         }
       })
       .catch(err => {
-        console.log(err)
+        console.log(err);
         SimpleSnackBar(messages?.Catch, appColors.Red);
       });
   };
@@ -132,16 +109,16 @@ const MyLocationBottomSheet = ({selectedLocation, route}) => {
       {userDetails ? (
         <Formik
           initialValues={{
-            locationName: item?.id
-              ? item?.locationName
-              : selectedItem.locationName,
-            nearstLandmark: item?.id
-              ? item?.nearstLandmark
-              : selectedItem.nearstLandmark,
+            locationName: newLocation != true ? item?.locationName : '',
+            nearstLandmark: newLocation != true ? item?.nearstLandmark : '',
           }}
           validationSchema={validationSchema}
           onSubmit={values => {
-            handleLocationAction(values);
+            if (newLocation == true) {
+              AddNewLocation(values);
+            } else {
+              LocationUpdate(values);
+            }
           }}>
           {({
             handleChange,
@@ -164,7 +141,6 @@ const MyLocationBottomSheet = ({selectedLocation, route}) => {
                   onChangeText={handleChange('locationName')}
                   onBlur={handleBlur('locationName')}
                   value={values.locationName}
-                  editable={!item?.id}
                 />
                 {touched.locationName && errors.locationName && (
                   <View style={{marginLeft: 10, margin: 1}}>
@@ -184,7 +160,6 @@ const MyLocationBottomSheet = ({selectedLocation, route}) => {
                   onChangeText={handleChange('nearstLandmark')}
                   onBlur={handleBlur('nearstLandmark')}
                   value={values.nearstLandmark}
-                  editable={!item?.id}
                 />
                 {touched.nearstLandmark && errors.nearstLandmark && (
                   <View style={{marginLeft: 10, margin: 1}}>
@@ -195,36 +170,32 @@ const MyLocationBottomSheet = ({selectedLocation, route}) => {
                 )}
               </View>
               <View style={{flex: 0.32}}>
-                {!isButtonDisabled && (
-                  <ButtonComponent
-                    title={
-                      operationType === 'setup'
-                        ? 'Add address details'
-                        : 'Update address details'
-                    }
-                    onPress={handleSubmit}
-                    disable={
-                      !selectedLocation ||
-                      !values.locationName ||
-                      !values.nearstLandmark
-                    }
-                    style={{
-                      opacity:
-                        !selectedLocation ||
-                        !values.locationName ||
-                        !values.nearstLandmark
-                          ? 0.5
-                          : 1,
-                    }}
-                  />
-                )}
+                <ButtonComponent
+                  title={
+                    newLocation == true ? 'Add Lcoation' : 'Update Location'
+                  }
+                  onPress={handleSubmit}
+                  // disable={
+                  //   !selectedLocation ||
+                  //   !values.locationName ||
+                  //   !values.nearstLandmark
+                  // }
+                  // style={{
+                  //   opacity:
+                  //     !selectedLocation ||
+                  //     !values.locationName ||
+                  //     !values.nearstLandmark
+                  //       ? 0.5
+                  //       : 1,
+                  // }}
+                />
               </View>
             </>
           )}
         </Formik>
       ) : (
         <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-          <ActivityIndicator size="small" color= {appColors.Goldcolor} />
+          <ActivityIndicator size="small" color={appColors.Goldcolor} />
         </View>
       )}
     </View>

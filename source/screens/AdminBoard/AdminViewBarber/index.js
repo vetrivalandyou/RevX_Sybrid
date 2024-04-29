@@ -19,57 +19,60 @@ import constants from '../../../AppConstants/Constants.json';
 import {BarChart, Grid} from 'react-native-svg-charts';
 import SimpleTextField from '../../../components/molecules/TextFeilds/SimpleTextField';
 
-const AdminViewBarber = ({navigation}) => {
+const AdminViewBarber = ({navigation,route}) => {
   const [passwordValue, setPasswordValue] = React.useState('');
   const [isPasswordVisible, setIsPasswordVisible] = React.useState(false);
+  const { UserName, ProfileImage, UserEmail, PhoneNo } = route.params;
+  console.log("userimage...", ProfileImage)
+
 
   return (
     <Screen
       statusBarColor={appColors.Black}
       barStyle="light-content"
-      viewStyle={{padding: 15}}>
-      <View style={{flex: 0.1}}>
+      viewStyle={{ padding: 15 }}>
+      <View style={{ flex: 0.1 }}>
         <Header
-          headerSubView={{marginHorizontal: 5}}
+          headerSubView={{ marginHorizontal: 5 }}
           lefttIcoType={Icons.Ionicons}
           leftIcoName={'chevron-back'}
-          headerText={'View Barber'}
+          headerText={'View Users'}
           logIn={'success'}
           rightIcoSize={20}
-          headerTextViewStyle={{alignItems: 'center'}}
+          headerTextViewStyle={{ alignItems: 'center' }}
           onPressLeftIcon={() => navigation.goBack()}
         />
       </View>
-      <View style={{flex: 0.3, alignItems: 'center', justifyContent: 'center'}}>
+      <View style={{ flex: 0.3, alignItems: 'center', justifyContent: 'center' }}>
         <Image
           style={{
             borderWidth: 2,
             borderColor: appColors.Goldcolor,
             borderRadius: 90,
           }}
-          source={AppImages.barberearbreport}
+          source={{ uri: ProfileImage }}
+          onError={(e) => console.log('Image loading error:', e.nativeEvent.error)}
         />
         <Text
-          style={{color: appColors.White, fontSize: 22, paddingVertical: 4}}>
-          Michel Smith
+          style={{ color: appColors.White, fontSize: 22, paddingVertical: 4 }}>
+          {UserName}
         </Text>
-        <Text style={{color: appColors.White, fontSize: 14}}>
-          michelsmith@gmail.com
+        <Text style={{ color: appColors.White, fontSize: 14 }}>
         </Text>
       </View>
 
-      <View style={{flex: 0.3, justifyContent: 'space-evenly'}}>
+      <View style={{ flex: 0.3, justifyContent: 'space-evenly' }}>
         <SimpleTextField
-          placeholder={'Michel Smith'}
+          placeholder={UserName}
           placeholderTextColor={appColors.White}
         />
         <SimpleTextField
-          placeholder={'Michelsmith@gmail.com'}
+          placeholder={UserEmail}
           placeholderTextColor={appColors.White}
         />
 
         <SimpleTextField
-          placeholder={'Barber'}
+          placeholder={PhoneNo}
           placeholderTextColor={appColors.White}
         />
       </View>

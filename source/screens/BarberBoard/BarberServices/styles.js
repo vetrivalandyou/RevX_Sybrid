@@ -5,7 +5,7 @@ import appColors from '../../../AppConstants/appColors';
 export default StyleSheet.create({
   container: {
     width: screenSize.width / 1.1,
-    height: screenSize.height / 13,
+    height: screenSize.height / 10,
     borderWidth: 1,
     borderRadius: 10,
     backgroundColor: '#252525',
@@ -51,8 +51,8 @@ export default StyleSheet.create({
   },
 
   Deleteimagestyle: {
-    width: '40%',
-    height: '40%',
+    width: '30%',
+    height: '30%',
   },
   DropdownView: {
     width: screenSize.width / 1.12,

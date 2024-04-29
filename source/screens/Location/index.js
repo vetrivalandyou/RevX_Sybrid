@@ -104,8 +104,10 @@ const LocationScreen = () => {
       pageSize: 1,
       pageNumber: 1,
     };
+    console.log("payload",payload)
     PostRequest(endPoint.ADMIN_USERDETAILS, payload)
       .then(res => {
+        console.log("res?.data", res?.data)
         if (res?.data?.length > 0) {
           setSelectedBarberDetails(res?.data?.[0]);
           refRBSheet.current.open();
@@ -124,7 +126,7 @@ const LocationScreen = () => {
       statusBarColor={appColors.Black}
       barStyle="light-content"
       viewStyle={{backgroundColor: appColors.Black, padding: 10, flex: 0.9}}>
-      <BottomSheet ref={refRBSheet} Height={screenSize.height - 500}>
+      <BottomSheet ref={refRBSheet} Height={screenSize.height / 3}>
         <LocationBottom
           refRBSheet={refRBSheet}
           selectedBarberDetails={selectedBarberDetails}

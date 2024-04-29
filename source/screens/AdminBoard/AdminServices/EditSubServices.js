@@ -50,18 +50,17 @@ const EditSubServices = ({route, navigation}) => {
     setChangedImage(image);
     refRBSheet.current.close();
   };
-
   const handleSaveSubService = () => {
-    let image;
-    if (isChangeImage) {
-      image = {
-        name: generateRandomNumber(),
-        uri: changedImage?.path,
-        type: changedImage?.mime,
-      };
-    } else {
-      image = beforeChangeImage;
-    }
+    // let image;
+    // if (isChangeImage!= '') {
+    //   image = {
+    //     name: `${generateRandomNumber()}.${changedImage?.mime}`,
+    //     uri: changedImage?.path,
+    //     type: changedImage?.mime,
+    //   };
+    // } else {
+    //   image = beforeChangeImage;
+    // }
     const formData = new FormData();
     formData.append('Operations', LATEST_UPDATE);
     formData.append('ServiceId', item?.servicesId);
@@ -70,16 +69,25 @@ const EditSubServices = ({route, navigation}) => {
     formData.append('ServicePrice', parseFloat(subServicePrice));
     formData.append('ServiceDuration', parseFloat(subServiceDuration));
     formData.append('ServiceCategoryId', item?.serviceCategoryId);
-    formData.append('ServiceImage', image);
+    // formData.append('ServiceImage', image);
+    if (isChangeImage == '') {
+    formData.append('ServiceImage', beforeChangeImage);
+  } else {
+    formData.append('ServiceImage', {
+      uri: changedImage?.path,
+      name: `${generateRandomNumber()}.jpg`,
+      type: changedImage?.mime,
+    });
+  }
     formData.append('Discount', parseFloat(0.0));
     formData.append('CreatedBy', userId);
     formData.append('UserIP', '::1');
 
-    console.log(image);
+    // console.log(image);
 
     PostRequest(endPoint.BARBER_SERVICES_CU, formData)
       .then(res => {
-        console.log('res?.data', res?.data);
+        // console.log('res?.data', res?.data);
         if (res?.data?.code == SUCCESS_CODE) {
           SimpleSnackBar(res?.data?.message);
           navigation.goBack();
@@ -118,7 +126,7 @@ const EditSubServices = ({route, navigation}) => {
                 height: '82%',
                 backgroundColor: appColors.Black,
               }}>
-              {isChangeImage ? (
+              {isChangeImage != '' ? (
                 <Image
                   source={{uri: changedImage?.path}}
                   style={{

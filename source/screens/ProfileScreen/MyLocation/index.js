@@ -12,16 +12,15 @@ import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {screenSize} from '../../../components/atom/ScreenSize';
 import {useRoute} from '@react-navigation/native';
 
-const MyLocation = ({navigation}) => {
-  const route = useRoute();
-
-  console.log('route', route);
-
+const MyLocation = ({route, navigation}) => {
   const mapRef = useRef();
+  const {newLocation, item} = route?.params;
   const [selectedLocation, setSelectedLocation] = useState({});
 
   useEffect(() => {
-    handleLocationSelect();
+    if (newLocation != true) {
+      handleLocationSelect();
+    }
   }, []);
 
   const [region, setRegion] = useState({
@@ -32,11 +31,8 @@ const MyLocation = ({navigation}) => {
   });
 
   const handleLocationSelect = () => {
-    const latitude = route?.params?.item?.locationLatitude;
-    const longitude = route?.params?.item?.locationLongitude;
-
-    console.log("latitude",latitude)
-    console.log("longitude",longitude)
+    const latitude = item?.locationLatitude;
+    const longitude = item?.locationLongitude;
     setSelectedLocation({
       coords: {
         latitude: latitude,
@@ -79,6 +75,7 @@ const MyLocation = ({navigation}) => {
 
   return (
     <Screen statusBarColor={appColors.Black} barStyle="light-content">
+      <KeyboardAwareScrollView contentContainerStyle={{ flex: 1, justifyContent:'center'}}>
       <View
         style={{
           flex: 0.8,
@@ -132,9 +129,12 @@ const MyLocation = ({navigation}) => {
       <View style={{flex: 0.3}}>
         <MyLocationBottomSheet
           selectedLocation={selectedLocation}
-          route={route}
+          newLocation={newLocation}
+          item={item}
         />
       </View>
+      </KeyboardAwareScrollView>
+     
     </Screen>
   );
 };
