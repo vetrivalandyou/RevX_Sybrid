@@ -37,14 +37,15 @@ const HomeScreen = ({navigation}) => {
   const locationBottomSheetRef = useRef(null);
   const [userDetails, setUserDetails] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
-  const [barberList, setBarberList] = useState([0]);
-  const [ourServices, setOurServices] = useState([0]);
+  const [barberList, setBarberList] = useState([]);
+  const [ourServices, setOurServices] = useState([]);
   const [selectedLocation, setSelectedLocation] = useState();
   const [selectedLongLat, setSelectedLongLat] = useState();
 
   useEffect(() => {
     if (isFocused) {
       getAsyncData();
+      getServices();
     }
   }, [isFocused]);
 
@@ -63,6 +64,7 @@ const HomeScreen = ({navigation}) => {
   };
 
   function getBarberList(asyncLongLat) {
+    console.log('asyncLongLat', asyncLongLat);
     const payload = {
       userId: userDetails?.userId,
       latitude: asyncLongLat?.coords?.latitude,
@@ -71,6 +73,7 @@ const HomeScreen = ({navigation}) => {
       userName: '',
       profileImage: '',
     };
+    console.log('payload', payload);
     PostRequest(endPoint.GET_VANS_NEAR_CUSTOMER, payload)
       .then(res => {
         if (res?.data?.code == 200) {
@@ -81,6 +84,7 @@ const HomeScreen = ({navigation}) => {
         getServices();
       })
       .catch(err => {
+        console.log('596245', err);
         console.log(err);
       });
   }
@@ -94,6 +98,7 @@ const HomeScreen = ({navigation}) => {
     };
     PostRequest(endPoint.GET_SETUP_CATEGORIES, payload)
       .then(res => {
+        console.log('res?.data', res?.data);
         if (res?.data?.code == SUCCESS_CODE) {
           setOurServices(res?.data?.data);
         } else {
@@ -102,7 +107,7 @@ const HomeScreen = ({navigation}) => {
         setIsLoading(false);
       })
       .catch(err => {
-        console.log(err);
+        console.log('1231231', err);
         setIsLoading(false);
       });
   }
@@ -231,7 +236,7 @@ const HomeScreen = ({navigation}) => {
               color: appColors.White,
               fontSize: 18,
             }}>
-            {item.userName}
+            {item?.userName}
           </Text>
         </View>
 
@@ -244,7 +249,7 @@ const HomeScreen = ({navigation}) => {
               size={16}
             />
             <Text style={{color: appColors.White, marginLeft: 5}}>
-              {item?.distance.toFixed(2)} km
+              {item?.distance?.toFixed(2)} km
             </Text>
           </View>
           <View
@@ -518,6 +523,8 @@ const HomeScreen = ({navigation}) => {
     );
   };
 
+  console.log('barberList', barberList);
+
   return (
     <Screen
       statusBarColor={appColors.Black}
@@ -595,15 +602,35 @@ const HomeScreen = ({navigation}) => {
         <View
           style={{height: screenSize.height / 2.9, justifyContent: 'center'}}>
           {isLoading == false ? (
-            <FlatList
-              data={barberList}
-              showsHorizontalScrollIndicator={false}
-              renderItem={({item, index}) => (
-                <NearbyBarbers item={item} key={index} />
+            <>
+              {barberList?.length > 0 ? (
+                <FlatList
+                  data={barberList}
+                  showsHorizontalScrollIndicator={false}
+                  renderItem={({item, index}) => (
+                    <NearbyBarbers item={item} key={index} />
+                  )}
+                  keyExtractor={(item, index) => index.toString()}
+                  horizontal={true}
+                />
+              ) : (
+                <View
+                  style={{
+                    flex: 1,
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                  }}>
+                  <Text
+                    style={{
+                      color: appColors.AppMediumGray,
+                      fontSize: 16,
+                      fontWeight: 'bold',
+                    }}>
+                    No Barber Available at your Location !!
+                  </Text>
+                </View>
               )}
-              keyExtractor={(item, index) => index.toString()}
-              horizontal={true}
-            />
+            </>
           ) : (
             <View
               style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
