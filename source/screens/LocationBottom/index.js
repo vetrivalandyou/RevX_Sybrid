@@ -79,6 +79,7 @@ const LocationBottom = ({
             flex: 1,
             justifyContent: 'space-between',
             flexDirection: 'row',
+            alignItems:'center',
             padding: 10,
           }}>
           <View style={{flex: 0.3, alignItems: 'center'}}>
@@ -89,7 +90,7 @@ const LocationBottom = ({
             />
           </View>
           <View style={{flex: 0.7}}>
-            <View style={{flex: 0.25, flexDirection: 'row'}}>
+            <View style={{flex: 0.35, alignItems:'flex-end', flexDirection: 'row'}}>
               <View style={{flex: 0.5, flexWrap: 'wrap', marginLeft: 5}}>
                 <Text
                   style={{
@@ -128,8 +129,7 @@ const LocationBottom = ({
                 </View> */}
               </View>
             </View>
-
-            <View style={{flex: 0.65, marginLeft: 5}}>
+            <View style={{flex: 0.55, marginLeft: 5}}>
               <View style={{flex: 0.5, justifyContent: 'center'}}>
                 <Text style={{color: appColors.White, fontSize: 12}}>
                   Senior Barber
