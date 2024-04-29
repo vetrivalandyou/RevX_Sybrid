@@ -57,9 +57,16 @@ const AddSubServices = ({route, navigation}) => {
       uri: changedImage?.path,
       type: changedImage?.mime,
     });
+    console.log('formData check payload', formData);
+    console.log(
+      'formData check image',
+      generateRandomNumber(),
+      changedImage?.path,
+      changedImage?.mime,
+    );
     PostRequest(endPoint.BARBER_SERVICES_CU, formData)
       .then(res => {
-        console.log('res?.data', res?.data);
+        // console.log('res?.data', res?.data);
         if (res?.data?.code == SUCCESS_CODE) {
           SimpleSnackBar(res?.data?.message);
           navigation.goBack();

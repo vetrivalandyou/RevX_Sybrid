@@ -21,7 +21,7 @@ export default StyleSheet.create({
     flex: 1,
   },
   textView: {
-    flex: 0.5,
+    flex: 0.6,
     justifyContent: 'center',
     paddingLeft: 20,
   },

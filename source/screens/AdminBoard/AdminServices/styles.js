@@ -10,20 +10,19 @@ export default StyleSheet.create({
     backgroundColor: '#252525',
     marginVertical: 5,
     paddingHorizontal: 5,
-    justifyContent:'center',
+    justifyContent: 'center',
   },
   buttonView: {
     flex: 0.1,
     justifyContent: 'center',
     alignItems: 'center',
-   
   },
   Subcontainer: {
     flexDirection: 'row',
     flex: 1,
   },
   textView: {
-    flex: 0.7,
+    flex: 0.8,
     justifyContent: 'center',
     paddingLeft: 20,
   },
@@ -33,20 +32,17 @@ export default StyleSheet.create({
     fontSize: 15,
   },
   editImageView: {
-    flex: 0.15,
+    flex: 0.18,
     justifyContent: 'center',
     alignItems: 'flex-end',
-   
-  
   },
   editImageStyle: {
     width: '40%',
     height: '40%',
-  
   },
 
   DeleteimageView: {
-    flex: 0.15,
+    flex: 0.18,
     justifyContent: 'center',
     alignItems: 'center',
   },

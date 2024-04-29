@@ -130,7 +130,7 @@ const ManageVans = ({navigation}) => {
           lefttIcoType={Icons.Ionicons}
           onPressLeftIcon={() => navigation.goBack()}
           leftIcoName={'chevron-back'}
-          headerText={'Vans'}
+          headerText={'All Vans'}
           logIn={'success'}
         />
       </View>

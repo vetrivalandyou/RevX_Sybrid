@@ -24,7 +24,7 @@ const Addservices = ({route}) => {
       operations: LATEST_INSERT,
       createdBy: userId,
     };
-    console.log('payloadf', payload);
+    console.log('payloadf sadsfdsf', payload);
     PostRequest(endPoint.SETUP_CATEGORIES_CU, payload)
       .then(res => {
         if (res?.data?.code === SUCCESS_CODE) {

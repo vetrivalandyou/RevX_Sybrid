@@ -5,6 +5,7 @@ import {
   View,
   Platform,
   FlatList,
+  StyleSheet,
 } from 'react-native';
 import React, {useEffect, useRef, useState} from 'react';
 import {useIsFocused, useNavigation} from '@react-navigation/native';
@@ -36,6 +37,8 @@ const SubService = ({route, navigation}) => {
     }
   }, [isFocused]);
 
+  console.log('servicesList', servicesList);
+
   const getAsyncData = async () => {
     const userDetailsData = await getAsyncItem(
       constants.AsyncStorageKeys.userDetails,
@@ -56,7 +59,8 @@ const SubService = ({route, navigation}) => {
         if (res?.data?.code == SUCCESS_CODE) {
           setServiceslist(res?.data?.data);
         } else {
-          SimpleSnackBar(res?.data?.message, appColors.Red);
+          // SimpleSnackBar(res?.data?.message, appColors.Red);
+          console.log('res?.data?.message');
         }
       })
       .catch(err => {
@@ -86,17 +90,25 @@ const SubService = ({route, navigation}) => {
         />
       </View>
       <View style={{flex: 0.8}}>
-        <FlatList
-          data={servicesList}
-          keyExtractor={item => item?.servicesId?.toString()}
-          renderItem={({item, index}) => (
-            <Servicelist
-              key={item?.servicesId}
-              item={item}
-              userId={userDetails?.userId}
-            />
-          )}
-        />
+        {servicesList?.length <= 0 ? (
+          <View style={styless.container}>
+            <Text style={styless.text}>
+              Oops! Looks like there's no data to display at the moment.
+            </Text>
+          </View>
+        ) : (
+          <FlatList
+            data={servicesList}
+            keyExtractor={item => item?.servicesId?.toString()}
+            renderItem={({item, index}) => (
+              <Servicelist
+                key={item?.servicesId}
+                item={item}
+                userId={userDetails?.userId}
+              />
+            )}
+          />
+        )}
       </View>
       <View style={styles.buttonView}>
         <ButtonComponent
@@ -138,14 +150,14 @@ const Servicelist = ({key, item, userId}) => {
             style={styles.editImageView}>
             <Image source={AppImages.Editimage} style={styles.editImageStyle} />
           </TouchableOpacity>
-          <TouchableOpacity
+          {/* <TouchableOpacity
             onPress={() => refRBSheet.current.open()}
             style={styles.DeleteimageView}>
             <Image
               source={AppImages.deleteimage}
               style={styles.Deleteimagestyle}
             />
-          </TouchableOpacity>
+          </TouchableOpacity> */}
           <BottomSheet ref={refRBSheet} Height={200}>
             <DeleteSubServices refRBSheet={refRBSheet} />
           </BottomSheet>
@@ -156,3 +168,31 @@ const Servicelist = ({key, item, userId}) => {
 };
 
 export default SubService;
+
+const styless = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  image: {
+    width: 200,
+    height: 200,
+    marginBottom: 20,
+  },
+  text: {
+    fontSize: 16,
+    textAlign: 'center',
+    marginBottom: 20,
+  },
+  button: {
+    backgroundColor: '#007BFF',
+    paddingHorizontal: 20,
+    paddingVertical: 10,
+    borderRadius: 5,
+  },
+  buttonText: {
+    color: 'white',
+    fontSize: 16,
+  },
+});

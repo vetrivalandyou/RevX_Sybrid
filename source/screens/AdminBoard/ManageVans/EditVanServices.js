@@ -3,7 +3,7 @@ import React, {useRef, useState} from 'react';
 import {Formik} from 'formik';
 import * as Yup from 'yup';
 import styles from './styles';
-import {endPoint, imageUrl} from '../../../AppConstants/urlConstants';
+import {endPoint, imageUrl, messages} from '../../../AppConstants/urlConstants';
 import {PostRequest} from '../../../services/apiCall';
 import {SimpleSnackBar} from '../../../components/atom/Snakbar/Snakbar';
 import {generateRandomNumber} from '../../../functions/AppFunctions';
@@ -42,10 +42,11 @@ const EditVanservices = ({route, navigation}) => {
       formData.append(key, values[key]);
     });
     formData.append('VanId', vanDetails?.vanId);
-    formData.append('Operations', 1);
+    formData.append('Operations', 2);
     formData.append('CreatedBy', userDetails?.userId);
     formData.append('UserIP', '::1');
     if (changedImage == '') {
+      console.log('img: ', profileImage);
       formData.append('VanPhotos', profileImage);
     } else {
       formData.append('VanPhotos', {
@@ -55,11 +56,11 @@ const EditVanservices = ({route, navigation}) => {
       });
     }
 
-    console.log('formData', formData);
+    console.log('formData sdsfsdf', formData);
 
     PostRequest(endPoint.VAN_CU, formData)
       .then(res => {
-        console.log('response', res.data);
+        console.log('response sfdsfdsf dsfdfdsfdsf', res);
         if (res?.data?.code === 200) {
           console.log('Success');
           navigation.goBack();
@@ -86,7 +87,7 @@ const EditVanservices = ({route, navigation}) => {
           lefttIcoType={Icons.Ionicons}
           onPressLeftIcon={() => navigation.goBack()}
           leftIcoName={'chevron-back'}
-          headerText={'Edit Services'}
+          headerText={'Edit Van'}
           logIn={'success'}
         />
       </View>
@@ -116,6 +117,8 @@ const EditVanservices = ({route, navigation}) => {
                   <TouchableOpacity
                     onPress={() => refRBSheet.current.open()}
                     style={styles.profileView}>
+                    {console.log('changedImage:', changedImage)}
+                    {console.log('profileImage:', profileImage)}
                     {changedImage != '' ? (
                       <Image
                         source={{uri: changedImage?.path}}
@@ -138,8 +141,18 @@ const EditVanservices = ({route, navigation}) => {
                 </View>
               </View>
 
-              <View style={{flex: 0.65}}>
+              <View style={{flex: 0.66}}>
                 <View style={styles.textFieldView}>
+                  <Text
+                    style={{
+                      fontSize: 14,
+                      fontWeight: '400',
+                      color: '#fff',
+                      marginHorizontal: 10,
+                      paddingBottom: 1,
+                    }}>
+                    {'Van Name :'}
+                  </Text>
                   <SimpleTextField
                     placeholder={'Enter Van Name'}
                     placeholderTextColor={appColors.LightGray}
@@ -159,6 +172,16 @@ const EditVanservices = ({route, navigation}) => {
                   </View>
                 </View>
                 <View style={styles.textFieldView}>
+                  <Text
+                    style={{
+                      fontSize: 14,
+                      fontWeight: '400',
+                      color: '#fff',
+                      marginHorizontal: 10,
+                      paddingBottom: 10,
+                    }}>
+                    {'Registration Number :'}
+                  </Text>
                   <SimpleTextField
                     placeholder={'Enter Van Registration No'}
                     placeholderTextColor={appColors.LightGray}
@@ -179,6 +202,16 @@ const EditVanservices = ({route, navigation}) => {
                 </View>
 
                 <View style={styles.textFieldView}>
+                  <Text
+                    style={{
+                      fontSize: 14,
+                      fontWeight: '400',
+                      color: '#fff',
+                      marginHorizontal: 10,
+                      paddingVertical: 10,
+                    }}>
+                    {'Van Model :'}
+                  </Text>
                   <SimpleTextField
                     placeholder={'Enter Van Model'}
                     placeholderTextColor={appColors.LightGray}

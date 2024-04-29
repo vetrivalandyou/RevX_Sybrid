@@ -94,6 +94,11 @@ const AddVanservices = ({navigation, route}) => {
         }}
         validationSchema={validationSchema}
         onSubmit={(values, {setSubmitting}) => {
+          if (!profileImage) {
+            SimpleSnackBar('Please select an image');
+            setSubmitting(false);
+            return;
+          }
           VanInfo(values, setSubmitting);
         }}>
         {({
@@ -137,6 +142,16 @@ const AddVanservices = ({navigation, route}) => {
 
               <View style={{flex: 0.65}}>
                 <View style={styles.textFieldView}>
+                  <Text
+                    style={{
+                      fontSize: 14,
+                      fontWeight: '400',
+                      color: '#fff',
+                      marginHorizontal: 10,
+                      paddingBottom: 5,
+                    }}>
+                    {'Van Name :'}
+                  </Text>
                   <SimpleTextField
                     placeholder={'Enter Van Name'}
                     placeholderTextColor={appColors.LightGray}
@@ -156,6 +171,16 @@ const AddVanservices = ({navigation, route}) => {
                   </View>
                 </View>
                 <View style={styles.textFieldView}>
+                  <Text
+                    style={{
+                      fontSize: 14,
+                      fontWeight: '400',
+                      color: '#fff',
+                      marginHorizontal: 10,
+                      paddingBottom: 10,
+                    }}>
+                    {'Registration Number :'}
+                  </Text>
                   <SimpleTextField
                     placeholder={'Enter Van Registration No'}
                     placeholderTextColor={appColors.LightGray}
@@ -176,6 +201,16 @@ const AddVanservices = ({navigation, route}) => {
                 </View>
 
                 <View style={styles.textFieldView}>
+                  <Text
+                    style={{
+                      fontSize: 14,
+                      fontWeight: '400',
+                      color: '#fff',
+                      marginHorizontal: 10,
+                      paddingVertical: 10,
+                    }}>
+                    {'Van Model :'}
+                  </Text>
                   <SimpleTextField
                     placeholder={'Enter Van Model'}
                     placeholderTextColor={appColors.LightGray}

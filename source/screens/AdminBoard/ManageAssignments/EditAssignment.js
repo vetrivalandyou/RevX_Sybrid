@@ -23,6 +23,8 @@ import {SimpleSnackBar} from '../../../components/atom/Snakbar/Snakbar';
 import {GetRequest, PostRequest} from '../../../services/apiCall';
 import {getAsyncItem} from '../../../utils/SettingAsyncStorage';
 import constant from '../../../AppConstants/Constants.json';
+import * as Yup from 'yup';
+import {Formik} from 'formik';
 
 const EditAssignment = ({route}) => {
   const navigation = useNavigation();
@@ -38,12 +40,17 @@ const EditAssignment = ({route}) => {
   const [selectedBarber, setSelectedBarber] = useState(
     isAdded == false ? item?.barberId : '',
   );
+  const [isDropdownSelected, setIsDropdownSelected] = useState(false);
 
   useEffect(() => {
     getBarberList();
     getVanList();
     // getUserDetail();
   }, []);
+
+  useEffect(() => {
+    setIsDropdownSelected(!!selectedBarber && !!selectedVans);
+  }, [selectedBarber, selectedVans]);
 
   // const getUserDetail = async () => {
   //   const userDatail = await getAsyncItem(constant.AsyncStorageKeys.userDetails)
@@ -112,6 +119,10 @@ const EditAssignment = ({route}) => {
   console.log('selectedVansState', selectedVans);
   console.log('selectedBarberState', selectedBarber);
 
+  const validationSchema = Yup.object().shape({
+    dropdownValue: Yup.string().required('Dropdown value is required'),
+  });
+
   return (
     <Screen
       viewStyle={{flex: 1, padding: 15, backgroundColor: appColors.Black}}
@@ -127,9 +138,20 @@ const EditAssignment = ({route}) => {
       </View>
       <View style={{flex: 0.8}}>
         <View style={styles.DropdownView}>
-          <View style={{flex: 0.65}}>
+          <View style={{flex: 0.56}}>
+            <Text
+              style={{
+                fontSize: 14,
+                fontWeight: '400',
+                color: '#fff',
+                marginHorizontal: 10,
+                paddingBottom: 5,
+              }}>
+              {'Select Barber :'}
+            </Text>
             <Dropdown
               // label={isAdded ?'Select Barber':item.vanName}
+
               label={'Select Barber'}
               value={selectedBarber}
               onValueChange={itemValue => setSelectedBarber(itemValue)}
@@ -147,7 +169,17 @@ const EditAssignment = ({route}) => {
           </View>
         </View>
         <View style={styles.DropdownView}>
-          <View style={{flex: 0.65}}>
+          <View style={{flex: 0.56}}>
+            <Text
+              style={{
+                fontSize: 14,
+                fontWeight: '400',
+                color: '#fff',
+                marginHorizontal: 10,
+                paddingBottom: 5,
+              }}>
+              {'Select Van :'}
+            </Text>
             <Dropdown
               label={'Select Van'}
               value={selectedVans}
@@ -164,12 +196,17 @@ const EditAssignment = ({route}) => {
           </View>
         </View>
       </View>
+
       <View style={styles.buttonView}>
         <ButtonComponent
-          style={styles.buttonStyle}
+          style={[
+            styles.buttonStyle,
+            {opacity: !isDropdownSelected == '' ? 1 : 0.3},
+          ]}
           btnTextColor={{color: 'white'}}
           title={isAdded ? 'Save' : 'Update'}
           onPress={SaveVanAssignmet}
+          disable={!isDropdownSelected}
         />
       </View>
     </Screen>

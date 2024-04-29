@@ -57,7 +57,6 @@ const OurServices = ({navigation}) => {
   const GetsetupCategories = () => {
     PostRequest(endPoint.GET_SETUP_CATEGORIES, initialServiceFields)
       .then(res => {
-        console.log('responseeee>>>>.>', res?.data?.data);
         if (res?.data?.code == 200) {
           setServiceslist(res?.data?.data);
         } else {
@@ -70,7 +69,6 @@ const OurServices = ({navigation}) => {
   };
 
   const addSubService = item => {
-    console.log('item', item);
     navigation.navigate(constants.AdminScreens.SubService, {
       parentService: item,
     });
@@ -153,14 +151,14 @@ const Servicelist = ({item, userId, onPress, selected}) => {
             style={styles.editImageView}>
             <Image source={AppImages.Editimage} style={styles.editImageStyle} />
           </TouchableOpacity>
-          <TouchableOpacity
-            // onPress={() => refRBSheet.current.open()}
+          {/* <TouchableOpacity
+            onPress={() => refRBSheet.current.open()}
             style={styles.DeleteimageView}>
             <Image
               source={AppImages.deleteimage}
               style={styles.Deleteimagestyle}
             />
-          </TouchableOpacity>
+          </TouchableOpacity> */}
 
           <BottomSheet ref={refRBSheet} Height={200}>
             <DeleteServices refRBSheet={refRBSheet} />

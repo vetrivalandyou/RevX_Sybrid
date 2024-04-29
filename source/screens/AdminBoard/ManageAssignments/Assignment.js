@@ -55,17 +55,17 @@ const Assignments = ({}) => {
       createdBy: 1,
       userIP: '::1',
     };
-   
+
     PostRequest(endPoint.GET_BARBER_VANASSIGNMENT, payload)
-    
       .then(res => {
-        console.log('payload',payload)
+        console.log('payload', payload);
         if (res?.data?.code == 200) {
           setVanAssignment(res?.data?.data);
           setLoader(false);
         } else {
-          SimpleSnackBar(res?.data?.message, appColors.Red);
-          setLoader(false);
+          console.log(res?.data?.message),
+            // SimpleSnackBar(res?.data?.message, appColors.Red);0
+            setLoader(false);
         }
       })
       .catch(err => {
@@ -111,16 +111,21 @@ const Assignments = ({}) => {
                 style={styles.editImageStyle}
               />
             </TouchableOpacity>
-            <TouchableOpacity
+            {/* <TouchableOpacity
               onPress={() => refRBSheet.current.open()}
               style={styles.DeleteimageView}>
               <Image
                 source={AppImages.deleteimage}
                 style={styles.Deleteimagestyle}
               />
-            </TouchableOpacity>
+            </TouchableOpacity> */}
             <BottomSheet ref={refRBSheet} Height={200}>
-              <DeleteAssignment refRBSheet={refRBSheet} />
+              <DeleteAssignment
+                refRBSheet={refRBSheet}
+                vanAssignment={item}
+                userDetails={userDetails}
+                selectedItem={selectedItem}
+              />
             </BottomSheet>
           </View>
         </View>
