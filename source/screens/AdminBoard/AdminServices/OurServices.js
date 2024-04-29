@@ -7,6 +7,7 @@ import {
   View,
   FlatList,
   Platform,
+  ActivityIndicator,
 } from 'react-native';
 import React, {useEffect, useRef, useState} from 'react';
 import Screen from '../../../components/atom/ScreenContainer/Screen';
@@ -39,6 +40,7 @@ const OurServices = ({navigation}) => {
   const isFocused = useIsFocused();
   const [userDetails, setUserDetails] = useState();
   const [servicesList, setServiceslist] = useState([]);
+  const [Loader, setLoader] = useState(true)
 
   useEffect(() => {
     if (isFocused) {
@@ -60,12 +62,15 @@ const OurServices = ({navigation}) => {
         console.log('responseeee>>>>.>', res?.data?.data);
         if (res?.data?.code == 200) {
           setServiceslist(res?.data?.data);
+          setLoader(false)
         } else {
           SimpleSnackBar(res?.data?.message, appColors.Red);
+          setLoader(false)
         }
       })
       .catch(err => {
         SimpleSnackBar(messages.Catch, appColors.Red);
+        setLoader(false)
       });
   };
 
@@ -95,6 +100,13 @@ const OurServices = ({navigation}) => {
         />
       </View>
       <View style={{flex: 0.8}}>
+      {Loader ? (
+          <ActivityIndicator
+            size="large"
+            color="#C79646"
+            style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}
+          />
+        ) : (
         <FlatList
           data={servicesList}
           keyExtractor={item => item.categoryId.toString()}
@@ -106,7 +118,9 @@ const OurServices = ({navigation}) => {
               onPress={() => addSubService(item)}
             />
           )}
+        
         />
+        )}
       </View>
       <View style={styles.buttonView}>
         <ButtonComponent
