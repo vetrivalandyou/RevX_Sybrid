@@ -46,7 +46,7 @@ const EditSubServices = ({route, navigation}) => {
   );
 
   const handleImageCaptured = image => {
-    // setIsChangeImage(true);
+    setIsChangeImage(true);
     setChangedImage(image);
     refRBSheet.current.close();
   };

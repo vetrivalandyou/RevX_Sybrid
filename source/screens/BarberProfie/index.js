@@ -163,7 +163,6 @@ const BarberProfile = ({navigation, route}) => {
               rightIcoName={'filter'}
               rightIcoType={Icons.Feather}
               rightIcoSize={20}
-              // iconStyle={{color:appColors.Black,fontWeight:'bold'}}
               iconContainerStyle1={{
                 backgroundColor: appColors.White,
                 borderRadius: 50,
@@ -176,6 +175,11 @@ const BarberProfile = ({navigation, route}) => {
               rightIcoType2={Icons.FontAwesome5}
               rightIcoSize2={20}
               rightIcoColor={appColors.Black}
+             doubleIconright={()=> navigation.navigate(constants.screen.Notification)}
+             
+              
+              
+              
               iconContainerStyle2={{
                 backgroundColor: appColors.White,
                 borderRadius: 50,
