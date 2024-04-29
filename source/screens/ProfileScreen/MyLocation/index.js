@@ -75,6 +75,7 @@ const MyLocation = ({route, navigation}) => {
 
   return (
     <Screen statusBarColor={appColors.Black} barStyle="light-content">
+      <KeyboardAwareScrollView contentContainerStyle={{ flex: 1, justifyContent:'center'}}>
       <View
         style={{
           flex: 0.8,
@@ -132,6 +133,8 @@ const MyLocation = ({route, navigation}) => {
           item={item}
         />
       </View>
+      </KeyboardAwareScrollView>
+     
     </Screen>
   );
 };

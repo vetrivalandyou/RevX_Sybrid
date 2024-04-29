@@ -61,7 +61,6 @@ const MyLocationBottomSheet = ({selectedLocation, newLocation, item}) => {
       createdBy: userDetails?.userId,
       userIP: '::1',
     };
-    console.log('location update payload', payload);
     PostRequest(endPoint.BARBER_SET_UP_LOCATION_SERVICES, payload)
       .then(res => {
         if (res?.data?.code == SUCCESS_CODE) {
@@ -90,11 +89,8 @@ const MyLocationBottomSheet = ({selectedLocation, newLocation, item}) => {
       createdBy: userDetails?.userId,
       userIP: '::1',
     };
-    console.log('payload', payload);
-    console.log('selectedLocation', selectedLocation);
     PostRequest(endPoint.BARBER_SET_UP_LOCATION_SERVICES, payload)
       .then(res => {
-        console.log('response', res?.data);
         if (res?.data?.code == SUCCESS_CODE) {
           SimpleSnackBar(res?.data?.message);
           navigation.navigate(constants?.screen?.HomeScreen);

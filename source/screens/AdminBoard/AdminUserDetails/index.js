@@ -145,7 +145,7 @@ const AdminUserDetails = ({navigation}) => {
         setIsLoading(false);
       });
   };
-
+console.log("userList",userList.UserEmail)
   return (
     <Screen
       viewStyle={{padding: 15, flex: 1, backgroundColor: appColors.Black}}
@@ -198,9 +198,24 @@ const AdminUserDetails = ({navigation}) => {
 const Detailslist = ({item, onPress}) => {
   const navigation = useNavigation();
   const refRBSheet = useRef();
+
   const handleViewUser = item => {
-    navigation.navigate(constants.AdminScreens.AdminViewUsers, {item});
-  };
+    navigation.navigate(constants.AdminScreens.AdminViewUsers, {
+      UserName: item.UserName,
+      ProfileImage: item.ProfileImage,
+      UserEmail: item.UserEmail,
+      PhoneNo: item.PhoneNo,
+    });
+  }
+
+  // const handleViewUser = item => {
+  //   navigation.navigate(constants.AdminScreens.AdminViewUsers, {
+  //     userName: item.UserName,
+  //     profileImage: item.ProfileImage,
+  //     userEmail: item.UserEmail,
+  //     phoneNo: item.PhoneNo,
+  //   });
+  // };
 
   return (
     <View style={styles.Containerstyle}>
@@ -279,7 +294,7 @@ const Detailslist = ({item, onPress}) => {
                 alignItems: 'center',
               }}>
               <ButtonComponent
-                onPress={() => handleViewUser(item?.userId)}
+                onPress={() => handleViewUser(item)}
                 style={{
                   backgroundColor: '#c79647',
                   width: '90%',
@@ -296,7 +311,7 @@ const Detailslist = ({item, onPress}) => {
                 alignItems: 'center',
               }}>
               <ButtonComponent
-                onPress={() => handleViewUser(item?.userId)}
+               onPress={() => handleViewUser(item)}
                 style={{
                   backgroundColor: '#c79647',
                   width: '90%',
