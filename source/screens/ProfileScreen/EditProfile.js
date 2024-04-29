@@ -86,7 +86,7 @@ const EditProfile = ({navigation}) => {
     formData.append('UserId', userDetails.userId);
     formData.append('UserName', values.UserName);
     formData.append('UserEmail', values.UserEmail);
-    formData.append('PhoneNo', values.PhoneNo);
+    formData.append('UserPhone', values.PhoneNo);
     formData.append('Operation', 2);
     if (isUpdated == true) {
       formData.append('profileImage', {

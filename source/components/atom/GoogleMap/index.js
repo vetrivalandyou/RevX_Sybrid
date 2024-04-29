@@ -44,8 +44,7 @@ const GoogleMap = ({
     [selectedLocation],
   );
 
-  console.log('userCoordinates', userCoordinates);
-  console.log('selectedLocation', selectedLocation);
+  console.log('userCoordinates passing from add location', userCoordinates);
 
   return (
     <MapView
