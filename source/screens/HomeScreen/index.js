@@ -177,27 +177,20 @@ const HomeScreen = ({ navigation }) => {
               justifyContent: 'center',
               alignItems: 'center',
             }}>
-            {
-              item?.serviceImage == undefined ?
-                (
-                  <ActivityIndicator size='small' color={appColors.Goldcolor} />
-                ) :
-                (
-                  <>
-                    {item?.serviceImage == null ? (
-                      <Image
-                        style={{ width: 80, height: 80, borderRadius: 10 }}
-                        source={AppImages.ourservices3}
-                      />
-                    ) : (
-                      <Image
-                        style={{ resizeMode: 'contain', flex: 1 }}
-                        source={{ uri: `${imageUrl}${item?.serviceImage}` }}
-                      />
-                    )}
-                  </>
-                )
-            }
+
+
+            {item?.serviceImage == null ? (
+              <Image
+                style={{ width: 80, height: 80, borderRadius: 10 }}
+                source={AppImages.ourservices3}
+              />
+            ) : (
+              <Image
+                style={{ resizeMode: 'contain', flex: 1 }}
+                source={{ uri: `${imageUrl}${item?.serviceImage}` }}
+              />
+            )}
+
 
           </View>
           <View
@@ -607,12 +600,21 @@ const HomeScreen = ({ navigation }) => {
             }}>
             Nearby Barbers
           </Text>
+          <TouchableOpacity
+            onPress={() =>
+              navigation.navigate(constants.screen.BarberSpecialist)
+            }
+            style={{}}>
+            <Text style={{color: appColors.Goldcolor, fontSize: 16}}>
+              See All Barbers
+            </Text>
+          </TouchableOpacity>
         </View>
         <View
           style={{ height: screenSize.height / 2.9, justifyContent: 'center' }}>
           {isLoading == false ? (
             <>
-              {barberList?.length > 0 ? (
+              {barberList?.[0]?.userId != null ? (
                 <FlatList
                   data={barberList}
                   showsHorizontalScrollIndicator={false}
