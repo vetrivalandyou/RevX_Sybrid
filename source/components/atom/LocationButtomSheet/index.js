@@ -184,16 +184,21 @@ const LocationBottomSheet = ({refRBSheet}) => {
 
   const handleClickEdit = item => {
     console.log(item);
+    refRBSheet.current.close();
     navigation.navigate(constants.screen.MyLocation, {
       item: item,
     });
   };
 
   const AddNewLocation = () => {
-    navigation.navigate(constants.screen.MyLocation);
+    navigation.navigate(constants.screen.MyLocation, {
+      newLocation: true,
+    });
   };
 
   const handleConfirmLocation = async () => {
+    console.log('makingAsyncData', makingAsyncData);
+    console.log('selectedLocation', selectedLocation);
     try {
       if (makingAsyncData) {
         await AsyncStorage.setItem(
@@ -203,6 +208,10 @@ const LocationBottomSheet = ({refRBSheet}) => {
         await AsyncStorage.setItem(
           constants?.AsyncStorageKeys?.selected_Location,
           JSON.stringify(selectedLocation),
+        );
+        await AsyncStorage.setItem(
+          constants?.AsyncStorageKeys?.nearest_landmark,
+          JSON.stringify(selectedLocation?.nearstLandmark),
         );
         refRBSheet.current.close();
       } else {
@@ -292,7 +301,6 @@ const LocationBottomSheet = ({refRBSheet}) => {
             data={locationList}
             keyExtractor={item => item.id.toString()} // Ensure key is a string
             renderItem={({item, index}) => {
-              // console.log('Current item:', item);
               return <LocationList item={item} index={index} />;
             }}
           />
