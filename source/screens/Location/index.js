@@ -67,13 +67,15 @@ const LocationScreen = () => {
       longitude: asyncUserLongLat?.coords?.longitude,
       distance: 25,
     };
-    console.log('longitude', payload);
+    console.log('payload', payload);
     PostRequest(endPoint.GET_VANS_NEAR_CUSTOMER, payload)
       .then(res => {
-        if (res?.data?.code == SUCCESS_CODE) {
-          setSelectedLocation(res?.data?.data);
+        if (res?.data?.[0]?.HasError == 0) {
+          SimpleSnackBar(res?.data?.[0]?.Message, appColors.PrimaryColor);
+        } else {
+          setSelectedLocation(res?.data);
+          mapAnimation(asyncUserLongLat);
         }
-        mapAnimation(asyncUserLongLat);
       })
       .catch(err => {
         console.log(err);
@@ -99,15 +101,15 @@ const LocationScreen = () => {
       operationID: LATEST_SELECT,
       roleID: 3,
       isActive: true,
-      userID: x?.userId,
+      userID: x?.UserId,
       userIP: '',
       pageSize: 1,
       pageNumber: 1,
     };
-    console.log("payload",payload)
+    console.log('payload', payload);
     PostRequest(endPoint.ADMIN_USERDETAILS, payload)
       .then(res => {
-        console.log("res?.data", res?.data)
+        console.log('res?.data', res?.data);
         if (res?.data?.length > 0) {
           setSelectedBarberDetails(res?.data?.[0]);
           refRBSheet.current.open();
@@ -120,6 +122,8 @@ const LocationScreen = () => {
         SimpleSnackBar(messages.WentWrong, appColors.Red);
       });
   };
+
+  console.log('----------------', selectedLocation);
 
   return (
     <Screen
@@ -137,7 +141,9 @@ const LocationScreen = () => {
         <Header
           headerSubView={{marginHorizontal: 5}}
           lefttIcoType={Icons.Ionicons}
-          onPressRightIcon={() => navigation.navigate(constants.screen.Notification)}
+          onPressRightIcon={() =>
+            navigation.navigate(constants.screen.Notification)
+          }
           headerText={'Location'}
           rightIcoName={'bell'}
           rightIcoType={Icons.SimpleLineIcons}
@@ -154,7 +160,13 @@ const LocationScreen = () => {
           headerTextViewStyle={{alignItems: 'center'}}
         />
       </View>
-      <View style={{flex: 0.9, borderRadius: 20, overflow: 'hidden', backgroundColor: appColors.Black}}>
+      <View
+        style={{
+          flex: 0.9,
+          borderRadius: 20,
+          overflow: 'hidden',
+          backgroundColor: appColors.Black,
+        }}>
         <GoogleMap
           mapRef={mapRef}
           region={region}

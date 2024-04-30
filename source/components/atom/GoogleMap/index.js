@@ -28,14 +28,14 @@ const GoogleMap = ({
         return (
           <Marker
             onPress={() => handleMultiMarkerPress(x)}
-            key={`marker-${x?.longitude}-${x?.latitude}`}
+            key={`marker-${x?.Longitude}-${x?.Latitude}`}
             coordinate={{
-              latitude: x?.latitude ? x.latitude : 0,
-              longitude: x.longitude ? x.longitude : 0,
+              latitude: x?.Latitude ? x.Latitude : 0,
+              longitude: x.Longitude ? x.Longitude : 0,
             }}>
             <Image
               // source={CustomMarkerImage ? CustomMarkerImage : MarkerImage}
-              source={{uri: `${imageUrl}${x.profileImage}`}}
+              source={{uri: `${imageUrl}${x.ProfileImage}`}}
               style={style.barberStyle}
             />
           </Marker>

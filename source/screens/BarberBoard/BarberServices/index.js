@@ -91,7 +91,6 @@ const Servicesboard = ({ navigation }) => {
       <ScrollView style={{ flex: 0.8 }}>
         {barberServices?.[0]?.categories?.map(item => (
           <Servicelist
-            key={item?.barberServiceCategryId}
             item={item}
             onPress={() => handleItemPress(item)}
           />
@@ -134,7 +133,7 @@ const Servicelist = ({ key, item, onPress }) => {
   const navigation = useNavigation();
 
   return (
-    <TouchableOpacity key={key} onPress={onPress}>
+    <TouchableOpacity key={item?.barberServiceCategryId} onPress={onPress}>
       <View style={[styles.container]}>
         <View style={[styles.Subcontainer]}>
           <View style={[styles.textView]}>

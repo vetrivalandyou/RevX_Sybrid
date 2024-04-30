@@ -43,7 +43,7 @@ export default StyleSheet.create({
   },
 
   DeleteimageView: {
-    flex: 0.18,
+    flex: 0.2,
     justifyContent: 'center',
     alignItems: 'center',
     textAlign: 'right',

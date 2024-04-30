@@ -14,6 +14,7 @@ import {PostRequest} from '../../services/apiCall';
 import {SimpleSnackBar} from '../../components/atom/Snakbar/Snakbar';
 import {screenSize} from '../../components/atom/ScreenSize';
 import CustomDropdownPicker from '../../components/molecules/CustomDropdownPicker';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 const CreateAccountBarber = ({navigation}) => {
   const [isEye, setIsEye] = useState(false);
@@ -132,8 +133,8 @@ const CreateAccountBarber = ({navigation}) => {
             touched,
             isSubmitting,
           }) => (
-            <Fragment>
-              <View style={{flex: 0.8, justifyContent: 'space-evenly'}}>
+            <KeyboardAwareScrollView contentContainerStyle={{ flex: 1, justifyContent:'center'}}>
+              <View style={{flex: 0.9, justifyContent: 'space-evenly'}}>
                 <View style={{flex: 0.15, justifyContent: 'center'}}>
                   <SimpleTextField
                     placeholder={'Enter Full Name'}
@@ -266,7 +267,7 @@ const CreateAccountBarber = ({navigation}) => {
                   isLoading={isSubmitting}
                 />
               </View>
-            </Fragment>
+            </KeyboardAwareScrollView>
           )}
         </Formik>
         <View style={styles.buttonView}>
