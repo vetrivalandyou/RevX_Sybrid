@@ -136,7 +136,7 @@ const LocationBottom = ({
                 </Text>
               </View>
               <View style={{flex: 0.5, flexDirection: 'row'}}>
-                {/* <View style={{flexDirection: 'row', flex: 0.2}}>
+                <View style={{flexDirection: 'row', flex: 0.2}}>
                   <CustomIcon
                     type={Icons.Feather}
                     name={'map-pin'}
@@ -149,9 +149,9 @@ const LocationBottom = ({
                       marginLeft: 5,
                       fontSize: 10.4,
                     }}>
-                    km
+                    {selectedBarberDetails?.Distance} km
                   </Text>
-                </View> */}
+                </View>
                 <View style={{flexDirection: 'row', flex: 0.8}}>
                   <CustomIcon
                     type={Icons.AntDesign}
