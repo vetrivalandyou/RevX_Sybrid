@@ -1,29 +1,29 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { View, Image } from 'react-native';
-import { useIsFocused, useNavigation } from '@react-navigation/native';
-import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
-import { Icons } from '../../components/molecules/CustomIcon/CustomIcon';
+import React, {useEffect, useRef, useState} from 'react';
+import {View, Image} from 'react-native';
+import {useIsFocused, useNavigation} from '@react-navigation/native';
+import MapView, {Marker, PROVIDER_GOOGLE} from 'react-native-maps';
+import {Icons} from '../../components/molecules/CustomIcon/CustomIcon';
 import Header from '../../components/molecules/Header';
 import Screen from '../../components/atom/ScreenContainer/Screen';
 import appColors from '../../AppConstants/appColors';
-import { screenSize } from '../../components/atom/ScreenSize';
+import {screenSize} from '../../components/atom/ScreenSize';
 import BottomSheet from '../../components/molecules/BottomSheetContent/BottomSheet';
 import LocationBottom from '../LocationBottom';
 import CustomDarkMapStyle from '../../utils/CustomMapStyle.json';
 import CustomMarkerImage from '../../assets/barberImage.jpg';
-import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
+import {GooglePlacesAutocomplete} from 'react-native-google-places-autocomplete';
 import MapViewDirections from 'react-native-maps-directions';
 import GoogleMap from '../../components/atom/GoogleMap';
-import { GetRequest, PostRequest } from '../../services/apiCall';
-import { endPoint, messages } from '../../AppConstants/urlConstants';
-import { getAsyncItem, getLogLatAsync } from '../../utils/SettingAsyncStorage';
+import {GetRequest, PostRequest} from '../../services/apiCall';
+import {endPoint, messages} from '../../AppConstants/urlConstants';
+import {getAsyncItem, getLogLatAsync} from '../../utils/SettingAsyncStorage';
 import constants from '../../AppConstants/Constants.json';
 import {
   LATEST_SELECT,
   SUCCESS_CODE,
   approve,
 } from '../../AppConstants/appConstants';
-import { SimpleSnackBar } from '../../components/atom/Snakbar/Snakbar';
+import {SimpleSnackBar} from '../../components/atom/Snakbar/Snakbar';
 
 const LocationScreen = () => {
   const navigation = useNavigation();
@@ -67,11 +67,15 @@ const LocationScreen = () => {
       longitude: asyncUserLongLat?.coords?.longitude,
       distance: 25,
     };
-    console.log("payload", payload)
+    console.log('payload', payload);
     PostRequest(endPoint.GET_VANS_NEAR_CUSTOMER, payload)
       .then(res => {
-        setSelectedLocation(res?.data);
-        mapAnimation(asyncUserLongLat);
+        if (res?.data?.[0]?.HasError == 0) {
+          SimpleSnackBar(res?.data?.[0]?.Message, appColors.PrimaryColor);
+        } else {
+          setSelectedLocation(res?.data);
+          mapAnimation(asyncUserLongLat);
+        }
       })
       .catch(err => {
         console.log(err);
@@ -102,10 +106,10 @@ const LocationScreen = () => {
       pageSize: 1,
       pageNumber: 1,
     };
-    console.log("payload", payload)
+    console.log('payload', payload);
     PostRequest(endPoint.ADMIN_USERDETAILS, payload)
       .then(res => {
-        console.log("res?.data", res?.data)
+        console.log('res?.data', res?.data);
         if (res?.data?.length > 0) {
           setSelectedBarberDetails(res?.data?.[0]);
           refRBSheet.current.open();
@@ -119,13 +123,13 @@ const LocationScreen = () => {
       });
   };
 
-  console.log("----------------", selectedLocation);
+  console.log('----------------', selectedLocation);
 
   return (
     <Screen
       statusBarColor={appColors.Black}
       barStyle="light-content"
-      viewStyle={{ backgroundColor: appColors.Black, padding: 10, flex: 0.9 }}>
+      viewStyle={{backgroundColor: appColors.Black, padding: 10, flex: 0.9}}>
       <BottomSheet ref={refRBSheet} Height={screenSize.height / 3}>
         <LocationBottom
           refRBSheet={refRBSheet}
@@ -133,11 +137,13 @@ const LocationScreen = () => {
           setCalculateDirection={setCalculateDirection}
         />
       </BottomSheet>
-      <View style={{ flex: 0.1 }}>
+      <View style={{flex: 0.1}}>
         <Header
-          headerSubView={{ marginHorizontal: 5 }}
+          headerSubView={{marginHorizontal: 5}}
           lefttIcoType={Icons.Ionicons}
-          onPressRightIcon={() => navigation.navigate(constants.screen.Notification)}
+          onPressRightIcon={() =>
+            navigation.navigate(constants.screen.Notification)
+          }
           headerText={'Location'}
           rightIcoName={'bell'}
           rightIcoType={Icons.SimpleLineIcons}
@@ -151,10 +157,16 @@ const LocationScreen = () => {
             justifyContent: 'center',
             alignItems: 'center',
           }}
-          headerTextViewStyle={{ alignItems: 'center' }}
+          headerTextViewStyle={{alignItems: 'center'}}
         />
       </View>
-      <View style={{ flex: 0.9, borderRadius: 20, overflow: 'hidden', backgroundColor: appColors.Black }}>
+      <View
+        style={{
+          flex: 0.9,
+          borderRadius: 20,
+          overflow: 'hidden',
+          backgroundColor: appColors.Black,
+        }}>
         <GoogleMap
           mapRef={mapRef}
           region={region}
