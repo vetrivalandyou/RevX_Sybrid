@@ -35,7 +35,7 @@ const GoogleMap = ({
             }}>
             <Image
               // source={CustomMarkerImage ? CustomMarkerImage : MarkerImage}
-              source={{uri: `${imageUrl}${x.profileImage}`}}
+              source={{uri: `${imageUrl}${x.ProfileImage}`}}
               style={style.barberStyle}
             />
           </Marker>

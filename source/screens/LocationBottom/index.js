@@ -85,12 +85,11 @@ const LocationBottom = ({
           <View style={{flex: 0.3, alignItems: 'center'}}>
             <Image
               source={{uri: `${imageUrl}${selectedBarberDetails?.ProfileImage}`}}
-              // source={AppImages.bottomsheetimg}
               style={{ width: 80, height: 80, borderRadius: 10}}
             />
           </View>
           <View style={{flex: 0.7}}>
-            <View style={{flex: 0.35, alignItems:'flex-end', flexDirection: 'row'}}>
+            <View style={{flex: 0.3, alignItems:'flex-end', flexDirection: 'row'}}>
               <View style={{flex: 0.5, flexWrap: 'wrap', marginLeft: 5}}>
                 <Text
                   style={{
@@ -101,7 +100,6 @@ const LocationBottom = ({
                   {selectedBarberDetails?.UserName}
                 </Text>
               </View>
-
               <View
                 style={{
                   flex: 0.5,
@@ -129,7 +127,7 @@ const LocationBottom = ({
                 </View> */}
               </View>
             </View>
-            <View style={{flex: 0.55, marginLeft: 5}}>
+            <View style={{flex: 0.65, marginLeft: 5}}>
               <View style={{flex: 0.5, justifyContent: 'center'}}>
                 <Text style={{color: appColors.White, fontSize: 12}}>
                   Senior Barber
