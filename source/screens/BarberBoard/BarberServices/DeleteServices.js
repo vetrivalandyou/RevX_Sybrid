@@ -72,6 +72,7 @@ const DeleteServices = ({refRBSheet, DeleteService}) => {
               paddingVertical: 13,
               width: '85%',
             }}
+            btnColor={appColors.Red}
             btnTextColor={{color: 'white'}}
             title={'Delete My Service'}
             onPress={DeletesetupCategories}

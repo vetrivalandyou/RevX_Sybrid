@@ -134,7 +134,7 @@ const Servicelist = ({ key, item, onPress }) => {
   const navigation = useNavigation();
 
   return (
-    <TouchableOpacity key={key} onPress={onPress}>
+    <TouchableOpacity key={item?.barberServiceCategryId} onPress={onPress}>
       <View style={[styles.container]}>
         <View style={[styles.Subcontainer]}>
           <View style={[styles.textView]}>

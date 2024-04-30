@@ -5,6 +5,7 @@ import ButtonComponent from '../../../components/atom/CustomButtons/ButtonCompon
 import {PostRequest} from '../../../services/apiCall';
 import {endPoint, messages} from '../../../AppConstants/urlConstants';
 import {SimpleSnackBar} from '../../../components/atom/Snakbar/Snakbar';
+import appColors from '../../../AppConstants/appColors';
 
 const DeleteSubServices = ({refRBSheet, DeleteSubServices}) => {
   const DeletesetupCategories = () => {
@@ -40,7 +41,7 @@ const DeleteSubServices = ({refRBSheet, DeleteSubServices}) => {
         </View>
         <View style={{flex: 0.6, paddingHorizontal: '20%'}}>
           <Text style={{color: 'white', fontSize: 16, textAlign: 'center'}}>
-            Are you sure you want to delete your dub service?{' '}
+            Are you sure you want to delete your sub service?{' '}
           </Text>
         </View>
       </View>
@@ -72,6 +73,7 @@ const DeleteSubServices = ({refRBSheet, DeleteSubServices}) => {
               paddingVertical: 13,
               width: '85%',
             }}
+            btnColor={appColors.Red}
             btnTextColor={{color: 'white'}}
             title={'Delete Sub Service'}
             onPress={DeletesetupCategories}
