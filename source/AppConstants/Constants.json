@@ -125,6 +125,7 @@
     "longLat": "longLat",
     "address": "address",
     "nearest_landmark": "nearest_landmark",
-    "selected_Location": "selectedLocation"
+    "selected_Location": "selectedLocation",
+    "isFirstTimeLogin": "isFirstTimeLogin"
   }
 }

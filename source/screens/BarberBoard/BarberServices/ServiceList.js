@@ -9,7 +9,7 @@ import Header from '../../../components/molecules/Header';
 import {AppImages} from '../../../AppConstants/AppImages';
 import constants from '../../../AppConstants/Constants.json';
 import {getAsyncItem} from '../../../utils/SettingAsyncStorage';
-import {LATEST_SELECT} from '../../../AppConstants/appConstants';
+import {LATEST_SELECT, approve} from '../../../AppConstants/appConstants';
 import Screen from '../../../components/atom/ScreenContainer/Screen';
 import {SimpleSnackBar} from '../../../components/atom/Snakbar/Snakbar';
 import {Icons} from '../../../components/molecules/CustomIcon/CustomIcon';
@@ -37,17 +37,24 @@ const ServiceList = ({navigation, route}) => {
     getChildService(userDatail?.userId);
   };
 
-  const getChildService = () => {
+  const getChildService = userId => {
     const payload = {
-      serviceId: 0,
-      serviceName: '',
+      // serviceId: 0,
+      // serviceName: '',
+      // serviceCategoryId: item?.barberServiceCategryId,
+      // operations: 5,
+      servicesId: 0,
       serviceCategoryId: item?.barberServiceCategryId,
-      operations: LATEST_SELECT,
+      barberId: userId,
+      statusId: 0,
+      pageNumber: 1,
+      pageSize: 10,
     };
-    PostRequest(endPoint.BARBER_SERVICES_GET, payload)
+    console.log(payload);
+    PostRequest(endPoint.BARBER_APPROVE_SERVICES, payload)
       .then(res => {
-        console.log('res', res?.data?.data[0]);
-        setSubServices(res?.data?.data);
+        console.log('res', res?.data?.data);
+        setSubServices(res?.data?.data?.[0]?.barberServices);
       })
       .catch(res => {
         SimpleSnackBar(messages.Catch, appColors.Red);
@@ -72,10 +79,7 @@ const ServiceList = ({navigation, route}) => {
           data={subServices}
           keyExtractor={item => item.servicesId}
           renderItem={({item}) => (
-            <Servicedetails
-              key={item.servicesId}
-              item={item}
-            />
+            <Servicedetails key={item.servicesId} item={item} />
           )}
         />
       </View>
@@ -121,7 +125,7 @@ const Servicedetails = ({item, key, onPress}) => {
               />
             )}
           </View>
-          <View style={{flex: 0.45, marginLeft: 10, justifyContent: 'center'}}>
+          <View style={{flex: 0.3, marginLeft: 10, justifyContent: 'center'}}>
             <Text
               style={{
                 color: 'white',
@@ -136,10 +140,32 @@ const Servicedetails = ({item, key, onPress}) => {
               flexDirection: 'row',
               justifyContent: 'center',
               alignItems: 'center',
-              flex: 0.2,
+              flex: 0.1,
             }}>
             <Text style={{color: '#c79647', fontSize: 15, fontWeight: '600'}}>
-              ${item.servicePrice}
+              {/* ${item.servicePrice} */}$ 100
+            </Text>
+          </View>
+          <View
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'center',
+              alignItems: 'center',
+              flex: 0.2,
+            }}>
+            <Text
+              style={{
+                color:
+                  item?.servicesStatusId == approve
+                    ? appColors.Green
+                    : item?.servicesStatusId == 9
+                    ? appColors.AppLightGray
+                    : appColors.Red,
+                fontSize: 13,
+                fontWeight: '600',
+              }}>
+              {/* ${item.servicePrice} */}
+              Pending
             </Text>
           </View>
           <TouchableOpacity
