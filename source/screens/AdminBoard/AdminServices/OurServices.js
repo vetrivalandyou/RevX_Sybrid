@@ -23,7 +23,7 @@ import {Icons} from '../../../components/molecules/CustomIcon/CustomIcon';
 import DeleteServices from './DeleteServices';
 import constants from '../../../AppConstants/Constants.json';
 import {PostRequest} from '../../../services/apiCall';
-import {endPoint} from '../../../AppConstants/urlConstants';
+import {endPoint, imageUrl} from '../../../AppConstants/urlConstants';
 import {AppImages} from '../../../AppConstants/AppImages';
 import Servicesboard from '.';
 import {SimpleSnackBar} from '../../../components/atom/Snakbar/Snakbar';
@@ -40,7 +40,7 @@ const OurServices = ({navigation}) => {
   const isFocused = useIsFocused();
   const [userDetails, setUserDetails] = useState();
   const [servicesList, setServiceslist] = useState([]);
-  const [Loader, setLoader] = useState(true)
+  const [Loader, setLoader] = useState(true);
 
   useEffect(() => {
     if (isFocused) {
@@ -48,6 +48,8 @@ const OurServices = ({navigation}) => {
       getAsyncData();
     }
   }, [isFocused]);
+
+  console.log('servicesList servicesList', servicesList);
 
   const getAsyncData = async () => {
     const userDetailsData = await getAsyncItem(
@@ -61,15 +63,15 @@ const OurServices = ({navigation}) => {
       .then(res => {
         if (res?.data?.code == 200) {
           setServiceslist(res?.data?.data);
-          setLoader(false)
+          setLoader(false);
         } else {
           SimpleSnackBar(res?.data?.message, appColors.Red);
-          setLoader(false)
+          setLoader(false);
         }
       })
       .catch(err => {
         SimpleSnackBar(messages.Catch, appColors.Red);
-        setLoader(false)
+        setLoader(false);
       });
   };
 
@@ -82,6 +84,7 @@ const OurServices = ({navigation}) => {
   const addService = () => {
     navigation.navigate(constants.AdminScreens.Addservices, {
       userId: userDetails?.userId,
+      userDetails: userDetails,
     });
   };
 
@@ -100,26 +103,25 @@ const OurServices = ({navigation}) => {
         />
       </View>
       <View style={{flex: 0.8}}>
-      {Loader ? (
+        {Loader ? (
           <ActivityIndicator
             size="large"
             color="#C79646"
             style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}
           />
         ) : (
-        <FlatList
-          data={servicesList}
-          keyExtractor={item => item.categoryId.toString()}
-          renderItem={({item, index}) => (
-            <Servicelist
-              key={item?.categoryId}
-              item={item}
-              userId={userDetails?.userId}
-              onPress={() => addSubService(item)}
-            />
-          )}
-        
-        />
+          <FlatList
+            data={servicesList}
+            keyExtractor={item => item.categoryId.toString()}
+            renderItem={({item, index}) => (
+              <Servicelist
+                key={item?.categoryId}
+                item={item}
+                userId={userDetails?.userId}
+                onPress={() => addSubService(item)}
+              />
+            )}
+          />
         )}
       </View>
       <View style={styles.buttonView}>
@@ -157,6 +159,12 @@ const Servicelist = ({item, userId, onPress, selected}) => {
           selected && {borderColor: '#c79647', borderWidth: 1.25},
         ]}>
         <View style={styles.Subcontainer}>
+          <View style={[styles.textView, {flex: 0.1}]}>
+            <Image
+              source={{uri: `${imageUrl}${item?.serviceImage}`}}
+              style={{width: 35, height: 35, borderRadius: 100}}
+            />
+          </View>
           <View style={styles.textView}>
             <Text style={styles.textStyle}>{item.categoryName}</Text>
           </View>

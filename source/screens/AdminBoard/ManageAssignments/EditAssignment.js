@@ -107,6 +107,7 @@ const EditAssignment = ({route}) => {
         console.log('Response:', res?.data?.data);
         if (res?.data?.code == 200) {
           SimpleSnackBar(res?.data?.message);
+          navigation.goBack();
         } else {
           SimpleSnackBar(res?.data?.message, appColors.Red);
         }

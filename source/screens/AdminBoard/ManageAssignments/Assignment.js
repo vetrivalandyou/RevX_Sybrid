@@ -61,6 +61,7 @@ const Assignments = ({}) => {
         console.log('payload', payload);
         if (res?.data?.code == 200) {
           setVanAssignment(res?.data?.data);
+
           setLoader(false);
         } else {
           console.log(res?.data?.message),

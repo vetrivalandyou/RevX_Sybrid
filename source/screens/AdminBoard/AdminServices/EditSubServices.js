@@ -29,65 +29,52 @@ import {generateRandomNumber} from '../../../functions/AppFunctions';
 
 const EditSubServices = ({route, navigation}) => {
   const refRBSheet = useRef();
-  const {item, userId} = route.params || {};
-  const beforeChangeImage = `${imageUrl}/${item?.serviceImage}`;
-  
-  const [changedImage, setChangedImage] = useState();
-  const [isChangeImage, setIsChangeImage] = useState(false);
-  const [subServiceName, setSubServiceName] = useState(item?.serviceName);
+  const {subService, userId} = route.params || {};
+  const [beforeChangeImage, setBeforeChangeImage] = useState(
+    `${subService?.serviceImage}`,
+  );
+
+  const [changedImage, setChangedImage] = useState('');
+  const [subServiceName, setSubServiceName] = useState(subService?.serviceName);
   const [subServicePrice, setSubServicePrice] = useState(
-    item?.servicePrice.toString(),
+    subService?.servicePrice.toString(),
   );
   const [subServiceDuration, setSubServiceDuration] = useState(
-    item?.serviceDuration.toString(),
+    subService?.serviceDuration.toString(),
   );
   const [subServiceDescription, setSubServiceDescription] = useState(
-    item?.serviceDescription,
+    subService?.serviceDescription,
   );
 
   const handleImageCaptured = image => {
-    setIsChangeImage(true);
     setChangedImage(image);
     refRBSheet.current.close();
   };
+
   const handleSaveSubService = () => {
-    // let image;
-    // if (isChangeImage!= '') {
-    //   image = {
-    //     name: `${generateRandomNumber()}.${changedImage?.mime}`,
-    //     uri: changedImage?.path,
-    //     type: changedImage?.mime,
-    //   };
-    // } else {
-    //   image = beforeChangeImage;
-    // }
     const formData = new FormData();
     formData.append('Operations', LATEST_UPDATE);
-    formData.append('ServiceId', item?.servicesId);
+    formData.append('ServiceId', subService?.servicesId);
     formData.append('ServiceName', subServiceName);
-    formData.append('ServiceDescription', item?.serviceDescription);
+    formData.append('ServiceDescription', subService?.serviceDescription);
     formData.append('ServicePrice', parseFloat(subServicePrice));
     formData.append('ServiceDuration', parseFloat(subServiceDuration));
-    formData.append('ServiceCategoryId', item?.serviceCategoryId);
-    // formData.append('ServiceImage', image);
-    if (isChangeImage == '') {
-    formData.append('ServiceImage', beforeChangeImage);
-  } else {
-    formData.append('ServiceImage', {
-      uri: changedImage?.path,
-      name: `${generateRandomNumber()}.jpg`,
-      type: changedImage?.mime,
-    });
-  }
+    formData.append('ServiceCategoryId', subService?.serviceCategoryId);
+    if (changedImage == '') {
+      formData.append('ServiceImages', beforeChangeImage);
+    } else {
+      formData.append('ServiceImage', {
+        uri: changedImage?.path,
+        name: `${generateRandomNumber()}.jpg`,
+        type: changedImage?.mime,
+      });
+    }
     formData.append('Discount', parseFloat(0.0));
     formData.append('CreatedBy', userId);
     formData.append('UserIP', '::1');
 
-    // console.log(image);
-
     PostRequest(endPoint.BARBER_SERVICES_CU, formData)
       .then(res => {
-        // console.log('res?.data', res?.data);
         if (res?.data?.code == SUCCESS_CODE) {
           SimpleSnackBar(res?.data?.message);
           navigation.goBack();
@@ -126,7 +113,7 @@ const EditSubServices = ({route, navigation}) => {
                 height: '82%',
                 backgroundColor: appColors.Black,
               }}>
-              {isChangeImage != '' ? (
+              {changedImage != '' ? (
                 <Image
                   source={{uri: changedImage?.path}}
                   style={{
@@ -140,7 +127,7 @@ const EditSubServices = ({route, navigation}) => {
                 />
               ) : (
                 <Image
-                  source={{uri: beforeChangeImage}}
+                  source={{uri: `${imageUrl}${beforeChangeImage}`}}
                   style={{
                     width: '100%',
                     height: '100%',

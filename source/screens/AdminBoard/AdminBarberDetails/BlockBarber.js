@@ -11,6 +11,7 @@ const BlockBarber = ({refRBSheet}) => {
     const payload = {
       operations: 4,
     };
+    refRBSheet.current.close();
     // PostRequest(endPoint.SETUP_CATEGORIES_DELETE, payload)
     //   .then(res => {
     //     console.log('responseeee>>>>.>', res?.data);

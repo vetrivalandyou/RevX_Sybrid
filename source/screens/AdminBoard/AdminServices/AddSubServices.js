@@ -35,7 +35,6 @@ const AddSubServices = ({route, navigation}) => {
   const [subServiceDescription, setSubServiceDescription] = useState();
 
   const handleImageCaptured = image => {
-    console.log('image', image);
     setChangedImage(image);
     refRBSheet.current.close();
   };
@@ -53,20 +52,13 @@ const AddSubServices = ({route, navigation}) => {
     formData.append('ServiceCategoryId', parentService?.categoryId);
     formData.append('ServiceDuration', parseFloat(subServiceDuration));
     formData.append('ServiceImage', {
-      name: generateRandomNumber(),
       uri: changedImage?.path,
+      name: `${generateRandomNumber()}.jpg`,
       type: changedImage?.mime,
     });
-    console.log('formData check payload', formData);
-    console.log(
-      'formData check image',
-      generateRandomNumber(),
-      changedImage?.path,
-      changedImage?.mime,
-    );
+
     PostRequest(endPoint.BARBER_SERVICES_CU, formData)
       .then(res => {
-        // console.log('res?.data', res?.data);
         if (res?.data?.code == SUCCESS_CODE) {
           SimpleSnackBar(res?.data?.message);
           navigation.goBack();
