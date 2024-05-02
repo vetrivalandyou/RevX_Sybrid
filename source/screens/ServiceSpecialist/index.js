@@ -45,6 +45,8 @@ const ServiceSpecialist = ({route}) => {
   const [Services, setServices] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  console.log("item Service Specialist", item)
+
   useEffect(() => {
     if (isFocused) {
       customerservices();

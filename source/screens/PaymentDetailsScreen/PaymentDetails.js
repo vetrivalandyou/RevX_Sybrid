@@ -37,7 +37,9 @@ const PaymentDetails = ({navigation}) => {
   };
 
   return (
-    <Screen viewStyle={{ flex: 1, backgroundColor: appColors.Black, padding: 15}} statusBarColor={appColors.Black}>
+    <Screen
+      viewStyle={{flex: 1, backgroundColor: appColors.Black, padding: 15}}
+      statusBarColor={appColors.Black}>
       <View style={{flex: 0.1}}>
         <Header
           headerSubView={{marginHorizontal: 0}}
@@ -62,134 +64,133 @@ const PaymentDetails = ({navigation}) => {
           }}
         />
       </View>
-      <View style={{ flex: 0.8}}>
-      <View style={{ flex: 0.06,}}>
-      <Text
-        style={{
-          color: 'white',
-          fontSize: 15,
-          marginLeft: 5,
-        }}>
-        Enter The Details To Add A New Card
-      </Text>
-      </View>
-      <View style={{flex: 0.15, }}>
-        <SimpleTextField
-          placeholder={'Enter Card Holder Name'}
-          placeholderTextColor={appColors.White}
-          onChangeText={onChangeName}
-          textUpperView={{
-            paddingVertical: Platform.OS == 'ios' ? 20 : 2,
-            borderColor: appColors.Gray,
-            borderWidth: 1,
-          }}
-          value={Name}
-        />
-      </View>
-      <View style={{flex: 0.15}}>
-        <SimpleTextField
-          placeholder={'*** **** *** **** 6580'}
-          placeholderTextColor={appColors.Goldcolor}
-          onChangeText={onChangePassword}
-          keyboardType={'numeric'}
-          maxLength={16}
-          textUpperView={{
-            paddingVertical: Platform.OS == 'ios' ? 20 : 2,
-            borderColor: appColors.Gray,
-            borderWidth: 1,
-          }}
-          textStyle={{color: appColors.Goldcolor}}
-          value={password.replace(/\d(?=\d{4})/g, '*')}
-        />
-      </View>
-      <View style={{flex: 0.1, justifyContent: 'center'}}>
+      <View style={{flex: 0.8}}>
+        <View style={{flex: 0.06}}>
+          <Text
+            style={{
+              color: 'white',
+              fontSize: 15,
+              marginLeft: 5,
+            }}>
+            Enter The Details To Add A New Card
+          </Text>
+        </View>
+        <View style={{flex: 0.15}}>
+          <SimpleTextField
+            placeholder={'Enter Card Holder Name'}
+            placeholderTextColor={appColors.White}
+            onChangeText={onChangeName}
+            textUpperView={{
+              paddingVertical: Platform.OS == 'ios' ? 20 : 2,
+              borderColor: appColors.Gray,
+              borderWidth: 1,
+            }}
+            value={Name}
+          />
+        </View>
+        <View style={{flex: 0.15}}>
+          <SimpleTextField
+            placeholder={'*** **** *** **** 6580'}
+            placeholderTextColor={appColors.Goldcolor}
+            onChangeText={onChangePassword}
+            keyboardType={'numeric'}
+            maxLength={16}
+            textUpperView={{
+              paddingVertical: Platform.OS == 'ios' ? 20 : 2,
+              borderColor: appColors.Gray,
+              borderWidth: 1,
+            }}
+            textStyle={{color: appColors.Goldcolor}}
+            value={password.replace(/\d(?=\d{4})/g, '*')}
+          />
+        </View>
+        <View style={{flex: 0.1, justifyContent: 'center'}}>
+          <View
+            style={{
+              flexDirection: 'row',
+              marginVertical: 5,
+              justifyContent: 'space-between',
+            }}>
+            <View
+              style={{
+                flexDirection: 'column',
+                marginRight: 10,
+                flex: 0.5,
+              }}>
+              <Text
+                style={{
+                  color: 'white',
+                  fontSize: 12,
+                  marginLeft: 10,
+                  marginBottom: 10,
+                }}>
+                Date
+              </Text>
+
+              <SimpleTextField
+                placeholder={'MM/YY'}
+                placeholderTextColor={appColors.Gray}
+                keyboardType={'numeric'}
+                innerCustomstyle={{marginTop: 7, width: '96%'}}
+              />
+            </View>
+            <View style={{flexDirection: 'column', flex: 0.5}}>
+              <Text
+                style={{
+                  color: 'white',
+                  fontSize: 12,
+                  marginLeft: 10,
+                  marginBottom: 10,
+                }}>
+                CVC
+              </Text>
+              <SimpleTextField
+                placeholder={'000'}
+                placeholderTextColor={appColors.Gray}
+                innerCustomstyle={{
+                  marginTop: 7,
+                  width: '96%',
+                  alignSelf: 'flex-end',
+                }}
+              />
+            </View>
+          </View>
+        </View>
         <View
           style={{
             flexDirection: 'row',
-            marginVertical: 5,
-            justifyContent: 'space-between',
+            // backgroundColor: 'red',
+            alignItems: 'center',
+            marginHorizontal: 5,
+            marginTop: 5,
+            flex: 0.1,
           }}>
-          <View
-            style={{
-              flexDirection: 'column',
-              marginRight: 10,
-              flex: 0.5,
-            }}>
-            <Text
-              style={{
-                color: 'white',
-                fontSize: 12,
-                marginLeft: 10,
-                marginBottom: 10,
-              }}>
-              Date
-            </Text>
-
-            <SimpleTextField
-              placeholder={'MM/YY'}
-              placeholderTextColor={appColors.Gray}
-              keyboardType={'numeric'}
-              innerCustomstyle={{marginTop: 7, width: '96%'}}
+          <View>
+            <Switch
+              trackColor={{false: 'grey', true: '#23c16c'}}
+              thumbColor={isEnabled ? 'white' : 'white'}
+              // ios_backgroundColor="yellow"
+              onValueChange={toggleSwitch}
+              value={isEnabled}
             />
           </View>
-          <View style={{flexDirection: 'column', flex: 0.5}}>
-            <Text
-              style={{
-                color: 'white',
-                fontSize: 12,
-                marginLeft: 10,
-                marginBottom: 10,
-              }}>
-              CVC
+          <View>
+            <Text style={{color: 'white', fontSize: 13, marginLeft: 4}}>
+              Mark as default card
             </Text>
-            <SimpleTextField
-              placeholder={'000'}
-              placeholderTextColor={appColors.Gray}
-              innerCustomstyle={{
-                marginTop: 7,
-                width: '96%',
-                alignSelf: 'flex-end',
-              }}
-            />
           </View>
         </View>
       </View>
-      <View
-        style={{
-          flexDirection: 'row',
-          // backgroundColor: 'red',
-          alignItems: 'center',
-          marginHorizontal: 5,
-          marginTop: 5,
-          flex: 0.1,
-        }}>
-        <View>
-          <Switch
-            trackColor={{false: 'grey', true: '#23c16c'}}
-            thumbColor={isEnabled ? 'white' : 'white'}
-            // ios_backgroundColor="yellow"
-            onValueChange={toggleSwitch}
-            value={isEnabled}
-          />
-        </View>
-        <View>
-          <Text style={{color: 'white', fontSize: 13, marginLeft: 4}}>
-            Mark as default card
+
+      <View style={{flex: 0.1, alignItems: 'center'}}>
+        <TouchableOpacity
+          onPress={() => navigation.navigate(constants.screen.ReviewSummary)}
+          style={styles.Button}>
+          <Text style={{fontWeight: '700', fontSize: 13, color: 'white'}}>
+            {' '}
+            Continue
           </Text>
-        </View>
-      </View>
-      </View>
-      
-
-      <View style={{ flex: 0.1, alignItems:'center'}}>
-      <TouchableOpacity
-        onPress={() => navigation.navigate('ReviewSummary')}
-        style={styles.Button}>
-        <Text style={{fontWeight: '700', fontSize: 13, color: 'white'}}>
-          {' '}
-          Continue
-        </Text>
-      </TouchableOpacity>
+        </TouchableOpacity>
       </View>
       <CustomModal
         visible={modalVisible}

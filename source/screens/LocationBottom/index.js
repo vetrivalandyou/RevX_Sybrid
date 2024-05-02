@@ -69,7 +69,7 @@ const LocationBottom = ({
           onPress={() => {
             refRBSheet?.current?.close();
             navigation.navigate(constants.screen.Services, {
-              userId: selectedBarberDetails?.UserId,
+              barberDetails: selectedBarberDetails,
             });
           }}
           style={{

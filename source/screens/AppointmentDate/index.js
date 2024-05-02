@@ -13,7 +13,7 @@ import {useSelector} from 'react-redux';
 import {screenSize} from '../../components/atom/ScreenSize';
 
 const AppointmentDate = ({route, navigation}) => {
-  const {barberId} = route.params;
+  const {barberDetails} = route.params;
   const {SelectedChildServices} = useSelector(
     state => state.AppointmentReducer,
   );
@@ -26,6 +26,8 @@ const AppointmentDate = ({route, navigation}) => {
   const [seelectedDate, setSelectedDate] = React.useState('');
   const [availableSlots, setAvailableSlots] = React.useState([]);
   const [selectedSlotId, setSelectedSlotId] = React.useState('');
+
+  console.log("barberDetails Appointment Details",barberDetails)
 
   const returnTotalDuration = () => {
     if (SelectedChildServices?.length == 0) {
@@ -45,7 +47,7 @@ const AppointmentDate = ({route, navigation}) => {
       operationID: 3,
       durationMinutes: returnTotalDuration(),
       bookingDate: selectedData,
-      barberID: barberId,
+      barberID: barberDetails?.UserId,
       isActive: true,
       userID: 0,
       userIP: 'string',
@@ -64,13 +66,13 @@ const AppointmentDate = ({route, navigation}) => {
   const SelectedHourse = ({item}) => {
     return (
       <TouchableOpacity
-        onPress={() => setSelectedSlotId(item?.SlotID)}
+        onPress={() => setSelectedSlotId(item)}
         style={{
           marginVertical: 5,
           marginHorizontal: 5,
           borderWidth: 1,
           borderColor:
-            selectedSlotId == item?.SlotID
+            selectedSlotId?.SlotID == item?.SlotID
               ? appColors.Goldcolor
               : appColors.GrayColor,
           borderRadius: 10,
@@ -85,7 +87,7 @@ const AppointmentDate = ({route, navigation}) => {
             fontSize: 13.5,
             fontWeight: '400',
           }}>
-          {item.TimeSlot.split(":")[0] + ":00"}
+          {item.TimeSlot.split(':')[0] + ':00'}
         </Text>
       </TouchableOpacity>
     );
@@ -283,15 +285,45 @@ const AppointmentDate = ({route, navigation}) => {
           padding: 5,
           justifyContent: 'center',
         }}>
-        <FlatList
-          data={availableSlots}
-          numColumns={2}
-          keyExtractor={item => item.SlotID.toString()}
-          ListEmptyComponent={renderEmptyComponent}
-          renderItem={({item, index}) => (
-            <SelectedHourse key={item.SlotID} item={item} />
-          )}
-        />
+        {seelectedDate == '' ? (
+          <View
+            style={{
+              height: screenSize.height / 4,
+              width: screenSize.width,
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}>
+            {seelectedDate == '' ? (
+              <Text
+                style={{
+                  color: appColors.Goldcolor,
+                  fontSize: 15,
+                  fontWeight: 'bold',
+                }}>
+                Please Select Date for Time Slots.
+              </Text>
+            ) : (
+              <Text
+                style={{
+                  color: appColors.Goldcolor,
+                  fontSize: 15,
+                  fontWeight: 'bold',
+                }}>
+                We are sorry !! No Slot Available on {seelectedDate} date.
+              </Text>
+            )}
+          </View>
+        ) : (
+          <FlatList
+            data={availableSlots}
+            numColumns={2}
+            keyExtractor={item => item.SlotID.toString()}
+            // ListEmptyComponent={renderEmptyComponent}
+            renderItem={({item, index}) => (
+              <SelectedHourse key={item.SlotID} item={item} />
+            )}
+          />
+        )}
       </View>
 
       <View
@@ -302,8 +334,14 @@ const AppointmentDate = ({route, navigation}) => {
         }}>
         <ButtonComponent
           title={'Continue'}
-          disable={selectedSlotId == '' ? false : true}
-          onPress={() => navigation.navigate(constants.screen.PaymentMethod)}
+          disable={selectedSlotId == '' ? true : false}
+          onPress={() =>
+            navigation.navigate(constants.screen.ReviewSummary, {
+              selectedSlotId: selectedSlotId,
+              seelectedDate: seelectedDate,
+              barberDetails: barberDetails,
+            })
+          }
         />
       </View>
     </Screen>

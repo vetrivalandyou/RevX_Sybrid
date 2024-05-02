@@ -28,14 +28,14 @@ import {useDispatch, useSelector} from 'react-redux';
 import {RESET_CHILDSERVICES_DATA} from '../../redux/Action/AppointmentActionType';
 
 const Services = ({route}) => {
-  const {userId} = route.params || 0;
+  const {barberDetails} = route.params || 0;
   const navigation = useNavigation();
   const dispatch = useDispatch();
   const {SelectedChildServices} = useSelector(
     state => state.AppointmentReducer,
   );
 
-  console.log('userId', userId);
+  console.log(' Services barberDetails', barberDetails);
 
   const [loading, setLoading] = useState(true);
   const [selectedItem, setSelectedItem] = useState(null);
@@ -52,7 +52,7 @@ const Services = ({route}) => {
     const payload = {
       operationID: LATEST_SELECT,
       parameterID: 1,
-      barbarID: userId,
+      barbarID: barberDetails?.UserId,
       parentServiceID: 0,
       parentServiceStatusID: 0,
       childServiceID: 0,
@@ -127,13 +127,7 @@ const Services = ({route}) => {
             <FlatList
               data={barberServices}
               keyExtractor={item => item?.ParentServiceID}
-              renderItem={({item}) => (
-                <Barberinfo
-                  item={item}
-                  selected={selectedItem === item.ParentServiceID}
-                  onPress={() => setSelectedItem(item.serviceCategoryId)}
-                />
-              )}
+              renderItem={({item}) => <Barberinfo item={item} />}
             />
           ) : (
             <View
@@ -142,7 +136,14 @@ const Services = ({route}) => {
                 justifyContent: 'center',
                 alignItems: 'center',
               }}>
-              <Text style={{ fontSize: 20, fontWeight: 'bold', color: appColors.White}}>No Service Found !!</Text>
+              <Text
+                style={{
+                  fontSize: 20,
+                  fontWeight: 'bold',
+                  color: appColors.White,
+                }}>
+                No Service Found !!
+              </Text>
             </View>
           )}
         </View>
@@ -152,7 +153,7 @@ const Services = ({route}) => {
         <TouchableOpacity
           onPress={() =>
             navigation.navigate(constants.screen.AppointmentDate, {
-              barberId: userId,
+              barberDetails: barberDetails,
             })
           }
           disabled={SelectedChildServices?.length > 0 ? false : true}
@@ -176,16 +177,18 @@ const Services = ({route}) => {
   );
 };
 
-const Barberinfo = ({item, onPress, selected, typeee}) => {
+const Barberinfo = ({item}) => {
   const navigation = useNavigation();
 
   return (
-    <TouchableOpacity key={item?.ParentServiceID} onPress={onPress}>
-      <View
-        style={[
-          styles.container,
-          selected && {borderColor: '#c79647', borderWidth: 1.25},
-        ]}>
+    <TouchableOpacity
+      key={item?.ParentServiceID}
+      onPress={() =>
+        navigation.navigate(constants.screen.ServiceSpecialist, {
+          item: item,
+        })
+      }>
+      <View style={[styles.container]}>
         <View
           style={{
             flexDirection: 'row',
@@ -228,19 +231,14 @@ const Barberinfo = ({item, onPress, selected, typeee}) => {
                 {item?.ServiceCount > 1 ? ' types' : ' type'}
               </Text>
             </View>
-            <TouchableOpacity
-              onPress={() =>
-                navigation.navigate(constants.screen.ServiceSpecialist, {
-                  item: item,
-                })
-              }>
+            <View>
               <CustomIcon
                 name={'controller-play'}
                 type={Icons.Entypo}
                 size={17}
                 color={appColors.Goldcolor}
               />
-            </TouchableOpacity>
+            </View>
           </View>
         </View>
       </View>
