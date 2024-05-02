@@ -44,8 +44,6 @@ const GoogleMap = ({
     [selectedLocation],
   );
 
-  console.log('userCoordinates passing from add location', userCoordinates);
-
   return (
     <MapView
       style={{flex: 1}}
@@ -83,8 +81,8 @@ const GoogleMap = ({
             longitude: userCoordinates?.coords?.longitude,
           }}
           destination={{
-            latitude: selectedBarberLongLat?.latitude,
-            longitude: selectedBarberLongLat?.longitude,
+            latitude: selectedBarberLongLat?.Latitude,
+            longitude: selectedBarberLongLat?.Longitude,
           }}
           apikey={'AIzaSyC7Y3a-Q8qZXj5XgLzpHa92b_nw3sR8aWE'}
           strokeWidth={5} // Set the width of the route line

@@ -49,9 +49,6 @@ const LocationBottom = ({
     refRBSheet?.current?.close();
   };
 
-  console.log("sele", selectedBarberDetails)
-  console.log("sele", `${imageUrl}${selectedBarberDetails?.ProfileImage}`)
-
   return (
     <View style={[logoutStyle.container]}>
       <View

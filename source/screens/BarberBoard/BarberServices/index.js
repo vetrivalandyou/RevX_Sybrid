@@ -49,11 +49,12 @@ const Servicesboard = ({ navigation }) => {
       barberId: userId,
       statusId: approve,
     };
+    console.log("pyload", payload)
     PostRequest(endPoint.BARBER_SERVICE_CATEGORY, payload)
       .then(res => {
-        console.log(res?.data?.data);
+        console.log("----------------",res?.data?.data);
         if (res?.data?.code == SUCCESS_CODE) {
-          setBarberServices(res?.data?.data);
+          setBarberServices(res?.data);
         } else {
           SimpleSnackBar(res?.data?.message, appColors.Red)
         }
