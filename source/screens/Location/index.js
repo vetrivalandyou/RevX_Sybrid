@@ -67,7 +67,6 @@ const LocationScreen = () => {
       longitude: asyncUserLongLat?.coords?.longitude,
       distance: 25,
     };
-    console.log('payload', payload);
     PostRequest(endPoint.GET_VANS_NEAR_CUSTOMER, payload)
       .then(res => {
         if (res?.data?.[0]?.HasError == 0) {
@@ -106,10 +105,8 @@ const LocationScreen = () => {
       pageSize: 1,
       pageNumber: 1,
     };
-    console.log('payload', payload);
     PostRequest(endPoint.ADMIN_USERDETAILS, payload)
       .then(res => {
-        console.log('res?.data', res?.data);
         if (res?.data?.length > 0) {
           setSelectedBarberDetails(res?.data?.[0]);
           refRBSheet.current.open();
@@ -123,14 +120,19 @@ const LocationScreen = () => {
       });
   };
 
-  console.log('----------------', selectedLocation);
+  const onOpen = () => {
+    setCalculateDirection(false);
+  };
 
   return (
     <Screen
       statusBarColor={appColors.Black}
       barStyle="light-content"
       viewStyle={{backgroundColor: appColors.Black, padding: 10, flex: 0.9}}>
-      <BottomSheet ref={refRBSheet} Height={screenSize.height / 3}>
+      <BottomSheet
+        ref={refRBSheet}
+        Height={screenSize.height / 3}
+        onOpen={onOpen}>
         <LocationBottom
           refRBSheet={refRBSheet}
           selectedBarberDetails={selectedBarberDetails}
