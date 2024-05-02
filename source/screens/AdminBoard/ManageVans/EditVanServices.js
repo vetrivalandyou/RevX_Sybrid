@@ -20,10 +20,10 @@ import CustomIcon, {
 const EditVanservices = ({route, navigation}) => {
   const {vanDetails, userDetails} = route.params || {};
   const refRBSheet = useRef();
-  const [profileImage, setProfileImage] = useState(
-    `${imageUrl}${vanDetails?.vanPhotos}`,
-  );
+  const [profileImage, setProfileImage] = useState(`${vanDetails?.vanPhotos}`);
   const [changedImage, setChangedImage] = useState('');
+
+  console.log('--------------------', vanDetails);
 
   const handleImageCaptured = image => {
     setChangedImage(image);
@@ -49,7 +49,7 @@ const EditVanservices = ({route, navigation}) => {
       console.log('img: ', profileImage);
       formData.append('VanPhotos', profileImage);
     } else {
-      formData.append('VanPhotos', {
+      formData.append('VanPhoto', {
         uri: changedImage?.path,
         name: `${generateRandomNumber()}.jpg`,
         type: changedImage?.mime,
@@ -60,7 +60,6 @@ const EditVanservices = ({route, navigation}) => {
 
     PostRequest(endPoint.VAN_CU, formData)
       .then(res => {
-        console.log('response sfdsfdsf dsfdfdsfdsf', res);
         if (res?.data?.code === 200) {
           console.log('Success');
           navigation.goBack();
@@ -73,7 +72,6 @@ const EditVanservices = ({route, navigation}) => {
       .catch(err => {
         console.log('Error', err);
         SimpleSnackBar(messages.Catch, appColors.Red);
-        console.log(';;;;;;;;;;');
         setSubmitting(false);
       });
   };
@@ -126,7 +124,7 @@ const EditVanservices = ({route, navigation}) => {
                       />
                     ) : (
                       <Image
-                        source={{uri: profileImage}}
+                        source={{uri: `${imageUrl}${profileImage}`}}
                         style={styles.imageStyle}
                       />
                     )}

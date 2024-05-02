@@ -10,12 +10,10 @@ import Header from '../../../components/molecules/Header';
 import CustomIcon, {
   Icons,
 } from '../../../components/molecules/CustomIcon/CustomIcon';
-
 import {endPoint, messages} from '../../../AppConstants/urlConstants';
 import SimpleTextField from '../../../components/molecules/TextFeilds/SimpleTextField';
 import appColors from '../../../AppConstants/appColors';
 import {PostRequest} from '../../../services/apiCall';
-
 import {AppImages} from '../../../AppConstants/AppImages';
 import {SimpleSnackBar} from '../../../components/atom/Snakbar/Snakbar';
 import ChooseImage from '../../../components/molecules/ChooseImage';
@@ -64,8 +62,6 @@ const AddVanservices = ({navigation, route}) => {
         setSubmitting(false);
       });
   };
-
-  console.log('profileImage', profileImage);
 
   const handleImageCaptured = image => {
     setProfileImage(image);

@@ -145,7 +145,7 @@ const AdminUserDetails = ({navigation}) => {
         setIsLoading(false);
       });
   };
-console.log("userList",userList.UserEmail)
+  console.log('userList', userList.UserEmail);
   return (
     <Screen
       viewStyle={{padding: 15, flex: 1, backgroundColor: appColors.Black}}
@@ -201,12 +201,9 @@ const Detailslist = ({item, onPress}) => {
 
   const handleViewUser = item => {
     navigation.navigate(constants.AdminScreens.AdminViewUsers, {
-      UserName: item.UserName,
-      ProfileImage: item.ProfileImage,
-      UserEmail: item.UserEmail,
-      PhoneNo: item.PhoneNo,
+      userList: {item},
     });
-  }
+  };
 
   // const handleViewUser = item => {
   //   navigation.navigate(constants.AdminScreens.AdminViewUsers, {
@@ -311,7 +308,7 @@ const Detailslist = ({item, onPress}) => {
                 alignItems: 'center',
               }}>
               <ButtonComponent
-               onPress={() => handleViewUser(item)}
+                onPress={() => handleViewUser(item)}
                 style={{
                   backgroundColor: '#c79647',
                   width: '90%',

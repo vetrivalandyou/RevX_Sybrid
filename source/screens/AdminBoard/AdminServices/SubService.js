@@ -14,7 +14,7 @@ import DeleteSubServices from './DeleteSubServices';
 import {PostRequest} from '../../../services/apiCall';
 import Header from '../../../components/molecules/Header';
 import {AppImages} from '../../../AppConstants/AppImages';
-import {endPoint} from '../../../AppConstants/urlConstants';
+import {endPoint, imageUrl} from '../../../AppConstants/urlConstants';
 import constants from '../../../AppConstants/Constants.json';
 import {getAsyncItem} from '../../../utils/SettingAsyncStorage';
 import Screen from '../../../components/atom/ScreenContainer/Screen';
@@ -23,6 +23,7 @@ import {Icons} from '../../../components/molecules/CustomIcon/CustomIcon';
 import {LATEST_SELECT, SUCCESS_CODE} from '../../../AppConstants/appConstants';
 import ButtonComponent from '../../../components/atom/CustomButtons/ButtonComponent';
 import BottomSheet from '../../../components/molecules/BottomSheetContent/BottomSheet';
+import appColors from '../../../AppConstants/appColors';
 
 const SubService = ({route, navigation}) => {
   const {parentService} = route?.params;
@@ -37,7 +38,7 @@ const SubService = ({route, navigation}) => {
     }
   }, [isFocused]);
 
-  console.log('servicesList', servicesList);
+  console.log('servicesList ', servicesList);
 
   const getAsyncData = async () => {
     const userDetailsData = await getAsyncItem(
@@ -53,6 +54,7 @@ const SubService = ({route, navigation}) => {
       serviceCategoryId: parentService?.categoryId,
       operations: LATEST_SELECT,
     };
+    console.log('payload', payload);
     PostRequest(endPoint.BARBER_SERVICES_GET, payload)
       .then(res => {
         console.log('res?.data', res?.data?.data);
@@ -85,7 +87,7 @@ const SubService = ({route, navigation}) => {
           lefttIcoType={Icons.Ionicons}
           onPressLeftIcon={() => navigation.goBack()}
           leftIcoName={'chevron-back'}
-          headerText={'Sub services'}
+          headerText={'Sub services '}
           logIn={'success'}
         />
       </View>
@@ -133,7 +135,7 @@ const Servicelist = ({key, item, userId}) => {
 
   const handleEditPress = () => {
     navigation.navigate(constants.AdminScreens.EditSubServices, {
-      item: item,
+      subService: item,
       userId: userId,
     });
   };
@@ -142,8 +144,14 @@ const Servicelist = ({key, item, userId}) => {
     <TouchableOpacity key={key}>
       <View style={[styles.container]}>
         <View style={styles.Subcontainer}>
+          <View style={[styles.textView, {flex: 0.1}]}>
+            <Image
+              source={{uri: `${imageUrl}${item?.serviceImage}`}}
+              style={{width: 35, height: 35, borderRadius: 100}}
+            />
+          </View>
           <View style={styles.textView}>
-            <Text style={styles.textStyle}>{item.serviceName}</Text>
+            <Text style={styles.textStyle}>{item?.serviceName}</Text>
           </View>
           <TouchableOpacity
             onPress={handleEditPress}
@@ -184,6 +192,7 @@ const styless = StyleSheet.create({
     fontSize: 16,
     textAlign: 'center',
     marginBottom: 20,
+    color: appColors.White,
   },
   button: {
     backgroundColor: '#007BFF',
