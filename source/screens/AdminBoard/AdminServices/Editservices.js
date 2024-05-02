@@ -1,5 +1,12 @@
 import React, {useRef, useState} from 'react';
-import {View, TextInput, Platform, TouchableOpacity, Image} from 'react-native';
+import {
+  View,
+  TextInput,
+  Platform,
+  TouchableOpacity,
+  Image,
+  Text,
+} from 'react-native';
 import {PostRequest} from '../../../services/apiCall';
 import {useNavigation} from '@react-navigation/native';
 import styles from './styles';
@@ -28,6 +35,8 @@ const Editservices = ({route}) => {
   const [changedImage, setChangedImage] = useState('');
   const [profileImage, setProfileImage] = useState(`${item?.serviceImage}`);
 
+  console.log('profileImage', profileImage);
+
   const handleClickSaveService = () => {
     const formData = new FormData();
     formData.append('categoryId', item?.categoryId);
@@ -37,7 +46,6 @@ const Editservices = ({route}) => {
     formData.append('UserIP', '::1');
     if (changedImage == '') {
       formData.append('ServiceImagePath', profileImage);
-      // console.log('profileImage', profileImage);
     } else {
       formData.append('ServiceImage', {
         uri: changedImage?.path,
@@ -46,6 +54,10 @@ const Editservices = ({route}) => {
       });
     }
 
+    console.log(
+      'Change data Change data changedImagechangedImagechangedImagechangedImagechangedImage',
+      changedImage,
+    );
     console.log('Change data Change data', formData);
     PostRequest(endPoint.SETUP_CATEGORIES_CU, formData)
       .then(res => {
@@ -80,8 +92,8 @@ const Editservices = ({route}) => {
           logIn={'success'}
         />
       </View>
-      <View style={{flex: 0.8, alignItems: 'center'}}>
-        <View style={{flex: 0.3}}>
+      <View style={{flex: 0.8}}>
+        <View style={{flex: 0.2}}>
           <View
             style={{
               flex: 1,
@@ -91,10 +103,11 @@ const Editservices = ({route}) => {
             <TouchableOpacity
               onPress={() => refRBSheet.current.open()}
               style={{
-                width: '1600%',
+                width: '28%',
+                height: '82%',
                 justifyContent: 'center',
                 alignItems: 'center',
-                height: '50%',
+
                 backgroundColor: ' appColors.Black',
               }}>
               {changedImage != '' ? (
@@ -107,6 +120,7 @@ const Editservices = ({route}) => {
                     borderWidth: 2,
                     borderColor: appColors.Goldcolor,
                     backgroundColor: 'grey',
+                    resizeMode: 'cover',
                   }}
                 />
               ) : (
@@ -119,6 +133,7 @@ const Editservices = ({route}) => {
                     borderWidth: 3,
                     borderColor: appColors.Goldcolor,
                     backgroundColor: 'grey',
+                    resizeMode: 'cover',
                   }}
                 />
               )}
@@ -136,13 +151,42 @@ const Editservices = ({route}) => {
             </TouchableOpacity>
           </View>
         </View>
-        <View style={{flex: 0.66}}>
-          <View style={styles.textFieldView}>
+        <View style={{flex: 0.18}}>
+          <View
+            style={{
+              flex: 0.4,
+              justifyContent: 'flex-end',
+              marginLeft: 10,
+              color: appColors.White,
+            }}>
+            <Text
+              style={{
+                color: appColors.White,
+                fontSize: 14,
+                fontWeight: 'bold',
+              }}>
+              Service Name :
+            </Text>
+          </View>
+          <View
+            style={{
+              flex: 0.6,
+              justifyContent: 'center',
+              borderWidth: 1,
+              borderRadius: 10,
+              backgroundColor: '#252525',
+              marginVertical: 5,
+              paddingHorizontal: 5,
+              justifyContent: 'center',
+            }}>
             <TextInput
-              style={[
-                styles.container,
-                {color: 'white', paddingHorizontal: 25, fontSize: 15},
-              ]}
+              style={{
+                paddingLeft: 10,
+                fontSize: 15,
+                color: 'white',
+              }}
+              placeholder="Enter your Services"
+              placeholderTextColor={'grey'}
               value={editedServiceName}
               onChangeText={text => setEditedServiceName(text)}
             />

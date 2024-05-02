@@ -38,7 +38,7 @@ const SubService = ({route, navigation}) => {
     }
   }, [isFocused]);
 
-  console.log('servicesList ', servicesList);
+  console.log('servicesList  sdsadsa', servicesList);
 
   const getAsyncData = async () => {
     const userDetailsData = await getAsyncItem(
@@ -135,7 +135,7 @@ const Servicelist = ({key, item, userId}) => {
 
   const handleEditPress = () => {
     navigation.navigate(constants.AdminScreens.EditSubServices, {
-      subService: item,
+      item: item,
       userId: userId,
     });
   };

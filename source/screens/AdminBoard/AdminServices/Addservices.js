@@ -1,5 +1,12 @@
 import React, {useRef, useState} from 'react';
-import {View, TextInput, Platform, TouchableOpacity, Image} from 'react-native';
+import {
+  View,
+  TextInput,
+  Platform,
+  TouchableOpacity,
+  Image,
+  Text,
+} from 'react-native';
 import styles from './styles';
 import {useNavigation} from '@react-navigation/native';
 import {PostRequest} from '../../../services/apiCall';
@@ -27,6 +34,10 @@ const Addservices = ({route}) => {
   const [profileImage, setProfileImage] = useState(null);
 
   const handleAddService = () => {
+    if (!profileImage) {
+      SimpleSnackBar('Please select an image.', appColors.Red);
+      return; // Exit function early if no image is selected
+    }
     const formData = new FormData();
     formData.append('categoryId', 0);
     formData.append('operations', LATEST_INSERT);
@@ -71,8 +82,8 @@ const Addservices = ({route}) => {
           logIn={'success'}
         />
       </View>
-      <View style={{flex: 0.8, alignItems: 'center'}}>
-        <View style={{flex: 0.3}}>
+      <View style={{flex: 0.8}}>
+        <View style={{flex: 0.2}}>
           <View
             style={{
               flex: 1,
@@ -82,11 +93,10 @@ const Addservices = ({route}) => {
             <TouchableOpacity
               onPress={() => refRBSheet.current.open()}
               style={{
-                width: '1600%',
+                width: '28%',
+                height: '82%',
                 justifyContent: 'center',
                 alignItems: 'center',
-                height: '50%',
-                backgroundColor: ' appColors.Black',
               }}>
               {profileImage?.path ? (
                 <Image
@@ -129,11 +139,36 @@ const Addservices = ({route}) => {
           </View>
         </View>
 
-        <View style={styles.container}>
-          <View style={{flex: 1, justifyContent: 'center'}}>
+        <View style={{flex: 0.18}}>
+          <View
+            style={{
+              flex: 0.4,
+              justifyContent: 'flex-end',
+              marginLeft: 10,
+            }}>
+            <Text
+              style={{
+                color: appColors.White,
+                fontSize: 14,
+                fontWeight: 'bold',
+              }}>
+              Service Name :
+            </Text>
+          </View>
+          <View
+            style={{
+              flex: 0.6,
+              justifyContent: 'center',
+              borderWidth: 1,
+              borderRadius: 10,
+              backgroundColor: '#252525',
+              marginVertical: 5,
+              paddingHorizontal: 5,
+              justifyContent: 'center',
+            }}>
             <TextInput
               style={{
-                paddingLeft: 16,
+                paddingLeft: 10,
                 fontSize: 15,
                 color: 'white',
               }}
