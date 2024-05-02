@@ -27,39 +27,38 @@ import BottomSheet from '../../../components/molecules/BottomSheetContent/Bottom
 import ChooseImage from '../../../components/molecules/ChooseImage';
 import {generateRandomNumber} from '../../../functions/AppFunctions';
 
-const EditSubServices = ({route, navigation}) => {
+const EditSubServices = ({route}) => {
   const refRBSheet = useRef();
-  const {subService, userId} = route.params || {};
+  const navigation = useNavigation();
+
+  const {item, userId} = route.params || {};
+  const [changedImage, setChangedImage] = useState('');
   const [beforeChangeImage, setBeforeChangeImage] = useState(
-    `${subService?.serviceImage}`,
+    `${item?.serviceImage}`,
   );
 
-  const [changedImage, setChangedImage] = useState('');
-  const [subServiceName, setSubServiceName] = useState(subService?.serviceName);
+  const [subServiceName, setSubServiceName] = useState(item?.serviceName);
   const [subServicePrice, setSubServicePrice] = useState(
-    subService?.servicePrice.toString(),
+    item?.servicePrice.toString(),
   );
   const [subServiceDuration, setSubServiceDuration] = useState(
-    subService?.serviceDuration.toString(),
+    item?.serviceDuration.toString(),
   );
   const [subServiceDescription, setSubServiceDescription] = useState(
-    subService?.serviceDescription,
+    item?.serviceDescription,
   );
 
-  const handleImageCaptured = image => {
-    setChangedImage(image);
-    refRBSheet.current.close();
-  };
+  console.log('------item', item);
 
   const handleSaveSubService = () => {
     const formData = new FormData();
     formData.append('Operations', LATEST_UPDATE);
-    formData.append('ServiceId', subService?.servicesId);
+    formData.append('ServiceId', item?.servicesId);
     formData.append('ServiceName', subServiceName);
-    formData.append('ServiceDescription', subService?.serviceDescription);
+    formData.append('ServiceDescription', item?.serviceDescription);
     formData.append('ServicePrice', parseFloat(subServicePrice));
     formData.append('ServiceDuration', parseFloat(subServiceDuration));
-    formData.append('ServiceCategoryId', subService?.serviceCategoryId);
+    formData.append('ServiceCategoryId', item?.serviceCategoryId);
     if (changedImage == '') {
       formData.append('ServiceImages', beforeChangeImage);
     } else {
@@ -73,6 +72,8 @@ const EditSubServices = ({route, navigation}) => {
     formData.append('CreatedBy', userId);
     formData.append('UserIP', '::1');
 
+    console.log('---------------', formData);
+
     PostRequest(endPoint.BARBER_SERVICES_CU, formData)
       .then(res => {
         if (res?.data?.code == SUCCESS_CODE) {
@@ -85,6 +86,11 @@ const EditSubServices = ({route, navigation}) => {
       .catch(err => {
         SimpleSnackBar(messages.Catch, appColors.Red);
       });
+  };
+
+  const handleImageCaptured = image => {
+    setChangedImage(image);
+    refRBSheet.current.close();
   };
 
   return (

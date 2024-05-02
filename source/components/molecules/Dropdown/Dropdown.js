@@ -33,7 +33,10 @@ const Dropdown = ({
         />
         {dropDownData?.map((x, ind) => (
           <Picker.Item
-            style={{fontSize: 13, color: appColors.Black}}
+            style={{
+              fontSize: 13,
+              color: appColors.Black,
+            }}
             key={ind}
             label={x.label}
             value={x.value}

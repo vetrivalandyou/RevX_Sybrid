@@ -28,18 +28,26 @@ import BottomSheet from '../../../components/molecules/BottomSheetContent/Bottom
 const AddSubServices = ({route, navigation}) => {
   const refRBSheet = useRef();
   const {parentService, userId} = route.params || {};
-  const [changedImage, setChangedImage] = useState();
+  const [changedImage, setChangedImage] = useState(null);
   const [subServiceName, setSubServiceName] = useState();
   const [subServicePrice, setSubServicePrice] = useState();
   const [subServiceDuration, setSubServiceDuration] = useState();
   const [subServiceDescription, setSubServiceDescription] = useState();
 
-  const handleImageCaptured = image => {
-    setChangedImage(image);
-    refRBSheet.current.close();
-  };
-
   const handleSaveSubService = () => {
+    if (!changedImage) {
+      SimpleSnackBar('Please select an image.', appColors.Red);
+      return; // Exit function early if no image is selected
+    }
+    if (
+      !subServiceName ||
+      !subServicePrice ||
+      !subServiceDuration ||
+      !subServiceDescription
+    ) {
+      SimpleSnackBar('Please fill in all fields.', appColors.Red);
+      return; // Exit function early if any input field is empty
+    }
     const formData = new FormData();
     formData.append('ServiceId', 0);
     formData.append('Discount', 0.0);
@@ -69,6 +77,10 @@ const AddSubServices = ({route, navigation}) => {
       .catch(err => {
         SimpleSnackBar(messages.Catch, appColors.Red);
       });
+  };
+  const handleImageCaptured = image => {
+    setChangedImage(image);
+    refRBSheet.current.close();
   };
 
   return (
@@ -179,8 +191,10 @@ const AddSubServices = ({route, navigation}) => {
               ]}
               placeholder="Enter Service Price}"
               placeholderTextColor={appColors.LightGray}
-              value={subServicePrice}
+              value={subServicePrice?.toString()}
               onChangeText={text => setSubServicePrice(text)}
+              keyboardType={'numeric'}
+              maxLength={6}
             />
           </View>
         </View>
@@ -203,8 +217,10 @@ const AddSubServices = ({route, navigation}) => {
               ]}
               placeholder="Enter Service Duration"
               placeholderTextColor={appColors.LightGray}
-              value={subServiceDuration}
+              value={subServiceDuration?.toString()}
               onChangeText={text => setSubServiceDuration(text)}
+              keyboardType={'numeric'}
+              maxLength={6}
             />
           </View>
         </View>
@@ -240,9 +256,11 @@ const AddSubServices = ({route, navigation}) => {
             paddingVertical: Platform.OS == 'ios' ? 17 : 13,
             bottom: 1,
             position: 'absolute',
+            // opacity: subServiceName.trim() !== '' ? 1 : 0.3,
           }}
           btnTextColor={{color: 'white'}}
           title={'Save Sub Service'}
+          // disable={subServiceName.trim() !== '' ? false : true}
           onPress={handleSaveSubService}
         />
       </View>

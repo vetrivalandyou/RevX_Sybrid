@@ -46,7 +46,6 @@ const EditVanservices = ({route, navigation}) => {
     formData.append('CreatedBy', userDetails?.userId);
     formData.append('UserIP', '::1');
     if (changedImage == '') {
-      console.log('img: ', profileImage);
       formData.append('VanPhotos', profileImage);
     } else {
       formData.append('VanPhoto', {
@@ -55,8 +54,6 @@ const EditVanservices = ({route, navigation}) => {
         type: changedImage?.mime,
       });
     }
-
-    console.log('formData sdsfsdf', formData);
 
     PostRequest(endPoint.VAN_CU, formData)
       .then(res => {
@@ -115,8 +112,6 @@ const EditVanservices = ({route, navigation}) => {
                   <TouchableOpacity
                     onPress={() => refRBSheet.current.open()}
                     style={styles.profileView}>
-                    {console.log('changedImage:', changedImage)}
-                    {console.log('profileImage:', profileImage)}
                     {changedImage != '' ? (
                       <Image
                         source={{uri: changedImage?.path}}
