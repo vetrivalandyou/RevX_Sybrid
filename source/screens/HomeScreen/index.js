@@ -65,7 +65,6 @@ const HomeScreen = ({navigation}) => {
   };
 
   function getBarberList(asyncLongLat) {
-    // console.log('asyncLongLat', asyncLongLat);
     const payload = {
       userId: userDetails?.userId,
       latitude: asyncLongLat?.coords?.latitude,
@@ -74,15 +73,10 @@ const HomeScreen = ({navigation}) => {
       userName: '',
       profileImage: '',
     };
-    console.log('payload', payload);
     PostRequest(endPoint.GET_VANS_NEAR_CUSTOMER, payload)
       .then(res => {
-        console.log('res123', res?.data);
-        // if (res?.data?.[] == 200) {
+        console.log("res", res?.data)
         setBarberList(res?.data);
-        // } else {
-        //   SimpleSnackBar(res?.data?.message);
-        // }
         getServices();
       })
       .catch(err => {
@@ -610,15 +604,35 @@ const HomeScreen = ({navigation}) => {
         <View
           style={{height: screenSize.height / 2.9, justifyContent: 'center'}}>
           {isLoading == false ? (
-            <FlatList
-              data={barberList}
-              showsHorizontalScrollIndicator={false}
-              renderItem={({item, index}) => (
-                <NearbyBarbers item={item} key={index} />
+            <>
+              {barberList?.length > 0 ? (
+                <FlatList
+                  data={barberList}
+                  showsHorizontalScrollIndicator={false}
+                  renderItem={({item, index}) => (
+                    <NearbyBarbers item={item} key={index} />
+                  )}
+                  keyExtractor={(item, index) => index.toString()}
+                  horizontal={true}
+                />
+              ) : (
+                <View
+                  style={{
+                    flex: 1,
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                  }}>
+                  <Text
+                    style={{
+                      color: appColors.Goldcolor,
+                      fontSize: 15,
+                      fontWeight: 'bold',
+                    }}>
+                    No Barber Available at your Location!!
+                  </Text>
+                </View>
               )}
-              keyExtractor={(item, index) => index.toString()}
-              horizontal={true}
-            />
+            </>
           ) : (
             <View
               style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
@@ -643,15 +657,6 @@ const HomeScreen = ({navigation}) => {
             }}>
             Best Offers
           </Text>
-          {/* <TouchableOpacity
-            onPress={() =>
-              navigation.navigate(constants.screen.BarberSpecialist)
-            }
-            style={{}}>
-            <Text style={{color: appColors.Goldcolor, fontSize: 16}}>
-              See all
-            </Text>
-          </TouchableOpacity> */}
         </View>
         <View style={{height: screenSize.height / 2.35}}>
           <FlatList
