@@ -47,14 +47,14 @@ const Servicesboard = ({ navigation }) => {
     const payload = {
       serviceCategoryId: 0,
       barberId: userId,
-      statusId: approve,
+      statusId: 0,
     };
     console.log("pyload", payload)
     PostRequest(endPoint.BARBER_SERVICE_CATEGORY, payload)
       .then(res => {
         console.log("----------------",res?.data?.data);
         if (res?.data?.code == SUCCESS_CODE) {
-          setBarberServices(res?.data);
+          setBarberServices(res?.data?.data);
         } else {
           SimpleSnackBar(res?.data?.message, appColors.Red)
         }
@@ -90,9 +90,10 @@ const Servicesboard = ({ navigation }) => {
       </View>
 
       <ScrollView style={{ flex: 0.8 }}>
-        {barberServices?.[0]?.categories?.map(item => (
+        {barberServices?.[0]?.categories?.map((item, index) => (
           <Servicelist
             item={item}
+            index={index}
             onPress={() => handleItemPress(item)}
           />
         ))}
@@ -129,12 +130,12 @@ const handleApproveRejectRemarks = (item) => {
   }
 }
 
-const Servicelist = ({ key, item, onPress }) => {
+const Servicelist = ({ index, item, onPress }) => {
   const refRBSheet = useRef();
   const navigation = useNavigation();
 
   return (
-    <TouchableOpacity key={item?.barberServiceCategryId} onPress={onPress}>
+    <TouchableOpacity key={index} onPress={onPress}>
       <View style={[styles.container]}>
         <View style={[styles.Subcontainer]}>
           <View style={[styles.textView]}>

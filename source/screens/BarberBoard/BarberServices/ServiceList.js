@@ -39,10 +39,6 @@ const ServiceList = ({navigation, route}) => {
 
   const getChildService = userId => {
     const payload = {
-      // serviceId: 0,
-      // serviceName: '',
-      // serviceCategoryId: item?.barberServiceCategryId,
-      // operations: 5,
       servicesId: 0,
       serviceCategoryId: item?.barberServiceCategryId,
       barberId: userId,
@@ -54,6 +50,7 @@ const ServiceList = ({navigation, route}) => {
     PostRequest(endPoint.BARBER_APPROVE_SERVICES, payload)
       .then(res => {
         console.log('res', res?.data?.data);
+        console.log('res Detail', res?.data?.data[0]?.barberServices);
         setSubServices(res?.data?.data?.[0]?.barberServices);
       })
       .catch(res => {

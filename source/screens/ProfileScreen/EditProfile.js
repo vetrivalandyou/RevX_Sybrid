@@ -90,13 +90,13 @@ const EditProfile = ({ navigation }) => {
     formData.append('UserPhone', values.PhoneNo);
     formData.append('Operation', 2);
     if (isUpdated == true) {
-      formData.append('profileImage', {
+      formData.append('UserProfile', {
         uri: profileImage?.path,
         name: `${generateRandomNumber()}`,
         type: profileImage?.mime,
       });
     } else {
-      formData.append('profileImage', profileImage);
+      formData.append('UserProfilePath', profileImage);
     }
 
     console.log('data', formData);
