@@ -280,7 +280,7 @@ const HomeScreen = ({navigation}) => {
         <View style={{flex: 0.2}}>
           <ButtonComponent
             title={'View Barber Profile'}
-            style={{paddingVertical: 9}}
+            style={{paddingVertical: 5}}
             onPress={() =>
               navigation.navigate(constants.screen.BarberProfile, {
                 barberId: item?.UserId,
