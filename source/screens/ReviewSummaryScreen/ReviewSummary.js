@@ -155,8 +155,8 @@ const ReviewSummary = ({route}) => {
           {/* ))} */}
         </View>
         <View style={styles.Containerstyle2}>
-          {SelectedChildServices.map(item => (
-            <Pricedetails item={item} />
+          {SelectedChildServices.map((item, index) => (
+            <Pricedetails item={item} index={index}/>
           ))}
           <View
             style={{
@@ -356,11 +356,11 @@ const Barberdetails = ({
   );
 };
 
-const Pricedetails = ({item}) => {
+const Pricedetails = ({item, index}) => {
   return (
     <View>
       <View
-        key={item?.ChildServiceID}
+        key={index}
         style={{flexDirection: 'column', justifyContent: 'space-between'}}>
         <View
           style={{
