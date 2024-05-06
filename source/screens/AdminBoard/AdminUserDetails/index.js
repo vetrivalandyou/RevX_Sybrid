@@ -145,11 +145,7 @@ const AdminUserDetails = ({ navigation }) => {
         setIsLoading(false);
       });
   };
-<<<<<<< HEAD
-  console.log("userList", userList.UserEmail)
-=======
   console.log('userList', userList.UserEmail);
->>>>>>> 3c9ddaae81dc115d0db6ab781b329ed48cabbd8a
   return (
     <Screen
       viewStyle={{ padding: 15, flex: 1, backgroundColor: appColors.Black }}
