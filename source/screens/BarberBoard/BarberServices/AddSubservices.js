@@ -81,7 +81,7 @@ const AddSubservices = ({ navigation, route }) => {
         ],
       };
 
-      console.log('payload', payload);
+      console.log('payload Sub Service', payload);
       PostRequest(endPoint.APPROVE_BARBER_SERVICE, payload)
         .then(res => {
           console.log('res', res?.data);

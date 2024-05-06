@@ -92,7 +92,7 @@ const EditProfile = ({ navigation }) => {
     if (isUpdated == true) {
       formData.append('UserProfile', {
         uri: profileImage?.path,
-        name: `${generateRandomNumber()}`,
+        name: `${generateRandomNumber()}.jpg`,
         type: profileImage?.mime,
       });
     } else {
@@ -102,6 +102,8 @@ const EditProfile = ({ navigation }) => {
     console.log('data', formData);
     console.log('isYpdate', isUpdated);
     console.log('ProfilePath', profileImage);
+    console.log('Profiletype', profileImage?.mime);
+    console.log('ProfileURI', profileImage?.path);
     console.log('generateRandomNumber()', generateRandomNumber());
 
     PostRequest(endPoint.EDIT_PROFILE_USER, formData)

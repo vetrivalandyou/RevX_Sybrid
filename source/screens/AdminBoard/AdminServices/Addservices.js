@@ -46,9 +46,13 @@ const Addservices = ({route}) => {
     formData.append('UserIP', '::1');
     formData.append('ServiceImage', {
       uri: profileImage?.path,
-      name: `${generateRandomNumber()}.jpg`,
+      name: `${generateRandomNumber()}.jpeg`,
       type: profileImage?.mime,
     });
+
+    console.log("handleAddService --- FormData",formData)
+    console.log(" profileImage?.path",  profileImage?.path)
+    console.log("profileImage?.mime",  profileImage?.mime)
     PostRequest(endPoint.SETUP_CATEGORIES_CU, formData)
       .then(res => {
         if (res?.data?.code === SUCCESS_CODE) {

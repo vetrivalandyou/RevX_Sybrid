@@ -23,10 +23,11 @@ import {PostRequest} from '../../../services/apiCall';
 import {endPoint} from '../../../AppConstants/urlConstants';
 import {AppImages} from '../../../AppConstants/AppImages';
 import {SimpleSnackBar} from '../../../components/atom/Snakbar/Snakbar';
-import {LATEST_SELECT} from '../../../AppConstants/appConstants';
+import {LATEST_SEARCH, LATEST_SELECT} from '../../../AppConstants/appConstants';
 import {getAsyncItem} from '../../../utils/SettingAsyncStorage';
 import DeleteSlot from './DeleteSlot';
 import BottomSheet from '../../../components/molecules/BottomSheetContent/BottomSheet';
+import moment from 'moment';
 
 const AdminSetupSlots = ({navigation}) => {
   const refRBSheet = useRef();
@@ -38,47 +39,43 @@ const AdminSetupSlots = ({navigation}) => {
     createdBy: 0,
   };
   const isFocused = useIsFocused();
-  const [userDetails, setUserDetails] = useState();
-  const [servicesList, setServiceslist] = useState([]);
+  const [slots, setSlots] = useState();
 
   useEffect(() => {
     if (isFocused) {
-      GetsetupCategories();
-      getAsyncData();
+      fetchSelectedTimeSlot();
     }
   }, [isFocused]);
 
-  const getAsyncData = async () => {
-    const userDetailsData = await getAsyncItem(
-      constants.AsyncStorageKeys.userDetails,
-    );
-    setUserDetails(userDetailsData);
-  };
-
-  const GetsetupCategories = () => {
-    // PostRequest(endPoint.GET_SETUP_CATEGORIES, initialServiceFields)
-    //   .then(res => {
-    //     console.log('responseeee>>>>.>', res?.data?.data);
-    //     if (res?.data?.code == 200) {
-    //       setServiceslist(res?.data?.data);
-    //     } else {
-    //       SimpleSnackBar(res?.data?.message, appColors.Red);
-    //     }
-    //   })
-    //   .catch(err => {
-    //     SimpleSnackBar(messages.Catch, appColors.Red);
-    //   });
-  };
-
-  const addSubService = item => {
-    console.log('item', item);
-    navigation.navigate(constants.AdminScreens.SubService, {
-      parentService: item,
-    });
+  const fetchSelectedTimeSlot = selectedData => {
+    const payload = {
+      operationID: LATEST_SEARCH,
+      durationMinutes: 0,
+      bookingDate: '2024-05-06T13:21:09.807Z',
+      barberID: 0,
+      isActive: true,
+      userID: 0,
+      userIP: '',
+    };
+    console.log('payload', payload);
+    PostRequest(endPoint?.BARBER_AVAILABLESLOTS, payload)
+      .then(res => {
+        console.log('res?.data', res?.data);
+        setSlots(res?.data);
+      })
+      .catch(err => {
+        console.log('err', err);
+      });
   };
 
   const createSlot = () => {
     navigation.navigate(constants.AdminScreens.CreateSlot);
+  };
+
+  const convertedTime = time => {
+    let stringTime = moment(time, 'HH:mm:ss');
+    const formattedTime = stringTime.format('hh:mm A');
+    return formattedTime;
   };
 
   return (
@@ -96,20 +93,20 @@ const AdminSetupSlots = ({navigation}) => {
         />
       </View>
       <View style={{flex: 0.8}}>
-        <View
-          style={[
-            styles.container,
-            // selected && {borderColor: '#c79647', borderWidth: 1.25},
-          ]}>
+        <View style={[styles.container]}>
           <View style={styles.Subcontainer}>
             <View style={styles.textView}>
-              <Text style={styles.textStyle}>{'Slot one'}</Text>
+              <Text style={styles.textStyle}>{'Slot'}</Text>
             </View>
             <View style={styles.textView}>
-              <Text style={styles.textStyle}>{'Slot one'}</Text>
+              <Text style={styles.textStyle}>
+                {convertedTime(slots?.Table?.[0]?.TimeSlot1)}
+              </Text>
             </View>
             <View style={styles.textView}>
-              <Text style={styles.textStyle}>{'Slot one'}</Text>
+              <Text style={styles.textStyle}>
+                {convertedTime(slots?.Table1?.[0]?.TimeSlot2)}
+              </Text>
             </View>
           </View>
         </View>

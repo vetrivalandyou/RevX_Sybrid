@@ -44,7 +44,7 @@ const AddVanservices = ({navigation, route}) => {
       name: `${generateRandomNumber()}.jpg`,
       type: profileImage?.mime,
     });
-    console.log('formData', formData);
+    console.log('formData------ Vans', formData);
     PostRequest(endPoint.VAN_CU, formData)
       .then(res => {
         console.log('response', res?.data);

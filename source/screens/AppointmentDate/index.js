@@ -11,6 +11,7 @@ import {PostRequest} from '../../services/apiCall';
 import {endPoint} from '../../AppConstants/urlConstants';
 import {useSelector} from 'react-redux';
 import {screenSize} from '../../components/atom/ScreenSize';
+import { LATEST_SELECT } from '../../AppConstants/appConstants';
 
 const AppointmentDate = ({route, navigation}) => {
   const {barberDetails} = route.params;
@@ -44,7 +45,7 @@ const AppointmentDate = ({route, navigation}) => {
 
   const fetchSelectedTimeSlot = selectedData => {
     const payload = {
-      operationID: 3,
+      operationID: LATEST_SELECT,
       durationMinutes: returnTotalDuration(),
       bookingDate: selectedData,
       barberID: barberDetails?.UserId,
