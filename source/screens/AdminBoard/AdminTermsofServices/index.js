@@ -20,6 +20,7 @@ const AdminTermsofServices = ({navigation, route}) => {
   const isFocused = useIsFocused();
   const [termsServicesData, setTermsServicesData] = useState([]);
   const [loading, setLoading] = useState(true); // State for loading indicator
+  console.log("termsServicesData..",termsServicesData)
 
   useEffect(() => {
     if (isFocused) {

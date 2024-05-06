@@ -82,13 +82,13 @@ const AddVanservices = ({navigation, route}) => {
           logIn={'success'}
         />
       </View>
-      <Formik
+      <Formik 
         initialValues={{
           VanName: '',
           VanRegistrationNo: '',
           VanModel: '',
         }}
-        validationSchema={validationSchema}
+        validationSchema={validationSchema} 
         onSubmit={(values, {setSubmitting}) => {
           if (!profileImage) {
             SimpleSnackBar('Please select an image');
@@ -99,8 +99,8 @@ const AddVanservices = ({navigation, route}) => {
         }}>
         {({
           handleChange,
-          handleBlur,
-          handleSubmit,
+          handleBlur,  
+          handleSubmit,   
           values,
           errors,
           touched,

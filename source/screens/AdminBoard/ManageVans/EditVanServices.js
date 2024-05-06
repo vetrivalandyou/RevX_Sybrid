@@ -37,6 +37,7 @@ const EditVanservices = ({route, navigation}) => {
   });
 
   const VanInfo = (values, setSubmitting) => {
+
     const formData = new FormData();
     Object.keys(values).forEach(key => {
       formData.append(key, values[key]);

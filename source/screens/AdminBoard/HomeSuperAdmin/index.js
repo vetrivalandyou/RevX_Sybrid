@@ -272,6 +272,7 @@ const HomeSuperAdmin = () => {
         <TouchableOpacity
           onPress={() =>
             navigation.navigate(constants.AdminScreens.AdminBarberEarnings)
+            
           }
           style={{flex: 0.5, justifyContent: 'flex-end', flexDirection: 'row'}}>
           <Text style={{color: appColors.Goldcolor, fontSize: 10}}>
