@@ -37,6 +37,7 @@ const EditVanservices = ({route, navigation}) => {
   });
 
   const VanInfo = (values, setSubmitting) => {
+
     const formData = new FormData();
     Object.keys(values).forEach(key => {
       formData.append(key, values[key]);
@@ -55,7 +56,7 @@ const EditVanservices = ({route, navigation}) => {
       });
     }
 
-    console.log('formData', formData);
+    console.log('formData...........?????????', formData);
 
     PostRequest(endPoint.VAN_CU, formData)
       .then(res => {

@@ -279,6 +279,7 @@ const AdminStack = () => {
           component={CreateSlot}
           options={{headerShown: false}}
         />
+         
       </Stack.Navigator>
       <DeepLinking />
     </NavigationContainer>

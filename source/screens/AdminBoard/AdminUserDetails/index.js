@@ -1,4 +1,4 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import {
   ActivityIndicator,
   FlatList,
@@ -12,69 +12,69 @@ import {
 import Screen from '../../../components/atom/ScreenContainer/Screen';
 import ButtonComponent from '../../../components/atom/CustomButtons/ButtonComponent';
 import styles from './styles';
-import {AppImages} from '../../../AppConstants/AppImages';
-import {screenSize} from '../../../components/atom/ScreenSize';
+import { AppImages } from '../../../AppConstants/AppImages';
+import { screenSize } from '../../../components/atom/ScreenSize';
 import Header from '../../../components/molecules/Header';
-import {Icons} from '../../../components/molecules/CustomIcon/CustomIcon';
+import { Icons } from '../../../components/molecules/CustomIcon/CustomIcon';
 import constants from '../../../AppConstants/Constants.json';
 import appColors from '../../../AppConstants/appColors';
-import {useNavigation} from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
 import BottomSheet from '../../../components/molecules/BottomSheetContent/BottomSheet';
 import BlockUser from './BlockUser';
-import {SimpleSnackBar} from '../../../components/atom/Snakbar/Snakbar';
-import {PostRequest} from '../../../services/apiCall';
-import {endPoint, imageUrl, messages} from '../../../AppConstants/urlConstants';
-import {getAsyncItem} from '../../../utils/SettingAsyncStorage';
-import {LATEST_SELECT} from '../../../AppConstants/appConstants';
+import { SimpleSnackBar } from '../../../components/atom/Snakbar/Snakbar';
+import { PostRequest } from '../../../services/apiCall';
+import { endPoint, imageUrl, messages } from '../../../AppConstants/urlConstants';
+import { getAsyncItem } from '../../../utils/SettingAsyncStorage';
+import { LATEST_SELECT } from '../../../AppConstants/appConstants';
 
-const AdminUserDetails = ({navigation}) => {
+const AdminUserDetails = ({ navigation }) => {
   const [userList, setUserlist] = useState([]);
   const pageRef = useRef(1);
   const [hasMoreData, setHasMoreData] = useState(true);
   const [isLoading, setIsLoading] = useState(true);
 
-  const data = [
-    {
-      id: 1,
-      name: 'Nathan Alexender',
-      title: 'Senior Barber',
-      Imagesource: AppImages.chatone,
-      Viewbutton: 'View User',
-      Blockbutton: 'Block User',
-    },
-    {
-      id: 2,
-      name: 'Nathan Alexender',
-      title: 'Senior Barber',
-      Imagesource: AppImages.chatone,
-      Viewbutton: 'View User',
-      Blockbutton: 'Block User',
-    },
-    {
-      id: 3,
-      name: 'Nathan Alexender',
-      title: 'Senior Barber',
-      Imagesource: AppImages.chatone,
-      Viewbutton: 'View User',
-      Blockbutton: 'Block User',
-    },
-    {
-      id: 4,
-      name: 'Nathan Alexender',
-      title: 'Senior Barber',
-      Imagesource: AppImages.chatone,
-      Viewbutton: 'View User',
-      Blockbutton: 'Block User',
-    },
-    {
-      id: 5,
-      name: 'Nathan Alexender',
-      title: 'Senior Barber',
-      Imagesource: AppImages.chatone,
-      Viewbutton: 'View User',
-      Blockbutton: 'Block User',
-    },
-  ];
+  // const data = [
+  //   {
+  //     id: 1,
+  //     name: 'Nathan Alexender',
+  //     title: 'Senior Barber',
+  //     Imagesource: AppImages.chatone,
+  //     Viewbutton: 'View User',
+  //     Blockbutton: 'Block User',
+  //   },
+  //   {
+  //     id: 2,
+  //     name: 'Nathan Alexender',
+  //     title: 'Senior Barber',
+  //     Imagesource: AppImages.chatone,
+  //     Viewbutton: 'View User',
+  //     Blockbutton: 'Block User',
+  //   },
+  //   {
+  //     id: 3,
+  //     name: 'Nathan Alexender',
+  //     title: 'Senior Barber',
+  //     Imagesource: AppImages.chatone,
+  //     Viewbutton: 'View User',
+  //     Blockbutton: 'Block User',
+  //   },
+  //   {
+  //     id: 4,
+  //     name: 'Nathan Alexender',
+  //     title: 'Senior Barber',
+  //     Imagesource: AppImages.chatone,
+  //     Viewbutton: 'View User',
+  //     Blockbutton: 'Block User',
+  //   },
+  //   {
+  //     id: 5,
+  //     name: 'Nathan Alexender',
+  //     title: 'Senior Barber',
+  //     Imagesource: AppImages.chatone,
+  //     Viewbutton: 'View User',
+  //     Blockbutton: 'Block User',
+  //   },
+  // ];
 
   useEffect(() => {
     getAllUsers();
@@ -145,14 +145,14 @@ const AdminUserDetails = ({navigation}) => {
         setIsLoading(false);
       });
   };
-console.log("userList",userList.UserEmail)
+  console.log("userList", userList.UserEmail)
   return (
     <Screen
-      viewStyle={{padding: 15, flex: 1, backgroundColor: appColors.Black}}
+      viewStyle={{ padding: 15, flex: 1, backgroundColor: appColors.Black }}
       statusBarColor={appColors.Black}>
-      <View style={{flex: 0.1}}>
+      <View style={{ flex: 0.1 }}>
         <Header
-          headerSubView={{marginHorizontal: 5}}
+          headerSubView={{ marginHorizontal: 5 }}
           lefttIcoType={Icons.Ionicons}
           onPressLeftIcon={() => navigation.goBack()}
           leftIcoName={'chevron-back'}
@@ -174,19 +174,19 @@ console.log("userList",userList.UserEmail)
           }}
         />
       </View>
-      <View style={{flex: 0.9}}>
+      <View style={{ flex: 0.9 }}>
         <FlatList
           data={userList}
           showsVerticalScrollIndicator={false}
           onEndReached={handleEndReached}
           onEndReachedThreshold={0.5}
           extraData={userList}
-          renderItem={({item, index}) => (
+          renderItem={({ item, index }) => (
             <Detailslist
               item={item}
               index={index}
-              // openIndex={openIndex}
-              // onPress={() => handleClickCollapse(index)}
+            // openIndex={openIndex}
+            // onPress={() => handleClickCollapse(index)}
             />
           )}
         />
@@ -195,7 +195,7 @@ console.log("userList",userList.UserEmail)
   );
 };
 
-const Detailslist = ({item, onPress}) => {
+const Detailslist = ({ item, onPress }) => {
   const navigation = useNavigation();
   const refRBSheet = useRef();
 
@@ -219,7 +219,7 @@ const Detailslist = ({item, onPress}) => {
 
   return (
     <View style={styles.Containerstyle}>
-      <View style={{flex: 1}}>
+      <View style={{ flex: 1 }}>
         <View
           style={{
             flexDirection: 'row',
@@ -229,10 +229,10 @@ const Detailslist = ({item, onPress}) => {
             flex: 0.6,
           }}>
           <View
-            style={{paddingVertical: 8, flex: 0.3, alignItems: 'flex-start'}}>
+            style={{ paddingVertical: 8, flex: 0.3, alignItems: 'flex-start' }}>
             {item?.ProfileImage != '' && (
               <Image
-                source={{uri: `${imageUrl}${item?.ProfileImage}`}}
+                source={{ uri: `${imageUrl}${item?.ProfileImage}` }}
                 style={{
                   height: Platform.OS == 'ios' ? 80 : 70,
                   width: Platform.OS == 'ios' ? 80 : 70,
@@ -241,7 +241,7 @@ const Detailslist = ({item, onPress}) => {
               />
             )}
           </View>
-          <View style={{flexDirection: 'column', flex: 0.7}}>
+          <View style={{ flexDirection: 'column', flex: 0.7 }}>
             <Text
               style={{
                 color: 'white',
@@ -263,7 +263,7 @@ const Detailslist = ({item, onPress}) => {
             </View>
           </View>
         </View>
-        <View style={{height: 1, position: 'relative', marginHorizontal: 15}}>
+        <View style={{ height: 1, position: 'relative', marginHorizontal: 15 }}>
           <View
             style={{
               position: 'absolute',
@@ -285,7 +285,7 @@ const Detailslist = ({item, onPress}) => {
             borderStyle: 'dashed',
             borderBottomColor: '#c79647'
           }}></View> */}
-        <View style={{flex: 0.4, flexDirection: 'row'}}>
+        <View style={{ flex: 0.4, flexDirection: 'row' }}>
           {item?.IsActive == true ? (
             <View
               style={{
@@ -311,7 +311,7 @@ const Detailslist = ({item, onPress}) => {
                 alignItems: 'center',
               }}>
               <ButtonComponent
-               onPress={() => handleViewUser(item)}
+                onPress={() => handleViewUser(item)}
                 style={{
                   backgroundColor: '#c79647',
                   width: '90%',
@@ -324,7 +324,7 @@ const Detailslist = ({item, onPress}) => {
           )}
 
           <View
-            style={{flex: 0.8, justifyContent: 'center', alignItems: 'center'}}>
+            style={{ flex: 0.8, justifyContent: 'center', alignItems: 'center' }}>
             {item.IsActive == true ? (
               <ButtonComponent
                 style={{
@@ -344,7 +344,7 @@ const Detailslist = ({item, onPress}) => {
                 }}
                 btnColor={appColors.Red}
                 title={'This User is Blocked by Admin'}
-                // onPress={() => refRBSheet.current.open()}
+              // onPress={() => refRBSheet.current.open()}
               />
             )}
 

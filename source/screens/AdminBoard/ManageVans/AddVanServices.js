@@ -86,20 +86,20 @@ const AddVanservices = ({navigation, route}) => {
           logIn={'success'}
         />
       </View>
-      <Formik
+      <Formik 
         initialValues={{
           VanName: '',
           VanRegistrationNo: '',
           VanModel: '',
         }}
-        validationSchema={validationSchema}
+        validationSchema={validationSchema} 
         onSubmit={(values, {setSubmitting}) => {
           VanInfo(values, setSubmitting);
         }}>
         {({
           handleChange,
-          handleBlur,
-          handleSubmit,
+          handleBlur,  
+          handleSubmit,   
           values,
           errors,
           touched,
