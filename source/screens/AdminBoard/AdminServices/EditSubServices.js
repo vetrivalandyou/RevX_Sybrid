@@ -27,13 +27,16 @@ import BottomSheet from '../../../components/molecules/BottomSheetContent/Bottom
 import ChooseImage from '../../../components/molecules/ChooseImage';
 import {generateRandomNumber} from '../../../functions/AppFunctions';
 
-const EditSubServices = ({route, navigation}) => {
+const EditSubServices = ({route}) => {
   const refRBSheet = useRef();
+  const navigation = useNavigation();
+
   const {item, userId} = route.params || {};
-  const beforeChangeImage = `${imageUrl}/${item?.serviceImage}`;
-  
-  const [changedImage, setChangedImage] = useState();
-  const [isChangeImage, setIsChangeImage] = useState(false);
+  const [changedImage, setChangedImage] = useState('');
+  const [beforeChangeImage, setBeforeChangeImage] = useState(
+    `${item?.serviceImage}`,
+  );
+
   const [subServiceName, setSubServiceName] = useState(item?.serviceName);
   const [subServicePrice, setSubServicePrice] = useState(
     item?.servicePrice.toString(),
@@ -45,22 +48,9 @@ const EditSubServices = ({route, navigation}) => {
     item?.serviceDescription,
   );
 
-  const handleImageCaptured = image => {
-    // setIsChangeImage(true);
-    setChangedImage(image);
-    refRBSheet.current.close();
-  };
+  console.log('------item', item);
+
   const handleSaveSubService = () => {
-    // let image;
-    // if (isChangeImage!= '') {
-    //   image = {
-    //     name: `${generateRandomNumber()}.${changedImage?.mime}`,
-    //     uri: changedImage?.path,
-    //     type: changedImage?.mime,
-    //   };
-    // } else {
-    //   image = beforeChangeImage;
-    // }
     const formData = new FormData();
     formData.append('Operations', LATEST_UPDATE);
     formData.append('ServiceId', item?.servicesId);
@@ -69,25 +59,23 @@ const EditSubServices = ({route, navigation}) => {
     formData.append('ServicePrice', parseFloat(subServicePrice));
     formData.append('ServiceDuration', parseFloat(subServiceDuration));
     formData.append('ServiceCategoryId', item?.serviceCategoryId);
-    // formData.append('ServiceImage', image);
-    if (isChangeImage == '') {
-    formData.append('ServiceImage', beforeChangeImage);
-  } else {
-    formData.append('ServiceImage', {
-      uri: changedImage?.path,
-      name: `${generateRandomNumber()}.jpg`,
-      type: changedImage?.mime,
-    });
-  }
+    if (changedImage == '') {
+      formData.append('ServiceImages', beforeChangeImage);
+    } else {
+      formData.append('ServiceImage', {
+        uri: changedImage?.path,
+        name: `${generateRandomNumber()}.jpg`,
+        type: changedImage?.mime,
+      });
+    }
     formData.append('Discount', parseFloat(0.0));
     formData.append('CreatedBy', userId);
     formData.append('UserIP', '::1');
 
-    // console.log(image);
+    console.log('---------------', formData);
 
     PostRequest(endPoint.BARBER_SERVICES_CU, formData)
       .then(res => {
-        // console.log('res?.data', res?.data);
         if (res?.data?.code == SUCCESS_CODE) {
           SimpleSnackBar(res?.data?.message);
           navigation.goBack();
@@ -98,6 +86,11 @@ const EditSubServices = ({route, navigation}) => {
       .catch(err => {
         SimpleSnackBar(messages.Catch, appColors.Red);
       });
+  };
+
+  const handleImageCaptured = image => {
+    setChangedImage(image);
+    refRBSheet.current.close();
   };
 
   return (
@@ -126,7 +119,7 @@ const EditSubServices = ({route, navigation}) => {
                 height: '82%',
                 backgroundColor: appColors.Black,
               }}>
-              {isChangeImage != '' ? (
+              {changedImage != '' ? (
                 <Image
                   source={{uri: changedImage?.path}}
                   style={{
@@ -140,7 +133,7 @@ const EditSubServices = ({route, navigation}) => {
                 />
               ) : (
                 <Image
-                  source={{uri: beforeChangeImage}}
+                  source={{uri: `${imageUrl}${beforeChangeImage}`}}
                   style={{
                     width: '100%',
                     height: '100%',

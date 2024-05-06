@@ -5,7 +5,7 @@ import appColors from '../../../AppConstants/appColors';
 export default StyleSheet.create({
   container: {
     width: screenSize.width / 1.1,
-    height: screenSize.height / 13,
+    height: screenSize.height / 10,
     borderWidth: 1,
     borderRadius: 10,
     backgroundColor: '#252525',
@@ -43,7 +43,7 @@ export default StyleSheet.create({
   },
 
   DeleteimageView: {
-    flex: 0.18,
+    flex: 0.2,
     justifyContent: 'center',
     alignItems: 'center',
     textAlign: 'right',
@@ -51,12 +51,12 @@ export default StyleSheet.create({
   },
 
   Deleteimagestyle: {
-    width: '40%',
-    height: '40%',
+    width: '30%',
+    height: '30%',
   },
   DropdownView: {
     width: screenSize.width / 1.12,
-    height: screenSize.height / 16,
+    height: screenSize.height / 14,
     justifyContent: 'center',
   },
   buttonStyle: {

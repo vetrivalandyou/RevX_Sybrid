@@ -66,6 +66,7 @@ const useLocationWatcher = callback => {
     );
 
     return () => {
+      console.log("watchID", watchId)
       Geolocation.clearWatch(watchId);
     };
   }, [callback, permissionGranted]);

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, Platform } from 'react-native';
 import CustomIcon, { Icons } from './CustomIcon/CustomIcon';
 import { screenSize } from '../atom/ScreenSize';
 import appColors from '../../AppConstants/appColors';
@@ -77,7 +77,7 @@ const styles = StyleSheet.create({
   header: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    padding: 15,
+    padding: Platform.OS == 'ios' ? 20 : 17,
     borderColor: 'grey',
     borderWidth: 1.5,
     borderRadius: 25,

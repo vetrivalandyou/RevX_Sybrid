@@ -1,19 +1,54 @@
 import {StyleSheet, Text, View, TouchableOpacity, Platform} from 'react-native';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import {screenSize} from '../../components/atom/ScreenSize';
 import Header from '../../components/molecules/Header';
 import {Icons} from '../../components/molecules/CustomIcon/CustomIcon';
 import Screen from '../../components/atom/ScreenContainer/Screen';
-import {useNavigation} from '@react-navigation/native';
+import {useIsFocused, useNavigation} from '@react-navigation/native';
 import PaymentModal from '../../components/molecules/PaymentModal/PaymentModal';
 import constants from '../../AppConstants/Constants.json';
 import appColors from '../../AppConstants/appColors';
+import {useSelector} from 'react-redux';
+import {getAsyncItem} from '../../utils/SettingAsyncStorage';
+import {returnTotal} from '../../functions/AppFunctions';
 
-const ReviewSummary = () => {
+const ReviewSummary = ({route}) => {
+  const {selectedSlotId, seelectedDate, barberDetails} = route?.params || 0;
   const navigation = useNavigation();
+  const isFocused = useIsFocused();
+  const {SelectedChildServices} = useSelector(
+    state => state.AppointmentReducer,
+  );
+  console.log(
+    'selectedSlotId, seelectedDate, barberDetails, SelectedChildServices',
+    selectedSlotId,
+    seelectedDate,
+    barberDetails,
+    SelectedChildServices,
+  );
   const [modalVisible, setModalVisible] = useState(false);
+  const [userDetails, setUserDetails] = useState();
+  const [address, setAddress] = useState();
+
+  useEffect(() => {
+    if (isFocused) {
+      getUserDetail();
+    }
+  }, [isFocused]);
+
+  const getUserDetail = async () => {
+    const userAsyncDetails = await getAsyncItem(
+      constants.AsyncStorageKeys.userDetails,
+    );
+    const userAsyncAddress = await getAsyncItem(
+      constants.AsyncStorageKeys.nearest_landmark,
+    );
+    setUserDetails(userAsyncDetails);
+    setAddress(userAsyncAddress)
+    console.log('userAsyncDetails', userAsyncDetails);
+  };
 
   const handleConfirmPayment = () => {
     // Open the modal when the button is pressed
@@ -24,6 +59,7 @@ const ReviewSummary = () => {
     // Close the modal
     setModalVisible(false);
   };
+
   const data = [
     {
       id: '1',
@@ -81,7 +117,7 @@ const ReviewSummary = () => {
   ];
 
   return (
-    <Screen viewStyle={{ flex: 1, padding: 15}} statusBarColor={appColors.Black}>
+    <Screen viewStyle={{flex: 1, padding: 15}} statusBarColor={appColors.Black}>
       <View style={{flex: 0.1}}>
         <Header
           headerSubView={{marginHorizontal: 5}}
@@ -108,29 +144,40 @@ const ReviewSummary = () => {
       </View>
       <View style={{flex: 0.8}}>
         <View style={styles.Containerstyle}>
-          {data.map(item => (
-            <Barberdetails key={item.id} item={item} />
-          ))}
+          {/* {data.map(item => ( */}
+          <Barberdetails
+            userDetails={userDetails}
+            seelectedDate={seelectedDate}
+            selectedSlotId={selectedSlotId}
+            barberDetails={barberDetails}
+            address={address}
+          />
+          {/* ))} */}
         </View>
-
         <View style={styles.Containerstyle2}>
-          {data2.map(item => (
-            <Pricedetails key={item.id} item={item} />
+          {SelectedChildServices.map((item, index) => (
+            <Pricedetails item={item} index={index}/>
           ))}
-          <View style={{ height: 1, position:'relative', marginHorizontal: 15, margin: 10 }}>
-            <View style={{ position: 'absolute', top: 0, bottom: 0, left: 0, right: 0, borderWidth: 1, borderColor: appColors.Goldcolor, borderStyle: 'dashed', backgroundColor:'transparent'  }}></View>
-          </View>
-          {/* <View
+          <View
             style={{
-              backgroundColor: '#c79647',
-              fontSize: 25,
-              marginHorizontal: 14,
-              borderBottomWidth: 2,
-              borderStyle: 'dotted',
-              marginTop: 10,
-              marginBottom: 5,
-            }}></View> */}
-
+              height: 1,
+              position: 'relative',
+              marginHorizontal: 15,
+              margin: 10,
+            }}>
+            <View
+              style={{
+                position: 'absolute',
+                top: 0,
+                bottom: 0,
+                left: 0,
+                right: 0,
+                borderWidth: 1,
+                borderColor: appColors.Goldcolor,
+                borderStyle: 'dashed',
+                backgroundColor: 'transparent',
+              }}></View>
+          </View>
           <View
             style={{
               flexDirection: 'row',
@@ -140,13 +187,15 @@ const ReviewSummary = () => {
               marginTop: 5,
             }}>
             <Text style={{color: 'white', fontWeight: '700'}}>Total</Text>
-            <Text style={{color: '#c79647', fontWeight: '700'}}>$120.00</Text>
+            <Text style={{color: '#c79647', fontWeight: '700'}}>
+              ${returnTotal(SelectedChildServices)}.00
+            </Text>
           </View>
         </View>
       </View>
 
       <TouchableOpacity
-        onPress={handleConfirmPayment} //notification
+        // onPress={handleConfirmPayment} //notification
         style={styles.Button}>
         <Text style={{fontWeight: '700', fontSize: 13, color: 'white'}}>
           {' '}
@@ -169,7 +218,13 @@ const ReviewSummary = () => {
   );
 };
 
-const Barberdetails = ({item}) => {
+const Barberdetails = ({
+  userDetails,
+  seelectedDate,
+  selectedSlotId,
+  barberDetails,
+  address
+}) => {
   return (
     <View>
       <View style={{flexDirection: 'column', justifyContent: 'space-between'}}>
@@ -182,10 +237,118 @@ const Barberdetails = ({item}) => {
             marginVertical: 5,
           }}>
           <Text style={{color: 'white', fontSize: 13, fontWeight: '400'}}>
-            {item.title}
+            Barber Salon
           </Text>
           <Text style={{color: 'white', fontSize: 13, fontWeight: '400'}}>
-            {item.label}
+            RevX Barber
+          </Text>
+        </View>
+      </View>
+
+      <View style={{flexDirection: 'column', justifyContent: 'space-between'}}>
+        <View
+          style={{
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            marginHorizontal: 20,
+            marginVertical: 5,
+          }}>
+          <Text style={{color: 'white', fontSize: 13, fontWeight: '400'}}>
+            Address
+          </Text>
+          <Text style={{color: 'white', fontSize: 13, fontWeight: '400'}}>
+            {address}
+          </Text>
+        </View>
+      </View>
+
+      <View style={{flexDirection: 'column', justifyContent: 'space-between'}}>
+        <View
+          style={{
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            marginHorizontal: 20,
+            marginVertical: 5,
+          }}>
+          <Text style={{color: 'white', fontSize: 13, fontWeight: '400'}}>
+            Name
+          </Text>
+          <Text style={{color: 'white', fontSize: 13, fontWeight: '400'}}>
+            {userDetails?.userName}
+          </Text>
+        </View>
+      </View>
+
+      <View style={{flexDirection: 'column', justifyContent: 'space-between'}}>
+        <View
+          style={{
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            marginHorizontal: 20,
+            marginVertical: 5,
+          }}>
+          <Text style={{color: 'white', fontSize: 13, fontWeight: '400'}}>
+            Phone
+          </Text>
+          <Text style={{color: 'white', fontSize: 13, fontWeight: '400'}}>
+            {userDetails?.userPhone}
+          </Text>
+        </View>
+      </View>
+
+      <View style={{flexDirection: 'column', justifyContent: 'space-between'}}>
+        <View
+          style={{
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            marginHorizontal: 20,
+            marginVertical: 5,
+          }}>
+          <Text style={{color: 'white', fontSize: 13, fontWeight: '400'}}>
+            Booking Date
+          </Text>
+          <Text style={{color: 'white', fontSize: 13, fontWeight: '400'}}>
+            {seelectedDate}
+          </Text>
+        </View>
+      </View>
+
+      <View style={{flexDirection: 'column', justifyContent: 'space-between'}}>
+        <View
+          style={{
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            marginHorizontal: 20,
+            marginVertical: 5,
+          }}>
+          <Text style={{color: 'white', fontSize: 13, fontWeight: '400'}}>
+            Booking Hours
+          </Text>
+          <Text style={{color: 'white', fontSize: 13, fontWeight: '400'}}>
+            {selectedSlotId?.TimeSlot}
+          </Text>
+        </View>
+      </View>
+
+      <View style={{flexDirection: 'column', justifyContent: 'space-between'}}>
+        <View
+          style={{
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            marginHorizontal: 20,
+            marginVertical: 5,
+          }}>
+          <Text style={{color: 'white', fontSize: 13, fontWeight: '400'}}>
+            Specialist
+          </Text>
+          <Text style={{color: 'white', fontSize: 13, fontWeight: '400'}}>
+            {barberDetails?.UserName}
           </Text>
         </View>
       </View>
@@ -193,10 +356,12 @@ const Barberdetails = ({item}) => {
   );
 };
 
-const Pricedetails = ({item}) => {
+const Pricedetails = ({item, index}) => {
   return (
     <View>
-      <View style={{flexDirection: 'column', justifyContent: 'space-between'}}>
+      <View
+        key={index}
+        style={{flexDirection: 'column', justifyContent: 'space-between'}}>
         <View
           style={{
             flexDirection: 'row',
@@ -206,10 +371,10 @@ const Pricedetails = ({item}) => {
             marginVertical: 5,
           }}>
           <Text style={{color: 'white', fontSize: 13.5, fontWeight: '400'}}>
-            {item.title}
+            {item.ChildService}
           </Text>
           <Text style={{color: 'white', fontSize: 13.5, fontWeight: '400'}}>
-            {item.price}
+            ${item.ServicePrice}
           </Text>
         </View>
       </View>

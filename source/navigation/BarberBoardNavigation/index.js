@@ -25,6 +25,8 @@ import {PostRequest} from '../../services/apiCall';
 import {endPoint} from '../../AppConstants/urlConstants';
 import {getAsyncItem, setLogLatAsync} from '../../utils/SettingAsyncStorage';
 import {LATEST_UPDATE} from '../../AppConstants/appConstants';
+import {SimpleSnackBar} from '../../components/atom/Snakbar/Snakbar';
+import appColors from '../../AppConstants/appColors';
 
 const BarberStack = () => {
   const Stack = createNativeStackNavigator();
@@ -37,18 +39,27 @@ const BarberStack = () => {
     const userAsyncDetails = await getAsyncItem(
       constants.AsyncStorageKeys.userDetails,
     );
+    console.log('Inside getAsyncData');
     getCurrentLocation(userAsyncDetails);
   };
 
   const getCurrentLocation = async userAsyncDetails => {
-    const userCurrentLocation = await requestLocationPermissionAndGetLocation();
-    console.log(userCurrentLocation);
-    handleLocationChange(userAsyncDetails, userCurrentLocation);
+    try {
+      const userCurrentLocation =
+        await requestLocationPermissionAndGetLocation();
+      handleLocationChange(userAsyncDetails, userCurrentLocation);
+    } catch (error) {
+      console.log("getCurrentLocation",error);
+    }
   };
 
   const handleLocationChange = (userAsyncDetails, newCoords) => {
-    handleSaveBarberLocation(userAsyncDetails, newCoords?.coords);
-    setLogLatAsync(constants.AsyncStorageKeys.longLat, newCoords);
+    try {
+      handleSaveBarberLocation(userAsyncDetails, newCoords?.coords);
+      setLogLatAsync(constants.AsyncStorageKeys.longLat, newCoords);
+    } catch (error) {
+      console.log("handleLocationChange",error);
+    }
   };
 
   const handleSaveBarberLocation = (userAsyncDetails, newCoords) => {

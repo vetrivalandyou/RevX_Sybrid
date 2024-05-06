@@ -49,9 +49,6 @@ const LocationBottom = ({
     refRBSheet?.current?.close();
   };
 
-  console.log("sele", selectedBarberDetails)
-  console.log("sele", `${imageUrl}${selectedBarberDetails?.ProfileImage}`)
-
   return (
     <View style={[logoutStyle.container]}>
       <View
@@ -72,24 +69,24 @@ const LocationBottom = ({
           onPress={() => {
             refRBSheet?.current?.close();
             navigation.navigate(constants.screen.Services, {
-              userId: selectedBarberDetails?.UserId,
+              barberDetails: selectedBarberDetails,
             });
           }}
           style={{
             flex: 1,
             justifyContent: 'space-between',
             flexDirection: 'row',
+            alignItems:'center',
             padding: 10,
           }}>
           <View style={{flex: 0.3, alignItems: 'center'}}>
             <Image
               source={{uri: `${imageUrl}${selectedBarberDetails?.ProfileImage}`}}
-              // source={AppImages.bottomsheetimg}
               style={{ width: 80, height: 80, borderRadius: 10}}
             />
           </View>
           <View style={{flex: 0.7}}>
-            <View style={{flex: 0.25, flexDirection: 'row'}}>
+            <View style={{flex: 0.3, alignItems:'flex-end', flexDirection: 'row'}}>
               <View style={{flex: 0.5, flexWrap: 'wrap', marginLeft: 5}}>
                 <Text
                   style={{
@@ -100,7 +97,6 @@ const LocationBottom = ({
                   {selectedBarberDetails?.UserName}
                 </Text>
               </View>
-
               <View
                 style={{
                   flex: 0.5,
@@ -128,7 +124,6 @@ const LocationBottom = ({
                 </View> */}
               </View>
             </View>
-
             <View style={{flex: 0.65, marginLeft: 5}}>
               <View style={{flex: 0.5, justifyContent: 'center'}}>
                 <Text style={{color: appColors.White, fontSize: 12}}>
@@ -136,7 +131,7 @@ const LocationBottom = ({
                 </Text>
               </View>
               <View style={{flex: 0.5, flexDirection: 'row'}}>
-                {/* <View style={{flexDirection: 'row', flex: 0.2}}>
+                <View style={{flexDirection: 'row', flex: 0.2}}>
                   <CustomIcon
                     type={Icons.Feather}
                     name={'map-pin'}
@@ -149,9 +144,9 @@ const LocationBottom = ({
                       marginLeft: 5,
                       fontSize: 10.4,
                     }}>
-                    km
+                    {selectedBarberDetails?.Distance} km
                   </Text>
-                </View> */}
+                </View>
                 <View style={{flexDirection: 'row', flex: 0.8}}>
                   <CustomIcon
                     type={Icons.AntDesign}

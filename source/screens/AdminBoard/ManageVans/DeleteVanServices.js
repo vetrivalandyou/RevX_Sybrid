@@ -51,11 +51,11 @@ const DeleteVanServices = ({
     <View style={styles.mainView}>
       <View style={{flex: 0.6}}>
         <View style={styles.DeletetitleView}>
-          <Text style={styles.titleTextStyle}>Delete Services</Text>
+          <Text style={styles.titleTextStyle}>Delete Van</Text>
         </View>
         <View style={styles.TextView}>
           <Text style={styles.TextStyle}>
-            Are you sure you want to delete your service?{' '}
+            Are you sure you want to delete your van?{' '}
           </Text>
         </View>
       </View>
@@ -72,8 +72,9 @@ const DeleteVanServices = ({
         <View style={styles.DeleteButtonView}>
           <ButtonComponent
             style={[styles.DeleteButtonStyle]}
+            btnColor={appColors.Red}
             btnTextColor={{color: 'white'}}
-            title={'Delete Services'}
+            title={'Delete Van'}
             onPress={handleDeleteServices}
           />
         </View>

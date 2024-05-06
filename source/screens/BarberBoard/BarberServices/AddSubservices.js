@@ -71,13 +71,12 @@ const AddSubservices = ({ navigation, route }) => {
     if (selectedValue !== '') {
       const payload = {
         barberId: userId,
-        statusId: pending,
-        isApproved: false,
         operations: LATEST_INSERT,
         createdBy: userId,
         ud_Barber_Approve_Service_Type: [
           {
             servicesId: selectedValue,
+            serviceStatusId: pending
           },
         ],
       };
@@ -170,33 +169,33 @@ const AddSubservices = ({ navigation, route }) => {
                     Sub Service
                   </Text>
                 </View>
-                <View style={{ flex: 0.9}}>
-                <Picker
-                  selectedValue={selectedValue}
-                  style={{ height: "100%", width: "100%", justifyContent:'center', borderColor: appColors.AppLightGray, borderWidth: 1, borderRadius: 20, backgroundColor: appColors.Black }}
-                  onValueChange={e => handleSelectSubService(e)}
-                  itemStyle={{ color: appColors.Goldcolor }}
-                >
-                  <Picker.Item
-                    style={{fontSize: 13, color: appColors.AppLightGray, backgroundColor: "white" }}
-                    label={'Select Sub Service'}
-                    value={null}
-                  />
-                  {subServiceList?.map((x, ind) => (
+                <View style={{ flex: 0.9 }}>
+                  <Picker
+                    selectedValue={selectedValue}
+                    style={{ height: "100%", width: "100%", justifyContent: 'center', borderColor: appColors.AppLightGray, borderWidth: 1, borderRadius: 20, backgroundColor: appColors.Black }}
+                    onValueChange={e => handleSelectSubService(e)}
+                    itemStyle={{ color: appColors.Goldcolor }}
+                  >
                     <Picker.Item
-                      style={{ fontSize: 13, color: appColors.White }}
-                      key={ind}
-                      label={x.label}
-                      value={x.value}
+                      style={{ fontSize: 13, color: appColors.AppLightGray, backgroundColor: "white" }}
+                      label={'Select Sub Service'}
+                      value={null}
                     />
-                  ))}
-                </Picker>
+                    {subServiceList?.map((x, ind) => (
+                      <Picker.Item
+                        style={{ fontSize: 13, color: appColors.White }}
+                        key={ind}
+                        label={x.label}
+                        value={x.value}
+                      />
+                    ))}
+                  </Picker>
                 </View>
               </View>
             )
         }
 
-        <View style={{ flex: 0.18 }}>
+        <View style={{ flex: Platform?.OS == 'android' ? 0.18 : 0.18 }}>
           <View
             style={{
               flex: 0.4,
@@ -216,7 +215,7 @@ const AddSubservices = ({ navigation, route }) => {
             <TextInput
               style={[
                 styles.container,
-                { color: 'white', paddingHorizontal: 25, fontSize: 15 },
+                { color: 'white', paddingHorizontal: 25, fontSize: 15, height: Platform?.OS == 'ios' && 65 },
               ]}
               placeholder="Service Price"
               placeholderTextColor={appColors.LightGray}
@@ -233,7 +232,7 @@ const AddSubservices = ({ navigation, route }) => {
               margin: 5,
               paddingLeft: 5,
             }}>
-            <Text style={{ color: appColors.White, fontSize: 15 }}>
+            <Text style={{ color: appColors.White, fontSize: 15, }}>
               Sub Service Duration
             </Text>
           </View>
@@ -245,7 +244,7 @@ const AddSubservices = ({ navigation, route }) => {
             <TextInput
               style={[
                 styles.container,
-                { color: 'white', paddingHorizontal: 25, fontSize: 15 },
+                { color: 'white', paddingHorizontal: 25, fontSize: 15, height: Platform?.OS == 'ios' && 65 },
               ]}
               placeholder="Service Duration"
               placeholderTextColor={appColors.LightGray}

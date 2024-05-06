@@ -67,7 +67,7 @@ const BaberProfileScreen = () => {
   const BarberList = [
     {
       id: 1,
-      title: 'Profile',
+      title: 'Edit Profile',
       icon: Icons.Entypo,
     },
 
@@ -167,22 +167,22 @@ const BaberProfileScreen = () => {
           alignItems: 'center',
           padding: 14,
         }}>
-        <View style={{flex: 0.1}}>
+        <View style={{flex: 0.2, alignItems:'center'}}>
           <Image
             source={{uri: `${imageUrl}${userDetails?.profileImage}`}}
             resizeMode="cover"
             style={{width: 50, height: 50, borderRadius: 100}}
           />
         </View>
-        <View style={{flex: 0.7, flexDirection: 'column'}}>
-          <Text style={{color: 'white', fontSize: 24, fontWeight: 400}}>
+        <View style={{flex: 0.8, marginLeft: 3, flexDirection: 'column'}}>
+          <Text style={{color: 'white', fontSize: 20, fontWeight: 400}}>
             {userDetails?.userName}
           </Text>
-          <Text style={{color: 'white', fontSize: 14, fontWeight: 400}}>
+          <Text style={{color: 'white', fontSize: 12, fontWeight: 400}}>
             {userDetails?.loginEmailId}
           </Text>
         </View>
-        <View>
+        {/* <View>
           <TouchableOpacity
           // onPress={() => navigation.navigate(constants.screen.EditProfile)}
           >
@@ -190,7 +190,6 @@ const BaberProfileScreen = () => {
               style={{
                 paddingHorizontal: 12,
                 flexDirection: 'row',
-                // marginVertical: 5,
                 justifyContent: 'space-between',
                 alignItems: 'center',
               }}>
@@ -204,12 +203,12 @@ const BaberProfileScreen = () => {
               </Text>
               <Entypo
                 name="chevron-right"
-                size={20}
+                size={18}
                 color={appColors.Goldcolor}
               />
             </View>
           </TouchableOpacity>
-        </View>
+        </View> */}
       </View>
 
       <View

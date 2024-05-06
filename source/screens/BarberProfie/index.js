@@ -28,14 +28,15 @@ import {endPoint} from '../../AppConstants/urlConstants';
 import {SimpleSnackBar} from '../../components/atom/Snakbar/Snakbar';
 import {TabRouter} from '@react-navigation/native';
 import Share from 'react-native-share';
-import { approve } from '../../AppConstants/appConstants';
+import {LATEST_SELECT, approve} from '../../AppConstants/appConstants';
 
 const BarberProfile = ({navigation, route}) => {
   const {barberId} = route.params || {};
 
   console.log('barberIdbarberId222111', barberId);
 
-  const [barberDetails, setBarberDetails] = useState();
+  const [barberDetail, setBarberDetail] = useState();
+  const [barberProfile, setBarberProfile] = useState();
   const [activeSlide, setActiveSlide] = useState(0);
   const [barberList, setBarberList] = useState();
   const [Loading, setLoading] = useState(true);
@@ -58,6 +59,7 @@ const BarberProfile = ({navigation, route}) => {
   useEffect(() => {
     getBarber_Detail();
     getBarberList();
+    getBarberDetails();
   }, []);
 
   function getBarberList() {
@@ -82,7 +84,7 @@ const BarberProfile = ({navigation, route}) => {
       .then(res => {
         console.log('res', res?.data);
         if (res?.data?.code == 200) {
-          setBarberDetails(res?.data?.data);
+          setBarberProfile(res?.data?.data);
         } else {
           SimpleSnackBar(res?.data?.message);
         }
@@ -124,6 +126,31 @@ const BarberProfile = ({navigation, route}) => {
     );
   };
 
+  const getBarberDetails = () => {
+    const payload = {
+      operationID: LATEST_SELECT,
+      roleID: 3,
+      isActive: true,
+      userID: barberId,
+      userIP: '',
+      pageSize: 1,
+      pageNumber: 1,
+    };
+    PostRequest(endPoint.ADMIN_USERDETAILS, payload)
+      .then(res => {
+        if (res?.data?.length > 0) {
+          console.log('BarberDetails ------------------', res?.data);
+          setBarberDetail(res?.data?.[0]);
+        } else {
+          SimpleSnackBar('Barber Details not Found', appColors.Red);
+        }
+      })
+      .catch(err => {
+        console.log('Error', err);
+        SimpleSnackBar(messages.WentWrong, appColors.Red);
+      });
+  };
+
   return (
     <View style={{flex: 1, backgroundColor: appColors.Black}}>
       <StatusBar
@@ -163,7 +190,6 @@ const BarberProfile = ({navigation, route}) => {
               rightIcoName={'filter'}
               rightIcoType={Icons.Feather}
               rightIcoSize={20}
-              // iconStyle={{color:appColors.Black,fontWeight:'bold'}}
               iconContainerStyle1={{
                 backgroundColor: appColors.White,
                 borderRadius: 50,
@@ -176,6 +202,9 @@ const BarberProfile = ({navigation, route}) => {
               rightIcoType2={Icons.FontAwesome5}
               rightIcoSize2={20}
               rightIcoColor={appColors.Black}
+              doubleIconright={() =>
+                navigation.navigate(constants.screen.Notification)
+              }
               iconContainerStyle2={{
                 backgroundColor: appColors.White,
                 borderRadius: 50,
@@ -192,7 +221,7 @@ const BarberProfile = ({navigation, route}) => {
         <View style={{flex: 0.79}}>
           <View style={{flex: 0.5, justifyContent: 'flex-end'}}>
             <Text style={{fontSize: 27, color: appColors.White}}>
-              {barberDetails?.userName}
+              {barberProfile?.userName}
             </Text>
           </View>
           <View style={{flex: 0.35, flexDirection: 'row'}}>
@@ -316,7 +345,7 @@ const BarberProfile = ({navigation, route}) => {
                   fontSize: 17,
                   fontWeight: '500',
                 }}>
-                location
+                Location
               </Text>
             </View>
           </View>
@@ -424,53 +453,56 @@ const BarberProfile = ({navigation, route}) => {
       <View style={{flex: 0.3, justifyContent: 'center'}}>
         {barberList?.length > 0 ? (
           <View style={{flex: 1}}>
-            {barberList?.filter((y) => y.statusId == approve)?.slice(0, 3)?.map((x, i) => (
-              <View key={i} style={{flex: 0.33, justifyContent: 'center'}}>
-                <View
-                  style={{
-                    backgroundColor: appColors.darkgrey,
-                    paddingVertical: 5,
-                    paddingHorizontal: 12,
-                    borderRadius: 70,
-                    flexDirection: 'row',
-                    marginVertical: 5,
-                    marginHorizontal: 6,
-                  }}>
+            {barberList
+              ?.filter(y => y.statusId == approve)
+              ?.slice(0, 3)
+              ?.map((x, i) => (
+                <View key={i} style={{flex: 0.33, justifyContent: 'center'}}>
                   <View
                     style={{
-                      flex: 0.2,
+                      backgroundColor: appColors.darkgrey,
+                      paddingVertical: 5,
+                      paddingHorizontal: 12,
+                      borderRadius: 70,
                       flexDirection: 'row',
+                      marginVertical: 5,
+                      marginHorizontal: 6,
                     }}>
-                    <Image source={AppImages.bb1} />
-                  </View>
-                  <View
-                    style={{
-                      flex: 0.5,
-                      flexDirection: 'row',
-                      alignItems: 'center',
-                    }}>
-                    <Text
+                    <View
                       style={{
-                        color: appColors.White,
-                        fontSize: 16,
-                        marginLeft: 10,
+                        flex: 0.2,
+                        flexDirection: 'row',
                       }}>
-                      {x.userName}
-                    </Text>
-                  </View>
-                  <View style={{flex: 0.3, justifyContent: 'center'}}>
-                    <ButtonComponent
-                      title={'View'}
-                      onPress={() => {
-                        navigation.push(constants.screen.BarberProfile, {
-                          barberId: x.userId,
-                        });
-                      }}
-                    />
+                      <Image source={AppImages.bb1} />
+                    </View>
+                    <View
+                      style={{
+                        flex: 0.5,
+                        flexDirection: 'row',
+                        alignItems: 'center',
+                      }}>
+                      <Text
+                        style={{
+                          color: appColors.White,
+                          fontSize: 16,
+                          marginLeft: 10,
+                        }}>
+                        {x.userName}
+                      </Text>
+                    </View>
+                    <View style={{flex: 0.3, justifyContent: 'center'}}>
+                      <ButtonComponent
+                        title={'View'}
+                        onPress={() => {
+                          navigation.push(constants.screen.BarberProfile, {
+                            barberId: x?.userId,
+                          });
+                        }}
+                      />
+                    </View>
                   </View>
                 </View>
-              </View>
-            ))}
+              ))}
           </View>
         ) : (
           <Fragment>
@@ -507,7 +539,9 @@ const BarberProfile = ({navigation, route}) => {
         <ButtonComponent
           title={'View Services'}
           onPress={() =>
-            navigation.navigate(constants.screen.Services, {userId: barberId})
+            navigation.navigate(constants.screen.Services, {
+              barberDetails: barberDetail,
+            })
           }
         />
       </View>

@@ -87,7 +87,10 @@ export default StyleSheet.create({
     left: screenSize.width / 4.4,
     top: screenSize.height / 8.2,
   },
-  textFieldView: {flex: 0.19, justifyContent: 'space-evenly'},
+  textFieldView: {
+    flex: 0.24,
+    // justifyContent: 'space-evenly',
+  },
   buttonStyle: {
     backgroundColor: '#C79646',
     paddingVertical: Platform.OS == 'ios' ? 17 : 13,
@@ -96,6 +99,7 @@ export default StyleSheet.create({
   },
   validationTextview: {
     marginLeft: 12,
+    marginTop: 2,
     justifyContent: 'center',
   },
   validationTextStyle: {color: appColors.Goldcolor, fontSize: 12},

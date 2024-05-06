@@ -83,7 +83,7 @@ const ManageVans = ({navigation}) => {
           <View style={styles.Subcontainer}>
             <View style={[styles.textView, {flex: 0.1}]}>
               <Image
-                source={{uri: `${imageUrl}${item.vanPhotos}`}}
+                source={{uri: `${imageUrl}${item?.vanPhotos}`}}
                 style={{width: 35, height: 35, borderRadius: 100}}
               />
             </View>
@@ -130,7 +130,7 @@ const ManageVans = ({navigation}) => {
           lefttIcoType={Icons.Ionicons}
           onPressLeftIcon={() => navigation.goBack()}
           leftIcoName={'chevron-back'}
-          headerText={'Vans'}
+          headerText={'All Vans'}
           logIn={'success'}
         />
       </View>

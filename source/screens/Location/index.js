@@ -67,13 +67,14 @@ const LocationScreen = () => {
       longitude: asyncUserLongLat?.coords?.longitude,
       distance: 25,
     };
-    console.log('longitude', payload);
     PostRequest(endPoint.GET_VANS_NEAR_CUSTOMER, payload)
       .then(res => {
-        if (res?.data?.code == SUCCESS_CODE) {
-          setSelectedLocation(res?.data?.data);
+        if (res?.data?.[0]?.HasError == 0) {
+          SimpleSnackBar(res?.data?.[0]?.Message, appColors.PrimaryColor);
+        } else {
+          setSelectedLocation(res?.data);
+          mapAnimation(asyncUserLongLat);
         }
-        mapAnimation(asyncUserLongLat);
       })
       .catch(err => {
         console.log(err);
@@ -99,7 +100,7 @@ const LocationScreen = () => {
       operationID: LATEST_SELECT,
       roleID: 3,
       isActive: true,
-      userID: x?.userId,
+      userID: x?.UserId,
       userIP: '',
       pageSize: 1,
       pageNumber: 1,
@@ -119,12 +120,19 @@ const LocationScreen = () => {
       });
   };
 
+  const onOpen = () => {
+    setCalculateDirection(false);
+  };
+
   return (
     <Screen
       statusBarColor={appColors.Black}
       barStyle="light-content"
       viewStyle={{backgroundColor: appColors.Black, padding: 10, flex: 0.9}}>
-      <BottomSheet ref={refRBSheet} Height={screenSize.height - 500}>
+      <BottomSheet
+        ref={refRBSheet}
+        Height={screenSize.height / 3}
+        onOpen={onOpen}>
         <LocationBottom
           refRBSheet={refRBSheet}
           selectedBarberDetails={selectedBarberDetails}
@@ -135,7 +143,9 @@ const LocationScreen = () => {
         <Header
           headerSubView={{marginHorizontal: 5}}
           lefttIcoType={Icons.Ionicons}
-          onPressRightIcon={() => navigation.navigate(constants.screen.Notification)}
+          onPressRightIcon={() =>
+            navigation.navigate(constants.screen.Notification)
+          }
           headerText={'Location'}
           rightIcoName={'bell'}
           rightIcoType={Icons.SimpleLineIcons}
@@ -152,7 +162,13 @@ const LocationScreen = () => {
           headerTextViewStyle={{alignItems: 'center'}}
         />
       </View>
-      <View style={{flex: 0.9, borderRadius: 20, overflow: 'hidden', backgroundColor: appColors.Black}}>
+      <View
+        style={{
+          flex: 0.9,
+          borderRadius: 20,
+          overflow: 'hidden',
+          backgroundColor: appColors.Black,
+        }}>
         <GoogleMap
           mapRef={mapRef}
           region={region}

@@ -18,3 +18,15 @@ export const calculateDistance = (lat1, lon1, lat2, lon2) => {
   return distance;
 };
 
+export const returnTotal = (SelectedChildServices) => {
+  if (SelectedChildServices?.length == 0) {
+    return 0;
+  } else {
+    const totalPrice = SelectedChildServices?.reduce(
+      (accumulator, currentValue) => accumulator + currentValue.ServicePrice,
+      0,
+    );
+    return parseFloat(totalPrice);
+  }
+};
+

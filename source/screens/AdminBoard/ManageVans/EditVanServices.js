@@ -3,7 +3,7 @@ import React, {useRef, useState} from 'react';
 import {Formik} from 'formik';
 import * as Yup from 'yup';
 import styles from './styles';
-import {endPoint, imageUrl} from '../../../AppConstants/urlConstants';
+import {endPoint, imageUrl, messages} from '../../../AppConstants/urlConstants';
 import {PostRequest} from '../../../services/apiCall';
 import {SimpleSnackBar} from '../../../components/atom/Snakbar/Snakbar';
 import {generateRandomNumber} from '../../../functions/AppFunctions';
@@ -20,10 +20,10 @@ import CustomIcon, {
 const EditVanservices = ({route, navigation}) => {
   const {vanDetails, userDetails} = route.params || {};
   const refRBSheet = useRef();
-  const [profileImage, setProfileImage] = useState(
-    `${imageUrl}${vanDetails?.vanPhotos}`,
-  );
+  const [profileImage, setProfileImage] = useState(`${vanDetails?.vanPhotos}`);
   const [changedImage, setChangedImage] = useState('');
+
+  console.log('--------------------', vanDetails);
 
   const handleImageCaptured = image => {
     setChangedImage(image);
@@ -43,24 +43,21 @@ const EditVanservices = ({route, navigation}) => {
       formData.append(key, values[key]);
     });
     formData.append('VanId', vanDetails?.vanId);
-    formData.append('Operations', 1);
+    formData.append('Operations', 2);
     formData.append('CreatedBy', userDetails?.userId);
     formData.append('UserIP', '::1');
     if (changedImage == '') {
       formData.append('VanPhotos', profileImage);
     } else {
-      formData.append('VanPhotos', {
+      formData.append('VanPhoto', {
         uri: changedImage?.path,
         name: `${generateRandomNumber()}.jpg`,
         type: changedImage?.mime,
       });
     }
 
-    console.log('formData...........?????????', formData);
-
     PostRequest(endPoint.VAN_CU, formData)
       .then(res => {
-        console.log('response', res.data);
         if (res?.data?.code === 200) {
           console.log('Success');
           navigation.goBack();
@@ -73,7 +70,6 @@ const EditVanservices = ({route, navigation}) => {
       .catch(err => {
         console.log('Error', err);
         SimpleSnackBar(messages.Catch, appColors.Red);
-        console.log(';;;;;;;;;;');
         setSubmitting(false);
       });
   };
@@ -87,7 +83,7 @@ const EditVanservices = ({route, navigation}) => {
           lefttIcoType={Icons.Ionicons}
           onPressLeftIcon={() => navigation.goBack()}
           leftIcoName={'chevron-back'}
-          headerText={'Edit Services'}
+          headerText={'Edit Van'}
           logIn={'success'}
         />
       </View>
@@ -124,7 +120,7 @@ const EditVanservices = ({route, navigation}) => {
                       />
                     ) : (
                       <Image
-                        source={{uri: profileImage}}
+                        source={{uri: `${imageUrl}${profileImage}`}}
                         style={styles.imageStyle}
                       />
                     )}
@@ -139,8 +135,18 @@ const EditVanservices = ({route, navigation}) => {
                 </View>
               </View>
 
-              <View style={{flex: 0.65}}>
+              <View style={{flex: 0.66}}>
                 <View style={styles.textFieldView}>
+                  <Text
+                    style={{
+                      fontSize: 14,
+                      fontWeight: '400',
+                      color: '#fff',
+                      marginHorizontal: 10,
+                      paddingBottom: 1,
+                    }}>
+                    {'Van Name :'}
+                  </Text>
                   <SimpleTextField
                     placeholder={'Enter Van Name'}
                     placeholderTextColor={appColors.LightGray}
@@ -160,6 +166,16 @@ const EditVanservices = ({route, navigation}) => {
                   </View>
                 </View>
                 <View style={styles.textFieldView}>
+                  <Text
+                    style={{
+                      fontSize: 14,
+                      fontWeight: '400',
+                      color: '#fff',
+                      marginHorizontal: 10,
+                      paddingBottom: 10,
+                    }}>
+                    {'Registration Number :'}
+                  </Text>
                   <SimpleTextField
                     placeholder={'Enter Van Registration No'}
                     placeholderTextColor={appColors.LightGray}
@@ -180,6 +196,16 @@ const EditVanservices = ({route, navigation}) => {
                 </View>
 
                 <View style={styles.textFieldView}>
+                  <Text
+                    style={{
+                      fontSize: 14,
+                      fontWeight: '400',
+                      color: '#fff',
+                      marginHorizontal: 10,
+                      paddingVertical: 10,
+                    }}>
+                    {'Van Model :'}
+                  </Text>
                   <SimpleTextField
                     placeholder={'Enter Van Model'}
                     placeholderTextColor={appColors.LightGray}

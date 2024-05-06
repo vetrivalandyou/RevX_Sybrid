@@ -58,16 +58,17 @@ const Addservices = ({ navigation, route }) => {
     if (selectedValue != '') {
       const payload = {
         barberId: userId,
-        statusId: pending,
         ud_Barber_Categoryies_Type: [
           {
             barberServiceCategryId: parseInt(selectedValue),
+            categoryStatusId: pending
           },
         ],
       };
       console.log('payload', payload);
       PostRequest(endPoint.REAPPLY_APPROVE_BARBER_SERVICE_CATEGORY, payload)
         .then(res => {
+          console.log("res?.data",res?.data)
           if (res?.data?.code === SUCCESS_CODE) {
             SimpleSnackBar(res?.data?.message);
             navigation.goBack();
@@ -100,7 +101,7 @@ const Addservices = ({ navigation, route }) => {
       <View style={{ flex: 0.8 }}>
 
         {Platform.OS == 'android' ? (
-          <View style={styles.DropdownView}>
+          <View style={[styles.DropdownView]}>
             <Dropdown
               label={'Select Service'}
               value={selectedValue}

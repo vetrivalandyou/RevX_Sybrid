@@ -31,6 +31,7 @@ import {useSelector} from 'react-redux';
 import {requestLocationPermissionAndGetLocation} from '../../utils/GetLocation';
 import {LATEST_SELECT, SUCCESS_CODE} from '../../AppConstants/appConstants';
 import {useIsFocused} from '@react-navigation/native';
+import {SimpleSnackBar} from '../../components/atom/Snakbar/Snakbar';
 const HomeScreen = ({navigation}) => {
   const {coords} = useSelector(state => state.LocationReducer);
   const isFocused = useIsFocused();
@@ -64,7 +65,6 @@ const HomeScreen = ({navigation}) => {
   };
 
   function getBarberList(asyncLongLat) {
-    console.log('asyncLongLat', asyncLongLat);
     const payload = {
       userId: userDetails?.userId,
       latitude: asyncLongLat?.coords?.latitude,
@@ -73,14 +73,10 @@ const HomeScreen = ({navigation}) => {
       userName: '',
       profileImage: '',
     };
-    console.log('payload', payload);
     PostRequest(endPoint.GET_VANS_NEAR_CUSTOMER, payload)
       .then(res => {
-        if (res?.data?.code == 200) {
-          setBarberList(res?.data?.data);
-        } else {
-          SimpleSnackBar(res?.data?.message);
-        }
+        console.log('res', res?.data);
+        setBarberList(res?.data);
         getServices();
       })
       .catch(err => {
@@ -98,7 +94,6 @@ const HomeScreen = ({navigation}) => {
     };
     PostRequest(endPoint.GET_SETUP_CATEGORIES, payload)
       .then(res => {
-        console.log('res?.data', res?.data);
         if (res?.data?.code == SUCCESS_CODE) {
           setOurServices(res?.data?.data);
         } else {
@@ -226,7 +221,7 @@ const HomeScreen = ({navigation}) => {
           <ImageBackground
             style={{flex: 1}}
             source={{
-              uri: `${imageUrl}${item?.profileImage}`,
+              uri: `${imageUrl}${item?.ProfileImage}`,
             }}
             resizeMode="contain"></ImageBackground>
         </View>
@@ -236,7 +231,7 @@ const HomeScreen = ({navigation}) => {
               color: appColors.White,
               fontSize: 18,
             }}>
-            {item?.userName}
+            {item?.UserName}
           </Text>
         </View>
 
@@ -249,7 +244,7 @@ const HomeScreen = ({navigation}) => {
               size={16}
             />
             <Text style={{color: appColors.White, marginLeft: 5}}>
-              {item?.distance?.toFixed(2)} km
+              {item?.Distance?.toFixed(2)} km
             </Text>
           </View>
           <View
@@ -279,10 +274,11 @@ const HomeScreen = ({navigation}) => {
         <View style={{flex: 0.2}}>
           <ButtonComponent
             title={'View Barber Profile'}
-            style={{paddingVertical: 9}}
+            style={{paddingVertical: 8}}
+            btnTextColor={{ fontSize: 11}}
             onPress={() =>
               navigation.navigate(constants.screen.BarberProfile, {
-                barberId: item?.userId,
+                barberId: item?.UserId,
               })
             }
           />
@@ -523,8 +519,6 @@ const HomeScreen = ({navigation}) => {
     );
   };
 
-  console.log('barberList', barberList);
-
   return (
     <Screen
       statusBarColor={appColors.Black}
@@ -598,6 +592,15 @@ const HomeScreen = ({navigation}) => {
             }}>
             Nearby Barbers
           </Text>
+          <TouchableOpacity
+            onPress={() =>
+              navigation.navigate(constants.screen.BarberSpecialist)
+            }
+            style={{}}>
+            <Text style={{color: appColors.Goldcolor, fontSize: 16}}>
+              See All Barbers
+            </Text>
+          </TouchableOpacity>
         </View>
         <View
           style={{height: screenSize.height / 2.9, justifyContent: 'center'}}>
@@ -606,12 +609,12 @@ const HomeScreen = ({navigation}) => {
               {barberList?.length > 0 ? (
                 <FlatList
                   data={barberList}
+                  horizontal={true}
                   showsHorizontalScrollIndicator={false}
+                  keyExtractor={(item, index) => index.toString()}
                   renderItem={({item, index}) => (
                     <NearbyBarbers item={item} key={index} />
                   )}
-                  keyExtractor={(item, index) => index.toString()}
-                  horizontal={true}
                 />
               ) : (
                 <View
@@ -622,11 +625,11 @@ const HomeScreen = ({navigation}) => {
                   }}>
                   <Text
                     style={{
-                      color: appColors.AppMediumGray,
-                      fontSize: 16,
+                      color: appColors.Goldcolor,
+                      fontSize: 15,
                       fontWeight: 'bold',
                     }}>
-                    No Barber Available at your Location !!
+                    No Barber Available at your Location!!
                   </Text>
                 </View>
               )}
@@ -655,15 +658,6 @@ const HomeScreen = ({navigation}) => {
             }}>
             Best Offers
           </Text>
-          {/* <TouchableOpacity
-            onPress={() =>
-              navigation.navigate(constants.screen.BarberSpecialist)
-            }
-            style={{}}>
-            <Text style={{color: appColors.Goldcolor, fontSize: 16}}>
-              See all
-            </Text>
-          </TouchableOpacity> */}
         </View>
         <View style={{height: screenSize.height / 2.35}}>
           <FlatList
