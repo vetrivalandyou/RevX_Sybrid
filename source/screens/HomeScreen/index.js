@@ -75,7 +75,7 @@ const HomeScreen = ({navigation}) => {
     };
     PostRequest(endPoint.GET_VANS_NEAR_CUSTOMER, payload)
       .then(res => {
-        console.log("res", res?.data)
+        console.log('res', res?.data);
         setBarberList(res?.data);
         getServices();
       })
@@ -274,7 +274,8 @@ const HomeScreen = ({navigation}) => {
         <View style={{flex: 0.2}}>
           <ButtonComponent
             title={'View Barber Profile'}
-            style={{paddingVertical: 5}}
+            style={{paddingVertical: 8}}
+            btnTextColor={{ fontSize: 11}}
             onPress={() =>
               navigation.navigate(constants.screen.BarberProfile, {
                 barberId: item?.UserId,
@@ -608,12 +609,12 @@ const HomeScreen = ({navigation}) => {
               {barberList?.length > 0 ? (
                 <FlatList
                   data={barberList}
+                  horizontal={true}
                   showsHorizontalScrollIndicator={false}
+                  keyExtractor={(item, index) => index.toString()}
                   renderItem={({item, index}) => (
                     <NearbyBarbers item={item} key={index} />
                   )}
-                  keyExtractor={(item, index) => index.toString()}
-                  horizontal={true}
                 />
               ) : (
                 <View
