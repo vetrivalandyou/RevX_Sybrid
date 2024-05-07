@@ -51,17 +51,22 @@ const CustomDropdownPicker = ({items, values, setValues, onChange}) => {
 
   return (
     <View style={styles.container}>
-      <TouchableOpacity onPress={toggleDropdown} style={styles.header}>
-        <Text
-          style={{
-            color:
-              values?.length > 0 ? appColors.White : appColors.AppLightGray,
-            paddingLeft: 10,
-          }}>
-          {values?.length > 0
-            ? values?.map(x => x.setupDetailName).join(', ')
-            : 'Select Items'}
-        </Text>
+      <TouchableOpacity
+        onPress={toggleDropdown}
+        style={[styles.header, {flex: 0.6, flexDirection: 'row'}]}>
+        <View style={{flex: 0.8}}>
+          <Text
+            style={{
+              color:
+                values?.length > 0 ? appColors.White : appColors.AppLightGray,
+              paddingLeft: 10,
+            }}>
+            {values?.length > 0
+              ? values?.map(x => x.setupDetailName).join(', ')
+              : 'Select Items'}
+          </Text>
+        </View>
+        <View style={{flex: 0.2}}></View>
         <CustomIcon
           type={Icons.AntDesign}
           name={showDropdown ? 'up' : 'down'}
@@ -100,7 +105,8 @@ const styles = StyleSheet.create({
   header: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    padding: Platform.OS == 'ios' ? 20 : 17,
+    paddingVertical: Platform.OS == 'ios' ? 20 : 17,
+    paddingHorizontal: Platform.OS == 'ios' ? 20 : 17,
     borderColor: 'grey',
     borderWidth: 1.5,
     borderRadius: 25,
