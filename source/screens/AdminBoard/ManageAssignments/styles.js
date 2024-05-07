@@ -84,9 +84,9 @@ export default StyleSheet.create({
     position: 'absolute',
   },
   dropDownStyle: {
-    backgroundColor: 'black',
+    height: 50,
+    borderBottomColor: 'black',
     borderColor: appColors.AppLightGray,
-    borderRadius: 30,
-    paddingHorizontal: 10,
+    borderBottomWidth: 0.5,
   },
 });

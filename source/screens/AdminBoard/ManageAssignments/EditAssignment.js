@@ -150,9 +150,8 @@ const EditAssignment = ({route}) => {
               }}>
               {'Select Barber :'}
             </Text>
-            <Dropdown
-              // label={isAdded ?'Select Barber':item.vanName}
 
+            <Dropdown
               label={'Select Barber'}
               value={selectedBarber}
               onValueChange={itemValue => setSelectedBarber(itemValue)}
