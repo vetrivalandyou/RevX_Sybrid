@@ -101,7 +101,7 @@ const Addservices = ({ navigation, route }) => {
       <View style={{ flex: 0.8 }}>
 
         {Platform.OS == 'android' ? (
-          <View style={styles.DropdownView}>
+          <View style={[styles.DropdownView]}>
             <Dropdown
               label={'Select Service'}
               value={selectedValue}

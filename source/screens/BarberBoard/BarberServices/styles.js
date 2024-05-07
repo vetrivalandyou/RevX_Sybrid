@@ -56,7 +56,7 @@ export default StyleSheet.create({
   },
   DropdownView: {
     width: screenSize.width / 1.12,
-    height: screenSize.height / 16,
+    height: screenSize.height / 14,
     justifyContent: 'center',
   },
   buttonStyle: {
