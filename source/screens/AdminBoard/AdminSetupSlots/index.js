@@ -10,7 +10,6 @@ import {
 } from 'react-native';
 import React, {useEffect, useRef, useState} from 'react';
 import Screen from '../../../components/atom/ScreenContainer/Screen';
-import {screenSize} from '../../Utills/AppConstants';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Entypo from 'react-native-vector-icons/Entypo';
 import ButtonComponent from '../../../components/atom/CustomButtons/ButtonComponent';
@@ -28,6 +27,7 @@ import {getAsyncItem} from '../../../utils/SettingAsyncStorage';
 import DeleteSlot from './DeleteSlot';
 import BottomSheet from '../../../components/molecules/BottomSheetContent/BottomSheet';
 import moment from 'moment';
+import {screenSize} from '../../../components/atom/ScreenSize';
 
 const AdminSetupSlots = ({navigation}) => {
   const refRBSheet = useRef();
@@ -93,20 +93,44 @@ const AdminSetupSlots = ({navigation}) => {
         />
       </View>
       <View style={{flex: 0.8}}>
+        <View
+          style={{
+            width: screenSize.width / 1.1,
+            height: screenSize.height / 20,
+            paddingHorizontal: 5,
+          }}>
+          <View style={styles.Subcontainer}>
+            <View style={[styles.textView, {justifyContent: 'flex-end'}]}>
+              <Text style={[styles.textStyle, {fontSize: 11}]}>{'Name'}</Text>
+            </View>
+            <View style={[styles.textView, {justifyContent: 'flex-end'}]}>
+              <Text style={[styles.textStyle, {fontSize: 11}]}>Start Time</Text>
+            </View>
+            <View style={[styles.textView, {justifyContent: 'flex-end'}]}>
+              <Text style={[styles.textStyle, {fontSize: 11}]}>End Time</Text>
+            </View>
+            <View style={[styles.textView, {justifyContent: 'flex-end'}]}>
+              <Text style={[styles.textStyle, {fontSize: 11}]}>Duration</Text>
+            </View>
+          </View>
+        </View>
         <View style={[styles.container]}>
           <View style={styles.Subcontainer}>
-            <View style={styles.textView}>
+            <View style={[styles.textView,]}>
               <Text style={styles.textStyle}>{'Slot'}</Text>
             </View>
-            <View style={styles.textView}>
+            <View style={[styles.textView,  {alignItems: 'center'}]}>
               <Text style={styles.textStyle}>
                 {convertedTime(slots?.Table?.[0]?.TimeSlot1)}
               </Text>
             </View>
-            <View style={styles.textView}>
+            <View style={[styles.textView,  {alignItems: 'center'}]}>
               <Text style={styles.textStyle}>
                 {convertedTime(slots?.Table1?.[0]?.TimeSlot2)}
               </Text>
+            </View>
+            <View style={[styles.textView, {alignItems: 'center'}]}>
+              <Text style={styles.textStyle}>{slots?.Table2?.[0]?.Diff}</Text>
             </View>
           </View>
         </View>

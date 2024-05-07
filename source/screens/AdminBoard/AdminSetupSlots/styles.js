@@ -27,14 +27,14 @@ export default StyleSheet.create({
     flex: 1,
   },
   textView: {
-    flex: 0.8,
+    flex: 0.25,
     justifyContent: 'center',
     paddingLeft: 20,
   },
 
   textStyle: {
     color: 'white',
-    fontSize: 15,
+    fontSize: 13,
   },
   editImageView: {
     flex: 0.2,
