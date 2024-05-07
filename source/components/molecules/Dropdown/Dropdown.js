@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {StyleSheet, View} from 'react-native';
 import {Picker} from '@react-native-picker/picker';
 import appColors from '../../../AppConstants/appColors';
@@ -9,37 +9,23 @@ const Dropdown = ({
   onValueChange,
   dropDownData,
   style,
-  custompickerstyle,
+  customPickerStyle,
 }) => {
   return (
-    <View
-      style={[
-        styles.container,
-        style,
-        {
-          borderWidth: 1,
-        },
-      ]}>
+    <View style={[styles.container, style]}>
       <Picker
-        style={[styles.Pickerstyle, custompickerstyle]}
+        style={[styles.pickerStyle, customPickerStyle]}
         mode="dropdown"
-        dropdownIconColor={'white'}
+        dropdownIconColor={appColors.AppLightGray}
         selectedValue={value}
         onValueChange={onValueChange}>
-        <Picker.Item
-          style={{fontSize: 13, color: appColors.AppLightGray}}
-          label={label}
-          value={null}
-        />
-        {dropDownData?.map((x, ind) => (
+        <Picker.Item label={label} value={null} />
+        {dropDownData?.map((item, index) => (
           <Picker.Item
-            style={{
-              fontSize: 13,
-              color: appColors.Black,
-            }}
-            key={ind}
-            label={x.label}
-            value={x.value}
+            key={index}
+            label={item.label}
+            value={item.value}
+            style={styles.pickerItem}
           />
         ))}
       </Picker>
@@ -49,15 +35,21 @@ const Dropdown = ({
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: appColors.Black,
-    borderColor: 'grey',
     borderWidth: 1,
     borderRadius: 10,
+    overflow: 'hidden', // Ensure border-radius is applied correctly
+    marginBottom: 10, // Add some margin below the dropdown to accommodate the dropdown list
   },
-  Pickerstyle: {
-    width: '100%',
-    height: '100%',
+  pickerStyle: {
+    backgroundColor: appColors.Black,
     color: appColors.AppLightGray,
+    height: 40, // Adjust height as per your design
+  },
+  pickerItem: {
+    fontSize: 14, // Adjust font size as per your design
+    color: appColors.White,
+    backgroundColor: appColors.Black,
+    marginBottom: 30,
   },
 });
 

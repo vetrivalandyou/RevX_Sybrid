@@ -18,7 +18,7 @@ import {GetRequest, PostRequest} from '../../services/apiCall';
 import {endPoint} from '../../AppConstants/urlConstants';
 import {AppImages} from '../../AppConstants/AppImages';
 import {SimpleSnackBar} from '../../components/atom/Snakbar/Snakbar';
-import { approve } from '../../AppConstants/appConstants';
+import {approve} from '../../AppConstants/appConstants';
 
 const BarberSpecialist = ({navigation}) => {
   const [barberList, setBarberList] = useState([]);
@@ -34,7 +34,7 @@ const BarberSpecialist = ({navigation}) => {
         setLoading(false);
         console.log('res', res?.data);
         if (res?.data?.code == 200) {
-          setBarberList(res?.data?.data?.filter((x) => x.statusId == approve));
+          setBarberList(res?.data?.data?.filter(x => x.statusId == approve));
         } else SimpleSnackBar(res?.data?.message);
         setLoading(false);
       })
@@ -65,9 +65,8 @@ const BarberSpecialist = ({navigation}) => {
             <Text style={{color: appColors.White, fontSize: 18, marginLeft: 5}}>
               {item?.userName}
             </Text>
-            
           </View>
-          <View style={{flex: 0.5, justifyContent:'center'}}>
+          <View style={{flex: 0.5, justifyContent: 'center'}}>
             <ButtonComponent
               onPress={() =>
                 navigation.navigate(constants.screen.Services, {

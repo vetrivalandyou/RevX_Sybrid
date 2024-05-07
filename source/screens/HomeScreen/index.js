@@ -162,6 +162,7 @@ const HomeScreen = ({navigation}) => {
   ];
 
   const OurServices = ({item}) => {
+    console.log('item --------------------------------', item);
     return (
       <View
         key={item?.categoryId}
@@ -190,6 +191,7 @@ const HomeScreen = ({navigation}) => {
               />
             )}
           </View>
+
           <View
             style={{
               flex: 0.4,
@@ -201,7 +203,7 @@ const HomeScreen = ({navigation}) => {
                 fontSize: 14,
                 textAlign: 'center',
               }}>
-              {item.categoryName}
+              {item?.categoryName}
             </Text>
           </View>
         </View>

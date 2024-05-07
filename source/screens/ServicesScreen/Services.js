@@ -68,7 +68,8 @@ const Services = ({route}) => {
         if (res?.data?.length > 0) {
           setBarberServices(res?.data);
         } else {
-          SimpleSnackBar('No Service Found', appColors.Red);
+          console.log('No Service Found');
+          // SimpleSnackBar('No Service Found', appColors.Red);
         }
         setLoading(false);
       })
