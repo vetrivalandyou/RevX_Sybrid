@@ -1,4 +1,4 @@
-import React, {Fragment, useCallback, useEffect, useRef, useState} from 'react';
+import React, {Fragment, useCallback, useEffect, useState} from 'react';
 import {
   View,
   Text,
@@ -6,37 +6,26 @@ import {
   TouchableOpacity,
   ScrollView,
   FlatList,
-  Animated,
   Image,
-  ActivityIndicator,
   Platform,
   RefreshControl,
 } from 'react-native';
 import {useIsFocused} from '@react-navigation/native';
-import ArrowDownIcon from 'react-native-vector-icons/MaterialIcons';
+import Sizes from '../../../AppConstants/Sizes';
+import {PostRequest} from '../../../services/apiCall';
+import appColors from '../../../AppConstants/appColors';
+import Header from '../../../components/molecules/Header';
+import constant from '../../../AppConstants/Constants.json';
+import {screenSize} from '../../../components/atom/ScreenSize';
+import {approve, reject} from '../../../AppConstants/appConstants';
+import Screen from '../../../components/atom/ScreenContainer/Screen';
+import {SimpleSnackBar} from '../../../components/atom/Snakbar/Snakbar';
+import {endPoint, imageUrl, messages} from '../../../AppConstants/urlConstants';
 import ButtonComponent from '../../../components/atom/CustomButtons/ButtonComponent';
 import CustomIcon, {
   Icons,
 } from '../../../components/molecules/CustomIcon/CustomIcon';
-import appColors from '../../../AppConstants/appColors';
-import {screenSize} from '../../../components/atom/ScreenSize';
-import Sizes from '../../../AppConstants/Sizes';
-import {AppImages} from '../../../AppConstants/AppImages';
-import Screen from '../../../components/atom/ScreenContainer/Screen';
-import Header from '../../../components/molecules/Header';
-import {endPoint, imageUrl, messages} from '../../../AppConstants/urlConstants';
-import {PostRequest} from '../../../services/apiCall';
-import {SimpleSnackBar} from '../../../components/atom/Snakbar/Snakbar';
-import {getAsyncItem} from '../../../utils/SettingAsyncStorage';
-import constant from '../../../AppConstants/Constants.json';
-import {Insert, approve, reject} from '../../../AppConstants/appConstants';
-
-// const initialBarberApproveFields = {
-//   servicesId: 0,
-//   barberId: 20,
-//   statusId: 0,
-//   serviceCategoryId: 406,
-// };
+import ArrowDownIcon from 'react-native-vector-icons/MaterialIcons';
 
 const initialBarberApproveFields = {
   operationID: 0,
@@ -66,16 +55,18 @@ const initialBarberApproveFields = {
 };
 
 const AdminApproveBarber = ({navigation}) => {
+  const isFocused = useIsFocused();
   const [openIndex, setOpenIndex] = useState(null);
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [selectedItems, setSelectedItems] = useState([]);
-
   const [BarberApprove, setBarberApprove] = useState([]);
   const [barberServices, setBarberServices] = useState([]);
 
   useEffect(() => {
-    getBarberListAndServices();
-  }, []);
+    if (isFocused) {
+      getBarberListAndServices();
+    }
+  }, [isFocused]);
 
   const getBarberListAndServices = () => {
     PostRequest(
@@ -425,14 +416,10 @@ const AdminApproveBarber = ({navigation}) => {
       <View style={{flex: 0.9}}>
         <FlatList
           data={BarberApprove}
-          // windowSize={5}
-          // initialNumToRender={5}
-          // maxToRenderPerBatch={5}
-          keyExtractor={item => item.UserId.toString()}
           nestedScrollEnabled={true}
-          showsVerticalScrollIndicator={false}
           onEndReachedThreshold={0.5}
-          extraData={BarberApprove}
+          showsVerticalScrollIndicator={false}
+          keyExtractor={item => item.UserId.toString()}
           refreshControl={
             <RefreshControl
               refreshing={isRefreshing}
