@@ -1,4 +1,4 @@
-import React, {Fragment, useCallback, useEffect, useRef, useState} from 'react';
+import React, {Fragment, useCallback, useEffect, useState} from 'react';
 import {
   View,
   Text,
@@ -6,166 +6,111 @@ import {
   TouchableOpacity,
   ScrollView,
   FlatList,
-  Animated,
   Image,
-  ActivityIndicator,
   Platform,
   RefreshControl,
 } from 'react-native';
 import {useIsFocused} from '@react-navigation/native';
-import ArrowDownIcon from 'react-native-vector-icons/MaterialIcons';
+import Sizes from '../../../AppConstants/Sizes';
+import {PostRequest} from '../../../services/apiCall';
+import appColors from '../../../AppConstants/appColors';
+import Header from '../../../components/molecules/Header';
+import constant from '../../../AppConstants/Constants.json';
+import {screenSize} from '../../../components/atom/ScreenSize';
+import {approve, reject} from '../../../AppConstants/appConstants';
+import Screen from '../../../components/atom/ScreenContainer/Screen';
+import {SimpleSnackBar} from '../../../components/atom/Snakbar/Snakbar';
+import {endPoint, imageUrl, messages} from '../../../AppConstants/urlConstants';
 import ButtonComponent from '../../../components/atom/CustomButtons/ButtonComponent';
 import CustomIcon, {
   Icons,
 } from '../../../components/molecules/CustomIcon/CustomIcon';
-import appColors from '../../../AppConstants/appColors';
-import {screenSize} from '../../../components/atom/ScreenSize';
-import Sizes from '../../../AppConstants/Sizes';
-import {AppImages} from '../../../AppConstants/AppImages';
-import Screen from '../../../components/atom/ScreenContainer/Screen';
-import Header from '../../../components/molecules/Header';
-import {endPoint, imageUrl, messages} from '../../../AppConstants/urlConstants';
-import {PostRequest} from '../../../services/apiCall';
-import {SimpleSnackBar} from '../../../components/atom/Snakbar/Snakbar';
-import {getAsyncItem} from '../../../utils/SettingAsyncStorage';
-import constant from '../../../AppConstants/Constants.json';
-import {Insert, approve, reject} from '../../../AppConstants/appConstants';
+import ArrowDownIcon from 'react-native-vector-icons/MaterialIcons';
 
 const initialBarberApproveFields = {
-  servicesId: 0,
-  barberId: 20,
-  statusId: 0,
-  serviceCategoryId: 406,
+  operationID: 0,
+  parameterID: 0,
+  barbarID: 0,
+  parentServiceStatusID: 0,
+  childServiceStatusID: 0,
+  isActive: true,
+  userID: 0,
+  userIP: 'string',
+  tbL_Approve_BB_ParentServices_: [
+    {
+      parentService_PK_ID: 0,
+      parentServiceStatusID: 0,
+    },
+    {
+      parentService_PK_ID: 0,
+      parentServiceStatusID: 0,
+    },
+  ],
+  tbL_Approve_BB_ChildServices_: [
+    {
+      childService_PK_ID: 0,
+      childServiceStatusID: 0,
+    },
+  ],
 };
 
 const AdminApproveBarber = ({navigation}) => {
   const isFocused = useIsFocused();
-  const btnClicked = useRef(null);
-  const animation = useRef(new Animated.Value(0)).current;
-  const timeoutRef = useRef(null);
   const [openIndex, setOpenIndex] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
-  const [hasMoreData, setHasMoreData] = useState(true);
   const [isRefreshing, setIsRefreshing] = useState(false);
-  const [userDetails, setUserDetails] = useState();
   const [selectedItems, setSelectedItems] = useState([]);
   const [BarberApprove, setBarberApprove] = useState([]);
-  const pageRef = useRef(1);
-
-  // const fadeIn = () => {
-  //   // Will change fadeAnim value to 1 in 5 seconds
-  //   Animated.spring(animation, {
-  //     toValue: btnClicked.current ? 0 : 1,
-  //     //duration: 500,
-  //     useNativeDriver: true,
-  //   }).start();
-  // };
-
-  // useEffect(() => {
-  //   if (isFocused) {
-  //     timeoutRef.current = setTimeout(() => setIsLoading(false), 500);
-  //   }
-  //   return () => clearTimeout(timeoutRef.current);
-  // }, [isLoading]);
+  const [barberServices, setBarberServices] = useState([]);
 
   useEffect(() => {
-    getAsyncData();
-    getBarberApproveService();
-  }, []);
-
-  const getAsyncData = async () => {
-    const userDetails = await getAsyncItem(
-      constant.AsyncStorageKeys.userDetails,
-    );
-    console.log('userDetails', userDetails);
-    setUserDetails(userDetails);
-  };
-
-  const getBarberApproveService = () => {
-    if (!hasMoreData) {
-      return;
+    if (isFocused) {
+      getBarberListAndServices();
     }
-    setIsLoading(true);
-    const payload = {
-      ...initialBarberApproveFields,
-      pageNumber: pageRef.current,
-      pageSize: 5,
-    };
-    console.log('Payload....................', payload);
-    PostRequest(endPoint.BARBER_APPROVE_SERVICES, payload)
-      .then(res => {
-        console.log('Helo', res?.data?.data);
-        if (res?.data?.data?.length > 0) {
-          let newData = res?.data?.data;
-          setBarberApprove([...BarberApprove, ...newData]);
-          setIsRefreshing(false);
-        } else {
-          setHasMoreData(false);
-        }
-        setIsLoading(false);
-        setIsRefreshing(false);
-      })
-      .catch(err => {
-        SimpleSnackBar(messages.Catch, appColors.Red);
-        setIsLoading(false);
-        setIsRefreshing(false);
-      });
-  };
+  }, [isFocused]);
 
-  const getBarberApproveList = () => {
-    const payload = {
-      ...initialBarberApproveFields,
-      pageNumber: pageRef.current,
-      pageSize: 5,
-    };
-    PostRequest(endPoint.BARBER_APPROVE_SERVICES, payload)
+  const getBarberListAndServices = () => {
+    PostRequest(
+      endPoint.BARBER_PC_SERVICES_APPROVAL,
+      initialBarberApproveFields,
+    )
       .then(res => {
-        if (res?.data?.data?.length > 0) {
-          let newData = res?.data?.data;
-          setBarberApprove(newData);
+        if (res?.data?.length > 0) {
+          setBarberApprove(res?.data);
           setIsRefreshing(false);
         }
+        setIsRefreshing(false);
       })
       .catch(err => {
         SimpleSnackBar(messages.Catch, appColors.Red);
-        setIsLoading(false);
         setIsRefreshing(false);
       });
   };
 
   const postBarberApproveService = payload => {
-    // console.log('payload',payload)
-    PostRequest(endPoint.BARBER_APPROVE_SERVICE_POST, payload)
+    PostRequest(endPoint.BARBER_PC_SERVICES_APPROVAL, payload)
       .then(res => {
-        if (res?.data?.code === 200) {
-          SimpleSnackBar(res?.data?.message);
-          setIsLoading(false);
-          getBarberApproveService();
-        } else {
-          SimpleSnackBar(res?.data?.message, appColors.Red);
-          setIsLoading(false);
-        }
+        SimpleSnackBar(res?.data?.[0]?.Message);
+        setOpenIndex(null);
+        getBarberListAndServices();
       })
       .catch(err => {
         SimpleSnackBar(messages.Catch, appColors.Red);
-        setIsLoading(false);
       });
   };
 
   const handleAction = (item, operation) => {
+    const makingParentService = selectedItems?.map(x => ({
+      parentService_PK_ID: x,
+      parentServiceStatusID: approve,
+    }));
+
     const payload = {
-      BarberId: item?.barberId,
-      operations: Insert,
-      createdBy: userDetails?._RoleId,
-      ud_Barber_Approve_Service_Type: selectedItems.map(service => ({
-        servicesId: service,
-      })),
+      ...initialBarberApproveFields,
+      operationID: 2,
+      barbarID: item?.UserId,
+      tbL_Approve_BB_ParentServices_: makingParentService,
     };
-    if (operation == 'Accept') {
-      postBarberApproveService({...payload, StatusId: approve, isApproved: 1});
-    } else {
-      postBarberApproveService({...payload, StatusId: reject, isApproved: 0});
-    }
+    postBarberApproveService(payload);
   };
 
   const toggleSelection = itemId => {
@@ -179,264 +124,241 @@ const AdminApproveBarber = ({navigation}) => {
     setSelectedItems(newSelectedItems);
   };
 
-  const handleEndReached = () => {
-    if (!isLoading) {
-      pageRef.current++;
-      getBarberApproveService();
-    }
-  };
-
-  const renderFooter = () => {
-    return isLoading ? (
-      <View style={{flex: 0.2}}>
-        <ActivityIndicator size="small" color={appColors.Goldcolor} />
-      </View>
-    ) : null;
-  };
-
   const handleRefresh = () => {
-    pageRef.current = 1;
-    setIsRefreshing(true);
-    setBarberApprove(null);
-    getBarberApproveList();
+    getBarberListAndServices();
   };
 
-  const InnerContanier = useCallback(
-    ({item}) => {
-      const isSelected = selectedItems.includes(item.servicesId);
-      return (
-        <TouchableOpacity
-          key={item.servicesId}
-          onPress={() => toggleSelection(item.servicesId)}
+  const InnerContanier = ({item}) => {
+    const isSelected = selectedItems.includes(item.BarberServiceCategryId);
+    return (
+      <TouchableOpacity
+        key={item.BarberServiceCategryId}
+        onPress={() => toggleSelection(item.BarberServiceCategryId)}
+        style={{
+          backgroundColor: '#252525',
+          marginVertical: 8,
+          height: screenSize.height / 17,
+          marginHorizontal: 5,
+          borderRadius: 8,
+          justifyContent: 'center',
+        }}>
+        <View
           style={{
+            flex: 1,
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            marginHorizontal: 10,
+          }}>
+          <View style={{flex: 0.5, justifyContent: 'center'}}>
+            <Text
+              style={{
+                fontWeight: '500',
+                fontSize: 15,
+                color: 'white',
+                marginLeft: 5,
+              }}>
+              {item.BarberServiceCategryname}
+            </Text>
+          </View>
+          <View
+            style={{
+              flex: 0.5,
+              alignItems: 'flex-end',
+              justifyContent: 'center',
+            }}>
+            <View
+              style={[
+                ticketStyle.OuterCircle,
+                isSelected && {backgroundColor: '#c79647'},
+              ]}>
+              {isSelected && (
+                <CustomIcon
+                  type={Icons.AntDesign}
+                  name={'check'}
+                  color={appColors.White}
+                  size={18}
+                />
+              )}
+            </View>
+          </View>
+        </View>
+      </TouchableOpacity>
+    );
+  };
+
+  const TicketsComponent = ({item, index, openIndex, onPress}) => {
+    const isCollapse = index !== openIndex;
+    return (
+      <View key={item?.UserId} style={ticketStyle.container}>
+        <View
+          style={{
+            height: screenSize.height / 5,
+            width: screenSize.width / 1.1,
+            marginBottom: 10,
             backgroundColor: '#252525',
-            marginVertical: 8,
-            height: screenSize.height / 17,
-            marginHorizontal: 5,
-            borderRadius: 8,
-            justifyContent: 'center',
+            borderWidth: 1,
+            borderRadius: 20,
+            borderColor: 'black',
+            paddingHorizontal: 10,
           }}>
           <View
             style={{
-              flex: 1,
               flexDirection: 'row',
               justifyContent: 'space-between',
-              marginHorizontal: 10,
+              paddingHorizontal: 10,
+              flex: 0.6,
             }}>
-            <View style={{flex: 0.5, justifyContent: 'center'}}>
+            <View
+              style={{
+                flex: 0.3,
+                alignItems: 'flex-start',
+                justifyContent: 'center',
+              }}>
+              <Image
+                source={{uri: `${imageUrl}${item.ProfileImage}`}}
+                style={{
+                  height: Platform.OS == 'ios' ? 80 : 63,
+                  width: Platform.OS == 'ios' ? 80 : 63,
+                  borderRadius: 40,
+                }}
+              />
+            </View>
+            <View
+              style={{
+                flexDirection: 'column',
+                flex: 0.5,
+                justifyContent: 'center',
+              }}>
               <Text
                 style={{
-                  fontWeight: '500',
-                  fontSize: 15,
                   color: 'white',
-                  marginLeft: 5,
+                  fontWeight: '400',
+                  fontSize: 17,
                 }}>
-                {item.serviceName}
+                {item.UserName}
               </Text>
+              <View>
+                <Text
+                  style={{
+                    color: 'white',
+                    fontSize: 12,
+                  }}>
+                  {item?.UserEmail}
+                </Text>
+              </View>
+            </View>
+            <TouchableOpacity
+              onPress={onPress}
+              style={[
+                styles.center,
+                {
+                  flex: 0.2,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                },
+              ]}>
+              <View
+                style={{
+                  height: 40,
+                  width: 40,
+                  borderWidth: 1,
+                  borderRadius: 50,
+                  borderColor: appColors.Goldcolor,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }}>
+                <ArrowDownIcon
+                  name={
+                    isCollapse == true ? 'arrow-drop-down' : 'arrow-drop-up'
+                  }
+                  color={appColors.Goldcolor}
+                  size={30}
+                />
+              </View>
+            </TouchableOpacity>
+          </View>
+
+          <View style={{height: 1, position: 'relative', marginHorizontal: 15}}>
+            <View
+              style={{
+                position: 'absolute',
+                top: 0,
+                bottom: 0,
+                left: 0,
+                right: 0,
+                borderWidth: 1,
+                borderColor: appColors.Goldcolor,
+                borderStyle: 'dashed',
+                backgroundColor: 'transparent',
+              }}></View>
+          </View>
+
+          <View style={{flex: 0.4, flexDirection: 'row'}}>
+            <View
+              style={{
+                flex: 0.5,
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}>
+              <ButtonComponent
+                style={{
+                  backgroundColor: appColors.Green,
+                  width: '90%',
+                  paddingVertical: 9,
+                  opacity:
+                    openIndex == index && selectedItems?.length > 0 ? 0.9 : 0.3,
+                }}
+                disable={
+                  openIndex == index && selectedItems?.length > 0 ? false : true
+                }
+                onPress={() => handleAction(item, 'Accept')}
+                title={'Accept'}
+              />
             </View>
             <View
               style={{
                 flex: 0.5,
-                alignItems: 'flex-end',
                 justifyContent: 'center',
+                alignItems: 'center',
               }}>
-              <View
-                style={[
-                  ticketStyle.OuterCircle,
-                  isSelected && {backgroundColor: '#c79647'},
-                ]}>
-                {isSelected && (
-                  <CustomIcon
-                    type={Icons.AntDesign}
-                    name={'check'}
-                    color={appColors.White}
-                    size={18}
-                  />
-                )}
-              </View>
+              <ButtonComponent
+                btnColor={appColors.Red}
+                onPress={() => handleAction(item, 'Reject')}
+                style={{
+                  backgroundColor: appColors.Red,
+                  width: '90%',
+                  paddingVertical: 9,
+                }}
+                title={'Reject'}
+              />
             </View>
           </View>
-        </TouchableOpacity>
-      );
-    },
-    [selectedItems],
-  );
-
-  const TicketsComponent = useCallback(
-    ({item, index, openIndex, onPress}) => {
-      const isCollapse = index !== openIndex;
-      return (
-        <View key={item?.barberId} style={ticketStyle.container}>
-          <View
-            style={{
-              height: screenSize.height / 5,
-              width: screenSize.width / 1.1,
-              marginBottom: 10,
-              backgroundColor: '#252525',
-              borderWidth: 1,
-              borderRadius: 20,
-              borderColor: 'black',
-              paddingHorizontal: 10,
-            }}>
-            <View
-              style={{
-                flexDirection: 'row',
-                justifyContent: 'space-between',
-                paddingHorizontal: 10,
-                flex: 0.6,
-              }}>
-              <View
-                style={{
-                  flex: 0.3,
-                  alignItems: 'flex-start',
-                  justifyContent: 'center',
-                }}>
-                <Image
-                  source={{uri: `${imageUrl}${item.profileImage}`}}
-                  style={{
-                    height: Platform.OS == 'ios' ? 80 : 63,
-                    width: Platform.OS == 'ios' ? 80 : 63,
-                    borderRadius: 40,
-                  }}
-                />
-              </View>
-              <View
-                style={{
-                  flexDirection: 'column',
-                  flex: 0.5,
-                  justifyContent: 'center',
-                }}>
-                <Text
-                  style={{
-                    color: 'white',
-                    fontWeight: '400',
-                    fontSize: 17,
-                  }}>
-                  {item.barberName}
-                </Text>
-                <View>
-                  <Text
-                    style={{
-                      color: 'white',
-                      fontSize: 12,
-                    }}>
-                    Abda.Shaheen1@gmail.com
-                  </Text>
-                </View>
-              </View>
-              <TouchableOpacity
-                // onPress={() => toggleItem(item?.barberId)}
-                onPress={onPress}
-                style={[
-                  styles.center,
-                  {
-                    flex: 0.2,
-                    justifyContent: 'center',
-                    // backgroundColor:'pink',
-                    alignItems: 'center',
-                  },
-                ]}>
-                <View
-                  style={{
-                    height: 40,
-                    width: 40,
-                    borderWidth: 1,
-                    borderRadius: 50,
-                    borderColor: appColors.Goldcolor,
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                  }}>
-                  <ArrowDownIcon
-                    name={
-                      isCollapse == true ? 'arrow-drop-down' : 'arrow-drop-up'
-                    }
-                    color={appColors.Goldcolor}
-                    size={30}
-                  />
-                </View>
-              </TouchableOpacity>
-            </View>
-
-            <View
-              style={{height: 1, position: 'relative', marginHorizontal: 15}}>
-              <View
-                style={{
-                  position: 'absolute',
-                  top: 0,
-                  bottom: 0,
-                  left: 0,
-                  right: 0,
-                  borderWidth: 1,
-                  borderColor: appColors.Goldcolor,
-                  borderStyle: 'dashed',
-                  backgroundColor: 'transparent',
-                }}></View>
-            </View>
-
-            <View style={{flex: 0.4, flexDirection: 'row'}}>
-              <View
-                style={{
-                  flex: 0.5,
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                }}>
-                <ButtonComponent
-                  btnColor={appColors.DarkGreen}
-                  onPress={() => handleAction(item, 'Accept')}
-                  style={{
-                    backgroundColor: appColors.Green,
-                    width: '90%',
-                    paddingVertical: 9,
-                  }}
-                  title={'Accept'}
-                />
-              </View>
-              <View
-                style={{
-                  flex: 0.5,
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                }}>
-                <ButtonComponent
-                  btnColor={appColors.Red}
-                  onPress={() => handleAction(item, 'Reject')}
-                  style={{
-                    backgroundColor: appColors.Red,
-                    width: '90%',
-                    paddingVertical: 9,
-                  }}
-                  title={'Reject'}
-                />
-              </View>
-            </View>
-          </View>
-          {item?.barberServices?.length > 0 ? (
-            <Fragment>
-              {!isCollapse && (
-                <ScrollView
-                  nestedScrollEnabled={true}
-                  showsVerticalScrollIndicator={false}
-                  style={[ticketStyle.ticketDetailView]}>
-                  <Fragment>
-                    {item?.barberServices?.map((service, index) => (
-                      <InnerContanier
-                        key={index}
-                        item={service}
-                        selected={selectedItems}
-                        onPress={() => setSelectedItems}
-                        nestedScrollEnabled={true}
-                      />
-                    ))}
-                  </Fragment>
-                </ScrollView>
-              )}
-            </Fragment>
-          ) : null}
         </View>
-      );
-    },
-    [selectedItems],
-  );
+        {barberServices?.length > 0 ? (
+          <Fragment>
+            {!isCollapse && (
+              <ScrollView
+                nestedScrollEnabled={true}
+                showsVerticalScrollIndicator={false}
+                style={[ticketStyle.ticketDetailView]}>
+                <Fragment>
+                  {barberServices?.map((service, index) => (
+                    <InnerContanier
+                      key={index}
+                      item={service}
+                      selected={selectedItems}
+                      nestedScrollEnabled={true}
+                      onPress={() => setSelectedItems}
+                    />
+                  ))}
+                </Fragment>
+              </ScrollView>
+            )}
+          </Fragment>
+        ) : null}
+      </View>
+    );
+  };
 
   const handleClickCollapse = useCallback(
     index => {
@@ -444,6 +366,23 @@ const AdminApproveBarber = ({navigation}) => {
     },
     [openIndex],
   );
+
+  const handlePressBarber = (item, index) => {
+    setSelectedItems([]);
+    const payload = {
+      ...initialBarberApproveFields,
+      operationID: 1,
+      barbarID: item?.UserId,
+    };
+    PostRequest(endPoint.BARBER_PC_SERVICES_APPROVAL, payload)
+      .then(res => {
+        setBarberServices(res?.data);
+        handleClickCollapse(index);
+      })
+      .catch(err => {
+        console.log('err', err);
+      });
+  };
 
   return (
     <Screen
@@ -477,16 +416,10 @@ const AdminApproveBarber = ({navigation}) => {
       <View style={{flex: 0.9}}>
         <FlatList
           data={BarberApprove}
-          windowSize={5}
-          initialNumToRender={5}
-          maxToRenderPerBatch={5}
-          keyExtractor={item => item.barberId.toString()}
           nestedScrollEnabled={true}
-          showsVerticalScrollIndicator={false}
-          onEndReached={handleEndReached}
-          ListFooterComponent={renderFooter}
           onEndReachedThreshold={0.5}
-          extraData={BarberApprove}
+          showsVerticalScrollIndicator={false}
+          keyExtractor={item => item.UserId.toString()}
           refreshControl={
             <RefreshControl
               refreshing={isRefreshing}
@@ -499,7 +432,7 @@ const AdminApproveBarber = ({navigation}) => {
               item={item}
               index={index}
               openIndex={openIndex}
-              onPress={() => handleClickCollapse(index)}
+              onPress={() => handlePressBarber(item, index)}
             />
           )}
         />

@@ -47,7 +47,7 @@ const AdminSetupSlots = ({navigation}) => {
     }
   }, [isFocused]);
 
-  const fetchSelectedTimeSlot = selectedData => {
+  const fetchSelectedTimeSlot = () => {
     const payload = {
       operationID: LATEST_SEARCH,
       durationMinutes: 0,
@@ -68,7 +68,7 @@ const AdminSetupSlots = ({navigation}) => {
       });
   };
 
-  const createSlot = () => {
+  const handleCreateSlot = () => {
     navigation.navigate(constants.AdminScreens.CreateSlot);
   };
 
@@ -145,54 +145,10 @@ const AdminSetupSlots = ({navigation}) => {
           }}
           btnTextColor={{color: 'white'}}
           title={'Create Slots'}
-          onPress={createSlot}
+          onPress={handleCreateSlot}
         />
       </View>
     </Screen>
-  );
-};
-
-const Servicelist = ({item, userId, onPress, selected}) => {
-  const navigation = useNavigation();
-  const refRBSheet = useRef();
-  const handleEditPress = item => {
-    navigation.navigate(constants.AdminScreens.Editservices, {
-      item: item,
-      userId: userId,
-    });
-  };
-
-  return (
-    <TouchableOpacity onPress={onPress}>
-      <View
-        style={[
-          styles.container,
-          selected && {borderColor: '#c79647', borderWidth: 1.25},
-        ]}>
-        <View style={styles.Subcontainer}>
-          <View style={styles.textView}>
-            <Text style={styles.textStyle}>{item.categoryName}</Text>
-          </View>
-          <TouchableOpacity
-            onPress={() => handleEditPress(item)}
-            style={styles.editImageView}>
-            <Image source={AppImages.Editimage} style={styles.editImageStyle} />
-          </TouchableOpacity>
-          <TouchableOpacity
-            // onPress={() => refRBSheet.current.open()}
-            style={styles.DeleteimageView}>
-            <Image
-              source={AppImages.deleteimage}
-              style={styles.Deleteimagestyle}
-            />
-          </TouchableOpacity>
-
-          <BottomSheet ref={refRBSheet} Height={200}>
-            <DeleteServices refRBSheet={refRBSheet} />
-          </BottomSheet>
-        </View>
-      </View>
-    </TouchableOpacity>
   );
 };
 

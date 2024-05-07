@@ -109,7 +109,7 @@ const AdminProfile = () => {
         navigation.navigate(constants.AdminScreens.OurServices);
         break;
       case 7:
-        navigation.navigate(constants.AdminScreens.BarberListApprove);
+        navigation.navigate(constants.AdminScreens.AdminApproveBarber);
         break;
       case 8:
         navigation.navigate(constants.AdminScreens.AdminSetupSlots);
