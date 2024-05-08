@@ -74,10 +74,8 @@ const AdminApproveBarber = ({navigation}) => {
       initialBarberApproveFields,
     )
       .then(res => {
-        if (res?.data?.length > 0) {
-          setBarberApprove(res?.data);
-          setIsRefreshing(false);
-        }
+        console.log('res', res?.data);
+        setBarberApprove(res?.data);
         setIsRefreshing(false);
       })
       .catch(err => {
@@ -89,11 +87,13 @@ const AdminApproveBarber = ({navigation}) => {
   const postBarberApproveService = payload => {
     PostRequest(endPoint.BARBER_PC_SERVICES_APPROVAL, payload)
       .then(res => {
+        console.log('res', res?.data);
         SimpleSnackBar(res?.data?.[0]?.Message);
         setOpenIndex(null);
         getBarberListAndServices();
       })
       .catch(err => {
+        console.log("postBarberApproveServicepostBarberApproveService",err)
         SimpleSnackBar(messages.Catch, appColors.Red);
       });
   };
@@ -104,12 +104,25 @@ const AdminApproveBarber = ({navigation}) => {
       parentServiceStatusID: approve,
     }));
 
-    const payload = {
-      ...initialBarberApproveFields,
-      operationID: 2,
-      barbarID: item?.UserId,
-      tbL_Approve_BB_ParentServices_: makingParentService,
-    };
+    let payload;
+
+    if (operation == 'Accept') {
+      payload = {
+        ...initialBarberApproveFields,
+        operationID: 2,
+        barbarID: item?.UserId,
+        tbL_Approve_BB_ParentServices_: makingParentService,
+      };
+    } else {
+      payload = {
+        ...initialBarberApproveFields,
+        operationID: 3,
+        barbarID: item?.UserId,
+      };
+    }
+
+    console.log(payload);
+
     postBarberApproveService(payload);
   };
 
@@ -334,28 +347,25 @@ const AdminApproveBarber = ({navigation}) => {
             </View>
           </View>
         </View>
-        {barberServices?.length > 0 ? (
-          <Fragment>
-            {!isCollapse && (
-              <ScrollView
-                nestedScrollEnabled={true}
-                showsVerticalScrollIndicator={false}
-                style={[ticketStyle.ticketDetailView]}>
-                <Fragment>
-                  {barberServices?.map((service, index) => (
-                    <InnerContanier
-                      key={index}
-                      item={service}
-                      selected={selectedItems}
-                      nestedScrollEnabled={true}
-                      onPress={() => setSelectedItems}
-                    />
-                  ))}
-                </Fragment>
-              </ScrollView>
-            )}
-          </Fragment>
-        ) : null}
+
+        {!isCollapse && (
+          <ScrollView
+            nestedScrollEnabled={true}
+            showsVerticalScrollIndicator={false}
+            style={[ticketStyle.ticketDetailView]}>
+            <Fragment>
+              {barberServices?.map((service, index) => (
+                <InnerContanier
+                  key={index}
+                  item={service}
+                  selected={selectedItems}
+                  nestedScrollEnabled={true}
+                  onPress={() => setSelectedItems}
+                />
+              ))}
+            </Fragment>
+          </ScrollView>
+        )}
       </View>
     );
   };
@@ -414,28 +424,37 @@ const AdminApproveBarber = ({navigation}) => {
       </View>
 
       <View style={{flex: 0.9}}>
-        <FlatList
-          data={BarberApprove}
-          nestedScrollEnabled={true}
-          onEndReachedThreshold={0.5}
-          showsVerticalScrollIndicator={false}
-          keyExtractor={item => item.UserId.toString()}
-          refreshControl={
-            <RefreshControl
-              refreshing={isRefreshing}
-              onRefresh={handleRefresh}
-              colors={[appColors.Goldcolor]}
-            />
-          }
-          renderItem={({item, index}) => (
-            <TicketsComponent
-              item={item}
-              index={index}
-              openIndex={openIndex}
-              onPress={() => handlePressBarber(item, index)}
-            />
-          )}
-        />
+        {BarberApprove?.length > 0 ? (
+          <FlatList
+            data={BarberApprove}
+            nestedScrollEnabled={true}
+            onEndReachedThreshold={0.5}
+            showsVerticalScrollIndicator={false}
+            keyExtractor={item => item.UserId.toString()}
+            refreshControl={
+              <RefreshControl
+                refreshing={isRefreshing}
+                onRefresh={handleRefresh}
+                colors={[appColors.Goldcolor]}
+              />
+            }
+            renderItem={({item, index}) => (
+              <TicketsComponent
+                item={item}
+                index={index}
+                openIndex={openIndex}
+                onPress={() => handlePressBarber(item, index)}
+              />
+            )}
+          />
+        ) : (
+          <View
+            style={{flex: 0.9, justifyContent: 'center', alignItems: 'center'}}>
+            <Text style={{fontSize: 15, color: appColors.Goldcolor}}>
+              No Barber Found
+            </Text>
+          </View>
+        )}
       </View>
     </Screen>
   );
