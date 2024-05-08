@@ -14,7 +14,7 @@ import {PostRequest} from '../../services/apiCall';
 import {SimpleSnackBar} from '../../components/atom/Snakbar/Snakbar';
 import {screenSize} from '../../components/atom/ScreenSize';
 import CustomDropdownPicker from '../../components/molecules/CustomDropdownPicker';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 
 const CreateAccountBarber = ({navigation}) => {
   const [isEye, setIsEye] = useState(false);
@@ -66,7 +66,7 @@ const CreateAccountBarber = ({navigation}) => {
         }
       })
       .catch(err => {
-        console.log('error', err)
+        console.log('error', err);
         SimpleSnackBar(messages.Catch, appColors.Red);
         setSubmitting(false);
       });
@@ -133,7 +133,8 @@ const CreateAccountBarber = ({navigation}) => {
             touched,
             isSubmitting,
           }) => (
-            <KeyboardAwareScrollView contentContainerStyle={{ flex: 1, justifyContent:'center'}}>
+            <KeyboardAwareScrollView
+              contentContainerStyle={{flex: 1, justifyContent: 'center'}}>
               <View style={{flex: 0.9, justifyContent: 'space-evenly'}}>
                 <View style={{flex: 0.15, justifyContent: 'center'}}>
                   <SimpleTextField

@@ -32,7 +32,7 @@ const Search = ({
       </TouchableOpacity>
       <View style={{flex: 0.7}}>
         <TextInput
-          style={{flex: 1}}
+          style={{flex: 1, color: appColors.White}}
           placeholder="Search"
           placeholderTextColor={appColors.LightGray}
           onPressIn={() => {

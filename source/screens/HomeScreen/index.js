@@ -277,7 +277,7 @@ const HomeScreen = ({navigation}) => {
           <ButtonComponent
             title={'View Barber Profile'}
             style={{paddingVertical: 8}}
-            btnTextColor={{ fontSize: 11}}
+            btnTextColor={{fontSize: 11}}
             onPress={() =>
               navigation.navigate(constants.screen.BarberProfile, {
                 barberId: item?.UserId,
