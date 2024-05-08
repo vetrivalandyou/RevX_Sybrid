@@ -74,6 +74,8 @@ const Servicesboard = ({ navigation }) => {
     }
   };
 
+  console.log("barberServices",barberServices?.[0]?.categories)
+
   return (
     <Screen
       viewStyle={{ flex: 1, padding: 15, backgroundColor: appColors.Black }}
