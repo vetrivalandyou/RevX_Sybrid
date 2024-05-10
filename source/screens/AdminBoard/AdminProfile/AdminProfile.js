@@ -44,7 +44,7 @@ const AdminProfile = () => {
     },
     {
       id: 3,
-      title: 'Notification',
+      title: 'Approve Sub Service',
       icon: Icons.Entypo,
     },
     {
@@ -94,7 +94,7 @@ const AdminProfile = () => {
         navigation.navigate(constants.AdminScreens.AdminBarberDetails);
         break;
       case 2:
-        navigation.navigate(constants.AdminScreens.AdminNotification);
+        navigation.navigate(constants.AdminScreens.ApproveSubServices);
         break;
       case 3:
         navigation.navigate(constants.AdminScreens.AdminManageContent);

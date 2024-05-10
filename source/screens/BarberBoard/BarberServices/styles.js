@@ -43,7 +43,7 @@ export default StyleSheet.create({
   },
 
   DeleteimageView: {
-    flex: 0.2,
+    flex: 0.15,
     justifyContent: 'center',
     alignItems: 'center',
     textAlign: 'right',
@@ -52,7 +52,7 @@ export default StyleSheet.create({
 
   Deleteimagestyle: {
     width: '30%',
-    height: '30%',
+    height: '20%',
   },
   DropdownView: {
     width: screenSize.width / 1.12,

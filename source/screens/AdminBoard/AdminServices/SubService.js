@@ -104,7 +104,6 @@ const SubService = ({route, navigation}) => {
             keyExtractor={item => item?.servicesId?.toString()}
             renderItem={({item, index}) => (
               <Servicelist
-                key={item?.servicesId}
                 item={item}
                 userId={userDetails?.userId}
               />
@@ -129,7 +128,7 @@ const SubService = ({route, navigation}) => {
   );
 };
 
-const Servicelist = ({key, item, userId}) => {
+const Servicelist = ({ item, userId}) => {
   const navigation = useNavigation();
   const refRBSheet = useRef();
 
@@ -141,7 +140,7 @@ const Servicelist = ({key, item, userId}) => {
   };
 
   return (
-    <TouchableOpacity key={key}>
+    <TouchableOpacity key={item?.servicesId}>
       <View style={[styles.container]}>
         <View style={styles.Subcontainer}>
           <View style={[styles.textView, {flex: 0.1}]}>

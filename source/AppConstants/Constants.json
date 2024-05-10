@@ -117,7 +117,9 @@
     "EditSubServices": "EditSubServices",
     "BarberListApprove": "BarberListApprove",
     "AdminSetupSlots": "AdminSetupSlots",
-    "CreateSlot": "CreateSlot"
+    "CreateSlot": "CreateSlot",
+    "ApproveSubServices": "ApproveSubServices"
+
   },
   "AsyncStorageKeys": {
     "token": "token",
