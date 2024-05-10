@@ -89,13 +89,8 @@ const AdminBarberDetails = ({navigation}) => {
     };
     PostRequest(endPoint.Get_USER_BARBER_DETAILS, payload)
       .then(res => {
-        if (res?.data?.length > 0) {
-          setUserlist(res?.data);
-          setIsLoading(false);
-        } else {
-          SimpleSnackBar(res?.data?.message, appColors.Red);
-          setIsLoading(false);
-        }
+        setUserlist(res?.data);
+        setIsLoading(false);
       })
       .catch(err => {
         SimpleSnackBar(messages.Catch, appColors.Red);
@@ -135,21 +130,39 @@ const AdminBarberDetails = ({navigation}) => {
         style={{
           flex: 0.9,
         }}>
-        <FlatList
-          data={userList}
-          showsVerticalScrollIndicator={false}
-          onEndReached={handleEndReached}
-          onEndReachedThreshold={0.5}
-          extraData={userList}
-          renderItem={({item, index}) => (
-            <Detailslist
-              item={item}
-              index={index}
-              // openIndex={openIndex}
-              // onPress={() => handleClickCollapse(index)}
-            />
-          )}
-        />
+        {userList?.length > 0 ? (
+          <FlatList
+            data={userList}
+            showsVerticalScrollIndicator={false}
+            onEndReached={handleEndReached}
+            onEndReachedThreshold={0.5}
+            extraData={userList}
+            renderItem={({item, index}) => (
+              <Detailslist
+                item={item}
+                index={index}
+                // openIndex={openIndex}
+                // onPress={() => handleClickCollapse(index)}
+              />
+            )}
+          />
+        ) : (
+          <View
+            style={{
+              flex: 1,
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}>
+            <Text
+              style={{
+                fontSize: 15,
+                color: appColors.AppLightGray,
+                fontWeight: 'bold',
+              }}>
+              No Barber Found !
+            </Text>
+          </View>
+        )}
       </View>
     </Screen>
   );
