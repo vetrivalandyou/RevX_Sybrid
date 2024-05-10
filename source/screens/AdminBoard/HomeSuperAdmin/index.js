@@ -88,7 +88,6 @@ const HomeSuperAdmin = () => {
       {/* Search Bar View */}
 
       <View style={styles.searchBarContainer}>
-        
         <Search style={{marginVertical: 10}} />
       </View>
 
@@ -130,7 +129,6 @@ const HomeSuperAdmin = () => {
       </View> */}
 
       <View style={styles.cardContainer}>
-
         <View style={styles.imgContainer}>
           <Image source={AppImages.visaimg} style={{flex: 1}} />
         </View>
@@ -216,7 +214,7 @@ const HomeSuperAdmin = () => {
           onPress={() =>
             navigation.navigate(constants.AdminScreens.AdminManageContent)
           }
-          style={{flex: 0.2, justifyContent: 'center', alignItems: 'center',}}>
+          style={{flex: 0.2, justifyContent: 'center', alignItems: 'center'}}>
           <View
             style={{
               flex: 0.7,
@@ -234,8 +232,9 @@ const HomeSuperAdmin = () => {
         </TouchableOpacity>
 
         <TouchableOpacity
-           onPress={() => navigation.navigate(constants.AdminScreens.AdminUserDetails)}
-        
+          onPress={() =>
+            navigation.navigate(constants.AdminScreens.AdminUserDetails)
+          }
           style={{flex: 0.2, justifyContent: 'center', alignItems: 'center'}}>
           <View
             style={{
@@ -261,7 +260,6 @@ const HomeSuperAdmin = () => {
           justifyContent: 'space-between',
           alignItems: 'center',
         }}>
-
         <View style={{flex: 0.5}}>
           <Text
             style={{fontWeight: '400', fontSize: 22, color: appColors.White}}>
@@ -272,16 +270,15 @@ const HomeSuperAdmin = () => {
         <TouchableOpacity
           onPress={() =>
             navigation.navigate(constants.AdminScreens.AdminBarberEarnings)
-            
           }
           style={{flex: 0.5, justifyContent: 'flex-end', flexDirection: 'row'}}>
-          <Text style={{color: appColors.Goldcolor, fontSize: 10}}>
+          <Text style={{color: appColors.Goldcolor, fontSize: 14}}>
             View All
           </Text>
           <CustomIcon
             type={Icons.Ionicons}
             name={'chevron-forward'}
-            size={12}
+            size={15}
             color={appColors.Goldcolor}
           />
         </TouchableOpacity>

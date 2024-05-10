@@ -37,7 +37,6 @@ const Report = ({navigation}) => {
     setIsDayClicked(!isDayClicked);
     setIsMonthClicked(false);
     setIsYearClicked(false);
-
   };
   const handleMonthButtonClick = () => {
     setIsMonthClicked(!isMonthClicked);
@@ -143,7 +142,7 @@ const Report = ({navigation}) => {
     <Screen viewStyle={styles.mainContainer} statusBarColor={appColors.Black}>
       <View style={styles.HeaderView}>
         <Header
-          headerSubView={{ marginHorizontal: 5 }}
+          headerSubView={{marginHorizontal: 5}}
           lefttIcoType={Icons.Ionicons}
           leftIcoName={'chevron-back'}
           headerText={'Report'}
@@ -172,7 +171,7 @@ const Report = ({navigation}) => {
             <CustomIcon
               type={Icons.Ionicons}
               name={'chevron-forward'}
-              size={12}
+              size={15}
               color={appColors.Goldcolor}
             />
           </TouchableOpacity>
