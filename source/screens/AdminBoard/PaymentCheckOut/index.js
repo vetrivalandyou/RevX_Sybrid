@@ -53,7 +53,7 @@ const PaymentDetails = ({navigation}) => {
           lefttIcoType={Icons.Ionicons}
           onPressLeftIcon={() => navigation.goBack()}
           leftIcoName={'chevron-back'}
-          headerText={''}
+          headerText={'Add your card details'}
           rightIcoName={'bell-fill'}
           rightIcoType={Icons.Octicons}
           logIn={'success'}
@@ -72,30 +72,48 @@ const PaymentDetails = ({navigation}) => {
         />
       </View>
       <View style={{flex: 0.8}}>
-        <View style={{flex: 0.06}}>
+        {/* <View style={{flex: 0.06}}>
           <Text
             style={{
               color: 'white',
               fontSize: 15,
               marginLeft: 5,
             }}>
-            Enter The Details To Add A New Card
+             
           </Text>
-        </View>
-        <View style={{flex: 0.12}}>
+        </View> */}
+        <View style={{flex: 0.16}}>
+        <Text
+                style={{
+                  color: 'white',
+                  fontSize: 12,
+                  marginLeft: 10,
+                  marginBottom: 10,
+                }}>
+                Card Holder Name :
+              </Text>
           <SimpleTextField
             placeholder={'Enter Card Holder Name'}
             placeholderTextColor={appColors.White}
             onChangeText={onChangeName}
             textUpperView={{
-              paddingVertical: 5,
+              paddingVertical: Platform.OS == 'ios' ? 20 : 5,
               borderColor: appColors.Gray,
               borderWidth: 1,
             }}
             value={Name}
           />
         </View>
-        <View style={{flex: 0.14}}>
+        <View style={{flex: 0.16}}>
+        <Text
+                style={{
+                  color: 'white',
+                  fontSize: 12,
+                  marginLeft: 10,
+                  marginBottom: 10,
+                }}>
+                Card Number :
+              </Text>
           <SimpleTextField
             placeholder={'*** **** *** **** 6580'}
             placeholderTextColor={appColors.Goldcolor}
@@ -103,7 +121,7 @@ const PaymentDetails = ({navigation}) => {
             keyboardType={'numeric'}
             maxLength={16}
             textUpperView={{
-              paddingVertical: 5,
+              paddingVertical: Platform.OS == 'ios' ? 20 : 5,
               borderColor: appColors.Gray,
               borderWidth: 1,
             }}
@@ -111,7 +129,7 @@ const PaymentDetails = ({navigation}) => {
             value={password.replace(/\d(?=\d{4})/g, '*')}
           />
         </View>
-        <View style={{flex: 0.1, justifyContent: 'center'}}>
+        <View style={{flex: 0.14, justifyContent: 'center'}}>
           <View
             style={{
               flexDirection: 'row',
@@ -138,7 +156,12 @@ const PaymentDetails = ({navigation}) => {
                 placeholder={'MM/YY'}
                 placeholderTextColor={appColors.Gray}
                 keyboardType={'numeric'}
-                innerCustomstyle={{marginTop: 7, width: '96%'}}
+                textUpperView={{
+                  paddingVertical: Platform.OS == 'ios' ? 20 : 5,
+                  borderColor: appColors.Gray,
+                  borderWidth: 1,
+                }}
+                // innerCustomstyle={{marginTop: 7, width: '96%'}}
               />
             </View>
             <View style={{flexDirection: 'column', flex: 0.5}}>
@@ -154,11 +177,17 @@ const PaymentDetails = ({navigation}) => {
               <SimpleTextField
                 placeholder={'000'}
                 placeholderTextColor={appColors.Gray}
-                innerCustomstyle={{
-                  marginTop: 7,
-                  width: '96%',
-                  alignSelf: 'flex-end',
+                textUpperView={{
+                  paddingVertical: Platform.OS == 'ios' ? 20 : 5,
+                  borderColor: appColors.Gray,
+                  borderWidth: 1,
                 }}
+                // innerCustomstyle={{
+                //   marginTop: 7,
+                //   width: '96%',
+                //   alignSelf: 'flex-end',
+                  
+                // }}
               />
             </View>
           </View>

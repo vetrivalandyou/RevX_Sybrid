@@ -26,6 +26,7 @@ import CustomIcon, {
   Icons,
 } from '../../../components/molecules/CustomIcon/CustomIcon';
 import ArrowDownIcon from 'react-native-vector-icons/MaterialIcons';
+import BoxLottie from '../../../components/atom/BoxLottie/BoxLottie';
 
 const initialBarberApproveFields = {
   operationID: 0,
@@ -454,13 +455,17 @@ const ApproveBarberSubService = ({navigation}) => {
               />
             )}
           />
-        ) : (
+        ) : (        
           <View
-            style={{flex: 0.9, justifyContent: 'center', alignItems: 'center'}}>
-            <Text style={{fontSize: 15, color: appColors.Goldcolor}}>
-              No Barber Found
-            </Text>
-          </View>
+          style={{
+            flex: 0.9,
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}>
+          <BoxLottie
+            animationPath={require('../../../LottieAnimation/NoPostFoundAnimation.json')}
+          />
+        </View>
         )}
       </View>
     </Screen>

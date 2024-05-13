@@ -18,6 +18,7 @@
     "@react-navigation/native": "^6.1.9",
     "@react-navigation/native-stack": "^6.9.17",
     "axios": "^1.6.7",
+    "deprecated-react-native-prop-types": "^5.0.0",
     "formik": "^2.4.5",
     "lottie-react-native": "^6.7.2",
     "moment": "^2.30.1",

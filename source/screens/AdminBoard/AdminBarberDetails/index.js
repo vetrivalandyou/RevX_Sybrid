@@ -26,6 +26,7 @@ import {endPoint, imageUrl, messages} from '../../../AppConstants/urlConstants';
 import {getAsyncItem} from '../../../utils/SettingAsyncStorage';
 import {LATEST_SELECT} from '../../../AppConstants/appConstants';
 import BlockBarber from './BlockBarber';
+import BoxLottie from '../../../components/atom/BoxLottie/BoxLottie';
 
 const AdminBarberDetails = ({navigation}) => {
   const [userList, setUserlist] = useState([]);

@@ -24,6 +24,7 @@ import {LATEST_SELECT, SUCCESS_CODE} from '../../../AppConstants/appConstants';
 import ButtonComponent from '../../../components/atom/CustomButtons/ButtonComponent';
 import BottomSheet from '../../../components/molecules/BottomSheetContent/BottomSheet';
 import appColors from '../../../AppConstants/appColors';
+import BoxLottie from '../../../components/atom/BoxLottie/BoxLottie';
 
 const SubService = ({route, navigation}) => {
   const {parentService} = route?.params;
@@ -93,10 +94,15 @@ const SubService = ({route, navigation}) => {
       </View>
       <View style={{flex: 0.8}}>
         {servicesList?.length <= 0 ? (
-          <View style={styless.container}>
-            <Text style={styless.text}>
-              Oops! Looks like there's no data to display at the moment.
-            </Text>
+            <View
+            style={{
+              flex: 0.9,
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}>
+            <BoxLottie
+              animationPath={require('../../../LottieAnimation/NoPostFoundAnimation.json')}
+            />
           </View>
         ) : (
           <FlatList
