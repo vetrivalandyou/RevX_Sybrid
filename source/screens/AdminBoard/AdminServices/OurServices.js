@@ -151,8 +151,6 @@ const Servicelist = ({item, userId, onPress, selected}) => {
     });
   };
 
-  console.log("`${imageUrl}${item?.serviceImage}`",`${imageUrl}${item?.serviceImage}`)
-
   return (
     <TouchableOpacity onPress={onPress}>
       <View

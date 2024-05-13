@@ -49,6 +49,7 @@ const ServiceList = ({navigation, route}) => {
     console.log(payload);
     PostRequest(endPoint.BARBER_APPROVE_SERVICES, payload)
       .then(res => {
+        console.log('-------------', res?.data);
         console.log('res', res?.data?.data);
         console.log('res Detail', res?.data?.data[0]?.barberServices);
         setSubServices(res?.data?.data?.[0]?.barberServices);
@@ -74,10 +75,8 @@ const ServiceList = ({navigation, route}) => {
       <View style={{flex: 0.8}}>
         <FlatList
           data={subServices}
-          keyExtractor={item => item.servicesId}
-          renderItem={({item}) => (
-            <Servicedetails key={item.servicesId} item={item} />
-          )}
+          keyExtractor={item => item?.servicesId?.toString()}
+          renderItem={({item}) => <Servicedetails item={item} />}
         />
       </View>
       <View style={styles.buttonView}>
@@ -102,32 +101,32 @@ const ServiceList = ({navigation, route}) => {
   );
 };
 
-const Servicedetails = ({item, key, onPress}) => {
+const Servicedetails = ({item, onPress}) => {
   const refRBSheet = useRef();
   return (
-    <TouchableOpacity key={key} onPress={onPress}>
+    <TouchableOpacity key={item.servicesId} onPress={onPress}>
       <View style={[styles.container]}>
         <View style={styles.Subcontainer}>
           <View
             style={{
               paddingVertical: 8,
-              flex: 0.2,
+              flex: 0.15,
               justifyContent: 'center',
               alignItems: 'center',
             }}>
             {item.serviceImage != '' && (
               <Image
-                style={{width: 55, height: 55, borderRadius: 100}}
+                style={{width: 45, height: 45, borderRadius: 100}}
                 source={{uri: `${imageUrl}/${item.serviceImage}`}}
               />
             )}
           </View>
-          <View style={{flex: 0.3, marginLeft: 10, justifyContent: 'center'}}>
+          <View style={{flex: 0.35, marginLeft: 10, justifyContent: 'center'}}>
             <Text
               style={{
                 color: 'white',
                 fontWeight: '400',
-                fontSize: 15,
+                fontSize: 13,
               }}>
               {item.serviceName}
             </Text>
@@ -137,10 +136,10 @@ const Servicedetails = ({item, key, onPress}) => {
               flexDirection: 'row',
               justifyContent: 'center',
               alignItems: 'center',
-              flex: 0.1,
+              flex: 0.15,
             }}>
-            <Text style={{color: '#c79647', fontSize: 15, fontWeight: '600'}}>
-              {/* ${item.servicePrice} */}$ 100
+            <Text style={{color: '#c79647', fontSize: 12, fontWeight: '600'}}>
+              ${item.servicePrice}
             </Text>
           </View>
           <View
@@ -158,11 +157,14 @@ const Servicedetails = ({item, key, onPress}) => {
                     : item?.servicesStatusId == 9
                     ? appColors.AppLightGray
                     : appColors.Red,
-                fontSize: 13,
-                fontWeight: '600',
+                fontSize: 11,
+                fontWeight: '400',
               }}>
-              {/* ${item.servicePrice} */}
-              Pending
+              {item.servicesStatusId == 9
+                ? 'Pending'
+                : item.servicesStatusId == 10
+                ? 'Approved'
+                : 'Rejected'}
             </Text>
           </View>
           <TouchableOpacity

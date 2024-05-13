@@ -50,6 +50,7 @@ import AdminBarberDetails from '../../screens/AdminBoard/AdminBarberDetails';
 import AdminSetupSlots from '../../screens/AdminBoard/AdminSetupSlots';
 import CreateSlot from '../../screens/AdminBoard/AdminSetupSlots/CreateSlot';
 import AdminViewBarber from '../../screens/AdminBoard/AdminViewBarber';
+import ApproveBarberSubService from '../../screens/AdminBoard/ApproveBarberSubService';
 
 const AdminStack = () => {
   const Stack = createNativeStackNavigator();
@@ -279,7 +280,11 @@ const AdminStack = () => {
           component={CreateSlot}
           options={{headerShown: false}}
         />
-         
+          <Stack.Screen
+          name={constants.AdminScreens.ApproveSubServices}
+          component={ApproveBarberSubService}
+          options={{headerShown: false}}
+        />
       </Stack.Navigator>
       <DeepLinking />
     </NavigationContainer>

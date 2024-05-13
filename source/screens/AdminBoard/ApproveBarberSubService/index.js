@@ -29,7 +29,7 @@ import ArrowDownIcon from 'react-native-vector-icons/MaterialIcons';
 
 const initialBarberApproveFields = {
   operationID: 0,
-  parameterID: 0,
+  parameterID: 1,
   barbarID: 0,
   parentServiceStatusID: 0,
   childServiceStatusID: 0,
@@ -54,7 +54,7 @@ const initialBarberApproveFields = {
   ],
 };
 
-const AdminApproveBarber = ({navigation}) => {
+const ApproveBarberSubService = ({navigation}) => {
   const isFocused = useIsFocused();
   const [openIndex, setOpenIndex] = useState(null);
   const [isRefreshing, setIsRefreshing] = useState(false);
@@ -74,7 +74,7 @@ const AdminApproveBarber = ({navigation}) => {
       initialBarberApproveFields,
     )
       .then(res => {
-        console.log('res', res?.data);
+        console.log('getBarberListAndServices-----', res?.data);
         setBarberApprove(res?.data);
         setIsRefreshing(false);
       })
@@ -83,6 +83,7 @@ const AdminApproveBarber = ({navigation}) => {
         setIsRefreshing(false);
       });
   };
+
 
   const postBarberApproveService = payload => {
     PostRequest(endPoint.BARBER_PC_SERVICES_APPROVAL, payload)
@@ -93,15 +94,15 @@ const AdminApproveBarber = ({navigation}) => {
         getBarberListAndServices();
       })
       .catch(err => {
-        console.log('postBarberApproveServicepostBarberApproveService', err);
+        console.log("postBarberApproveServicepostBarberApproveService",err)
         SimpleSnackBar(messages.Catch, appColors.Red);
       });
   };
 
   const handleAction = (item, operation) => {
     const makingParentService = selectedItems?.map(x => ({
-      parentService_PK_ID: x,
-      parentServiceStatusID: approve,
+        childService_PK_ID: x,
+        childServiceStatusID: approve,
     }));
 
     let payload;
@@ -111,13 +112,15 @@ const AdminApproveBarber = ({navigation}) => {
         ...initialBarberApproveFields,
         operationID: 2,
         barbarID: item?.UserId,
-        tbL_Approve_BB_ParentServices_: makingParentService,
+        parameterID: 1,
+        tbL_Approve_BB_ChildServices_: makingParentService,
       };
     } else {
       payload = {
         ...initialBarberApproveFields,
         operationID: 3,
         barbarID: item?.UserId,
+        parameterID: 1,
       };
     }
 
@@ -142,11 +145,11 @@ const AdminApproveBarber = ({navigation}) => {
   };
 
   const InnerContanier = ({item}) => {
-    const isSelected = selectedItems.includes(item.BarberServiceCategryId);
+    const isSelected = selectedItems.includes(item.ServicesId);
     return (
       <TouchableOpacity
-        key={item.BarberServiceCategryId}
-        onPress={() => toggleSelection(item.BarberServiceCategryId)}
+        key={item.ServicesId}
+        onPress={() => toggleSelection(item.ServicesId)}
         style={{
           backgroundColor: '#252525',
           marginVertical: 8,
@@ -258,15 +261,6 @@ const AdminApproveBarber = ({navigation}) => {
                     fontSize: 12,
                   }}>
                   {item?.UserEmail}
-                </Text>
-              </View>
-              <View style={{ width: 45, height: 20, borderRadius: 100, justifyContent:'center', alignItems:'center' ,backgroundColor: appColors.Goldcolor}}>
-                <Text
-                  style={{
-                    color: 'white',
-                    fontSize: 10,
-                  }}>
-                  {item?.Applyon == 0 ? "New" : "Reapply"}
                 </Text>
               </View>
             </View>
@@ -393,9 +387,12 @@ const AdminApproveBarber = ({navigation}) => {
       ...initialBarberApproveFields,
       operationID: 1,
       barbarID: item?.UserId,
+      parameterID: 1,
     };
+    console.log("payload", payload)
     PostRequest(endPoint.BARBER_PC_SERVICES_APPROVAL, payload)
       .then(res => {
+        console.log("res?.data------------------------", res?.data)
         setBarberServices(res?.data);
         handleClickCollapse(index);
       })
@@ -414,7 +411,7 @@ const AdminApproveBarber = ({navigation}) => {
           lefttIcoType={Icons.Ionicons}
           onPressLeftIcon={() => navigation.goBack()}
           leftIcoName={'chevron-back'}
-          headerText={'Approve Barber'}
+          headerText={'Approve Sub Services'}
           rightIcoName={'bell-fill'}
           rightIcoType={Icons.Octicons}
           logIn={'success'}
@@ -470,7 +467,7 @@ const AdminApproveBarber = ({navigation}) => {
   );
 };
 
-export default AdminApproveBarber;
+export default ApproveBarberSubService;
 
 const ticketStyle = StyleSheet.create({
   container: {
