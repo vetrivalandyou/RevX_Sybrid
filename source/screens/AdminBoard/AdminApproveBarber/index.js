@@ -93,7 +93,7 @@ const AdminApproveBarber = ({navigation}) => {
         getBarberListAndServices();
       })
       .catch(err => {
-        console.log("postBarberApproveServicepostBarberApproveService",err)
+        console.log('postBarberApproveServicepostBarberApproveService', err);
         SimpleSnackBar(messages.Catch, appColors.Red);
       });
   };

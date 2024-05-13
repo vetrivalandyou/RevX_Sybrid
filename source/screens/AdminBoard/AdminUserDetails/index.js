@@ -26,6 +26,7 @@ import {PostRequest} from '../../../services/apiCall';
 import {endPoint, imageUrl, messages} from '../../../AppConstants/urlConstants';
 import {getAsyncItem} from '../../../utils/SettingAsyncStorage';
 import {LATEST_SELECT} from '../../../AppConstants/appConstants';
+import BoxLottie from '../../../components/atom/BoxLottie/BoxLottie';
 
 const AdminUserDetails = ({navigation}) => {
   const pageRef = useRef(1);
@@ -189,12 +190,14 @@ const AdminUserDetails = ({navigation}) => {
         ) : (
           <View
             style={{
-              flex: 1,
+              flex: 0.9,
               justifyContent: 'center',
               alignItems: 'center',
             }}>
-              <Text style={{ fontSize: 15, color: appColors.AppLightGray, fontWeight: 'bold'}}>No User Found !</Text>
-            </View>
+            <BoxLottie
+              animationPath={require('../../../LottieAnimation/NoPostFoundAnimation.json')}
+            />
+          </View>
         )}
       </View>
     </Screen>

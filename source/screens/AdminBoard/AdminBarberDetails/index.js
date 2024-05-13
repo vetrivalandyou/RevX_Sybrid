@@ -149,18 +149,13 @@ const AdminBarberDetails = ({navigation}) => {
         ) : (
           <View
             style={{
-              flex: 1,
+              flex: 0.9,
               justifyContent: 'center',
               alignItems: 'center',
             }}>
-            <Text
-              style={{
-                fontSize: 15,
-                color: appColors.AppLightGray,
-                fontWeight: 'bold',
-              }}>
-              No Barber Found !
-            </Text>
+            <BoxLottie
+              animationPath={require('../../../LottieAnimation/NoPostFoundAnimation.json')}
+            />
           </View>
         )}
       </View>
