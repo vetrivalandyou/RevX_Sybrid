@@ -25,4 +25,8 @@ export default appColors = {
   lightBlack: '#292929',
   middBlack: '#0C0C0D',
   disableGrayColor: '#606060',
+
+  Reject: '#D22B2B',
+  Sucess: '#22bb33',
+  Pending: '#f7d636',
 };

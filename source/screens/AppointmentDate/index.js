@@ -11,7 +11,7 @@ import {PostRequest} from '../../services/apiCall';
 import {endPoint} from '../../AppConstants/urlConstants';
 import {useSelector} from 'react-redux';
 import {screenSize} from '../../components/atom/ScreenSize';
-import { LATEST_SELECT } from '../../AppConstants/appConstants';
+import {LATEST_SELECT} from '../../AppConstants/appConstants';
 
 const AppointmentDate = ({route, navigation}) => {
   const {barberDetails} = route.params;
@@ -27,8 +27,6 @@ const AppointmentDate = ({route, navigation}) => {
   const [seelectedDate, setSelectedDate] = React.useState('');
   const [availableSlots, setAvailableSlots] = React.useState([]);
   const [selectedSlotId, setSelectedSlotId] = React.useState('');
-
-  console.log("barberDetails Appointment Details",barberDetails)
 
   const returnTotalDuration = () => {
     if (SelectedChildServices?.length == 0) {

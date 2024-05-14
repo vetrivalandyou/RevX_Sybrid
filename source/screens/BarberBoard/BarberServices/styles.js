@@ -23,9 +23,9 @@ export default StyleSheet.create({
     flex: 1,
   },
   textView: {
-    flex: 0.8,
+    flex: 0.9,
     paddingLeft: 20,
-    flexDirection:'row'
+    flexDirection: 'row',
   },
 
   textStyle: {

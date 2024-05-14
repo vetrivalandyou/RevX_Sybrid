@@ -106,12 +106,20 @@ const HomeBarber = ({navigation}) => {
             flexDirection: 'row',
             justifyContent: 'space-between',
           }}>
+          {console.log('sourcesourcesource', source)}
           <View
             style={{flex: 0.2, alignItems: 'center', justifyContent: 'center'}}>
-            <Image
-              source={{uri: `${imageUrl}${source}`}}
-              style={{width: 55, height: 55, borderRadius: 100}}
-            />
+            {source == null ? (
+              <Image
+                source={AppImages?.slider1}
+                style={{width: 55, height: 55, borderRadius: 100}}
+              />
+            ) : (
+              <Image
+                source={{uri: `${imageUrl}${source}`}}
+                style={{width: 55, height: 55, borderRadius: 100}}
+              />
+            )}
           </View>
 
           <View

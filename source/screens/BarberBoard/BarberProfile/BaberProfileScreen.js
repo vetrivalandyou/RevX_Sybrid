@@ -1,7 +1,7 @@
 import React, {useEffect, useRef, useState} from 'react';
 import {View, Text, Image, TouchableOpacity} from 'react-native';
 import Share from 'react-native-share';
-import {useNavigation} from '@react-navigation/native';
+import {useIsFocused, useNavigation} from '@react-navigation/native';
 import Screen from '../../../components/atom/ScreenContainer/Screen';
 import appColors from '../../../AppConstants/appColors';
 import {Icons} from '../../../components/molecules/CustomIcon/CustomIcon';
@@ -18,12 +18,15 @@ import {imageUrl} from '../../../AppConstants/urlConstants';
 const BaberProfileScreen = () => {
   const navigation = useNavigation();
   const refRBSheet = useRef();
+  const isFocused = useIsFocused();
 
   const [userDetails, setUserDetails] = useState();
 
   useEffect(() => {
-    getAsyncData();
-  }, []);
+    if (isFocused) {
+      getAsyncData();
+    }
+  }, [isFocused]);
 
   const getAsyncData = async () => {
     const userDetails = await getAsyncItem(
@@ -167,7 +170,7 @@ const BaberProfileScreen = () => {
           alignItems: 'center',
           padding: 14,
         }}>
-        <View style={{flex: 0.2, alignItems:'center'}}>
+        <View style={{flex: 0.2, alignItems: 'center'}}>
           <Image
             source={{uri: `${imageUrl}${userDetails?.profileImage}`}}
             resizeMode="cover"

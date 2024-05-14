@@ -75,12 +75,10 @@ const HomeScreen = ({navigation}) => {
     };
     PostRequest(endPoint.GET_VANS_NEAR_CUSTOMER, payload)
       .then(res => {
-        console.log('res', res?.data);
         setBarberList(res?.data);
         getServices();
       })
       .catch(err => {
-        console.log('596245', err);
         console.log(err);
       });
   }
@@ -156,7 +154,6 @@ const HomeScreen = ({navigation}) => {
   ];
 
   const OurServices = ({item}) => {
-    console.log('item --------------------------------', item);
     return (
       <View
         key={item?.categoryId}
@@ -197,7 +194,9 @@ const HomeScreen = ({navigation}) => {
                 fontSize: 14,
                 textAlign: 'center',
               }}>
-              {item?.categoryName}
+              {item?.categoryName?.length > 16
+                ? `${item.categoryName.slice(0, 12)}...`
+                : item?.categoryName}
             </Text>
           </View>
         </View>
@@ -220,12 +219,19 @@ const HomeScreen = ({navigation}) => {
       }}>
       <View style={{flex: 1, width: '100%'}}>
         <View style={{flex: 0.8, borderRadius: 30}}>
-          <ImageBackground
-            style={{flex: 1}}
-            source={{
-              uri: `${imageUrl}${item?.ProfileImage}`,
-            }}
-            resizeMode="contain"></ImageBackground>
+          {item?.ProfileImage == null ? (
+            <ImageBackground
+              style={{flex: 1}}
+              source={AppImages.dummyImage}
+              resizeMode="contain"></ImageBackground>
+          ) : (
+            <ImageBackground
+              style={{flex: 1}}
+              source={{
+                uri: `${imageUrl}${item?.ProfileImage}`,
+              }}
+              resizeMode="contain"></ImageBackground>
+          )}
         </View>
         <View style={{flex: 0.2, justifyContent: 'center'}}>
           <Text
@@ -276,8 +282,8 @@ const HomeScreen = ({navigation}) => {
         <View style={{flex: 0.2}}>
           <ButtonComponent
             title={'View Barber Profile'}
-            style={{paddingVertical: 8}}
-            btnTextColor={{fontSize: 11}}
+            style={{paddingVertical: 10}}
+            btnTextColor={{fontSize: 12}}
             onPress={() =>
               navigation.navigate(constants.screen.BarberProfile, {
                 barberId: item?.UserId,

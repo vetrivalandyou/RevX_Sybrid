@@ -223,13 +223,5 @@ const styles = StyleSheet.create({
     height: 70,
     margin: 10,
     paddingBottom: 0,
-
-    // shadowColor: appColors.AppBlue,
-    // botton: 0,
-    // elevation: 0,
-    // right: 0,
-    //left: 0,
-    //elevation: 0,
-    // height: 70,
   },
 });

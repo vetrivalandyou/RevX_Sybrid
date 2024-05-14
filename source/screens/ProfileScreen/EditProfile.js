@@ -7,31 +7,31 @@ import {
   Platform,
   ActivityIndicator,
 } from 'react-native';
-import React, { useEffect, useRef, useState } from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import Screen from '../../components/atom/ScreenContainer/Screen';
 import Header from '../../components/molecules/Header';
 import CustomIcon, {
   Icons,
 } from '../../components/molecules/CustomIcon/CustomIcon';
-import { AppImages } from '../../AppConstants/AppImages';
+import {AppImages} from '../../AppConstants/AppImages';
 import SimpleTextField from '../../components/molecules/TextFeilds/SimpleTextField';
 import ButtonComponent from '../../components/atom/CustomButtons/ButtonComponent';
 import appColors from '../../AppConstants/appColors';
-import { screenSize } from '../../components/atom/ScreenSize';
-import { endPoint, imageUrl, messages } from '../../AppConstants/urlConstants';
-import { PostRequest } from '../../services/apiCall';
-import { Formik } from 'formik';
+import {screenSize} from '../../components/atom/ScreenSize';
+import {endPoint, imageUrl, messages} from '../../AppConstants/urlConstants';
+import {PostRequest} from '../../services/apiCall';
+import {Formik} from 'formik';
 import * as Yup from 'yup';
-import { getAsyncItem, setAsyncItem } from '../../utils/SettingAsyncStorage';
+import {getAsyncItem, setAsyncItem} from '../../utils/SettingAsyncStorage';
 import constants from '../../AppConstants/Constants.json';
 import BottomSheet from '../../components/molecules/BottomSheetContent/BottomSheet';
-import { SimpleSnackBar } from '../../components/atom/Snakbar/Snakbar';
+import {SimpleSnackBar} from '../../components/atom/Snakbar/Snakbar';
 import ChooseImage from '../../components/molecules/ChooseImage';
-import { generateRandomNumber } from '../../functions/AppFunctions';
-import { SUCCESS_CODE } from '../../AppConstants/appConstants';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import {generateRandomNumber} from '../../functions/AppFunctions';
+import {SUCCESS_CODE} from '../../AppConstants/appConstants';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 
-const EditProfile = ({ navigation }) => {
+const EditProfile = ({navigation}) => {
   const refRBSheet = useRef();
   const [isEye, setIsEye] = useState(false);
   const [userDetails, setUserDetails] = useState();
@@ -132,11 +132,11 @@ const EditProfile = ({ navigation }) => {
 
   return (
     <Screen
-      viewStyle={{ flex: 1, padding: 15, backgroundColor: appColors.Black }}
+      viewStyle={{flex: 1, padding: 15, backgroundColor: appColors.Black}}
       statusBarColor={appColors.Black}>
-      <View style={{ flex: 0.1 }}>
+      <View style={{flex: 0.1}}>
         <Header
-          headerSubView={{ marginHorizontal: 5 }}
+          headerSubView={{marginHorizontal: 5}}
           lefttIcoType={Icons.Ionicons}
           onPressLeftIcon={() => navigation.goBack()}
           leftIcoName={'chevron-back'}
@@ -145,8 +145,9 @@ const EditProfile = ({ navigation }) => {
         />
       </View>
 
-      <KeyboardAwareScrollView contentContainerStyle={{ flex: 1, justifyContent: 'center', }}>
-        <View style={{ flex: 1 }}>
+      <KeyboardAwareScrollView
+        contentContainerStyle={{flex: 1, justifyContent: 'center'}}>
+        <View style={{flex: 1}}>
           {userDetails ? (
             <Formik
               initialValues={{
@@ -155,7 +156,7 @@ const EditProfile = ({ navigation }) => {
                 PhoneNo: userDetails?.userPhone,
               }}
               validationSchema={validationSchema}
-              onSubmit={(values, { setSubmitting }) => {
+              onSubmit={(values, {setSubmitting}) => {
                 console.log('values', values);
                 editProfileUser(values, setSubmitting);
               }}>
@@ -169,7 +170,7 @@ const EditProfile = ({ navigation }) => {
                 isSubmitting,
               }) => (
                 <>
-                  <View style={{ flex: 0.3 }}>
+                  <View style={{flex: 0.3}}>
                     <View
                       style={{
                         flex: 0.7,
@@ -186,7 +187,7 @@ const EditProfile = ({ navigation }) => {
                         }}>
                         {isUpdated == false ? (
                           <Image
-                            source={{ uri: `${imageUrl}${profileImage}` }}
+                            source={{uri: `${imageUrl}${profileImage}`}}
                             style={{
                               width: 100,
                               height: 100,
@@ -197,7 +198,7 @@ const EditProfile = ({ navigation }) => {
                           />
                         ) : (
                           <Image
-                            source={{ uri: profileImage?.path }}
+                            source={{uri: profileImage?.path}}
                             style={{
                               width: '100%',
                               height: '100%',
@@ -214,8 +215,14 @@ const EditProfile = ({ navigation }) => {
                           color={appColors.Goldcolor}
                           style={{
                             position: 'absolute',
-                            left: Platform?.OS == 'android' ? screenSize.width / 5 : screenSize.width / 6,
-                            top: Platform?.OS == 'android' ? screenSize.height / 10 : screenSize.height / 12,
+                            left:
+                              Platform?.OS == 'android'
+                                ? screenSize.width / 5
+                                : screenSize.width / 6,
+                            top:
+                              Platform?.OS == 'android'
+                                ? screenSize.height / 10
+                                : screenSize.height / 12,
                           }}
                         />
                       </TouchableOpacity>
@@ -235,14 +242,14 @@ const EditProfile = ({ navigation }) => {
                         {userDetails?.userName}
                       </Text>
                     </View>
-                    <View style={{ flex: 0.2, alignItems: 'center' }}>
-                      <Text style={{ color: appColors.White, fontSize: 15 }}>
+                    <View style={{flex: 0.2, alignItems: 'center'}}>
+                      <Text style={{color: appColors.White, fontSize: 15}}>
                         {userDetails?.loginEmailId}
                       </Text>
                     </View>
                   </View>
 
-                  <View style={{ flex: 0.15 }}>
+                  <View style={{flex: 0.15}}>
                     <View
                       style={{
                         flex: 0.3,
@@ -259,9 +266,9 @@ const EditProfile = ({ navigation }) => {
                         Name
                       </Text>
                     </View>
-                    <View style={{ flex: 0.7 }}>
+                    <View style={{flex: 0.7}}>
                       <SimpleTextField
-                        textUpperView={{ borderRadius: 20 }}
+                        textUpperView={{borderRadius: 20}}
                         placeholder={'Enter Name'}
                         placeholderTextColor={appColors.LightGray}
                         onChangeText={handleChange('UserName')}
@@ -276,7 +283,7 @@ const EditProfile = ({ navigation }) => {
                             marginBottom: 15,
                           }}>
                           <Text
-                            style={{ color: appColors.Goldcolor, fontSize: 10 }}>
+                            style={{color: appColors.Goldcolor, fontSize: 10}}>
                             {errors.UserName}
                           </Text>
                         </View>
@@ -284,7 +291,7 @@ const EditProfile = ({ navigation }) => {
                     </View>
                   </View>
 
-                  <View style={{ flex: 0.15 }}>
+                  <View style={{flex: 0.15}}>
                     <View
                       style={{
                         flex: 0.3,
@@ -301,9 +308,9 @@ const EditProfile = ({ navigation }) => {
                         Email
                       </Text>
                     </View>
-                    <View style={{ flex: 0.7 }}>
+                    <View style={{flex: 0.7}}>
                       <SimpleTextField
-                        textUpperView={{ borderRadius: 20 }}
+                        textUpperView={{borderRadius: 20}}
                         placeholder={'Enter Email'}
                         placeholderTextColor={appColors.LightGray}
                         onChangeText={handleChange('UserEmail')}
@@ -318,7 +325,7 @@ const EditProfile = ({ navigation }) => {
                             marginBottom: 15,
                           }}>
                           <Text
-                            style={{ color: appColors.Goldcolor, fontSize: 10 }}>
+                            style={{color: appColors.Goldcolor, fontSize: 10}}>
                             {errors.UserEmail}
                           </Text>
                         </View>
@@ -326,7 +333,7 @@ const EditProfile = ({ navigation }) => {
                     </View>
                   </View>
 
-                  <View style={{ flex: 0.15 }}>
+                  <View style={{flex: 0.15}}>
                     <View
                       style={{
                         flex: 0.3,
@@ -342,9 +349,9 @@ const EditProfile = ({ navigation }) => {
                         Phone Number
                       </Text>
                     </View>
-                    <View style={{ flex: 0.7 }}>
+                    <View style={{flex: 0.7}}>
                       <SimpleTextField
-                        textUpperView={{ borderRadius: 20 }}
+                        textUpperView={{borderRadius: 20}}
                         placeholder={'Enter Phone no'}
                         placeholderTextColor={appColors.LightGray}
                         onChangeText={handleChange('PhoneNo')}
@@ -352,16 +359,16 @@ const EditProfile = ({ navigation }) => {
                         value={values.PhoneNo}
                       />
                       {touched.PhoneNo && errors.PhoneNo && (
-                        <View style={{ marginLeft: 10, margin: 5 }}>
+                        <View style={{marginLeft: 10, margin: 5}}>
                           <Text
-                            style={{ color: appColors.Goldcolor, fontSize: 10 }}>
+                            style={{color: appColors.Goldcolor, fontSize: 10}}>
                             {errors.PhoneNo}
                           </Text>
                         </View>
                       )}
                     </View>
                   </View>
-                  <View style={{ flex: 0.26, justifyContent: 'flex-end' }}>
+                  <View style={{flex: 0.26, justifyContent: 'flex-end'}}>
                     <View style={styles.buttonView}>
                       <ButtonComponent
                         style={{
@@ -370,7 +377,7 @@ const EditProfile = ({ navigation }) => {
                           bottom: 1,
                           position: 'absolute',
                         }}
-                        btnTextColor={{ color: 'white' }}
+                        btnTextColor={{color: 'white'}}
                         title={'Save'}
                         disabled={isSubmitting}
                         onPress={handleSubmit}

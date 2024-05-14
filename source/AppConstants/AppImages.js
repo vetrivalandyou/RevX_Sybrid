@@ -45,4 +45,6 @@ export const AppImages = {
   Editimage: require(`${path}editimage.png`),
   deleteimage: require(`${path}deleteimage.png`),
   dummyVan: require(`${path}dummyVan.png`),
+  dummyImage: require(`${path}dummyImage.png`),
+  BestOffer: require(`${path}BestOffer.png`),
 };

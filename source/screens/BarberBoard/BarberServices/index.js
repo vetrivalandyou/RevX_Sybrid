@@ -6,25 +6,27 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import React, { useEffect, useRef, useState } from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import styles from './styles';
-import { useIsFocused, useNavigation } from '@react-navigation/native';
+import {useIsFocused, useNavigation} from '@react-navigation/native';
 import DeleteServices from './DeleteServices';
-import { PostRequest } from '../../../services/apiCall';
+import {PostRequest} from '../../../services/apiCall';
 import appColors from '../../../AppConstants/appColors';
 import Header from '../../../components/molecules/Header';
-import { AppImages } from '../../../AppConstants/AppImages';
+import {AppImages} from '../../../AppConstants/AppImages';
 import constants from '../../../AppConstants/Constants.json';
-import { getAsyncItem } from '../../../utils/SettingAsyncStorage';
+import {getAsyncItem} from '../../../utils/SettingAsyncStorage';
 import Screen from '../../../components/atom/ScreenContainer/Screen';
-import { endPoint, messages } from '../../../AppConstants/urlConstants';
-import { SimpleSnackBar } from '../../../components/atom/Snakbar/Snakbar';
-import { Icons } from '../../../components/molecules/CustomIcon/CustomIcon';
+import {endPoint, messages} from '../../../AppConstants/urlConstants';
+import {SimpleSnackBar} from '../../../components/atom/Snakbar/Snakbar';
+import CustomIcon, {
+  Icons,
+} from '../../../components/molecules/CustomIcon/CustomIcon';
 import BottomSheet from '../../../components/molecules/BottomSheetContent/BottomSheet';
 import ButtonComponent from '../../../components/atom/CustomButtons/ButtonComponent';
-import { SUCCESS_CODE, approve } from '../../../AppConstants/appConstants';
+import {SUCCESS_CODE, approve} from '../../../AppConstants/appConstants';
 
-const Servicesboard = ({ navigation }) => {
+const Servicesboard = ({navigation}) => {
   const isFocused = useIsFocused();
   const [barberServices, setBarberServices] = useState([]);
   const [userDetails, setUserDetails] = useState([]);
@@ -49,14 +51,14 @@ const Servicesboard = ({ navigation }) => {
       barberId: userId,
       statusId: 0,
     };
-    console.log("pyload", payload)
+    console.log('pyload', payload);
     PostRequest(endPoint.BARBER_SERVICE_CATEGORY, payload)
       .then(res => {
-        console.log("----------------",res?.data?.data);
+        console.log('----------------', res?.data?.data);
         if (res?.data?.code == SUCCESS_CODE) {
           setBarberServices(res?.data?.data);
         } else {
-          SimpleSnackBar(res?.data?.message, appColors.Red)
+          SimpleSnackBar(res?.data?.message, appColors.Red);
         }
       })
       .catch(err => {
@@ -66,7 +68,7 @@ const Servicesboard = ({ navigation }) => {
   }
 
   const handleItemPress = item => {
-    if(item?.categoryStatusId == 10){
+    if (item?.categoryStatusId == 10) {
       navigation.navigate(constants.BarberScreen.ServiceList, {
         item: item,
         userId: userDetails?.userId,
@@ -74,15 +76,18 @@ const Servicesboard = ({ navigation }) => {
     }
   };
 
-  console.log("barberServices",barberServices?.[0]?.categories)
+  console.log(
+    'barberServices barberServices barberServices',
+    barberServices?.[0]?.categories,
+  );
 
   return (
     <Screen
-      viewStyle={{ flex: 1, padding: 15, backgroundColor: appColors.Black }}
+      viewStyle={{flex: 1, padding: 15, backgroundColor: appColors.Black}}
       statusBarColor={appColors.Black}>
-      <View style={{ flex: 0.1, backgroundColor: appColors.Black }}>
+      <View style={{flex: 0.1, backgroundColor: appColors.Black}}>
         <Header
-          headerSubView={{ marginHorizontal: 5 }}
+          headerSubView={{marginHorizontal: 5}}
           lefttIcoType={Icons.Ionicons}
           onPressLeftIcon={() => navigation.goBack()}
           leftIcoName={'chevron-back'}
@@ -91,7 +96,7 @@ const Servicesboard = ({ navigation }) => {
         />
       </View>
 
-      <ScrollView style={{ flex: 0.8 }}>
+      <ScrollView style={{flex: 0.8}}>
         {barberServices?.[0]?.categories?.map((item, index) => (
           <Servicelist
             item={item}
@@ -109,7 +114,7 @@ const Servicesboard = ({ navigation }) => {
             bottom: 1,
             position: 'absolute',
           }}
-          btnTextColor={{ color: 'white' }}
+          btnTextColor={{color: 'white'}}
           title={'Request Service'}
           onPress={() =>
             navigation.navigate(constants.BarberScreen.Addservices, {
@@ -122,17 +127,47 @@ const Servicesboard = ({ navigation }) => {
   );
 };
 
-const handleApproveRejectRemarks = (item) => {
+const handleApproveRejectRemarks = item => {
   if (item?.categoryStatusId == 10) {
-    return 'Approve'
+    return (
+      <>
+        Approved{' '}
+        <CustomIcon
+          name="check-square-o"
+          type={Icons.FontAwesome}
+          size={11}
+          color={appColors.White}
+        />
+      </>
+    );
   } else if (item?.categoryStatusId == 11) {
-    return 'Rejected'
+    return (
+      <>
+        Rejected{' '}
+        <CustomIcon
+          name="cancel"
+          type={Icons.MaterialIcons}
+          size={11}
+          color={appColors.White}
+        />
+      </>
+    );
   } else {
-    return 'Pending'
+    return (
+      <>
+        Pending{' '}
+        <CustomIcon
+          name="clock"
+          type={Icons.Octicons}
+          size={11}
+          color={appColors.White}
+        />
+      </>
+    );
   }
-}
+};
 
-const Servicelist = ({ index, item, onPress }) => {
+const Servicelist = ({index, item, onPress}) => {
   const refRBSheet = useRef();
   const navigation = useNavigation();
 
@@ -141,32 +176,44 @@ const Servicelist = ({ index, item, onPress }) => {
       <View style={[styles.container]}>
         <View style={[styles.Subcontainer]}>
           <View style={[styles.textView]}>
-            <View style={{ flex: 0.6, justifyContent: 'center' }}>
+            <View style={{flex: 0.8, justifyContent: 'center'}}>
               <Text style={styles.textStyle}>{item.barberServiceCategry}</Text>
             </View>
-            <View style={{ flex: 0.4, justifyContent: 'center' }}>
+            <View
+              style={{
+                flex: 0.4,
+                justifyContent: 'center',
+                alignItems: 'flex-end',
+              }}>
               <Text
                 style={[
                   styles.textStyle,
                   {
-                    color:
+                    backgroundColor:
                       item?.categoryStatusId == 10
-                        ? appColors.AppGreen
-                        : item?.categoryStatusId == 9 ? appColors.AppLightGray : appColors.Red,
+                        ? appColors.Sucess
+                        : item?.categoryStatusId == 9
+                        ? appColors.Goldcolor
+                        : appColors.Reject,
+                    color: appColors.White,
+                    paddingHorizontal: 10,
+                    paddingVertical: 4,
+                    borderRadius: 20,
+                    fontSize: 12,
                   },
                 ]}>
                 {handleApproveRejectRemarks(item)}
               </Text>
             </View>
           </View>
-          <TouchableOpacity
+          {/* <TouchableOpacity
             onPress={() => refRBSheet.current.open()}
             style={styles.DeleteimageView}>
             <Image
               source={AppImages.deleteimage}
               style={styles.Deleteimagestyle}
             />
-          </TouchableOpacity>
+          </TouchableOpacity> */}
 
           <BottomSheet ref={refRBSheet} Height={200}>
             <DeleteServices refRBSheet={refRBSheet} DeleteService={item} />

@@ -280,7 +280,7 @@ const AdminStack = () => {
           component={CreateSlot}
           options={{headerShown: false}}
         />
-          <Stack.Screen
+        <Stack.Screen
           name={constants.AdminScreens.ApproveSubServices}
           component={ApproveBarberSubService}
           options={{headerShown: false}}

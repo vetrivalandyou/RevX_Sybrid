@@ -242,7 +242,6 @@ const AdminApproveBarber = ({navigation}) => {
                 flex: 0.5,
                 flexDirection: 'column',
                 justifyContent: 'center',
-                paddingHorizontal: 5
               }}>
               <Text
                 style={{
@@ -252,7 +251,7 @@ const AdminApproveBarber = ({navigation}) => {
                 }}>
                 {item.UserName}
               </Text>
-              <View>
+              <View style={{paddingVertical: 5}}>
                 <Text
                   style={{
                     color: 'white',
@@ -261,13 +260,21 @@ const AdminApproveBarber = ({navigation}) => {
                   {item?.UserEmail}
                 </Text>
               </View>
-              <View style={{ width: 45, height: 20, borderRadius: 100, justifyContent:'center', alignItems:'center' ,backgroundColor: appColors.Goldcolor}}>
+              <View
+                style={{
+                  width: 45,
+                  height: 16,
+                  borderRadius: 100,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  backgroundColor: appColors.Goldcolor,
+                }}>
                 <Text
                   style={{
                     color: 'white',
-                    fontSize: 10,
+                    fontSize: 12,
                   }}>
-                  {item?.Applyon == 0 ? "New" : "Reapply"}
+                  {item?.Applyon == 0 ? 'New' : 'Reapply'}
                 </Text>
               </View>
             </View>
@@ -460,15 +467,15 @@ const AdminApproveBarber = ({navigation}) => {
           />
         ) : (
           <View
-          style={{
-            flex: 0.9,
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}>
-          <BoxLottie
-            animationPath={require('../../../LottieAnimation/NoPostFoundAnimation.json')}
-          />
-        </View>
+            style={{
+              flex: 0.9,
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}>
+            <BoxLottie
+              animationPath={require('../../../LottieAnimation/NoPostFoundAnimation.json')}
+            />
+          </View>
         )}
       </View>
     </Screen>

@@ -12,13 +12,16 @@ import {getAsyncItem} from '../../../utils/SettingAsyncStorage';
 import {LATEST_SELECT, approve} from '../../../AppConstants/appConstants';
 import Screen from '../../../components/atom/ScreenContainer/Screen';
 import {SimpleSnackBar} from '../../../components/atom/Snakbar/Snakbar';
-import {Icons} from '../../../components/molecules/CustomIcon/CustomIcon';
+import CustomIcon, {
+  Icons,
+} from '../../../components/molecules/CustomIcon/CustomIcon';
 import {endPoint, imageUrl, messages} from '../../../AppConstants/urlConstants';
 import ButtonComponent from '../../../components/atom/CustomButtons/ButtonComponent';
 import BottomSheet from '../../../components/molecules/BottomSheetContent/BottomSheet';
 
 const ServiceList = ({navigation, route}) => {
   const {item} = route.params;
+  console.log('itemitemitemitem', item);
   const isFocused = useIsFocused();
   const [subServices, setSubServices] = useState([]);
   const [userDetails, setUserDetails] = useState([]);
@@ -121,7 +124,7 @@ const Servicedetails = ({item, onPress}) => {
               />
             )}
           </View>
-          <View style={{flex: 0.35, marginLeft: 10, justifyContent: 'center'}}>
+          <View style={{flex: 0.38, marginLeft: 10, justifyContent: 'center'}}>
             <Text
               style={{
                 color: 'white',
@@ -136,9 +139,9 @@ const Servicedetails = ({item, onPress}) => {
               flexDirection: 'row',
               justifyContent: 'center',
               alignItems: 'center',
-              flex: 0.15,
+              flex: 0.16,
             }}>
-            <Text style={{color: '#c79647', fontSize: 12, fontWeight: '600'}}>
+            <Text style={{color: '#c79647', fontSize: 14, fontWeight: '600'}}>
               ${item.servicePrice}
             </Text>
           </View>
@@ -147,34 +150,64 @@ const Servicedetails = ({item, onPress}) => {
               flexDirection: 'row',
               justifyContent: 'center',
               alignItems: 'center',
-              flex: 0.2,
+              flex: 0.4,
             }}>
             <Text
               style={{
-                color:
+                backgroundColor:
                   item?.servicesStatusId == approve
-                    ? appColors.Green
+                    ? appColors.Sucess
                     : item?.servicesStatusId == 9
-                    ? appColors.AppLightGray
-                    : appColors.Red,
+                    ? appColors.Goldcolor
+                    : appColors.Reject,
+                color: appColors.White,
+                paddingHorizontal: 10,
+                paddingVertical: 4,
+                borderRadius: 20,
                 fontSize: 11,
                 fontWeight: '400',
               }}>
-              {item.servicesStatusId == 9
-                ? 'Pending'
-                : item.servicesStatusId == 10
-                ? 'Approved'
-                : 'Rejected'}
+              {item.servicesStatusId == 9 ? (
+                <>
+                  Pending{' '}
+                  <CustomIcon
+                    name="clock"
+                    type={Icons.Octicons}
+                    size={11}
+                    color={appColors.White}
+                  />
+                </>
+              ) : item.servicesStatusId == 10 ? (
+                <>
+                  Approved{' '}
+                  <CustomIcon
+                    name="check-square-o"
+                    type={Icons.FontAwesome}
+                    size={11}
+                    color={appColors.White}
+                  />
+                </>
+              ) : (
+                <>
+                  Rejected{' '}
+                  <CustomIcon
+                    name="circle-with-cross"
+                    type={Icons.Entypo}
+                    size={11}
+                    color={appColors.White}
+                  />
+                </>
+              )}
             </Text>
           </View>
-          <TouchableOpacity
+          {/* <TouchableOpacity
             onPress={() => refRBSheet.current.open()}
             style={styles.DeleteimageView}>
             <Image
               source={AppImages.deleteimage}
               style={styles.Deleteimagestyle}
             />
-          </TouchableOpacity>
+          </TouchableOpacity> */}
           <BottomSheet ref={refRBSheet} Height={200}>
             <DeleteSubServices refRBSheet={refRBSheet} DeleteService={item} />
           </BottomSheet>

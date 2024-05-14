@@ -182,7 +182,9 @@ const BarberProfile = ({navigation, route}) => {
           <View style={{flex: 0.1}}>
             <Header
               lefttIcoType={Icons.Ionicons}
-              onPressLeftIcon={() => navigation.goBack()}
+              onPressLeftIcon={() =>
+                navigation.navigate(constants.screen.HomeScreen)
+              }
               leftIcoName={'chevron-back'}
               doubleIcon={true}
               color={appColors.Black}

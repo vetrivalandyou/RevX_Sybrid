@@ -28,7 +28,6 @@ const PaymentDetails = ({navigation}) => {
   const [modalPaymentVisible, setModalPaymentVisible] = useState(false);
 
   const handleModalClose = () => {
-    // Close the modal
     setModalVisible(false);
   };
 
@@ -72,32 +71,22 @@ const PaymentDetails = ({navigation}) => {
         />
       </View>
       <View style={{flex: 0.8}}>
-        {/* <View style={{flex: 0.06}}>
+        <View style={{flex: 0.16}}>
           <Text
             style={{
               color: 'white',
-              fontSize: 15,
-              marginLeft: 5,
+              fontSize: 12,
+              marginLeft: 10,
+              marginBottom: 10,
             }}>
-             
+            Card Holder Name :
           </Text>
-        </View> */}
-        <View style={{flex: 0.16}}>
-        <Text
-                style={{
-                  color: 'white',
-                  fontSize: 12,
-                  marginLeft: 10,
-                  marginBottom: 10,
-                }}>
-                Card Holder Name :
-              </Text>
           <SimpleTextField
             placeholder={'Enter Card Holder Name'}
             placeholderTextColor={appColors.White}
             onChangeText={onChangeName}
             textUpperView={{
-              paddingVertical: Platform.OS == 'ios' ? 20 : 5,
+              paddingVertical: Platform.OS == 'ios' ? 20 : 0,
               borderColor: appColors.Gray,
               borderWidth: 1,
             }}
@@ -105,15 +94,15 @@ const PaymentDetails = ({navigation}) => {
           />
         </View>
         <View style={{flex: 0.16}}>
-        <Text
-                style={{
-                  color: 'white',
-                  fontSize: 12,
-                  marginLeft: 10,
-                  marginBottom: 10,
-                }}>
-                Card Number :
-              </Text>
+          <Text
+            style={{
+              color: 'white',
+              fontSize: 12,
+              marginLeft: 10,
+              marginBottom: 10,
+            }}>
+            Card Number :
+          </Text>
           <SimpleTextField
             placeholder={'*** **** *** **** 6580'}
             placeholderTextColor={appColors.Goldcolor}
@@ -121,7 +110,7 @@ const PaymentDetails = ({navigation}) => {
             keyboardType={'numeric'}
             maxLength={16}
             textUpperView={{
-              paddingVertical: Platform.OS == 'ios' ? 20 : 5,
+              paddingVertical: Platform.OS == 'ios' ? 20 : 0,
               borderColor: appColors.Gray,
               borderWidth: 1,
             }}
@@ -151,17 +140,15 @@ const PaymentDetails = ({navigation}) => {
                 }}>
                 Date
               </Text>
-
               <SimpleTextField
                 placeholder={'MM/YY'}
                 placeholderTextColor={appColors.Gray}
                 keyboardType={'numeric'}
                 textUpperView={{
-                  paddingVertical: Platform.OS == 'ios' ? 20 : 5,
+                  paddingVertical: Platform.OS == 'ios' ? 20 : 0,
                   borderColor: appColors.Gray,
                   borderWidth: 1,
                 }}
-                // innerCustomstyle={{marginTop: 7, width: '96%'}}
               />
             </View>
             <View style={{flexDirection: 'column', flex: 0.5}}>
@@ -178,16 +165,10 @@ const PaymentDetails = ({navigation}) => {
                 placeholder={'000'}
                 placeholderTextColor={appColors.Gray}
                 textUpperView={{
-                  paddingVertical: Platform.OS == 'ios' ? 20 : 5,
+                  paddingVertical: Platform.OS == 'ios' ? 20 : 0,
                   borderColor: appColors.Gray,
                   borderWidth: 1,
                 }}
-                // innerCustomstyle={{
-                //   marginTop: 7,
-                //   width: '96%',
-                //   alignSelf: 'flex-end',
-                  
-                // }}
               />
             </View>
           </View>
@@ -242,7 +223,6 @@ const PaymentDetails = ({navigation}) => {
         title={'Payment Successful!'}
         lable1={'Your booking has been successfully done'}
         onPress={() => navigation.goBack()}
-        // showLable1={'sadad'}
       />
     </Screen>
   );
@@ -267,11 +247,8 @@ const styles = StyleSheet.create({
     borderRadius: 40,
     backgroundColor: '#252525',
     marginHorizontal: 2,
-
     alignItems: 'center',
     justifyContent: 'center',
-
-    // backgroundColor:'green'
   },
 
   Button: {

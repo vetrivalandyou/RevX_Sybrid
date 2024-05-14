@@ -7,15 +7,20 @@ import {endPoint, messages} from '../../../AppConstants/urlConstants';
 import {SimpleSnackBar} from '../../../components/atom/Snakbar/Snakbar';
 import appColors from '../../../AppConstants/appColors';
 
-const DeleteSubServices = ({refRBSheet, DeleteSubServices}) => {
+const DeleteSubServices = ({refRBSheet, DeleteService}) => {
+  console.log('detailssservices', DeleteService);
+
   const DeletesetupCategories = () => {
-    console.log('detailssservices', DeleteSubServices.categoryName);
     const payload = {
-      categoryId: DeleteSubServices.categoryId,
-      categoryName: DeleteSubServices.categoryName,
+      categoryId: DeleteService?.servicesId,
+      categoryName: DeleteService?.serviceName,
       operations: 4,
       createdBy: 2,
+      serviceImage: DeleteService?.serviceImage,
+      serviceImagePath: '',
     };
+    console.log('payloadpayload', payload);
+
     PostRequest(endPoint.SETUP_CATEGORIES_DELETE, payload)
       .then(res => {
         console.log('responseeee>>>>.>', res?.data);

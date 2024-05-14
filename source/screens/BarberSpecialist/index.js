@@ -67,6 +67,8 @@ const BarberSpecialist = ({navigation}) => {
             </Text>
           </View>
           <View style={{flex: 0.5, justifyContent: 'center'}}>
+            {console.log('itemitemitemitem', item)}
+
             <ButtonComponent
               onPress={() =>
                 navigation.navigate(constants.screen.Services, {

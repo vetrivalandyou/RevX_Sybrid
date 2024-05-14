@@ -43,7 +43,7 @@ const styles = StyleSheet.create({
   pickerStyle: {
     backgroundColor: appColors.Black,
     color: appColors.AppLightGray,
-    height: 40, // Adjust height as per your design
+    height: 50, // Adjust height as per your design
   },
   pickerItem: {
     fontSize: 14, // Adjust font size as per your design
