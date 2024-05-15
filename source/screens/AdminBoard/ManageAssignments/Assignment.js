@@ -101,8 +101,13 @@ const Assignments = ({}) => {
                 style={{width: 35, height: 35, borderRadius: 100}}
               />
             </View>
-            <View style={styles.textView}>
-              <Text style={styles.textStyle}>{item.vanName}</Text>
+            <View style={[styles.textView, {flexDirection: 'row'}]}>
+              <View style={{flex: 0.5, justifyContent: 'center'}}>
+                <Text style={styles.textStyle}>{item.vanName}</Text>
+              </View>
+              <View style={{flex: 0.5, justifyContent: 'center'}}>
+                <Text style={styles.textStyle}>{item.userName}</Text>
+              </View>
             </View>
             <TouchableOpacity
               onPress={handleEditPress}
@@ -112,14 +117,6 @@ const Assignments = ({}) => {
                 style={styles.editImageStyle}
               />
             </TouchableOpacity>
-            {/* <TouchableOpacity
-              onPress={() => refRBSheet.current.open()}
-              style={styles.DeleteimageView}>
-              <Image
-                source={AppImages.deleteimage}
-                style={styles.Deleteimagestyle}
-              />
-            </TouchableOpacity> */}
             <BottomSheet ref={refRBSheet} Height={200}>
               <DeleteAssignment
                 refRBSheet={refRBSheet}
