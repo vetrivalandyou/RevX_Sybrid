@@ -85,7 +85,6 @@ const ApproveBarberSubService = ({navigation}) => {
       });
   };
 
-
   const postBarberApproveService = payload => {
     PostRequest(endPoint.BARBER_PC_SERVICES_APPROVAL, payload)
       .then(res => {
@@ -95,15 +94,15 @@ const ApproveBarberSubService = ({navigation}) => {
         getBarberListAndServices();
       })
       .catch(err => {
-        console.log("postBarberApproveServicepostBarberApproveService",err)
+        console.log('postBarberApproveServicepostBarberApproveService', err);
         SimpleSnackBar(messages.Catch, appColors.Red);
       });
   };
 
   const handleAction = (item, operation) => {
     const makingParentService = selectedItems?.map(x => ({
-        childService_PK_ID: x,
-        childServiceStatusID: approve,
+      childService_PK_ID: x,
+      childServiceStatusID: approve,
     }));
 
     let payload;
@@ -245,7 +244,7 @@ const ApproveBarberSubService = ({navigation}) => {
                 flex: 0.5,
                 flexDirection: 'column',
                 justifyContent: 'center',
-                paddingHorizontal: 5
+                paddingHorizontal: 5,
               }}>
               <Text
                 style={{
@@ -390,10 +389,10 @@ const ApproveBarberSubService = ({navigation}) => {
       barbarID: item?.UserId,
       parameterID: 1,
     };
-    console.log("payload", payload)
+    console.log('payload', payload);
     PostRequest(endPoint.BARBER_PC_SERVICES_APPROVAL, payload)
       .then(res => {
-        console.log("res?.data------------------------", res?.data)
+        console.log('res?.data------------------------', res?.data);
         setBarberServices(res?.data);
         handleClickCollapse(index);
       })
@@ -455,17 +454,17 @@ const ApproveBarberSubService = ({navigation}) => {
               />
             )}
           />
-        ) : (        
+        ) : (
           <View
-          style={{
-            flex: 0.9,
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}>
-          <BoxLottie
-            animationPath={require('../../../LottieAnimation/NoPostFoundAnimation.json')}
-          />
-        </View>
+            style={{
+              flex: 0.9,
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}>
+            <BoxLottie
+              animationPath={require('../../../LottieAnimation/NoPostFoundAnimation.json')}
+            />
+          </View>
         )}
       </View>
     </Screen>

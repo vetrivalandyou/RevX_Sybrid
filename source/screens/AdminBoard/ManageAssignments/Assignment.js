@@ -88,7 +88,7 @@ const Assignments = ({}) => {
     };
 
     return (
-      <TouchableOpacity onPress={onPress}>
+      <TouchableOpacity key={item.vanId} onPress={onPress}>
         <View
           style={[
             styles.container,
@@ -162,7 +162,6 @@ const Assignments = ({}) => {
             keyExtractor={item => item.barberId.toString()}
             renderItem={({item}) => (
               <VanAssignmentList
-                key={item.vanId}
                 item={item}
                 selected={selectedItem === item.vanId}
                 onPress={() => setSelectedItem(item.vanId)}

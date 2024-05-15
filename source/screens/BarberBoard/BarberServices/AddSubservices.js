@@ -36,10 +36,6 @@ const AddSubservices = ({navigation, route}) => {
   const [selectedValue, setSelectedValue] = useState('');
   const [selectedValueDetails, setSelectedValueDetails] = useState('');
 
-  // console.log('userId', userId);
-  // console.log('parentService', parentService);
-  // console.log('subServiceList', subServiceList);
-
   useEffect(() => {
     GetsetupCategories();
   }, [selectedValueDetails]);
@@ -53,7 +49,6 @@ const AddSubservices = ({navigation, route}) => {
     };
     PostRequest(endPoint.BARBER_SERVICES_GET, payload)
       .then(res => {
-        // console.log('responseeee>>>>.>', res?.data?.data);
         setSubServiceList(
           res?.data?.data?.map(x => ({
             ...x,
@@ -101,7 +96,7 @@ const AddSubservices = ({navigation, route}) => {
   };
 
   const handleSelectSubService = e => {
-    // console.log('eeeeeeeeee', e);
+    console.log('eeeeeeeeee', e);
     setSelectedValue(e);
     const getValue = subServiceList?.find(x => x.servicesId == e);
     console.log('getValue', getValue);
@@ -142,7 +137,7 @@ const AddSubservices = ({navigation, route}) => {
                 justifyContent: 'center',
               }}>
               <Dropdown
-                label={'Select Sub ss Service'}
+                label={'Select Sub Service'}
                 value={selectedValue}
                 onValueChange={e => handleSelectSubService(e)}
                 dropDownData={subServiceList}

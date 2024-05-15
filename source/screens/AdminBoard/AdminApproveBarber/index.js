@@ -75,7 +75,7 @@ const AdminApproveBarber = ({navigation}) => {
       initialBarberApproveFields,
     )
       .then(res => {
-        console.log('res', res?.data);
+        console.log('res resresres', res?.data);
         setBarberApprove(res?.data);
         setIsRefreshing(false);
       })

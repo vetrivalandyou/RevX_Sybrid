@@ -20,9 +20,10 @@ import BottomSheet from '../../../components/molecules/BottomSheetContent/Bottom
 import appColors from '../../../AppConstants/appColors';
 import DeleteVanServices from './DeleteVanServices';
 import {GetRequest} from '../../../services/apiCall';
-import {endPoint, imageUrl} from '../../../AppConstants/urlConstants';
+import {endPoint, imageUrl, messages} from '../../../AppConstants/urlConstants';
 import {AppImages} from '../../../AppConstants/AppImages';
 import {getAsyncItem} from '../../../utils/SettingAsyncStorage';
+import {SimpleSnackBar} from '../../../components/atom/Snakbar/Snakbar';
 
 const ManageVans = ({navigation}) => {
   const isFocused = useIsFocused();
@@ -52,7 +53,7 @@ const ManageVans = ({navigation}) => {
           setVans(res?.data?.data);
           setLoading(false);
         } else {
-          SimpleSnackBar(res?.data?.message, appColors.Red);
+          // SimpleSnackBar(res?.data?.message, appColors.Red);
           setLoading(false);
         }
       })
@@ -74,7 +75,7 @@ const ManageVans = ({navigation}) => {
     };
 
     return (
-      <TouchableOpacity onPress={onPress}>
+      <TouchableOpacity key={item.vanId} onPress={onPress}>
         <View
           style={[
             styles.container,
@@ -147,7 +148,6 @@ const ManageVans = ({navigation}) => {
             keyExtractor={item => item.vanId.toString()}
             renderItem={({item}) => (
               <VanList
-                key={item.vanId}
                 item={item}
                 selected={selectedItem === item.vanId}
                 onPress={() => setSelectedItem(item.vanId)}
