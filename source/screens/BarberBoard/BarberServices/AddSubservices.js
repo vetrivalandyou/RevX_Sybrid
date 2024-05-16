@@ -47,6 +47,8 @@ const AddSubservices = ({navigation, route}) => {
       serviceCategoryId: parentService?.barberServiceCategryId,
       operations: LATEST_SELECT,
     };
+
+    console.log('payloadpayloadpayloadpayload', payload);
     PostRequest(endPoint.BARBER_SERVICES_GET, payload)
       .then(res => {
         console.log("List Parent Services", res?.data)
@@ -77,7 +79,10 @@ const AddSubservices = ({navigation, route}) => {
         ],
       };
 
-      console.log('payload Sub Service', payload);
+      console.log(
+        'payload add =========== >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>',
+        payload,
+      );
       PostRequest(endPoint.APPROVE_BARBER_SERVICE, payload)
         .then(res => {
           console.log('res', res?.data);

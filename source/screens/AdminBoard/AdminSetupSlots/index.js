@@ -28,6 +28,7 @@ import DeleteSlot from './DeleteSlot';
 import BottomSheet from '../../../components/molecules/BottomSheetContent/BottomSheet';
 import moment from 'moment';
 import {screenSize} from '../../../components/atom/ScreenSize';
+import BoxLottie from '../../../components/atom/BoxLottie/BoxLottie';
 
 const AdminSetupSlots = ({navigation}) => {
   const refRBSheet = useRef();
@@ -92,49 +93,65 @@ const AdminSetupSlots = ({navigation}) => {
           logIn={'success'}
         />
       </View>
-      <View style={{flex: 0.8}}>
+      {slots?.Table?.length > 0 ? (
+        <View style={{flex: 0.8}}>
+          <View
+            style={{
+              width: screenSize.width / 1.1,
+              height: screenSize.height / 20,
+              paddingHorizontal: 5,
+            }}>
+            <View style={styles.Subcontainer}>
+              <View style={[styles.textView, {justifyContent: 'flex-end'}]}>
+                <Text style={[styles.textStyle, {fontSize: 11}]}>{'Name'}</Text>
+              </View>
+              <View style={[styles.textView, {justifyContent: 'flex-end'}]}>
+                <Text style={[styles.textStyle, {fontSize: 11}]}>
+                  Start Time
+                </Text>
+              </View>
+              <View style={[styles.textView, {justifyContent: 'flex-end'}]}>
+                <Text style={[styles.textStyle, {fontSize: 11}]}>End Time</Text>
+              </View>
+              <View style={[styles.textView, {justifyContent: 'flex-end'}]}>
+                <Text style={[styles.textStyle, {fontSize: 11}]}>Duration</Text>
+              </View>
+            </View>
+          </View>
+          <View style={[styles.container]}>
+            <View style={styles.Subcontainer}>
+              <View style={[styles.textView]}>
+                <Text style={styles.textStyle}>{'Slot'}</Text>
+              </View>
+              <View style={[styles.textView, {alignItems: 'center'}]}>
+                <Text style={styles.textStyle}>
+                  {convertedTime(slots?.Table?.[0]?.TimeSlot1)}
+                </Text>
+              </View>
+              <View style={[styles.textView, {alignItems: 'center'}]}>
+                <Text style={styles.textStyle}>
+                  {convertedTime(slots?.Table1?.[0]?.TimeSlot2)}
+                </Text>
+              </View>
+              <View style={[styles.textView, {alignItems: 'center'}]}>
+                <Text style={styles.textStyle}>{slots?.Table2?.[0]?.Diff}</Text>
+              </View>
+            </View>
+          </View>
+        </View>
+      ) : (
         <View
           style={{
-            width: screenSize.width / 1.1,
-            height: screenSize.height / 20,
-            paddingHorizontal: 5,
+            flex: 0.9,
+            justifyContent: 'center',
+            alignItems: 'center',
           }}>
-          <View style={styles.Subcontainer}>
-            <View style={[styles.textView, {justifyContent: 'flex-end'}]}>
-              <Text style={[styles.textStyle, {fontSize: 11}]}>{'Name'}</Text>
-            </View>
-            <View style={[styles.textView, {justifyContent: 'flex-end'}]}>
-              <Text style={[styles.textStyle, {fontSize: 11}]}>Start Time</Text>
-            </View>
-            <View style={[styles.textView, {justifyContent: 'flex-end'}]}>
-              <Text style={[styles.textStyle, {fontSize: 11}]}>End Time</Text>
-            </View>
-            <View style={[styles.textView, {justifyContent: 'flex-end'}]}>
-              <Text style={[styles.textStyle, {fontSize: 11}]}>Duration</Text>
-            </View>
-          </View>
+          <BoxLottie
+            animationPath={require('../../../LottieAnimation/NoPostFoundAnimation.json')}
+          />
         </View>
-        <View style={[styles.container]}>
-          <View style={styles.Subcontainer}>
-            <View style={[styles.textView,]}>
-              <Text style={styles.textStyle}>{'Slot'}</Text>
-            </View>
-            <View style={[styles.textView,  {alignItems: 'center'}]}>
-              <Text style={styles.textStyle}>
-                {convertedTime(slots?.Table?.[0]?.TimeSlot1)}
-              </Text>
-            </View>
-            <View style={[styles.textView,  {alignItems: 'center'}]}>
-              <Text style={styles.textStyle}>
-                {convertedTime(slots?.Table1?.[0]?.TimeSlot2)}
-              </Text>
-            </View>
-            <View style={[styles.textView, {alignItems: 'center'}]}>
-              <Text style={styles.textStyle}>{slots?.Table2?.[0]?.Diff}</Text>
-            </View>
-          </View>
-        </View>
-      </View>
+      )}
+
       <View style={styles.buttonView}>
         <ButtonComponent
           style={{

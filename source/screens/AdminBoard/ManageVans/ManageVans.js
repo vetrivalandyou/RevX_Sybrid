@@ -24,6 +24,7 @@ import {endPoint, imageUrl, messages} from '../../../AppConstants/urlConstants';
 import {AppImages} from '../../../AppConstants/AppImages';
 import {getAsyncItem} from '../../../utils/SettingAsyncStorage';
 import {SimpleSnackBar} from '../../../components/atom/Snakbar/Snakbar';
+import BoxLottie from '../../../components/atom/BoxLottie/BoxLottie';
 
 const ManageVans = ({navigation}) => {
   const isFocused = useIsFocused();
@@ -71,7 +72,6 @@ const ManageVans = ({navigation}) => {
         vanDetails: item,
         userDetails: userDetails,
       });
-      console.log(item);
     };
 
     return (
@@ -135,6 +135,7 @@ const ManageVans = ({navigation}) => {
           logIn={'success'}
         />
       </View>
+
       <View style={{flex: 0.8}}>
         {loading ? (
           <ActivityIndicator
@@ -142,7 +143,7 @@ const ManageVans = ({navigation}) => {
             color="#C79646"
             style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}
           />
-        ) : (
+        ) : vans.length > 0 ? (
           <FlatList
             data={vans}
             keyExtractor={item => item.vanId.toString()}
@@ -154,8 +155,20 @@ const ManageVans = ({navigation}) => {
               />
             )}
           />
+        ) : (
+          <View
+            style={{
+              flex: 0.9,
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}>
+            <BoxLottie
+              animationPath={require('../../../LottieAnimation/NoPostFoundAnimation.json')}
+            />
+          </View>
         )}
       </View>
+
       <View style={styles.buttonView}>
         <ButtonComponent
           style={{

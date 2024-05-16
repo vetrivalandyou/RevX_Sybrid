@@ -49,7 +49,7 @@ const ServiceList = ({navigation, route}) => {
       pageNumber: 1,
       pageSize: 10,
     };
-    console.log(payload);
+    console.log('payloadpayloadpayloadpayloadpayload', payload);
     PostRequest(endPoint.BARBER_APPROVE_SERVICES, payload)
       .then(res => {
         console.log('-------------', res?.data);
@@ -167,7 +167,7 @@ const Servicedetails = ({item, onPress}) => {
                 fontSize: 11,
                 fontWeight: '400',
               }}>
-              {item.servicesStatusId == 9 ? (
+              {item?.servicesStatusId == 9 ? (
                 <>
                   Pending{' '}
                   <CustomIcon
@@ -177,7 +177,7 @@ const Servicedetails = ({item, onPress}) => {
                     color={appColors.White}
                   />
                 </>
-              ) : item.servicesStatusId == 10 ? (
+              ) : item?.servicesStatusId == 10 ? (
                 <>
                   Approved{' '}
                   <CustomIcon

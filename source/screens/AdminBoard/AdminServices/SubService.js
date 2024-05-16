@@ -6,6 +6,7 @@ import {
   Platform,
   FlatList,
   StyleSheet,
+  ActivityIndicator,
 } from 'react-native';
 import React, {useEffect, useRef, useState} from 'react';
 import {useIsFocused, useNavigation} from '@react-navigation/native';
@@ -31,6 +32,7 @@ const SubService = ({route, navigation}) => {
   const isFocused = useIsFocused();
   const [userDetails, setUserDetails] = useState();
   const [servicesList, setServiceslist] = useState([]);
+  const [Loader, setLoader] = useState(true);
 
   useEffect(() => {
     if (isFocused) {
@@ -61,13 +63,16 @@ const SubService = ({route, navigation}) => {
         console.log('res?.data', res?.data?.data);
         if (res?.data?.code == SUCCESS_CODE) {
           setServiceslist(res?.data?.data);
+          setLoader(false);
         } else {
           // SimpleSnackBar(res?.data?.message, appColors.Red);
           console.log('res?.data?.message');
+          setLoader(false);
         }
       })
       .catch(err => {
         SimpleSnackBar(messages.Catch, appColors.Red);
+        setLoader(false);
       });
   };
 
@@ -92,9 +97,9 @@ const SubService = ({route, navigation}) => {
           logIn={'success'}
         />
       </View>
-      <View style={{flex: 0.8}}>
+      {/* <View style={{flex: 0.8}}>
         {servicesList?.length <= 0 ? (
-            <View
+          <View
             style={{
               flex: 0.9,
               justifyContent: 'center',
@@ -109,12 +114,38 @@ const SubService = ({route, navigation}) => {
             data={servicesList}
             keyExtractor={item => item?.servicesId?.toString()}
             renderItem={({item, index}) => (
-              <Servicelist
-                item={item}
-                userId={userDetails?.userId}
-              />
+              <Servicelist item={item} userId={userDetails?.userId} />
             )}
           />
+        )}
+      </View> */}
+
+      <View style={{flex: 0.8}}>
+        {Loader ? (
+          <ActivityIndicator
+            size="large"
+            color="#C79646"
+            style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}
+          />
+        ) : servicesList.length > 0 ? (
+          <FlatList
+            data={servicesList}
+            keyExtractor={item => item?.servicesId?.toString()}
+            renderItem={({item, index}) => (
+              <Servicelist item={item} userId={userDetails?.userId} />
+            )}
+          />
+        ) : (
+          <View
+            style={{
+              flex: 0.9,
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}>
+            <BoxLottie
+              animationPath={require('../../../LottieAnimation/NoPostFoundAnimation.json')}
+            />
+          </View>
         )}
       </View>
       <View style={styles.buttonView}>
@@ -134,7 +165,7 @@ const SubService = ({route, navigation}) => {
   );
 };
 
-const Servicelist = ({ item, userId}) => {
+const Servicelist = ({item, userId}) => {
   const navigation = useNavigation();
   const refRBSheet = useRef();
 

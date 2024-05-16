@@ -75,7 +75,7 @@ const ApproveBarberSubService = ({navigation}) => {
       initialBarberApproveFields,
     )
       .then(res => {
-        console.log('getBarberListAndServices-----', res?.data);
+        console.log('getBarberListAndServices----->>>>>>', res?.data);
         setBarberApprove(res?.data);
         setIsRefreshing(false);
       })
