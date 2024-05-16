@@ -92,6 +92,7 @@ const HomeScreen = ({navigation}) => {
     };
     PostRequest(endPoint.GET_SETUP_CATEGORIES, payload)
       .then(res => {
+        console.log('check ==============================', res?.data?.data);
         if (res?.data?.code == SUCCESS_CODE) {
           setOurServices(res?.data?.data);
         } else {

@@ -701,7 +701,7 @@ const Profile = ({navigation}) => {
           lefttIcoType={Icons.Ionicons}
           onPressLeftIcon={() => navigation.goBack()}
           leftIcoName={'chevron-back'}
-          headerText={'Edit Profil'}
+          headerText={'Edit Profile'}
           logIn={'success'}
         />
       </View>
