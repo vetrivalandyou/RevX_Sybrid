@@ -155,7 +155,7 @@ const Assignments = ({}) => {
             color="#C79646"
             style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}
           />
-        ) : vanAssignment.length > 0 ? (
+        ) : vanAssignment?.length > 0 ? (
           <FlatList
             data={vanAssignment}
             keyExtractor={item => item.barberId.toString()}

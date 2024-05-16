@@ -143,7 +143,7 @@ const ManageVans = ({navigation}) => {
             color="#C79646"
             style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}
           />
-        ) : vans.length > 0 ? (
+        ) : vans?.length > 0 ? (
           <FlatList
             data={vans}
             keyExtractor={item => item.vanId.toString()}
