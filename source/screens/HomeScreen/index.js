@@ -154,7 +154,6 @@ const HomeScreen = ({navigation}) => {
   ];
 
   const OurServices = ({item}) => {
-    console.log('----', item?.serviceImage);
     return (
       <View
         key={item?.categoryId}
