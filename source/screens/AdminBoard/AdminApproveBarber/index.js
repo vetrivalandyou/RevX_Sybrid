@@ -262,8 +262,8 @@ const AdminApproveBarber = ({navigation}) => {
               </View>
               <View
                 style={{
-                  width: 45,
-                  height: 16,
+                  width: 60,
+                  height: 18,
                   borderRadius: 100,
                   justifyContent: 'center',
                   alignItems: 'center',

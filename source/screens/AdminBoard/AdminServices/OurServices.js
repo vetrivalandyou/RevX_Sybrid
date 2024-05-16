@@ -29,6 +29,7 @@ import Servicesboard from '.';
 import {SimpleSnackBar} from '../../../components/atom/Snakbar/Snakbar';
 import {LATEST_SELECT} from '../../../AppConstants/appConstants';
 import {getAsyncItem} from '../../../utils/SettingAsyncStorage';
+import BoxLottie from '../../../components/atom/BoxLottie/BoxLottie';
 
 const OurServices = ({navigation}) => {
   const initialServiceFields = {
@@ -102,6 +103,7 @@ const OurServices = ({navigation}) => {
           logIn={'success'}
         />
       </View>
+
       <View style={{flex: 0.8}}>
         {Loader ? (
           <ActivityIndicator
@@ -109,7 +111,7 @@ const OurServices = ({navigation}) => {
             color="#C79646"
             style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}
           />
-        ) : (
+        ) : servicesList.length > 0 ? (
           <FlatList
             data={servicesList}
             keyExtractor={item => item.categoryId.toString()}
@@ -122,8 +124,20 @@ const OurServices = ({navigation}) => {
               />
             )}
           />
+        ) : (
+          <View
+            style={{
+              flex: 0.9,
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}>
+            <BoxLottie
+              animationPath={require('../../../LottieAnimation/NoPostFoundAnimation.json')}
+            />
+          </View>
         )}
       </View>
+
       <View style={styles.buttonView}>
         <ButtonComponent
           style={{

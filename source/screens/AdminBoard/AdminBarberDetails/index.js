@@ -131,6 +131,10 @@ const AdminBarberDetails = ({navigation}) => {
         style={{
           flex: 0.9,
         }}>
+        {console.log(
+          'userListuserList>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>',
+          userList?.[0]?.StatusId,
+        )}
         {userList?.length > 0 ? (
           <FlatList
             data={userList}

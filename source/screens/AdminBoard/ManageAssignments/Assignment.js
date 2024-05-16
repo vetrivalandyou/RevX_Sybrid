@@ -23,6 +23,7 @@ import Header from '../../../components/molecules/Header';
 import BottomSheet from '../../../components/molecules/BottomSheetContent/BottomSheet';
 import appColors from '../../../AppConstants/appColors';
 import DeleteAssignment from './DeleteAssignment';
+import BoxLottie from '../../../components/atom/BoxLottie/BoxLottie';
 
 const Assignments = ({}) => {
   const navigation = useNavigation();
@@ -146,14 +147,15 @@ const Assignments = ({}) => {
           headerText={'Barber Van Assignments'}
         />
       </View>
-      {loader ? (
-        <ActivityIndicator
-          size="large"
-          color="#C79646"
-          style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}
-        />
-      ) : (
-        <View style={{flex: 0.8}}>
+
+      <View style={{flex: 0.8}}>
+        {loader ? (
+          <ActivityIndicator
+            size="large"
+            color="#C79646"
+            style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}
+          />
+        ) : vanAssignment.length > 0 ? (
           <FlatList
             data={vanAssignment}
             keyExtractor={item => item.barberId.toString()}
@@ -165,8 +167,20 @@ const Assignments = ({}) => {
               />
             )}
           />
-        </View>
-      )}
+        ) : (
+          <View
+            style={{
+              flex: 0.9,
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}>
+            <BoxLottie
+              animationPath={require('../../../LottieAnimation/NoPostFoundAnimation.json')}
+            />
+          </View>
+        )}
+      </View>
+
       <View style={styles.buttonView}>
         <ButtonComponent
           style={{
