@@ -544,7 +544,7 @@ const HomeScreen = ({navigation}) => {
       <View style={{flex: 0.1}}>
         <HomeHeader
           heading={userDetails?.userName}
-          sunHeading={selectedLocation}
+          sunHeading={selectedLocation ? "No Location Selected" : selectedLocation}
           source={`${imageUrl}${userDetails?.profileImage}`}
           refRBSheet={locationBottomSheetRef}
         />
