@@ -154,6 +154,7 @@ const HomeScreen = ({navigation}) => {
   ];
 
   const OurServices = ({item}) => {
+    console.log('----', item?.serviceImage);
     return (
       <View
         key={item?.categoryId}
@@ -163,7 +164,8 @@ const HomeScreen = ({navigation}) => {
           width: screenSize.width / 3.9,
           alignItems: 'center',
         }}>
-        <View style={{flex: 1, width: '100%'}}>
+        <View
+          style={{flex: 1, backgroundColor: appColors.Black, width: '100%'}}>
           <View
             style={{
               flex: 0.6,
@@ -172,12 +174,17 @@ const HomeScreen = ({navigation}) => {
             }}>
             {item?.serviceImage == null ? (
               <Image
-                style={{width: 80, height: 80, borderRadius: 10}}
-                source={AppImages.ourservices3}
+                style={{width: 80, height: 80, borderRadius: 100}}
+                source={AppImages.ourservices}
               />
             ) : (
               <Image
-                style={{resizeMode: 'contain', flex: 1}}
+                style={{
+                  resizeMode: 'contain',
+                  width: 80,
+                  height: 80,
+                  borderRadius: 100,
+                }}
                 source={{uri: `${imageUrl}${item?.serviceImage}`}}
               />
             )}
