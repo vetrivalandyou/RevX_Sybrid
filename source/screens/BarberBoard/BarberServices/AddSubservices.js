@@ -49,6 +49,7 @@ const AddSubservices = ({navigation, route}) => {
     };
     PostRequest(endPoint.BARBER_SERVICES_GET, payload)
       .then(res => {
+        console.log("List Parent Services", res?.data)
         setSubServiceList(
           res?.data?.data?.map(x => ({
             ...x,
