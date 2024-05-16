@@ -2,7 +2,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export const setAsyncItem = async (key, item) => {
   try {
-    if (key == undefined || item == undefined) {
+    if (key == undefined) {
       console.log(`No item found with key '${key}'.`);
       return null;
     } else {

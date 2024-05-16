@@ -6,13 +6,16 @@ import {screenSize} from '../../components/atom/ScreenSize';
 import appColors from '../../AppConstants/appColors';
 import {useDispatch} from 'react-redux';
 import {LogOut} from '../../redux/Action/AuthAction';
+import { setAsyncItem } from '../../utils/SettingAsyncStorage';
+import constants from '../../AppConstants/Constants.json'
 
 const LogoutBottom = ({refRBSheet}) => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
 
-  const onLogOut = () => {
-    refRBSheet?.current?.close();
+  const onLogOut = async () => {
+    await setAsyncItem(constants.AsyncStorageKeys.nearest_landmark, '');
+    dispatch(LogOut());
   };
 
   return (
@@ -62,7 +65,7 @@ const LogoutBottom = ({refRBSheet}) => {
           <View style={{flex: 0.5, justifyContent: 'center'}}>
             <ButtonComponent
               onPress={() => {
-                dispatch(LogOut());
+                onLogOut()
               }}
               title={'Logout'}
               btnColor={appColors.Red}

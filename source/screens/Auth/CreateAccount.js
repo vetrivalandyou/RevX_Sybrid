@@ -29,7 +29,10 @@ const CreateAccount = ({navigation}) => {
         /^\(\d{3}\) \d{3}-\d{4}$/,
         'Invalid phone number format. Use (555) 555-7439',
       ),
-    UserPassword: Yup.string().required('Password is required'),
+    UserPassword: Yup.string()
+      .min(8, 'Too Short!')
+      .max(15, 'Too Long!')
+      .required('Password is required'),
   });
 
   const registerUser = values => {
@@ -78,7 +81,7 @@ const CreateAccount = ({navigation}) => {
           }}
           validationSchema={validationSchema}
           onSubmit={values => {
-            console.log("values",values)
+            console.log('values', values);
             registerUser(values);
           }}>
           {({

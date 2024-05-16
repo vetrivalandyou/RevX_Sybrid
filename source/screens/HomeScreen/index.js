@@ -67,14 +67,19 @@ const HomeScreen = ({navigation}) => {
   function getBarberList(asyncLongLat) {
     const payload = {
       userId: userDetails?.userId,
-      latitude: asyncLongLat?.coords?.latitude,
-      longitude: asyncLongLat?.coords?.longitude,
+      latitude: asyncLongLat?.coords?.latitude == undefined ? 0 : asyncLongLat?.coords?.latitude,
+      longitude: asyncLongLat?.coords?.longitude == undefined ? 0 : asyncLongLat?.coords?.longitude,
       distance: 25,
       userName: '',
       profileImage: '',
     };
+
+    console.log("payload",payload)
+
     PostRequest(endPoint.GET_VANS_NEAR_CUSTOMER, payload)
       .then(res => {
+        console.log("res------------------", res?.data)
+        
         setBarberList(res?.data);
         getServices();
       })
@@ -534,6 +539,8 @@ const HomeScreen = ({navigation}) => {
     );
   };
 
+  console.log("selectedLocationselectedLocationselectedLocation",barberList)
+
   return (
     <Screen
       statusBarColor={appColors.Black}
@@ -544,7 +551,7 @@ const HomeScreen = ({navigation}) => {
       <View style={{flex: 0.1}}>
         <HomeHeader
           heading={userDetails?.userName}
-          sunHeading={selectedLocation}
+          sunHeading={selectedLocation == '' ? "No Location Selected" : selectedLocation}
           source={`${imageUrl}${userDetails?.profileImage}`}
           refRBSheet={locationBottomSheetRef}
         />
