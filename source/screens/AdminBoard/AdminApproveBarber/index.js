@@ -100,14 +100,14 @@ const AdminApproveBarber = ({navigation}) => {
   };
 
   const handleAction = (item, operation) => {
-    const makingParentService = selectedItems?.map(x => ({
-      parentService_PK_ID: x,
-      parentServiceStatusID: approve,
-    }));
-
     let payload;
+    let makingParentService;
 
     if (operation == 'Accept') {
+      makingParentService = selectedItems?.map(x => ({
+        parentService_PK_ID: x,
+        parentServiceStatusID: approve,
+      }));
       payload = {
         ...initialBarberApproveFields,
         operationID: 2,
@@ -115,14 +115,19 @@ const AdminApproveBarber = ({navigation}) => {
         tbL_Approve_BB_ParentServices_: makingParentService,
       };
     } else {
+      makingParentService = selectedItems?.map(x => ({
+        parentService_PK_ID: x,
+        parentServiceStatusID: reject,
+      }));
       payload = {
         ...initialBarberApproveFields,
         operationID: 3,
         barbarID: item?.UserId,
+        tbL_Approve_BB_ParentServices_: makingParentService,
       };
     }
 
-    console.log(payload);
+    console.log("-------",payload);
 
     postBarberApproveService(payload);
   };
@@ -351,7 +356,12 @@ const AdminApproveBarber = ({navigation}) => {
                 flex: 0.5,
                 justifyContent: 'center',
                 alignItems: 'center',
-              }}>
+                opacity:
+                  openIndex == index && selectedItems?.length > 0 ? 0.9 : 0.3,
+              }}
+              disable={
+                openIndex == index && selectedItems?.length > 0 ? false : true
+              }>
               <ButtonComponent
                 btnColor={appColors.Red}
                 onPress={() => handleAction(item, 'Reject')}

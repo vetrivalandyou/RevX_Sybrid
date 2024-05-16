@@ -100,14 +100,14 @@ const ApproveBarberSubService = ({navigation}) => {
   };
 
   const handleAction = (item, operation) => {
-    const makingParentService = selectedItems?.map(x => ({
-      childService_PK_ID: x,
-      childServiceStatusID: approve,
-    }));
-
     let payload;
+    let makingParentService;
 
     if (operation == 'Accept') {
+      makingParentService = selectedItems?.map(x => ({
+        childService_PK_ID: x,
+        childServiceStatusID: approve,
+      }));
       payload = {
         ...initialBarberApproveFields,
         operationID: 2,
@@ -116,15 +116,20 @@ const ApproveBarberSubService = ({navigation}) => {
         tbL_Approve_BB_ChildServices_: makingParentService,
       };
     } else {
+      makingParentService = selectedItems?.map(x => ({
+        childService_PK_ID: x,
+        childServiceStatusID: reject,
+      }));
       payload = {
         ...initialBarberApproveFields,
         operationID: 3,
         barbarID: item?.UserId,
         parameterID: 1,
+        tbL_Approve_BB_ChildServices_: makingParentService,
       };
     }
 
-    console.log(payload);
+    console.log('SUBSERVICES', payload);
 
     postBarberApproveService(payload);
   };
@@ -165,7 +170,31 @@ const ApproveBarberSubService = ({navigation}) => {
             justifyContent: 'space-between',
             marginHorizontal: 10,
           }}>
-          <View style={{flex: 0.5, justifyContent: 'center'}}>
+          <View
+            style={{
+              flex: 0.7,
+              alignItems: 'center',
+              flexDirection: 'row',
+              justifyContent: 'space-around',
+            }}>
+            <Text
+              style={{
+                fontWeight: '500',
+                fontSize: 15,
+                color: 'white',
+                marginLeft: 5,
+              }}>
+              {item.ServiceCategoryName}
+            </Text>
+            <Text
+              style={{
+                fontWeight: '500',
+                fontSize: 15,
+                color: 'white',
+                marginLeft: 5,
+              }}>
+              -----
+            </Text>
             <Text
               style={{
                 fontWeight: '500',
@@ -178,7 +207,7 @@ const ApproveBarberSubService = ({navigation}) => {
           </View>
           <View
             style={{
-              flex: 0.5,
+              flex: 0.3,
               alignItems: 'flex-end',
               justifyContent: 'center',
             }}>
@@ -345,7 +374,12 @@ const ApproveBarberSubService = ({navigation}) => {
                   backgroundColor: appColors.Red,
                   width: '90%',
                   paddingVertical: 9,
+                  opacity:
+                    openIndex == index && selectedItems?.length > 0 ? 0.9 : 0.3,
                 }}
+                disable={
+                  openIndex == index && selectedItems?.length > 0 ? false : true
+                }
                 title={'Reject'}
               />
             </View>
