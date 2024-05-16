@@ -78,6 +78,7 @@ const CreateAccount = ({navigation}) => {
           }}
           validationSchema={validationSchema}
           onSubmit={values => {
+            console.log("values",values)
             registerUser(values);
           }}>
           {({
