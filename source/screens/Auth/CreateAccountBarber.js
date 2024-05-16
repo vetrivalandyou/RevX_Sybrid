@@ -56,7 +56,7 @@ const CreateAccountBarber = ({navigation}) => {
 
     PostRequest(endPoint.REGISTERAS_BARBER, payload)
       .then(res => {
-        console.log('RESPONSEDATA', res?.data);
+        console.log('BarberSignup Response', res?.data);
         if (res?.data?.code == 200) {
           SimpleSnackBar(res?.data?.message);
           navigation.goBack();

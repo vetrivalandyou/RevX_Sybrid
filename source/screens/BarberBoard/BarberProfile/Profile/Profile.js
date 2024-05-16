@@ -655,7 +655,7 @@ const Profile = ({navigation}) => {
     if (isUpdated == true) {
       formData.append('profileImage', {
         uri: profileImage?.path,
-        name: `${generateRandomNumber()}`,
+        name: `${generateRandomNumber()}.jpeg`,
         type: profileImage?.mime,
       });
     } else {
