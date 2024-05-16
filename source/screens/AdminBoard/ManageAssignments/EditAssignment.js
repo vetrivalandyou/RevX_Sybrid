@@ -102,12 +102,11 @@ const EditAssignment = ({route}) => {
       userIP: '::1',
     };
 
-    console.log('Payload', payload);
     PostRequest(endPoint.BARBER_VANASSIGNMENT_CU, payload)
       .then(res => {
         console.log('Response:', res?.data?.data);
         if (res?.data?.code == 200) {
-          SimpleSnackBar(res?.data?.message);
+          SimpleSnackBar(res?.data?.message, appColors.Goldcolor);
           navigation.goBack();
         } else {
           SimpleSnackBar(res?.data?.message, appColors.Red);

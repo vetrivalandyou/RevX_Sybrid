@@ -57,16 +57,17 @@ const Assignments = ({}) => {
       userIP: '::1',
     };
 
+    console.log('payloadpayloadpayloadpayload=====>', payload);
+
     PostRequest(endPoint.GET_BARBER_VANASSIGNMENT, payload)
       .then(res => {
-        console.log('payload', payload);
+        console.log('resresresres', res);
         if (res?.data?.code == 200) {
           setVanAssignment(res?.data?.data);
-
           setLoader(false);
         } else {
           console.log(res?.data?.message),
-            // SimpleSnackBar(res?.data?.message, appColors.Red);0
+            // SimpleSnackBar(res?.data?.message, appColors.Red);
             setLoader(false);
         }
       })

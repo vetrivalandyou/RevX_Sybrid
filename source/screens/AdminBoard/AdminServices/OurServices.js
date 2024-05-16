@@ -111,7 +111,7 @@ const OurServices = ({navigation}) => {
             color="#C79646"
             style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}
           />
-        ) : servicesList.length > 0 ? (
+        ) : servicesList?.length > 0 ? (
           <FlatList
             data={servicesList}
             keyExtractor={item => item.categoryId.toString()}
