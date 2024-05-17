@@ -13,6 +13,7 @@ import appColors from '../../AppConstants/appColors';
 import {useSelector} from 'react-redux';
 import {getAsyncItem} from '../../utils/SettingAsyncStorage';
 import {returnTotal} from '../../functions/AppFunctions';
+import moment from 'moment';
 
 const ReviewSummary = ({route}) => {
   const {selectedSlotId, seelectedDate, barberDetails} = route?.params || 0;
@@ -46,7 +47,7 @@ const ReviewSummary = ({route}) => {
       constants.AsyncStorageKeys.nearest_landmark,
     );
     setUserDetails(userAsyncDetails);
-    setAddress(userAsyncAddress)
+    setAddress(userAsyncAddress);
     console.log('userAsyncDetails', userAsyncDetails);
   };
 
@@ -156,7 +157,7 @@ const ReviewSummary = ({route}) => {
         </View>
         <View style={styles.Containerstyle2}>
           {SelectedChildServices.map((item, index) => (
-            <Pricedetails item={item} index={index}/>
+            <Pricedetails item={item} index={index} />
           ))}
           <View
             style={{
@@ -223,7 +224,7 @@ const Barberdetails = ({
   seelectedDate,
   selectedSlotId,
   barberDetails,
-  address
+  address,
 }) => {
   return (
     <View>
@@ -312,7 +313,7 @@ const Barberdetails = ({
             Booking Date
           </Text>
           <Text style={{color: 'white', fontSize: 13, fontWeight: '400'}}>
-            {seelectedDate}
+            {moment(seelectedDate).format('DD-MMM-YYYY').toUpperCase()}
           </Text>
         </View>
       </View>
@@ -357,10 +358,11 @@ const Barberdetails = ({
 };
 
 const Pricedetails = ({item, index}) => {
+  console.log('item', item);
   return (
     <View>
       <View
-        key={index}
+        key={item?.ChildServiceID}
         style={{flexDirection: 'column', justifyContent: 'space-between'}}>
         <View
           style={{

@@ -45,7 +45,7 @@ const ServiceSpecialist = ({route}) => {
   const [Services, setServices] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  console.log("item Service Specialist", item)
+  console.log('item Service Specialist', item);
 
   useEffect(() => {
     if (isFocused) {
@@ -153,11 +153,19 @@ const ServiceSpecialist = ({route}) => {
       )}
 
       <View style={{flex: 0.1, justifyContent: 'center'}}>
-        <View style={styles.ApplyNOWButton}>
-          <Text style={{fontWeight: '600', fontSize: 14, color: appColors.White}}>
-            Total $ <Text style={{ fontWeight: 'bold', fontSize: 16}}>{`${returnTotal()}`}</Text>
+        <TouchableOpacity
+          onPress={() => navigation.goBack()}
+          style={styles.ApplyNOWButton}>
+          <Text
+            style={{fontWeight: '600', fontSize: 14, color: appColors.White}}>
+            Total ${' '}
+            <Text
+              style={{
+                fontWeight: 'bold',
+                fontSize: 16,
+              }}>{`${returnTotal()}`}</Text>
           </Text>
-        </View>
+        </TouchableOpacity>
       </View>
     </Screen>
   );
