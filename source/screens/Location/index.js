@@ -37,10 +37,10 @@ const LocationScreen = () => {
   const [calculateDirection, setCalculateDirection] = useState(false);
   const [selectedBarberLongLat, setSelectedBarberLongLat] = useState();
   const [region, setRegion] = useState({
-    latitude: 31.5203696,
-    longitude: 74.35874729999999,
-    latitudeDelta: 0.0922,
-    longitudeDelta: 0.0421,
+    latitude: 35.481918,
+    longitude: -97.508469,
+    latitudeDelta: 0,
+    longitudeDelta: 0.05,
   });
 
   useEffect(() => {
@@ -57,6 +57,7 @@ const LocationScreen = () => {
       constants.AsyncStorageKeys.userDetails,
     );
     setUserCoordinates(asyncUserLongLat);
+    console.log('========', asyncUserLongLat);
     setUserDetails(userDetail);
     getNearByBarber(asyncUserLongLat);
   };

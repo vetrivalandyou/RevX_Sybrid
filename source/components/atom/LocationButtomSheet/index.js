@@ -1,13 +1,13 @@
-import React, { useEffect, useState } from 'react';
-import { FlatList, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {FlatList, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import appColors from '../../../AppConstants/appColors';
 import CustomIcon, {
   Icons,
 } from '../../../components/molecules/CustomIcon/CustomIcon';
-import { screenSize } from '../ScreenSize';
-import { GetRequest, PostRequest } from '../../../services/apiCall';
-import { endPoint, messages } from '../../../AppConstants/urlConstants';
-import { getAsyncItem } from '../../../utils/SettingAsyncStorage';
+import {screenSize} from '../ScreenSize';
+import {GetRequest, PostRequest} from '../../../services/apiCall';
+import {endPoint, messages} from '../../../AppConstants/urlConstants';
+import {getAsyncItem} from '../../../utils/SettingAsyncStorage';
 import {
   LATEST_INSERT,
   LATEST_SELECT,
@@ -15,14 +15,14 @@ import {
   SUCCESS_CODE,
 } from '../../../AppConstants/appConstants';
 import constants from '../../../AppConstants/Constants.json';
-import { ActivityIndicator } from 'react-native'; // Import the ActivityIndicator
-import { useNavigation } from '@react-navigation/native';
-import { requestLocationPermissionAndGetLocation } from '../../../utils/GetLocation';
-import { SimpleSnackBar } from '../Snakbar/Snakbar';
+import {ActivityIndicator} from 'react-native'; // Import the ActivityIndicator
+import {useNavigation} from '@react-navigation/native';
+import {requestLocationPermissionAndGetLocation} from '../../../utils/GetLocation';
+import {SimpleSnackBar} from '../Snakbar/Snakbar';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Geolocation from '@react-native-community/geolocation';
 
-const LocationBottomSheet = ({ refRBSheet }) => {
+const LocationBottomSheet = ({refRBSheet}) => {
   const navigation = useNavigation();
   const [locationList, setLocationList] = useState([]);
   const [userDetails, setUserDetails] = useState({});
@@ -61,7 +61,8 @@ const LocationBottomSheet = ({ refRBSheet }) => {
         if (res?.data?.code === SUCCESS_CODE) {
           setLocationList(res?.data?.data);
         } else {
-          SimpleSnackBar(res?.data?.message, appColors.Red);
+          // SimpleSnackBar(res?.data?.message, appColors.Red);
+          console.log(res?.data?.message);
         }
         setIsLoading(false);
       })
@@ -91,7 +92,7 @@ const LocationBottomSheet = ({ refRBSheet }) => {
     if (Platform.OS == 'android') {
       userCurrentLocation = await requestLocationPermissionAndGetLocation();
     } else {
-      await Geolocation.requestAuthorization('whenInUse')
+      await Geolocation.requestAuthorization('whenInUse');
       // return new Promise((resolve, reject) => {
       await Geolocation.getCurrentPosition(
         position => {
@@ -106,7 +107,7 @@ const LocationBottomSheet = ({ refRBSheet }) => {
         error => {
           console.log(error);
         },
-        { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 },
+        {enableHighAccuracy: true, timeout: 20000, maximumAge: 1000},
       );
       // });
       // });
@@ -121,7 +122,7 @@ const LocationBottomSheet = ({ refRBSheet }) => {
   };
 
   const fetchAddress = userCurrentLocation => {
-    console.log("Fw=ecth")
+    console.log('Fw=ecth');
     GetRequest(
       `https://maps.googleapis.com/maps/api/geocode/json?latlng=${userCurrentLocation?.coords?.latitude},${userCurrentLocation?.coords?.longitude}&key=AIzaSyC7Y3a-Q8qZXj5XgLzpHa92b_nw3sR8aWE`,
     )
@@ -147,7 +148,7 @@ const LocationBottomSheet = ({ refRBSheet }) => {
         console.log(err);
       });
   };
-  
+
   const handleClickLocation = item => {
     const makingData = {
       coords: {
@@ -197,7 +198,7 @@ const LocationBottomSheet = ({ refRBSheet }) => {
   };
 
   const AddNewLocation = () => {
-    refRBSheet.current.close()
+    refRBSheet.current.close();
     navigation.navigate(constants.screen.MyLocation, {
       newLocation: true,
     });
@@ -229,7 +230,7 @@ const LocationBottomSheet = ({ refRBSheet }) => {
     }
   };
 
-  const LocationList = ({ item }) => {
+  const LocationList = ({item}) => {
     return (
       <View
         style={{
@@ -256,7 +257,7 @@ const LocationBottomSheet = ({ refRBSheet }) => {
               )}
             </View>
           </View>
-          <View style={[lbStyle.clTextView, { flex: 0.7 }]}>
+          <View style={[lbStyle.clTextView, {flex: 0.7}]}>
             <Text
               style={{
                 fontSize: 13,
@@ -267,7 +268,7 @@ const LocationBottomSheet = ({ refRBSheet }) => {
             </Text>
           </View>
           {selectedLocation?.id === item.id && (
-            <View style={[lbStyle.clTextView, { flex: 0.1 }]}>
+            <View style={[lbStyle.clTextView, {flex: 0.1}]}>
               <CustomIcon
                 type={Icons.MaterialIcons}
                 name={'edit-location-alt'}
@@ -281,6 +282,9 @@ const LocationBottomSheet = ({ refRBSheet }) => {
       </View>
     );
   };
+
+  console.log('locationListlocationListlocationListlocationList', locationList);
+  console.log('isLoadingisLoadingisLoadingisLoading', isLoading);
 
   return (
     <View style={lbStyle.mainContainer}>
@@ -300,17 +304,32 @@ const LocationBottomSheet = ({ refRBSheet }) => {
           <Text style={lbStyle.clTextStyle}>Use Current Location</Text>
         </View>
       </TouchableOpacity>
-      <View style={{ flex: 0.6 }}>
+      <View style={{flex: 0.6}}>
         {isLoading ? (
-          <ActivityIndicator size="large" color={appColors.Goldcolor} /> // Render the loader
-        ) : (
+          <ActivityIndicator size="large" color={appColors.Goldcolor} />
+        ) : locationList?.length > 0 ? (
           <FlatList
             data={locationList}
             keyExtractor={item => item.id.toString()} // Ensure key is a string
-            renderItem={({ item, index }) => {
+            renderItem={({item, index}) => {
               return <LocationList item={item} index={index} />;
             }}
           />
+        ) : (
+          <View
+            style={{
+              justifyContent: 'center',
+              alignItems: 'center',
+              alignItems: 'center',
+              flex: 1,
+            }}>
+            <Text
+              style={{
+                color: appColors.Goldcolor,
+              }}>
+              No saved location available
+            </Text>
+          </View>
         )}
       </View>
       <TouchableOpacity onPress={AddNewLocation} style={lbStyle.clContainer}>
@@ -318,8 +337,9 @@ const LocationBottomSheet = ({ refRBSheet }) => {
           <CustomIcon
             type={Icons.Entypo}
             name={'plus'}
-            size={20}
+            size={18}
             color={appColors.White}
+            // style={{}}
           />
         </View>
         <View style={lbStyle.clTextView}>
@@ -330,10 +350,10 @@ const LocationBottomSheet = ({ refRBSheet }) => {
         onPress={handleConfirmLocation} // Update onPress event
         style={[
           lbStyle.clContainer,
-          { justifyContent: 'center', alignItems: 'flex-end' },
+          {justifyContent: 'center', alignItems: 'flex-end'},
         ]}>
         <View style={lbStyle.clButotnView}>
-          <Text style={[lbStyle.clTextStyle, { textAlign: 'center' }]}>
+          <Text style={[lbStyle.clTextStyle, {textAlign: 'center'}]}>
             Confirm Location
           </Text>
         </View>
@@ -349,10 +369,10 @@ const lbStyle = StyleSheet.create({
     paddingHorizontal: 15,
     paddingVertical: 15,
   },
-  clContainer: { flex: 0.13, flexDirection: 'row' },
-  clIconView: { flex: 0.15, justifyContent: 'center', alignItems: 'center' },
-  clTextView: { flex: 0.8, justifyContent: 'center' },
-  clTextStyle: { fontSize: 13, fontWeight: '500', color: appColors.White },
+  clContainer: {flex: 0.13, flexDirection: 'row'},
+  clIconView: {flex: 0.15, justifyContent: 'center', alignItems: 'center'},
+  clTextView: {flex: 0.8, justifyContent: 'center'},
+  clTextStyle: {fontSize: 13, fontWeight: '500', color: appColors.White},
   clSelectLocation: {
     flex: 1,
     borderRadius: 20,

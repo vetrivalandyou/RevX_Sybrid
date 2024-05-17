@@ -24,10 +24,10 @@ const MyLocation = ({route, navigation}) => {
   }, []);
 
   const [region, setRegion] = useState({
-    latitude: 31.5203696,
-    longitude: 74.35874729999999,
-    latitudeDelta: 0.0922,
-    longitudeDelta: 0.0421,
+    latitude: 35.481918,
+    longitude: -97.508469,
+    latitudeDelta: 0,
+    longitudeDelta: 0.05,
   });
 
   const handleLocationSelect = () => {
@@ -75,66 +75,66 @@ const MyLocation = ({route, navigation}) => {
 
   return (
     <Screen statusBarColor={appColors.Black} barStyle="light-content">
-      <KeyboardAwareScrollView contentContainerStyle={{ flex: 1, justifyContent:'center'}}>
-      <View
-        style={{
-          flex: 0.8,
-          flexDirection: 'column',
-        }}>
-        <GoogleMap
-          mapRef={mapRef}
-          region={region}
-          setRegion={setRegion}
-          title={'Marker Title'}
-          description={'Marker Description'}
-          userLocation={true}
-          userCoordinates={selectedLocation}
-          handleMapPress={handleMapPress}
-        />
-        <TouchableOpacity
-          onPress={() => navigation.goBack()}
+      <KeyboardAwareScrollView
+        contentContainerStyle={{flex: 1, justifyContent: 'center'}}>
+        <View
           style={{
-            position: 'absolute',
-            top: 20,
-            left: 20,
-            backgroundColor: appColors.Black,
-            padding: 10,
-            borderRadius: 100,
+            flex: 0.8,
+            flexDirection: 'column',
           }}>
-          <CustomIcon
-            type={Icons.Entypo}
-            name={'cross'}
-            size={25}
-            color={appColors.Goldcolor}
+          <GoogleMap
+            mapRef={mapRef}
+            region={region}
+            setRegion={setRegion}
+            title={'Marker Title'}
+            description={'Marker Description'}
+            userLocation={true}
+            userCoordinates={selectedLocation}
+            handleMapPress={handleMapPress}
           />
-        </TouchableOpacity>
-        <TouchableOpacity
-          onPress={handleLocationSelect}
-          style={{
-            position: 'absolute',
-            bottom: 20,
-            right: 20,
-            backgroundColor: appColors.Black,
-            padding: 12,
-            borderRadius: 100,
-          }}>
-          <CustomIcon
-            type={Icons.MaterialCommunityIcons}
-            name={'crosshairs-gps'}
-            size={30}
-            color={appColors.Goldcolor}
+          <TouchableOpacity
+            onPress={() => navigation.goBack()}
+            style={{
+              position: 'absolute',
+              top: 20,
+              left: 20,
+              backgroundColor: appColors.Black,
+              padding: 10,
+              borderRadius: 100,
+            }}>
+            <CustomIcon
+              type={Icons.Entypo}
+              name={'cross'}
+              size={25}
+              color={appColors.Goldcolor}
+            />
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={handleLocationSelect}
+            style={{
+              position: 'absolute',
+              bottom: 20,
+              right: 20,
+              backgroundColor: appColors.Black,
+              padding: 12,
+              borderRadius: 100,
+            }}>
+            <CustomIcon
+              type={Icons.MaterialCommunityIcons}
+              name={'crosshairs-gps'}
+              size={30}
+              color={appColors.Goldcolor}
+            />
+          </TouchableOpacity>
+        </View>
+        <View style={{flex: 0.3}}>
+          <MyLocationBottomSheet
+            selectedLocation={selectedLocation}
+            newLocation={newLocation}
+            item={item}
           />
-        </TouchableOpacity>
-      </View>
-      <View style={{flex: 0.3}}>
-        <MyLocationBottomSheet
-          selectedLocation={selectedLocation}
-          newLocation={newLocation}
-          item={item}
-        />
-      </View>
+        </View>
       </KeyboardAwareScrollView>
-     
     </Screen>
   );
 };
