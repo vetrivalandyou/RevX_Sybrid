@@ -67,6 +67,7 @@ const ServiceSpecialist = ({route}) => {
       userID: 0,
       userIP: '',
     };
+    console.log("-----", payload)
     PostRequest(endPoint.BARBER_PARENTCHILD_SERVICES, payload)
       .then(res => {
         if (res?.data?.length > 0) {
