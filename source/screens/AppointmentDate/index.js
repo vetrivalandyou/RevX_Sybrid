@@ -51,11 +51,11 @@ const AppointmentDate = ({route, navigation}) => {
       userID: 0,
       userIP: 'string',
     };
-    console.log('payload', payload);
+    console.log('fetchSelectedTimeSlot Payload', payload);
     PostRequest(endPoint?.BARBER_AVAILABLESLOTS, payload)
       .then(res => {
         console.log('res?.data', res?.data);
-        setAvailableSlots(res?.data);
+        setAvailableSlots(res?.data?.Table);
       })
       .catch(err => {
         console.log('err', err);
@@ -89,38 +89,6 @@ const AppointmentDate = ({route, navigation}) => {
           {item.TimeSlot.split(':')[0] + ':00'}
         </Text>
       </TouchableOpacity>
-    );
-  };
-
-  const renderEmptyComponent = () => {
-    return (
-      <View
-        style={{
-          height: screenSize.height / 4,
-          width: screenSize.width,
-          justifyContent: 'center',
-          alignItems: 'center',
-        }}>
-        {seelectedDate == '' ? (
-          <Text
-            style={{
-              color: appColors.Goldcolor,
-              fontSize: 15,
-              fontWeight: 'bold',
-            }}>
-            Please Select Date for Time Slots.
-          </Text>
-        ) : (
-          <Text
-            style={{
-              color: appColors.Goldcolor,
-              fontSize: 15,
-              fontWeight: 'bold',
-            }}>
-            We are sorry !! No Slot Available on {seelectedDate} date.
-          </Text>
-        )}
-      </View>
     );
   };
 
@@ -209,61 +177,6 @@ const AppointmentDate = ({route, navigation}) => {
             fetchSelectedTimeSlot(day.dateString);
           }}
         />
-        {/* <Calendar
-          hideExtraDays={false}
-          showSixWeeks={true}
-          minDate={currentDateString}
-          maxDate={threeMonthsLaterString}
-          style={{
-            borderRadius: 20,
-            backgroundColor: appColors.darkgrey,
-            height: 'auto',
-            width: 'auto',
-            paddingBottom: 10,
-          }}
-          theme={{
-            arrowColor: 'white',
-            calendarBackground: appColors.darkgrey,
-            textSectionTitleColor: appColors.White,
-            selectedDayBackgroundColor: appColors.Goldcolor,
-            selectedDayTextColor: appColors.White,
-            todayTextColor: appColors.White,
-            dayTextColor: appColors.White,
-            textDisabledColor: appColors.White,
-            textDayFontSize: 11,
-            textMonthFontSize: 15,
-            textDayHeaderFontSize: 13,
-            textMonthFontWeight: 'bold',
-            textDayFontWeight: 'bold',
-            monthTextColor: appColors.White,
-            'stylesheet.day.basic': {
-              base: {
-                width: 22,
-                marginBottom: 0,
-                justifyContent: 'center',
-                alignItems: 'center',
-                borderRadius: 100,
-              },
-            },
-            'stylesheet.calendar.header': {
-              monthText: {
-                margin: 5,
-                color: appColors.White,
-                fontSize: 14,
-              },
-            },
-          }}
-          onDayPress={day => {
-            setSelectedDate(day.dateString);
-          }}
-          markedDates={{
-            [selected]: {
-              selected: true,
-              disableTouchEvent: true,
-              selectedDotColor: appColors.Goldcolor,
-            },
-          }}
-        /> */}
       </View>
 
       <View

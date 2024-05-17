@@ -124,7 +124,7 @@ const Servicedetails = ({item, onPress}) => {
               />
             )}
           </View>
-          <View style={{flex: 0.38, marginLeft: 10, justifyContent: 'center'}}>
+          <View style={{flex: 0.35, marginLeft: 10, justifyContent: 'center'}}>
             <Text
               style={{
                 color: 'white',
@@ -139,7 +139,7 @@ const Servicedetails = ({item, onPress}) => {
               flexDirection: 'row',
               justifyContent: 'center',
               alignItems: 'center',
-              flex: 0.16,
+              flex: 0.2,
             }}>
             <Text style={{color: '#c79647', fontSize: 14, fontWeight: '600'}}>
               ${item.servicePrice}
@@ -150,7 +150,7 @@ const Servicedetails = ({item, onPress}) => {
               flexDirection: 'row',
               justifyContent: 'center',
               alignItems: 'center',
-              flex: 0.4,
+              flex: 0.3,
             }}>
             <Text
               style={{
