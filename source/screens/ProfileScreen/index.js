@@ -147,6 +147,8 @@ const ProfileScreen = ({navigation}) => {
     );
   };
 
+  console.log("serDetails?.profileImage", userDetails)
+
   return (
     <Screen
       statusBarColor={appColors.Black}
