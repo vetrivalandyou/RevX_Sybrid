@@ -62,7 +62,7 @@ const Services = ({route}) => {
       userID: 0,
       userIP: '',
     };
-    console.log('Payload', payload);
+    console.log('Payload ----', payload);
     PostRequest(endPoint.BARBER_PARENTCHILD_SERVICES, payload)
       .then(res => {
         console.log("resresres",res?.data)
