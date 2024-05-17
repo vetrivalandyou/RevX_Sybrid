@@ -25,6 +25,7 @@ const GoogleMap = ({
   const Markers = useMemo(
     () =>
       selectedLocation?.map(x => {
+        console.log('------------------------------------', x);
         return (
           <Marker
             onPress={() => handleMultiMarkerPress(x)}
@@ -43,6 +44,9 @@ const GoogleMap = ({
       }),
     [selectedLocation],
   );
+
+  console.log('SELECTED LOCATION', selectedLocation);
+  console.log('SELECTED userLocation', userCoordinates);
 
   return (
     <MapView
