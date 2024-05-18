@@ -66,7 +66,8 @@ const OurServices = ({navigation}) => {
           setServiceslist(res?.data?.data);
           setLoader(false);
         } else {
-          SimpleSnackBar(res?.data?.message, appColors.Red);
+          // SimpleSnackBar(res?.data?.message, appColors.Red);
+          console.log(res?.data?.message);
           setLoader(false);
         }
       })
