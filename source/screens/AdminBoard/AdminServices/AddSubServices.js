@@ -194,6 +194,7 @@ const AddSubServices = ({route, navigation}) => {
               value={subServicePrice?.toString()}
               onChangeText={text => setSubServicePrice(text)}
               keyboardType={'numeric'}
+              returnKeyType="done"
               maxLength={6}
             />
           </View>
@@ -220,6 +221,7 @@ const AddSubServices = ({route, navigation}) => {
               value={subServiceDuration?.toString()}
               onChangeText={text => setSubServiceDuration(text)}
               keyboardType={'numeric'}
+              returnKeyType="done"
               maxLength={6}
             />
           </View>

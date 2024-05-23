@@ -6,6 +6,8 @@ import {
   TextInput,
   Platform,
   ActivityIndicator,
+  TouchableWithoutFeedback,
+  Keyboard
 } from 'react-native';
 import Screen from '../../../components/atom/ScreenContainer/Screen';
 import Header from '../../../components/molecules/Header';
@@ -37,6 +39,9 @@ const AdminEditTermsOfServices = ({route, navigation}) => {
   useEffect(() => {
     getAsyncData();
   }, []);
+
+ 
+
 
   const postSaveAboutUsType = payload => {
     setLoading(true); // Set loading to true when sending request
@@ -103,6 +108,8 @@ const AdminEditTermsOfServices = ({route, navigation}) => {
         />
       </View>
 
+      <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+
       <View style={{flex: 0.8, paddingVertical: 5}}>
         {loading ? (
           <ActivityIndicator
@@ -143,12 +150,13 @@ const AdminEditTermsOfServices = ({route, navigation}) => {
                 multiline
                 value={editedDescription}
                 onChangeText={text => setEditedDescription(text)}
-                onBlur={() => setIsFocused(false)}
+                // onBlur={() => setIsFocused(false)}
               />
             </View>
           ))
         )}
       </View>
+      </TouchableWithoutFeedback>
 
       <View style={styles.buttonView}>
         <ButtonComponent
