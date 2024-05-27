@@ -99,6 +99,7 @@ const Servicesboard = ({navigation}) => {
       <ScrollView style={{flex: 0.8}}>
         {barberServices?.[0]?.categories?.map((item, index) => (
           <Servicelist
+            key={item.barberServiceCategryId}
             item={item}
             index={index}
             onPress={() => handleItemPress(item)}

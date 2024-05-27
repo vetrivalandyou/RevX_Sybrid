@@ -121,7 +121,7 @@ const InboxScreen = ({navigation}) => {
 
 const Messages = ({item}) => {
   return (
-    <View style={{ flex: 1, marginTop: 20 }}>
+    <View style={{flex: 1, marginTop: 20}}>
       <TouchableOpacity
         style={{
           flex: 1,
@@ -133,14 +133,15 @@ const Messages = ({item}) => {
           paddingHorizontal: 20,
           paddingVertical: 10,
         }}>
-        <View style={{ flex: 0.1 }}>
+        <View style={{flex: 0.1}}>
           <Image
             source={item.profileimage}
             resizeMode="cover"
-            style={{ width: 56, height: 56 }} />
+            style={{width: 56, height: 56}}
+          />
         </View>
 
-        <View style={{ flex: 0.6, flexDirection: 'column' }}>
+        <View style={{flex: 0.6, flexDirection: 'column'}}>
           <Text
             style={{
               color: 'white',
@@ -150,7 +151,7 @@ const Messages = ({item}) => {
             }}>
             {item.name}
           </Text>
-          <Text style={{ color: 'white', fontSize: 14, fontWeight: 400 }}>
+          <Text style={{color: 'white', fontSize: 14, fontWeight: 400}}>
             {item.message}
           </Text>
         </View>
@@ -163,13 +164,14 @@ const Messages = ({item}) => {
             alignItems: 'center',
             // backgroundColor: 'red'
           }}>
-          <View style={{
-            backgroundColor: appColors.Goldcolor,
-            borderRadius: 60,
-            paddingHorizontal: 8,
-            paddingVertical: 4,
-            marginBottom: 4,
-          }}>
+          <View
+            style={{
+              backgroundColor: appColors.Goldcolor,
+              borderRadius: 60,
+              paddingHorizontal: 8,
+              paddingVertical: 4,
+              marginBottom: 4,
+            }}>
             <Text
               style={{
                 color: appColors.White,
@@ -187,11 +189,6 @@ const Messages = ({item}) => {
             }}>
             {item.messagetime}
           </Text>
-          {/* <Entypo
-                  name="chevron-right"
-                  size={20}
-                  color={appColors.Goldcolor}
-                /> */}
         </View>
       </TouchableOpacity>
     </View>

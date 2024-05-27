@@ -104,7 +104,7 @@ const CreateSlot = ({navigation}) => {
             isSubmitting,
           }) => (
             <Fragment>
-              <View style={{flex: 0.9}}>
+              <View style={{flex: 0.9}}> 
                 <View style={{flex: 0.19, justifyContent: 'center'}}>
                   <Text
                     style={{
@@ -117,12 +117,14 @@ const CreateSlot = ({navigation}) => {
                     {'Business Hours'}
                   </Text>
                   <SimpleTextField
+                  
                     placeholder={'Working Hours'}
                     placeholderTextColor={appColors.AppLightGray}
                     onChangeText={handleChange('NoofBussinessHours')}
                     onBlur={handleBlur('NoofBussinessHours')}
                     value={values?.NoofBussinessHours?.toString()}
                     keyboardType={'numeric'}
+                    returnKeyType="done"
                     maxLength={2}
                   />
                   {touched.NoofBussinessHours && errors.NoofBussinessHours && (
@@ -156,6 +158,7 @@ const CreateSlot = ({navigation}) => {
                     onBlur={handleBlur('DurationInMins')}
                     value={values?.DurationInMins?.toString()}
                     keyboardType={'numeric'}
+                      
                     maxLength={3}
                   />
                   {touched.DurationInMins && errors.DurationInMins && (

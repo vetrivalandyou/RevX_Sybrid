@@ -58,6 +58,7 @@ const LocationBottomSheet = ({refRBSheet}) => {
     };
     PostRequest(endPoint.BARBER_GET_SET_UP_LOCATION, payload)
       .then(res => {
+        console.log('Response Fetch Location', res?.data);
         if (res?.data?.code === SUCCESS_CODE) {
           setLocationList(res?.data?.data);
         } else {
@@ -156,6 +157,7 @@ const LocationBottomSheet = ({refRBSheet}) => {
         longitude: item?.locationLongitude,
       },
     };
+    console.log('makingData', makingData);
     setMakingAsyncData(makingData);
     setSelectedLocation(item);
   };

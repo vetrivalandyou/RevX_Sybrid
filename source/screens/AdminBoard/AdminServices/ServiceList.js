@@ -139,7 +139,7 @@ const Servicedetails = ({item, selected, onPress}) => {
             <Text style={{color: '#c79647', fontSize: 19, fontWeight: '600'}}>
               ${item.servicePrice}
             </Text>
-          </View>
+          </View> 
 
           <TouchableOpacity
             style={{

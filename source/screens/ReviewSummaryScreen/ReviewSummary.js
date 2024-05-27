@@ -157,7 +157,11 @@ const ReviewSummary = ({route}) => {
         </View>
         <View style={styles.Containerstyle2}>
           {SelectedChildServices.map((item, index) => (
-            <Pricedetails item={item} index={index} />
+            <Pricedetails
+              key={item?.ChildServiceID || index}
+              item={item}
+              index={index}
+            />
           ))}
           <View
             style={{

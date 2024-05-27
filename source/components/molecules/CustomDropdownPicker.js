@@ -119,7 +119,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     bottom: 50,
     width: screenSize.width / 1.1,
-    height: screenSize.height / 2,
+    height: screenSize.height / 2.3,
     backgroundColor: 'white',
   },
   item: {

@@ -20,6 +20,7 @@ const SimpleTextField = ({
   onChangeText,
   textUpperView,
   maxLength,
+  returnKeyType,
   textStyle,
   // onPressIcon,
   // eyeOpen,
@@ -41,6 +42,7 @@ const SimpleTextField = ({
           keyboardType={keyboardType && keyboardType}
           onChangeText={onChangeText}
           secureTextEntry={isPasswordVisible}
+          returnKeyType={returnKeyType}
           maxLength={maxLength && maxLength}
         />
         {secureTextEntry && (

@@ -68,10 +68,16 @@ const LocationScreen = () => {
       longitude: asyncUserLongLat?.coords?.longitude,
       distance: 25,
     };
+    console.log('payload ====', payload);
     PostRequest(endPoint.GET_VANS_NEAR_CUSTOMER, payload)
       .then(res => {
-        if (res?.data?.[0]?.HasError == 0) {
-          SimpleSnackBar(res?.data?.[0]?.Message, appColors.PrimaryColor);
+        console.log('RESPONSE ---- ', res?.data);
+        console.log('RESPONSE RESNTH ---- ', res?.data?.length);
+        if (res?.data?.length == 0) {
+          SimpleSnackBar(
+            'No Barber Found at Your Current Location',
+            appColors.Goldcolor,
+          );
         } else {
           setSelectedLocation(res?.data);
           mapAnimation(asyncUserLongLat);
