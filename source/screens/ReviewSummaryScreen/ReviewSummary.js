@@ -14,24 +14,24 @@ import {useSelector} from 'react-redux';
 import {getAsyncItem} from '../../utils/SettingAsyncStorage';
 import {returnTotal} from '../../functions/AppFunctions';
 import moment from 'moment';
+import {APPOINTMENT_ID, LATEST_SELECT} from '../../AppConstants/appConstants';
+import {endPoint} from '../../AppConstants/urlConstants';
+import {PostRequest} from '../../services/apiCall';
+import {SimpleSnackBar} from '../../components/atom/Snakbar/Snakbar';
 
 const ReviewSummary = ({route}) => {
-  const {selectedSlotId, seelectedDate, barberDetails} = route?.params || 0;
+  const {selectedSlotId, seelectedDate, barberDetails, specialistDetails} = route?.params || 0;
   const navigation = useNavigation();
   const isFocused = useIsFocused();
   const {SelectedChildServices} = useSelector(
     state => state.AppointmentReducer,
   );
-  console.log(
-    'selectedSlotId, seelectedDate, barberDetails, SelectedChildServices',
-    selectedSlotId,
-    seelectedDate,
-    barberDetails,
-    SelectedChildServices,
-  );
+
   const [modalVisible, setModalVisible] = useState(false);
   const [userDetails, setUserDetails] = useState();
   const [address, setAddress] = useState();
+
+  console.log("specialistDetails",specialistDetails)
 
   useEffect(() => {
     if (isFocused) {
@@ -48,74 +48,69 @@ const ReviewSummary = ({route}) => {
     );
     setUserDetails(userAsyncDetails);
     setAddress(userAsyncAddress);
-    console.log('userAsyncDetails', userAsyncDetails);
   };
 
-  const handleConfirmPayment = () => {
-    // Open the modal when the button is pressed
-    setModalVisible(true);
-  };
+  // const handleConfirmPayment = () => {
+  //   // Open the modal when the button is pressed
+  //   setModalVisible(true);
+  // };
 
   const handleModalClose = () => {
     // Close the modal
     setModalVisible(false);
   };
 
-  const data = [
-    {
-      id: '1',
-      title: 'Barber Salon',
-      label: 'Barbarella Inova',
-    },
-    {
-      id: '2',
-      title: 'Address',
-      label: '8974 Meadow Valley Terrace',
-    },
-    {
-      id: '3',
-      title: 'Name',
-      label: 'Danile Austin',
-    },
-    {
-      id: '4',
-      title: 'Phone',
-      label: '+123 456 789 00',
-    },
-    {
-      id: '5',
-      title: 'Booking Date',
-      label: 'December 24, 2024',
-    },
-    {
-      id: '6',
-      title: 'Booking Hours',
-      label: '10:00 am',
-    },
-    {
-      id: '7',
-      title: 'Specialist',
-      label: 'Nathan Alexender',
-    },
-  ];
+  const returnTotalDuration = () => {
+    if (SelectedChildServices?.length == 0) {
+      return 0;
+    } else {
+      const totalDuration = SelectedChildServices?.reduce(
+        (accumulator, currentValue) =>
+          accumulator + currentValue.ServiceDuration,
+        0,
+      );
+      return totalDuration;
+    }
+  };
 
-  const data2 = [
-    {
-      id: '1',
-      title: 'Haircut (Gulf)',
-      price: '$40.00',
-    },
-    {
-      id: '2',
-      title: 'Hair wash (Aloevera Shampoo)',
-      price: '$40.00',
-    },
-    {
-      id: '3',
-      title: 'Shaving (Thin Shaving)',
-      price: '$40.00',
-    },
-  ];
+  const handleConfirmPayment = () => {
+    const makingServicesData = SelectedChildServices?.map(x => ({
+      serviceId: x.ChildServiceID,
+      serviceName: x.ChildService,
+    }));
+
+    const payload = {
+      operationID: APPOINTMENT_ID,
+      durationMinutes: returnTotalDuration(),
+      bookingDate: seelectedDate,
+      barberID: barberDetails?.UserId,
+      barberName: specialistDetails?.userName,
+      slotID: selectedSlotId?.SlotID,
+      slotName: selectedSlotId?.TimeSlot,
+      customerID: userDetails?.userId,
+      customerName: userDetails?.userName,
+      transactionID: 'ABC-123',
+      isPaid: 1,
+      services: JSON.stringify(makingServicesData),
+      isActive: true,
+      userID: 0,
+      userIP: 'string',
+    };
+    console.log('fetchSelectedTimeSlot Payload', payload);
+    PostRequest(endPoint?.BARBER_APPOINTMENTBOOKING, payload)
+      .then(res => {
+        console.log('res?.data', res?.data);
+        if (res?.data?.Table?.[0]?.HasError == 0) {
+          SimpleSnackBar(res?.data?.Table?.[0]?.Message);
+          navigation.navigate(constants.screen.HomeScreen)
+        } else {
+          SimpleSnackBar(res?.data?.Table?.[0]?.Message, appColors.Red);
+        }
+      })
+      .catch(err => {
+        console.log('err', err);
+      });
+  };
 
   return (
     <Screen viewStyle={{flex: 1, padding: 15}} statusBarColor={appColors.Black}>
@@ -152,6 +147,7 @@ const ReviewSummary = ({route}) => {
             selectedSlotId={selectedSlotId}
             barberDetails={barberDetails}
             address={address}
+            specialistDetails={specialistDetails}
           />
           {/* ))} */}
         </View>
@@ -200,7 +196,7 @@ const ReviewSummary = ({route}) => {
       </View>
 
       <TouchableOpacity
-        // onPress={handleConfirmPayment} //notification
+        onPress={handleConfirmPayment} //notification
         style={styles.Button}>
         <Text style={{fontWeight: '700', fontSize: 13, color: 'white'}}>
           {' '}
@@ -217,7 +213,6 @@ const ReviewSummary = ({route}) => {
         title={'Payment Successful!'}
         lable1={'Your booking has been successfully done'}
         onPress={() => navigation.goBack()}
-        // showLable1={'sadad'}
       />
     </Screen>
   );
@@ -227,7 +222,7 @@ const Barberdetails = ({
   userDetails,
   seelectedDate,
   selectedSlotId,
-  barberDetails,
+  specialistDetails,
   address,
 }) => {
   return (
@@ -353,7 +348,7 @@ const Barberdetails = ({
             Specialist
           </Text>
           <Text style={{color: 'white', fontSize: 13, fontWeight: '400'}}>
-            {barberDetails?.UserName}
+            {specialistDetails?.userName}
           </Text>
         </View>
       </View>

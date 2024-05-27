@@ -9,5 +9,6 @@ export const LATEST_INSERT = 1;
 export const LATEST_UPDATE = 2;
 export const LATEST_SELECT = 3;
 export const LATEST_SEARCH = 5;
+export const APPOINTMENT_ID = 7;
 
 export const SUCCESS_CODE = 200;

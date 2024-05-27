@@ -28,7 +28,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import {RESET_CHILDSERVICES_DATA} from '../../redux/Action/AppointmentActionType';
 
 const Services = ({route}) => {
-  const {barberDetails} = route.params || 0;
+  const {barberDetails, specialistDetails} = route.params || 0;
   const navigation = useNavigation();
   const dispatch = useDispatch();
   const {SelectedChildServices} = useSelector(
@@ -156,6 +156,7 @@ const Services = ({route}) => {
           onPress={() =>
             navigation.navigate(constants.screen.AppointmentDate, {
               barberDetails: barberDetails,
+              specialistDetails: specialistDetails
             })
           }
           disabled={SelectedChildServices?.length > 0 ? false : true}

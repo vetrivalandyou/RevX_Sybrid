@@ -14,7 +14,7 @@ import {screenSize} from '../../components/atom/ScreenSize';
 import {LATEST_SELECT} from '../../AppConstants/appConstants';
 
 const AppointmentDate = ({route, navigation}) => {
-  const {barberDetails} = route.params;
+  const {barberDetails, specialistDetails} = route.params;
   const {SelectedChildServices} = useSelector(
     state => state.AppointmentReducer,
   );
@@ -47,6 +47,14 @@ const AppointmentDate = ({route, navigation}) => {
       durationMinutes: returnTotalDuration(),
       bookingDate: selectedData,
       barberID: barberDetails?.UserId,
+      barberName: 'string',
+      slotID: 0,
+      slotName: 'string',
+      customerID: 0,
+      customerName: 'string',
+      transactionID: 'string',
+      isPaid: 0,
+      services: 'string',
       isActive: true,
       userID: 0,
       userIP: 'string',
@@ -86,7 +94,7 @@ const AppointmentDate = ({route, navigation}) => {
             fontSize: 13.5,
             fontWeight: '400',
           }}>
-          {item.TimeSlot.split(':')[0] + ':00'}
+          {item.TimeSlot}
         </Text>
       </TouchableOpacity>
     );
@@ -252,6 +260,7 @@ const AppointmentDate = ({route, navigation}) => {
               selectedSlotId: selectedSlotId,
               seelectedDate: seelectedDate,
               barberDetails: barberDetails,
+              specialistDetails: specialistDetails,
             })
           }
         />
@@ -260,5 +269,4 @@ const AppointmentDate = ({route, navigation}) => {
   );
 };
 
-const appointmentDateStyle = StyleSheet.create({});
 export default AppointmentDate;
