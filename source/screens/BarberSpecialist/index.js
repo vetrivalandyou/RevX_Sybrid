@@ -45,7 +45,7 @@ const BarberSpecialist = ({navigation}) => {
   }
 
   const BarberSpecialistContainer = ({item}) => {
-    console.log("item",item)
+    console.log('item', item);
     return (
       <View
         style={{
@@ -74,6 +74,7 @@ const BarberSpecialist = ({navigation}) => {
               onPress={() =>
                 navigation.navigate(constants.screen.Services, {
                   barberDetails: {UserId: item?.userId},
+                  specialistDetails: item,
                 })
               }
               style={{width: '98%'}}
