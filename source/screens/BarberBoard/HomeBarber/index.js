@@ -8,6 +8,7 @@ import {
   StyleSheet,
   TouchableOpacity,
   FlatList,
+  TextInput,
 } from 'react-native';
 import Screen from '../../../components/atom/ScreenContainer/Screen';
 import styles from './styles';
@@ -37,12 +38,16 @@ import {PostRequest} from '../../../services/apiCall';
 import {LATEST_UPDATE} from '../../../AppConstants/appConstants';
 import useLocationWatcher from '../../../services/useLocationWatcher';
 import {requestLocationPermissionAndGetLocation} from '../../../utils/GetLocation';
+import CustomModal from '../../../components/molecules/CustomModal/CustomModal';
+import ButtonComponent from '../../../components/atom/CustomButtons/ButtonComponent';
+import SimpleTextField from '../../../components/molecules/TextFeilds/SimpleTextField';
 
 const HomeBarber = ({navigation}) => {
   const {coords} = useSelector(state => state.LocationReducer);
   const dispatch = useDispatch();
   const isFocused = useIsFocused();
   const [userDetails, setUserDetails] = useState();
+  const [visible, setVisible] = useState(false);
 
   useEffect(() => {
     if (isFocused) {
@@ -78,6 +83,99 @@ const HomeBarber = ({navigation}) => {
       .catch(err => {
         console.log('Err'.err);
       });
+  };
+
+  const handleClickReject = () => {
+    console.log('Reject Clicked');
+    setVisible(true);
+  };
+
+  const onPresssCancel = () => {
+    setVisible(false);
+  };
+
+  const onPressSubmit = () => {
+    console.log("Submited")
+  }
+
+  const CustomModalView = () => {
+    return (
+      <View style={{flex: 1}}>
+        <View
+          style={{
+            flex: 0.2,
+            borderTopRightRadius: 25,
+            borderTopLeftRadius: 25,
+            alignItems: 'center',
+            justifyContent: 'center',
+            backgroundColor: appColors.Goldcolor,
+          }}>
+          <Text
+            style={{
+              color: appColors.White,
+              fontWeight: 'bold',
+              fontSize: 18,
+            }}>
+            Enter Reason your Reason
+          </Text>
+        </View>
+        <View style={{flex: 0.5, backgroundColor: appColors.White}}>
+          <TextInput
+            style={{
+              flex: 1,
+              backgroundColor: '#F5F5F5',
+              margin: 10,
+              borderColor: appColors.AppLightGray,
+              borderRadius: 10,
+              paddingVertical: 10,
+              paddingHorizontal: 10,
+              color: appColors.Black,
+            }}
+            multiline={true}
+            textAlignVertical="top"
+          />
+        </View>
+        <View
+          style={{
+            flex: 0.3,
+            flexDirection: 'row',
+          }}>
+          <View
+            style={{
+              flex: 0.5,
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}>
+            <ButtonComponent
+              btnColor={appColors.White}
+              btnTextColor={{ color: appColors.Goldcolor}}
+              style={{
+                width: '75%',
+                borderWidth: 1,
+                borderColor: appColors.Goldcolor,
+              }}
+              title={'Cancel'}
+              onPress={onPresssCancel}
+            />
+          </View>
+          <View
+            style={{
+              flex: 0.5,
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}>
+            <ButtonComponent
+              style={{
+                backgroundColor: appColors.Goldcolor,
+                width: '75%',
+              }}
+              title={'Submit'}
+              onPress={onPressSubmit}
+            />
+          </View>
+        </View>
+      </View>
+    );
   };
 
   useLocationWatcher(handleLocationChange);
@@ -340,6 +438,7 @@ const HomeBarber = ({navigation}) => {
               title={'Accept'}
             />
             <Bookingbutton
+              onPress={handleClickReject}
               style={{backgroundColor: '#E81F1C', borderColor: 'red'}}
               stylebtn={{color: 'white'}}
               title={'Reject'}
@@ -352,6 +451,11 @@ const HomeBarber = ({navigation}) => {
 
   return (
     <Screen statusBarColor={appColors.Black} viewStyle={styles.MianContainer}>
+      <CustomModal
+        visible={visible}
+        modalHeight={{height: screenSize.height / 3}}
+        CustomModalView={CustomModalView}
+      />
       <View style={{flex: 0.1}}>
         <HomeHeader
           heading={userDetails?.userName}

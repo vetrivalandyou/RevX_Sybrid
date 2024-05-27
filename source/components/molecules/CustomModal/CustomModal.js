@@ -17,6 +17,7 @@ const CustomModal = ({
   showImage,
   showLable,
   showLable1,
+  CustomModalView,
 }) => {
   return (
     <Modal
@@ -26,13 +27,12 @@ const CustomModal = ({
       onRequestClose={onRequestClose}>
       <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
         <View style={[styles.modalstyle, modalHeight]}>
+          {CustomModalView && (
+            <CustomModalView />
+          )}
           {showImage && (
-            <View style={{flex: 0.4, alignItems: 'center', paddingTop: 10}}>
-              {/* <Image
-                source={require('../../assets/Frame.png')}
-                style={{height: '100%', width: '75%'}}
-              /> */}
-            </View>
+            <View
+              style={{flex: 0.4, alignItems: 'center', paddingTop: 10}}></View>
           )}
           {showLable && (
             <View style={{flex: 0.2}}>
@@ -117,9 +117,8 @@ const styles = StyleSheet.create({
   modalstyle: {
     height: screenSize.height / 2,
     width: screenSize.width / 1.3,
-    justifyContent: 'center',
+    // justifyContent: 'center',
     // alignItems:'center',
-
     backgroundColor: 'white',
     borderWidth: 1,
     borderRadius: 25,
