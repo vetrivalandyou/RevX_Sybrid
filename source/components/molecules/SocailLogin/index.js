@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   Text,
   View,
@@ -6,14 +6,17 @@ import {
   SafeAreaView,
   StatusBar,
   Modal,
+  Platform,
+  StyleSheet,
 } from 'react-native';
 import CustomIcon, {Icons} from '../CustomIcon/CustomIcon';
 import AppColors from '../../../AppConstants/appColors';
 import appColors from '../../../AppConstants/appColors';
 import styles from './styles';
 
-import appleAuth, { AppleButton } from '@invertase/react-native-apple-authentication';
-
+import appleAuth, {
+  AppleButton,
+} from '@invertase/react-native-apple-authentication';
 
 async function onAppleButtonPress(setShowModal) {
   try {
@@ -23,7 +26,7 @@ async function onAppleButtonPress(setShowModal) {
       requestedScopes: [appleAuth.Scope.FULL_NAME, appleAuth.Scope.EMAIL],
     });
 
-    console.log("appleAuthRequestResponse ------>", appleAuthRequestResponse  )
+    console.log('appleAuthRequestResponse ------>', appleAuthRequestResponse);
 
     // Ensure Apple returned a user identityToken
     if (!appleAuthRequestResponse.identityToken) {
@@ -31,16 +34,16 @@ async function onAppleButtonPress(setShowModal) {
     }
 
     // Create a Firebase credential from the response
-    const { identityToken, nonce } = appleAuthRequestResponse;
-    const appleCredential = auth.AppleAuthProvider.credential(identityToken, nonce);
+    const {identityToken, nonce} = appleAuthRequestResponse;
+    const appleCredential = auth.AppleAuthProvider.credential(
+      identityToken,
+      nonce,
+    );
 
-    console.log("appleCredential appleCredential", appleCredential)
-
-    // Sign the user in with the credential
+    console.log('appleCredential appleCredential', appleCredential);
     return auth().signInWithCredential(appleCredential);
   } catch (error) {
     console.log('Error occurred during Apple Sign In:', error);
-    // Handle the error here, for example, you can show an error message to the user
   }
 }
 
@@ -53,12 +56,12 @@ const SocailLogin = ({
 }) => {
   const [showModal, setShowModal] = useState(false);
 
-  useEffect(() => {
-    // onCredentialRevoked returns a function that will remove the event listener. useEffect will call this function when the component unmounts
-    return appleAuth.onCredentialRevoked(async () => {
-      console.warn('If this function executes, User Credentials have been Revoked');
-    });
-  }, []); 
+  // useEffect(() => {
+  //   // onCredentialRevoked returns a function that will remove the event listener. useEffect will call this function when the component unmounts
+  //   return appleAuth.onCredentialRevoked(async () => {
+  //     console.warn('If this function executes, User Credentials have been Revoked');
+  //   });
+  // }, []);
 
   const handleAppleButtonPress = () => {
     if (Platform.OS === 'ios') {
@@ -66,7 +69,7 @@ const SocailLogin = ({
     } else {
       setShowModal(true);
     }
-  }
+  };
 
   return (
     <View
@@ -117,16 +120,55 @@ const SocailLogin = ({
         visible={showModal}
         animationType="slide"
         transparent={true}
-        onRequestClose={() => setShowModal(false)}
-      >
-        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-          <Text>Please log in using your Apple account</Text>
-          <TouchableOpacity onPress={() => setShowModal(false)}>
-            <Text>Close</Text>
-          </TouchableOpacity>
+        onRequestClose={() => setShowModal(false)}>
+        <View style={modalStyles.modalBackground}>
+          <View style={modalStyles.modalContainer}>
+            <Text style={modalStyles.modalText}>
+              Apple Authentication is not supported on this device.
+            </Text>
+            <TouchableOpacity
+              style={modalStyles.closeButton}
+              onPress={() => setShowModal(false)}>
+              <Text style={modalStyles.closeButtonText}>Close</Text>
+            </TouchableOpacity>
+          </View>
         </View>
       </Modal>
     </View>
   );
 };
 export default SocailLogin;
+
+const modalStyles = StyleSheet.create({
+  modalBackground: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+  },
+  modalContainer: {
+    width: 300,
+    padding: 20,
+    backgroundColor: appColors.Goldcolor,
+    borderRadius: 10,
+    alignItems: 'center',
+  },
+  modalText: {
+    marginBottom: 20,
+    fontSize: 16,
+    textAlign: 'center',
+    color: appColors.White,
+  },
+  closeButton: {
+    backgroundColor: AppColors.Primary,
+    paddingVertical: 6,
+    paddingHorizontal: 30,
+    borderRadius: 5,
+    borderWidth: 1,
+    borderColor: appColors.White,
+  },
+  closeButtonText: {
+    color: 'white',
+    fontSize: 16,
+  },
+});
