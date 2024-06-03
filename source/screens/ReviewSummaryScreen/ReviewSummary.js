@@ -86,7 +86,7 @@ const ReviewSummary = ({route}) => {
       barberID: barberDetails?.UserId,
       barberName: specialistDetails?.userName,
       slotID: selectedSlotId?.SlotID,
-      slotName: selectedSlotId?.TimeSlot,
+      slotName: selectedSlotId?.Slot,
       customerID: userDetails?.userId,
       customerName: userDetails?.userName,
       transactionID: 'ABC-123',

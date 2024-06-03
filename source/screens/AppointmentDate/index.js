@@ -43,7 +43,7 @@ const AppointmentDate = ({route, navigation}) => {
 
   const fetchSelectedTimeSlot = selectedData => {
     const payload = {
-      operationID: LATEST_SELECT,
+      operationID: 6,
       durationMinutes: returnTotalDuration(),
       bookingDate: selectedData,
       barberID: barberDetails?.UserId,
@@ -94,7 +94,7 @@ const AppointmentDate = ({route, navigation}) => {
             fontSize: 13.5,
             fontWeight: '400',
           }}>
-          {item.TimeSlot}
+          {item.Slot}
         </Text>
       </TouchableOpacity>
     );
@@ -237,7 +237,7 @@ const AppointmentDate = ({route, navigation}) => {
           <FlatList
             data={availableSlots}
             numColumns={2}
-            keyExtractor={item => item.SlotID.toString()}
+            keyExtractor={(item, index) => index.toString()}
             // ListEmptyComponent={renderEmptyComponent}
             renderItem={({item, index}) => (
               <SelectedHourse key={item.SlotID} item={item} />
