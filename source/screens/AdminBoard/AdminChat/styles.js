@@ -10,7 +10,9 @@ export default StyleSheet.create({
     backgroundColor: appColors.Black,
   },
   HeaderView: {
-    flex: 0.1,
+    // flex: 0.1,
+    minHeight: 70,
+    maxHeight: 70
   },
 
   chatDataContainerView: {
@@ -19,6 +21,7 @@ export default StyleSheet.create({
   MasgTypeView: {
     flex: 0.1,
     flexDirection: 'row',
+    backgroundColor:'red'
     // backgroundColor: 'red'
     // backgroundColor:'red'
   },
