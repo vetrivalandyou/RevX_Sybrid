@@ -178,6 +178,7 @@ const Login = () => {
             <Text style={{color: appColors.Goldcolor}}>Create an account</Text>
           </TouchableOpacity>
         </View>
+
         <View
           style={{flex: 0.1, flexDirection: 'row', justifyContent: 'center'}}>
           <TouchableOpacity>
