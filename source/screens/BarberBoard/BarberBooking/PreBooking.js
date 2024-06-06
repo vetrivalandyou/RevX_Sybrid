@@ -6,25 +6,22 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 import constants from '../../../AppConstants/Constants.json';
 import {useNavigation} from '@react-navigation/native';
 import styles from './styles';
-const PreBooking = ({data}) => {
+import moment from 'moment';
+const PreBooking = ({data, preBookingList}) => {
   const navigation = useNavigation();
-  const ListPrebooking = item => {
+  const ListPrebooking = ({item, index}) => {
     return (
-      <View
-        style={styles.bookingContainerstyle}>
+      <View key={index} style={styles.bookingContainerstyle}>
         <View style={{flex: 1, borderRadius: 20}}>
-          <View
-            style={styles.bookingInnercontainerView}>
+          <View style={styles.bookingInnercontainerView}>
             <View style={styles.bookingTextview}>
-              <Text
-                style={styles.dateTextstyle}>
-                {item.item.date}
+              <Text style={styles.dateTextstyle}>
+                {moment(item?.BookingDate).format('DD-MM-YYYY')} -{' '}
+                {item?.SlotName}
               </Text>
             </View>
-            <View
-              style={styles.EreciptButtonView}>
-              <View
-                style={styles.EreciptInnerView}>
+            <View style={styles.EreciptButtonView}>
+              <View style={styles.EreciptInnerView}>
                 <Bookingbutton
                   style={styles.EreciptButtonstyle}
                   stylebtn={{color: 'white'}}
@@ -41,34 +38,27 @@ const PreBooking = ({data}) => {
             <View style={styles.DashLinestyle}></View>
           </View>
 
-          <View
-            style={styles.imagetextContainerView}>
+          <View style={styles.imagetextContainerView}>
             <View style={styles.bookingImageview}>
               <Image
-                source={item.item.Imagesource}
+                source={require('../../../assets/rectangle2.png')}
+                // source={item.item.Imagesource}
                 style={styles.bookingImagestyle}
               />
             </View>
             <View style={styles.bookingTextview}>
-              <Text style={styles.Nametext}>
-                {item.item.name}
-              </Text>
+              <Text style={styles.Nametext}>{item.CustomerName}</Text>
               <View>
-                <Text
-                  style={styles.Titletext}>
-                  {item.item.title}
-                </Text>
+                <Text style={styles.Titletext}>{item.BarberName}</Text>
               </View>
               <View>
-                <Text
-                  style={styles.Labeltext}>
-                  {item.item.label}
+                <Text style={styles.Labeltext}>
+                  Gulf Haircut, Thin Shampoo, Alovevera Shampo, Hair wash
                 </Text>
               </View>
             </View>
           </View>
-          <View
-            style={styles.ButtonsView}>
+          <View style={styles.ButtonsView}>
             <Bookingbutton
               style={{backgroundColor: '#c79647'}}
               stylebtn={{color: 'white'}}
@@ -87,10 +77,10 @@ const PreBooking = ({data}) => {
 
   return (
     <FlatList
-      data={data}
-      renderItem={({item, index}) => <ListPrebooking item={item} />}
+      data={preBookingList}
+      renderItem={({item, index}) => <ListPrebooking item={item} index={index} />}
       // renderItem={({item}) => <listBookingCompleted item={item} />}
-      keyExtractor={item => item.id}
+      keyExtractor={item => item.BarbarBookedSlotID}
     />
   );
 };

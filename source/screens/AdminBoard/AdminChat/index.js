@@ -144,37 +144,12 @@ const AdminChat = ({ navigation }) => {
 
   return (
     <Screen viewStyle={styles.mainContainer} statusBarColor={appColors.Black}>
-
-      {/* <View style={styles.HeaderView}>
-        <Header
-          lefttIcoType={Icons.Ionicons}
-          leftIcoName={'chevron-back'}
-          headerText={'The Barber Show'}
-          // rightIcoName={"call"}
-          // rightIcoType={Icons.Ionicons}
-          // leftIcoStyle={{ backgroundColor: appColors.lightBlack, borderRadius: 50, height: 50, width: 50, justifyContent: 'center', alignItems: 'center' }}
-          rightIcoSize={20}
-          onPressLeftIcon={() => navigation.goBack()}
-        />
-      </View>
-
-      <View style={styles.chatDataContainerView}>
-        <FlatList
-          data={ChatData}
-          renderItem={({item}) => <ChatDataContainer item={item} />}
-          keyExtractor={item => item.id}
-        />
-      </View> */}
-
       <KeyboardAvoidingView style={{ flex: 1}} behavior={Platform.OS === "ios" ? "padding" : null} keyboardVerticalOffset={Platform.OS === "android" ? 75 : 55}>
         <View style={styles.HeaderView}>
           <Header
             lefttIcoType={Icons.Ionicons}
             leftIcoName={'chevron-back'}
             headerText={'The Barber Show'}
-            // rightIcoName={"call"}
-            // rightIcoType={Icons.Ionicons}
-            // leftIcoStyle={{ backgroundColor: appColors.lightBlack, borderRadius: 50, height: 50, width: 50, justifyContent: 'center', alignItems: 'center' }}
             rightIcoSize={20}
             onPressLeftIcon={() => navigation.goBack()}
           />
@@ -251,68 +226,6 @@ const AdminChat = ({ navigation }) => {
             </View>
           </View>
         </View>
-        {/* <View style={styles.MasgTypeView}>
-          <View style={{ flex: 0.8, flexDirection: 'row' }}>
-            <View
-              style={{
-                flex: 1,
-                flexDirection: 'row',
-                borderRadius: 20,
-                height: '80%',
-                paddingHorizontal: 15,
-                backgroundColor: appColors.darkgrey,
-                borderColor: 'black',
-                borderWidth: 1,
-                color: appColors.White,
-              }}>
-              <View style={{ flex: 0.9, justifyContent: 'center' }}>
-                <TextInput
-                  onFocus={handleFocus}
-                  onBlur={handleBlur}
-                  placeholder="Message..."
-                  style={{ height: '70%' }}
-                  placeholderTextColor={appColors.White}
-                />
-              </View>
-
-              <View style={{ flex: 0.12, justifyContent: 'center' }}>
-                <TouchableOpacity>
-                  <CustomIcon
-                    type={Icons.EvilIcons}
-                    name={'camera'}
-                    size={30}
-                    color={appColors.White}
-                  />
-                </TouchableOpacity>
-              </View>
-            </View>
-          </View>
-
-          <View
-            style={{
-              flex: 0.2,
-              justifyContent: 'center',
-              alignItems: 'center',
-              height: '80%',
-            }}>
-            <TouchableOpacity
-              style={{
-                backgroundColor: appColors.Goldcolor,
-                height: 50,
-                borderRadius: 100,
-                width: 50,
-                justifyContent: 'center',
-                alignItems: 'center',
-              }}>
-              <CustomIcon
-                type={Icons.MaterialIcons}
-                name={'keyboard-voice'}
-                color={appColors.White}
-                size={24}
-              />
-            </TouchableOpacity>
-          </View>
-        </View> */}
       </KeyboardAvoidingView>
     </Screen>
   );

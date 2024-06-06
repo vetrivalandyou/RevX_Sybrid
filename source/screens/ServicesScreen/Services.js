@@ -10,7 +10,7 @@ import {
   ActivityIndicatorComponent,
   ActivityIndicator,
 } from 'react-native';
-import {useNavigation} from '@react-navigation/native';
+import {useIsFocused, useNavigation} from '@react-navigation/native';
 import appColors from '../../AppConstants/appColors';
 import constants from '../../AppConstants/Constants.json';
 import Header from '../../components/molecules/Header';
@@ -26,11 +26,14 @@ import {SimpleSnackBar} from '../../components/atom/Snakbar/Snakbar';
 import {LATEST_SELECT, approve} from '../../AppConstants/appConstants';
 import {useDispatch, useSelector} from 'react-redux';
 import {RESET_CHILDSERVICES_DATA} from '../../redux/Action/AppointmentActionType';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import {getAsyncItem} from '../../utils/SettingAsyncStorage';
 
 const Services = ({route}) => {
   const {barberDetails, specialistDetails} = route.params || 0;
   const navigation = useNavigation();
   const dispatch = useDispatch();
+  const isFocused = useIsFocused();
   const {SelectedChildServices} = useSelector(
     state => state.AppointmentReducer,
   );
@@ -40,13 +43,22 @@ const Services = ({route}) => {
   const [loading, setLoading] = useState(true);
   const [selectedItem, setSelectedItem] = useState(null);
   const [barberServices, setBarberServices] = useState([]);
+  const [userLongLat, setUserLongLat] = useState([]);
 
   useEffect(() => {
+    getAsyncData();
     getBarberServices();
     return () => {
       dispatch({type: RESET_CHILDSERVICES_DATA, payload: new Array(0)});
     };
   }, []);
+
+  const getAsyncData = async () => {
+    const userAsyncLongLat = await getAsyncItem(
+      constants.AsyncStorageKeys.longLat,
+    );
+    setUserLongLat(userAsyncLongLat);
+  };
 
   function getBarberServices() {
     const payload = {
@@ -65,7 +77,7 @@ const Services = ({route}) => {
     console.log('Payload ----', payload);
     PostRequest(endPoint.BARBER_PARENTCHILD_SERVICES, payload)
       .then(res => {
-        console.log("resresres",res?.data)
+        console.log('resresres', res?.data);
         if (res?.data?.length > 0) {
           setBarberServices(res?.data);
         } else {
@@ -91,6 +103,8 @@ const Services = ({route}) => {
       return totalPrice;
     }
   };
+
+  console.log('userLongLat', userLongLat);
 
   return (
     <Screen viewStyle={{flex: 1}} statusBarColor={appColors.Black}>
@@ -153,12 +167,16 @@ const Services = ({route}) => {
 
       <View style={{flex: 0.1, justifyContent: 'center'}}>
         <TouchableOpacity
-          onPress={() =>
-            navigation.navigate(constants.screen.AppointmentDate, {
-              barberDetails: barberDetails,
-              specialistDetails: specialistDetails
-            })
-          }
+          onPress={() => {
+            if (userLongLat != null) {
+              navigation.navigate(constants.screen.AppointmentDate, {
+                barberDetails: barberDetails,
+                specialistDetails: specialistDetails,
+              });
+            }else{
+              SimpleSnackBar("Please select Location")
+            }
+          }}
           disabled={SelectedChildServices?.length > 0 ? false : true}
           style={[
             styles.ApplyNOWButton,

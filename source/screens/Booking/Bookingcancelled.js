@@ -1,9 +1,36 @@
 import {View, Text, StyleSheet, Image, FlatList} from 'react-native';
+import React, {useEffect} from 'react';
+import {PostRequest} from '../../services/apiCall';
+import {useIsFocused} from '@react-navigation/native';
+import {endPoint} from '../../AppConstants/urlConstants';
 import {ScreenSize, screenSize} from '../../components/atom/ScreenSize';
-import React from 'react';
 import Completedbutton from '../../components/atom/BookingButtons/Completedbutton';
 
-const Bookingcancelled = ({data}) => {
+const Bookingcancelled = ({data, userDetails}) => {
+  const isFocused = useIsFocused();
+  useEffect(() => {
+    if (isFocused) getBookingCancelled();
+  }, [isFocused]);
+
+  const getBookingCancelled = () => {
+    const payload = {
+      operationID: 3,
+      roleID: userDetails?._RoleId,
+      customerID: userDetails?.userId,
+      userID: 0,
+      userIP: 'string',
+    };
+    console.log('payload', payload);
+    PostRequest(endPoint.BB_BOOKEDSLOTS, payload)
+      .then(res => {
+        console.log('getBookingCancelled Response', res?.data);
+        // setPreBookingList(res?.data?.Table);
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  };
+
   const ListBookingCanceled = item => {
     return (
       <View style={styles.Containerstyle}>
@@ -32,8 +59,19 @@ const Bookingcancelled = ({data}) => {
             </View>
           </View>
 
-          <View style={{ position:'relative', marginHorizontal: 15 }}>
-            <View style={{ position: 'absolute', top: 0, bottom: 0, left: 0, right: 0, borderWidth: 1, borderColor: appColors.Goldcolor, borderStyle: 'dashed', backgroundColor:'transparent'  }}></View>
+          <View style={{position: 'relative', marginHorizontal: 15}}>
+            <View
+              style={{
+                position: 'absolute',
+                top: 0,
+                bottom: 0,
+                left: 0,
+                right: 0,
+                borderWidth: 1,
+                borderColor: appColors.Goldcolor,
+                borderStyle: 'dashed',
+                backgroundColor: 'transparent',
+              }}></View>
           </View>
           <View
             style={{

@@ -14,6 +14,7 @@ export const endPoint = {
 
   //User End Points
   EDIT_PROFILE_USER: 'Auth/User_CU',
+  BB_BOOKEDSLOTS: 'Barber/BB_BookedSlots',
 
   //Barbers End Points
   BARBER_SERVICES: 'Admin/Barber_Detail?id=94',

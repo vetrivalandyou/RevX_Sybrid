@@ -1,10 +1,38 @@
 import {View, Text, StyleSheet, Image, FlatList} from 'react-native';
 import Bookingbutton from '../../components/atom/BookingButtons/Bookingbutton';
 import {ScreenSize, screenSize} from '../../components/atom/ScreenSize';
-import React from 'react';
+import React, {useEffect} from 'react';
 import Completedbutton from '../../components/atom/BookingButtons/Completedbutton';
 import AntDesign from 'react-native-vector-icons/AntDesign';
-const Bookingcompleted = ({data}) => {
+import {useIsFocused} from '@react-navigation/native';
+import { PostRequest } from '../../services/apiCall';
+import { endPoint } from '../../AppConstants/urlConstants';
+const Bookingcompleted = ({data, userDetails}) => {
+  const isFocused = useIsFocused();
+
+  useEffect(() => {
+    if (isFocused) getCompletedBooking();
+  }, [isFocused]);
+
+  const getCompletedBooking = () => {
+    const payload = {
+      operationID: 2,
+      roleID: userDetails?._RoleId,
+      customerID: userDetails?.userId,
+      userID: 0,
+      userIP: 'string',
+    };
+    console.log('payload', payload);
+    PostRequest(endPoint.BB_BOOKEDSLOTS, payload)
+      .then(res => {
+        console.log('Bookingcompleted Response', res?.data);
+        // setPreBookingList(res?.data?.Table);
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  };
+
   const ListBookingCompleted = item => {
     return (
       <View style={styles.Containerstyle}>
@@ -47,8 +75,19 @@ const Bookingcompleted = ({data}) => {
             </View>
           </View>
 
-          <View style={{ position:'relative', marginHorizontal: 15 }}>
-            <View style={{ position: 'absolute', top: 0, bottom: 0, left: 0, right: 0, borderWidth: 1, borderColor: appColors.Goldcolor, borderStyle: 'dashed', backgroundColor:'transparent'  }}></View>
+          <View style={{position: 'relative', marginHorizontal: 15}}>
+            <View
+              style={{
+                position: 'absolute',
+                top: 0,
+                bottom: 0,
+                left: 0,
+                right: 0,
+                borderWidth: 1,
+                borderColor: appColors.Goldcolor,
+                borderStyle: 'dashed',
+                backgroundColor: 'transparent',
+              }}></View>
           </View>
 
           <View
