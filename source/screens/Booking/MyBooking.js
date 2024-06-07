@@ -140,7 +140,7 @@ const MyBooking = ({navigation}) => {
     <Screen
       statusBarColor={appColors.Black}
       barStyle="light-content"
-      viewStyle={{backgroundColor: 'appColors.Black', paddingHorizontal: 20}}>
+      viewStyle={{backgroundColor: appColors.Black, paddingHorizontal: 20}}>
       <View style={{flex: 0.1}}>
         <Header
           headerSubView={{marginHorizontal: 0}}
