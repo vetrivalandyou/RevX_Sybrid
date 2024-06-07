@@ -141,7 +141,7 @@ const MyBooking = () => {
     <Screen
       statusBarColor={appColors.Black}
       barStyle="light-content"
-      viewStyle={{backgroundColor: 'appColors.Black'}}>
+      viewStyle={{backgroundColor: appColors.Black}}>
       <View style={{flex: 0.1}}>
         <Header
           lefttIcoType={Icons.Ionicons}
