@@ -18,13 +18,14 @@ import PreBooking from './PreBooking';
 import Header from '../../../components/molecules/Header';
 import {Icons} from '../../../components/molecules/CustomIcon/CustomIcon';
 import constants from '../../../AppConstants/Constants.json';
-import {useNavigation} from '@react-navigation/native';
+import {useIsFocused, useNavigation} from '@react-navigation/native';
 import Screen from '../../../components/atom/ScreenContainer/Screen';
 import {getAsyncItem} from '../../../utils/SettingAsyncStorage';
 import {endPoint} from '../../../AppConstants/urlConstants';
 import {PostRequest} from '../../../services/apiCall';
 
 const MyBooking = () => {
+  const isFocused = useIsFocused();
   const navigation = useNavigation();
   const activeButton = useRef('1');
   const [tabState, setTabState] = useState(false);
@@ -83,8 +84,10 @@ const MyBooking = () => {
   ];
 
   useEffect(() => {
-    getAyncUserDetails();
-  }, []);
+    if (isFocused) {
+      getAyncUserDetails();
+    }
+  }, [isFocused]);
 
   const getAyncUserDetails = async () => {
     const asyncUserDetails = await getAsyncItem(
@@ -122,7 +125,7 @@ const MyBooking = () => {
   const renderComponent = () => {
     switch (activeButton.current) {
       case '1':
-        return <PreBooking data={data} preBookingList={preBookingList} />;
+        return <PreBooking data={data} userDetails={userDetails} preBookingList={preBookingList} setPreBookingList={setPreBookingList} />;
 
       case '2':
         return <Bookingcompleted data={data} userDetails={userDetails} />;

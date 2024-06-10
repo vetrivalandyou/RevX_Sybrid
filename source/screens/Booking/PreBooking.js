@@ -5,8 +5,39 @@ import React, {useEffect} from 'react';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import appColors from '../../AppConstants/appColors';
 import moment from 'moment';
+import {useIsFocused} from '@react-navigation/native';
+import {PostRequest} from '../../services/apiCall';
+import {endPoint, imageUrl} from '../../AppConstants/urlConstants';
+import Completedbutton from '../../components/atom/BookingButtons/Completedbutton';
 
-const PreBooking = ({data, preBookingList}) => {
+const PreBooking = ({data, userDetails, preBookingList, setPreBookingList}) => {
+  const isFocused = useIsFocused();
+
+  useEffect(() => {
+    if (isFocused) {
+      getPreBookings();
+    }
+  }, [isFocused]);
+
+  const getPreBookings = () => {
+    const payload = {
+      operationID: 1,
+      roleID: userDetails?._RoleId,
+      customerID: userDetails?.userId,
+      userID: 0,
+      userIP: 'string',
+    };
+    console.log('payload', payload);
+    PostRequest(endPoint.BB_BOOKEDSLOTS, payload)
+      .then(res => {
+        console.log('getPreBookings Response', res?.data);
+        setPreBookingList(res?.data?.Table);
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  };
+
   const ListPrebooking = ({item}) => {
     return (
       <View style={styles.Containerstyle}>
@@ -20,12 +51,13 @@ const PreBooking = ({data, preBookingList}) => {
               marginHorizontal: 15,
               marginTop: 5,
             }}>
-            <View style={{flex: 0.7}}>
+            <View style={{flex: 0.6}}>
               <Text style={{color: 'white', fontSize: 14}}>
-                {moment(item?.BookingDate).format("DD-MM-YYYY")} - {item?.SlotName}
+                {moment(item?.BookingDate).format('DD-MM-YYYY')} -{' '}
+                {item?.SlotName}
               </Text>
             </View>
-            <View style={{flex: 0.3, alignItems: 'flex-end'}}>
+            <View style={{flex: 0.3, alignItems: 'center'}}>
               <View style={styles.Ratingbox}>
                 <View
                   style={{
@@ -41,6 +73,16 @@ const PreBooking = ({data, preBookingList}) => {
                   </Text>
                 </View>
               </View>
+            </View>
+            <View style={{flex: 0.2, justifyContent: 'center'}}>
+              <Completedbutton
+                style={{
+                  backgroundColor:
+                    item?.StatusID == 9 ? appColors.Gray : '#6be521',
+                }}
+                textstyle={{color: appColors.White}}
+                title={item?.StatusID == 9 ? 'Pending' : 'Accepted'}
+              />
             </View>
           </View>
 
@@ -68,7 +110,8 @@ const PreBooking = ({data, preBookingList}) => {
             }}>
             <View style={{flex: 0.35, alignItems: 'center'}}>
               <Image
-                source={require('../../assets/rectangle2.png')}
+                // source={require('../../assets/rectangle2.png')}
+                source={{uri: `${imageUrl}/${item?.BarberProfileImage}`}}
                 style={{
                   height: '80%',
                   width: '82%',
@@ -77,7 +120,7 @@ const PreBooking = ({data, preBookingList}) => {
                 }}
               />
             </View>
-            <View style={{flexDirection: 'column', flex: 0.63}}>
+            <View style={{flexDirection: 'column', flex: 0.63, paddingHorizontal: 15}}>
               <Text style={{fontSize: 18, fontWeight: '600', color: 'white'}}>
                 {item?.BarberName}
               </Text>
@@ -95,8 +138,7 @@ const PreBooking = ({data, preBookingList}) => {
               <View>
                 <Text
                   style={{fontSize: 10, fontWeight: '400', color: '#c79647'}}>
-                  {/* {item.item.label} */}
-                  Gulf Haircut, Thin Shampoo, Alovevera Shampo, Hair wash
+                  {item.serviceNames}
                 </Text>
               </View>
             </View>
@@ -126,6 +168,7 @@ const PreBooking = ({data, preBookingList}) => {
   return (
     <FlatList
       data={preBookingList}
+      showsVerticalScrollIndicator={false}
       renderItem={({item, index}) => <ListPrebooking item={item} />}
       // renderItem={({item}) => <listBookingCompleted item={item} />}
       keyExtractor={item => item.BarbarBookedSlotID}

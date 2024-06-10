@@ -1,14 +1,44 @@
 import {View, Text, StyleSheet, Image, FlatList} from 'react-native';
 import Bookingbutton from '../../../components/atom/BookingButtons/Bookingbutton';
 import {ScreenSize, screenSize} from '../../../components/atom/ScreenSize';
-import React from 'react';
+import React, { useEffect } from 'react';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import constants from '../../../AppConstants/Constants.json';
-import {useNavigation} from '@react-navigation/native';
+import {useIsFocused, useNavigation} from '@react-navigation/native';
 import styles from './styles';
 import moment from 'moment';
-const PreBooking = ({data, preBookingList}) => {
+import { endPoint } from '../../../AppConstants/urlConstants';
+import { PostRequest } from '../../../services/apiCall';
+const PreBooking = ({data, userDetails, preBookingList, setPreBookingList}) => {
   const navigation = useNavigation();
+
+  const isFocused = useIsFocused();
+
+  useEffect(() => {
+    if (isFocused) {
+      getPreBookings();
+    }
+  }, [isFocused]);
+
+  const getPreBookings = () => {
+    const payload = {
+      operationID: 1,
+      roleID: userDetails?._RoleId,
+      customerID: 0,
+      userID: userDetails?.userId,
+      userIP: 'string',
+    };
+    console.log('payload', payload);
+    PostRequest(endPoint.BB_BOOKEDSLOTS, payload)
+      .then(res => {
+        console.log('getPreBookings Response', res?.data);
+        setPreBookingList(res?.data?.Table);
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  };
+
   const ListPrebooking = ({item, index}) => {
     return (
       <View key={index} style={styles.bookingContainerstyle}>
@@ -38,11 +68,11 @@ const PreBooking = ({data, preBookingList}) => {
             <View style={styles.DashLinestyle}></View>
           </View>
 
-          <View style={styles.imagetextContainerView}>
+          <View style={[styles.imagetextContainerView, { paddingHorizontal: 15 }]}>
             <View style={styles.bookingImageview}>
               <Image
-                source={require('../../../assets/rectangle2.png')}
-                // source={item.item.Imagesource}
+                // source={require('../../../assets/rectangle2.png')}
+                source={item.CustomerProfileImage}
                 style={styles.bookingImagestyle}
               />
             </View>
@@ -53,7 +83,8 @@ const PreBooking = ({data, preBookingList}) => {
               </View>
               <View>
                 <Text style={styles.Labeltext}>
-                  Gulf Haircut, Thin Shampoo, Alovevera Shampo, Hair wash
+                  {item?.serviceNames}
+                  {/* Gulf Haircut, Thin Shampoo, Alovevera Shampo, Hair wash */}
                 </Text>
               </View>
             </View>
@@ -78,7 +109,10 @@ const PreBooking = ({data, preBookingList}) => {
   return (
     <FlatList
       data={preBookingList}
-      renderItem={({item, index}) => <ListPrebooking item={item} index={index} />}
+      showsVerticalScrollIndicator={false}
+      renderItem={({item, index}) => (
+        <ListPrebooking item={item} index={index} />
+      )}
       // renderItem={({item}) => <listBookingCompleted item={item} />}
       keyExtractor={item => item.BarbarBookedSlotID}
     />

@@ -23,8 +23,10 @@ import Screen from '../../components/atom/ScreenContainer/Screen';
 import {getAsyncItem} from '../../utils/SettingAsyncStorage';
 import {endPoint} from '../../AppConstants/urlConstants';
 import {PostRequest} from '../../services/apiCall';
+import {useIsFocused} from '@react-navigation/native';
 
 const MyBooking = ({navigation}) => {
+  const isFocused = useIsFocused();
   const activeButton = useRef('1');
   const [tabState, setTabState] = useState(false);
   const [userDetails, setUserDetails] = useState({});
@@ -82,8 +84,10 @@ const MyBooking = ({navigation}) => {
   ];
 
   useEffect(() => {
-    getAyncUserDetails();
-  }, []);
+    if (isFocused) {
+      getAyncUserDetails();
+    }
+  }, [isFocused]);
 
   const getAyncUserDetails = async () => {
     const asyncUserDetails = await getAsyncItem(
@@ -121,7 +125,7 @@ const MyBooking = ({navigation}) => {
   const renderComponent = () => {
     switch (activeButton.current) {
       case '1':
-        return <PreBooking data={data} preBookingList={preBookingList} />;
+        return <PreBooking data={data} userDetails={userDetails} preBookingList={preBookingList} setPreBookingList={setPreBookingList} />;
 
       case '2':
         return <Bookingcompleted data={data} userDetails={userDetails} />;
