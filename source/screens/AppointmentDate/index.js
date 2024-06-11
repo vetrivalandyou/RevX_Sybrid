@@ -45,22 +45,24 @@ const AppointmentDate = ({route, navigation}) => {
     const payload = {
       operationID: 6,
       durationMinutes: returnTotalDuration(),
-      bookingDate: selectedData,
       barberID: barberDetails?.UserId,
       barberName: 'string',
       slotID: 0,
       slotName: 'string',
       customerID: 0,
       customerName: 'string',
+      bookingDate: selectedData,
       transactionID: 'string',
-      longitude: 0,
-      latitude: 0,
-      locationName: 'string',
       isPaid: 0,
       services: 'string',
       isActive: true,
       userID: 0,
       userIP: 'string',
+      longitude: 0,
+      latitude: 0,
+      locationName: 'string',
+      remarks: 'string',
+      barbarBookedSlotID: 0,
     };
     console.log('fetchSelectedTimeSlot Payload', payload);
     PostRequest(endPoint?.BARBER_AVAILABLESLOTS, payload)

@@ -52,11 +52,24 @@ const AdminSetupSlots = ({navigation}) => {
     const payload = {
       operationID: LATEST_SEARCH,
       durationMinutes: 0,
-      bookingDate: '2024-05-06T13:21:09.807Z',
       barberID: 0,
+      barberName: 'string',
+      slotID: 0,
+      slotName: 'string',
+      customerID: 0,
+      customerName: 'string',
+      bookingDate: '2024-06-11T10:44:52.617Z',
+      transactionID: 'string',
+      isPaid: 0,
+      services: 'string',
       isActive: true,
       userID: 0,
-      userIP: '',
+      userIP: 'string',
+      longitude: 0,
+      latitude: 0,
+      locationName: 'string',
+      remarks: 'string',
+      barbarBookedSlotID: 0,
     };
     console.log('payload', payload);
     PostRequest(endPoint?.BARBER_AVAILABLESLOTS, payload)
