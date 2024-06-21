@@ -48,6 +48,7 @@ export const endPoint = {
   GET_VANS_NEAR_CUSTOMER: 'Auth/Get_Vans_Near_Customer',
   ADMIN_USERDETAILS: 'Admin/Admin_UserDetails',
   BARBER_PC_SERVICES_APPROVAL: 'Admin/Admin_BarberPCServicesApproval',
+  ADMIN_APPOINTMENT_UAR: 'Admin/Admin_appointment_uar',
 
   // Customer End Points
   SERVICE_CATEGORIES: 'Customer/Service_Categories',
