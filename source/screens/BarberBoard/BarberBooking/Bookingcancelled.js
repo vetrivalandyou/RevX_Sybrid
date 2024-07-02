@@ -46,15 +46,15 @@ const Bookingcancelled = ({data, userDetails}) => {
 
             <View style={styles.CancelbuttonView}>
               <Completedbutton
-                onPress={() => refRBSheet.current.open()}
+                // onPress={() => refRBSheet.current.open()}
                 title={'Canceled'}
                 style={{backgroundColor: '#e81f1c'}}
                 textstyle={{color: 'white'}}
               />
 
-              <BottomSheet ref={refRBSheet} Height={300}>
+              {/* <BottomSheet ref={refRBSheet} Height={300}>
                 <CancelBooking refRBSheet={refRBSheet} />
-              </BottomSheet>
+              </BottomSheet> */}
             </View>
           </View>
 

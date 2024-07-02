@@ -5,6 +5,8 @@ export default StyleSheet.create({
   headerView: {
     flex: 1,
     justifyContent: 'center',
+    minHeight: 60,
+    maxHeight: 60,
   },
   header: {
     flexDirection: 'row',

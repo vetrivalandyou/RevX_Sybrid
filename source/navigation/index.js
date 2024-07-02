@@ -26,6 +26,7 @@ import {
   LogoutBottom,
   ReferFriendsSheet,
   ServiceSpecialist,
+  UserChat
 } from '../screens';
 import BottomTabNavigation from './BottomTabNavigation';
 import PrivacyPolicy from '../screens/ProfileScreen/Aboutus/PrivacyPolicy';
@@ -145,6 +146,11 @@ const Main = () => {
         <Stack.Screen
           name={constants.screen.ServiceSpecialist}
           component={ServiceSpecialist}
+          options={{headerShown: false}}
+        />
+          <Stack.Screen
+          name={constants.screen.UserChat}
+          component={UserChat}
           options={{headerShown: false}}
         />
       </Stack.Navigator>

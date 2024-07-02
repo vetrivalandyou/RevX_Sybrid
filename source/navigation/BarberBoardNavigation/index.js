@@ -6,6 +6,7 @@ import {
   EReceipt,
   BarberEReceipt,
   BarberChatScreen,
+  BarberChat,
   BaberProfileScreen,
   NotificationScreen,
   Servicesboard,
@@ -105,6 +106,11 @@ const BarberStack = () => {
         <Stack.Screen
           name={constants.BarberScreen.BarberChatScreen}
           component={BarberChatScreen}
+          options={{headerShown: false}}
+        />
+           <Stack.Screen
+          name={constants.BarberScreen.BarberChat}
+          component={BarberChat}
           options={{headerShown: false}}
         />
         <Stack.Screen

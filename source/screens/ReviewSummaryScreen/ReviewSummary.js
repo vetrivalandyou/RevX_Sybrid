@@ -79,7 +79,7 @@ const ReviewSummary = ({route}) => {
     }
   };
 
-  console.log("userlong lat", userLongLat)
+  console.log('userlong lat', userLongLat);
 
   const handleConfirmPayment = () => {
     const makingServicesData = SelectedChildServices?.map(x => ({
@@ -92,7 +92,7 @@ const ReviewSummary = ({route}) => {
       durationMinutes: returnTotalDuration(),
       bookingDate: seelectedDate,
       barberID: barberDetails?.UserId,
-      barberName: specialistDetails?.userName,
+      barberName: barberDetails?.UserName,
       slotID: selectedSlotId?.SlotID,
       slotName: selectedSlotId?.Slot,
       customerID: userDetails?.userId,
@@ -106,8 +106,11 @@ const ReviewSummary = ({route}) => {
       isActive: true,
       userID: 0,
       userIP: 'string',
+      remarks: 'string',
+      barbarBookedSlotID: 0,
     };
     console.log('fetchSelectedTimeSlot Payload', payload);
+    console.log('fetchSelectedTimeSlot Payload', specialistDetails);
     PostRequest(endPoint?.BARBER_APPOINTMENTBOOKING, payload)
       .then(res => {
         console.log('res?.data', res?.data);
@@ -233,6 +236,7 @@ const Barberdetails = ({
   userDetails,
   seelectedDate,
   selectedSlotId,
+  barberDetails,
   specialistDetails,
   address,
 }) => {
@@ -359,7 +363,7 @@ const Barberdetails = ({
             Specialist
           </Text>
           <Text style={{color: 'white', fontSize: 13, fontWeight: '400'}}>
-            {specialistDetails?.userName}
+            {barberDetails?.UserName}
           </Text>
         </View>
       </View>

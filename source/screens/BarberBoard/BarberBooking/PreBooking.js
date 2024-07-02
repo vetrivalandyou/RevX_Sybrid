@@ -18,8 +18,8 @@ const PreBooking = ({data, userDetails, preBookingList, setPreBookingList}) => {
   const isFocused = useIsFocused();
 
   const timeoutRef = useRef();
+  const barberRemarksRef = useRef(null);
   const [visible, setVisible] = useState(false);
-  const [barberRemarks, setBarberRemarks] = useState('');
   const [rejectedBookingData, setRejectedBookingData] = useState({});
 
   useEffect(() => {
@@ -99,7 +99,7 @@ const PreBooking = ({data, userDetails, preBookingList, setPreBookingList}) => {
   };
 
   const onPressSubmit = () => {
-    console.log('Submited', barberRemarks);
+    console.log('Submited', barberRemarksRef.current);
     handleReject();
   };
 
@@ -123,7 +123,7 @@ const PreBooking = ({data, userDetails, preBookingList, setPreBookingList}) => {
       longitude: 0,
       latitude: 0,
       locationName: '',
-      remarks: barberRemarks,
+      remarks: barberRemarksRef.current,
       barbarBookedSlotID: rejectedBookingData?.BarbarBookedSlotID,
     };
     console.log('payload', payload);
@@ -161,7 +161,7 @@ const PreBooking = ({data, userDetails, preBookingList, setPreBookingList}) => {
               fontWeight: 'bold',
               fontSize: 18,
             }}>
-            Enter Reason your Reason
+            Enter your Reason
           </Text>
         </View>
         <View style={{flex: 0.5, backgroundColor: appColors.White}}>
@@ -178,8 +178,8 @@ const PreBooking = ({data, userDetails, preBookingList, setPreBookingList}) => {
             }}
             multiline={true}
             textAlignVertical="top"
-            onChangeText={newText => setBarberRemarks(newText)}
-            value={barberRemarks}
+            onChangeText={newText => (barberRemarksRef.current = newText)}
+            value={barberRemarksRef}
           />
         </View>
         <View

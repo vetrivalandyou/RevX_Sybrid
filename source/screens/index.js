@@ -16,6 +16,7 @@ import CreateAccount from './Auth/CreateAccount';
 import Services from './ServicesScreen/Services';
 import ServicesDetails from './ServicesDetailScreen/ServicesDetails';
 import ServiceSpecialist from './ServiceSpecialist/index';
+import UserChat from './UserChat/index';
 import AboutUs from './ProfileScreen/Aboutus/AboutUs';
 import TermsOfService from './ProfileScreen/Aboutus/TermsOfService';
 import License from './ProfileScreen/Aboutus/License';
@@ -39,7 +40,8 @@ import HomeBarber from './BarberBoard/HomeBarber';
 import EReceipt from './BarberBoard/HomeBarber/EReceipt';
 import BarberEReceipt from './BarberBoard/BarberBooking/BarberEReceipt';
 import BaberProfileScreen from './BarberBoard/BarberProfile/BaberProfileScreen';
-import BarberChatScreen from './BarberBoard/BarberChat/BarberChatScreen';
+import BarberChatScreen from './BarberBoard/BarberChatScreen/BarberChatScreen';
+import BarberChat from './BarberBoard/BarberChat';
 import NotificationScreen from './BarberBoard/BarberNotification/NotificationScreen';
 import MyBooking from './BarberBoard/BarberBooking/MyBooking';
 import Servicesboard from './BarberBoard/BarberServices';
@@ -79,6 +81,7 @@ export {
   Services,
   ServicesDetails,
   ServiceSpecialist,
+  UserChat,
   AboutUs,
   TermsOfService,
   License,
@@ -102,6 +105,7 @@ export {
   BarberEReceipt,
   BaberProfileScreen,
   BarberChatScreen,
+  BarberChat,
   NotificationScreen,
   AdminBarberEarnings,
   MyBooking,

@@ -112,6 +112,8 @@ const BarberEReceipt = ({route, navigation}) => {
       });
   };
 
+  console.log("eReceiptData?.Table?.[0]",eReceiptData?.Table?.[0])
+
   return (
     <Screen statusBarColor={appColors.Black} viewStyle={styles.MianContainer}>
       <View style={{flex: 0.3}}>

@@ -23,6 +23,7 @@ import Screen from '../../../components/atom/ScreenContainer/Screen';
 import {getAsyncItem} from '../../../utils/SettingAsyncStorage';
 import {endPoint} from '../../../AppConstants/urlConstants';
 import {PostRequest} from '../../../services/apiCall';
+import { screenSize } from '../../../components/atom/ScreenSize';
 
 const MyBooking = () => {
   const isFocused = useIsFocused();
@@ -144,7 +145,7 @@ const MyBooking = () => {
     <Screen
       statusBarColor={appColors.Black}
       barStyle="light-content"
-      viewStyle={{backgroundColor: appColors.Black}}>
+      viewStyle={{backgroundColor: appColors.Black, minHeight: screenSize.height, maxHeight: 'auto'}}>
       <View style={{flex: 0.1}}>
         <Header
           lefttIcoType={Icons.Ionicons}
