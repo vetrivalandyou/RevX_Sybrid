@@ -25,7 +25,11 @@ import ButtonComponent from '../CustomButtons/ButtonComponent';
 import {getAsyncItem} from '../../../utils/SettingAsyncStorage';
 import {SimpleSnackBar} from '../Snakbar/Snakbar';
 import {useDispatch, useSelector} from 'react-redux';
-import {LATEST_INSERT, LATEST_UPDATE, SUCCESS_CODE} from '../../../AppConstants/appConstants';
+import {
+  LATEST_INSERT,
+  LATEST_UPDATE,
+  SUCCESS_CODE,
+} from '../../../AppConstants/appConstants';
 
 const MyLocationBottomSheet = ({selectedLocation, newLocation, item}) => {
   const navigation = useNavigation();
@@ -89,6 +93,7 @@ const MyLocationBottomSheet = ({selectedLocation, newLocation, item}) => {
       createdBy: userDetails?.userId,
       userIP: '::1',
     };
+    console.log('payloadpayloadpayload?????', payload);
     PostRequest(endPoint.BARBER_SET_UP_LOCATION_SERVICES, payload)
       .then(res => {
         if (res?.data?.code == SUCCESS_CODE) {
