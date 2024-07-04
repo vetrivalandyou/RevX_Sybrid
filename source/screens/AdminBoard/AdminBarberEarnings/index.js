@@ -1,5 +1,5 @@
-import React from 'react';
-import {View, Text, Image, FlatList, AppRegistry} from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {View, Text, Image, FlatList, AppRegistry, ActivityIndicator} from 'react-native';
 import Screen from '../../../components/atom/ScreenContainer/Screen';
 import appColors from '../../../AppConstants/appColors';
 import Header from '../../../components/molecules/Header';
@@ -7,84 +7,43 @@ import {Icons} from '../../../components/molecules/CustomIcon/CustomIcon';
 import {AppImages} from '../../../AppConstants/AppImages';
 import ButtonComponent from '../../../components/atom/CustomButtons/ButtonComponent';
 import constants from '../../../AppConstants/Constants.json';
+import {useIsFocused} from '@react-navigation/native';
+import {endPoint, imageUrl} from '../../../AppConstants/urlConstants';
+import {PostRequest} from '../../../services/apiCall';
+import {screenSize} from '../../../components/atom/ScreenSize';
+import BoxLottie from '../../../components/atom/BoxLottie/BoxLottie';
 
 const AdminBarberEarnings = ({navigation}) => {
-  const BarberList = [
-    {
-      id: 1,
-      title: '$40,65',
-      name: 'Nathan Alexender',
-      Imagesource: AppImages.bb1,
-    },
-    {
-      id: 2,
-      title: '$40,65',
-      name: 'Janny Winkles',
-      Imagesource: AppImages.chatfive,
-    },
-    {
-      id: 3,
-      title: '$40,65',
-      name: 'Annabol rehanna',
-      Imagesource: AppImages.chattwo,
-    },
-    {
-      id: 4,
-      title: '$40,65',
-      name: 'Titus Kitamura',
-      Imagesource: AppImages.chatthree,
-    },
-    {
-      id: 5,
-      title: '$40,65',
-      name: 'Nathan Alexender',
-      Imagesource: AppImages.chatfour,
-    },
+  const isFocused = useIsFocused();
+  const [isLoading, setIsLoading] = useState(true);
+  const [barberList, setBarberList] = useState([]);
 
-    {
-      id: 6,
-      title: '$40,65',
-      name: 'Merill Kelvin',
-      Imagesource: AppImages.chatfive,
-    },
-    {
-      id: 7,
-      title: '$40,65',
-      name: 'Nathan Alexender',
-      Imagesource: AppImages.bb1,
-    },
-    {
-      id: 8,
-      title: '$40,65',
-      name: 'Janny Winkles',
-      Imagesource: AppImages.chatfive,
-    },
-    {
-      id: 9,
-      title: '$40,65',
-      name: 'Annabol rehanna',
-      Imagesource: AppImages.chattwo,
-    },
-    {
-      id: 10,
-      title: '$40,65',
-      name: 'Titus Kitamura',
-      Imagesource: AppImages.chatthree,
-    },
-    {
-      id: 11,
-      title: '$40,65',
-      name: 'Nathan Alexender',
-      Imagesource: AppImages.chatfour,
-    },
+  useEffect(() => {
+    if (isFocused) {
+      getBarberEarning();
+    }
+  }, [isFocused]);
 
-    {
-      id: 12,
-      title: '$40,65',
-      name: 'Merill Kelvin',
-      Imagesource: AppImages.chatfive,
-    },
-  ];
+  const getBarberEarning = () => {
+    const payload = {
+      operationID: 1,
+      barberID: 0,
+      _PageNumber: 1,
+      _RowsOfPage: 10,
+    };
+    PostRequest(endPoint.ADMIN_REPORTS, payload)
+      .then(res => {
+        if (res?.data?.Table?.length > 0) {
+          setBarberList(res?.data?.Table);
+          setIsLoading(false);
+        }
+      })
+      .catch(err => {
+        console.log('1231231', err);
+        setIsLoading(false);
+      });
+  };
+
   const BarberSpecialistContainer = ({item}) => {
     return (
       <View
@@ -94,25 +53,48 @@ const AdminBarberEarnings = ({navigation}) => {
           paddingHorizontal: 12,
           borderRadius: 70,
           flexDirection: 'row',
-          marginVertical: 5,
+          margin: 10,
+          height: screenSize.height / 10,
         }}>
-        <Image source={item.Imagesource} style={{}} />
-
         <View style={{flex: 1, flexDirection: 'row'}}>
-          
-          <View style={{flex: 0.85, justifyContent: 'center'}}>
-            <Text style={{color: appColors.White, fontSize: 18, marginLeft: 5}}>
-              {item.title}
+          <View
+            style={{
+              flex: 0.2,
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}>
+            <Image
+              source={{uri: `${imageUrl}${item?.ProfileImage}`}}
+              style={{width: 55, height: 55, borderRadius: 50}}
+            />
+          </View>
+          <View style={{flex: 0.5, justifyContent: 'center'}}>
+            <Text
+              style={{
+                color: appColors.White,
+                fontWeight: 'bold',
+                fontSize: 22,
+                marginLeft: 7,
+              }}>
+              ${item.P_Amount.toLocaleString()}
             </Text>
-            <Text style={{color: appColors.White, marginLeft: 5, fontSize: 12}}>
-              {item.name}
+            <Text
+              style={{
+                color: appColors.White,
+                marginTop: 3,
+                marginLeft: 7,
+                fontSize: 12,
+              }}>
+              {item.UserName}
             </Text>
           </View>
-          <View style={{flex: 0.45}}>
+          <View style={{flex: 0.3, justifyContent: 'center'}}>
             <ButtonComponent
               style={{}}
               onPress={() =>
-                navigation.navigate(constants.AdminScreens.BarberEarnReport)
+                navigation.navigate(constants.AdminScreens.BarberEarnReport, {
+                  BarberData: item,
+                })
               }
               title={'View'}
             />
@@ -150,11 +132,40 @@ const AdminBarberEarnings = ({navigation}) => {
       </View>
 
       <View style={{flex: 0.9}}>
-        <FlatList
-          data={BarberList}
-          renderItem={({item}) => <BarberSpecialistContainer item={item} />}
-          keyExtractor={item => item.id}
-        />
+        {barberList?.length > 0 ? (
+          <>
+            {isLoading == false ? (
+              <FlatList
+                data={barberList}
+                keyExtractor={item => item.BarbarID}
+                showsVerticalScrollIndicator={false}
+                renderItem={({item}) => (
+                  <BarberSpecialistContainer item={item} />
+                )}
+              />
+            ) : (
+              <View
+                style={{
+                  flex: 1,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }}>
+                <ActivityIndicator size="large" color={appColors.Goldcolor} />
+              </View>
+            )}
+          </>
+        ) : (
+          <View
+            style={{
+              flex: 0.9,
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}>
+            <BoxLottie
+              animationPath={require('../../../LottieAnimation/NoPostFoundAnimation.json')}
+            />
+          </View>
+        )}
       </View>
     </Screen>
   );
