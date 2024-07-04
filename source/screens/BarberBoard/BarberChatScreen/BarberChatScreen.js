@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import {
   ImageBackground,
   Text,
@@ -10,96 +10,33 @@ import {
   KeyboardAvoidingView,
   Platform,
 } from 'react-native';
-import Search from '../../components/atom/Search/Search';
-import Header from '../../components/molecules/Header';
-import {Icons} from '../../components/molecules/CustomIcon/CustomIcon';
-import Screen from '../../components/atom/ScreenContainer/Screen';
-import appColors from '../../AppConstants/appColors';
-import constants from '../../AppConstants/Constants.json';
+import Search from '../../../components/atom/Search/Search';
+import Header from '../../../components/molecules/Header';
+import {Icons} from '../../../components/molecules/CustomIcon/CustomIcon';
+import Screen from '../../../components/atom/ScreenContainer/Screen';
+import appColors from '../../../AppConstants/appColors';
+import profile from '../../../assets/barberImage1.png';
+import constants from '../../../AppConstants/Constants.json';
 
-import {AppImages} from '../../AppConstants/AppImages';
-import {useNavigation} from '@react-navigation/native';
-import SignalRService from '../../services/SignalRService';
+import {AppImages} from '../../../AppConstants/AppImages';
 import {useSelector} from 'react-redux';
-import {imageUrl} from '../../AppConstants/urlConstants';
-import {screenSize} from '../../components/atom/ScreenSize';
+import {useNavigation} from '@react-navigation/native';
+import {imageUrl} from '../../../AppConstants/urlConstants';
+import { screenSize } from '../../../components/atom/ScreenSize';
 
-const InboxScreen = () => {
+const BarberChatScreen = () => {
   const {SupportingTables} = useSelector(state => state.CrudFormReducer);
   const navigation = useNavigation();
 
-  const {InboxList} = SupportingTables;
+  const {BarberInboxList} = SupportingTables;
 
-  chat = [
-    {
-      id: 1,
-      name: 'Barbella Inova',
-      profileimage: AppImages.chatone,
-      message: 'Awesome!',
-      messagecount: '2',
-      messagetime: '20:00',
-    },
-    {
-      id: 2,
-      name: 'Janny Winkles',
-      profileimage: AppImages.chattwo,
-      message: 'Omg this is amazing!',
-      messagecount: '3',
-      messagetime: '20:00',
-    },
-    {
-      id: 3,
-      name: 'The classic Cut',
-      profileimage: AppImages.chatthree,
-      message: 'Wow this is really epic!',
-      messagecount: '3',
-      messagetime: '20:00',
-    },
-    {
-      id: 4,
-      name: 'Oh La La Barber',
-      profileimage: AppImages.chatfour,
-      message: 'How are you?',
-      messagecount: '3',
-      messagetime: '20:00',
-    },
-    {
-      id: 5,
-      name: 'Nathan Alexender',
-      profileimage: AppImages.chatfive,
-      message: 'Great!',
-      messagecount: '3',
-      messagetime: '20:00',
-    },
-    {
-      id: 6,
-      name: 'The classic Cut',
-      profileimage: AppImages.chatthree,
-      message: 'Wow this is really epic!',
-      messagecount: '3',
-      messagetime: '20:00',
-    },
-    {
-      id: 7,
-      name: 'Janny Winkles',
-      profileimage: AppImages.chatfive,
-      message: 'Wow this is really epic!',
-      messagecount: '3',
-      messagetime: '20:00',
-    },
-  ];
+  console.log('Barber InboxListInboxListInboxList', BarberInboxList);
 
-  console.log('InboxListInboxListInboxList', InboxList);
   return (
     <Screen
       statusBarColor={appColors.Black}
       barStyle="light-content"
-      viewStyle={{
-        flex: 0.9,
-        padding: 15,
-        minHeight: screenSize.height,
-        maxHeight: 'auto',
-      }}>
+      viewStyle={{flex: 0.9, padding: 15, minHeight: screenSize.height, maxHeight: "auto"}}>
       <KeyboardAvoidingView
         style={{flex: 1}}
         behavior={Platform.OS === 'ios' ? 'padding' : null}
@@ -112,10 +49,10 @@ const InboxScreen = () => {
             leftIcoName={'chevron-back'}
             headerText={'Inbox'}
             rightIcoName={'bell'}
-            rightIcoType={Icons.SimpleLineIcons}
             onPressRightIcon={() =>
-              navigation.navigate(constants.screen.Notification)
+              navigation.navigate(constants.BarberScreen.NotificationScreen)
             }
+            rightIcoType={Icons.SimpleLineIcons}
             logIn={'success'}
             rightIcoSize={20}
             leftIcoStyle={{
@@ -133,7 +70,8 @@ const InboxScreen = () => {
         </View>
         <View style={{flex: 0.71}}>
           <FlatList
-            data={InboxList}
+            showsVerticalScrollIndicator={false}
+            data={BarberInboxList}
             renderItem={({item}) => (
               <Messages item={item} navigation={navigation} />
             )}
@@ -148,7 +86,9 @@ const Messages = ({item, navigation}) => {
   return (
     <TouchableOpacity
       onPress={() =>
-        navigation.navigate(constants.screen.UserChat, {profileData: item})
+        navigation.navigate(constants.BarberScreen.BarberChat, {
+          profileData: item,
+        })
       }
       style={{
         flex: 1,
@@ -162,7 +102,7 @@ const Messages = ({item, navigation}) => {
       <View
         style={{flex: 0.25, justifyContent: 'center', alignItems: 'center'}}>
         <Image
-          source={{uri: `${imageUrl}${item?.ProfileImage}`}}
+          source={{uri: `${imageUrl}${item?.CustomerProfileImage}`}}
           resizeMode="cover"
           style={{width: 56, height: 56, borderRadius: 100}}
         />
@@ -177,7 +117,7 @@ const Messages = ({item, navigation}) => {
               fontSize: 18,
               fontWeight: '500',
             }}>
-            {item.UserName}
+            {item.CustomerName}
           </Text>
         </View>
         <View style={{flex: 0.5}}>
@@ -232,4 +172,4 @@ const Messages = ({item, navigation}) => {
   );
 };
 
-export default InboxScreen;
+export default BarberChatScreen;

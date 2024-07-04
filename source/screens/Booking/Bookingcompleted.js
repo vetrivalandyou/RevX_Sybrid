@@ -1,11 +1,41 @@
 import {View, Text, StyleSheet, Image, FlatList} from 'react-native';
 import Bookingbutton from '../../components/atom/BookingButtons/Bookingbutton';
 import {ScreenSize, screenSize} from '../../components/atom/ScreenSize';
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import Completedbutton from '../../components/atom/BookingButtons/Completedbutton';
 import AntDesign from 'react-native-vector-icons/AntDesign';
-const Bookingcompleted = ({data}) => {
-  const ListBookingCompleted = item => {
+import {useIsFocused} from '@react-navigation/native';
+import {PostRequest} from '../../services/apiCall';
+import {endPoint} from '../../AppConstants/urlConstants';
+import moment from 'moment';
+const Bookingcompleted = ({data, userDetails}) => {
+  const isFocused = useIsFocused();
+  const [userCompletedBooking, setUserCompletedBooking] = useState([]);
+
+  useEffect(() => {
+    if (isFocused) getCompletedBooking();
+  }, [isFocused]);
+
+  const getCompletedBooking = () => {
+    const payload = {
+      operationID: 2,
+      roleID: userDetails?._RoleId,
+      customerID: userDetails?.userId,
+      userID: 0,
+      userIP: 'string',
+    };
+    console.log('payload', payload);
+    PostRequest(endPoint.BB_BOOKEDSLOTS, payload)
+      .then(res => {
+        console.log('Bookingcompleted Response', res?.data);
+        setUserCompletedBooking(res?.data?.Table);
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  };
+
+  const ListBookingCompleted = ({item}) => {
     return (
       <View style={styles.Containerstyle}>
         <View style={{flex: 1, borderRadius: 20}}>
@@ -19,7 +49,8 @@ const Bookingcompleted = ({data}) => {
             }}>
             <View style={{flex: 0.6, justifyContent: 'center'}}>
               <Text style={{color: 'white', fontSize: 14}}>
-                {item.item.date}
+                {moment(item?.BookingDate).format('DD-MM-YYYY')} -{' '}
+                {item?.SlotName}
               </Text>
             </View>
             <View
@@ -37,7 +68,8 @@ const Bookingcompleted = ({data}) => {
                   }}>
                   <AntDesign name={'staro'} size={12} color={'#c79647'} />
                   <Text style={{color: '#c79647', fontSize: 11}}>
-                    {item.item.rating}
+                    {/* {item.item.rating} */}
+                    4.5
                   </Text>
                 </View>
               </View>
@@ -47,8 +79,19 @@ const Bookingcompleted = ({data}) => {
             </View>
           </View>
 
-          <View style={{ position:'relative', marginHorizontal: 15 }}>
-            <View style={{ position: 'absolute', top: 0, bottom: 0, left: 0, right: 0, borderWidth: 1, borderColor: appColors.Goldcolor, borderStyle: 'dashed', backgroundColor:'transparent'  }}></View>
+          <View style={{position: 'relative', marginHorizontal: 15}}>
+            <View
+              style={{
+                position: 'absolute',
+                top: 0,
+                bottom: 0,
+                left: 0,
+                right: 0,
+                borderWidth: 1,
+                borderColor: appColors.Goldcolor,
+                borderStyle: 'dashed',
+                backgroundColor: 'transparent',
+              }}></View>
           </View>
 
           <View
@@ -60,7 +103,7 @@ const Bookingcompleted = ({data}) => {
             }}>
             <View style={{flex: 0.35, alignItems: 'center'}}>
               <Image
-                source={item.item.Imagesource}
+                source={item.BarberProfileImage}
                 style={{
                   height: '80%',
                   width: '82%',
@@ -69,9 +112,9 @@ const Bookingcompleted = ({data}) => {
                 }}
               />
             </View>
-            <View style={{flexDirection: 'column', flex: 0.63}}>
+            <View style={{flexDirection: 'column', flex: 0.63, paddingHorizontal: 15}}>
               <Text style={{fontSize: 18, fontWeight: '600', color: 'white'}}>
-                {item.item.name}
+                {item?.BarberName}
               </Text>
               <View>
                 <Text
@@ -81,13 +124,13 @@ const Bookingcompleted = ({data}) => {
                     color: 'white',
                     marginVertical: 9,
                   }}>
-                  {item.item.title}
+                  {item.CustomerName}
                 </Text>
               </View>
               <View>
                 <Text
                   style={{fontSize: 10, fontWeight: '400', color: '#c79647'}}>
-                  {item.item.label}
+                  {item.serviceNames}
                 </Text>
               </View>
             </View>
@@ -111,10 +154,11 @@ const Bookingcompleted = ({data}) => {
 
   return (
     <FlatList
-      data={data}
+      data={userCompletedBooking}
+      showsVerticalScrollIndicator={false}
       renderItem={({item, index}) => <ListBookingCompleted item={item} />}
       // renderItem={({item}) => <listBookingCompleted item={item} />}
-      keyExtractor={item => item.id}
+      keyExtractor={item => item.BarbarBookedSlotID}
     />
   );
 };

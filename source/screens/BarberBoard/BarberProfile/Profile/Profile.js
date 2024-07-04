@@ -707,7 +707,14 @@ const Profile = ({navigation}) => {
       </View>
 
       <KeyboardAwareScrollView
-        contentContainerStyle={{flex: 1, justifyContent: 'center'}}>
+        showsVerticalScrollIndicator={false}
+        scrollEnabled={false}
+        contentContainerStyle={{
+          flex: 1,
+          minHeight: 600,
+          maxHeight: 'auto',
+          justifyContent: 'center',
+        }}>
         <View style={{flex: 1}}>
           {userDetails ? (
             <Formik

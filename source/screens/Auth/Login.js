@@ -67,7 +67,7 @@ const Login = () => {
       statusBarColor={appColors.Goldcolor}
       translucent={false}
       barStyle="light-content">
-      <View style={{flex: 0.3}}>
+      <View style={{flex: 0.3, minHeight: 200, maxHeight: 200}}>
         <AuthHeader
           logIn={'Log In'}
           heading={'Welcome Back!'}
@@ -84,6 +84,7 @@ const Login = () => {
           flex: 0.7,
           padding: 15,
           backgroundColor: appColors.Black,
+          minHeight: 550, maxHeight: 'auto'
         }}>
         <Formik
           initialValues={{

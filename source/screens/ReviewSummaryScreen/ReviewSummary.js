@@ -20,7 +20,8 @@ import {PostRequest} from '../../services/apiCall';
 import {SimpleSnackBar} from '../../components/atom/Snakbar/Snakbar';
 
 const ReviewSummary = ({route}) => {
-  const {selectedSlotId, seelectedDate, barberDetails, specialistDetails} = route?.params || 0;
+  const {selectedSlotId, seelectedDate, barberDetails, specialistDetails} =
+    route?.params || 0;
   const navigation = useNavigation();
   const isFocused = useIsFocused();
   const {SelectedChildServices} = useSelector(
@@ -29,9 +30,10 @@ const ReviewSummary = ({route}) => {
 
   const [modalVisible, setModalVisible] = useState(false);
   const [userDetails, setUserDetails] = useState();
+  const [userLongLat, setUserLongLat] = useState();
   const [address, setAddress] = useState();
 
-  console.log("specialistDetails",specialistDetails)
+  console.log('specialistDetails', specialistDetails);
 
   useEffect(() => {
     if (isFocused) {
@@ -46,6 +48,10 @@ const ReviewSummary = ({route}) => {
     const userAsyncAddress = await getAsyncItem(
       constants.AsyncStorageKeys.nearest_landmark,
     );
+    const userAsyncLongLat = await getAsyncItem(
+      constants.AsyncStorageKeys.longLat,
+    );
+    setUserLongLat(userAsyncLongLat);
     setUserDetails(userAsyncDetails);
     setAddress(userAsyncAddress);
   };
@@ -73,6 +79,8 @@ const ReviewSummary = ({route}) => {
     }
   };
 
+  console.log('userlong lat', userLongLat);
+
   const handleConfirmPayment = () => {
     const makingServicesData = SelectedChildServices?.map(x => ({
       serviceId: x.ChildServiceID,
@@ -84,25 +92,31 @@ const ReviewSummary = ({route}) => {
       durationMinutes: returnTotalDuration(),
       bookingDate: seelectedDate,
       barberID: barberDetails?.UserId,
-      barberName: specialistDetails?.userName,
+      barberName: barberDetails?.UserName,
       slotID: selectedSlotId?.SlotID,
-      slotName: selectedSlotId?.TimeSlot,
+      slotName: selectedSlotId?.Slot,
       customerID: userDetails?.userId,
       customerName: userDetails?.userName,
       transactionID: 'ABC-123',
+      longitude: userLongLat?.coords?.longitude,
+      latitude: userLongLat?.coords?.latitude,
+      locationName: address,
       isPaid: 1,
       services: JSON.stringify(makingServicesData),
       isActive: true,
       userID: 0,
       userIP: 'string',
+      remarks: 'string',
+      barbarBookedSlotID: 0,
     };
     console.log('fetchSelectedTimeSlot Payload', payload);
+    console.log('fetchSelectedTimeSlot Payload', specialistDetails);
     PostRequest(endPoint?.BARBER_APPOINTMENTBOOKING, payload)
       .then(res => {
         console.log('res?.data', res?.data);
         if (res?.data?.Table?.[0]?.HasError == 0) {
           SimpleSnackBar(res?.data?.Table?.[0]?.Message);
-          navigation.navigate(constants.screen.HomeScreen)
+          navigation.navigate(constants.screen.HomeScreen);
         } else {
           SimpleSnackBar(res?.data?.Table?.[0]?.Message, appColors.Red);
         }
@@ -222,6 +236,7 @@ const Barberdetails = ({
   userDetails,
   seelectedDate,
   selectedSlotId,
+  barberDetails,
   specialistDetails,
   address,
 }) => {
@@ -330,7 +345,7 @@ const Barberdetails = ({
             Booking Hours
           </Text>
           <Text style={{color: 'white', fontSize: 13, fontWeight: '400'}}>
-            {selectedSlotId?.TimeSlot}
+            {selectedSlotId?.Slot}
           </Text>
         </View>
       </View>
@@ -348,7 +363,7 @@ const Barberdetails = ({
             Specialist
           </Text>
           <Text style={{color: 'white', fontSize: 13, fontWeight: '400'}}>
-            {specialistDetails?.userName}
+            {barberDetails?.UserName}
           </Text>
         </View>
       </View>

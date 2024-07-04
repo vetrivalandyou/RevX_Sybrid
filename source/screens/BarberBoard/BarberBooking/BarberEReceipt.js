@@ -1,5 +1,5 @@
 import {StyleSheet, Text, View, TouchableOpacity} from 'react-native';
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {screenSize} from '../../../components/atom/ScreenSize';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
@@ -8,8 +8,15 @@ import Header from '../../../components/molecules/Header';
 import {Icons} from '../../../components/molecules/CustomIcon/CustomIcon';
 import constants from '../../../AppConstants/Constants.json';
 import styles from './styles';
+import {endPoint} from '../../../AppConstants/urlConstants';
+import {PostRequest} from '../../../services/apiCall';
+import moment from 'moment';
 
-const BarberEReceipt = ({navigation}) => {
+const BarberEReceipt = ({route, navigation}) => {
+  const {bookingSlot} = route.params || 0;
+
+  const [eReceiptData, setEReceiptData] = useState();
+
   const data = [
     {
       id: '1',
@@ -66,6 +73,48 @@ const BarberEReceipt = ({navigation}) => {
     },
   ];
 
+  console.log('itemitemitem', bookingSlot);
+
+  useEffect(() => {
+    getbarberEReceipt();
+  }, []);
+
+  const getbarberEReceipt = () => {
+    const payload = {
+      operationID: 10,
+      durationMinutes: 0,
+      barberID: 0,
+      barberName: '',
+      slotID: 0,
+      slotName: '',
+      customerID: 0,
+      customerName: '',
+      bookingDate: '2024-06-11T10:44:52.617Z',
+      transactionID: '',
+      isPaid: 0,
+      services: '',
+      isActive: true,
+      userID: 0,
+      userIP: '',
+      longitude: 0,
+      latitude: 0,
+      locationName: '',
+      remarks: '',
+      barbarBookedSlotID: bookingSlot?.BarbarBookedSlotID,
+    };
+    console.log('payload', payload);
+    PostRequest(endPoint?.BARBER_AVAILABLESLOTS, payload)
+      .then(res => {
+        console.log('res?.data', res?.data);
+        setEReceiptData(res?.data);
+      })
+      .catch(err => {
+        console.log('err', err);
+      });
+  };
+
+  console.log('eReceiptData?.Table?.[0]', eReceiptData?.Table?.[0]);
+
   return (
     <Screen statusBarColor={appColors.Black} viewStyle={styles.MianContainer}>
       <View style={{flex: 0.3}}>
@@ -93,20 +142,53 @@ const BarberEReceipt = ({navigation}) => {
       </View>
 
       <View style={styles.barberDetailsContainer}>
-        {data.map(item => (
-          <Barberdetails key={item.id} item={item} />
-        ))}
+        {/* {data.map(item => ( */}
+        <Barberdetails
+          name={'Barber Saloon'}
+          value={eReceiptData?.Table?.[0]?.SalonName}
+        />
+        <Barberdetails
+          name={'Address'}
+          value={eReceiptData?.Table?.[0]?.LocationName}
+        />
+        <Barberdetails
+          name={'Name'}
+          value={eReceiptData?.Table?.[0]?.CustomerName}
+        />
+        <Barberdetails
+          name={'Phone'}
+          value={eReceiptData?.Table?.[0]?.PhoneNo}
+        />
+        <Barberdetails
+          name={'Booking Date'}
+          value={eReceiptData?.Table?.[0]?.BookingDate}
+        />
+        <Barberdetails
+          name={'Booking Hours'}
+          value={eReceiptData?.Table?.[0]?.Slot}
+        />
+        <Barberdetails
+          name={'Specialist'}
+          value={eReceiptData?.Table?.[0]?.BarberName}
+        />
+        {/* ))} */}
       </View>
 
       <View style={styles.barberSevicesContainer}>
-        {data2.map(item => (
-          <Pricedetails key={item.id} item={item} />
+        {eReceiptData?.Table1?.map(item => (
+          <Pricedetails key={item.serviceId} item={item} />
         ))}
 
-<View style={{ height: 1, position:'relative', marginHorizontal: 15, margin: 10 }}>
-            <View style={styles.DashLinestyle}></View>
-          </View>
-    
+        <View
+          style={{
+            height: 1,
+            position: 'relative',
+            marginHorizontal: 15,
+            margin: 10,
+          }}>
+          <View style={styles.DashLinestyle}></View>
+        </View>
+
         <View
           style={{
             flexDirection: 'row',
@@ -116,7 +198,9 @@ const BarberEReceipt = ({navigation}) => {
             marginTop: 5,
           }}>
           <Text style={{color: 'white', fontWeight: '700'}}>Total</Text>
-          <Text style={{color: '#c79647', fontWeight: '700'}}>$120.00</Text>
+          <Text style={{color: '#c79647', fontWeight: '700'}}>
+            ${eReceiptData?.Table2?.[0]?.Column1}.00
+          </Text>
         </View>
       </View>
 
@@ -130,7 +214,7 @@ const BarberEReceipt = ({navigation}) => {
   );
 };
 
-const Barberdetails = ({item}) => {
+const Barberdetails = ({name, value}) => {
   return (
     <View>
       <View style={{flexDirection: 'column', justifyContent: 'space-between'}}>
@@ -143,10 +227,12 @@ const Barberdetails = ({item}) => {
             marginVertical: 5,
           }}>
           <Text style={{color: 'white', fontSize: 13, fontWeight: '400'}}>
-            {item.title}
+            {name}
           </Text>
           <Text style={{color: 'white', fontSize: 13, fontWeight: '400'}}>
-            {item.label}
+            {name == 'Booking Date'
+              ? moment(value).format('DD-MM-YYYY')
+              : value}
           </Text>
         </View>
       </View>
@@ -167,10 +253,10 @@ const Pricedetails = ({item}) => {
             marginVertical: 5,
           }}>
           <Text style={{color: 'white', fontSize: 13.5, fontWeight: '400'}}>
-            {item.title}
+            {item.serviceName}
           </Text>
-          <Text style={{color: 'white', fontSize: 13.5, fontWeight: '400'}}>
-            {item.price}
+          <Text style={{color: 'white', fontSize: 13.5, fontWeight: 'bold'}}>
+            ${item.ServicePrice}
           </Text>
         </View>
       </View>
@@ -181,5 +267,3 @@ const Pricedetails = ({item}) => {
 export default BarberEReceipt;
 
 // const styles = StyleSheet.create({
- 
- 

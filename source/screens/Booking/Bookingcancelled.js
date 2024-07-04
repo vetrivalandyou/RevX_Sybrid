@@ -1,10 +1,39 @@
 import {View, Text, StyleSheet, Image, FlatList} from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {PostRequest} from '../../services/apiCall';
+import {useIsFocused} from '@react-navigation/native';
+import {endPoint} from '../../AppConstants/urlConstants';
 import {ScreenSize, screenSize} from '../../components/atom/ScreenSize';
-import React from 'react';
 import Completedbutton from '../../components/atom/BookingButtons/Completedbutton';
+import moment from 'moment';
 
-const Bookingcancelled = ({data}) => {
-  const ListBookingCanceled = item => {
+const Bookingcancelled = ({data, userDetails}) => {
+  const isFocused = useIsFocused();
+  const [userCancelledBooking, setUserCancelledBooking] = useState([]);
+  useEffect(() => {
+    if (isFocused) getBookingCancelled();
+  }, [isFocused]);
+
+  const getBookingCancelled = () => {
+    const payload = {
+      operationID: 3,
+      roleID: userDetails?._RoleId,
+      customerID: userDetails?.userId,
+      userID: 0,
+      userIP: 'string',
+    };
+    console.log('payload', payload);
+    PostRequest(endPoint.BB_BOOKEDSLOTS, payload)
+      .then(res => {
+        console.log('getBookingCancelled Response', res?.data);
+        setUserCancelledBooking(res?.data?.Table);
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  };
+
+  const ListBookingCanceled = ({item}) => {
     return (
       <View style={styles.Containerstyle}>
         <View style={{flex: 1, borderRadius: 20}}>
@@ -19,7 +48,8 @@ const Bookingcancelled = ({data}) => {
             }}>
             <View style={{flex: 0.6}}>
               <Text style={{color: 'white', fontSize: 14}}>
-                {item.item.date}
+                {moment(item?.BookingDate).format('DD-MM-YYYY')} -{' '}
+                {item?.SlotName}
               </Text>
             </View>
 
@@ -32,8 +62,19 @@ const Bookingcancelled = ({data}) => {
             </View>
           </View>
 
-          <View style={{ position:'relative', marginHorizontal: 15 }}>
-            <View style={{ position: 'absolute', top: 0, bottom: 0, left: 0, right: 0, borderWidth: 1, borderColor: appColors.Goldcolor, borderStyle: 'dashed', backgroundColor:'transparent'  }}></View>
+          <View style={{position: 'relative', marginHorizontal: 15}}>
+            <View
+              style={{
+                position: 'absolute',
+                top: 0,
+                bottom: 0,
+                left: 0,
+                right: 0,
+                borderWidth: 1,
+                borderColor: appColors.Goldcolor,
+                borderStyle: 'dashed',
+                backgroundColor: 'transparent',
+              }}></View>
           </View>
           <View
             style={{
@@ -44,7 +85,7 @@ const Bookingcancelled = ({data}) => {
             }}>
             <View style={{flex: 0.35, alignItems: 'center'}}>
               <Image
-                source={item.item.Imagesource}
+                source={item.BarberProfileImage}
                 style={{
                   height: '80%',
                   width: '82%',
@@ -53,9 +94,9 @@ const Bookingcancelled = ({data}) => {
                 }}
               />
             </View>
-            <View style={{flexDirection: 'column', flex: 0.63}}>
+            <View style={{flexDirection: 'column', flex: 0.63, paddingHorizontal: 15}}>
               <Text style={{fontSize: 18, fontWeight: '600', color: 'white'}}>
-                {item.item.name}
+                {item?.BarberName}
               </Text>
               <View>
                 <Text
@@ -65,13 +106,13 @@ const Bookingcancelled = ({data}) => {
                     color: 'white',
                     marginVertical: 9,
                   }}>
-                  {item.item.title}
+                  {item.CustomerName}
                 </Text>
               </View>
               <View>
                 <Text
                   style={{fontSize: 10, fontWeight: '400', color: '#c79647'}}>
-                  {item.item.label}
+                  {item.serviceNames}
                 </Text>
               </View>
             </View>
@@ -83,10 +124,11 @@ const Bookingcancelled = ({data}) => {
 
   return (
     <FlatList
-      data={data}
+      data={userCancelledBooking}
+      showsVerticalScrollIndicator={false}
       renderItem={({item, index}) => <ListBookingCanceled item={item} />}
       // renderItem={({item}) => <listBookingCompleted item={item} />}
-      keyExtractor={item => item.id}
+      keyExtractor={item => item.BarbarBookedSlotID}
     />
   );
 };

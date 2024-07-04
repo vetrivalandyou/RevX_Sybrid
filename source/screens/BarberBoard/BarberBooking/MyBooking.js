@@ -18,13 +18,20 @@ import PreBooking from './PreBooking';
 import Header from '../../../components/molecules/Header';
 import {Icons} from '../../../components/molecules/CustomIcon/CustomIcon';
 import constants from '../../../AppConstants/Constants.json';
-import {useNavigation} from '@react-navigation/native';
+import {useIsFocused, useNavigation} from '@react-navigation/native';
 import Screen from '../../../components/atom/ScreenContainer/Screen';
+import {getAsyncItem} from '../../../utils/SettingAsyncStorage';
+import {endPoint} from '../../../AppConstants/urlConstants';
+import {PostRequest} from '../../../services/apiCall';
+import { screenSize } from '../../../components/atom/ScreenSize';
 
 const MyBooking = () => {
+  const isFocused = useIsFocused();
   const navigation = useNavigation();
   const activeButton = useRef('1');
   const [tabState, setTabState] = useState(false);
+  const [userDetails, setUserDetails] = useState({});
+  const [preBookingList, setPreBookingList] = useState({});
 
   const data = [
     {
@@ -77,6 +84,40 @@ const MyBooking = () => {
     },
   ];
 
+  useEffect(() => {
+    if (isFocused) {
+      getAyncUserDetails();
+    }
+  }, [isFocused]);
+
+  const getAyncUserDetails = async () => {
+    const asyncUserDetails = await getAsyncItem(
+      constants.AsyncStorageKeys.userDetails,
+    );
+    console.log('asyncUserDetails', asyncUserDetails);
+    setUserDetails(asyncUserDetails);
+    getPreBookings(asyncUserDetails);
+  };
+
+  const getPreBookings = asyncUserDetails => {
+    const payload = {
+      operationID: 1,
+      roleID: asyncUserDetails?._RoleId,
+      customerID: 0,
+      userID: asyncUserDetails?.userId,
+      userIP: 'string',
+    };
+    console.log('payload', payload);
+    PostRequest(endPoint.BB_BOOKEDSLOTS, payload)
+      .then(res => {
+        console.log('getPreBookings Response', res?.data);
+        setPreBookingList(res?.data?.Table);
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  };
+
   const handleButtonPress = buttonName => {
     activeButton.current = buttonName; // Update useRef instead of setState
     setTabState(!tabState);
@@ -85,13 +126,13 @@ const MyBooking = () => {
   const renderComponent = () => {
     switch (activeButton.current) {
       case '1':
-        return <PreBooking data={data} />;
+        return <PreBooking data={data} userDetails={userDetails} preBookingList={preBookingList} setPreBookingList={setPreBookingList} />;
 
       case '2':
-        return <Bookingcompleted data={data} />;
+        return <Bookingcompleted data={data} userDetails={userDetails} />;
 
       case '3':
-        return <Bookingcancelled data={data} />;
+        return <Bookingcancelled data={data} userDetails={userDetails} />;
 
       default:
         return null;
@@ -104,7 +145,7 @@ const MyBooking = () => {
     <Screen
       statusBarColor={appColors.Black}
       barStyle="light-content"
-      viewStyle={{backgroundColor: 'appColors.Black'}}>
+      viewStyle={{backgroundColor: appColors.Black, minHeight: screenSize.height, maxHeight: 'auto'}}>
       <View style={{flex: 0.1}}>
         <Header
           lefttIcoType={Icons.Ionicons}

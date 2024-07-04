@@ -1,12 +1,12 @@
 import {StyleSheet} from 'react-native';
 import appColors from '../../../AppConstants/appColors';
-import Sizes from '../../../AppConstants/Sizes';
 import {screenSize} from '../../../components/atom/ScreenSize';
 
 export default StyleSheet.create({
   mainContainer: {
     flex: 1,
-    padding: 15,
+    paddingHorizontal: 10,
+    // padding: 15,
     backgroundColor: appColors.Black,
   },
   HeaderView: {
@@ -33,13 +33,11 @@ export default StyleSheet.create({
 
   chatContainer: {
     height: 'auto',
-    backgroundColor: appColors.darkgrey,
     width: screenSize.width / 1.3,
     borderBottomLeftRadius: 10,
     borderTopRightRadius: 10,
     borderBottomRightRadius: 10,
     padding: 15,
-    alignSelf: 'flex-start',
     marginVertical: 4,
   },
   input: {

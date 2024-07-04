@@ -27,14 +27,17 @@ import {PostRequest} from '../../services/apiCall';
 import {getAsyncItem} from '../../utils/SettingAsyncStorage';
 import LocationBottomSheet from '../../components/atom/LocationButtomSheet';
 import BottomSheet from '../../components/molecules/BottomSheetContent/BottomSheet';
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {requestLocationPermissionAndGetLocation} from '../../utils/GetLocation';
 import {LATEST_SELECT, SUCCESS_CODE} from '../../AppConstants/appConstants';
 import {useIsFocused} from '@react-navigation/native';
 import {SimpleSnackBar} from '../../components/atom/Snakbar/Snakbar';
+import SignalRService from '../../services/SignalRService';
+import {SET_INITIAL_DROPDOWN_FORM_STATE} from '../../redux/ActionType/CrudActionTypes';
 const HomeScreen = ({navigation}) => {
   const {coords} = useSelector(state => state.LocationReducer);
   const isFocused = useIsFocused();
+  const dispatch = useDispatch();
   const locationBottomSheetRef = useRef(null);
   const [userDetails, setUserDetails] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
@@ -58,14 +61,33 @@ const HomeScreen = ({navigation}) => {
       constants.AsyncStorageKeys.nearest_landmark,
     );
     const asyncLongLat = await getAsyncItem(constants.AsyncStorageKeys.longLat);
-    console.log(
-      'asyncLongLatasyncLongLatasyncLongLatasyncLongLatasyncLongLatasyncLongLat --------------- ',
-      asyncLongLat,
-    );
     setUserDetails(userDetails);
     setSelectedLocation(asyncNearestLandmark);
     setSelectedLongLat(selectedLongLat);
     getBarberList(asyncLongLat);
+    if (SignalRService?.isConnected()) {
+      console.log('SignalR is in Connected State');
+    } else {
+      connectToSignalR(userDetails);
+    }
+  };
+
+  const connectToSignalR = async userDetails => {
+    SignalRService.startConnection(
+      // 0,
+      // parseInt(userDetails?.userId),
+      parseInt(userDetails?._RoleId),
+      userDetails?.userId.toString(),
+    );
+    SignalRService.onGetChatList_CC(json => {
+      let parsedData = JSON.parse(json);
+      console.log('Get Chat CC', parsedData);
+      let data = {
+        name: 'InboxList',
+        value: parsedData,
+      };
+      dispatch({type: SET_INITIAL_DROPDOWN_FORM_STATE, payload: data});
+    });
   };
 
   function getBarberList(asyncLongLat) {

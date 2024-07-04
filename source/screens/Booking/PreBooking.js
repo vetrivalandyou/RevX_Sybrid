@@ -1,12 +1,44 @@
 import {View, Text, StyleSheet, Image, FlatList, Platform} from 'react-native';
 import Bookingbutton from '../../components/atom/BookingButtons/Bookingbutton';
 import {ScreenSize, screenSize} from '../../components/atom/ScreenSize';
-import React from 'react';
+import React, {useEffect} from 'react';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import appColors from '../../AppConstants/appColors';
+import moment from 'moment';
+import {useIsFocused} from '@react-navigation/native';
+import {PostRequest} from '../../services/apiCall';
+import {endPoint, imageUrl} from '../../AppConstants/urlConstants';
+import Completedbutton from '../../components/atom/BookingButtons/Completedbutton';
 
-const PreBooking = ({data}) => {
-  const ListPrebooking = item => {
+const PreBooking = ({data, userDetails, preBookingList, setPreBookingList}) => {
+  const isFocused = useIsFocused();
+
+  useEffect(() => {
+    if (isFocused) {
+      getPreBookings();
+    }
+  }, [isFocused]);
+
+  const getPreBookings = () => {
+    const payload = {
+      operationID: 1,
+      roleID: userDetails?._RoleId,
+      customerID: userDetails?.userId,
+      userID: 0,
+      userIP: 'string',
+    };
+    console.log('payload', payload);
+    PostRequest(endPoint.BB_BOOKEDSLOTS, payload)
+      .then(res => {
+        console.log('getPreBookings Response', res?.data);
+        setPreBookingList(res?.data?.Table);
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  };
+
+  const ListPrebooking = ({item}) => {
     return (
       <View style={styles.Containerstyle}>
         <View style={{flex: 1, borderRadius: 20}}>
@@ -19,12 +51,13 @@ const PreBooking = ({data}) => {
               marginHorizontal: 15,
               marginTop: 5,
             }}>
-            <View style={{flex: 0.7}}>
+            <View style={{flex: 0.6}}>
               <Text style={{color: 'white', fontSize: 14}}>
-                {item.item.date}
+                {moment(item?.BookingDate).format('DD-MM-YYYY')} -{' '}
+                {item?.SlotName}
               </Text>
             </View>
-            <View style={{flex: 0.3, alignItems: 'flex-end'}}>
+            <View style={{flex: 0.3, alignItems: 'center'}}>
               <View style={styles.Ratingbox}>
                 <View
                   style={{
@@ -35,25 +68,38 @@ const PreBooking = ({data}) => {
                   }}>
                   <AntDesign name={'staro'} size={12} color={'#c79647'} />
                   <Text style={{color: '#c79647', fontSize: 11}}>
-                    {item.item.rating}
+                    {/* {item.item.rating} */}
+                    4.5
                   </Text>
                 </View>
               </View>
             </View>
+            <View style={{flex: 0.2, justifyContent: 'center'}}>
+              <Completedbutton
+                style={{
+                  backgroundColor:
+                    item?.StatusID == 9 ? appColors.Gray : '#6be521',
+                }}
+                textstyle={{color: appColors.White}}
+                title={item?.StatusID == 9 ? 'Pending' : 'Accepted'}
+              />
+            </View>
           </View>
 
-          <View style={{ position:'relative', marginHorizontal: 15 }}>
-            <View style={{ position: 'absolute', top: 0, bottom: 0, left: 0, right: 0, borderWidth: 1, borderColor: appColors.Goldcolor, borderStyle: 'dashed', backgroundColor:'transparent'  }}></View>
+          <View style={{position: 'relative', marginHorizontal: 15}}>
+            <View
+              style={{
+                position: 'absolute',
+                top: 0,
+                bottom: 0,
+                left: 0,
+                right: 0,
+                borderWidth: 1,
+                borderColor: appColors.Goldcolor,
+                borderStyle: 'dashed',
+                backgroundColor: 'transparent',
+              }}></View>
           </View>
-
-          {/* <View
-            style={{
-              fontSize: 25,
-              marginHorizontal: 14,
-              borderBottomWidth: 2,
-              borderStyle: Platform.OS == 'ios' ? 'solid' : 'dashed',
-              borderBottomColor: '#c79647',
-            }}></View> */}
 
           <View
             style={{
@@ -64,7 +110,8 @@ const PreBooking = ({data}) => {
             }}>
             <View style={{flex: 0.35, alignItems: 'center'}}>
               <Image
-                source={item.item.Imagesource}
+                // source={require('../../assets/rectangle2.png')}
+                source={{uri: `${imageUrl}/${item?.BarberProfileImage}`}}
                 style={{
                   height: '80%',
                   width: '82%',
@@ -73,9 +120,9 @@ const PreBooking = ({data}) => {
                 }}
               />
             </View>
-            <View style={{flexDirection: 'column', flex: 0.63}}>
+            <View style={{flexDirection: 'column', flex: 0.63, paddingHorizontal: 15}}>
               <Text style={{fontSize: 18, fontWeight: '600', color: 'white'}}>
-                {item.item.name}
+                {item?.BarberName}
               </Text>
               <View>
                 <Text
@@ -85,13 +132,13 @@ const PreBooking = ({data}) => {
                     color: 'white',
                     marginVertical: 9,
                   }}>
-                  {item.item.title}
+                  {item?.CustomerName}
                 </Text>
               </View>
               <View>
                 <Text
                   style={{fontSize: 10, fontWeight: '400', color: '#c79647'}}>
-                  {item.item.label}
+                  {item.serviceNames}
                 </Text>
               </View>
             </View>
@@ -120,10 +167,11 @@ const PreBooking = ({data}) => {
 
   return (
     <FlatList
-      data={data}
+      data={preBookingList}
+      showsVerticalScrollIndicator={false}
       renderItem={({item, index}) => <ListPrebooking item={item} />}
       // renderItem={({item}) => <listBookingCompleted item={item} />}
-      keyExtractor={item => item.id}
+      keyExtractor={item => item.BarbarBookedSlotID}
     />
   );
 };
