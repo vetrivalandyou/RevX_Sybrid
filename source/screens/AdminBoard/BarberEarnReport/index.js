@@ -27,87 +27,87 @@ const BarberEarnReport = ({navigation}) => {
   const stackData = [
     {
       stacks: [
-        {value: 20, color: appColors.Goldcolor},
-        {value: 10, color: '#292929', marginBottom: 5},
+        {value: 70, color: appColors.Goldcolor},
+        {value: 30, color: '#292929', marginBottom: 5},
       ],
       label: 'Jan',
     },
 
     {
       stacks: [
-        {value: 14, color: '#9A72F5'},
-        {value: 18, color: '#292929', marginBottom: 5},
+        {value: 70, color: '#9A72F5'},
+        {value: 30, color: '#292929', marginBottom: 5},
       ],
       label: 'Feb',
     },
     {
       stacks: [
-        {value: 20, color: appColors.Goldcolor},
-        {value: 10, color: '#292929', marginBottom: 5},
+        {value: 70, color: appColors.Goldcolor},
+        {value: 30, color: '#292929', marginBottom: 5},
       ],
       label: 'Mar',
     },
     {
       stacks: [
-        {value: 14, color: '#9A72F5'},
-        {value: 18, color: '#292929', marginBottom: 5},
+        {value: 70, color: '#9A72F5'},
+        {value: 30, color: '#292929', marginBottom: 5},
       ],
       label: 'Apr',
     },
     {
       stacks: [
-        {value: 20, color: appColors.Goldcolor},
-        {value: 10, color: '#292929', marginBottom: 5},
+        {value: 70, color: appColors.Goldcolor},
+        {value: 30, color: '#292929', marginBottom: 5},
       ],
       label: 'May',
     },
     {
       stacks: [
-        {value: 14, color: '#9A72F5'},
-        {value: 18, color: '#292929', marginBottom: 5},
+        {value: 70, color: '#9A72F5'},
+        {value: 30, color: '#292929', marginBottom: 5},
       ],
       label: 'Jun',
     },
     {
       stacks: [
-        {value: 20, color: appColors.Goldcolor},
-        {value: 10, color: '#292929', marginBottom: 5},
+        {value: 70, color: appColors.Goldcolor},
+        {value: 30, color: '#292929', marginBottom: 5},
       ],
       label: 'Jul',
     },
 
     {
       stacks: [
-        {value: 14, color: '#9A72F5'},
-        {value: 18, color: '#292929', marginBottom: 5},
+        {value: 70, color: '#9A72F5'},
+        {value: 30, color: '#292929', marginBottom: 5},
       ],
       label: 'Aug',
     },
     {
       stacks: [
-        {value: 20, color: appColors.Goldcolor},
-        {value: 10, color: '#292929', marginBottom: 5},
+        {value: 70, color: appColors.Goldcolor},
+        {value: 30, color: '#292929', marginBottom: 5},
       ],
       label: 'Sep',
     },
     {
       stacks: [
-        {value: 14, color: '#9A72F5'},
-        {value: 18, color: '#292929', marginBottom: 5},
+        {value: 70, color: '#9A72F5'},
+        {value: 30, color: '#292929', marginBottom: 5},
       ],
       label: 'Oct',
     },
     {
       stacks: [
-        {value: 20, color: appColors.Goldcolor},
-        {value: 10, color: '#292929', marginBottom: 5},
+        {value: 70, color: appColors.Goldcolor},
+        {value: 30, color: '#292929', marginBottom: 5},
       ],
       label: 'Nov',
     },
     {
       stacks: [
-        {value: 20, color: appColors.Goldcolor},
-        {value: 10, color: '#292929', marginBottom: 5},
+        {value: 70, color: appColors.Goldcolor},
+        {value: 30, color: '#292929', marginBottom: 5},
       ],
       label: 'Dec',
     },
@@ -144,7 +144,7 @@ const BarberEarnReport = ({navigation}) => {
           justifyContent: 'center',
           alignItems: 'center',
           borderRadius: 20,
-          marginHorizontal: 10
+          marginHorizontal: 10,
         }}>
         <Text style={{color: appColors.White, fontSize: 16}}>
           Total Balance
@@ -160,7 +160,8 @@ const BarberEarnReport = ({navigation}) => {
 
 
             </View> */}
-      <View style={{flex: 0.45, justifyContent:'center', alignItems:'center'}}>
+      <View
+        style={{flex: 0.45, justifyContent: 'center', alignItems: 'center'}}>
         <BarChart
           width={screenSize.width}
           spacing={15}

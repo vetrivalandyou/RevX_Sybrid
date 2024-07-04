@@ -63,231 +63,202 @@ const HomeSuperAdmin = () => {
 
   return (
     <Screen statusBarColor={appColors.Black} viewStyle={styles.MianContainer}>
-      {/* Header View */}
-
-      <View style={styles.headerView}>
-        <Header
-          image={true}
-          headerText={'Super Admin'}
-          onPressRightIcon={() =>
-            navigation.navigate(constants.AdminScreens.AdminNotification)
-          }
-          rightIcoName={'bell-fill'}
-          rightIcoType={Icons.Octicons}
-          logIn={'success'}
-          rightIcoSize={16}
-          leftIcoStyle={styles.headerleftIcoStyle}
-          headerTextt={{
-            marginLeft: 10,
-            fontSize: Sizes.medium,
-            textAlign: 'left',
-          }}
-        />
-      </View>
-
-      {/* Search Bar View */}
-
-      <View style={styles.searchBarContainer}>
-        <Search style={{marginVertical: 10}} />
-      </View>
-
-      {/* <View style={styles.visaCardDetailsView}>
-        <View
-          style={{
-            flex: 0.7,
-            justifyContent: 'center',
-            justifyContent: 'green',
-            justifyContent: 'center',
-          }}>
-          <Image source={AppImages.Atmcard} />
-        </View>
-        <View style={{flex: 0.4, justifyContent: 'center'}}>
-          <Text style={styles.haedingText}>Available Balance</Text>
-        </View>
-
-        <View
-          style={{
-            flex: 0.6,
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-          }}>
-          <View style={{flex: 0.5}}>
-            <Text style={styles.balanceText}>$XXXX.XX</Text>
-          </View>
-
-          <View
-            style={{
-              flex: 0.5,
-              justifyContent: 'center',
-              alignItems: 'flex-end',
-            }}>
-            <Text style={{color: appColors.White, textAlign: 'center'}}>
-              EX 06/24
-            </Text>
-          </View>
-        </View>
-      </View> */}
-
-      <View style={styles.cardContainer}>
-        <View style={styles.imgContainer}>
-          <Image source={AppImages.visaimg} style={{flex: 1}} />
-        </View>
-
-        <View style={styles.cardInnerContainer}>
-          <View style={styles.AvailableBalancetTextViewStyle}>
-            <Text style={styles.AvailableBalanceTextStyle}>
-              Available Balance
-            </Text>
-          </View>
-
-          <View style={styles.balanceMainViewStyle}>
-            <View style={styles.balanceViewStyle}>
-              <Text style={styles.balanceTextStyle}>$XXXX.XX</Text>
-            </View>
-
-            <View style={styles.ExViewStyle}>
-              <Text style={styles.ExTextStyle}>EX 06/24</Text>
-            </View>
-          </View>
-        </View>
-      </View>
-
-      <View
-        style={{flex: 0.19, flexDirection: 'row', justifyContent: 'center'}}>
-        <TouchableOpacity
-          style={{flex: 0.2, alignItems: 'center'}}
-          onPress={() =>
-            navigation.navigate(constants.AdminScreens.AdminPaymentMethod)
-          }>
-          <View
-            style={{
-              flex: 0.7,
-              justifyContent: 'center',
-              justifyContent: 'green',
-              justifyContent: 'center',
-            }}>
-            <Image source={AppImages.Transfer} />
-          </View>
-          <View style={{flex: 0.3}}>
-            <Text style={{color: appColors.White, fontSize: 12}}>Transfer</Text>
-          </View>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={{flex: 0.2, justifyContent: 'center', alignItems: 'center'}}
-          onPress={() =>
-            navigation.navigate(constants.AdminScreens.RecentTransactionsMain)
-          }>
-          <View
-            style={{
-              flex: 0.7,
-              justifyContent: 'center',
-              justifyContent: 'green',
-              justifyContent: 'center',
-            }}>
-            <Image source={AppImages.Transaction} />
-          </View>
-          <View style={{flex: 0.3}}>
-            <Text style={{color: appColors.White, fontSize: 12}}>
-              Transaction
-            </Text>
-          </View>
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          style={{flex: 0.2, justifyContent: 'center', alignItems: 'center'}}
-          onPress={() => navigation.navigate(constants.AdminScreens.Report)}>
-          <View
-            style={{
-              flex: 0.7,
-              justifyContent: 'center',
-              justifyContent: 'green',
-              justifyContent: 'center',
-            }}>
-            <Image source={AppImages.Report} />
-          </View>
-          <View style={{flex: 0.3}}>
-            <Text style={{color: appColors.White, fontSize: 12}}>Report</Text>
-          </View>
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          onPress={() =>
-            navigation.navigate(constants.AdminScreens.AdminManageContent)
-          }
-          style={{flex: 0.2, justifyContent: 'center', alignItems: 'center'}}>
-          <View
-            style={{
-              flex: 0.7,
-              justifyContent: 'center',
-              justifyContent: 'green',
-              justifyContent: 'center',
-            }}>
-            <Image source={AppImages.Report} />
-          </View>
-          <View style={{flex: 0.3}}>
-            <Text style={{color: appColors.White, fontSize: 12}}>
-              Content Manage
-            </Text>
-          </View>
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          onPress={() =>
-            navigation.navigate(constants.AdminScreens.AdminUserDetails)
-          }
-          style={{flex: 0.2, justifyContent: 'center', alignItems: 'center'}}>
-          <View
-            style={{
-              flex: 0.7,
-              justifyContent: 'center',
-              justifyContent: 'green',
-              justifyContent: 'center',
-            }}>
-            <Image source={AppImages.UserPage} />
-          </View>
-          <View style={{flex: 0.3}}>
-            <Text style={{color: appColors.White, fontSize: 12}}>
-              User Page
-            </Text>
-          </View>
-        </TouchableOpacity>
-      </View>
-
       <View
         style={{
-          flex: 0.1,
-          flexDirection: 'row',
-          justifyContent: 'space-between',
-          alignItems: 'center',
+          minHeight: screenSize.height / 1.15,
+          maxHeight: 'auto',
         }}>
-        <View style={{flex: 0.5}}>
-          <Text
-            style={{fontWeight: '400', fontSize: 22, color: appColors.White}}>
-            Barber Earnings
-          </Text>
+        <View style={styles.headerView}>
+          <Header
+            image={true}
+            headerText={'Super Admin'}
+            onPressRightIcon={() =>
+              navigation.navigate(constants.AdminScreens.AdminNotification)
+            }
+            rightIcoName={'bell-fill'}
+            rightIcoType={Icons.Octicons}
+            logIn={'success'}
+            rightIcoSize={16}
+            leftIcoStyle={styles.headerleftIcoStyle}
+            headerTextt={{
+              marginLeft: 10,
+              fontSize: Sizes.medium,
+              textAlign: 'left',
+            }}
+          />
         </View>
 
-        <TouchableOpacity
-          onPress={() =>
-            navigation.navigate(constants.AdminScreens.AdminBarberEarnings)
-          }
-          style={{flex: 0.5, justifyContent: 'flex-end', flexDirection: 'row'}}>
-          <Text style={{color: appColors.Goldcolor, fontSize: 14}}>
-            View All
-          </Text>
-          <CustomIcon
-            type={Icons.Ionicons}
-            name={'chevron-forward'}
-            size={15}
-            color={appColors.Goldcolor}
-          />
-        </TouchableOpacity>
-      </View>
+        <View style={styles.searchBarContainer}>
+          <Search style={{marginVertical: 10}} />
+        </View>
 
-      <View style={{flex: 0.26, justifyContent: 'center'}}>
-        {BarberEarnings.map(item => (
-          <BarberEarningsContainer key={item.id} item={item} />
-        ))}
+        <View style={styles.cardContainer}>
+          <View style={styles.imgContainer}>
+            <Image source={AppImages.visaimg} style={{flex: 1}} />
+          </View>
+
+          <View style={styles.cardInnerContainer}>
+            <View style={styles.AvailableBalancetTextViewStyle}>
+              <Text style={styles.AvailableBalanceTextStyle}>
+                Available Balance
+              </Text>
+            </View>
+
+            <View style={styles.balanceMainViewStyle}>
+              <View style={styles.balanceViewStyle}>
+                <Text style={styles.balanceTextStyle}>$XXXX.XX</Text>
+              </View>
+
+              <View style={styles.ExViewStyle}>
+                <Text style={styles.ExTextStyle}>EX 06/24</Text>
+              </View>
+            </View>
+          </View>
+        </View>
+
+        <View
+          style={{flex: 0.19, flexDirection: 'row', justifyContent: 'center'}}>
+          <TouchableOpacity
+            style={{flex: 0.2, alignItems: 'center'}}
+            onPress={() =>
+              navigation.navigate(constants.AdminScreens.AdminPaymentMethod)
+            }>
+            <View
+              style={{
+                flex: 0.7,
+                justifyContent: 'center',
+                justifyContent: 'green',
+                justifyContent: 'center',
+              }}>
+              <Image source={AppImages.Transfer} />
+            </View>
+            <View style={{flex: 0.3}}>
+              <Text style={{color: appColors.White, fontSize: 12}}>
+                Transfer
+              </Text>
+            </View>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={{flex: 0.2, justifyContent: 'center', alignItems: 'center'}}
+            onPress={() =>
+              navigation.navigate(constants.AdminScreens.RecentTransactionsMain)
+            }>
+            <View
+              style={{
+                flex: 0.7,
+                justifyContent: 'center',
+                justifyContent: 'green',
+                justifyContent: 'center',
+              }}>
+              <Image source={AppImages.Transaction} />
+            </View>
+            <View style={{flex: 0.3}}>
+              <Text style={{color: appColors.White, fontSize: 12}}>
+                Transaction
+              </Text>
+            </View>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={{flex: 0.2, justifyContent: 'center', alignItems: 'center'}}
+            onPress={() => navigation.navigate(constants.AdminScreens.Report)}>
+            <View
+              style={{
+                flex: 0.7,
+                justifyContent: 'center',
+                justifyContent: 'green',
+                justifyContent: 'center',
+              }}>
+              <Image source={AppImages.Report} />
+            </View>
+            <View style={{flex: 0.3}}>
+              <Text style={{color: appColors.White, fontSize: 12}}>Report</Text>
+            </View>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            onPress={() =>
+              navigation.navigate(constants.AdminScreens.AdminManageContent)
+            }
+            style={{flex: 0.2, justifyContent: 'center', alignItems: 'center'}}>
+            <View
+              style={{
+                flex: 0.7,
+                justifyContent: 'center',
+                justifyContent: 'green',
+                justifyContent: 'center',
+              }}>
+              <Image source={AppImages.Report} />
+            </View>
+            <View style={{flex: 0.3}}>
+              <Text style={{color: appColors.White, fontSize: 12}}>
+                Content Manage
+              </Text>
+            </View>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            onPress={() =>
+              navigation.navigate(constants.AdminScreens.AdminUserDetails)
+            }
+            style={{flex: 0.2, justifyContent: 'center', alignItems: 'center'}}>
+            <View
+              style={{
+                flex: 0.7,
+                justifyContent: 'center',
+                justifyContent: 'green',
+                justifyContent: 'center',
+              }}>
+              <Image source={AppImages.UserPage} />
+            </View>
+            <View style={{flex: 0.3}}>
+              <Text style={{color: appColors.White, fontSize: 12}}>
+                User Page
+              </Text>
+            </View>
+          </TouchableOpacity>
+        </View>
+
+        <View
+          style={{
+            flex: 0.1,
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+          }}>
+          <View style={{flex: 0.5}}>
+            <Text
+              style={{fontWeight: '400', fontSize: 22, color: appColors.White}}>
+              Barber Earnings
+            </Text>
+          </View>
+
+          <TouchableOpacity
+            onPress={() =>
+              navigation.navigate(constants.AdminScreens.AdminBarberEarnings)
+            }
+            style={{
+              flex: 0.5,
+              justifyContent: 'flex-end',
+              flexDirection: 'row',
+            }}>
+            <Text style={{color: appColors.Goldcolor, fontSize: 14}}>
+              View All
+            </Text>
+            <CustomIcon
+              type={Icons.Ionicons}
+              name={'chevron-forward'}
+              size={15}
+              color={appColors.Goldcolor}
+            />
+          </TouchableOpacity>
+        </View>
+
+        <View style={{flex: 0.26, justifyContent: 'center'}}>
+          {BarberEarnings.map(item => (
+            <BarberEarningsContainer key={item.id} item={item} />
+          ))}
+        </View>
       </View>
     </Screen>
   );
