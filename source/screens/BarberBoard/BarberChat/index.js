@@ -31,6 +31,8 @@ const BarberChat = ({route, navigation}) => {
   const [message, setMessage] = useState('');
   const [userDetails, setuserDetails] = useState({});
 
+  console.log("profileData ---------------", profileData)
+
   useEffect(() => {
     // if(isFocused){
     console.log('BarberID, CustomerIDBarberID, CustomerID');
@@ -48,13 +50,6 @@ const BarberChat = ({route, navigation}) => {
   };
 
   const connectToSignalR = async userDetails => {
-    // SignalRService.joinChat(
-    //   0,
-    //   profileData?.BarbarID,
-    //   userDetails?.userId,
-    //   profileData?.MeetingID,
-    // );
-
     SignalRService.onGetmeetingid(json => {
       let parsedData = JSON.parse(json);
       console.log('onGetmeetingid parsedData ---- ', parsedData);
@@ -86,8 +81,17 @@ const BarberChat = ({route, navigation}) => {
   };
 
   const sendMessage = async message => {
-    console.log('messagemessage', message, profileData?.CustomerID.toString());
-    await SignalRService.sendMessage(message, profileData?.CustomerID.toString());
+    console.log(
+      'messagemessage',
+      message,
+      profileData?.CustomerID.toString(),
+      userDetails?.userId.toString(),
+    );
+    await SignalRService.sendMessage(
+      message,
+      profileData?.CustomerID.toString(),
+      userDetails?.userId.toString(),
+    );
     setMessage('');
   };
 

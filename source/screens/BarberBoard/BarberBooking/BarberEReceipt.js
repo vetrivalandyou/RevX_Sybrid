@@ -10,6 +10,7 @@ import constants from '../../../AppConstants/Constants.json';
 import styles from './styles';
 import {endPoint} from '../../../AppConstants/urlConstants';
 import {PostRequest} from '../../../services/apiCall';
+import moment from 'moment';
 
 const BarberEReceipt = ({route, navigation}) => {
   const {bookingSlot} = route.params || 0;
@@ -112,7 +113,7 @@ const BarberEReceipt = ({route, navigation}) => {
       });
   };
 
-  console.log("eReceiptData?.Table?.[0]",eReceiptData?.Table?.[0])
+  console.log('eReceiptData?.Table?.[0]', eReceiptData?.Table?.[0]);
 
   return (
     <Screen statusBarColor={appColors.Black} viewStyle={styles.MianContainer}>
@@ -142,14 +143,35 @@ const BarberEReceipt = ({route, navigation}) => {
 
       <View style={styles.barberDetailsContainer}>
         {/* {data.map(item => ( */}
-          <Barberdetails name={"Barber Saloon"} value={eReceiptData?.Table?.[0]?.SalonName} />
-          <Barberdetails name={"Address"} value={eReceiptData?.Table?.[0]?.LocationName} />
-          <Barberdetails name={"Name"} value={eReceiptData?.Table?.[0]?.CustomerName} />
-          <Barberdetails name={"Phone"} value={eReceiptData?.Table?.[0]?.CustomerName} />
-          <Barberdetails name={"Booking Date"} value={eReceiptData?.Table?.[0]?.BookingDate} />
-          <Barberdetails name={"Booking Hours"} value={eReceiptData?.Table?.[0]?.Slot} />
-          <Barberdetails name={"Specialist"} value={eReceiptData?.Table?.[0]?.BarberName} />
-         {/* ))} */}
+        <Barberdetails
+          name={'Barber Saloon'}
+          value={eReceiptData?.Table?.[0]?.SalonName}
+        />
+        <Barberdetails
+          name={'Address'}
+          value={eReceiptData?.Table?.[0]?.LocationName}
+        />
+        <Barberdetails
+          name={'Name'}
+          value={eReceiptData?.Table?.[0]?.CustomerName}
+        />
+        <Barberdetails
+          name={'Phone'}
+          value={eReceiptData?.Table?.[0]?.PhoneNo}
+        />
+        <Barberdetails
+          name={'Booking Date'}
+          value={eReceiptData?.Table?.[0]?.BookingDate}
+        />
+        <Barberdetails
+          name={'Booking Hours'}
+          value={eReceiptData?.Table?.[0]?.Slot}
+        />
+        <Barberdetails
+          name={'Specialist'}
+          value={eReceiptData?.Table?.[0]?.BarberName}
+        />
+        {/* ))} */}
       </View>
 
       <View style={styles.barberSevicesContainer}>
@@ -176,7 +198,9 @@ const BarberEReceipt = ({route, navigation}) => {
             marginTop: 5,
           }}>
           <Text style={{color: 'white', fontWeight: '700'}}>Total</Text>
-          <Text style={{color: '#c79647', fontWeight: '700'}}>${eReceiptData?.Table2?.[0]?.Column1}.00</Text>
+          <Text style={{color: '#c79647', fontWeight: '700'}}>
+            ${eReceiptData?.Table2?.[0]?.Column1}.00
+          </Text>
         </View>
       </View>
 
@@ -206,7 +230,9 @@ const Barberdetails = ({name, value}) => {
             {name}
           </Text>
           <Text style={{color: 'white', fontSize: 13, fontWeight: '400'}}>
-            {value}
+            {name == 'Booking Date'
+              ? moment(value).format('DD-MM-YYYY')
+              : value}
           </Text>
         </View>
       </View>

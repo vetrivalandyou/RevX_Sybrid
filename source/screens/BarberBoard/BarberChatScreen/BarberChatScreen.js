@@ -22,6 +22,7 @@ import {AppImages} from '../../../AppConstants/AppImages';
 import {useSelector} from 'react-redux';
 import {useNavigation} from '@react-navigation/native';
 import {imageUrl} from '../../../AppConstants/urlConstants';
+import { screenSize } from '../../../components/atom/ScreenSize';
 
 const BarberChatScreen = () => {
   const {SupportingTables} = useSelector(state => state.CrudFormReducer);
@@ -35,7 +36,7 @@ const BarberChatScreen = () => {
     <Screen
       statusBarColor={appColors.Black}
       barStyle="light-content"
-      viewStyle={{flex: 0.9, padding: 15, minHeight: 900, maxHeight: "auto"}}>
+      viewStyle={{flex: 0.9, padding: 15, minHeight: screenSize.height, maxHeight: "auto"}}>
       <KeyboardAvoidingView
         style={{flex: 1}}
         behavior={Platform.OS === 'ios' ? 'padding' : null}

@@ -88,9 +88,9 @@ class SignalRService {
     this.connection.on('ReceiveMessage', callback);
   };
 
-  sendMessage = async (message, R_ID) => {
+  sendMessage = async (message, R_ID, S_ID, MeetingID) => {
     try {
-      await this.connection.invoke('SendMessage', message, R_ID);
+      await this.connection.invoke('SendMessage', message, R_ID, S_ID, MeetingID);
     } catch (error) {
       console.error('Error while Sending Comments:', error);
     }

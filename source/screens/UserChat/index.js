@@ -97,8 +97,17 @@ const UserChat = ({route, navigation}) => {
   };
   console.log('profileData', profileData);
   const sendMessage = async message => {
-    console.log('message', message, profileData?.BarbarID.toString());
-    await SignalRService.sendMessage(message, profileData?.BarbarID.toString());
+    console.log(
+      'message',
+      message,
+      profileData?.BarbarID.toString(),
+      userDetails?.userId.toString(),
+    );
+    await SignalRService.sendMessage(
+      message,
+      profileData?.BarbarID.toString(),
+      userDetails?.userId.toString(),
+    );
     setMessage('');
   };
 

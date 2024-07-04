@@ -142,8 +142,8 @@ export default StyleSheet.create({
     alignItems: 'center',
   },
   completedImagestyle: {
-    height: '80%',
-    width: '82%',
+    height: '85%',
+    width: '85%',
     borderRadius: 7,
     marginTop: 5,
   },

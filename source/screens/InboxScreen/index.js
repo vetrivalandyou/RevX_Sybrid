@@ -22,6 +22,7 @@ import {useNavigation} from '@react-navigation/native';
 import SignalRService from '../../services/SignalRService';
 import {useSelector} from 'react-redux';
 import {imageUrl} from '../../AppConstants/urlConstants';
+import {screenSize} from '../../components/atom/ScreenSize';
 
 const InboxScreen = () => {
   const {SupportingTables} = useSelector(state => state.CrudFormReducer);
@@ -93,7 +94,12 @@ const InboxScreen = () => {
     <Screen
       statusBarColor={appColors.Black}
       barStyle="light-content"
-      viewStyle={{flex: 0.9, padding: 15, minHeight: 900, maxHeight: 'auto'}}>
+      viewStyle={{
+        flex: 0.9,
+        padding: 15,
+        minHeight: screenSize.height,
+        maxHeight: 'auto',
+      }}>
       <KeyboardAvoidingView
         style={{flex: 1}}
         behavior={Platform.OS === 'ios' ? 'padding' : null}
