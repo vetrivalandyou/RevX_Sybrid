@@ -42,6 +42,7 @@ const BarberEarnReport = ({route, navigation}) => {
   const getBarberEarning = () => {
     const payload = {
       operationID: 2,
+      parameterID: 0,
       barberID: BarberData?.BarbarID,
       _PageNumber: 0,
       _RowsOfPage: 0,

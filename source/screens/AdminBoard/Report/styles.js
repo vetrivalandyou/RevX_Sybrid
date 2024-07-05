@@ -50,6 +50,10 @@ export default StyleSheet.create({
   },
   barberEarnComponenet: {
     flex: 0.25,
+    flexDirection:'row',
+    flexWrap: 'wrap',
+    justifyContent: 'center',
+    alignItems:'center',
   },
 
   mapView: {
