@@ -44,6 +44,7 @@ export const barberRevenueReportGraph = data => {
       {value: 20000, color: '#292929', marginBottom: 5},
     ],
   }));
-  console.log("StackData", stackData)
+  console.log('barberRevenueReportGraph', stackData);
   return stackData;
 };
+
