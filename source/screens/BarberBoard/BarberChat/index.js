@@ -82,15 +82,17 @@ const BarberChat = ({route, navigation}) => {
 
   const sendMessage = async message => {
     console.log(
-      'messagemessage',
+      'Barber Chat Screen Send Message Data ---------------> ',
       message,
       profileData?.CustomerID.toString(),
       userDetails?.userId.toString(),
+      profileData?.MeetingID.toString()
     );
     await SignalRService.sendMessage(
       message,
       profileData?.CustomerID.toString(),
       userDetails?.userId.toString(),
+      profileData?.MeetingID.toString()
     );
     setMessage('');
   };
