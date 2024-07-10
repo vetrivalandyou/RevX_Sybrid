@@ -12,6 +12,7 @@ import ButtonComponent from '../../../components/atom/CustomButtons/ButtonCompon
 import {PostRequest} from '../../../services/apiCall';
 import {endPoint} from '../../../AppConstants/urlConstants';
 import {SimpleSnackBar} from '../../../components/atom/Snakbar/Snakbar';
+import {screenSize} from '../../../components/atom/ScreenSize';
 
 const ForgotPassword = ({navigation}) => {
   const validationSchema = Yup.object().shape({
@@ -39,7 +40,12 @@ const ForgotPassword = ({navigation}) => {
 
   return (
     <Screen
-      authStyle={{flex: 1, backgroundColor: appColors.Goldcolor}}
+      authStyle={{
+        flex: 1,
+        backgroundColor: appColors.Goldcolor,
+        minHeight: screenSize.height,
+        maxHeight: 'auto',
+      }}
       viewStyle={{flex: 1, backgroundColor: appColors.Black}}
       statusBarColor={appColors.Goldcolor}>
       <View style={{flex: 0.3}}>

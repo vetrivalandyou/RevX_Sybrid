@@ -18,6 +18,7 @@ import {AppImages} from '../../../AppConstants/AppImages';
 import {SimpleSnackBar} from '../../../components/atom/Snakbar/Snakbar';
 import ChooseImage from '../../../components/molecules/ChooseImage';
 import {generateRandomNumber} from '../../../functions/AppFunctions';
+import {screenSize} from '../../../components/atom/ScreenSize';
 
 const AddVanservices = ({navigation, route}) => {
   const {userDetails} = route?.params || {};
@@ -70,7 +71,13 @@ const AddVanservices = ({navigation, route}) => {
 
   return (
     <Screen
-      viewStyle={{flex: 1, padding: 15, backgroundColor: appColors.Black}}
+      viewStyle={{
+        flex: 1,
+        padding: 15,
+        backgroundColor: appColors.Black,
+        minHeight: screenSize.height,
+        maxHeight: 'auto',
+      }}
       statusBarColor={appColors.Black}>
       <View style={{flex: 0.1}}>
         <Header
@@ -82,13 +89,13 @@ const AddVanservices = ({navigation, route}) => {
           logIn={'success'}
         />
       </View>
-      <Formik 
+      <Formik
         initialValues={{
           VanName: '',
           VanRegistrationNo: '',
           VanModel: '',
         }}
-        validationSchema={validationSchema} 
+        validationSchema={validationSchema}
         onSubmit={(values, {setSubmitting}) => {
           if (!profileImage) {
             SimpleSnackBar('Please select an image');
@@ -99,8 +106,8 @@ const AddVanservices = ({navigation, route}) => {
         }}>
         {({
           handleChange,
-          handleBlur,  
-          handleSubmit,   
+          handleBlur,
+          handleSubmit,
           values,
           errors,
           touched,
@@ -184,7 +191,6 @@ const AddVanservices = ({navigation, route}) => {
                     onBlur={handleBlur('VanRegistrationNo')}
                     value={values.VanRegistrationNo}
                   />
-
                   <View>
                     {touched.VanRegistrationNo && errors.VanRegistrationNo && (
                       <View style={styles.validationTextview}>

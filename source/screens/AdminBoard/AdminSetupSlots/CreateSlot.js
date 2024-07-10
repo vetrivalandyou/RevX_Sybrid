@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import React, {Fragment, useEffect, useRef, useState} from 'react';
 import Screen from '../../../components/atom/ScreenContainer/Screen';
-import {screenSize} from '../../Utills/AppConstants';
+// import {screenSize} from '../../Utills/AppConstants';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Entypo from 'react-native-vector-icons/Entypo';
 import ButtonComponent from '../../../components/atom/CustomButtons/ButtonComponent';
@@ -30,6 +30,7 @@ import BottomSheet from '../../../components/molecules/BottomSheetContent/Bottom
 import {Formik} from 'formik';
 import * as Yup from 'yup';
 import SimpleTextField from '../../../components/molecules/TextFeilds/SimpleTextField';
+import {screenSize} from '../../../components/atom/ScreenSize';
 
 const CreateSlot = ({navigation}) => {
   const createSlots = (values, setSubmitting) => {
@@ -66,7 +67,13 @@ const CreateSlot = ({navigation}) => {
 
   return (
     <Screen
-      viewStyle={{flex: 1, padding: 15, backgroundColor: appColors.Black}}
+      viewStyle={{
+        flex: 1,
+        padding: 15,
+        backgroundColor: appColors.Black,
+        minHeight: screenSize.height,
+        maxHeight: 'auto',
+      }}
       statusBarColor={appColors.Black}>
       <View style={{flex: 0.1}}>
         <Header
@@ -104,7 +111,7 @@ const CreateSlot = ({navigation}) => {
             isSubmitting,
           }) => (
             <Fragment>
-              <View style={{flex: 0.9}}> 
+              <View style={{flex: 0.9}}>
                 <View style={{flex: 0.19, justifyContent: 'center'}}>
                   <Text
                     style={{
@@ -117,7 +124,6 @@ const CreateSlot = ({navigation}) => {
                     {'Business Hours'}
                   </Text>
                   <SimpleTextField
-                  
                     placeholder={'Working Hours'}
                     placeholderTextColor={appColors.AppLightGray}
                     onChangeText={handleChange('NoofBussinessHours')}
@@ -158,7 +164,6 @@ const CreateSlot = ({navigation}) => {
                     onBlur={handleBlur('DurationInMins')}
                     value={values?.DurationInMins?.toString()}
                     keyboardType={'numeric'}
-                      
                     maxLength={3}
                   />
                   {touched.DurationInMins && errors.DurationInMins && (
