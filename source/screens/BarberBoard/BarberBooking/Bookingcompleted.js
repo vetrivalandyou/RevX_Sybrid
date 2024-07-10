@@ -1,5 +1,12 @@
 import React, {useEffect, useRef, useState} from 'react';
-import {View, Text, StyleSheet, Image, FlatList} from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  Image,
+  FlatList,
+  ActivityIndicator,
+} from 'react-native';
 import Bookingbutton from '../../../components/atom/BookingButtons/Bookingbutton';
 import {ScreenSize, screenSize} from '../../../components/atom/ScreenSize';
 import Completedbutton from '../../../components/atom/BookingButtons/Completedbutton';
@@ -12,12 +19,14 @@ import {endPoint, imageUrl} from '../../../AppConstants/urlConstants';
 import {PostRequest} from '../../../services/apiCall';
 import appColors from '../../../AppConstants/appColors';
 import moment from 'moment';
+import BoxLottie from '../../../components/atom/BoxLottie/BoxLottie';
 
 const Bookingcompleted = ({data, userDetails}) => {
   const navigation = useNavigation();
   const isFocused = useIsFocused();
 
   const timeoutRef = useRef();
+  const [isLoading, setIsLoading] = useState(true);
   const [completedBooking, setCompletedBooking] = useState();
 
   useEffect(() => {
@@ -40,9 +49,11 @@ const Bookingcompleted = ({data, userDetails}) => {
       .then(res => {
         console.log('getPreBookings Response', res?.data);
         setCompletedBooking(res?.data?.Table);
+        setIsLoading(false);
       })
       .catch(err => {
         console.log(err);
+        setIsLoading(false);
       });
   };
 
@@ -54,7 +65,7 @@ const Bookingcompleted = ({data, userDetails}) => {
             <View style={styles.CompletedDateview}>
               <Text style={styles.completedDatestyle}>
                 {' '}
-                {moment(item?.BookingDate).format('DD-MM-YYYY')} -{' '}
+                {moment(item?.BookingDate).format('MMMM DD, YYYY')} -{' '}
                 {item?.SlotName}
               </Text>
             </View>
@@ -77,7 +88,7 @@ const Bookingcompleted = ({data, userDetails}) => {
             <View style={styles.completedTextview}>
               <Text style={styles.Nametext}>{item.CustomerName}</Text>
               <View>
-                <Text style={styles.Titletext}>{item.BarberName}</Text>
+              <Text style={styles.Titletext}>{item.LocationName}</Text>
               </View>
               <View>
                 <Text style={styles.Labeltext}>{item.serviceNames}</Text>
@@ -122,15 +133,27 @@ const Bookingcompleted = ({data, userDetails}) => {
     );
   };
 
-  console.log('completedBooking', completedBooking);
-
   return (
-    <FlatList
-      data={completedBooking}
-      keyExtractor={item => item.BarbarBookedSlotID}
-      showsVerticalScrollIndicator={false}
-      renderItem={({item, index}) => <ListBookingCompleted item={item} />}
-    />
+    <>
+      {isLoading ? (
+        <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+          <ActivityIndicator size="small" color={appColors.Goldcolor} />
+        </View>
+      ) : completedBooking?.length > 0 ? (
+        <FlatList
+          data={completedBooking}
+          showsVerticalScrollIndicator={false}
+          keyExtractor={item => item.BarbarBookedSlotID}
+          renderItem={({item, index}) => <ListBookingCompleted item={item} />}
+        />
+      ) : (
+        <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+          <BoxLottie
+            animationPath={require('../../../LottieAnimation/NoPostFoundAnimation.json')}
+          />
+        </View>
+      )}
+    </>
   );
 };
 export default Bookingcompleted;

@@ -98,15 +98,17 @@ const UserChat = ({route, navigation}) => {
   console.log('profileData', profileData);
   const sendMessage = async message => {
     console.log(
-      'message',
+      'User Chat Screen Send Message Data ---------------> ',
       message,
       profileData?.BarbarID.toString(),
       userDetails?.userId.toString(),
+      profileData?.MeetingID.toString()
     );
     await SignalRService.sendMessage(
       message,
       profileData?.BarbarID.toString(),
       userDetails?.userId.toString(),
+      profileData?.MeetingID.toString()
     );
     setMessage('');
   };

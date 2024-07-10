@@ -27,6 +27,7 @@ const AdminBarberEarnings = ({navigation}) => {
   const getBarberEarning = () => {
     const payload = {
       operationID: 1,
+      parameterID: 0,
       barberID: 0,
       _PageNumber: 1,
       _RowsOfPage: 10,

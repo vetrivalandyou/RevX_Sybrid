@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 
 import {
   Text,
@@ -7,6 +7,7 @@ import {
   Image,
   TouchableOpacity,
   Dimensions,
+  ActivityIndicator,
 } from 'react-native';
 import Screen from '../../../components/atom/ScreenContainer/Screen';
 import appColors from '../../../AppConstants/appColors';
@@ -26,23 +27,62 @@ import {
   StackedBarChart,
 } from 'react-native-chart-kit';
 import {screenSize} from '../../../components/atom/ScreenSize';
+import {useIsFocused} from '@react-navigation/native';
+import {endPoint, imageUrl} from '../../../AppConstants/urlConstants';
+import {PostRequest} from '../../../services/apiCall';
 
 const Report = ({navigation}) => {
-  const [isDayClicked, setIsDayClicked] = React.useState(false);
-  const [isMonthClicked, setIsMonthClicked] = React.useState(false);
-  const [isYearClicked, setIsYearClicked] = React.useState(false);
-  const [selectedInterval, setSelectedInterval] = React.useState('day');
+  const isFocused = useIsFocused();
+  const timeoutRef = useRef();
+  const [isDayClicked, setIsDayClicked] = useState(true);
+  const [isMonthClicked, setIsMonthClicked] = useState(false);
+  const [isYearClicked, setIsYearClicked] = useState(false);
+  const [isVisible, setVisible] = useState(false);
+  const [selectedInterval, setSelectedInterval] = useState('day');
+
+  const [isLoading, setIsLoading] = useState(true);
+  const [revxReport, setRevXReport] = useState([]);
+
+  useEffect(() => {
+    if (isFocused) {
+      getRevxEarningReport();
+    }
+    return () => clearTimeout(timeoutRef.current);
+  }, [isFocused]);
+
+  const getRevxEarningReport = () => {
+    const payload = {
+      operationID: 3,
+      parameterID: 1,
+      barberID: 0,
+      _PageNumber: 0,
+      _RowsOfPage: 0,
+    };
+    PostRequest(endPoint.ADMIN_REPORTS, payload)
+      .then(res => {
+        console.log('res', res?.data);
+        setRevXReport(res?.data);
+        setIsLoading(false);
+        timeoutRef.current = setTimeout(() => setVisible(true), 3000);
+      })
+      .catch(err => {
+        console.log('error', err);
+        setIsLoading(false);
+      });
+  };
 
   const handleDayButtonClick = () => {
     setIsDayClicked(!isDayClicked);
     setIsMonthClicked(false);
     setIsYearClicked(false);
   };
+
   const handleMonthButtonClick = () => {
     setIsMonthClicked(!isMonthClicked);
     setIsDayClicked(false);
     setIsYearClicked(false);
   };
+
   const handlYaerButtonClick = () => {
     setIsYearClicked(!isYearClicked);
     setIsMonthClicked(false);
@@ -50,30 +90,48 @@ const Report = ({navigation}) => {
   };
 
   const getDataForInterval = interval => {
-    // Implement logic to fetch data based on the selected interval
-    // For simplicity, using random data here
     const data = {
       day: {
-        labels: ['1', '2', '3', '4', '5', '6', '7'],
+        labels:
+          revxReport?.Table2?.length > 0 &&
+          revxReport?.Table2?.map(obj => obj?.Day),
         datasets: [
           {
-            data: [20, 45, 28, 80, 99, 43, 60],
+            data:
+              revxReport?.Table2?.length > 0 &&
+              revxReport?.Table2?.map(obj => obj?.total_amount),
           },
         ],
       },
+      // day: {
+      //   labels: ['1', '2', '3', '4', '5', '6', '7'],
+      //   datasets: [
+      //     {
+      //       data: [20, 45, 28, 80, 99, 43, 60],
+      //     },
+      //   ],
+      // },
       month: {
-        labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May'],
+        labels:
+          revxReport?.Table3?.length > 0 &&
+          revxReport?.Table3?.map(obj => obj.Month),
         datasets: [
           {
-            data: [50, 70, 30, 90],
+            data:
+              revxReport?.Table3?.length > 0 &&
+              revxReport?.Table3?.map(obj => obj.total_amount),
           },
         ],
       },
       year: {
-        labels: ['2019', '2020', '2021', '2022', '2023'],
+        labels:
+          revxReport?.Table4?.length > 0 &&
+          revxReport?.Table4?.map(obj => obj.Year),
         datasets: [
           {
-            data: [80, 60, 120, 100, 150, 130, 90, 110, 70, 100, 140, 120],
+            data:
+              revxReport?.Table4?.length > 0 &&
+              revxReport?.Table4?.map(obj => obj.total_amount),
           },
         ],
       },
@@ -86,11 +144,9 @@ const Report = ({navigation}) => {
     setSelectedInterval(interval);
     console.log('data=====>>>', interval);
   };
-  console.log('data=====>>>', selectedInterval);
-  // Function to convert values back to the original scale
+
   const scaleValues = value => value * 1000;
 
-  // Custom render function for dots with dynamic color
   const renderDots = ({x, y, index, value}) => (
     <Circle
       key={index}
@@ -117,27 +173,29 @@ const Report = ({navigation}) => {
       Imagesource: AppImages.chatsix,
     },
   ];
+
   const BarberEarnContainer = ({item}) => {
     return (
-      <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+      <View
+        style={{
+          height: screenSize.height / 10,
+          width: screenSize.width / 2.35,
+          margin: 5,
+        }}>
         <View style={styless.container}>
-          <Image source={item.Imagesource} style={styless.image} />
+          <Image
+            source={{uri: `${imageUrl}${item?.ProfileImage}`}}
+            style={styless.image}
+          />
           <View style={styless.textContainer}>
-            <Text style={styless.name}>{item.price1}</Text>
-            <Text style={styless.earnings}>{item.name}</Text>
-          </View>
-        </View>
-
-        <View style={styless.container}>
-          <Image source={item.Imagesource} style={styless.image} />
-          <View style={styless.textContainer}>
-            <Text style={styless.name}>{item.price2}</Text>
-            <Text style={styless.earnings}>{item.name}</Text>
+            <Text style={styless.name}>${item.P_Amount.toLocaleString()}</Text>
+            <Text style={styless.earnings}>{item.UserName}</Text>
           </View>
         </View>
       </View>
     );
   };
+
   return (
     <Screen viewStyle={styles.mainContainer} statusBarColor={appColors.Black}>
       <View style={styles.HeaderView}>
@@ -154,7 +212,9 @@ const Report = ({navigation}) => {
 
       <View style={styles.balanceView}>
         <Text style={styles.balanceText}>Total Balance</Text>
-        <Text style={styles.balance}>$752.00</Text>
+        <Text style={styles.balance}>
+          ${revxReport?.Table?.[0]?.TotalEarning.toLocaleString()}
+        </Text>
       </View>
 
       <View style={styles.earnbarberView}>
@@ -179,100 +239,114 @@ const Report = ({navigation}) => {
       </View>
 
       <View style={styles.barberEarnComponenet}>
-        {BarberEarn.map(item => (
-          <BarberEarnContainer key={item.id} item={item} />
+        {revxReport?.Table1?.map((item, index) => (
+          <BarberEarnContainer key={index} item={item} />
         ))}
       </View>
 
       <View
         style={{
-          backgroundColor: appColors.darkgrey,
           flex: 0.1,
-          borderRadius: 50,
-          flexDirection: 'row',
-          justifyContent: 'space-evenly',
         }}>
-        <TouchableOpacity
-          //  style={[styles.btnStyle, { borderRadius: isClicked? 0 : 50 }]}
-          onPress={() => {
-            handleButtonClick('day');
-            handleDayButtonClick();
-          }}
-          style={{flex: 0.32, marginVertical: 15, justifyContent: 'center'}}>
-          <View style={[styles.textStyle, isDayClicked && styles.btnStyle]}>
-            <Text style={{color: appColors.White, textAlign: 'center'}}>
-              Day
-            </Text>
-          </View>
-        </TouchableOpacity>
-        <TouchableOpacity
-          //  style={[styles.btnStyle, { borderRadius: isClicked? 0 : 50 }]}
-          onPress={() => {
-            handleButtonClick('month');
-            handleMonthButtonClick();
-          }}
-          style={{flex: 0.32, marginVertical: 15, justifyContent: 'center'}}>
-          <View style={[styles.textStyle, isMonthClicked && styles.btnStyle]}>
-            <Text style={{color: appColors.White, textAlign: 'center'}}>
-              Month
-            </Text>
-          </View>
-        </TouchableOpacity>
-        <TouchableOpacity
-          //  style={[styles.btnStyle, { borderRadius: isClicked? 0 : 50 }]}
-          onPress={() => {
-            handleButtonClick('year');
-            handlYaerButtonClick();
-          }}
-          style={{flex: 0.32, marginVertical: 15, justifyContent: 'center'}}>
-          <View style={[styles.textStyle, isYearClicked && styles.btnStyle]}>
-            <Text style={{color: appColors.White, textAlign: 'center'}}>
-              year
-            </Text>
-          </View>
-        </TouchableOpacity>
+        <View
+          style={{
+            height: 55,
+            backgroundColor: appColors.darkgrey,
+            borderRadius: 50,
+            flexDirection: 'row',
+            justifyContent: 'space-evenly',
+          }}>
+          <TouchableOpacity
+            onPress={() => {
+              handleButtonClick('day');
+              handleDayButtonClick();
+            }}
+            style={{flex: 0.32, marginVertical: 5, justifyContent: 'center'}}>
+            <View style={[styles.textStyle, isDayClicked && styles.btnStyle]}>
+              <Text style={{color: appColors.White, textAlign: 'center'}}>
+                Day
+              </Text>
+            </View>
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => {
+              handleButtonClick('month');
+              handleMonthButtonClick();
+            }}
+            style={{flex: 0.32, marginVertical: 5, justifyContent: 'center'}}>
+            <View style={[styles.textStyle, isMonthClicked && styles.btnStyle]}>
+              <Text style={{color: appColors.White, textAlign: 'center'}}>
+                Month
+              </Text>
+            </View>
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => {
+              handleButtonClick('year');
+              handlYaerButtonClick();
+            }}
+            style={{flex: 0.32, marginVertical: 5, justifyContent: 'center'}}>
+            <View style={[styles.textStyle, isYearClicked && styles.btnStyle]}>
+              <Text style={{color: appColors.White, textAlign: 'center'}}>
+                year
+              </Text>
+            </View>
+          </TouchableOpacity>
+        </View>
       </View>
+
       <View style={styles.mapView}>
-        <LineChart
-          data={getDataForInterval(selectedInterval)}
-          width={370}
-          height={200}
-          // svg={{ stroke: 'rgb(134, 65, 244)' }}
-          verticalLabelRotation={3}
-          yAxisSuffix="k"
-          svg={{
-            stroke: 'red', // Change the line color here
-            strokeWidth: 10,
-          }}
-          yAxisInterval={1} // optional, defaults to 1
-          fromZero
-          chartConfig={{
-            backgroundColor: '#e26a00',
-            //  backgroundGradientFrom: "#fb8c00",
-            // backgroundGradientTo: "#ffa726",
-            decimalPlaces: 2, // optional, defaults to 2dp
-            color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
-            labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
-            style: {
-              borderRadius: 16,
-            },
-          }}
-          bezier
-          style={
-            {
-              // marginVertical: 8,
-              // borderRadius: 16
+        {isVisible == true ? (
+          <LineChart
+            data={getDataForInterval(selectedInterval)}
+            width={370}
+            height={200}
+            // svg={{ stroke: 'rgb(134, 65, 244)' }}
+            verticalLabelRotation={3}
+            yAxisSuffix="k"
+            svg={{
+              stroke: 'red', // Change the line color here
+              strokeWidth: 10,
+            }}
+            yAxisInterval={15} // optional, defaults to 1
+            fromZero
+            chartConfig={{
+              backgroundColor: '#0C0C0D',
+              backgroundGradientFrom: '#0C0C0D',
+              backgroundGradientTo: '#0C0C0D',
+              decimalPlaces: 0, // optional, defaults to 2dp
+              color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+              labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+              strokeWidth: 2,
+              barPercentage: 0.5,
+              useShadowColorFromDataset: true,
+              style: {
+                borderRadius: 16,
+              },
+            }}
+            bezier
+            style={
+              {
+                // marginVertical: 8,
+                // borderRadius: 16
+              }
             }
-          }
-        />
+          />
+        ) : (
+          <View
+            style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+            <ActivityIndicator size="small" color={appColors.Goldcolor} />
+          </View>
+        )}
       </View>
     </Screen>
   );
 };
 export default Report;
+
 const styless = StyleSheet.create({
   container: {
-    width: '49%',
+    width: '100%',
     flexDirection: 'row',
     alignItems: 'center',
     padding: 10,
@@ -281,7 +355,7 @@ const styless = StyleSheet.create({
     borderColor: '#ccc',
     marginBottom: 10,
     overflow: 'hidden', // Ensures that the border radius is applied correctly
-    justifyContent: 'space-between',
+    // justifyContent: 'space-between',
   },
   image: {
     width: 50,

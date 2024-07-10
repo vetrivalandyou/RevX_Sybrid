@@ -44,6 +44,17 @@ export const barberRevenueReportGraph = data => {
       {value: 20000, color: '#292929', marginBottom: 5},
     ],
   }));
-  console.log("StackData", stackData)
+  console.log('barberRevenueReportGraph', stackData);
   return stackData;
+};
+
+export const debounce = (func, delay) => {
+  let timer;
+  return function (...args) {
+    const context = this;
+    clearTimeout(timer);
+    timer = setTimeout(() => {
+      func.apply(context, args);
+    }, delay);
+  };
 };
