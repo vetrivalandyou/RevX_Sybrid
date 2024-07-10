@@ -105,6 +105,8 @@ const AppointmentDate = ({route, navigation}) => {
     );
   };
 
+  console.log("specialistDetailsspecialistDetails",specialistDetails)
+
   return (
     <Screen
       statusBarColor={appColors.Black}

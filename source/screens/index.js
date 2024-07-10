@@ -7,6 +7,7 @@ import HomeScreen from './HomeScreen';
 import ProfileScreen from './ProfileScreen';
 import InboxScreen from './InboxScreen';
 import Booking from './Booking/MyBooking';
+import UserEReceipt from './UserEReceipt'
 import AppointmentDate from './AppointmentDate';
 import BarberEarnings from './BarberEarnings';
 import ForgotCheckEmail from './Auth/ForgotPassword/ForgotCheckEmail';
@@ -72,6 +73,7 @@ export {
   ProfileScreen,
   InboxScreen,
   Booking,
+  UserEReceipt,
   AppointmentDate,
   BarberEarnings,
   ForgotCheckEmail,

@@ -92,7 +92,7 @@ const ReviewSummary = ({route}) => {
       durationMinutes: returnTotalDuration(),
       bookingDate: seelectedDate,
       barberID: barberDetails?.UserId,
-      barberName: barberDetails?.UserName,
+      barberName: specialistDetails?.userName,
       slotID: selectedSlotId?.SlotID,
       slotName: selectedSlotId?.Slot,
       customerID: userDetails?.userId,
@@ -110,7 +110,6 @@ const ReviewSummary = ({route}) => {
       barbarBookedSlotID: 0,
     };
     console.log('fetchSelectedTimeSlot Payload', payload);
-    console.log('fetchSelectedTimeSlot Payload', specialistDetails);
     PostRequest(endPoint?.BARBER_APPOINTMENTBOOKING, payload)
       .then(res => {
         console.log('res?.data', res?.data);
@@ -363,7 +362,7 @@ const Barberdetails = ({
             Specialist
           </Text>
           <Text style={{color: 'white', fontSize: 13, fontWeight: '400'}}>
-            {barberDetails?.UserName}
+            {specialistDetails?.userName}
           </Text>
         </View>
       </View>

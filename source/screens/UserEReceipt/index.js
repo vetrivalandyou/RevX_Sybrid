@@ -1,79 +1,19 @@
 import {StyleSheet, Text, View, TouchableOpacity} from 'react-native';
 import React, {useEffect, useState} from 'react';
-import {screenSize} from '../../../components/atom/ScreenSize';
-import AntDesign from 'react-native-vector-icons/AntDesign';
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import Screen from '../../../components/atom/ScreenContainer/Screen';
-import Header from '../../../components/molecules/Header';
-import {Icons} from '../../../components/molecules/CustomIcon/CustomIcon';
-import constants from '../../../AppConstants/Constants.json';
 import styles from './styles';
-import {endPoint} from '../../../AppConstants/urlConstants';
-import {PostRequest} from '../../../services/apiCall';
 import moment from 'moment';
+import {PostRequest} from '../../services/apiCall';
+import Header from '../../components/molecules/Header';
+import {endPoint} from '../../AppConstants/urlConstants';
+import constants from '../../AppConstants/Constants.json';
+import Screen from '../../components/atom/ScreenContainer/Screen';
+import {Icons} from '../../components/molecules/CustomIcon/CustomIcon';
 
-const BarberEReceipt = ({route, navigation}) => {
+const UserEReceipt = ({route, navigation}) => {
   const {bookingSlot} = route.params || 0;
-
-  const [eReceiptData, setEReceiptData] = useState();
-
-  const data = [
-    {
-      id: '1',
-      title: 'Barber Salon',
-      label: 'Barbarella Inova',
-    },
-    {
-      id: '2',
-      title: 'Address',
-      label: '8974 Meadow Valley Terrace',
-    },
-    {
-      id: '3',
-      title: 'Name',
-      label: 'Danile Austin',
-    },
-    {
-      id: '4',
-      title: 'Phone',
-      label: '+123 456 789 00',
-    },
-    {
-      id: '5',
-      title: 'Booking Date',
-      label: 'December 24, 2024',
-    },
-    {
-      id: '6',
-      title: 'Booking Hours',
-      label: '10:00 am',
-    },
-    {
-      id: '7',
-      title: 'Specialist',
-      label: 'Nathan Alexender',
-    },
-  ];
-
-  const data2 = [
-    {
-      id: '1',
-      title: 'Haircut (Gulf)',
-      price: '$40.00',
-    },
-    {
-      id: '2',
-      title: 'Hair wash (Aloevera Shampoo)',
-      price: '$40.00',
-    },
-    {
-      id: '3',
-      title: 'Shaving (Thin Shaving)',
-      price: '$40.00',
-    },
-  ];
-
   console.log('itemitemitem', bookingSlot);
+  
+  const [eReceiptData, setEReceiptData] = useState();
 
   useEffect(() => {
     getbarberEReceipt();
@@ -112,8 +52,6 @@ const BarberEReceipt = ({route, navigation}) => {
         console.log('err', err);
       });
   };
-
-  console.log('eReceiptData?.Table?.[0]', eReceiptData?.Table?.[0]);
 
   return (
     <Screen statusBarColor={appColors.Black} viewStyle={styles.MianContainer}>
@@ -266,6 +204,4 @@ const Pricedetails = ({item}) => {
   );
 };
 
-export default BarberEReceipt;
-
-// const styles = StyleSheet.create({
+export default UserEReceipt;

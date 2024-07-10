@@ -1,20 +1,29 @@
-import {View, Text, StyleSheet, Image, FlatList} from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  Image,
+  FlatList,
+  ActivityIndicator,
+} from 'react-native';
 import {ScreenSize, screenSize} from '../../../components/atom/ScreenSize';
 import React, {useEffect, useRef, useState} from 'react';
 import Completedbutton from '../../../components/atom/BookingButtons/Completedbutton';
-import CancelBooking from './CancelBooking';
 import BottomSheet from '../../../components/molecules/BottomSheetContent/BottomSheet';
 import styles from './styles';
 import {useIsFocused} from '@react-navigation/native';
 import {endPoint, imageUrl} from '../../../AppConstants/urlConstants';
 import {PostRequest} from '../../../services/apiCall';
 import moment from 'moment';
+import BoxLottie from '../../../components/atom/BoxLottie/BoxLottie';
 
 const Bookingcancelled = ({data, userDetails}) => {
-  const refRBSheet = useRef();
   const isFocused = useIsFocused();
 
+  const refRBSheet = useRef();
   const timeoutRef = useRef();
+
+  const [isLoading, setIsLoading] = useState(true);
   const [cancelledBooking, setCancelledBooking] = useState();
 
   useEffect(() => {
@@ -37,9 +46,11 @@ const Bookingcancelled = ({data, userDetails}) => {
       .then(res => {
         console.log('getPreBookings Response', res?.data);
         setCancelledBooking(res?.data?.Table);
+        setIsLoading(false);
       })
       .catch(err => {
         console.log(err);
+        setIsLoading(false);
       });
   };
 
@@ -51,7 +62,7 @@ const Bookingcancelled = ({data, userDetails}) => {
             <View style={styles.Dateview}>
               <Text style={styles.dateTextstyle}>
                 {' '}
-                {moment(item?.BookingDate).format('DD-MM-YYYY')} -{' '}
+                {moment(item?.BookingDate).format('MMMM DD, YYYY')} -{' '}
                 {item?.SlotName}
               </Text>
             </View>
@@ -63,17 +74,13 @@ const Bookingcancelled = ({data, userDetails}) => {
                 style={{backgroundColor: '#e81f1c'}}
                 textstyle={{color: 'white'}}
               />
-
-              {/* <BottomSheet ref={refRBSheet} Height={300}>
-                <CancelBooking refRBSheet={refRBSheet} />
-              </BottomSheet> */}
             </View>
           </View>
 
           <View style={styles.DashLineView}>
             <View style={styles.DashLinestyle}></View>
           </View>
-          <View style={[styles.containerSecondview, { flex: 0.68,}]}>
+          <View style={[styles.containerSecondview, {flex: 0.68}]}>
             <View style={styles.imageView}>
               <Image
                 source={{uri: `${imageUrl}${item?.BarberProfileImage}`}}
@@ -83,7 +90,7 @@ const Bookingcancelled = ({data, userDetails}) => {
             <View style={styles.Textview}>
               <Text style={styles.Nametext}>{item.CustomerName}</Text>
               <View>
-                <Text style={styles.Titletext}>{item.BarberName}</Text>
+                <Text style={styles.Titletext}>{item.LocationName}</Text>
               </View>
               <View>
                 <Text style={styles.Labeltext}>{item.serviceNames}</Text>
@@ -96,12 +103,26 @@ const Bookingcancelled = ({data, userDetails}) => {
   };
 
   return (
-    <FlatList
-      data={cancelledBooking}
-      keyExtractor={item => item.BarbarBookedSlotID}
-      showsVerticalScrollIndicator={false}
-      renderItem={({item, index}) => <ListBookingCanceled item={item} />}
-    />
+    <>
+      {isLoading ? (
+        <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+          <ActivityIndicator size="small" color={appColors.Goldcolor} />
+        </View>
+      ) : cancelledBooking?.length > 0 ? (
+        <FlatList
+          data={cancelledBooking}
+          keyExtractor={item => item.BarbarBookedSlotID}
+          showsVerticalScrollIndicator={false}
+          renderItem={({item, index}) => <ListBookingCanceled item={item} />}
+        />
+      ) : (
+        <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+          <BoxLottie
+            animationPath={require('../../../LottieAnimation/NoPostFoundAnimation.json')}
+          />
+        </View>
+      )}
+    </>
   );
 };
 
