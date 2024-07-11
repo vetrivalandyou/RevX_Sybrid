@@ -82,9 +82,7 @@ const AdminEditTermsOfServices = ({route, navigation}) => {
         backgroundColor: appColors.Black,
       }}
       statusBarColor={appColors.Black}>
-      <KeyboardAwareScrollView
-        contentContainerStyle={{flex: 1}}
-       >
+
         <View style={{flex: 0.1}}>
           <Header
             lefttIcoType={Icons.Ionicons}
@@ -176,7 +174,7 @@ const AdminEditTermsOfServices = ({route, navigation}) => {
             onPress={handleSave}
           />
         </View>
-      </KeyboardAwareScrollView>
+      {/* </KeyboardAwareScrollView> */}
     </Screen>
   );
 };
