@@ -67,7 +67,7 @@ const AppointmentDate = ({route, navigation}) => {
     console.log('fetchSelectedTimeSlot Payload', payload);
     PostRequest(endPoint?.BARBER_AVAILABLESLOTS, payload)
       .then(res => {
-        console.log('res?.data', res?.data);
+        console.log('res?.data fetchSelectedTimeSlot', res?.data);
         setAvailableSlots(res?.data?.Table);
       })
       .catch(err => {
@@ -104,8 +104,6 @@ const AppointmentDate = ({route, navigation}) => {
       </TouchableOpacity>
     );
   };
-
-  console.log("specialistDetailsspecialistDetails",specialistDetails)
 
   return (
     <Screen

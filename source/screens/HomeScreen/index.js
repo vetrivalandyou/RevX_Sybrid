@@ -62,8 +62,8 @@ const HomeScreen = ({navigation}) => {
     );
     const asyncLongLat = await getAsyncItem(constants.AsyncStorageKeys.longLat);
     setUserDetails(userDetails);
-    setSelectedLocation(asyncNearestLandmark);
     setSelectedLongLat(selectedLongLat);
+    setSelectedLocation(asyncNearestLandmark);
     getBarberList(asyncLongLat);
     if (SignalRService?.isConnected()) {
       console.log('SignalR is in Connected State');
@@ -74,8 +74,6 @@ const HomeScreen = ({navigation}) => {
 
   const connectToSignalR = async userDetails => {
     SignalRService.startConnection(
-      // 0,
-      // parseInt(userDetails?.userId),
       parseInt(userDetails?._RoleId),
       userDetails?.userId.toString(),
     );
@@ -515,6 +513,7 @@ const HomeScreen = ({navigation}) => {
                   size={15}
                 />
                 <Text
+                  numberOfLines={1}
                   style={{marginLeft: 3, color: appColors.White, fontSize: 12}}>
                   {sunHeading}
                 </Text>
@@ -570,8 +569,6 @@ const HomeScreen = ({navigation}) => {
       </View>
     );
   };
-
-  console.log('selectedLocationselectedLocationselectedLocation', barberList);
 
   return (
     <Screen
