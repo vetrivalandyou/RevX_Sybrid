@@ -249,7 +249,7 @@ const HomeSuperAdmin = () => {
               justifyContent: 'space-between',
               alignItems: 'center',
             }}>
-            <View style={{flex: 0.5}}>
+            <View style={{flex: 0.5, paddingLeft: 10,}}>
               <Text
                 style={{
                   fontWeight: '400',
