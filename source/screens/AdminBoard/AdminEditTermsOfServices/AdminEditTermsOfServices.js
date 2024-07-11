@@ -75,47 +75,48 @@ const AdminEditTermsOfServices = ({ route, navigation }) => {
 
   console.log('editedDescription???????????????????', editedDescription);
   return (
-    <Screen
-      viewStyle={{
-        flex: 1,
-        padding: 15,
-        backgroundColor: appColors.Black,
-      }}
-      statusBarColor={appColors.Black}>
+    <KeyboardAwareScrollView
+      contentContainerStyle={{ flex: 1 }}
+    >
+      <Screen
+        viewStyle={{
+          flex: 1,
+          padding: 15,
+          backgroundColor: appColors.Black,
+        }}
+        statusBarColor={appColors.Black}>
 
-      <View style={{ flex: 0.1 }}>
-        <Header
-          lefttIcoType={Icons.Ionicons}
-          onPressLeftIcon={() => navigation.goBack()}
-          leftIcoName={'chevron-back'}
-          headerText={
-            description?.[0]?.aboutUsId == 7
-              ? 'Terms of Service'
-              : '' || description?.[0]?.aboutUsId == 5
-                ? 'License'
-                : 'Privacy Policy'
-          }
-          rightIcoName={'bell-fill'}
-          rightIcoType={Icons.Octicons}
-          logIn={'success'}
-          rightIcoSize={20}
-          onPressRightIcon={() =>
-            navigation.navigate(constants.AdminScreens.AdminNotification)
-          }
-          leftIcoStyle={{
-            backgroundColor: appColors.lightBlack,
-            borderRadius: 50,
-            height: 50,
-            width: 50,
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}
-        />
-      </View>
-      <KeyboardAwareScrollView
-        contentContainerStyle={{ flex: 0.9 }}
-      >
-        <TouchableWithoutFeedback style={{ flex: 1 }} onPress={() => Keyboard.dismiss()}>
+        <View style={{ flex: 0.1 }}>
+          <Header
+            lefttIcoType={Icons.Ionicons}
+            onPressLeftIcon={() => navigation.goBack()}
+            leftIcoName={'chevron-back'}
+            headerText={
+              description?.[0]?.aboutUsId == 7
+                ? 'Terms of Service'
+                : '' || description?.[0]?.aboutUsId == 5
+                  ? 'License'
+                  : 'Privacy Policy'
+            }
+            rightIcoName={'bell-fill'}
+            rightIcoType={Icons.Octicons}
+            logIn={'success'}
+            rightIcoSize={20}
+            onPressRightIcon={() =>
+              navigation.navigate(constants.AdminScreens.AdminNotification)
+            }
+            leftIcoStyle={{
+              backgroundColor: appColors.lightBlack,
+              borderRadius: 50,
+              height: 50,
+              width: 50,
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}
+          />
+        </View>
+
+        <TouchableWithoutFeedback style={{ flex: 0.9 }} onPress={() => Keyboard.dismiss()}>
           <View style={{ flex: 1, paddingVertical: 5 }}>
             {loading ? (
               <ActivityIndicator
@@ -163,21 +164,21 @@ const AdminEditTermsOfServices = ({ route, navigation }) => {
             )}
           </View>
         </TouchableWithoutFeedback>
-      </KeyboardAwareScrollView>
 
-      <View style={styles.buttonView}>
-        <ButtonComponent
-          style={{
-            backgroundColor: '#C79646',
-            paddingVertical: Platform.OS == 'ios' ? 18 : 13,
-            bottom: 1,
-            position: 'absolute',
-          }}
-          title={'Save'}
-          onPress={handleSave}
-        />
-      </View>
-    </Screen>
+        <View style={styles.buttonView}>
+          <ButtonComponent
+            style={{
+              backgroundColor: '#C79646',
+              paddingVertical: Platform.OS == 'ios' ? 18 : 13,
+              bottom: 1,
+              position: 'absolute',
+            }}
+            title={'Save'}
+            onPress={handleSave}
+          />
+        </View>
+      </Screen>
+    </KeyboardAwareScrollView>
   );
 };
 
