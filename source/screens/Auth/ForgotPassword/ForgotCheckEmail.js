@@ -8,54 +8,56 @@ import constants from '../../../AppConstants/Constants.json';
 import checkEmailImage from '../../../assets/check-email.png';
 import ButtonComponent from '../../../components/atom/CustomButtons/ButtonComponent';
 
-const ForgotCheckEmail = ({navigation,route}) => {
+const ForgotCheckEmail = ({navigation, route}) => {
   const {Email} = route.params;
 
   return (
-    <Screen viewStyle={{ flex: 1, backgroundColor: appColors.Black}} statusBarColor={appColors.Black}>
-      <View style={{ flex: 0.1, backgroundColor:'blue', justifyContent:'center'}}>
-      <AuthHeader
-      isForgetCheckEmail={true}
-        style={{
-          flex: 1,
-          justifyContent:'center',
-          backgroundColor: appColors.Black,
-          // paddingTop: 10,
-        }}
-        logIn={'Forgot'}
-        onPress={() => navigation.goBack()}
-      />
+    <Screen
+      viewStyle={{flex: 1, backgroundColor: appColors.Black}}
+      statusBarColor={appColors.Black}>
+      <View
+        style={{flex: 0.1, backgroundColor: 'blue', justifyContent: 'center'}}>
+        <AuthHeader
+          isForgetCheckEmail={true}
+          style={{
+            flex: 1,
+            justifyContent: 'center',
+            backgroundColor: appColors.Black,
+            // paddingTop: 10,
+          }}
+          logIn={'Forgot'}
+          onPress={() => navigation.goBack()}
+        />
       </View>
-      
-      <View style={{ flex: 0.5, justifyContent:'center', alignItems:'center',}}>
+
+      <View style={{flex: 0.5, justifyContent: 'center', alignItems: 'center'}}>
         <Image
           source={checkEmailImage}
           style={{
             marginHorizontal: 50,
-            height: "75%",
-            width: "67%",
+            height: '75%',
+            width: '67%',
           }}
           resizeMode="cover"
         />
       </View>
-      <View style={{flex: 0.06,}}>
+      <View style={{flex: 0.06}}>
         <Text
           style={{
             color: 'white',
             fontSize: 33,
             textAlign: 'center',
-        
           }}>
           Check Your Email
         </Text>
       </View>
-      <View style={{flex: 0.07,}}>
+      <View style={{flex: 0.07}}>
         <Text
           style={{
             color: 'white',
             fontSize: 17,
             textAlign: 'center',
-          
+
             marginHorizontal: 30,
           }}>
           We have sent a password recover instructions to your email.
@@ -78,7 +80,11 @@ const ForgotCheckEmail = ({navigation,route}) => {
           }}>
           <ButtonComponent
             title={'Continue'}
-            onPress={() => navigation.navigate(constants.AuthScreen.OTP_Verification, {Email: Email})}
+            onPress={() =>
+              navigation.navigate(constants.AuthScreen.OTP_Verification, {
+                Email: Email,
+              })
+            }
           />
         </View>
 
@@ -97,12 +103,25 @@ const ForgotCheckEmail = ({navigation,route}) => {
           </Text>
         </View> */}
 
-<View style={{ flex: 0.6, justifyContent:'center', flexDirection: 'row', flexWrap: 'wrap', }}>
-  <Text style={{ fontSize: 16, textAlign: 'center', marginHorizontal: 30,color:appColors.White,marginVertical:25,}}>
-    Did not receive the email? Check your spam folder, or
-    <Text style={{ color: 'gold',}}> try another email address</Text>
-  </Text>
-</View>
+        <View
+          style={{
+            flex: 0.6,
+            justifyContent: 'center',
+            flexDirection: 'row',
+            flexWrap: 'wrap',
+          }}>
+          <Text
+            style={{
+              fontSize: 16,
+              textAlign: 'center',
+              marginHorizontal: 30,
+              color: appColors.White,
+              marginVertical: 25,
+            }}>
+            Did not receive the email? Check your spam folder, or
+            <Text style={{color: 'gold'}}> try another email address</Text>
+          </Text>
+        </View>
       </View>
     </Screen>
   );

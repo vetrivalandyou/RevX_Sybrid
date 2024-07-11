@@ -23,11 +23,14 @@ import * as Yup from 'yup';
 import { PostRequest } from '../../../services/apiCall';
 import { endPoint, messages } from '../../../AppConstants/urlConstants';
 import ButtonComponent from '../CustomButtons/ButtonComponent';
-import { getAsyncItem } from '../../../utils/SettingAsyncStorage';
-import { SimpleSnackBar } from '../Snakbar/Snakbar';
-import { useDispatch, useSelector } from 'react-redux';
-import { LATEST_INSERT, LATEST_UPDATE, SUCCESS_CODE } from '../../../AppConstants/appConstants';
-import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
+import {getAsyncItem} from '../../../utils/SettingAsyncStorage';
+import {SimpleSnackBar} from '../Snakbar/Snakbar';
+import {useDispatch, useSelector} from 'react-redux';
+import {
+  LATEST_INSERT,
+  LATEST_UPDATE,
+  SUCCESS_CODE,
+} from '../../../AppConstants/appConstants';
 
 const MyLocationBottomSheet = ({ keyboardFocusRef, selectedLocation, newLocation, item, refRBSheet }) => {
   const navigation = useNavigation();
@@ -93,7 +96,7 @@ const MyLocationBottomSheet = ({ keyboardFocusRef, selectedLocation, newLocation
       createdBy: userDetails?.userId,
       userIP: '::1',
     };
-    console.log("payload ?????>>>>>", payload)
+    console.log('payloadpayloadpayload?????', payload);
     PostRequest(endPoint.BARBER_SET_UP_LOCATION_SERVICES, payload)
       .then(res => {
         if (res?.data?.code == SUCCESS_CODE) {

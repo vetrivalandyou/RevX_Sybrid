@@ -1,5 +1,6 @@
 import {StyleSheet} from 'react-native';
 import appColors from '../../../AppConstants/appColors';
+import {screenSize} from '../../../components/atom/ScreenSize';
 
 export default StyleSheet.create({
   MianContainer: {
@@ -21,14 +22,11 @@ export default StyleSheet.create({
 
   searchBarContainer: {
     flex: 0.1,
-    // backgroundColor:'red',
-    // justifyContent:'center',
-    // alignItems:'center'
   },
   cardContainer: {
     flex: 0.25,
-    backgroundColor: appColors.darkgrey,
     borderRadius: 10,
+    backgroundColor: appColors.darkgrey,
   },
   imgContainer: {
     flex: 0.5,

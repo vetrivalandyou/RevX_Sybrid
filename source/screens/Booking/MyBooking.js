@@ -32,6 +32,10 @@ const MyBooking = ({navigation}) => {
   const [userDetails, setUserDetails] = useState({});
   const [preBookingList, setPreBookingList] = useState({});
 
+  const [isLoading, setIsLoading] = useState(true);
+  const [hasMore, setHasMore] = useState(true);
+  const [pageNumber, setPageNumber] = useState(1);
+
   const data = [
     {
       id: 1,
@@ -105,15 +109,23 @@ const MyBooking = ({navigation}) => {
       customerID: asyncUserDetails?.userId,
       userID: 0,
       userIP: 'string',
+      _PageNumber: pageNumber,
+      _RowsOfPage: 10,
     };
     console.log('payload', payload);
     PostRequest(endPoint.BB_BOOKEDSLOTS, payload)
       .then(res => {
-        console.log('getPreBookings Response', res?.data);
-        setPreBookingList(res?.data?.Table);
+        if (res?.data?.Table?.length > 0) {
+          setPreBookingList(res?.data?.Table);
+          setPageNumber(pageNumber + 1);
+          setIsLoading(false);
+        } else {
+          setHasMore(false);
+        }
       })
       .catch(err => {
         console.log(err);
+        setIsLoading(false);
       });
   };
 
@@ -125,7 +137,20 @@ const MyBooking = ({navigation}) => {
   const renderComponent = () => {
     switch (activeButton.current) {
       case '1':
-        return <PreBooking data={data} userDetails={userDetails} preBookingList={preBookingList} setPreBookingList={setPreBookingList} />;
+        return (
+          <PreBooking
+            data={data}
+            userDetails={userDetails}
+            preBookingList={preBookingList}
+            setPreBookingList={setPreBookingList}
+            isLoading={isLoading}
+            setIsLoading={setIsLoading}
+            hasMore={hasMore}
+            setHasMore={setHasMore}
+            pageNumber={pageNumber}
+            setPageNumber={setPageNumber}
+          />
+        );
 
       case '2':
         return <Bookingcompleted data={data} userDetails={userDetails} />;

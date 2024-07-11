@@ -39,6 +39,7 @@ const Services = ({route}) => {
   );
 
   console.log(' Services barberDetails', barberDetails);
+  console.log('specialistDetails Serbices', specialistDetails);
 
   const [loading, setLoading] = useState(true);
   const [selectedItem, setSelectedItem] = useState(null);

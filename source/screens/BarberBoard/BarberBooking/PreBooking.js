@@ -1,50 +1,80 @@
-import {View, Text, StyleSheet, Image, FlatList, TextInput} from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  Image,
+  FlatList,
+  TextInput,
+  ActivityIndicator,
+} from 'react-native';
 import Bookingbutton from '../../../components/atom/BookingButtons/Bookingbutton';
 import {ScreenSize, screenSize} from '../../../components/atom/ScreenSize';
-import React, {useEffect, useRef, useState} from 'react';
+import React, {memo, useEffect, useRef, useState} from 'react';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import constants from '../../../AppConstants/Constants.json';
 import {useIsFocused, useNavigation} from '@react-navigation/native';
 import styles from './styles';
 import moment from 'moment';
-import {endPoint} from '../../../AppConstants/urlConstants';
+import {endPoint, imageUrl} from '../../../AppConstants/urlConstants';
 import {PostRequest} from '../../../services/apiCall';
 import {SimpleSnackBar} from '../../../components/atom/Snakbar/Snakbar';
 import appColors from '../../../AppConstants/appColors';
 import ButtonComponent from '../../../components/atom/CustomButtons/ButtonComponent';
 import CustomModal from '../../../components/molecules/CustomModal/CustomModal';
-const PreBooking = ({data, userDetails, preBookingList, setPreBookingList}) => {
+import BoxLottie from '../../../components/atom/BoxLottie/BoxLottie';
+import {debounce} from '../../../functions/AppFunctions';
+
+const PreBooking = ({
+  data,
+  userDetails,
+  preBookingList,
+  setPreBookingList,
+  isLoading,
+  setIsLoading,
+  hasMore,
+  setHasMore,
+  pageNumber,
+  setPageNumber,
+}) => {
   const navigation = useNavigation();
   const isFocused = useIsFocused();
 
   const timeoutRef = useRef();
+  const barberRemarksRef = useRef(null);
   const [visible, setVisible] = useState(false);
-  const [barberRemarks, setBarberRemarks] = useState('');
   const [rejectedBookingData, setRejectedBookingData] = useState({});
 
-  useEffect(() => {
-    if (isFocused) {
-      getPreBookings();
-    }
-    return () => clearTimeout(timeoutRef.current);
-  }, [isFocused]);
-
   const getPreBookings = () => {
+    if (hasMore == false) return;
+
     const payload = {
       operationID: 1,
       roleID: userDetails?._RoleId,
       customerID: 0,
       userID: userDetails?.userId,
       userIP: 'string',
+      _PageNumber: pageNumber,
+      _RowsOfPage: 10,
     };
+
     console.log('payload', payload);
     PostRequest(endPoint.BB_BOOKEDSLOTS, payload)
       .then(res => {
-        console.log('getPreBookings Response', res?.data);
-        setPreBookingList(res?.data?.Table);
+        console.log('getPreBookings Pre Booking Response', res?.data);
+        if (res?.data?.Table?.length > 0) {
+          setPreBookingList(preBookingList => [
+            ...preBookingList,
+            ...res?.data?.Table,
+          ]);
+          setPageNumber(pageNumber + 1); // Increment the page number
+          setIsLoading(false);
+        } else {
+          setHasMore(false);
+        }
       })
       .catch(err => {
         console.log(err);
+        setIsLoading(false);
       });
   };
 
@@ -99,7 +129,7 @@ const PreBooking = ({data, userDetails, preBookingList, setPreBookingList}) => {
   };
 
   const onPressSubmit = () => {
-    console.log('Submited', barberRemarks);
+    console.log('Submited', barberRemarksRef.current);
     handleReject();
   };
 
@@ -123,7 +153,7 @@ const PreBooking = ({data, userDetails, preBookingList, setPreBookingList}) => {
       longitude: 0,
       latitude: 0,
       locationName: '',
-      remarks: barberRemarks,
+      remarks: barberRemarksRef.current,
       barbarBookedSlotID: rejectedBookingData?.BarbarBookedSlotID,
     };
     console.log('payload', payload);
@@ -161,7 +191,7 @@ const PreBooking = ({data, userDetails, preBookingList, setPreBookingList}) => {
               fontWeight: 'bold',
               fontSize: 18,
             }}>
-            Enter Reason your Reason
+            Enter your Reason
           </Text>
         </View>
         <View style={{flex: 0.5, backgroundColor: appColors.White}}>
@@ -178,8 +208,8 @@ const PreBooking = ({data, userDetails, preBookingList, setPreBookingList}) => {
             }}
             multiline={true}
             textAlignVertical="top"
-            onChangeText={newText => setBarberRemarks(newText)}
-            value={barberRemarks}
+            onChangeText={newText => (barberRemarksRef.current = newText)}
+            value={barberRemarksRef}
           />
         </View>
         <View
@@ -225,14 +255,82 @@ const PreBooking = ({data, userDetails, preBookingList, setPreBookingList}) => {
     );
   };
 
-  const ListPrebooking = ({item, index}) => {
-    return (
+  // const ListPrebooking = ({item, index}) => {
+  //   return (
+  //     <View key={index} style={styles.bookingContainerstyle}>
+  //       <View style={{flex: 1, borderRadius: 20}}>
+  //         <View style={styles.bookingInnercontainerView}>
+  //           <View style={styles.bookingTextview}>
+  //             <Text style={styles.dateTextstyle}>
+  //               {moment(item?.BookingDate).format('MMMM DD, YYYY')} -{' '}
+  //               {item?.SlotName}
+  //             </Text>
+  //           </View>
+  //           <View style={styles.EreciptButtonView}>
+  //             <View style={styles.EreciptInnerView}>
+  //               <Bookingbutton
+  //                 style={styles.EreciptButtonstyle}
+  //                 stylebtn={{color: appColors.White, fontSize: 11}}
+  //                 onPress={() =>
+  //                   navigation.navigate(constants.BarberScreen.BarberEReceipt, {
+  //                     bookingSlot: item,
+  //                   })
+  //                 }
+  //                 title={'View E-Recipt'}
+  //               />
+  //             </View>
+  //           </View>
+  //         </View>
+
+  //         <View style={styles.DashLineView}>
+  //           <View style={styles.DashLinestyle}></View>
+  //         </View>
+
+  //         <View
+  //           style={[styles.imagetextContainerView, {paddingHorizontal: 15}]}>
+  //           <View style={styles.bookingImageview}>
+  //             <Image
+  //               source={{uri: `${imageUrl}${item.CustomerProfileImage}`}}
+  //               style={styles.bookingImagestyle}
+  //             />
+  //           </View>
+  //           <View style={styles.bookingTextview}>
+  //             <Text style={styles.Nametext}>{item.CustomerName}</Text>
+  //             <View>
+  //               <Text style={styles.Titletext}>{item.LocationName}</Text>
+  //             </View>
+  //             <View>
+  //               <Text style={styles.Labeltext}>{item?.serviceNames}</Text>
+  //             </View>
+  //           </View>
+  //         </View>
+  //         <View style={styles.ButtonsView}>
+  //           <Bookingbutton
+  //             onPress={() => handleClickAccept(item)}
+  //             style={{backgroundColor: '#c79647'}}
+  //             stylebtn={{color: 'white'}}
+  //             title={'Accept'}
+  //           />
+  //           <Bookingbutton
+  //             onPress={() => handleClickReject(item)}
+  //             style={{backgroundColor: '#E81F1C', borderColor: 'red'}}
+  //             stylebtn={{color: 'white'}}
+  //             title={'Reject'}
+  //           />
+  //         </View>
+  //       </View>
+  //     </View>
+  //   );
+  // };
+
+  const ListPrebooking = memo(
+    ({item, index, handleClickAccept, handleClickReject}) => (
       <View key={index} style={styles.bookingContainerstyle}>
         <View style={{flex: 1, borderRadius: 20}}>
           <View style={styles.bookingInnercontainerView}>
             <View style={styles.bookingTextview}>
               <Text style={styles.dateTextstyle}>
-                {moment(item?.BookingDate).format('DD-MM-YYYY')} -{' '}
+                {moment(item?.BookingDate).format('MMMM DD, YYYY')} -{' '}
                 {item?.SlotName}
               </Text>
             </View>
@@ -240,7 +338,7 @@ const PreBooking = ({data, userDetails, preBookingList, setPreBookingList}) => {
               <View style={styles.EreciptInnerView}>
                 <Bookingbutton
                   style={styles.EreciptButtonstyle}
-                  stylebtn={{color: 'white'}}
+                  stylebtn={{color: appColors.White, fontSize: 11}}
                   onPress={() =>
                     navigation.navigate(constants.BarberScreen.BarberEReceipt, {
                       bookingSlot: item,
@@ -260,21 +358,17 @@ const PreBooking = ({data, userDetails, preBookingList, setPreBookingList}) => {
             style={[styles.imagetextContainerView, {paddingHorizontal: 15}]}>
             <View style={styles.bookingImageview}>
               <Image
-                // source={require('../../../assets/rectangle2.png')}
-                source={item.CustomerProfileImage}
+                source={{uri: `${imageUrl}${item.CustomerProfileImage}`}}
                 style={styles.bookingImagestyle}
               />
             </View>
             <View style={styles.bookingTextview}>
               <Text style={styles.Nametext}>{item.CustomerName}</Text>
               <View>
-                <Text style={styles.Titletext}>{item.BarberName}</Text>
+                <Text style={styles.Titletext}>{item.LocationName}</Text>
               </View>
               <View>
-                <Text style={styles.Labeltext}>
-                  {item?.serviceNames}
-                  {/* Gulf Haircut, Thin Shampoo, Alovevera Shampo, Hair wash */}
-                </Text>
+                <Text style={styles.Labeltext}>{item?.serviceNames}</Text>
               </View>
             </View>
           </View>
@@ -294,8 +388,33 @@ const PreBooking = ({data, userDetails, preBookingList, setPreBookingList}) => {
           </View>
         </View>
       </View>
+    ),
+    (prevProps, nextProps) => prevProps.item === nextProps.item,
+  );
+
+  const renderItem = ({item, index}) => (
+    <ListPrebooking
+      item={item}
+      index={index}
+      handleClickAccept={handleClickAccept}
+      handleClickReject={handleClickReject}
+    />
+  );
+
+  const renderFooter = () => {
+    if (hasMore == false) return null;
+    return (
+      <View style={{margin: 10}}>
+        <ActivityIndicator size="small" color={appColors.Goldcolor} />
+      </View>
     );
   };
+
+  const handleLoadMore = debounce(() => {
+    if (hasMore == true) {
+      getPreBookings();
+    }
+  }, 300);
 
   return (
     <>
@@ -304,15 +423,30 @@ const PreBooking = ({data, userDetails, preBookingList, setPreBookingList}) => {
         modalHeight={{height: screenSize.height / 3}}
         CustomModalView={CustomModalView}
       />
-      <FlatList
-        data={preBookingList}
-        showsVerticalScrollIndicator={false}
-        renderItem={({item, index}) => (
-          <ListPrebooking item={item} index={index} />
-        )}
-        // renderItem={({item}) => <listBookingCompleted item={item} />}
-        keyExtractor={item => item.BarbarBookedSlotID}
-      />
+      {isLoading ? (
+        <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+          <ActivityIndicator size="small" color={appColors.Goldcolor} />
+        </View>
+      ) : preBookingList?.length > 0 ? (
+        <FlatList
+          data={preBookingList}
+          showsVerticalScrollIndicator={false}
+          keyExtractor={(item, index) => index?.toString()}
+          ListFooterComponent={renderFooter}
+          onEndReached={handleLoadMore}
+          onEndReachedThreshold={0.5}
+          renderItem={renderItem}
+          // renderItem={({item, index}) => (
+          //   <ListPrebooking item={item} index={index} />
+          // )}
+        />
+      ) : (
+        <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+          <BoxLottie
+            animationPath={require('../../../LottieAnimation/NoPostFoundAnimation.json')}
+          />
+        </View>
+      )}
     </>
   );
 };

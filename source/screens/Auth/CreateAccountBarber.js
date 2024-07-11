@@ -96,193 +96,219 @@ const CreateAccountBarber = ({navigation}) => {
 
   return (
     <Screen
-      authStyle={{flex: 1, backgroundColor: appColors.Goldcolor}}
+      authStyle={{
+        flex: 1,
+        backgroundColor: appColors.Goldcolor,
+        minHeight: screenSize.height,
+        maxHeight: 'auto',
+      }}
       viewStyle={{flex: 1, backgroundColor: appColors.Black}}
       statusBarColor={appColors.Goldcolor}
       translucent={false}
       barStyle="light-content">
-      <View style={{flex: 0.2}}>
-        <AuthHeader
-          logIn={'Log In'}
-          heading={'Create Account'}
-          subheading={'Please Login your account, Enter your details.'}
-          onPress={() => navigation.goBack()}
-        />
-      </View>
-      <View style={styles.fieldsMainView}>
-        <Formik
-          initialValues={{
-            FullName: '',
-            UserEmail: '',
-            UserPassword: '',
-            UserPhone: '',
-            Description: '',
-            BarberCategories: [],
-          }}
-          validationSchema={validationSchema}
-          onSubmit={(values, {setSubmitting}) => {
-            barberRegisterUser(values, setSubmitting);
-          }}>
-          {({
-            handleChange,
-            handleBlur,
-            handleSubmit,
-            setFieldValue,
-            values,
-            errors,
-            touched,
-            isSubmitting,
-          }) => (
-            <KeyboardAwareScrollView
-              contentContainerStyle={{flex: 1, justifyContent: 'center'}}>
-              <View style={{flex: 0.9, justifyContent: 'space-evenly'}}>
-                <View style={{flex: 0.15, justifyContent: 'center'}}>
-                  <SimpleTextField
-                    placeholder={'Enter Full Name'}
-                    placeholderTextColor={appColors.AppLightGray}
-                    onChangeText={handleChange('FullName')}
-                    onBlur={handleBlur('FullName')}
-                    value={values.FullName}
-                  />
-                  {touched.FullName && errors.FullName && (
-                    <View
-                      style={{marginLeft: 10, marginTop: 2, marginBottom: 15}}>
-                      <Text style={{color: appColors.Goldcolor, fontSize: 10}}>
-                        {errors.FullName}
-                      </Text>
-                    </View>
-                  )}
-                </View>
-                <View style={{flex: 0.15, justifyContent: 'center'}}>
-                  <SimpleTextField
-                    placeholder={'Enter Email Address'}
-                    placeholderTextColor={appColors.AppLightGray}
-                    onChangeText={handleChange('UserEmail')}
-                    onBlur={handleBlur('UserEmail')}
-                    value={values.UserEmail}
-                  />
-                  {touched.UserEmail && errors.UserEmail && (
-                    <View
-                      style={{marginLeft: 10, marginTop: 2, marginBottom: 15}}>
-                      <Text style={{color: appColors.Goldcolor, fontSize: 10}}>
-                        {errors.UserEmail}
-                      </Text>
-                    </View>
-                  )}
-                </View>
-                <View
-                  style={{
-                    flex: 0.15,
-                    justifyContent: 'center',
-                  }}>
-                  <SimpleTextField
-                    placeholder={'Enter Your Password'}
-                    eyeOpen={isEye}
-                    onPressIcon={() => setIsEye(!isEye)}
-                    secureTextEntry={true}
-                    placeholderTextColor={appColors.AppLightGray}
-                    onChangeText={handleChange('UserPassword')}
-                    onBlur={handleBlur('UserPassword')}
-                    value={values.UserPassword}
-                  />
-                  {touched.UserPassword && errors.UserPassword && (
-                    <View
-                      style={{marginLeft: 10, marginTop: 2, marginBottom: 15}}>
-                      <Text style={{color: appColors.Goldcolor, fontSize: 10}}>
-                        {errors.UserPassword}
-                      </Text>
-                    </View>
-                  )}
-                </View>
-                <View style={{flex: 0.15, justifyContent: 'center'}}>
-                  <SimpleTextField
-                    placeholder={'Contact Number'}
-                    placeholderTextColor={appColors.AppLightGray}
-                    onChangeText={handleChange('UserPhone')}
-                    onBlur={handleBlur('UserPhone')}
-                    value={values.UserPhone}
-                  />
-                  {touched.UserPhone && errors.UserPhone && (
-                    <View style={{marginLeft: 10, margin: 5}}>
-                      <Text style={{color: appColors.Goldcolor, fontSize: 10}}>
-                        {errors.UserPhone}
-                      </Text>
-                    </View>
-                  )}
-                </View>
-                <View style={{flex: 0.15, justifyContent: 'center'}}>
-                  <SimpleTextField
-                    placeholder={'Add Description'}
-                    placeholderTextColor={appColors.AppLightGray}
-                    onChangeText={handleChange('Description')}
-                    onBlur={handleBlur('Description')}
-                    value={values.Description}
-                  />
-                  {touched.Description && errors.Description && (
-                    <View style={{marginLeft: 10, margin: 5}}>
-                      <Text style={{color: appColors.Goldcolor, fontSize: 10}}>
-                        {errors.Description}
-                      </Text>
-                    </View>
-                  )}
-                </View>
-                <View style={{flex: 0.15}}>
-                  <CustomDropdownPicker
-                    items={selectedItems}
-                    values={services}
-                    setValues={setServices}
-                    onChange={newValues => {
-                      const isSelected = values?.BarberCategories?.some(
-                        selected => selected == newValues.setupDetailId,
-                      );
-                      if (isSelected) {
-                        setFieldValue(
-                          'BarberCategories',
-                          values?.BarberCategories?.filter(
-                            selected => selected !== newValues.setupDetailId,
-                          ),
-                        );
-                      } else {
-                        setFieldValue('BarberCategories', [
-                          ...values?.BarberCategories,
-                          newValues?.setupDetailId,
-                        ]);
-                      }
-                    }}
-                    onBlur={() => handleBlur('BarberCategories')}
-                  />
-                  {touched.BarberCategories && errors.BarberCategories && (
-                    <View style={{marginLeft: 10, margin: 5}}>
-                      <Text style={{color: appColors.Goldcolor, fontSize: 10}}>
-                        {errors.BarberCategories}
-                      </Text>
-                    </View>
-                  )}
-                </View>
-              </View>
-              <View style={{flex: 0.1}}>
-                <ButtonComponent
-                  title={'Create Account'}
-                  disabled={isSubmitting}
-                  onPress={handleSubmit}
-                  isLoading={isSubmitting}
-                />
-              </View>
-            </KeyboardAwareScrollView>
-          )}
-        </Formik>
-        <View style={styles.buttonView}>
-          <TouchableOpacity>
-            <Text style={{color: appColors.GrayColor}}>
-              Already have an Account ?
-            </Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            onPress={() => navigation.navigate(constants.AuthScreen.Login)}>
-            <Text style={{color: appColors.Goldcolor}}> Login</Text>
-          </TouchableOpacity>
+      <KeyboardAwareScrollView
+        contentContainerStyle={{flex: 1, justifyContent: 'center'}}>
+        <View style={{flex: 0.2}}>
+          <AuthHeader
+            logIn={'Log In'}
+            heading={'Create Account'}
+            subheading={'Please Login your account, Enter your details.'}
+            onPress={() => navigation.goBack()}
+          />
         </View>
-      </View>
+        <View style={styles.fieldsMainView}>
+          <Formik
+            initialValues={{
+              FullName: '',
+              UserEmail: '',
+              UserPassword: '',
+              UserPhone: '',
+              Description: '',
+              BarberCategories: [],
+            }}
+            validationSchema={validationSchema}
+            onSubmit={(values, {setSubmitting}) => {
+              barberRegisterUser(values, setSubmitting);
+            }}>
+            {({
+              handleChange,
+              handleBlur,
+              handleSubmit,
+              setFieldValue,
+              values,
+              errors,
+              touched,
+              isSubmitting,
+            }) => (
+              <KeyboardAwareScrollView
+                contentContainerStyle={{flex: 1, justifyContent: 'center'}}>
+                <View style={{flex: 0.9, justifyContent: 'space-evenly'}}>
+                  <View style={{flex: 0.15, justifyContent: 'center'}}>
+                    <SimpleTextField
+                      placeholder={'Enter Full Name'}
+                      placeholderTextColor={appColors.AppLightGray}
+                      onChangeText={handleChange('FullName')}
+                      onBlur={handleBlur('FullName')}
+                      value={values.FullName}
+                    />
+                    {touched.FullName && errors.FullName && (
+                      <View
+                        style={{
+                          marginLeft: 10,
+                          marginTop: 2,
+                          marginBottom: 15,
+                        }}>
+                        <Text
+                          style={{color: appColors.Goldcolor, fontSize: 10}}>
+                          {errors.FullName}
+                        </Text>
+                      </View>
+                    )}
+                  </View>
+                  <View style={{flex: 0.15, justifyContent: 'center'}}>
+                    <SimpleTextField
+                      placeholder={'Enter Email Address'}
+                      placeholderTextColor={appColors.AppLightGray}
+                      onChangeText={handleChange('UserEmail')}
+                      onBlur={handleBlur('UserEmail')}
+                      value={values.UserEmail}
+                    />
+                    {touched.UserEmail && errors.UserEmail && (
+                      <View
+                        style={{
+                          marginLeft: 10,
+                          marginTop: 2,
+                          marginBottom: 15,
+                        }}>
+                        <Text
+                          style={{color: appColors.Goldcolor, fontSize: 10}}>
+                          {errors.UserEmail}
+                        </Text>
+                      </View>
+                    )}
+                  </View>
+                  <View
+                    style={{
+                      flex: 0.15,
+                      justifyContent: 'center',
+                    }}>
+                    <SimpleTextField
+                      placeholder={'Enter Your Password'}
+                      eyeOpen={isEye}
+                      onPressIcon={() => setIsEye(!isEye)}
+                      secureTextEntry={true}
+                      placeholderTextColor={appColors.AppLightGray}
+                      onChangeText={handleChange('UserPassword')}
+                      onBlur={handleBlur('UserPassword')}
+                      value={values.UserPassword}
+                    />
+                    {touched.UserPassword && errors.UserPassword && (
+                      <View
+                        style={{
+                          marginLeft: 10,
+                          marginTop: 2,
+                          marginBottom: 15,
+                        }}>
+                        <Text
+                          style={{color: appColors.Goldcolor, fontSize: 10}}>
+                          {errors.UserPassword}
+                        </Text>
+                      </View>
+                    )}
+                  </View>
+                  <View style={{flex: 0.15, justifyContent: 'center'}}>
+                    <SimpleTextField
+                      placeholder={'Contact Number'}
+                      placeholderTextColor={appColors.AppLightGray}
+                      onChangeText={handleChange('UserPhone')}
+                      onBlur={handleBlur('UserPhone')}
+                      value={values.UserPhone}
+                    />
+                    {touched.UserPhone && errors.UserPhone && (
+                      <View style={{marginLeft: 10, margin: 5}}>
+                        <Text
+                          style={{color: appColors.Goldcolor, fontSize: 10}}>
+                          {errors.UserPhone}
+                        </Text>
+                      </View>
+                    )}
+                  </View>
+                  <View style={{flex: 0.15, justifyContent: 'center'}}>
+                    <SimpleTextField
+                      placeholder={'Add Description'}
+                      placeholderTextColor={appColors.AppLightGray}
+                      onChangeText={handleChange('Description')}
+                      onBlur={handleBlur('Description')}
+                      value={values.Description}
+                    />
+                    {touched.Description && errors.Description && (
+                      <View style={{marginLeft: 10, margin: 5}}>
+                        <Text
+                          style={{color: appColors.Goldcolor, fontSize: 10}}>
+                          {errors.Description}
+                        </Text>
+                      </View>
+                    )}
+                  </View>
+                  <View style={{flex: 0.15}}>
+                    <CustomDropdownPicker
+                      items={selectedItems}
+                      values={services}
+                      setValues={setServices}
+                      onChange={newValues => {
+                        const isSelected = values?.BarberCategories?.some(
+                          selected => selected == newValues.setupDetailId,
+                        );
+                        if (isSelected) {
+                          setFieldValue(
+                            'BarberCategories',
+                            values?.BarberCategories?.filter(
+                              selected => selected !== newValues.setupDetailId,
+                            ),
+                          );
+                        } else {
+                          setFieldValue('BarberCategories', [
+                            ...values?.BarberCategories,
+                            newValues?.setupDetailId,
+                          ]);
+                        }
+                      }}
+                      onBlur={() => handleBlur('BarberCategories')}
+                    />
+                    {touched.BarberCategories && errors.BarberCategories && (
+                      <View style={{marginLeft: 10, margin: 5}}>
+                        <Text
+                          style={{color: appColors.Goldcolor, fontSize: 10}}>
+                          {errors.BarberCategories}
+                        </Text>
+                      </View>
+                    )}
+                  </View>
+                </View>
+                <View style={{flex: 0.1}}>
+                  <ButtonComponent
+                    title={'Create Account'}
+                    disabled={isSubmitting}
+                    onPress={handleSubmit}
+                    isLoading={isSubmitting}
+                  />
+                </View>
+              </KeyboardAwareScrollView>
+            )}
+          </Formik>
+          <View style={styles.buttonView}>
+            <TouchableOpacity>
+              <Text style={{color: appColors.GrayColor}}>
+                Already have an Account ?
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => navigation.navigate(constants.AuthScreen.Login)}>
+              <Text style={{color: appColors.Goldcolor}}> Login</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </KeyboardAwareScrollView>
     </Screen>
   );
 };

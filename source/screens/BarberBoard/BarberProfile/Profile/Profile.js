@@ -564,6 +564,7 @@ import {
   View,
   Platform,
   ActivityIndicator,
+  KeyboardAvoidingView,
 } from 'react-native';
 import React, {useEffect, useRef, useState} from 'react';
 import Screen from '../../../../components/atom/ScreenContainer/Screen';
@@ -693,21 +694,35 @@ const Profile = ({navigation}) => {
 
   return (
     <Screen
-      viewStyle={{flex: 1, padding: 15, backgroundColor: appColors.Black}}
+      viewStyle={{
+        flex: 1,
+        padding: 15,
+        backgroundColor: appColors.Black,
+        minHeight: screenSize.height,
+        maxHeight: 'auto',
+      }}
       statusBarColor={appColors.Black}>
-      <View style={{flex: 0.1}}>
-        <Header
-          headerSubView={{marginHorizontal: 5}}
-          lefttIcoType={Icons.Ionicons}
-          onPressLeftIcon={() => navigation.goBack()}
-          leftIcoName={'chevron-back'}
-          headerText={'Edit Profile'}
-          logIn={'success'}
-        />
-      </View>
-
       <KeyboardAwareScrollView
-        contentContainerStyle={{flex: 1, justifyContent: 'center'}}>
+        // showsVerticalScrollIndicator={true}
+        // scrollEnabled={true}
+        behavior="padding"
+        contentContainerStyle={{
+          flex: 1,
+          // minHeight: 600,
+          // maxHeight: 'auto',
+          justifyContent: 'center',
+        }}>
+        <View style={{flex: 0.1}}>
+          <Header
+            headerSubView={{marginHorizontal: 5}}
+            lefttIcoType={Icons.Ionicons}
+            onPressLeftIcon={() => navigation.goBack()}
+            leftIcoName={'chevron-back'}
+            headerText={'Edit Profile'}
+            logIn={'success'}
+          />
+        </View>
+
         <View style={{flex: 1}}>
           {userDetails ? (
             <Formik
@@ -953,13 +968,14 @@ const Profile = ({navigation}) => {
             <ActivityIndicator size="small" color="#C79646" />
           )}
         </View>
+
+        <BottomSheet ref={refRBSheet} Height={120}>
+          <ChooseImage
+            setProfileImage={handleImagepress}
+            refRBSheet={refRBSheet}
+          />
+        </BottomSheet>
       </KeyboardAwareScrollView>
-      <BottomSheet ref={refRBSheet} Height={120}>
-        <ChooseImage
-          setProfileImage={handleImagepress}
-          refRBSheet={refRBSheet}
-        />
-      </BottomSheet>
     </Screen>
   );
 };

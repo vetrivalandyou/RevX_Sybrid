@@ -23,14 +23,20 @@ import Screen from '../../../components/atom/ScreenContainer/Screen';
 import {getAsyncItem} from '../../../utils/SettingAsyncStorage';
 import {endPoint} from '../../../AppConstants/urlConstants';
 import {PostRequest} from '../../../services/apiCall';
+import {screenSize} from '../../../components/atom/ScreenSize';
 
 const MyBooking = () => {
   const isFocused = useIsFocused();
   const navigation = useNavigation();
   const activeButton = useRef('1');
+
   const [tabState, setTabState] = useState(false);
   const [userDetails, setUserDetails] = useState({});
   const [preBookingList, setPreBookingList] = useState({});
+
+  const [isLoading, setIsLoading] = useState(true);
+  const [hasMore, setHasMore] = useState(true);
+  const [pageNumber, setPageNumber] = useState(1);
 
   const data = [
     {
@@ -105,15 +111,24 @@ const MyBooking = () => {
       customerID: 0,
       userID: asyncUserDetails?.userId,
       userIP: 'string',
+      _PageNumber: pageNumber,
+      _RowsOfPage: 10,
     };
     console.log('payload', payload);
     PostRequest(endPoint.BB_BOOKEDSLOTS, payload)
       .then(res => {
-        console.log('getPreBookings Response', res?.data);
-        setPreBookingList(res?.data?.Table);
+        console.log('getPreBookings My Booking Response', res?.data);
+        if (res?.data?.Table?.length > 0) {
+          setPreBookingList(res?.data?.Table);
+          setPageNumber(pageNumber + 1);
+          setIsLoading(false);
+        } else {
+          setHasMore(false);
+        }
       })
       .catch(err => {
         console.log(err);
+        setIsLoading(false);
       });
   };
 
@@ -125,7 +140,20 @@ const MyBooking = () => {
   const renderComponent = () => {
     switch (activeButton.current) {
       case '1':
-        return <PreBooking data={data} userDetails={userDetails} preBookingList={preBookingList} setPreBookingList={setPreBookingList} />;
+        return (
+          <PreBooking
+            data={data}
+            userDetails={userDetails}
+            preBookingList={preBookingList}
+            setPreBookingList={setPreBookingList}
+            isLoading={isLoading}
+            setIsLoading={setIsLoading}
+            hasMore={hasMore}
+            setHasMore={setHasMore}
+            pageNumber={pageNumber}
+            setPageNumber={setPageNumber}
+          />
+        );
 
       case '2':
         return <Bookingcompleted data={data} userDetails={userDetails} />;
@@ -144,7 +172,11 @@ const MyBooking = () => {
     <Screen
       statusBarColor={appColors.Black}
       barStyle="light-content"
-      viewStyle={{backgroundColor: appColors.Black}}>
+      viewStyle={{
+        backgroundColor: appColors.Black,
+        minHeight: screenSize.height,
+        maxHeight: 'auto',
+      }}>
       <View style={{flex: 0.1}}>
         <Header
           lefttIcoType={Icons.Ionicons}

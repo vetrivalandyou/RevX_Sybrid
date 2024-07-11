@@ -176,6 +176,7 @@ const LocationBottomSheet = ({refRBSheet}) => {
       createdBy: userDetails?.userId,
       userIP: '',
     };
+    console.log('payloadpayloadpayload????????????', payload);
     PostRequest(endPoint.BARBER_SET_UP_LOCATION_SERVICES, payload)
       .then(res => {
         if (res?.data?.code == SUCCESS_CODE) {

@@ -28,7 +28,7 @@ const AdminInbox = () => {
       id: 2,
       name: 'Barbella Inova',
       profileimage: AppImages.chatfive,
-      message: 'Awesome!',
+      message: 'Hey',
       messagecount: '2',
       messagetime: '20:00',
     },
@@ -36,7 +36,7 @@ const AdminInbox = () => {
       id: 3,
       name: 'Barbella Inova',
       profileimage: AppImages.chatsix,
-      message: 'Awesome!',
+      message: 'Available?',
       messagecount: '2',
       messagetime: '20:00',
     },
@@ -44,7 +44,7 @@ const AdminInbox = () => {
       id: 4,
       name: 'Barbella Inova',
       profileimage: AppImages.chatthree,
-      message: 'Awesome!',
+      message: 'Hello',
       messagecount: '2',
       messagetime: '20:00',
     },
@@ -52,7 +52,7 @@ const AdminInbox = () => {
       id: 5,
       name: 'Barbella Inova',
       profileimage: AppImages.chatfour,
-      message: 'Awesome!',
+      message: 'Coming',
       messagecount: '2',
       messagetime: '20:00',
     },
@@ -60,7 +60,7 @@ const AdminInbox = () => {
       id: 6,
       name: 'Barbella Inova',
       profileimage: AppImages.chattwo,
-      message: 'Awesome!',
+      message: 'Nice to meet you',
       messagecount: '2',
       messagetime: '20:00',
     },
@@ -68,7 +68,7 @@ const AdminInbox = () => {
       id: 7,
       name: 'Barbella Inova',
       profileimage: AppImages.chatone,
-      message: 'Awesome!',
+      message: 'Take care',
       messagecount: '2',
       messagetime: '20:00',
     },
@@ -76,7 +76,7 @@ const AdminInbox = () => {
       id: 8,
       name: 'Barbella Inova',
       profileimage: AppImages.chatthree,
-      message: 'Awesome!',
+      message: 'See you again',
       messagecount: '2',
       messagetime: '20:00',
     },
@@ -199,7 +199,7 @@ const AdminInbox = () => {
 
       {/* Search Bar View */}
       <View style={styles.searchBarView}>
-        <Search  style={{marginVertical:8}}/>
+        <Search style={{marginVertical: 8}} />
       </View>
 
       {/* FlatList  View */}

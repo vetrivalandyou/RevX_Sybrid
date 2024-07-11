@@ -49,6 +49,7 @@ export const endPoint = {
   ADMIN_USERDETAILS: 'Admin/Admin_UserDetails',
   BARBER_PC_SERVICES_APPROVAL: 'Admin/Admin_BarberPCServicesApproval',
   ADMIN_APPOINTMENT_UAR: 'Admin/Admin_appointment_uar',
+  ADMIN_REPORTS: "Admin/AdmiReports",
 
   // Customer End Points
   SERVICE_CATEGORIES: 'Customer/Service_Categories',

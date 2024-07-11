@@ -5,10 +5,14 @@ export default StyleSheet.create({
   MianContainer: {
     flex: 0.9,
     padding: 15,
+    minHeight: 750,
+    maxHeight: 'auto',
   },
   searchBarContainer: {
     flex: 0.1,
-    // backgroundColor: 'red',
+    // // backgroundColor: 'red',
+    minHeight: 60,
+    maxHeight: 60,
     justifyContent: 'center',
   },
   CardContainer: {

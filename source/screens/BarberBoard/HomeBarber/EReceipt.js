@@ -67,7 +67,7 @@ const EReceipt = ({navigation}) => {
 
   return (
     <Screen statusBarColor={appColors.Black} viewStyle={styles.MianContainer}>
-      <View style={{flex: 0.3}}>
+      <View style={{flex: 0.1}}>
         <Header
           lefttIcoType={Icons.Ionicons}
           onPressLeftIcon={() => navigation.goBack()}
@@ -91,50 +91,59 @@ const EReceipt = ({navigation}) => {
         />
       </View>
 
-      <View style={styles.Containerstyle}>
-        {data.map(item => (
-          <Barberdetails key={item.id} item={item} />
-        ))}
-      </View>
-
-      <View style={styles.Containerstyle2}>
-        {data2.map(item => (
-          <Pricedetails key={item.id} item={item} />
-        ))}
-
-          <View style={{ height: 1, position:'relative', marginHorizontal: 15, margin: 10 }}>
-            <View style={{ position: 'absolute', top: 0, bottom: 0, left: 0, right: 0, borderWidth: 1, borderColor: appColors.Goldcolor, borderStyle: 'dashed', backgroundColor:'transparent'  }}></View>
-          </View>
-        {/* <View
-          style={{
-            backgroundColor: '#c79647',
-            fontSize: 25,
-            marginHorizontal: 14,
-            borderBottomWidth: 2,
-            borderStyle: 'dotted',
-            marginTop: 10,
-            marginBottom: 5,
-          }}></View> */}
-
-        <View
-          style={{
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            marginHorizontal: 20,
-            marginTop: 5,
-          }}>
-          <Text style={{color: 'white', fontWeight: '700'}}>Total</Text>
-          <Text style={{color: '#c79647', fontWeight: '700'}}>$120.00</Text>
+      <View style={{flex: 0.9}}>
+        <View style={styles.Containerstyle}>
+          {data.map(item => (
+            <Barberdetails key={item.id} item={item} />
+          ))}
         </View>
-      </View>
 
-      <TouchableOpacity style={styles.Button}>
-        <Text style={{fontWeight: '700', fontSize: 13, color: 'white'}}>
-          {' '}
-          Download E-Receipt
-        </Text>
-      </TouchableOpacity>
+        <View style={styles.Containerstyle2}>
+          {data2.map(item => (
+            <Pricedetails key={item.id} item={item} />
+          ))}
+
+          <View
+            style={{
+              height: 1,
+              position: 'relative',
+              marginHorizontal: 15,
+              margin: 10,
+            }}>
+            <View
+              style={{
+                position: 'absolute',
+                top: 0,
+                bottom: 0,
+                left: 0,
+                right: 0,
+                borderWidth: 1,
+                borderColor: appColors.Goldcolor,
+                borderStyle: 'dashed',
+                backgroundColor: 'transparent',
+              }}></View>
+          </View>
+
+          <View
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              marginHorizontal: 20,
+              marginTop: 5,
+            }}>
+            <Text style={{color: 'white', fontWeight: '700'}}>Total</Text>
+            <Text style={{color: '#c79647', fontWeight: '700'}}>$120.00</Text>
+          </View>
+        </View>
+
+        <TouchableOpacity style={styles.Button}>
+          <Text style={{fontWeight: '700', fontSize: 13, color: 'white'}}>
+            {' '}
+            Download E-Receipt
+          </Text>
+        </TouchableOpacity>
+      </View>
     </Screen>
   );
 };

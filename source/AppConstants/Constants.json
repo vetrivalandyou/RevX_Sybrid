@@ -48,7 +48,9 @@
     "LogoutBottom": "LogoutBottom",
     "LocationBottom": "LocationBottom",
     "ReferFriendsSheet": "ReferFriendsSheet",
-    "ServiceSpecialist": "ServiceSpecialist"
+    "ServiceSpecialist": "ServiceSpecialist",
+    "UserChat": "UserChat",
+    "UserEReceipt": "UserEReceipt"
   },
   "BarberScreen": {
     "BarberBottomTabNavigation": "BarberBottomTabNavigation",
@@ -70,7 +72,8 @@
     "ServiceList": "ServiceList",
     "EditProfile": "EditProfile",
     "Profile": "Profile",
-    "AddSubservices": "AddSubservices"
+    "AddSubservices": "AddSubservices",
+    "BarberChat": "BarberChat"
   },
   "AdminScreens": {
     "AdminBottomTabNavigation": "AdminBottomTabNavigation",
@@ -119,7 +122,6 @@
     "AdminSetupSlots": "AdminSetupSlots",
     "CreateSlot": "CreateSlot",
     "ApproveSubServices": "ApproveSubServices"
-
   },
   "AsyncStorageKeys": {
     "token": "token",

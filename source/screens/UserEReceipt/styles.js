@@ -1,6 +1,6 @@
 import {StyleSheet} from 'react-native';
-import {screenSize} from '../../../components/atom/ScreenSize';
-import appColors from '../../../AppConstants/appColors';
+import {screenSize} from '../../components/atom/ScreenSize';
+import appColors from '../../AppConstants/appColors';
 export default StyleSheet.create({
   // bookngButonsView:
   // {

@@ -1,3 +1,5 @@
+import appColors from '../AppConstants/appColors';
+
 export const generateRandomNumber = () => {
   const randomNumber = Math.floor(100000 + Math.random() * 900000);
   return randomNumber;
@@ -18,7 +20,7 @@ export const calculateDistance = (lat1, lon1, lat2, lon2) => {
   return distance;
 };
 
-export const returnTotal = (SelectedChildServices) => {
+export const returnTotal = SelectedChildServices => {
   if (SelectedChildServices?.length == 0) {
     return 0;
   } else {
@@ -30,3 +32,29 @@ export const returnTotal = (SelectedChildServices) => {
   }
 };
 
+export const barberRevenueReportGraph = data => {
+  console.log(data);
+  const stackData = data?.map((item, index) => ({
+    label: item?.month,
+    stacks: [
+      {
+        value: item?.total_amount == 0 ? 1000 : item?.total_amount,
+        color: index % 2 !== 0 ? '#9A72F5' : appColors.Goldcolor,
+      },
+      {value: 20000, color: '#292929', marginBottom: 5},
+    ],
+  }));
+  console.log('barberRevenueReportGraph', stackData);
+  return stackData;
+};
+
+export const debounce = (func, delay) => {
+  let timer;
+  return function (...args) {
+    const context = this;
+    clearTimeout(timer);
+    timer = setTimeout(() => {
+      func.apply(context, args);
+    }, delay);
+  };
+};

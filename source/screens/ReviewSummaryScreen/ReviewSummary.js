@@ -79,7 +79,7 @@ const ReviewSummary = ({route}) => {
     }
   };
 
-  console.log("userlong lat", userLongLat)
+  console.log('userlong lat', userLongLat);
 
   const handleConfirmPayment = () => {
     const makingServicesData = SelectedChildServices?.map(x => ({
@@ -106,6 +106,8 @@ const ReviewSummary = ({route}) => {
       isActive: true,
       userID: 0,
       userIP: 'string',
+      remarks: 'string',
+      barbarBookedSlotID: 0,
     };
     console.log('fetchSelectedTimeSlot Payload', payload);
     PostRequest(endPoint?.BARBER_APPOINTMENTBOOKING, payload)
@@ -233,6 +235,7 @@ const Barberdetails = ({
   userDetails,
   seelectedDate,
   selectedSlotId,
+  barberDetails,
   specialistDetails,
   address,
 }) => {

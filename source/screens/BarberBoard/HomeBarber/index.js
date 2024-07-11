@@ -9,6 +9,8 @@ import {
   TouchableOpacity,
   FlatList,
   TextInput,
+  KeyboardAvoidingView,
+  Platform,
 } from 'react-native';
 import Screen from '../../../components/atom/ScreenContainer/Screen';
 import styles from './styles';
@@ -41,6 +43,8 @@ import {requestLocationPermissionAndGetLocation} from '../../../utils/GetLocatio
 import CustomModal from '../../../components/molecules/CustomModal/CustomModal';
 import ButtonComponent from '../../../components/atom/CustomButtons/ButtonComponent';
 import SimpleTextField from '../../../components/molecules/TextFeilds/SimpleTextField';
+import SignalRService from '../../../services/SignalRService';
+import {SET_INITIAL_DROPDOWN_FORM_STATE} from '../../../redux/ActionType/CrudActionTypes';
 
 const HomeBarber = ({navigation}) => {
   const {coords} = useSelector(state => state.LocationReducer);
@@ -60,6 +64,29 @@ const HomeBarber = ({navigation}) => {
       constants.AsyncStorageKeys.userDetails,
     );
     setUserDetails(userAsyncDetails);
+    if (SignalRService?.isConnected()) {
+      console.log('SignalR is in Connected State');
+    } else {
+      connectToSignalR(userAsyncDetails);
+    }
+  };
+
+  const connectToSignalR = async userDetails => {
+    SignalRService.startConnection(
+      // parseInt(userDetails?.userId),
+      // 0,
+      parseInt(userDetails?._RoleId),
+      userDetails?.userId.toString(),
+    );
+    SignalRService.onGetChatList_BB(json => {
+      let parsedData = JSON.parse(json);
+      console.log('Get Chat BB', parsedData);
+      let data = {
+        name: 'BarberInboxList',
+        value: parsedData,
+      };
+      dispatch({type: SET_INITIAL_DROPDOWN_FORM_STATE, payload: data});
+    });
   };
 
   const handleLocationChange = newCoords => {
@@ -95,8 +122,8 @@ const HomeBarber = ({navigation}) => {
   };
 
   const onPressSubmit = () => {
-    console.log("Submited")
-  }
+    console.log('Submited');
+  };
 
   const CustomModalView = () => {
     return (
@@ -148,7 +175,7 @@ const HomeBarber = ({navigation}) => {
             }}>
             <ButtonComponent
               btnColor={appColors.White}
-              btnTextColor={{ color: appColors.Goldcolor}}
+              btnTextColor={{color: appColors.Goldcolor}}
               style={{
                 width: '75%',
                 borderWidth: 1,
@@ -451,47 +478,54 @@ const HomeBarber = ({navigation}) => {
 
   return (
     <Screen statusBarColor={appColors.Black} viewStyle={styles.MianContainer}>
-      <CustomModal
-        visible={visible}
-        modalHeight={{height: screenSize.height / 3}}
-        CustomModalView={CustomModalView}
-      />
-      <View style={{flex: 0.1}}>
-        <HomeHeader
-          heading={userDetails?.userName}
-          // sunHeading={'Washington DC'}
-          source={userDetails?.profileImage}
+      <KeyboardAvoidingView
+        style={{flex: 1}}
+        behavior={Platform.OS === 'ios' ? 'padding' : null}
+        keyboardVerticalOffset={Platform.OS === 'android' ? 75 : 55}>
+        <CustomModal
+          visible={visible}
+          modalHeight={{height: screenSize.height / 3}}
+          CustomModalView={CustomModalView}
         />
-      </View>
+        <View style={{flex: 0.1}}>
+          <HomeHeader
+            heading={userDetails?.userName}
+            // sunHeading={'Washington DC'}
+            source={userDetails?.profileImage}
+          />
+        </View>
 
-      <View style={styles.searchBarContainer}>
-        <Search />
-      </View>
+        <View style={styles.searchBarContainer}>
+          <Search />
+        </View>
 
-      <View
-        style={{
-          flex: 0.1,
-          flexDirection: 'row',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          paddingHorizontal: 10,
-        }}>
-        <Text style={{fontSize: 22, color: appColors.White}}>Appointment</Text>
-        <TouchableOpacity>
-          <Text style={{color: appColors.Goldcolor, fontSize: 16}}>
-            See all
+        <View
+          style={{
+            flex: 0.1,
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            paddingHorizontal: 10,
+          }}>
+          <Text style={{fontSize: 22, color: appColors.White}}>
+            Appointment
           </Text>
-        </TouchableOpacity>
-      </View>
+          <TouchableOpacity>
+            <Text style={{color: appColors.Goldcolor, fontSize: 16}}>
+              See all
+            </Text>
+          </TouchableOpacity>
+        </View>
 
-      <View style={{flex: 0.7}}>
-        <FlatList
-          data={data}
-          renderItem={({item, index}) => <ListPrebooking item={item} />}
-          // renderItem={({item}) => <listBookingCompleted item={item} />}
-          keyExtractor={item => item.id}
-        />
-      </View>
+        <View style={{flex: 0.7}}>
+          <FlatList
+            data={data}
+            renderItem={({item, index}) => <ListPrebooking item={item} />}
+            // renderItem={({item}) => <listBookingCompleted item={item} />}
+            keyExtractor={item => item.id}
+          />
+        </View>
+      </KeyboardAvoidingView>
     </Screen>
   );
 };
