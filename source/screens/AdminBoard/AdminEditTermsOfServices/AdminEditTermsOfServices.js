@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   StyleSheet,
   Text,
@@ -12,19 +12,19 @@ import {
 } from 'react-native';
 import Screen from '../../../components/atom/ScreenContainer/Screen';
 import Header from '../../../components/molecules/Header';
-import {Icons} from '../../../components/molecules/CustomIcon/CustomIcon';
+import { Icons } from '../../../components/molecules/CustomIcon/CustomIcon';
 import constants from '../../../AppConstants/Constants.json';
 import appColors from '../../../AppConstants/appColors';
 import ButtonComponent from '../../../components/atom/CustomButtons/ButtonComponent';
-import {PostRequest} from '../../../services/apiCall';
-import {endPoint} from '../../../AppConstants/urlConstants';
-import {getAsyncItem} from '../../../utils/SettingAsyncStorage';
-import {SimpleSnackBar} from '../../../components/atom/Snakbar/Snakbar';
-import {screenSize} from '../../../components/atom/ScreenSize';
+import { PostRequest } from '../../../services/apiCall';
+import { endPoint } from '../../../AppConstants/urlConstants';
+import { getAsyncItem } from '../../../utils/SettingAsyncStorage';
+import { SimpleSnackBar } from '../../../components/atom/Snakbar/Snakbar';
+import { screenSize } from '../../../components/atom/ScreenSize';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
-const AdminEditTermsOfServices = ({route, navigation}) => {
-  const {description} = route.params;
+const AdminEditTermsOfServices = ({ route, navigation }) => {
+  const { description } = route.params;
   const [editedDescription, setEditedDescription] = useState(
     description?.[0]?.detail,
   );
@@ -83,38 +83,40 @@ const AdminEditTermsOfServices = ({route, navigation}) => {
       }}
       statusBarColor={appColors.Black}>
 
-        <View style={{flex: 0.1}}>
-          <Header
-            lefttIcoType={Icons.Ionicons}
-            onPressLeftIcon={() => navigation.goBack()}
-            leftIcoName={'chevron-back'}
-            headerText={
-              description?.[0]?.aboutUsId == 7
-                ? 'Terms of Service'
-                : '' || description?.[0]?.aboutUsId == 5
+      <View style={{ flex: 0.1 }}>
+        <Header
+          lefttIcoType={Icons.Ionicons}
+          onPressLeftIcon={() => navigation.goBack()}
+          leftIcoName={'chevron-back'}
+          headerText={
+            description?.[0]?.aboutUsId == 7
+              ? 'Terms of Service'
+              : '' || description?.[0]?.aboutUsId == 5
                 ? 'License'
                 : 'Privacy Policy'
-            }
-            rightIcoName={'bell-fill'}
-            rightIcoType={Icons.Octicons}
-            logIn={'success'}
-            rightIcoSize={20}
-            onPressRightIcon={() =>
-              navigation.navigate(constants.AdminScreens.AdminNotification)
-            }
-            leftIcoStyle={{
-              backgroundColor: appColors.lightBlack,
-              borderRadius: 50,
-              height: 50,
-              width: 50,
-              justifyContent: 'center',
-              alignItems: 'center',
-            }}
-          />
-        </View>
-
-        <TouchableWithoutFeedback style={{ flex: 0.9}} onPress={() => Keyboard.dismiss()}>
-          <View style={{flex: 1, paddingVertical: 5}}>
+          }
+          rightIcoName={'bell-fill'}
+          rightIcoType={Icons.Octicons}
+          logIn={'success'}
+          rightIcoSize={20}
+          onPressRightIcon={() =>
+            navigation.navigate(constants.AdminScreens.AdminNotification)
+          }
+          leftIcoStyle={{
+            backgroundColor: appColors.lightBlack,
+            borderRadius: 50,
+            height: 50,
+            width: 50,
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}
+        />
+      </View>
+      <KeyboardAwareScrollView
+        contentContainerStyle={{ flex: 0.9 }}
+      >
+        <TouchableWithoutFeedback style={{ flex: 1 }} onPress={() => Keyboard.dismiss()}>
+          <View style={{ flex: 1, paddingVertical: 5 }}>
             {loading ? (
               <ActivityIndicator
                 style={styles.loader}
@@ -146,35 +148,35 @@ const AdminEditTermsOfServices = ({route, navigation}) => {
                     {description?.[0]?.aboutUsId == 7
                       ? 'Terms of Service'
                       : '' || description?.[0]?.aboutUsId == 5
-                      ? 'License'
-                      : 'Privacy Policy'}
+                        ? 'License'
+                        : 'Privacy Policy'}
                   </Text>
                   <TextInput
-                    style={{fontSize: 16, color: 'white', lineHeight: 20}}
+                    style={{ fontSize: 16, color: 'white', lineHeight: 20 }}
                     multiline
                     value={editedDescription}
                     onChangeText={text => setEditedDescription(text)}
-                    // onBlur={() => setIsFocused(false)}
+                  // onBlur={() => setIsFocused(false)}
                   />
                 </View>
               ))
             )}
           </View>
         </TouchableWithoutFeedback>
+      </KeyboardAwareScrollView>
 
-        <View style={styles.buttonView}>
-          <ButtonComponent
-            style={{
-              backgroundColor: '#C79646',
-              paddingVertical: Platform.OS == 'ios' ? 18 : 13,
-              bottom: 1,
-              position: 'absolute',
-            }}
-            title={'Save'}
-            onPress={handleSave}
-          />
-        </View>
-      {/* </KeyboardAwareScrollView> */}
+      <View style={styles.buttonView}>
+        <ButtonComponent
+          style={{
+            backgroundColor: '#C79646',
+            paddingVertical: Platform.OS == 'ios' ? 18 : 13,
+            bottom: 1,
+            position: 'absolute',
+          }}
+          title={'Save'}
+          onPress={handleSave}
+        />
+      </View>
     </Screen>
   );
 };
