@@ -78,13 +78,12 @@ const AdminEditTermsOfServices = ({route, navigation}) => {
     <Screen
       viewStyle={{
         flex: 1,
-        backgroundColor: appColors.Black,
         padding: 15,
-        minHeight: screenSize.height
+        backgroundColor: appColors.Black,
       }}
       statusBarColor={appColors.Black}>
       <KeyboardAwareScrollView
-        contentContainerStyle={{flex: 0.9}}
+        contentContainerStyle={{flex: 1}}
        >
         <View style={{flex: 0.1}}>
           <Header
@@ -116,8 +115,8 @@ const AdminEditTermsOfServices = ({route, navigation}) => {
           />
         </View>
 
-        <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-          <View style={{flex: 0.9, paddingVertical: 5}}>
+        <TouchableWithoutFeedback style={{ flex: 0.9}} onPress={() => Keyboard.dismiss()}>
+          <View style={{flex: 1, paddingVertical: 5}}>
             {loading ? (
               <ActivityIndicator
                 style={styles.loader}
