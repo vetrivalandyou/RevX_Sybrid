@@ -9,16 +9,16 @@ import {
 } from 'react-native';
 import Screen from '../../../components/atom/ScreenContainer/Screen';
 import styles from './styles';
-import { screenSize } from '../../../components/atom/ScreenSize';
+import {screenSize} from '../../../components/atom/ScreenSize';
 import CustomIcon, {
   Icons,
 } from '../../../components/molecules/CustomIcon/CustomIcon';
 import appColors from '../../../AppConstants/appColors';
 import Header from '../../../components/molecules/Header';
 import Search from '../../../components/atom/Search/Search';
-import { AppImages } from '../../../AppConstants/AppImages';
+import {AppImages} from '../../../AppConstants/AppImages';
 import constants from '../../../AppConstants/Constants.json';
-import { useNavigation } from '@react-navigation/native';
+import {useNavigation} from '@react-navigation/native';
 
 const HomeSuperAdmin = () => {
   const navigation = useNavigation();
@@ -39,9 +39,9 @@ const HomeSuperAdmin = () => {
     },
   ];
 
-  const BarberEarningsContainer = ({ item }) => {
+  const BarberEarningsContainer = ({item}) => {
     return (
-      <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+      <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
         <View style={styless.container}>
           <Image source={item.Imagesource} style={styless.image} />
           <View style={styless.textContainer}>
@@ -63,11 +63,12 @@ const HomeSuperAdmin = () => {
 
   return (
     <Screen statusBarColor={appColors.Black} viewStyle={styles.MianContainer}>
-      <View style={{ flex: 1 }}>
+      <View style={{flex: 1}}>
         <View
           style={{
-            minHeight: screenSize.height / 1.25,
+            minHeight: '100%',
             maxHeight: 'auto',
+            backgroundColor: 'red',
           }}>
           <View style={styles.headerView}>
             <Header
@@ -90,12 +91,12 @@ const HomeSuperAdmin = () => {
           </View>
 
           <View style={styles.searchBarContainer}>
-            <Search style={{ marginVertical: 10 }} />
+            <Search style={{marginVertical: 10}} />
           </View>
 
           <View style={styles.cardContainer}>
             <View style={styles.imgContainer}>
-              <Image source={AppImages.visaimg} style={{ flex: 1 }} />
+              <Image source={AppImages.visaimg} style={{flex: 1}} />
             </View>
 
             <View style={styles.cardInnerContainer}>
@@ -118,9 +119,9 @@ const HomeSuperAdmin = () => {
           </View>
 
           <View
-            style={{ flex: 0.19, flexDirection: 'row', justifyContent: 'center' }}>
+            style={{flex: 0.2, flexDirection: 'row', justifyContent: 'center'}}>
             <TouchableOpacity
-              style={{ flex: 0.2, alignItems: 'center' }}
+              style={{flex: 0.2, alignItems: 'center'}}
               onPress={() =>
                 navigation.navigate(constants.AdminScreens.AdminPaymentMethod)
               }>
@@ -133,16 +134,22 @@ const HomeSuperAdmin = () => {
                 }}>
                 <Image source={AppImages.Transfer} />
               </View>
-              <View style={{ flex: 0.3 }}>
-                <Text style={{ color: appColors.White, fontSize: 12 }}>
+              <View style={{flex: 0.3}}>
+                <Text style={{color: appColors.White, fontSize: 12}}>
                   Transfer
                 </Text>
               </View>
             </TouchableOpacity>
             <TouchableOpacity
-              style={{ flex: 0.2, justifyContent: 'center', alignItems: 'center' }}
+              style={{
+                flex: 0.2,
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}
               onPress={() =>
-                navigation.navigate(constants.AdminScreens.RecentTransactionsMain)
+                navigation.navigate(
+                  constants.AdminScreens.RecentTransactionsMain,
+                )
               }>
               <View
                 style={{
@@ -153,16 +160,22 @@ const HomeSuperAdmin = () => {
                 }}>
                 <Image source={AppImages.Transaction} />
               </View>
-              <View style={{ flex: 0.3 }}>
-                <Text style={{ color: appColors.White, fontSize: 12 }}>
+              <View style={{flex: 0.3}}>
+                <Text style={{color: appColors.White, fontSize: 12}}>
                   Transaction
                 </Text>
               </View>
             </TouchableOpacity>
 
             <TouchableOpacity
-              style={{ flex: 0.2, justifyContent: 'center', alignItems: 'center' }}
-              onPress={() => navigation.navigate(constants.AdminScreens.Report)}>
+              style={{
+                flex: 0.2,
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}
+              onPress={() =>
+                navigation.navigate(constants.AdminScreens.Report)
+              }>
               <View
                 style={{
                   flex: 0.7,
@@ -172,8 +185,10 @@ const HomeSuperAdmin = () => {
                 }}>
                 <Image source={AppImages.Report} />
               </View>
-              <View style={{ flex: 0.3 }}>
-                <Text style={{ color: appColors.White, fontSize: 12 }}>Report</Text>
+              <View style={{flex: 0.3}}>
+                <Text style={{color: appColors.White, fontSize: 12}}>
+                  Report
+                </Text>
               </View>
             </TouchableOpacity>
 
@@ -181,7 +196,11 @@ const HomeSuperAdmin = () => {
               onPress={() =>
                 navigation.navigate(constants.AdminScreens.AdminManageContent)
               }
-              style={{ flex: 0.2, justifyContent: 'center', alignItems: 'center' }}>
+              style={{
+                flex: 0.2,
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}>
               <View
                 style={{
                   flex: 0.7,
@@ -191,8 +210,8 @@ const HomeSuperAdmin = () => {
                 }}>
                 <Image source={AppImages.Report} />
               </View>
-              <View style={{ flex: 0.3 }}>
-                <Text style={{ color: appColors.White, fontSize: 12 }}>
+              <View style={{flex: 0.3}}>
+                <Text style={{color: appColors.White, fontSize: 12}}>
                   Content Manage
                 </Text>
               </View>
@@ -202,7 +221,11 @@ const HomeSuperAdmin = () => {
               onPress={() =>
                 navigation.navigate(constants.AdminScreens.AdminUserDetails)
               }
-              style={{ flex: 0.2, justifyContent: 'center', alignItems: 'center' }}>
+              style={{
+                flex: 0.2,
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}>
               <View
                 style={{
                   flex: 0.7,
@@ -212,8 +235,8 @@ const HomeSuperAdmin = () => {
                 }}>
                 <Image source={AppImages.UserPage} />
               </View>
-              <View style={{ flex: 0.3 }}>
-                <Text style={{ color: appColors.White, fontSize: 12 }}>
+              <View style={{flex: 0.3}}>
+                <Text style={{color: appColors.White, fontSize: 12}}>
                   User Page
                 </Text>
               </View>
@@ -227,9 +250,13 @@ const HomeSuperAdmin = () => {
               justifyContent: 'space-between',
               alignItems: 'center',
             }}>
-            <View style={{ flex: 0.5 }}>
+            <View style={{flex: 0.5}}>
               <Text
-                style={{ fontWeight: '400', fontSize: 22, color: appColors.White }}>
+                style={{
+                  fontWeight: '400',
+                  fontSize: 22,
+                  color: appColors.White,
+                }}>
                 Barber Earnings
               </Text>
             </View>
@@ -243,7 +270,7 @@ const HomeSuperAdmin = () => {
                 justifyContent: 'flex-end',
                 flexDirection: 'row',
               }}>
-              <Text style={{ color: appColors.Goldcolor, fontSize: 14 }}>
+              <Text style={{color: appColors.Goldcolor, fontSize: 14}}>
                 View All
               </Text>
               <CustomIcon
@@ -255,7 +282,7 @@ const HomeSuperAdmin = () => {
             </TouchableOpacity>
           </View>
 
-          <View style={{ flex: 0.26, justifyContent: 'center' }}>
+          <View style={{flex: 0.25, justifyContent: 'center'}}>
             {BarberEarnings.map(item => (
               <BarberEarningsContainer key={item.id} item={item} />
             ))}
