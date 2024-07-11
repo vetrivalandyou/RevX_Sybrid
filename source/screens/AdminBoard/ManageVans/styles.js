@@ -72,7 +72,6 @@ export default StyleSheet.create({
     height: '56%',
     justifyContent: 'center',
     alignItems: 'center',
-    // backgroundColor: 'black',
   },
   imageStyle: {
     width: '100%',
