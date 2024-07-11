@@ -55,6 +55,7 @@ export const endPoint = {
   SERVICE_CATEGORIES: 'Customer/Service_Categories',
   MASTER_DETAIL: 'Common/SetupMasterDetail',
   GET_ABOUT_US: 'Common/Get_AboutUs',
+  BUY_SERVICES: "Payment/BuyServices",
 
   // `Common/Get_AboutUsType?aboutUsTypeId=${BARBERID}`
   SAVE_ABOUTUS_TYPE: 'Common/SaveAboutUsTypeTitleDetail',
