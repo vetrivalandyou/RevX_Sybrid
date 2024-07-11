@@ -36,7 +36,10 @@ const initialBarberApproveFields = {
   childServiceStatusID: 0,
   isActive: true,
   userID: 0,
+  bookingDate: '2024-07-11T13:32:17.688Z',
   userIP: 'string',
+  barbarBookedSlotID: 0,
+  remarks: 'string',
   tbL_Approve_BB_ParentServices_: [
     {
       parentService_PK_ID: 0,
@@ -127,7 +130,7 @@ const AdminApproveBarber = ({navigation}) => {
       };
     }
 
-    console.log("-------",payload);
+    console.log('-------', payload);
 
     postBarberApproveService(payload);
   };
