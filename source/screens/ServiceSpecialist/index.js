@@ -33,6 +33,8 @@ import {
   PULL_CHILDSERVICE_DATA,
   PUSH_CHILDSERVICE_DATA,
 } from '../../redux/Action/AppointmentActionType';
+import BoxLottie from '../../components/atom/BoxLottie/BoxLottie';
+
 
 const ServiceSpecialist = ({route}) => {
   const {item} = route.params || {};
@@ -73,7 +75,7 @@ const ServiceSpecialist = ({route}) => {
         if (res?.data?.length > 0) {
           setServices(res?.data);
         } else {
-          SimpleSnackBar('No Service Found', appColors.Red);
+          ('');
         }
         setLoading(false);
       })
@@ -139,17 +141,32 @@ const ServiceSpecialist = ({route}) => {
         />
       ) : (
         <View style={{flex: 0.8}}>
-          <FlatList
-            data={Services}
-            keyExtractor={item => item.ChildServiceID}
-            renderItem={({item}) => (
-              <Servicedetails
-                item={item}
-                selectedItem={SelectedChildServices}
-                onPress={() => handleSelectChildService(item)}
-              />
-            )}
-          />
+          {Services?.length > 0 ? (
+               <FlatList
+               data={Services}
+               keyExtractor={item => item.ChildServiceID}
+               renderItem={({item}) => (
+                 <Servicedetails
+                   item={item}
+                   selectedItem={SelectedChildServices}
+                   onPress={() => handleSelectChildService(item)}
+                 />
+               )}
+             />
+          ) : (
+            <View
+            style={{
+              flex: 0.9,
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}>
+            <BoxLottie
+              animationPath={require('../../LottieAnimation/NoPostFoundAnimation.json')}
+            />
+          </View>
+          )}
+       
+
         </View>
       )}
 

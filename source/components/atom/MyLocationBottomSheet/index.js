@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import {
   ActivityIndicator,
   FlatList,
@@ -8,28 +8,32 @@ import {
   TouchableOpacity,
   View,
   ScrollView,
+  TextInput,
 } from 'react-native';
 import appColors from '../../../AppConstants/appColors';
 import CustomIcon, {
   Icons,
 } from '../../../components/molecules/CustomIcon/CustomIcon';
-import {screenSize} from '../ScreenSize';
+import { screenSize } from '../ScreenSize';
 import constants from '../../../AppConstants/Constants.json';
-import {useNavigation} from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
 import SimpleTextField from '../../molecules/TextFeilds/SimpleTextField';
-import {Formik} from 'formik';
+import { Formik } from 'formik';
 import * as Yup from 'yup';
-import {PostRequest} from '../../../services/apiCall';
-import {endPoint, messages} from '../../../AppConstants/urlConstants';
+import { PostRequest } from '../../../services/apiCall';
+import { endPoint, messages } from '../../../AppConstants/urlConstants';
 import ButtonComponent from '../CustomButtons/ButtonComponent';
-import {getAsyncItem} from '../../../utils/SettingAsyncStorage';
-import {SimpleSnackBar} from '../Snakbar/Snakbar';
-import {useDispatch, useSelector} from 'react-redux';
-import {LATEST_INSERT, LATEST_UPDATE, SUCCESS_CODE} from '../../../AppConstants/appConstants';
+import { getAsyncItem } from '../../../utils/SettingAsyncStorage';
+import { SimpleSnackBar } from '../Snakbar/Snakbar';
+import { useDispatch, useSelector } from 'react-redux';
+import { LATEST_INSERT, LATEST_UPDATE, SUCCESS_CODE } from '../../../AppConstants/appConstants';
+import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
 
-const MyLocationBottomSheet = ({selectedLocation, newLocation, item}) => {
+const MyLocationBottomSheet = ({ keyboardFocusRef, selectedLocation, newLocation, item, refRBSheet }) => {
   const navigation = useNavigation();
   const [userDetails, setUserDetails] = useState('');
+  const [locationAddress, setLocationAddress] = useState(item?.locationName);
+  const [sselectedLocation, setSselectedLocation] = useState(null);
 
   useEffect(() => {
     getUserDetails();
@@ -44,23 +48,24 @@ const MyLocationBottomSheet = ({selectedLocation, newLocation, item}) => {
 
   const validationSchema = Yup.object().shape({
     locationName: Yup.string().required('Please enter your location name'),
-    nearstLandmark: Yup.string().required('Please enter your Nearest Mark'),
   });
 
-  const LocationUpdate = values => {
+
+  const LocationUpdate = () => {
     const payload = {
       locationId: item?.id,
-      locationName: values.locationName,
-      nearstLandmark: values?.nearstLandmark,
+      locationName: locationAddress,
+      nearstLandmark: locationAddress,
       locationLatitude: selectedLocation?.coords?.latitude,
       locationLongitude: selectedLocation?.coords?.longitude,
       mobileNo: userDetails?.userPhone,
       customerId: userDetails?.userId,
-      address: values.locationName,
+      address: locationAddress,
       operations: LATEST_UPDATE, // assuming 2 means update operation
       createdBy: userDetails?.userId,
       userIP: '::1',
     };
+    console.log("payload>>>>", payload)
     PostRequest(endPoint.BARBER_SET_UP_LOCATION_SERVICES, payload)
       .then(res => {
         if (res?.data?.code == SUCCESS_CODE) {
@@ -74,21 +79,21 @@ const MyLocationBottomSheet = ({selectedLocation, newLocation, item}) => {
       });
   };
 
-  //   location details save function
-  const AddNewLocation = values => {
+  const AddNewLocation = () => {
     const payload = {
       id: 0,
-      locationName: values.locationName,
-      nearstLandmark: values?.nearstLandmark,
+      locationName: locationAddress,
+      nearstLandmark: locationAddress,
       locationLatitude: selectedLocation?.coords?.latitude,
       locationLongitude: selectedLocation?.coords?.longitude,
       mobileNo: userDetails?.userPhone,
       userId: userDetails?.userId,
-      address: values.locationName,
+      address: locationAddress,
       operations: LATEST_INSERT,
       createdBy: userDetails?.userId,
       userIP: '::1',
     };
+    console.log("payload ?????>>>>>", payload)
     PostRequest(endPoint.BARBER_SET_UP_LOCATION_SERVICES, payload)
       .then(res => {
         if (res?.data?.code == SUCCESS_CODE) {
@@ -104,97 +109,194 @@ const MyLocationBottomSheet = ({selectedLocation, newLocation, item}) => {
       });
   };
 
+  const handlePlaceSelect = (data, details) => {
+    console.log("inside handlePlaceSelect", data)
+    console.log("inside handlePlaceSelect details", details)
+    setSselectedLocation({ data, details });
+    setLocationAddress(data.description); // Set the text input value manually
+  };
+
   return (
     <View style={lbStyle.mainContainer}>
       {userDetails ? (
-        <Formik
-          initialValues={{
-            locationName: newLocation != true ? item?.locationName : '',
-            nearstLandmark: newLocation != true ? item?.nearstLandmark : '',
-          }}
-          validationSchema={validationSchema}
-          onSubmit={values => {
-            if (newLocation == true) {
-              AddNewLocation(values);
-            } else {
-              LocationUpdate(values);
-            }
-          }}>
-          {({
-            handleChange,
-            handleBlur,
-            handleSubmit,
-            values,
-            errors,
-            touched,
-            isSubmitting,
-          }) => (
-            <>
-              <View
-                style={{
-                  flex: 0.5,
-                  borderRadius: 3,
-                }}>
-                <SimpleTextField
-                  placeholder={'Location Name'}
-                  placeholderTextColor={appColors.LightGray}
-                  onChangeText={handleChange('locationName')}
-                  onBlur={handleBlur('locationName')}
-                  value={values.locationName}
-                />
-                {touched.locationName && errors.locationName && (
-                  <View style={{marginLeft: 10, margin: 1}}>
-                    <Text style={{color: appColors.Red, fontSize: 12}}>
-                      {errors.locationName}
-                    </Text>
-                  </View>
-                )}
-              </View>
-              <View
-                style={{
-                  flex: 0.5,
-                }}>
-                <SimpleTextField
-                  placeholder={'Nearest Landmark'}
-                  placeholderTextColor={appColors.LightGray}
-                  onChangeText={handleChange('nearstLandmark')}
-                  onBlur={handleBlur('nearstLandmark')}
-                  value={values.nearstLandmark}
-                />
-                {touched.nearstLandmark && errors.nearstLandmark && (
-                  <View style={{marginLeft: 10, margin: 1}}>
-                    <Text style={{color: appColors.Red, fontSize: 12}}>
-                      {errors.nearstLandmark}
-                    </Text>
-                  </View>
-                )}
-              </View>
-              <View style={{flex: 0.32}}>
-                <ButtonComponent
-                  title={
-                    newLocation == true ? 'Add Lcoation' : 'Update Location'
-                  }
-                  onPress={handleSubmit}
-                  // disable={
-                  //   !selectedLocation ||
-                  //   !values.locationName ||
-                  //   !values.nearstLandmark
-                  // }
-                  // style={{
-                  //   opacity:
-                  //     !selectedLocation ||
-                  //     !values.locationName ||
-                  //     !values.nearstLandmark
-                  //       ? 0.5
-                  //       : 1,
-                  // }}
-                />
-              </View>
-            </>
-          )}
-        </Formik>
+        // <Formik
+        //   initialValues={{
+        //     LocationAddress: newLocation != undefined ? '' : item?.locationName,
+        //     // locationName: newLocation != true ? item?.locationName : '',
+        //     // nearstLandmark: newLocation != true ? item?.nearstLandmark : '',
+        //   }}
+        //   validationSchema={validationSchema}
+        //   onSubmit={values => {
+        //     if (newLocation == true) {
+        //       AddNewLocation(values);
+        //     } else {
+        //       LocationUpdate(values);
+        //     }
+        //   }}>
+        //   {({
+        //     handleChange,
+        //     handleBlur,
+        //     handleSubmit,
+        //     values,
+        //     errors,
+        //     touched,
+        //     isSubmitting,
+        //   }) => (
+        //     <>
+        //       {/* <View
+        //         style={{
+        //           flex: 0.5,
+        //           borderRadius: 3,
+        //         }}>
+        //         <SimpleTextField
+        //           placeholder={'Location Name'}
+        //           placeholderTextColor={appColors.LightGray}
+        //           onChangeText={handleChange('locationName')}
+        //           onBlur={handleBlur('locationName')}
+        //           value={values.locationName}
+        //         />
+        //         {touched.locationName && errors.locationName && (
+        //           <View style={{marginLeft: 10, margin: 1}}>
+        //             <Text style={{color: appColors.Red, fontSize: 12}}>
+        //               {errors.locationName}
+        //             </Text>
+        //           </View>
+        //         )}
+        //       </View>
+        //       <View
+        //         style={{
+        //           flex: 0.5,
+        //         }}>
+        //         <SimpleTextField
+        //           placeholder={'Nearest Landmark'}
+        //           placeholderTextColor={appColors.LightGray}
+        //           onChangeText={handleChange('nearstLandmark')}
+        //           onBlur={handleBlur('nearstLandmark')}
+        //           value={values.nearstLandmark}
+        //         />
+        //         {touched.nearstLandmark && errors.nearstLandmark && (
+        //           <View style={{marginLeft: 10, margin: 1}}>
+        //             <Text style={{color: appColors.Red, fontSize: 12}}>
+        //               {errors.nearstLandmark}
+        //             </Text>
+        //           </View>
+        //         )}
+        //       </View> */}
+
+        //       <View style={{ flex: 0.6, }}>
+        //         <GooglePlacesAutocomplete
+        //           returnKeyType={'default'}
+        //           textInputProps={{
+        //             value: values?.LocationAddress,
+        //             placeholderTextColor: '#808080',
+        //             returnKeyType: "search",
+        //             onChangeText: handleChange('LocationAddress')
+        //           }}
+        //           ref={keyboardFocusRef}
+        //           placeholder='Search'
+        //           onPress={(data, details = null) => {
+        //             console.log("dataaaa", data?.description);
+        //             handleChange('LocationAddress');
+        //             setLocationAddress(data?.description);
+        //           }}
+        //           query={{
+        //             key: 'AIzaSyBBa3zOSl9VtdV4EqNfgRs2x0x20e_neW0',
+        //             language: 'en',
+        //           }}
+        //           enablePoweredByContainer={false}
+        //         />
+        //         {/* <TextInput
+        //           value={LocationAddress}
+        //           onChangeText={handleChangeText}
+        //           placeholder="Edit your location"
+        //           placeholderTextColor="#808080"
+        //           style={{ borderWidth: 1, borderColor: '#ccc', padding: 10, marginTop: 10, color: appColors.White }}
+        //         /> */}
+        //       </View>
+
+        //       <View style={{ flex: 0.6 }}>
+        //         <ButtonComponent
+        //           title={
+        //             newLocation == true ? 'Add Lcoation' : 'Update Location'
+        //           }
+        //           onPress={handleSubmit}
+        //           disable={
+        //             !selectedLocation ||
+        //             !values.locationName
+        //           }
+        //           style={{
+        //             opacity:
+        //               !selectedLocation ||
+        //                 !values.locationName
+        //                 ? 0.5
+        //                 : 1,
+        //           }}
+        //         />
+        //       </View>
+        //     </>
+        //   )}
+        // </Formik>
+        <>
+          <View style={{ flex: 0.6, }}>
+            <GooglePlacesAutocomplete
+             ref={keyboardFocusRef}
+              placeholder="Search"
+              onPress={(data, details) => handlePlaceSelect(data, details)}
+              query={{
+                key: 'AIzaSyBBa3zOSl9VtdV4EqNfgRs2x0x20e_neW0',
+                language: 'en',
+              }}
+              value = {locationAddress}
+              textInputProps={{
+                value: locationAddress,
+                // onChangeText: (text) => { setLocationAddress(text)},
+                returnKeyType: 'search',
+                placeholderTextColor: '#808080',
+              }}
+            />
+            {/* <GooglePlacesAutocomplete
+            returnKeyType={'default'}
+            textInputProps={{
+              value: values?.LocationAddress,
+              placeholderTextColor: '#808080',
+              returnKeyType: "search",
+              // onChangeText: handleChange('LocationAddress')
+            }}
+            ref={keyboardFocusRef}
+            placeholder='Search'
+            onPress={(data, details = null) => {
+              console.log("dataaaa", data?.description);
+              // handleChange('LocationAddress');
+              setLocationAddress(data?.description);
+            }}
+            query={{
+              key: 'AIzaSyBBa3zOSl9VtdV4EqNfgRs2x0x20e_neW0',
+              language: 'en',
+            }}
+            enablePoweredByContainer={false}
+          /> */}
+          </View>
+          <View style={{ flex: 0.6 }}>
+            <ButtonComponent
+              title={
+                newLocation == true ? 'Add Lcoation' : 'Update Location'
+              }
+              onPress={newLocation == true ? AddNewLocation : LocationUpdate}
+            // disable={
+            //   !selectedLocation ||
+            //   !values.locationName
+            // }
+            // style={{
+            //   opacity:
+            //     !selectedLocation ||
+            //       !values.locationName
+            //       ? 0.5
+            //       : 1,
+            // }}
+            />
+          </View></>
       ) : (
-        <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
           <ActivityIndicator size="small" color={appColors.Goldcolor} />
         </View>
       )}
@@ -207,9 +309,10 @@ const lbStyle = StyleSheet.create({
     flex: 1,
     paddingHorizontal: 15,
     paddingVertical: 15,
+
   },
 
-  clTextStyle: {fontSize: 13, fontWeight: '500', color: appColors.White},
+  clTextStyle: { fontSize: 13, fontWeight: '500', color: appColors.White },
   clSelectLocation: {
     borderRadius: 20,
     flexDirection: 'row',

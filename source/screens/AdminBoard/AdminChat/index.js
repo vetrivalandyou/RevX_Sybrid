@@ -187,7 +187,7 @@ const AdminChat = ({ navigation }) => {
                     placeholderTextColor={appColors.White}
                   />
                 </View>
-
+``
                 <View style={{ flex: 0.12, justifyContent: 'center' }}>
                   <TouchableOpacity>
                     <CustomIcon

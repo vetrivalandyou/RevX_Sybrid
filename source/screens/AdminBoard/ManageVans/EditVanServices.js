@@ -16,6 +16,7 @@ import Screen from '../../../components/atom/ScreenContainer/Screen';
 import CustomIcon, {
   Icons,
 } from '../../../components/molecules/CustomIcon/CustomIcon';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 const EditVanservices = ({route, navigation}) => {
   const {vanDetails, userDetails} = route.params || {};
@@ -78,6 +79,8 @@ const EditVanservices = ({route, navigation}) => {
     <Screen
       viewStyle={{flex: 1, padding: 15, backgroundColor: appColors.Black}}
       statusBarColor={appColors.Black}>
+             <KeyboardAwareScrollView
+        contentContainerStyle={{flex: 1}}>
       <View style={{flex: 0.1}}>
         <Header
           lefttIcoType={Icons.Ionicons}
@@ -245,6 +248,7 @@ const EditVanservices = ({route, navigation}) => {
           setProfileImage={handleImageCaptured}
         />
       </BottomSheet>
+      </KeyboardAwareScrollView>
     </Screen>
   );
 };

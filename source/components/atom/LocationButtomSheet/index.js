@@ -125,11 +125,11 @@ const LocationBottomSheet = ({refRBSheet}) => {
   const fetchAddress = userCurrentLocation => {
     console.log('Fw=ecth');
     GetRequest(
-      `https://maps.googleapis.com/maps/api/geocode/json?latlng=${userCurrentLocation?.coords?.latitude},${userCurrentLocation?.coords?.longitude}&key=AIzaSyC7Y3a-Q8qZXj5XgLzpHa92b_nw3sR8aWE`,
+      `https://maps.googleapis.com/maps/api/geocode/json?latlng=${userCurrentLocation?.coords?.latitude},${userCurrentLocation?.coords?.longitude}&key=AIzaSyBBa3zOSl9VtdV4EqNfgRs2x0x20e_neW0`,
     )
       .then(res => {
         console.log(
-          'Hello',
+          'Hello sjhkjahkjah',
           res?.data?.results?.[0]?.address_components?.[3]?.long_name,
         );
         AsyncStorage.setItem(
