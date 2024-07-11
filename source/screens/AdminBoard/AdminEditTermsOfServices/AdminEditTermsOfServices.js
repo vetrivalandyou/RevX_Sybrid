@@ -76,7 +76,7 @@ const AdminEditTermsOfServices = ({ route, navigation }) => {
   console.log('editedDescription???????????????????', editedDescription);
   return (
     <KeyboardAwareScrollView
-      contentContainerStyle={{ flex: 1 }}
+      contentContainerStyle={{ height: screenSize.height}}
     >
       <Screen
         viewStyle={{
