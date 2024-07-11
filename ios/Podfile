@@ -31,6 +31,8 @@ target 'RevXMobileApp' do
   rn_maps_path = '../node_modules/react-native-maps'
   pod 'react-native-google-maps', :path => rn_maps_path
 
+  pod 'RNInAppBrowser', :path => '../node_modules/react-native-inappbrowser-reborn'
+
   # Flags change depending on the env values.
   flags = get_default_flags()
 

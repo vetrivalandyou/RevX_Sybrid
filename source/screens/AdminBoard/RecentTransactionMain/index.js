@@ -39,7 +39,7 @@ const RecentTransactionsMain = () => {
       {/* Header View */}
       <View style={styles.headerView}>
         <Header
-        headerSubView={{marginHorizontal: 5}}
+          headerSubView={{marginHorizontal: 5}}
           lefttIcoType={Icons.Ionicons}
           onPressLeftIcon={() => navigation.goBack()}
           leftIcoName={'chevron-back'}
@@ -94,7 +94,9 @@ const RecentTransactionsMain = () => {
         <TouchableOpacity
           style={styles.ViewAllMainView}
           onPress={() =>
-            navigation.navigate(constants.AdminScreens.RecentTransactions)
+            navigation.navigate(constants.AdminScreens.RecentTransactions, {
+              RecentTransaction: true,
+            })
           }>
           <Text style={styles.ViewAllTextStyle}>View All</Text>
           <CustomIcon
@@ -128,7 +130,9 @@ const RecentTransactionsMain = () => {
         <TouchableOpacity
           style={styles.ViewAllMainView}
           onPress={() =>
-            navigation.navigate(constants.AdminScreens.RecentTransactions)
+            navigation.navigate(constants.AdminScreens.RecentTransactions, {
+              RecentTransaction: false,
+            })
           }>
           <Text style={styles.ViewAllTextStyle}>View All</Text>
           <CustomIcon

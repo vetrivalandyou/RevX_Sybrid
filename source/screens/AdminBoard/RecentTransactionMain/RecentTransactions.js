@@ -1,5 +1,13 @@
-import {View, Text, ScrollView, Image, StyleSheet} from 'react-native';
-import React from 'react';
+import {
+  View,
+  Text,
+  ScrollView,
+  Image,
+  StyleSheet,
+  FlatList,
+  ActivityIndicator,
+} from 'react-native';
+import React, {useEffect, useState} from 'react';
 // import Screen from '../components/atom/ScreenContainer/Screen'
 // import {screenSize} from '../Utills/AppConstants';
 import Screen from '../../../components/atom/ScreenContainer/Screen';
@@ -8,12 +16,27 @@ import {screenSize} from '../../../components/atom/ScreenSize';
 import Header from '../../../components/molecules/Header';
 import styles from './styles';
 import {Icons} from '../../../components/molecules/CustomIcon/CustomIcon';
-import {useNavigation} from '@react-navigation/native';
+import {useIsFocused, useNavigation} from '@react-navigation/native';
 import constants from '../../../AppConstants/Constants.json';
 import appColors from '../../../AppConstants/appColors';
+import {PostRequest} from '../../../services/apiCall';
+import {endPoint, imageUrl} from '../../../AppConstants/urlConstants';
+import {debounce} from '../../../functions/AppFunctions';
 
-const RecentTransactions = () => {
+const RecentTransactions = ({route}) => {
+  const {RecentTransaction} = route?.params || false;
+  const isFocused = useIsFocused();
   const navigation = useNavigation();
+
+  const [isLoadng, setIsLoading] = useState(true)
+  const [transactions, setTransactions] = useState([]);
+  const [pageNo, setPageNo] = useState(1);
+  const [hasMore, setHasMore] = useState(true);
+
+  useEffect(() => {
+    if (isFocused) getTransactionReport();
+  }, [isFocused]);
+
   const data = [
     {
       id: 1,
@@ -87,14 +110,62 @@ const RecentTransactions = () => {
       price: '$16.00',
     },
   ];
+
+  const getTransactionReport = () => {
+    const payload = {
+      operationID: RecentTransaction ? 4 : 5,
+      parameterID: 0,
+      barberID: 0,
+      _PageNumber: pageNo,
+      _RowsOfPage: 5,
+    };
+    PostRequest(endPoint.ADMIN_REPORTS, payload)
+      .then(res => {
+        console.log('res', res?.data);
+        if (res?.data?.Table?.length > 0) {
+          setTransactions(transactions => [
+            ...transactions,
+            ...res?.data?.Table,
+          ]);
+          setPageNo(pageNo + 1);
+          setIsLoading(false);
+        } else {
+          setHasMore(false);
+        }
+      })
+      .catch(err => {
+        console.log('error', err);
+        setIsLoading(false);
+      });
+  };
+
+  const renderFooter = () => {
+    if (hasMore == false) return null;
+    return (
+      <View style={{margin: 10}}>
+        <ActivityIndicator size="small" color={appColors.Goldcolor} />
+      </View>
+    );
+  };
+
+  const handleLoadMore = debounce(() => {
+    if (hasMore == true) {
+      getTransactionReport();
+    }
+  }, 300);
+
   return (
-    <Screen viewStyle={{flex: 1, padding: 15, backgroundColor: appColors.Black}} statusBarColor={appColors.Black}>
+    <Screen
+      viewStyle={{flex: 1, padding: 15, backgroundColor: appColors.Black}}
+      statusBarColor={appColors.Black}>
       <View style={{flex: 0.1}}>
         <Header
           lefttIcoType={Icons.Ionicons}
           onPressLeftIcon={() => navigation.goBack()}
           leftIcoName={'chevron-back'}
-          headerText={'Recent Transactions'}
+          headerText={
+            RecentTransaction ? 'Recent Transactions' : 'All Transaction'
+          }
           rightIcoName={'bell-fill'}
           rightIcoType={Icons.Octicons}
           logIn={'success'}
@@ -109,14 +180,29 @@ const RecentTransactions = () => {
 
       <View style={{flex: 0.07, justifyContent: 'center'}}>
         <Text style={{color: 'white', fontSize: 18, paddingLeft: 5}}>
-          Recent Transactions
+          {RecentTransaction ? 'Recent Transactions' : 'All Transaction'}
         </Text>
       </View>
-      <ScrollView style={{flex: 0.73}}>
-        {data?.map(item => (
-          <Transactioninfo key={item.id} item={item} />
-        ))}
-      </ScrollView>
+      <View style={{flex: 0.83}}>
+        {isLoadng ? (
+          <View
+            style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+            <ActivityIndicator size="small" color={appColors.Goldcolor} />
+          </View>
+        ) : (
+          <FlatList
+            data={transactions}
+            showsVerticalScrollIndicator={false}
+            keyExtractor={(item, index) => index.toString()}
+            ListFooterComponent={renderFooter}
+            onEndReached={handleLoadMore}
+            onEndReachedThreshold={0.5}
+            renderItem={({item, index}) => (
+              <Transactioninfo item={item} index={index} />
+            )}
+          />
+        )}
+      </View>
     </Screen>
   );
 };
@@ -132,7 +218,8 @@ const Transactioninfo = ({item}) => {
         }}>
         <View style={{paddingVertical: 5}}>
           <Image
-            source={item.Imagesource}
+            source={{uri: `${imageUrl}${item?.ProfileImage}`}}
+            // source={item.Imagesource}
             style={{height: 52, width: 52, borderRadius: 40}}
           />
         </View>
@@ -144,7 +231,7 @@ const Transactioninfo = ({item}) => {
               fontWeight: '400',
               fontSize: 17.5,
             }}>
-            {item.name}
+            {item.UserName}
           </Text>
 
           <View>
@@ -153,7 +240,8 @@ const Transactioninfo = ({item}) => {
                 color: 'white',
                 fontSize: 11.5,
               }}>
-              {item.title}
+              28th April 2023
+              {/* {item.title} */}
             </Text>
           </View>
         </View>
@@ -164,7 +252,7 @@ const Transactioninfo = ({item}) => {
             alignItems: 'center',
           }}>
           <Text style={{color: '#c79647', fontSize: 16, fontWeight: '600'}}>
-            {item.price}
+            ${item.Amount}.00
           </Text>
         </View>
         <View style={styles.Circlecontrainer}>

@@ -8,7 +8,7 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-  [GMSServices provideAPIKey:@"AIzaSyC7Y3a-Q8qZXj5XgLzpHa92b_nw3sR8aWE"];
+  [GMSServices provideAPIKey:@"AIzaSyBBa3zOSl9VtdV4EqNfgRs2x0x20e_neW0"];
   self.moduleName = @"RevXMobileApp";
   // You can add your custom initial props in the dictionary below.
   // They will be passed down to the ViewController used by React Native.
