@@ -66,9 +66,8 @@ const HomeSuperAdmin = () => {
       <View style={{flex: 1}}>
         <View
           style={{
-            minHeight: '100%',
+            minHeight: screenSize.height / 1.2,
             maxHeight: 'auto',
-            backgroundColor: 'red',
           }}>
           <View style={styles.headerView}>
             <Header
