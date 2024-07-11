@@ -21,6 +21,7 @@ import {endPoint} from '../../../AppConstants/urlConstants';
 import {getAsyncItem} from '../../../utils/SettingAsyncStorage';
 import {SimpleSnackBar} from '../../../components/atom/Snakbar/Snakbar';
 import {screenSize} from '../../../components/atom/ScreenSize';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 const AdminEditTermsOfServices = ({route, navigation}) => {
   const {description} = route.params;
@@ -79,14 +80,11 @@ const AdminEditTermsOfServices = ({route, navigation}) => {
         flex: 1,
         backgroundColor: appColors.Black,
         padding: 15,
-        minHeight: screenSize.height,
-        maxHeight: 'auto',
       }}
       statusBarColor={appColors.Black}>
-      <KeyboardAvoidingView
-        style={{flex: 1}}
-        behavior={Platform.OS === 'ios' ? 'padding' : null}
-        keyboardVerticalOffset={Platform.OS === 'android' ? 75 : 55}>
+      <KeyboardAwareScrollView
+        contentContainerStyle={{flex: 1}}
+       >
         <View style={{flex: 0.1}}>
           <Header
             lefttIcoType={Icons.Ionicons}
@@ -118,7 +116,7 @@ const AdminEditTermsOfServices = ({route, navigation}) => {
         </View>
 
         <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-          <View style={{flex: 0.8, paddingVertical: 5}}>
+          <View style={{flex: 0.9, paddingVertical: 5}}>
             {loading ? (
               <ActivityIndicator
                 style={styles.loader}
@@ -178,7 +176,7 @@ const AdminEditTermsOfServices = ({route, navigation}) => {
             onPress={handleSave}
           />
         </View>
-      </KeyboardAvoidingView>
+      </KeyboardAwareScrollView>
     </Screen>
   );
 };
