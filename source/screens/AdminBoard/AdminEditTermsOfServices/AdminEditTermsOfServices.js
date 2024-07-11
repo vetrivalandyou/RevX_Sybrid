@@ -80,6 +80,7 @@ const AdminEditTermsOfServices = ({route, navigation}) => {
         flex: 1,
         backgroundColor: appColors.Black,
         padding: 15,
+        minHeight: screenSize.height
       }}
       statusBarColor={appColors.Black}>
       <KeyboardAwareScrollView
