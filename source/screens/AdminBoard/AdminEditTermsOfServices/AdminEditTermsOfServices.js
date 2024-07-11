@@ -84,7 +84,7 @@ const AdminEditTermsOfServices = ({route, navigation}) => {
       }}
       statusBarColor={appColors.Black}>
       <KeyboardAwareScrollView
-        contentContainerStyle={{flex: 1}}
+        contentContainerStyle={{flex: 0.9}}
        >
         <View style={{flex: 0.1}}>
           <Header
