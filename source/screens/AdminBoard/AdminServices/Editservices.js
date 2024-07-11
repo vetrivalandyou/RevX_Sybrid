@@ -81,7 +81,13 @@ const Editservices = ({route}) => {
 
   return (
     <Screen
-      viewStyle={{flex: 1, padding: 15, backgroundColor: appColors.Black}}
+      viewStyle={{
+        flex: 1,
+        padding: 15,
+        backgroundColor: appColors.Black,
+        minHeight: screenSize.height,
+        maxHeight: 'auto',
+      }}
       statusBarColor={appColors.Black}>
       <View style={{flex: 0.1}}>
         <Header

@@ -14,6 +14,8 @@ import SocailLogin from '../../components/molecules/SocailLogin';
 import {endPoint, messages} from '../../AppConstants/urlConstants';
 import {PostRequest} from '../../services/apiCall';
 import {SimpleSnackBar} from '../../components/atom/Snakbar/Snakbar';
+import {screenSize} from '../../components/atom/ScreenSize';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 
 const CreateAccount = ({navigation}) => {
   const [isEye, setIsEye] = useState(false);
@@ -53,153 +55,164 @@ const CreateAccount = ({navigation}) => {
 
   return (
     <Screen
-      authStyle={{flex: 1, backgroundColor: appColors.Goldcolor}}
+      authStyle={{
+        flex: 1,
+        backgroundColor: appColors.Goldcolor,
+        minHeight: screenSize.height,
+        maxHeight: 'auto',
+      }}
       viewStyle={{flex: 1, backgroundColor: appColors.Black}}
       statusBarColor={appColors.Goldcolor}
       translucent={false}
       barStyle="light-content">
-      <View style={{flex: 0.25}}>
-        <AuthHeader
-          logIn={'Sign Up'}
-          heading={'Create Account'}
-          subheading={'Please Login your account, Enter your details.'}
-          onPress={() => navigation.goBack()}
-        />
-      </View>
-      <View
-        style={{
-          flex: 0.75,
-          padding: 15,
-          backgroundColor: appColors.Black,
-        }}>
-        <Formik
-          initialValues={{
-            FullName: '',
-            UserEmail: '',
-            UserPassword: '',
-            UserPhone: '',
-          }}
-          validationSchema={validationSchema}
-          onSubmit={values => {
-            console.log('values', values);
-            registerUser(values);
-          }}>
-          {({
-            handleChange,
-            handleBlur,
-            handleSubmit,
-            values,
-            errors,
-            touched,
-          }) => (
-            <>
-              <View style={{flex: 0.5, justifyContent: 'space-evenly'}}>
-                <View style={{flex: 0.25, justifyContent: 'center'}}>
-                  <SimpleTextField
-                    placeholder={'Enter Full Name'}
-                    placeholderTextColor={appColors.LightGray}
-                    onChangeText={handleChange('FullName')}
-                    onBlur={handleBlur('FullName')}
-                    value={values.FullName}
-                  />
-                  {touched.FullName && errors.FullName && (
-                    <View style={{marginLeft: 10, margin: 5}}>
-                      <Text style={{color: appColors.Goldcolor, fontSize: 10}}>
-                        {errors.FullName}
-                      </Text>
-                    </View>
-                  )}
-                </View>
-                <View style={{flex: 0.25, justifyContent: 'center'}}>
-                  <SimpleTextField
-                    placeholder={'Enter Email Address'}
-                    placeholderTextColor={appColors.LightGray}
-                    onChangeText={handleChange('UserEmail')}
-                    onBlur={handleBlur('UserEmail')}
-                    value={values.UserEmail}
-                  />
-                  {touched.UserEmail && errors.UserEmail && (
-                    <View style={{marginLeft: 10, margin: 5}}>
-                      <Text style={{color: appColors.Goldcolor, fontSize: 10}}>
-                        {errors.UserEmail}
-                      </Text>
-                    </View>
-                  )}
-                </View>
-
-                <View
-                  style={{
-                    flex: 0.25,
-                    justifyContent: 'center',
-                    // borderStartColor: 'red',
-                  }}>
-                  <SimpleTextField
-                    placeholder={'Enter Your Password'}
-                    eyeOpen={isEye}
-                    onPressIcon={() => setIsEye(!isEye)}
-                    secureTextEntry={true}
-                    placeholderTextColor={appColors.LightGray}
-                    onChangeText={handleChange('UserPassword')}
-                    onBlur={handleBlur('UserPassword')}
-                    value={values.UserPassword}
-                  />
-                  {touched.UserPassword && errors.UserPassword && (
-                    <View style={{marginLeft: 10, margin: 5}}>
-                      <Text style={{color: appColors.Goldcolor, fontSize: 10}}>
-                        {errors.UserPassword}
-                      </Text>
-                    </View>
-                  )}
-                </View>
-                <View style={{flex: 0.25, justifyContent: 'center'}}>
-                  <SimpleTextField
-                    placeholder={'Contact Number'}
-                    placeholderTextColor={appColors.LightGray}
-                    onChangeText={handleChange('UserPhone')}
-                    onBlur={handleBlur('UserPhone')}
-                    value={values.UserPhone}
-                  />
-                  {touched.UserPhone && errors.UserPhone && (
-                    <View style={{marginLeft: 10, margin: 5}}>
-                      <Text style={{color: appColors.Goldcolor, fontSize: 10}}>
-                        {errors.UserPhone}
-                      </Text>
-                    </View>
-                  )}
-                </View>
-              </View>
-
-              <View style={{flex: 0.15, justifyContent: 'center'}}>
-                <ButtonComponent
-                  title={'Create Account'}
-                  onPress={handleSubmit}
-                />
-              </View>
-            </>
-          )}
-        </Formik>
-        <View
-          style={{flex: 0.1, flexDirection: 'row', justifyContent: 'center'}}>
-          <TouchableOpacity>
-            <Text style={{color: appColors.GrayColor}}>
-              Already have an Account?{` `}
-            </Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            onPress={() => navigation.navigate(constants.AuthScreen.Login)}>
-            <Text style={{color: appColors.Goldcolor}}> Login</Text>
-          </TouchableOpacity>
+      <KeyboardAwareScrollView contentContainerStyle={{flex: 1}}>
+        <View style={{flex: 0.25}}>
+          <AuthHeader
+            logIn={'Sign Up'}
+            heading={'Create Account'}
+            subheading={'Please Login your account, Enter your details.'}
+            onPress={() => navigation.goBack()}
+          />
         </View>
-        <View></View>
+        <View
+          style={{
+            flex: 0.75,
+            padding: 15,
+            backgroundColor: appColors.Black,
+          }}>
+          <Formik
+            initialValues={{
+              FullName: '',
+              UserEmail: '',
+              UserPassword: '',
+              UserPhone: '',
+            }}
+            validationSchema={validationSchema}
+            onSubmit={values => {
+              console.log('values', values);
+              registerUser(values);
+            }}>
+            {({
+              handleChange,
+              handleBlur,
+              handleSubmit,
+              values,
+              errors,
+              touched,
+            }) => (
+              <>
+                <View style={{flex: 0.5, justifyContent: 'space-evenly'}}>
+                  <View style={{flex: 0.25, justifyContent: 'center'}}>
+                    <SimpleTextField
+                      placeholder={'Enter Full Name'}
+                      placeholderTextColor={appColors.LightGray}
+                      onChangeText={handleChange('FullName')}
+                      onBlur={handleBlur('FullName')}
+                      value={values.FullName}
+                    />
+                    {touched.FullName && errors.FullName && (
+                      <View style={{marginLeft: 10, margin: 5}}>
+                        <Text
+                          style={{color: appColors.Goldcolor, fontSize: 10}}>
+                          {errors.FullName}
+                        </Text>
+                      </View>
+                    )}
+                  </View>
+                  <View style={{flex: 0.25, justifyContent: 'center'}}>
+                    <SimpleTextField
+                      placeholder={'Enter Email Address'}
+                      placeholderTextColor={appColors.LightGray}
+                      onChangeText={handleChange('UserEmail')}
+                      onBlur={handleBlur('UserEmail')}
+                      value={values.UserEmail}
+                    />
+                    {touched.UserEmail && errors.UserEmail && (
+                      <View style={{marginLeft: 10, margin: 5}}>
+                        <Text
+                          style={{color: appColors.Goldcolor, fontSize: 10}}>
+                          {errors.UserEmail}
+                        </Text>
+                      </View>
+                    )}
+                  </View>
 
-        <SocailLogin
-          SocailLogin={'or Login Using'}
-          iconName={'facebook'}
-          iconType={Icons.FontAwesome}
-          color={appColors.White}
-        />
-      </View>
+                  <View
+                    style={{
+                      flex: 0.25,
+                      justifyContent: 'center',
+                      // borderStartColor: 'red',
+                    }}>
+                    <SimpleTextField
+                      placeholder={'Enter Your Password'}
+                      eyeOpen={isEye}
+                      onPressIcon={() => setIsEye(!isEye)}
+                      secureTextEntry={true}
+                      placeholderTextColor={appColors.LightGray}
+                      onChangeText={handleChange('UserPassword')}
+                      onBlur={handleBlur('UserPassword')}
+                      value={values.UserPassword}
+                    />
+                    {touched.UserPassword && errors.UserPassword && (
+                      <View style={{marginLeft: 10, margin: 5}}>
+                        <Text
+                          style={{color: appColors.Goldcolor, fontSize: 10}}>
+                          {errors.UserPassword}
+                        </Text>
+                      </View>
+                    )}
+                  </View>
+                  <View style={{flex: 0.25, justifyContent: 'center'}}>
+                    <SimpleTextField
+                      placeholder={'Contact Number'}
+                      placeholderTextColor={appColors.LightGray}
+                      onChangeText={handleChange('UserPhone')}
+                      onBlur={handleBlur('UserPhone')}
+                      value={values.UserPhone}
+                    />
+                    {touched.UserPhone && errors.UserPhone && (
+                      <View style={{marginLeft: 10, margin: 5}}>
+                        <Text
+                          style={{color: appColors.Goldcolor, fontSize: 10}}>
+                          {errors.UserPhone}
+                        </Text>
+                      </View>
+                    )}
+                  </View>
+                </View>
+
+                <View style={{flex: 0.15, justifyContent: 'center'}}>
+                  <ButtonComponent
+                    title={'Create Account'}
+                    onPress={handleSubmit}
+                  />
+                </View>
+              </>
+            )}
+          </Formik>
+          <View
+            style={{flex: 0.1, flexDirection: 'row', justifyContent: 'center'}}>
+            <TouchableOpacity>
+              <Text style={{color: appColors.GrayColor}}>
+                Already have an Account?{` `}
+              </Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              onPress={() => navigation.navigate(constants.AuthScreen.Login)}>
+              <Text style={{color: appColors.Goldcolor}}> Login</Text>
+            </TouchableOpacity>
+          </View>
+          <View></View>
+
+          <SocailLogin
+            SocailLogin={'or Login Using'}
+            iconName={'facebook'}
+            iconType={Icons.FontAwesome}
+            color={appColors.White}
+          />
+        </View>
+      </KeyboardAwareScrollView>
     </Screen>
   );
 };

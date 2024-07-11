@@ -24,6 +24,7 @@ import CustomIcon, {
 } from '../../../components/molecules/CustomIcon/CustomIcon';
 import ButtonComponent from '../../../components/atom/CustomButtons/ButtonComponent';
 import BottomSheet from '../../../components/molecules/BottomSheetContent/BottomSheet';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 
 const AddSubServices = ({route, navigation}) => {
   const refRBSheet = useRef();
@@ -85,193 +86,206 @@ const AddSubServices = ({route, navigation}) => {
 
   return (
     <Screen
-      viewStyle={{flex: 1, padding: 15, backgroundColor: appColors.Black}}
+      viewStyle={{
+        flex: 1,
+        padding: 15,
+        backgroundColor: appColors.Black,
+        minHeight: screenSize.height,
+        maxHeight: 'auto',
+      }}
       statusBarColor={appColors.Black}>
-      <View style={{flex: 0.1}}>
-        <Header
-          lefttIcoType={Icons.Ionicons}
-          onPressLeftIcon={() => navigation.goBack()}
-          leftIcoName={'chevron-back'}
-          headerText={'Add Sub Service'}
-          logIn={'success'}
-        />
-      </View>
-      <View style={{flex: 0.8}}>
-        <View style={{flex: 0.2}}>
-          <View
-            style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-            <TouchableOpacity
-              onPress={() => refRBSheet.current.open()}
-              style={{
-                width: '28%',
-                justifyContent: 'center',
-                alignItems: 'center',
-                height: '82%',
-                backgroundColor: appColors.Black,
-              }}>
-              {changedImage?.path ? (
-                <Image
-                  source={{uri: changedImage?.path}}
-                  style={{
-                    width: '100%',
-                    height: '100%',
-                    borderRadius: 80,
-                    borderWidth: 2,
-                    borderColor: appColors.Goldcolor,
-                    backgroundColor: 'grey',
-                  }}
-                />
-              ) : (
-                <Image
-                  source={AppImages.dummyVan}
-                  style={{
-                    width: '100%',
-                    height: '100%',
-                    borderRadius: 80,
-                    borderWidth: 3,
-                    borderColor: appColors.Goldcolor,
-                    backgroundColor: 'grey',
-                  }}
-                />
-              )}
-              <CustomIcon
-                type={Icons.AntDesign}
-                size={20}
-                name={'pluscircle'}
-                color={'white'}
+      <KeyboardAwareScrollView
+        contentContainerStyle={{flex: 1, justifyContent: 'center'}}>
+        <View style={{flex: 0.1}}>
+          <Header
+            lefttIcoType={Icons.Ionicons}
+            onPressLeftIcon={() => navigation.goBack()}
+            leftIcoName={'chevron-back'}
+            headerText={'Add Sub Service'}
+            logIn={'success'}
+          />
+        </View>
+        <View style={{flex: 0.8}}>
+          <View style={{flex: 0.2}}>
+            <View
+              style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+              <TouchableOpacity
+                onPress={() => refRBSheet.current.open()}
                 style={{
-                  position: 'absolute',
-                  left: screenSize.width / 5,
-                  top: screenSize.height / 10,
-                }}
+                  width: '28%',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  height: '82%',
+                  backgroundColor: appColors.Black,
+                }}>
+                {changedImage?.path ? (
+                  <Image
+                    source={{uri: changedImage?.path}}
+                    style={{
+                      width: '100%',
+                      height: '100%',
+                      borderRadius: 80,
+                      borderWidth: 2,
+                      borderColor: appColors.Goldcolor,
+                      backgroundColor: 'grey',
+                    }}
+                  />
+                ) : (
+                  <Image
+                    source={AppImages.dummyVan}
+                    style={{
+                      width: '100%',
+                      height: '100%',
+                      borderRadius: 80,
+                      borderWidth: 3,
+                      borderColor: appColors.Goldcolor,
+                      backgroundColor: 'grey',
+                    }}
+                  />
+                )}
+                <CustomIcon
+                  type={Icons.AntDesign}
+                  size={20}
+                  name={'pluscircle'}
+                  color={'white'}
+                  style={{
+                    position: 'absolute',
+                    left: screenSize.width / 5,
+                    top: screenSize.height / 10,
+                  }}
+                />
+              </TouchableOpacity>
+            </View>
+          </View>
+          <View style={{flex: 0.18}}>
+            <View
+              style={{flex: 0.3, justifyContent: 'flex-end', marginLeft: 10}}>
+              <Text
+                style={{
+                  color: appColors.White,
+                  fontSize: 14,
+                  fontWeight: 'bold',
+                }}>
+                Service Name
+              </Text>
+            </View>
+            <View style={{flex: 0.7}}>
+              <TextInput
+                style={[
+                  styles.container,
+                  {color: 'white', paddingHorizontal: 25, fontSize: 15},
+                ]}
+                placeholder="Enter Service Name"
+                placeholderTextColor={appColors.LightGray}
+                value={subServiceName}
+                onChangeText={text => setSubServiceName(text)}
               />
-            </TouchableOpacity>
+            </View>
+          </View>
+          <View style={{flex: 0.18}}>
+            <View
+              style={{flex: 0.3, justifyContent: 'flex-end', marginLeft: 10}}>
+              <Text
+                style={{
+                  color: appColors.White,
+                  fontSize: 14,
+                  fontWeight: 'bold',
+                }}>
+                Service Price
+              </Text>
+            </View>
+            <View style={{flex: 0.7}}>
+              <TextInput
+                style={[
+                  styles.container,
+                  {color: 'white', paddingHorizontal: 25, fontSize: 15},
+                ]}
+                placeholder="Enter Service Price}"
+                placeholderTextColor={appColors.LightGray}
+                value={subServicePrice?.toString()}
+                onChangeText={text => setSubServicePrice(text)}
+                keyboardType={'numeric'}
+                returnKeyType="done"
+                maxLength={6}
+              />
+            </View>
+          </View>
+          <View style={{flex: 0.18}}>
+            <View
+              style={{flex: 0.3, justifyContent: 'flex-end', marginLeft: 10}}>
+              <Text
+                style={{
+                  color: appColors.White,
+                  fontSize: 14,
+                  fontWeight: 'bold',
+                }}>
+                Service Duration (in minutes)
+              </Text>
+            </View>
+            <View style={{flex: 0.7}}>
+              <TextInput
+                style={[
+                  styles.container,
+                  {color: 'white', paddingHorizontal: 25, fontSize: 15},
+                ]}
+                placeholder="Enter Service Duration"
+                placeholderTextColor={appColors.LightGray}
+                value={subServiceDuration?.toString()}
+                onChangeText={text => setSubServiceDuration(text)}
+                keyboardType={'numeric'}
+                returnKeyType="done"
+                maxLength={6}
+              />
+            </View>
+          </View>
+          <View style={{flex: 0.18}}>
+            <View
+              style={{flex: 0.3, justifyContent: 'flex-end', marginLeft: 10}}>
+              <Text
+                style={{
+                  color: appColors.White,
+                  fontSize: 14,
+                  fontWeight: 'bold',
+                }}>
+                Service Description
+              </Text>
+            </View>
+            <View style={{flex: 0.7}}>
+              <TextInput
+                style={[
+                  styles.container,
+                  {color: 'white', paddingHorizontal: 25, fontSize: 15},
+                ]}
+                placeholder="Enter Service Description"
+                placeholderTextColor={appColors.LightGray}
+                value={subServiceDescription}
+                onChangeText={text => setSubServiceDescription(text)}
+              />
+            </View>
           </View>
         </View>
-        <View style={{flex: 0.18}}>
-          <View style={{flex: 0.3, justifyContent: 'flex-end', marginLeft: 10}}>
-            <Text
-              style={{
-                color: appColors.White,
-                fontSize: 14,
-                fontWeight: 'bold',
-              }}>
-              Service Name
-            </Text>
-          </View>
-          <View style={{flex: 0.7}}>
-            <TextInput
-              style={[
-                styles.container,
-                {color: 'white', paddingHorizontal: 25, fontSize: 15},
-              ]}
-              placeholder="Enter Service Name"
-              placeholderTextColor={appColors.LightGray}
-              value={subServiceName}
-              onChangeText={text => setSubServiceName(text)}
-            />
-          </View>
+        <View style={styles.buttonView}>
+          <ButtonComponent
+            style={{
+              backgroundColor: '#C79646',
+              paddingVertical: Platform.OS == 'ios' ? 17 : 13,
+              bottom: 1,
+              position: 'absolute',
+              // opacity: subServiceName.trim() !== '' ? 1 : 0.3,
+            }}
+            btnTextColor={{color: 'white'}}
+            title={'Save Sub Service'}
+            // disable={subServiceName.trim() !== '' ? false : true}
+            onPress={handleSaveSubService}
+          />
         </View>
-        <View style={{flex: 0.18}}>
-          <View style={{flex: 0.3, justifyContent: 'flex-end', marginLeft: 10}}>
-            <Text
-              style={{
-                color: appColors.White,
-                fontSize: 14,
-                fontWeight: 'bold',
-              }}>
-              Service Price
-            </Text>
-          </View>
-          <View style={{flex: 0.7}}>
-            <TextInput
-              style={[
-                styles.container,
-                {color: 'white', paddingHorizontal: 25, fontSize: 15},
-              ]}
-              placeholder="Enter Service Price}"
-              placeholderTextColor={appColors.LightGray}
-              value={subServicePrice?.toString()}
-              onChangeText={text => setSubServicePrice(text)}
-              keyboardType={'numeric'}
-              returnKeyType="done"
-              maxLength={6}
-            />
-          </View>
-        </View>
-        <View style={{flex: 0.18}}>
-          <View style={{flex: 0.3, justifyContent: 'flex-end', marginLeft: 10}}>
-            <Text
-              style={{
-                color: appColors.White,
-                fontSize: 14,
-                fontWeight: 'bold',
-              }}>
-              Service Duration (in minutes)
-            </Text>
-          </View>
-          <View style={{flex: 0.7}}>
-            <TextInput
-              style={[
-                styles.container,
-                {color: 'white', paddingHorizontal: 25, fontSize: 15},
-              ]}
-              placeholder="Enter Service Duration"
-              placeholderTextColor={appColors.LightGray}
-              value={subServiceDuration?.toString()}
-              onChangeText={text => setSubServiceDuration(text)}
-              keyboardType={'numeric'}
-              returnKeyType="done"
-              maxLength={6}
-            />
-          </View>
-        </View>
-        <View style={{flex: 0.18}}>
-          <View style={{flex: 0.3, justifyContent: 'flex-end', marginLeft: 10}}>
-            <Text
-              style={{
-                color: appColors.White,
-                fontSize: 14,
-                fontWeight: 'bold',
-              }}>
-              Service Description
-            </Text>
-          </View>
-          <View style={{flex: 0.7}}>
-            <TextInput
-              style={[
-                styles.container,
-                {color: 'white', paddingHorizontal: 25, fontSize: 15},
-              ]}
-              placeholder="Enter Service Description"
-              placeholderTextColor={appColors.LightGray}
-              value={subServiceDescription}
-              onChangeText={text => setSubServiceDescription(text)}
-            />
-          </View>
-        </View>
-      </View>
-      <View style={styles.buttonView}>
-        <ButtonComponent
-          style={{
-            backgroundColor: '#C79646',
-            paddingVertical: Platform.OS == 'ios' ? 17 : 13,
-            bottom: 1,
-            position: 'absolute',
-            // opacity: subServiceName.trim() !== '' ? 1 : 0.3,
-          }}
-          btnTextColor={{color: 'white'}}
-          title={'Save Sub Service'}
-          // disable={subServiceName.trim() !== '' ? false : true}
-          onPress={handleSaveSubService}
-        />
-      </View>
-      <BottomSheet ref={refRBSheet} Height={120}>
-        <ChooseImage
-          refRBSheet={refRBSheet}
-          setProfileImage={handleImageCaptured}
-        />
-      </BottomSheet>
+        <BottomSheet ref={refRBSheet} Height={120}>
+          <ChooseImage
+            refRBSheet={refRBSheet}
+            setProfileImage={handleImageCaptured}
+          />
+        </BottomSheet>
+      </KeyboardAwareScrollView>
     </Screen>
   );
 };
