@@ -53,6 +53,7 @@ const SocailLogin = ({
   iconSize,
   iconType,
   onPressIcon,
+  onPressGoogleLogin,
 }) => {
   const [showModal, setShowModal] = useState(false);
 
@@ -97,6 +98,7 @@ const SocailLogin = ({
 
         <TouchableOpacity onPress={onPressIcon}>
           <CustomIcon
+            onPress={onPressGoogleLogin}
             type={Icons.AntDesign}
             name={'google'}
             color={AppColors.White}

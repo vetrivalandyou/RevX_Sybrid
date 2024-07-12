@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Text, View, TouchableOpacity} from 'react-native';
 import * as Yup from 'yup';
 import {Formik} from 'formik';
@@ -19,11 +19,60 @@ import {SimpleSnackBar} from '../../components/atom/Snakbar/Snakbar';
 import {setAsyncItem} from '../../utils/SettingAsyncStorage';
 import {screenSize} from '../../components/atom/ScreenSize';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
+// import Auth from '@react-native-firebase/auth';
+import {
+  GoogleSignin,
+  statusCodes,
+} from '@react-native-google-signin/google-signin';
+
+GoogleSignin.configure({
+  scopes: ['https://www.googleapis.com/auth/drive.readonly'],
+  webClientId:
+    '379767599880-3t7pvflfu8u28ck99mshtva23sfr16ik.apps.googleusercontent.com',
+  scopes: ['profile', 'email'],
+});
 
 const Login = () => {
   const navigation = useNavigation();
   const [isPasswordVisible, setIsPasswordVisible] = React.useState(false);
   const [isEye, setIsEye] = useState(false);
+
+  const [initializing, setInitializing] = useState(true);
+  const [googleLogin, setGoogleLogin] = useState(false);
+  const [user, setUser] = useState();
+
+  // useEffect(() => {
+  //   const subscribe = Auth().onAuthStateChanged(onAuthStateChanged)
+  //   return () => subscribe;
+  // }, [])
+
+  // function onAuthStateChanged(user) {
+  //   setUser(user);
+  //   if (initializing) {
+  //     setInitializing(false);
+  //   }
+  // }
+
+  const loginWithGoogle = async () => {
+    try {
+      await GoogleSignin.hasPlayServices();
+      const userInfo = await GoogleSignin.signIn();
+      console.log(userInfo);
+      // console.log(JSON.stringify(userInfo, null, 2));
+      setUser({userInfo});
+    } catch (error) {
+      console.log('err', error);
+      if (error.code === statusCodes.SIGN_IN_CANCELLED) {
+        // user cancelled the login flow
+      } else if (error.code === statusCodes.IN_PROGRESS) {
+        // operation (e.g. sign in) is in progress already
+      } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
+        // play services not available or outdated
+      } else {
+        // some other error happened
+      }
+    }
+  };
 
   const validationSchema = Yup.object().shape({
     UserEmail: Yup.string()
@@ -61,6 +110,15 @@ const Login = () => {
         console.log('fail');
       });
   };
+
+  // const signOut = async () => {
+  //   try {
+  //     await GoogleSignin.signOut();
+  //     setUser({user: null}); // Remember to remove the user from your app's state as well
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // };
 
   return (
     <Screen
@@ -168,6 +226,7 @@ const Login = () => {
                     title={'Sign In'}
                     disabled={isSubmitting}
                     onPress={handleSubmit}
+                    // onPress={signOut}
                     isLoading={isSubmitting}
                   />
                 </View>
@@ -214,6 +273,7 @@ const Login = () => {
             iconName={'facebook'}
             iconType={Icons.FontAwesome}
             color={appColors.White}
+            onPressGoogleLogin={loginWithGoogle}
           />
         </View>
       </KeyboardAwareScrollView>

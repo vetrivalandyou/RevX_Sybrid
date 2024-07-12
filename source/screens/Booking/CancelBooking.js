@@ -36,7 +36,7 @@ const CancelBooking = ({refRBSheet, selectedBooking, getPreBookings}) => {
       remarks: 'Accepted',
       barbarBookedSlotID: selectedBooking?.BarbarBookedSlotID,
     };
-    console.log('payload', payload);
+    console.log('payload handleClickCancelBooking', payload);
     PostRequest(endPoint?.BARBER_AVAILABLESLOTS, payload)
       .then(res => {
         console.log('res?.data', res?.data);
