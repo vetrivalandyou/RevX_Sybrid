@@ -1,14 +1,14 @@
-import React, {useEffect, useState} from 'react';
-import {Text, View, TouchableOpacity} from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { Text, View, TouchableOpacity } from 'react-native';
 import * as Yup from 'yup';
-import {Formik} from 'formik';
+import { Formik } from 'formik';
 
 import AuthHeader from '../../components/molecules/AuthHeader';
 import Screen from '../../components/atom/ScreenContainer/Screen';
 import constants from '../../AppConstants/Constants.json';
 import SimpleTextField from '../../components/molecules/TextFeilds/SimpleTextField';
 import appColors from '../../AppConstants/appColors';
-import {Icons} from '../../components/molecules/CustomIcon/CustomIcon';
+import { Icons } from '../../components/molecules/CustomIcon/CustomIcon';
 import ButtonComponent from '../../components/atom/CustomButtons/ButtonComponent';
 import RememberMe from '../../components/molecules/RememberMe';
 import SocailLogin from '../../components/molecules/SocailLogin';
@@ -31,6 +31,19 @@ GoogleSignin.configure({
     '379767599880-3t7pvflfu8u28ck99mshtva23sfr16ik.apps.googleusercontent.com',
   scopes: ['profile', 'email'],
 });
+// import { useNavigation } from '@react-navigation/native';
+// import { endPoint, messages } from '../../AppConstants/urlConstants';
+// import { PostRequest } from '../../services/apiCall';
+// import { SimpleSnackBar } from '../../components/atom/Snakbar/Snakbar';
+// import { setAsyncItem } from '../../utils/SettingAsyncStorage';
+// import { screenSize } from '../../components/atom/ScreenSize';
+// import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+// import Auth from '@react-native-firebase/auth';
+// import { GoogleSignin } from '@react-native-google-signin/google-signin'
+
+// GoogleSignin.configure({
+//   webClientId: '379767599880-b33kgjlumovqpstj2v234slgnqp3lsnv.apps.googleusercontent.com'
+// })
 
 const Login = () => {
   const navigation = useNavigation();
@@ -128,14 +141,14 @@ const Login = () => {
         minHeight: screenSize.height,
         maxHeight: 'auto',
       }}
-      viewStyle={{flex: 1, backgroundColor: appColors.Black}}
+      viewStyle={{ flex: 1, backgroundColor: appColors.Black }}
       statusBarColor={appColors.Goldcolor}
       translucent={false}
       style={{}}
       barStyle="light-content">
       <KeyboardAwareScrollView
-        contentContainerStyle={{flex: 1, justifyContent: 'center'}}>
-        <View style={{flex: 0.3, minHeight: 200, maxHeight: 200}}>
+        contentContainerStyle={{ flex: 1, justifyContent: 'center' }}>
+        <View style={{ flex: 0.3, minHeight: 200, maxHeight: 200 }}>
           <AuthHeader
             logIn={'Log In'}
             heading={'Welcome Back!'}
@@ -161,7 +174,7 @@ const Login = () => {
               UserPassword: '',
             }}
             validationSchema={validationSchema}
-            onSubmit={(values, {setSubmitting}) => {
+            onSubmit={(values, { setSubmitting }) => {
               LoginUser(values, setSubmitting);
             }}>
             {({
@@ -174,7 +187,7 @@ const Login = () => {
               isSubmitting,
             }) => (
               <>
-                <View style={{flex: 0.3, justifyContent: 'space-evenly'}}>
+                <View style={{ flex: 0.3, justifyContent: 'space-evenly' }}>
                   <SimpleTextField
                     placeholder={'Enter Your Email'}
                     placeholderTextColor={appColors.LightGray}
@@ -183,8 +196,8 @@ const Login = () => {
                     value={values.UserEmail}
                   />
                   {touched.UserEmail && errors.UserEmail && (
-                    <View style={{marginLeft: 10, margin: 5}}>
-                      <Text style={{color: appColors.Goldcolor, fontSize: 10}}>
+                    <View style={{ marginLeft: 10, margin: 5 }}>
+                      <Text style={{ color: appColors.Goldcolor, fontSize: 10 }}>
                         {errors.UserEmail}
                       </Text>
                     </View>
@@ -200,14 +213,14 @@ const Login = () => {
                     value={values.UserPassword}
                   />
                   {touched.UserPassword && errors.UserPassword && (
-                    <View style={{marginLeft: 10, margin: 5}}>
-                      <Text style={{color: appColors.Goldcolor, fontSize: 10}}>
+                    <View style={{ marginLeft: 10, margin: 5 }}>
+                      <Text style={{ color: appColors.Goldcolor, fontSize: 10 }}>
                         {errors.UserPassword}
                       </Text>
                     </View>
                   )}
                 </View>
-                <View style={{flex: 0.05, justifyContent: 'flex-end'}}>
+                <View style={{ flex: 0.05, justifyContent: 'flex-end' }}>
                   <RememberMe
                     RememberTex={'Remember me'}
                     ForgetPasswordText={'Forget Password'}
@@ -235,9 +248,9 @@ const Login = () => {
           </Formik>
 
           <View
-            style={{flex: 0.1, flexDirection: 'row', justifyContent: 'center'}}>
+            style={{ flex: 0.1, flexDirection: 'row', justifyContent: 'center' }}>
             <TouchableOpacity>
-              <Text style={{color: appColors.GrayColor}}>
+              <Text style={{ color: appColors.GrayColor }}>
                 Not register yet?{` `}
               </Text>
             </TouchableOpacity>
@@ -246,16 +259,16 @@ const Login = () => {
               onPress={() =>
                 navigation.navigate(constants.AuthScreen.CreateAccount)
               }>
-              <Text style={{color: appColors.Goldcolor}}>
+              <Text style={{ color: appColors.Goldcolor }}>
                 Create an account
               </Text>
             </TouchableOpacity>
           </View>
 
           <View
-            style={{flex: 0.1, flexDirection: 'row', justifyContent: 'center'}}>
+            style={{ flex: 0.1, flexDirection: 'row', justifyContent: 'center' }}>
             <TouchableOpacity>
-              <Text style={{color: appColors.GrayColor}}>
+              <Text style={{ color: appColors.GrayColor }}>
                 Register yourself as a Barber! {` `}
               </Text>
             </TouchableOpacity>
@@ -264,7 +277,7 @@ const Login = () => {
               onPress={() =>
                 navigation.navigate(constants.AuthScreen.CreateAccountBarber)
               }>
-              <Text style={{color: appColors.Goldcolor}}>Register</Text>
+              <Text style={{ color: appColors.Goldcolor }}>Register</Text>
             </TouchableOpacity>
           </View>
 

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>379767599880-b33kgjlumovqpstj2v234slgnqp3lsnv.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.379767599880-b33kgjlumovqpstj2v234slgnqp3lsnv</string>
+	<key>API_KEY</key>
+	<string>AIzaSyATdO2iNCtBljUXY4xpt7tuXjoja6VP8v8</string>
+	<key>GCM_SENDER_ID</key>
+	<string>379767599880</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.proceed.RevXMobileApp</string>
+	<key>PROJECT_ID</key>
+	<string>revxllc</string>
+	<key>STORAGE_BUCKET</key>
+	<string>revxllc.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:379767599880:ios:64408dc7042a721d7372bd</string>
+</dict>
+</plist>
