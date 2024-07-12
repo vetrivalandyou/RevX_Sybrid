@@ -32,7 +32,9 @@ const initialBuyServiceFields = {
   profileID: 0,
   userIP: 'string',
   transactionID: '',
-  barbarBookedSlotID: 0,
+  BarbarID: 0,
+  CustomerID: 0,
+  BookingDate: '',
 };
 
 const ReviewSummary = ({route}) => {
@@ -103,7 +105,9 @@ const ReviewSummary = ({route}) => {
     const payload = {
       ...initialBuyServiceFields,
       amount: returnTotal(SelectedChildServices),
-      barbarBookedSlotID: 12,
+      BarbarID: specialistDetails?.userId,
+      CustomerID: userDetails?.userId,
+      BookingDate: seelectedDate,
     };
     console.log('fetchSelectedTimeSlot Payload', payload);
     PostRequest(endPoint?.BUY_SERVICES, payload)

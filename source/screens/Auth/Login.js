@@ -12,37 +12,47 @@ import { Icons } from '../../components/molecules/CustomIcon/CustomIcon';
 import ButtonComponent from '../../components/atom/CustomButtons/ButtonComponent';
 import RememberMe from '../../components/molecules/RememberMe';
 import SocailLogin from '../../components/molecules/SocailLogin';
-import { useNavigation } from '@react-navigation/native';
-import { endPoint, messages } from '../../AppConstants/urlConstants';
-import { PostRequest } from '../../services/apiCall';
-import { SimpleSnackBar } from '../../components/atom/Snakbar/Snakbar';
-import { setAsyncItem } from '../../utils/SettingAsyncStorage';
-import { screenSize } from '../../components/atom/ScreenSize';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import { GoogleSignin } from '@react-native-google-signin/google-signin'
+import {useNavigation} from '@react-navigation/native';
+import {endPoint, messages} from '../../AppConstants/urlConstants';
+import {PostRequest} from '../../services/apiCall';
+import {SimpleSnackBar} from '../../components/atom/Snakbar/Snakbar';
+import {setAsyncItem} from '../../utils/SettingAsyncStorage';
+import {screenSize} from '../../components/atom/ScreenSize';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
+import {
+  GoogleSignin,
+  statusCodes,
+} from '@react-native-google-signin/google-signin';
 
 GoogleSignin.configure({
-  webClientId: '379767599880-b33kgjlumovqpstj2v234slgnqp3lsnv.apps.googleusercontent.com'
-})
+  scopes: ['https://www.googleapis.com/auth/drive.readonly'],
+  webClientId:
+    '379767599880-3t7pvflfu8u28ck99mshtva23sfr16ik.apps.googleusercontent.com',
+  scopes: ['profile', 'email'],
+});
+
+// GoogleSignin.configure({
+//   webClientId: '379767599880-b33kgjlumovqpstj2v234slgnqp3lsnv.apps.googleusercontent.com'
+// })
 
 const Login = () => {
   const navigation = useNavigation();
   const [isPasswordVisible, setIsPasswordVisible] = React.useState(false);
   const [isEye, setIsEye] = useState(false);
 
-  const [initializing, setInitializing] = useState(true)
-  const [googleLogin, setGoogleLogin] = useState(false)
-  const [user, setUser] = useState()
+  const [initializing, setInitializing] = useState(true);
+  const [googleLogin, setGoogleLogin] = useState(false);
+  const [user, setUser] = useState();
 
   const loginWithGoogle = async () => {
-
     try {
       await GoogleSignin.hasPlayServices();
       const userInfo = await GoogleSignin.signIn();
       console.log(userInfo);
       // console.log(JSON.stringify(userInfo, null, 2));
-      setUser({ userInfo });
+      setUser({userInfo});
     } catch (error) {
+      console.log('err', error);
       if (error.code === statusCodes.SIGN_IN_CANCELLED) {
         // user cancelled the login flow
       } else if (error.code === statusCodes.IN_PROGRESS) {
@@ -53,8 +63,7 @@ const Login = () => {
         // some other error happened
       }
     }
-
-  }
+  };
 
   const validationSchema = Yup.object().shape({
     UserEmail: Yup.string()
@@ -92,6 +101,15 @@ const Login = () => {
         console.log('fail');
       });
   };
+
+  // const signOut = async () => {
+  //   try {
+  //     await GoogleSignin.signOut();
+  //     setUser({user: null}); // Remember to remove the user from your app's state as well
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // };
 
   return (
     <Screen
@@ -199,6 +217,7 @@ const Login = () => {
                     title={'Sign In'}
                     disabled={isSubmitting}
                     onPress={handleSubmit}
+                    // onPress={signOut}
                     isLoading={isSubmitting}
                   />
                 </View>
