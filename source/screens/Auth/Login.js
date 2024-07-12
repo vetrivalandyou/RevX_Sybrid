@@ -19,7 +19,6 @@ import { SimpleSnackBar } from '../../components/atom/Snakbar/Snakbar';
 import { setAsyncItem } from '../../utils/SettingAsyncStorage';
 import { screenSize } from '../../components/atom/ScreenSize';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import Auth from '@react-native-firebase/auth';
 import { GoogleSignin } from '@react-native-google-signin/google-signin'
 
 GoogleSignin.configure({
@@ -34,18 +33,6 @@ const Login = () => {
   const [initializing, setInitializing] = useState(true)
   const [googleLogin, setGoogleLogin] = useState(false)
   const [user, setUser] = useState()
-
-  useEffect(() => {
-    const subscribe = Auth().onAuthStateChanged(onAuthStateChanged)
-    return () => subscribe;
-  }, [])
-
-  function onAuthStateChanged(user) {
-    setUser(user);
-    if (initializing) {
-      setInitializing(false);
-    }
-  }
 
   const loginWithGoogle = async () => {
 
