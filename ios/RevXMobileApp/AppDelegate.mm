@@ -1,4 +1,5 @@
 #import "AppDelegate.h"
+#import <Firebase.h>
 
 #import <React/RCTBundleURLProvider.h>
 
@@ -8,6 +9,9 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+  if([FIRApp defaultApp] == nil){
+    [FIRApp configure];
+  }
   [GMSServices provideAPIKey:@"AIzaSyBBa3zOSl9VtdV4EqNfgRs2x0x20e_neW0"];
   self.moduleName = @"RevXMobileApp";
   // You can add your custom initial props in the dictionary below.
