@@ -19,7 +19,6 @@ import {SimpleSnackBar} from '../../components/atom/Snakbar/Snakbar';
 import {setAsyncItem} from '../../utils/SettingAsyncStorage';
 import {screenSize} from '../../components/atom/ScreenSize';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
-// import Auth from '@react-native-firebase/auth';
 import {
   GoogleSignin,
   statusCodes,
@@ -31,15 +30,6 @@ GoogleSignin.configure({
     '379767599880-3t7pvflfu8u28ck99mshtva23sfr16ik.apps.googleusercontent.com',
   scopes: ['profile', 'email'],
 });
-// import { useNavigation } from '@react-navigation/native';
-// import { endPoint, messages } from '../../AppConstants/urlConstants';
-// import { PostRequest } from '../../services/apiCall';
-// import { SimpleSnackBar } from '../../components/atom/Snakbar/Snakbar';
-// import { setAsyncItem } from '../../utils/SettingAsyncStorage';
-// import { screenSize } from '../../components/atom/ScreenSize';
-// import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-// import Auth from '@react-native-firebase/auth';
-// import { GoogleSignin } from '@react-native-google-signin/google-signin'
 
 // GoogleSignin.configure({
 //   webClientId: '379767599880-b33kgjlumovqpstj2v234slgnqp3lsnv.apps.googleusercontent.com'
@@ -53,18 +43,6 @@ const Login = () => {
   const [initializing, setInitializing] = useState(true);
   const [googleLogin, setGoogleLogin] = useState(false);
   const [user, setUser] = useState();
-
-  // useEffect(() => {
-  //   const subscribe = Auth().onAuthStateChanged(onAuthStateChanged)
-  //   return () => subscribe;
-  // }, [])
-
-  // function onAuthStateChanged(user) {
-  //   setUser(user);
-  //   if (initializing) {
-  //     setInitializing(false);
-  //   }
-  // }
 
   const loginWithGoogle = async () => {
     try {
