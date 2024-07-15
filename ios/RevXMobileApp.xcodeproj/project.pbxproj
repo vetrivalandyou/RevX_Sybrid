@@ -14,7 +14,7 @@
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 		B1165B41A0FF53975F633502 /* Pods_RevXMobileApp_RevXMobileAppTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1CCB062A9460373C01017962 /* Pods_RevXMobileApp_RevXMobileAppTests.framework */; };
 		BF016D874C97214C27CEFB2D /* Pods_RevXMobileApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 38015922D2F0C4EAA17B7941 /* Pods_RevXMobileApp.framework */; };
-		C3F5B9722C414F900079A9A3 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C3F5B9712C414F900079A9A3 /* GoogleService-Info.plist */; };
+		C3BC8DC52C450D4900CA9185 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C3BC8DC42C450D4900CA9185 /* GoogleService-Info.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -45,7 +45,7 @@
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = RevXMobileApp/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		89C6BE57DB24E9ADA2F236DE /* Pods-RevXMobileApp-RevXMobileAppTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RevXMobileApp-RevXMobileAppTests.release.xcconfig"; path = "Target Support Files/Pods-RevXMobileApp-RevXMobileAppTests/Pods-RevXMobileApp-RevXMobileAppTests.release.xcconfig"; sourceTree = "<group>"; };
 		C32948F12C04CD2A00CBCB2A /* RevXMobileApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = RevXMobileApp.entitlements; path = RevXMobileApp/RevXMobileApp.entitlements; sourceTree = "<group>"; };
-		C3F5B9712C414F900079A9A3 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "RevXMobileApp/GoogleService-Info.plist"; sourceTree = "<group>"; };
+		C3BC8DC42C450D4900CA9185 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "RevXMobileApp/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
@@ -120,7 +120,7 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
-				C3F5B9712C414F900079A9A3 /* GoogleService-Info.plist */,
+				C3BC8DC42C450D4900CA9185 /* GoogleService-Info.plist */,
 				13B07FAE1A68108700A75B9A /* RevXMobileApp */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				00E356EF1AD99517003FC87E /* RevXMobileAppTests */,
@@ -250,7 +250,7 @@
 			files = (
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
-				C3F5B9722C414F900079A9A3 /* GoogleService-Info.plist in Resources */,
+				C3BC8DC52C450D4900CA9185 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

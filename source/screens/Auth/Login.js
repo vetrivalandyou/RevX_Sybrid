@@ -221,8 +221,8 @@ const Login = () => {
                   <ButtonComponent
                     title={'Sign In'}
                     disabled={isSubmitting}
-                    // onPress={handleSubmit}
-                    onPress={signOut}
+                    onPress={handleSubmit}
+                    // onPress={signOut}
                     isLoading={isSubmitting}
                   />
                 </View>

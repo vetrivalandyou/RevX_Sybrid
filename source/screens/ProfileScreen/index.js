@@ -26,6 +26,8 @@ import {screenSize} from '../../components/atom/ScreenSize';
 import {useIsFocused, useNavigation} from '@react-navigation/native';
 import {imageUrl} from '../../AppConstants/urlConstants';
 import {getAsyncItem} from '../../utils/SettingAsyncStorage';
+import DynamicLinks from '@react-native-firebase/dynamic-links'
+import Share from 'react-native-share'
 
 const ProfileScreen = ({navigation}) => {
   const refRBSheet = useRef();
@@ -113,6 +115,8 @@ const ProfileScreen = ({navigation}) => {
     }
   };
 
+
+
   const ProfileContainer = ({item, onPress}) => {
     return (
       <TouchableOpacity onPress={onPress}>
@@ -147,7 +151,53 @@ const ProfileScreen = ({navigation}) => {
     );
   };
 
-  console.log("serDetails?.profileImage", userDetails)
+  const generateLink = async () => {
+    try {
+      const link = await DynamicLinks().buildShortLink(
+        {
+          link: 'https://revx.page.link/g576?productId=1',
+          domainUriPrefix: 'https://revx.page.link',
+          android: {
+            packageName: 'com.revxmobileapp',
+          },
+          ios: {
+            appStoreId: '123456789',
+            bundleId: 'com.proceed.RevXMobileApp',
+          },
+        },
+        DynamicLinks.ShortLinkType.DEFAULT,
+      );
+      console.log('Link', link);
+      return Promise.resolve(link);
+    } catch (err) {
+      console.log('err', err);
+    }
+  };
+
+  const shareUserProfileLink = async () => {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const constructedUrl = await generateLink();
+        const options = {
+          message: 'Check out Barber Profile!',
+          url: constructedUrl,
+        };
+        await Share.open(options);
+      } catch (error) {
+        console.log('Error sharing:', error.message);
+      }
+    });
+    // const getLink = await generateLink();
+    // try {
+    //   const options = {
+    //     message: 'Check out Barber Profile!',
+    //     url: getLink,
+    //   };
+    //   await Share.open(options);
+    // } catch (err) {
+    //   console.log('err', err);
+    // }
+  };
 
   return (
     <Screen
@@ -253,7 +303,9 @@ const ProfileScreen = ({navigation}) => {
         </View>
         <View>
           <TouchableOpacity
-            onPress={() => navigation.navigate(constants.screen.EditProfile)}>
+            // onPress={() => navigation.navigate(constants.screen.EditProfile)}
+            onPress={shareUserProfileLink}
+            >
             <View
               style={{
                 paddingHorizontal: 12,

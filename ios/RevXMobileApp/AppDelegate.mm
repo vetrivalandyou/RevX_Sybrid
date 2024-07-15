@@ -5,10 +5,13 @@
 
 #import <GoogleMaps/GoogleMaps.h>
 
+#import <RNFBDynamicLinksAppDelegateInterceptor.h> 
+
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+  [RNFBDynamicLinksAppDelegateInterceptor sharedInstance];
   if([FIRApp defaultApp] == nil){
     [FIRApp configure];
   }
