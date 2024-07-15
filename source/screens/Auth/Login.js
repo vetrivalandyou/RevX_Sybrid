@@ -36,8 +36,8 @@ const Login = () => {
   if (Platform.OS == 'android') {
     GoogleSignin.configure({
       scopes: ['https://www.googleapis.com/auth/drive.readonly'],
-      webClientId:
-        '379767599880-3t7pvflfu8u28ck99mshtva23sfr16ik.apps.googleusercontent.com',
+      webClientId: '379767599880-3t7pvflfu8u28ck99mshtva23sfr16ik.apps.googleusercontent.com',
+        // '379767599880-3t7pvflfu8u28ck99mshtva23sfr16ik.apps.googleusercontent.com',
       scopes: ['profile', 'email'],
     });
   } else {
@@ -221,8 +221,8 @@ const Login = () => {
                   <ButtonComponent
                     title={'Sign In'}
                     disabled={isSubmitting}
-                    // onPress={handleSubmit}
-                    onPress={signOut}
+                    onPress={handleSubmit}
+                    // onPress={signOut}
                     isLoading={isSubmitting}
                   />
                 </View>

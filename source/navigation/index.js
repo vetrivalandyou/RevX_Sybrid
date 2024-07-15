@@ -1,5 +1,5 @@
-import React from 'react';
-import {NavigationContainer} from '@react-navigation/native';
+import React, {useEffect} from 'react';
+import {NavigationContainer, useNavigation} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import constants from '../AppConstants/Constants.json';
 import {
@@ -27,7 +27,7 @@ import {
   ReferFriendsSheet,
   ServiceSpecialist,
   UserChat,
-  UserEReceipt
+  UserEReceipt,
 } from '../screens';
 import BottomTabNavigation from './BottomTabNavigation';
 import PrivacyPolicy from '../screens/ProfileScreen/Aboutus/PrivacyPolicy';
@@ -36,14 +36,37 @@ import BarberProfile from '../screens/BarberProfie';
 import MyLocation from '../screens/ProfileScreen/MyLocation';
 import EditProfile from '../screens/ProfileScreen/EditProfile';
 import DeepLinking from '../utils/DeepLinking';
+import DynamicLinks from '@react-native-firebase/dynamic-links';
 
 const Main = () => {
   const Stack = createNativeStackNavigator();
+
+  useEffect(() => {
+    const handleDynamicLink = link => {
+      if (link) {
+        const {url} = link;
+        console.log('URI', url);
+        let productId = url.split('=').pop();
+        console.log('productIdproductId', productId);
+        // Navigate to specific screen based on the URL
+      }
+    };
+    DynamicLinks()
+      .getInitialLink()
+      .then(link => {
+        handleDynamicLink(link);
+      });
+
+    const unsubscribe = DynamicLinks().onLink(handleDynamicLink);
+
+    return () => {
+      unsubscribe();
+    };
+  }, []);
+
   return (
     <NavigationContainer>
-      <Stack.Navigator
-        // initialRouteName={constants.screen.SplashScreen}
-        screenOptions={{animation: 'slide_from_right'}}>
+      <Stack.Navigator screenOptions={{animation: 'slide_from_right'}}>
         <Stack.Screen
           name={constants.screen.BottomTabNavigation}
           component={BottomTabNavigation}
@@ -149,12 +172,12 @@ const Main = () => {
           component={ServiceSpecialist}
           options={{headerShown: false}}
         />
-          <Stack.Screen
+        <Stack.Screen
           name={constants.screen.UserChat}
           component={UserChat}
           options={{headerShown: false}}
         />
-          <Stack.Screen
+        <Stack.Screen
           name={constants.screen.UserEReceipt}
           component={UserEReceipt}
           options={{headerShown: false}}

@@ -26,15 +26,17 @@ import {screenSize} from '../../components/atom/ScreenSize';
 import {useIsFocused, useNavigation} from '@react-navigation/native';
 import {imageUrl} from '../../AppConstants/urlConstants';
 import {getAsyncItem} from '../../utils/SettingAsyncStorage';
+import DynamicLinks from '@react-native-firebase/dynamic-links';
+import Share from 'react-native-share';
 
 const ProfileScreen = ({navigation}) => {
   const refRBSheet = useRef();
-  const isFocused = useIsFocused()
+  const isFocused = useIsFocused();
   const [userDetails, setUserDetails] = useState();
   const [isSignOutModalVisible, setIsSignOutModalVisible] = useState(false);
 
   useEffect(() => {
-    if(isFocused){
+    if (isFocused) {
       getAsyncData();
     }
   }, [isFocused]);
@@ -47,11 +49,6 @@ const ProfileScreen = ({navigation}) => {
   };
 
   const BarberList = [
-    // {
-    //   id: 1,
-    //   title: 'My Location',
-    //   icon: Icons.Entypo,
-    // },
     {
       id: 1,
       title: 'About Us',
@@ -113,9 +110,17 @@ const ProfileScreen = ({navigation}) => {
     }
   };
 
-  const ProfileContainer = ({item, onPress}) => {
+  const ProfileContainer = ({item, index, onPressReferFriend, onPress}) => {
     return (
-      <TouchableOpacity onPress={onPress}>
+      <TouchableOpacity
+        onPress={() => {
+          console.log('index', index);
+          if (index == 5) {
+            onPressReferFriend();
+          } else {
+            onPress();
+          }
+        }}>
         <View
           style={{
             paddingVertical: 8,
@@ -147,7 +152,53 @@ const ProfileScreen = ({navigation}) => {
     );
   };
 
-  console.log("serDetails?.profileImage", userDetails)
+  const generateLink = async () => {
+    try {
+      const link = await DynamicLinks().buildShortLink(
+        {
+          link: 'https://revx.page.link/g576?productId=1',
+          domainUriPrefix: 'https://revx.page.link',
+          android: {
+            packageName: 'com.revxmobileapp',
+          },
+          ios: {
+            appStoreId: '123456789',
+            bundleId: 'com.proceed.revxmobileapp',
+          },
+        },
+        DynamicLinks.ShortLinkType.DEFAULT,
+      );
+      console.log('Link', link);
+      return Promise.resolve(link);
+    } catch (err) {
+      console.log('err', err);
+    }
+  };
+
+  const shareUserProfileLink = async () => {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const constructedUrl = await generateLink();
+        const options = {
+          message: 'Check out Barber Profile!',
+          url: constructedUrl,
+        };
+        await Share.open(options);
+      } catch (error) {
+        console.log('Error sharing:', error.message);
+      }
+    });
+    // const getLink = await generateLink();
+    // try {
+    //   const options = {
+    //     message: 'Check out Barber Profile!',
+    //     url: getLink,
+    //   };
+    //   await Share.open(options);
+    // } catch (err) {
+    //   console.log('err', err);
+    // }
+  };
 
   return (
     <Screen
@@ -305,7 +356,9 @@ const ProfileScreen = ({navigation}) => {
         {BarberList.map((item, index) => (
           <ProfileContainer
             key={index}
+            index={index}
             item={item}
+            onPressReferFriend={shareUserProfileLink}
             onPress={() => handleNavigation(index)}
           />
         ))}
