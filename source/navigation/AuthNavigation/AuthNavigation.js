@@ -26,24 +26,6 @@ const AuthIndex = () => {
   const Stack = createNativeStackNavigator();
   const {loggedIn} = useSelector(state => state.AuthReducer);
 
-  const HandleDeepLinking = () => {
-    console.log("Hello HandleDeepLinking")
-    const {navigate} = useNavigation();
-    const handleDynamicLinks = async link => {
-      console.log('Foreground link handling:', link);
-      let productId = link.url.split('=').pop();
-      console.log('productId:', productId);
-      // navigation.navigate('ProductDetail', {productId: productId});
-    };
-    useEffect(() => {
-      console.log("Hello")
-      const unsubscribe = DynamicLinks().onLink(handleDynamicLinks);
-      return () => unsubscribe();
-    }, []);
-
-    return null;
-  };
-
   if (loggedIn == 4) {
     return <Main />;
   } else if (loggedIn == 3) {
@@ -53,7 +35,6 @@ const AuthIndex = () => {
   } else {
     return (
       <NavigationContainer>
-         <HandleDeepLinking />
         <Stack.Navigator screenOptions={{animation: 'slide_from_right'}}>
           <Stack.Screen
             name={constants.AuthScreen.SplashScreen}
