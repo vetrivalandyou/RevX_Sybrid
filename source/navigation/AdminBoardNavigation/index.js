@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {
   AdminBarberEarnings,
@@ -21,7 +21,7 @@ import {
   RecentTransactionsMain,
   Report,
 } from '../../screens';
-import {NavigationContainer} from '@react-navigation/native';
+import {NavigationContainer, useNavigation} from '@react-navigation/native';
 import constants from '../../AppConstants/Constants.json';
 import AdminBottomTabNavigation from './AdminBottomTabNavigation';
 import AdminEditTermsOfServices from '../../screens/AdminBoard/AdminEditTermsOfServices/AdminEditTermsOfServices';
@@ -51,9 +51,34 @@ import AdminSetupSlots from '../../screens/AdminBoard/AdminSetupSlots';
 import CreateSlot from '../../screens/AdminBoard/AdminSetupSlots/CreateSlot';
 import AdminViewBarber from '../../screens/AdminBoard/AdminViewBarber';
 import ApproveBarberSubService from '../../screens/AdminBoard/ApproveBarberSubService';
+import DynamicLinks from '@react-native-firebase/dynamic-links';
 
 const AdminStack = () => {
   const Stack = createNativeStackNavigator();
+
+  useEffect(() => {
+    const handleDynamicLink = link => {
+      if (link) {
+        const {url} = link;
+        console.log('URI', url);
+        let productId = url.split('=').pop();
+        console.log('productIdproductId', productId);
+        // Navigate to specific screen based on the URL
+      }
+    };
+    DynamicLinks()
+      .getInitialLink()
+      .then(link => {
+        handleDynamicLink(link);
+      });
+
+    const unsubscribe = DynamicLinks().onLink(handleDynamicLink);
+
+    return () => {
+      unsubscribe();
+    };
+  }, []);
+
   return (
     <NavigationContainer>
       <Stack.Navigator screenOptions={{animation: 'slide_from_right'}}>

@@ -31,12 +31,12 @@ import Share from 'react-native-share'
 
 const ProfileScreen = ({navigation}) => {
   const refRBSheet = useRef();
-  const isFocused = useIsFocused()
+  const isFocused = useIsFocused();
   const [userDetails, setUserDetails] = useState();
   const [isSignOutModalVisible, setIsSignOutModalVisible] = useState(false);
 
   useEffect(() => {
-    if(isFocused){
+    if (isFocused) {
       getAsyncData();
     }
   }, [isFocused]);
@@ -49,11 +49,6 @@ const ProfileScreen = ({navigation}) => {
   };
 
   const BarberList = [
-    // {
-    //   id: 1,
-    //   title: 'My Location',
-    //   icon: Icons.Entypo,
-    // },
     {
       id: 1,
       title: 'About Us',
@@ -115,11 +110,17 @@ const ProfileScreen = ({navigation}) => {
     }
   };
 
-
-
-  const ProfileContainer = ({item, onPress}) => {
+  const ProfileContainer = ({item, index, onPressReferFriend, onPress}) => {
     return (
-      <TouchableOpacity onPress={onPress}>
+      <TouchableOpacity
+        onPress={() => {
+          console.log('index', index);
+          if (index == 5) {
+            onPressReferFriend();
+          } else {
+            onPress();
+          }
+        }}>
         <View
           style={{
             paddingVertical: 8,
@@ -357,7 +358,9 @@ const ProfileScreen = ({navigation}) => {
         {BarberList.map((item, index) => (
           <ProfileContainer
             key={index}
+            index={index}
             item={item}
+            onPressReferFriend={shareUserProfileLink}
             onPress={() => handleNavigation(index)}
           />
         ))}
