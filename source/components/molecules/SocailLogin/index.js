@@ -107,7 +107,7 @@ const SocailLogin = ({
             size={30}
           />
         </TouchableOpacity>
-        <TouchableOpacity >
+        <TouchableOpacity onPress={onPressFacebookLogin}>
           <CustomIcon
             onPress={onPressFacebookLogin}
             type={Icons.FontAwesome}
