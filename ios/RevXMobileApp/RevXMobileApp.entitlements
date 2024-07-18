@@ -10,5 +10,7 @@
 	<array>
 		<string>applinks:revx.page.link</string>
 	</array>
+	<key>keychain-access-groups</key>
+	<array/>
 </dict>
 </plist>

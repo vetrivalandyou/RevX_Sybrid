@@ -23,6 +23,12 @@ import {
   GoogleSignin,
   statusCodes,
 } from '@react-native-google-signin/google-signin';
+import {
+  LoginManager,
+  AccessToken,
+  GraphRequest,
+  GraphRequestManager,
+} from 'react-native-fbsdk-next';
 
 const Login = () => {
   const navigation = useNavigation();
@@ -113,6 +119,85 @@ const Login = () => {
       setUser({user: null}); // Remember to remove the user from your app's state as well
     } catch (error) {
       console.error(error);
+    }
+  };
+
+  getInfoFromToken = token => {
+    const PROFILE_REQUEST_PARAMS = {
+      fields: {
+        string: 'id,name,first_name,last_name',
+      },
+    };
+    const profileRequest = new GraphRequest(
+      '/me',
+      {token, parameters: PROFILE_REQUEST_PARAMS},
+      (error, user) => {
+        if (error) {
+          console.log('login info has error: ' + error);
+        } else {
+          // setState({userInfo: user});
+          console.log('result:', user);
+        }
+      },
+    );
+    new GraphRequestManager().addRequest(profileRequest).start();
+  };
+
+  const handleFacebookLogin = async () => {
+    try {
+      const result = await LoginManager.logInWithPermissions([
+        'public_profile',
+        // 'email',
+        // 'user_hometown',
+        // 'user_birthday',
+      ]);
+
+      if (result.isCancelled) {
+        console.log('Login cancelled');
+      } else {
+        const accessTokenData = await AccessToken.getCurrentAccessToken();
+        if (accessTokenData) {
+          console.log(accessTokenData.accessToken.toString());
+          // You can use the accessTokenData.accessToken.toString() as needed
+        }
+
+        // Extract access token from the data
+        const {accessToken} = accessTokenData;
+
+        // Now you can use the accessToken to make requests to the Facebook Graph API to get user data
+
+        // Fetch user's email
+        const emailResponse = await fetch(
+          `https://graph.facebook.com/me?fields=email&access_token=${accessToken}`,
+        );
+        const emailData = await emailResponse.json();
+
+        // Fetch user's name and phone number
+        const profileResponse = await fetch(
+          `https://graph.facebook.com/me?fields=name,phone&access_token=${accessToken}`,
+        );
+        const profileData = await profileResponse.json();
+
+        // Combine all data
+        const userData = {
+          email: emailData.email,
+          name: profileData.name,
+          phone: profileData.phone,
+          // Add more fields as needed
+        };
+
+        AccessToken.getCurrentAccessToken().then(data => {
+          const accessToken = data.accessToken.toString();
+
+          this.getInfoFromToken(accessToken);
+        });
+
+        // Do something with the user data
+        console.log('userInfo', userData);
+        console.log('profile', profileData);
+      }
+    } catch (error) {
+      console.log('Error with Facebook login:', error);
     }
   };
 
@@ -270,6 +355,7 @@ const Login = () => {
             iconType={Icons.FontAwesome}
             color={appColors.White}
             onPressGoogleLogin={loginWithGoogle}
+            onPressFacebookLogin={handleFacebookLogin}
           />
         </View>
       </KeyboardAwareScrollView>
