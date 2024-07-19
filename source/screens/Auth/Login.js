@@ -101,8 +101,8 @@ const Login = () => {
             initialValues={{
               UserEmail: '',
               UserPassword: '',
-              loginWith: 0,
-              AuthenticationCode: '',
+              loginWith: 0 /* Login With RevX */,
+              AuthId:  '',
             }}
             validationSchema={validationSchema}
             onSubmit={(values, {setSubmitting}) => {

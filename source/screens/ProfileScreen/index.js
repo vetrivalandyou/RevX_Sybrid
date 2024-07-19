@@ -180,7 +180,7 @@ const ProfileScreen = ({navigation}) => {
       try {
         const constructedUrl = await generateLink();
         const options = {
-          message: 'Check out Barber Profile!',
+          message: 'Check out RevX App!',
           url: constructedUrl,
         };
         await Share.open(options);
