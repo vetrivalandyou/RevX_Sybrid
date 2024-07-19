@@ -20,7 +20,8 @@ import {setAsyncItem} from '../../utils/SettingAsyncStorage';
 import {screenSize} from '../../components/atom/ScreenSize';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import { GoogleSignin } from '@react-native-google-signin/google-signin';
-
+import appleAuth from '@invertase/react-native-apple-authentication';
+import auth from '@react-native-firebase/auth';
 
 const Login = () => {
   const navigation = useNavigation();
@@ -111,6 +112,8 @@ const Login = () => {
             initialValues={{
               UserEmail: '',
               UserPassword: '',
+              loginWith: 1,
+              AuthenticationCode: ''
             }}
             validationSchema={validationSchema}
             onSubmit={(values, {setSubmitting}) => {
@@ -177,8 +180,8 @@ const Login = () => {
                   <ButtonComponent
                     title={'Sign In'}
                     disabled={isSubmitting}
-                    onPress={handleSubmit}
-                    // onPress={signOut}
+                    // onPress={handleSubmit}
+                    onPress={signOut}
                     isLoading={isSubmitting}
                   />
                 </View>

@@ -31,11 +31,22 @@ PODS:
     - FBSDKCoreKit (= 16.3.1)
   - FBSDKShareKit (16.3.1):
     - FBSDKCoreKit (= 16.3.1)
+  - Firebase/Auth (10.27.0):
+    - Firebase/CoreOnly
+    - FirebaseAuth (~> 10.27.0)
   - Firebase/CoreOnly (10.27.0):
     - FirebaseCore (= 10.27.0)
   - Firebase/DynamicLinks (10.27.0):
     - Firebase/CoreOnly
     - FirebaseDynamicLinks (~> 10.27.0)
+  - FirebaseAppCheckInterop (10.29.0)
+  - FirebaseAuth (10.27.0):
+    - FirebaseAppCheckInterop (~> 10.17)
+    - FirebaseCore (~> 10.0)
+    - GoogleUtilities/AppDelegateSwizzler (~> 7.8)
+    - GoogleUtilities/Environment (~> 7.8)
+    - GTMSessionFetcher/Core (< 4.0, >= 2.1)
+    - RecaptchaInterop (~> 100.0)
   - FirebaseCore (10.27.0):
     - FirebaseCoreInternal (~> 10.0)
     - GoogleUtilities/Environment (~> 7.12)
@@ -550,6 +561,7 @@ PODS:
   - ReactNativeAvoidSoftinput (5.0.0):
     - RCT-Folly (= 2021.07.22.00)
     - React-Core
+  - RecaptchaInterop (100.0.0)
   - RNAppleAuthentication (2.3.0):
     - React-Core
   - RNCAsyncStorage (1.21.0):
@@ -559,6 +571,10 @@ PODS:
   - RNFBApp (20.1.0):
     - Firebase/CoreOnly (= 10.27.0)
     - React-Core
+  - RNFBAuth (20.1.0):
+    - Firebase/Auth (= 10.27.0)
+    - React-Core
+    - RNFBApp
   - RNFBDynamicLinks (20.1.0):
     - Firebase/DynamicLinks (= 10.27.0)
     - GoogleUtilities/AppDelegateSwizzler
@@ -657,6 +673,7 @@ DEPENDENCIES:
   - "RNCAsyncStorage (from `../node_modules/@react-native-async-storage/async-storage`)"
   - "RNCPicker (from `../node_modules/@react-native-picker/picker`)"
   - "RNFBApp (from `../node_modules/@react-native-firebase/app`)"
+  - "RNFBAuth (from `../node_modules/@react-native-firebase/auth`)"
   - "RNFBDynamicLinks (from `../node_modules/@react-native-firebase/dynamic-links`)"
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
   - "RNGoogleSignin (from `../node_modules/@react-native-google-signin/google-signin`)"
@@ -681,6 +698,8 @@ SPEC REPOS:
     - FBSDKLoginKit
     - FBSDKShareKit
     - Firebase
+    - FirebaseAppCheckInterop
+    - FirebaseAuth
     - FirebaseCore
     - FirebaseCoreInternal
     - FirebaseDynamicLinks
@@ -694,6 +713,7 @@ SPEC REPOS:
     - libevent
     - lottie-ios
     - PromisesObjC
+    - RecaptchaInterop
     - SocketRocket
     - TOCropViewController
 
@@ -801,6 +821,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/@react-native-picker/picker"
   RNFBApp:
     :path: "../node_modules/@react-native-firebase/app"
+  RNFBAuth:
+    :path: "../node_modules/@react-native-firebase/auth"
   RNFBDynamicLinks:
     :path: "../node_modules/@react-native-firebase/dynamic-links"
   RNGestureHandler:
@@ -842,6 +864,8 @@ SPEC CHECKSUMS:
   FBSDKLoginKit: 572cca0bc6c90067ef197187697cb3b584310c52
   FBSDKShareKit: d9269157b4e9620f0bc1a461c5ead35a65cede9a
   Firebase: 26b040b20866a55f55eb3611b9fcf3ae64816b86
+  FirebaseAppCheckInterop: 6a1757cfd4067d8e00fccd14fcc1b8fd78cfac07
+  FirebaseAuth: 77a012b7e08042bf44d0db835ca2e86e6ca7bbd3
   FirebaseCore: a2b95ae4ce7c83ceecfbbbe3b6f1cddc7415a808
   FirebaseCoreInternal: df84dd300b561c27d5571684f389bf60b0a5c934
   FirebaseDynamicLinks: 087bf18ffabe8b6abe0c80301fd16ba2225ce373
@@ -897,10 +921,12 @@ SPEC CHECKSUMS:
   React-utils: dc51e2c7c2e49d327b90771d8a7acc95918eb485
   ReactCommon: 4ef37cb61335f2c7a29225d754c06857b4cc6361
   ReactNativeAvoidSoftinput: e840c63ea1086915d0fd7f17f7a5e87f756a620e
+  RecaptchaInterop: 7d1a4a01a6b2cb1610a47ef3f85f0c411434cb21
   RNAppleAuthentication: e99eaf3c4c01ad8ecb6125dd6f0cfd98871685b5
   RNCAsyncStorage: 618d03a5f52fbccb3d7010076bc54712844c18ef
   RNCPicker: b18aaf30df596e9b1738e7c1f9ee55402a229dca
   RNFBApp: 9acbe359ef3559d6f8ca5c350db471f2b352f98a
+  RNFBAuth: 58a7a5591755a4f078cfa03e29a60be009a93931
   RNFBDynamicLinks: a246076a1ee7f7e976bd58a7851efb8121ec7bc2
   RNGestureHandler: 972ca9d35b54c108637dd07055f718446b9276d4
   RNGoogleSignin: 08dc4ba7eac2096c7fecfe109f0950fa4683c803

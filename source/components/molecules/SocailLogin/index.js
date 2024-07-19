@@ -13,7 +13,8 @@ import CustomIcon, { Icons } from '../CustomIcon/CustomIcon';
 import AppColors from '../../../AppConstants/appColors';
 import appColors from '../../../AppConstants/appColors';
 import styles from './styles';
-
+import {jwt_decode} from 'jwt-decode'
+import auth from '@react-native-firebase/auth';
 import appleAuth, {
   AppleButton,
 } from '@invertase/react-native-apple-authentication';
@@ -27,6 +28,9 @@ import {
   GraphRequest,
   GraphRequestManager,
 } from 'react-native-fbsdk-next';
+import { PostRequest } from '../../../services/apiCall';
+import { endPoint, messages } from '../../../AppConstants/urlConstants';
+import { SimpleSnackBar } from '../../atom/Snakbar/Snakbar';
 
 const SocailLogin = ({
   SocailLogin,
@@ -41,7 +45,7 @@ const SocailLogin = ({
     GoogleSignin.configure({
       scopes: ['https://www.googleapis.com/auth/drive.readonly'],
       webClientId: '379767599880-3t7pvflfu8u28ck99mshtva23sfr16ik.apps.googleusercontent.com',
-        // '379767599880-3t7pvflfu8u28ck99mshtva23sfr16ik.apps.googleusercontent.com',
+      // '379767599880-3t7pvflfu8u28ck99mshtva23sfr16ik.apps.googleusercontent.com',
       scopes: ['profile', 'email'],
     });
   } else {
@@ -53,11 +57,69 @@ const SocailLogin = ({
     });
   }
 
+  const registerUser = (userInfo, isLoginId) => {
+    const { email, name, id } = userInfo?.user
+    const payload = {
+      FullName: name,
+      UserEmail: email,
+      UserPassword: '',
+      UserPhone: '',
+      loginWith: isLoginId, /* Login With Google 3 */
+      AuthenticationCode: id,
+    }
+    console.log("userInfouserInfouserInfo", userInfo)
+    console.log("payloadpayload", payload)
+    LoginUser(userInfo, isLoginId)
+    // PostRequest(endPoint.SIGNUP, payload)
+    //   .then(res => {
+    //     if (res?.data?.code == 200) {
+    //     } else {
+    //     }
+    //   })
+    //   .catch(err => {
+    //     SimpleSnackBar(messages.Catch, appColors.Red);
+    //   });
+  };
+
+  const LoginUser = (userInfo, isLoginId) => {
+    const payload = {
+      UserEmail: userInfo?.user?.email,
+      UserPassword: '',
+      loginWith: isLoginId,
+      AuthenticationCode: userInfo?.user?.id,
+    }
+    console.log("login user payload", payload)
+    // PostRequest(endPoint.LOGIN, payload)
+    //   .then(res => {
+    //     console.log('res', res?.data);
+    //     // if (res?.data?.code == 200) {
+    //     //   setAsyncItem(
+    //     //     constants.AsyncStorageKeys.token,
+    //     //     res?.data?.data?.token,
+    //     //   );
+    //     //   setAsyncItem(
+    //     //     constants.AsyncStorageKeys.userDetails,
+    //     //     res?.data?.data?.user,
+    //     //   );
+    //     //   navigation?.navigate(constants.AuthScreen.Successfull, {
+    //     //     userDetails: res?.data?.data,
+    //     //   });
+    //     // } else {
+    //     //   SimpleSnackBar(res?.data?.message);
+    //     // }
+    //   })
+    //   .catch(err => {
+    //     SimpleSnackBar(messages.Catch, appColors.Red);
+    //     console.log('fail');
+    //   });
+  };
+
   const loginWithGoogle = async () => {
     try {
       await GoogleSignin.hasPlayServices();
       const userInfo = await GoogleSignin.signIn();
-      console.log(userInfo);
+      console.log("Login With Google", userInfo);
+      registerUser(userInfo, 3) /* Login With Google 3 */
     } catch (error) {
       console.log('err', error);
       if (error.code === statusCodes.SIGN_IN_CANCELLED) {
@@ -80,7 +142,7 @@ const SocailLogin = ({
     };
     const profileRequest = new GraphRequest(
       '/me',
-      {token, parameters: PROFILE_REQUEST_PARAMS},
+      { token, parameters: PROFILE_REQUEST_PARAMS },
       (error, user) => {
         if (error) {
           console.log('login info has error: ' + error);
@@ -112,7 +174,7 @@ const SocailLogin = ({
         }
 
         // Extract access token from the data
-        const {accessToken} = accessTokenData;
+        const { accessToken } = accessTokenData;
 
         // Now you can use the accessToken to make requests to the Facebook Graph API to get user data
 
@@ -151,30 +213,33 @@ const SocailLogin = ({
     }
   };
 
-  async function onAppleButtonPress(setShowModal) {
+  async function onAppleButtonPress() {
     try {
-      // Start the sign-in request
       const appleAuthRequestResponse = await appleAuth.performRequest({
         requestedOperation: appleAuth.Operation.LOGIN,
         requestedScopes: [appleAuth.Scope.FULL_NAME, appleAuth.Scope.EMAIL],
       });
-  
+
       console.log('appleAuthRequestResponse ------>', appleAuthRequestResponse);
-  
-      // Ensure Apple returned a user identityToken
+
       if (!appleAuthRequestResponse.identityToken) {
         throw new Error('Apple Sign-In failed - no identify token returned');
       }
-  
-      // Create a Firebase credential from the response
+
+      const credentialState = await appleAuth.getCredentialStateForUser(appleAuthRequestResponse.user);
+      console.log("credentialState",credentialState)
+
       const { identityToken, nonce } = appleAuthRequestResponse;
       const appleCredential = auth.AppleAuthProvider.credential(
         identityToken,
         nonce,
       );
-  
+
       console.log('appleCredential appleCredential', appleCredential);
-      return auth().signInWithCredential(appleCredential);
+      const userDetails = await auth().signInWithCredential(appleCredential);
+      const {email, displayName} = {jwt_decode}(identityToken)
+      console.log("{jwt_decode}{jwt_decode}{jwt_decode}{jwt_decode}{jwt_decode}",email, displayName)
+      console.log("userDetails userDetails userDetails userDetails userDetails", userDetails)
     } catch (error) {
       console.log('Error occurred during Apple Sign In:', error);
     }
