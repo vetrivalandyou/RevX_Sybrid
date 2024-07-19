@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {
   ActivityIndicator,
   FlatList,
@@ -14,14 +14,14 @@ import appColors from '../../../AppConstants/appColors';
 import CustomIcon, {
   Icons,
 } from '../../../components/molecules/CustomIcon/CustomIcon';
-import { screenSize } from '../ScreenSize';
+import {screenSize} from '../ScreenSize';
 import constants from '../../../AppConstants/Constants.json';
-import { useNavigation } from '@react-navigation/native';
+import {useNavigation} from '@react-navigation/native';
 import SimpleTextField from '../../molecules/TextFeilds/SimpleTextField';
-import { Formik } from 'formik';
+import {Formik} from 'formik';
 import * as Yup from 'yup';
-import { PostRequest } from '../../../services/apiCall';
-import { endPoint, messages } from '../../../AppConstants/urlConstants';
+import {PostRequest} from '../../../services/apiCall';
+import {endPoint, messages} from '../../../AppConstants/urlConstants';
 import ButtonComponent from '../CustomButtons/ButtonComponent';
 import {getAsyncItem} from '../../../utils/SettingAsyncStorage';
 import {SimpleSnackBar} from '../Snakbar/Snakbar';
@@ -32,7 +32,13 @@ import {
   SUCCESS_CODE,
 } from '../../../AppConstants/appConstants';
 
-const MyLocationBottomSheet = ({ keyboardFocusRef, selectedLocation, newLocation, item, refRBSheet }) => {
+const MyLocationBottomSheet = ({
+  keyboardFocusRef,
+  selectedLocation,
+  newLocation,
+  item,
+  refRBSheet,
+}) => {
   const navigation = useNavigation();
   const [userDetails, setUserDetails] = useState('');
   const [locationAddress, setLocationAddress] = useState(item?.locationName);
@@ -53,7 +59,6 @@ const MyLocationBottomSheet = ({ keyboardFocusRef, selectedLocation, newLocation
     locationName: Yup.string().required('Please enter your location name'),
   });
 
-
   const LocationUpdate = () => {
     const payload = {
       locationId: item?.id,
@@ -68,7 +73,7 @@ const MyLocationBottomSheet = ({ keyboardFocusRef, selectedLocation, newLocation
       createdBy: userDetails?.userId,
       userIP: '::1',
     };
-    console.log("payload>>>>", payload)
+    console.log('payload>>>>', payload);
     PostRequest(endPoint.BARBER_SET_UP_LOCATION_SERVICES, payload)
       .then(res => {
         if (res?.data?.code == SUCCESS_CODE) {
@@ -113,9 +118,9 @@ const MyLocationBottomSheet = ({ keyboardFocusRef, selectedLocation, newLocation
   };
 
   const handlePlaceSelect = (data, details) => {
-    console.log("inside handlePlaceSelect", data)
-    console.log("inside handlePlaceSelect details", details)
-    setSselectedLocation({ data, details });
+    console.log('inside handlePlaceSelect', data);
+    console.log('inside handlePlaceSelect details', details);
+    setSselectedLocation({data, details});
     setLocationAddress(data.description); // Set the text input value manually
   };
 
@@ -240,16 +245,16 @@ const MyLocationBottomSheet = ({ keyboardFocusRef, selectedLocation, newLocation
         //   )}
         // </Formik>
         <>
-          <View style={{ flex: 0.6, }}>
+          <View style={{flex: 0.6}}>
             <GooglePlacesAutocomplete
-             ref={keyboardFocusRef}
+              ref={keyboardFocusRef}
               placeholder="Search"
               onPress={(data, details) => handlePlaceSelect(data, details)}
               query={{
                 key: 'AIzaSyBBa3zOSl9VtdV4EqNfgRs2x0x20e_neW0',
                 language: 'en',
               }}
-              value = {locationAddress}
+              value={locationAddress}
               textInputProps={{
                 value: locationAddress,
                 // onChangeText: (text) => { setLocationAddress(text)},
@@ -279,27 +284,26 @@ const MyLocationBottomSheet = ({ keyboardFocusRef, selectedLocation, newLocation
             enablePoweredByContainer={false}
           /> */}
           </View>
-          <View style={{ flex: 0.6 }}>
+          <View style={{flex: 0.6}}>
             <ButtonComponent
-              title={
-                newLocation == true ? 'Add Lcoation' : 'Update Location'
-              }
+              title={newLocation == true ? 'Add Location' : 'Update Location'}
               onPress={newLocation == true ? AddNewLocation : LocationUpdate}
-            // disable={
-            //   !selectedLocation ||
-            //   !values.locationName
-            // }
-            // style={{
-            //   opacity:
-            //     !selectedLocation ||
-            //       !values.locationName
-            //       ? 0.5
-            //       : 1,
-            // }}
+              // disable={
+              //   !selectedLocation ||
+              //   !values.locationName
+              // }
+              // style={{
+              //   opacity:
+              //     !selectedLocation ||
+              //       !values.locationName
+              //       ? 0.5
+              //       : 1,
+              // }}
             />
-          </View></>
+          </View>
+        </>
       ) : (
-        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+        <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
           <ActivityIndicator size="small" color={appColors.Goldcolor} />
         </View>
       )}
@@ -312,10 +316,9 @@ const lbStyle = StyleSheet.create({
     flex: 1,
     paddingHorizontal: 15,
     paddingVertical: 15,
-
   },
 
-  clTextStyle: { fontSize: 13, fontWeight: '500', color: appColors.White },
+  clTextStyle: {fontSize: 13, fontWeight: '500', color: appColors.White},
   clSelectLocation: {
     borderRadius: 20,
     flexDirection: 'row',

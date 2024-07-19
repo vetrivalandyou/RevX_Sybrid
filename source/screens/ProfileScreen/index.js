@@ -26,8 +26,8 @@ import {screenSize} from '../../components/atom/ScreenSize';
 import {useIsFocused, useNavigation} from '@react-navigation/native';
 import {imageUrl} from '../../AppConstants/urlConstants';
 import {getAsyncItem} from '../../utils/SettingAsyncStorage';
-import DynamicLinks from '@react-native-firebase/dynamic-links'
-import Share from 'react-native-share'
+import DynamicLinks from '@react-native-firebase/dynamic-links';
+import Share from 'react-native-share';
 
 const ProfileScreen = ({navigation}) => {
   const refRBSheet = useRef();
@@ -304,9 +304,9 @@ const ProfileScreen = ({navigation}) => {
         </View>
         <View>
           <TouchableOpacity
-            // onPress={() => navigation.navigate(constants.screen.EditProfile)}
-            onPress={shareUserProfileLink}
-            >
+            onPress={() => navigation.navigate(constants.screen.EditProfile)}
+            // onPress={shareUserProfileLink}
+          >
             <View
               style={{
                 paddingHorizontal: 12,
