@@ -70,14 +70,14 @@ def enableProguardInReleaseBuilds = false
 def jscFlavor = 'org.webkit:android-jsc:+'
 
 android {
+   
     ndkVersion rootProject.ext.ndkVersion
- defaultConfig {
+    defaultConfig {
    
         vectorDrawables.useSupportLibrary = true
 
     }
     compileSdkVersion rootProject.ext.compileSdkVersion
-
     namespace "com.revxmobileapp"
     defaultConfig {
         applicationId "com.revxmobileapp"

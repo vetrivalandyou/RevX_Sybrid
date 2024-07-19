@@ -102,7 +102,7 @@ const Login = () => {
               UserEmail: '',
               UserPassword: '',
               loginWith: 0,
-              AuthenticationCode: ''
+              AuthenticationCode: '',
             }}
             validationSchema={validationSchema}
             onSubmit={(values, {setSubmitting}) => {

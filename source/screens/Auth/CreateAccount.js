@@ -86,8 +86,8 @@ const CreateAccount = ({navigation}) => {
               UserEmail: '',
               UserPassword: '',
               UserPhone: '',
-              loginWith: 0, /* Login With RevX */
-              AuthenticationCode: ''
+              loginWith: 0 /* Login With RevX */,
+              AuthenticationCode: '',
             }}
             validationSchema={validationSchema}
             onSubmit={values => {
