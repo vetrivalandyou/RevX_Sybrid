@@ -17,35 +17,16 @@ import styles from './styles';
 import appleAuth, {
   AppleButton,
 } from '@invertase/react-native-apple-authentication';
-
-async function onAppleButtonPress(setShowModal) {
-  try {
-    // Start the sign-in request
-    const appleAuthRequestResponse = await appleAuth.performRequest({
-      requestedOperation: appleAuth.Operation.LOGIN,
-      requestedScopes: [appleAuth.Scope.FULL_NAME, appleAuth.Scope.EMAIL],
-    });
-
-    console.log('appleAuthRequestResponse ------>', appleAuthRequestResponse);
-
-    // Ensure Apple returned a user identityToken
-    if (!appleAuthRequestResponse.identityToken) {
-      throw new Error('Apple Sign-In failed - no identify token returned');
-    }
-
-    // Create a Firebase credential from the response
-    const { identityToken, nonce } = appleAuthRequestResponse;
-    const appleCredential = auth.AppleAuthProvider.credential(
-      identityToken,
-      nonce,
-    );
-
-    console.log('appleCredential appleCredential', appleCredential);
-    return auth().signInWithCredential(appleCredential);
-  } catch (error) {
-    console.log('Error occurred during Apple Sign In:', error);
-  }
-}
+import {
+  GoogleSignin,
+  statusCodes,
+} from '@react-native-google-signin/google-signin';
+import {
+  LoginManager,
+  AccessToken,
+  GraphRequest,
+  GraphRequestManager,
+} from 'react-native-fbsdk-next';
 
 const SocailLogin = ({
   SocailLogin,
@@ -53,17 +34,151 @@ const SocailLogin = ({
   iconSize,
   iconType,
   onPressIcon,
-  onPressGoogleLogin,
-  onPressFacebookLogin
 }) => {
   const [showModal, setShowModal] = useState(false);
 
-  // useEffect(() => {
-  //   // onCredentialRevoked returns a function that will remove the event listener. useEffect will call this function when the component unmounts
-  //   return appleAuth.onCredentialRevoked(async () => {
-  //     console.warn('If this function executes, User Credentials have been Revoked');
-  //   });
-  // }, []);
+  if (Platform.OS == 'android') {
+    GoogleSignin.configure({
+      scopes: ['https://www.googleapis.com/auth/drive.readonly'],
+      webClientId: '379767599880-3t7pvflfu8u28ck99mshtva23sfr16ik.apps.googleusercontent.com',
+        // '379767599880-3t7pvflfu8u28ck99mshtva23sfr16ik.apps.googleusercontent.com',
+      scopes: ['profile', 'email'],
+    });
+  } else {
+    GoogleSignin.configure({
+      scopes: ['https://www.googleapis.com/auth/drive.readonly'],
+      webClientId:
+        '379767599880-b33kgjlumovqpstj2v234slgnqp3lsnv.apps.googleusercontent.com',
+      scopes: ['profile', 'email'],
+    });
+  }
+
+  const loginWithGoogle = async () => {
+    try {
+      await GoogleSignin.hasPlayServices();
+      const userInfo = await GoogleSignin.signIn();
+      console.log(userInfo);
+    } catch (error) {
+      console.log('err', error);
+      if (error.code === statusCodes.SIGN_IN_CANCELLED) {
+        // user cancelled the login flow
+      } else if (error.code === statusCodes.IN_PROGRESS) {
+        // operation (e.g. sign in) is in progress already
+      } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
+        // play services not available or outdated
+      } else {
+        // some other error happened
+      }
+    }
+  };
+
+  getInfoFromToken = token => {
+    const PROFILE_REQUEST_PARAMS = {
+      fields: {
+        string: 'id,name,first_name,last_name',
+      },
+    };
+    const profileRequest = new GraphRequest(
+      '/me',
+      {token, parameters: PROFILE_REQUEST_PARAMS},
+      (error, user) => {
+        if (error) {
+          console.log('login info has error: ' + error);
+        } else {
+          // setState({userInfo: user});
+          console.log('result:', user);
+        }
+      },
+    );
+    new GraphRequestManager().addRequest(profileRequest).start();
+  };
+
+  const handleFacebookLogin = async () => {
+    try {
+      const result = await LoginManager.logInWithPermissions([
+        'public_profile',
+        'email',
+        'user_hometown',
+        'user_birthday',
+      ]);
+
+      if (result.isCancelled) {
+        console.log('Login cancelled');
+      } else {
+        const accessTokenData = await AccessToken.getCurrentAccessToken();
+        if (accessTokenData) {
+          console.log(accessTokenData.accessToken.toString());
+          // You can use the accessTokenData.accessToken.toString() as needed
+        }
+
+        // Extract access token from the data
+        const {accessToken} = accessTokenData;
+
+        // Now you can use the accessToken to make requests to the Facebook Graph API to get user data
+
+        // Fetch user's email
+        const emailResponse = await fetch(
+          `https://graph.facebook.com/me?fields=email&access_token=${accessToken}`,
+        );
+        const emailData = await emailResponse.json();
+
+        // Fetch user's name and phone number
+        const profileResponse = await fetch(
+          `https://graph.facebook.com/me?fields=name,phone&access_token=${accessToken}`,
+        );
+        const profileData = await profileResponse.json();
+
+        // Combine all data
+        const userData = {
+          email: emailData.email,
+          name: profileData.name,
+          phone: profileData.phone,
+          // Add more fields as needed
+        };
+
+        AccessToken.getCurrentAccessToken().then(data => {
+          const accessToken = data.accessToken.toString();
+
+          this.getInfoFromToken(accessToken);
+        });
+
+        // Do something with the user data
+        console.log('userInfo', userData);
+        console.log('profile', profileData);
+      }
+    } catch (error) {
+      console.log('Error with Facebook login:', error);
+    }
+  };
+
+  async function onAppleButtonPress(setShowModal) {
+    try {
+      // Start the sign-in request
+      const appleAuthRequestResponse = await appleAuth.performRequest({
+        requestedOperation: appleAuth.Operation.LOGIN,
+        requestedScopes: [appleAuth.Scope.FULL_NAME, appleAuth.Scope.EMAIL],
+      });
+  
+      console.log('appleAuthRequestResponse ------>', appleAuthRequestResponse);
+  
+      // Ensure Apple returned a user identityToken
+      if (!appleAuthRequestResponse.identityToken) {
+        throw new Error('Apple Sign-In failed - no identify token returned');
+      }
+  
+      // Create a Firebase credential from the response
+      const { identityToken, nonce } = appleAuthRequestResponse;
+      const appleCredential = auth.AppleAuthProvider.credential(
+        identityToken,
+        nonce,
+      );
+  
+      console.log('appleCredential appleCredential', appleCredential);
+      return auth().signInWithCredential(appleCredential);
+    } catch (error) {
+      console.log('Error occurred during Apple Sign In:', error);
+    }
+  }
 
   const handleAppleButtonPress = () => {
     if (Platform.OS === 'ios') {
@@ -78,7 +193,6 @@ const SocailLogin = ({
       style={{
         flex: 0.15,
         justifyContent: 'space-between',
-        // backgroundColor: 'red',
       }}>
       <View style={styles.textStyle}>
         <View style={styles.lineStyle}></View>
@@ -99,7 +213,7 @@ const SocailLogin = ({
 
         <TouchableOpacity >
           <CustomIcon
-            onPress={onPressGoogleLogin}
+            onPress={loginWithGoogle}
             type={Icons.AntDesign}
             name={'google'}
             color={AppColors.White}
@@ -107,9 +221,9 @@ const SocailLogin = ({
             size={30}
           />
         </TouchableOpacity>
-        <TouchableOpacity onPress={onPressFacebookLogin}>
+        <TouchableOpacity>
           <CustomIcon
-            onPress={onPressFacebookLogin}
+            onPress={handleFacebookLogin}
             type={Icons.FontAwesome}
             name={'facebook'}
             color={AppColors.White}
