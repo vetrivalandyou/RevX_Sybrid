@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   Text,
   View,
@@ -9,11 +9,13 @@ import {
   Platform,
   StyleSheet,
 } from 'react-native';
-import CustomIcon, { Icons } from '../CustomIcon/CustomIcon';
+import CustomIcon, {Icons} from '../CustomIcon/CustomIcon';
 import AppColors from '../../../AppConstants/appColors';
 import appColors from '../../../AppConstants/appColors';
+import constants from '../../../AppConstants/Constants.json'
 import styles from './styles';
-
+import {jwt_decode} from 'jwt-decode';
+import auth from '@react-native-firebase/auth';
 import appleAuth, {
   AppleButton,
 } from '@invertase/react-native-apple-authentication';
@@ -27,6 +29,11 @@ import {
   GraphRequest,
   GraphRequestManager,
 } from 'react-native-fbsdk-next';
+import {PostRequest} from '../../../services/apiCall';
+import {endPoint, messages} from '../../../AppConstants/urlConstants';
+import {SimpleSnackBar} from '../../atom/Snakbar/Snakbar';
+import {useNavigation} from '@react-navigation/native';
+import { setAsyncItem } from '../../../utils/SettingAsyncStorage';
 
 const SocailLogin = ({
   SocailLogin,
@@ -35,13 +42,15 @@ const SocailLogin = ({
   iconType,
   onPressIcon,
 }) => {
+  const navigation = useNavigation();
   const [showModal, setShowModal] = useState(false);
 
   if (Platform.OS == 'android') {
     GoogleSignin.configure({
       scopes: ['https://www.googleapis.com/auth/drive.readonly'],
-      webClientId: '379767599880-3t7pvflfu8u28ck99mshtva23sfr16ik.apps.googleusercontent.com',
-        // '379767599880-3t7pvflfu8u28ck99mshtva23sfr16ik.apps.googleusercontent.com',
+      webClientId:
+        '379767599880-3t7pvflfu8u28ck99mshtva23sfr16ik.apps.googleusercontent.com',
+      // '379767599880-3t7pvflfu8u28ck99mshtva23sfr16ik.apps.googleusercontent.com',
       scopes: ['profile', 'email'],
     });
   } else {
@@ -53,21 +62,77 @@ const SocailLogin = ({
     });
   }
 
+  const registerUser = (userInfo, isLoginId) => {
+    const {email, name, id} = userInfo?.user;
+    const payload = {
+      FullName: name,
+      UserEmail: email,
+      UserPassword: '123456789',
+      UserPhone: '(555) 189-5896',
+      loginWith: isLoginId,
+      AuthId: id,
+    };
+    console.log('userInfouserInfouserInfo', userInfo);
+    console.log('payloadpayload', payload);
+    PostRequest(endPoint.SIGNUP, payload)
+      .then(res => {
+        LoginUser(userInfo, isLoginId);
+        console.log('Response of SIGNUP ', res?.data);
+        // if (res?.data?.code == 200) {
+        // } else {
+        // }
+      })
+      .catch(err => {
+        console.log('Error Register User', err);
+        SimpleSnackBar(messages.Catch, appColors.Red);
+      });
+  };
+
+  const LoginUser = (userInfo, isLoginId) => {
+    const payload = {
+      UserEmail: userInfo?.user?.email,
+      UserPassword: '123456789',
+      loginWith: isLoginId,
+      AuthId: userInfo?.user?.id,
+    };
+    console.log('login user payload', payload);
+    PostRequest(endPoint.LOGIN, payload)
+      .then(res => {
+        console.log('response of LOGIN', res?.data);
+        if (res?.data?.code == 200) {
+          setAsyncItem(
+            constants.AsyncStorageKeys.token,
+            res?.data?.data?.token,
+          );
+          setAsyncItem(
+            constants.AsyncStorageKeys.userDetails,
+            res?.data?.data?.user,
+          );
+          navigation?.navigate(constants.AuthScreen.Successfull, {
+            userDetails: res?.data?.data,
+          });
+        } else {
+          SimpleSnackBar(res?.data?.message);
+        }
+      })
+      .catch(err => {
+        SimpleSnackBar(messages.Catch, appColors.Red);
+        console.log('fail');
+      });
+  };
+
   const loginWithGoogle = async () => {
     try {
       await GoogleSignin.hasPlayServices();
       const userInfo = await GoogleSignin.signIn();
-      console.log(userInfo);
+      console.log('Login With Google', userInfo);
+      registerUser(userInfo, 2); /* Login With Google 2 */
     } catch (error) {
       console.log('err', error);
       if (error.code === statusCodes.SIGN_IN_CANCELLED) {
-        // user cancelled the login flow
       } else if (error.code === statusCodes.IN_PROGRESS) {
-        // operation (e.g. sign in) is in progress already
       } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
-        // play services not available or outdated
       } else {
-        // some other error happened
       }
     }
   };
@@ -151,30 +216,42 @@ const SocailLogin = ({
     }
   };
 
-  async function onAppleButtonPress(setShowModal) {
+  async function onAppleButtonPress() {
     try {
-      // Start the sign-in request
       const appleAuthRequestResponse = await appleAuth.performRequest({
         requestedOperation: appleAuth.Operation.LOGIN,
         requestedScopes: [appleAuth.Scope.FULL_NAME, appleAuth.Scope.EMAIL],
       });
-  
+
       console.log('appleAuthRequestResponse ------>', appleAuthRequestResponse);
-  
-      // Ensure Apple returned a user identityToken
+
       if (!appleAuthRequestResponse.identityToken) {
         throw new Error('Apple Sign-In failed - no identify token returned');
       }
-  
-      // Create a Firebase credential from the response
-      const { identityToken, nonce } = appleAuthRequestResponse;
+
+      const credentialState = await appleAuth.getCredentialStateForUser(
+        appleAuthRequestResponse.user,
+      );
+      console.log('credentialState', credentialState);
+
+      const {identityToken, nonce} = appleAuthRequestResponse;
       const appleCredential = auth.AppleAuthProvider.credential(
         identityToken,
         nonce,
       );
-  
+
       console.log('appleCredential appleCredential', appleCredential);
-      return auth().signInWithCredential(appleCredential);
+      const userDetails = await auth().signInWithCredential(appleCredential);
+      const {email, displayName} = {jwt_decode}(identityToken);
+      console.log(
+        '{jwt_decode}{jwt_decode}{jwt_decode}{jwt_decode}{jwt_decode}',
+        email,
+        displayName,
+      );
+      console.log(
+        'userDetails userDetails userDetails userDetails userDetails',
+        userDetails,
+      );
     } catch (error) {
       console.log('Error occurred during Apple Sign In:', error);
     }
@@ -196,7 +273,7 @@ const SocailLogin = ({
       }}>
       <View style={styles.textStyle}>
         <View style={styles.lineStyle}></View>
-        <Text style={{ color: appColors.White }}>{SocailLogin}</Text>
+        <Text style={{color: appColors.White}}>{SocailLogin}</Text>
         <View style={styles.lineStyle}></View>
       </View>
 
@@ -211,7 +288,7 @@ const SocailLogin = ({
           />
         </TouchableOpacity>
 
-        <TouchableOpacity >
+        <TouchableOpacity>
           <CustomIcon
             onPress={loginWithGoogle}
             type={Icons.AntDesign}
