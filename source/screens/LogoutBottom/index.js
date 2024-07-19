@@ -8,6 +8,7 @@ import {useDispatch} from 'react-redux';
 import {LogOut} from '../../redux/Action/AuthAction';
 import {setAsyncItem} from '../../utils/SettingAsyncStorage';
 import constants from '../../AppConstants/Constants.json';
+import { GoogleSignin } from '@react-native-google-signin/google-signin';
 
 const LogoutBottom = ({refRBSheet}) => {
   const navigation = useNavigation();
@@ -19,6 +20,15 @@ const LogoutBottom = ({refRBSheet}) => {
       coords: {latitude: 0, longitude: 0},
     });
     dispatch(LogOut());
+  };
+
+  const signOut = async () => {
+    try {
+      await GoogleSignin.signOut();
+      onLogOut()
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (
@@ -68,7 +78,7 @@ const LogoutBottom = ({refRBSheet}) => {
           <View style={{flex: 0.5, justifyContent: 'center'}}>
             <ButtonComponent
               onPress={() => {
-                onLogOut();
+                signOut();
               }}
               title={'Logout'}
               btnColor={appColors.Red}

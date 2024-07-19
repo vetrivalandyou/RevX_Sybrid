@@ -12,6 +12,7 @@ import {
 import CustomIcon, {Icons} from '../CustomIcon/CustomIcon';
 import AppColors from '../../../AppConstants/appColors';
 import appColors from '../../../AppConstants/appColors';
+import constants from '../../../AppConstants/Constants.json'
 import styles from './styles';
 import {jwt_decode} from 'jwt-decode';
 import auth from '@react-native-firebase/auth';
@@ -31,6 +32,8 @@ import {
 import {PostRequest} from '../../../services/apiCall';
 import {endPoint, messages} from '../../../AppConstants/urlConstants';
 import {SimpleSnackBar} from '../../atom/Snakbar/Snakbar';
+import {useNavigation} from '@react-navigation/native';
+import { setAsyncItem } from '../../../utils/SettingAsyncStorage';
 
 const SocailLogin = ({
   SocailLogin,
@@ -39,6 +42,7 @@ const SocailLogin = ({
   iconType,
   onPressIcon,
 }) => {
+  const navigation = useNavigation();
   const [showModal, setShowModal] = useState(false);
 
   if (Platform.OS == 'android') {
@@ -63,56 +67,58 @@ const SocailLogin = ({
     const payload = {
       FullName: name,
       UserEmail: email,
-      UserPassword: '',
-      UserPhone: '',
-      loginWith: isLoginId /* Login With Google 3 */,
-      AuthenticationCode: id,
+      UserPassword: '123456789',
+      UserPhone: '(555) 189-5896',
+      loginWith: isLoginId,
+      AuthId: id,
     };
     console.log('userInfouserInfouserInfo', userInfo);
     console.log('payloadpayload', payload);
-    LoginUser(userInfo, isLoginId);
-    // PostRequest(endPoint.SIGNUP, payload)
-    //   .then(res => {
-    //     if (res?.data?.code == 200) {
-    //     } else {
-    //     }
-    //   })
-    //   .catch(err => {
-    //     SimpleSnackBar(messages.Catch, appColors.Red);
-    //   });
+    PostRequest(endPoint.SIGNUP, payload)
+      .then(res => {
+        LoginUser(userInfo, isLoginId);
+        console.log('Response of SIGNUP ', res?.data);
+        // if (res?.data?.code == 200) {
+        // } else {
+        // }
+      })
+      .catch(err => {
+        console.log('Error Register User', err);
+        SimpleSnackBar(messages.Catch, appColors.Red);
+      });
   };
 
   const LoginUser = (userInfo, isLoginId) => {
     const payload = {
       UserEmail: userInfo?.user?.email,
-      UserPassword: '',
+      UserPassword: '123456789',
       loginWith: isLoginId,
-      AuthenticationCode: userInfo?.user?.id,
+      AuthId: userInfo?.user?.id,
     };
     console.log('login user payload', payload);
-    // PostRequest(endPoint.LOGIN, payload)
-    //   .then(res => {
-    //     console.log('res', res?.data);
-    //     // if (res?.data?.code == 200) {
-    //     //   setAsyncItem(
-    //     //     constants.AsyncStorageKeys.token,
-    //     //     res?.data?.data?.token,
-    //     //   );
-    //     //   setAsyncItem(
-    //     //     constants.AsyncStorageKeys.userDetails,
-    //     //     res?.data?.data?.user,
-    //     //   );
-    //     //   navigation?.navigate(constants.AuthScreen.Successfull, {
-    //     //     userDetails: res?.data?.data,
-    //     //   });
-    //     // } else {
-    //     //   SimpleSnackBar(res?.data?.message);
-    //     // }
-    //   })
-    //   .catch(err => {
-    //     SimpleSnackBar(messages.Catch, appColors.Red);
-    //     console.log('fail');
-    //   });
+    PostRequest(endPoint.LOGIN, payload)
+      .then(res => {
+        console.log('response of LOGIN', res?.data);
+        if (res?.data?.code == 200) {
+          setAsyncItem(
+            constants.AsyncStorageKeys.token,
+            res?.data?.data?.token,
+          );
+          setAsyncItem(
+            constants.AsyncStorageKeys.userDetails,
+            res?.data?.data?.user,
+          );
+          navigation?.navigate(constants.AuthScreen.Successfull, {
+            userDetails: res?.data?.data,
+          });
+        } else {
+          SimpleSnackBar(res?.data?.message);
+        }
+      })
+      .catch(err => {
+        SimpleSnackBar(messages.Catch, appColors.Red);
+        console.log('fail');
+      });
   };
 
   const loginWithGoogle = async () => {
@@ -120,17 +126,13 @@ const SocailLogin = ({
       await GoogleSignin.hasPlayServices();
       const userInfo = await GoogleSignin.signIn();
       console.log('Login With Google', userInfo);
-      registerUser(userInfo, 3); /* Login With Google 3 */
+      registerUser(userInfo, 2); /* Login With Google 2 */
     } catch (error) {
       console.log('err', error);
       if (error.code === statusCodes.SIGN_IN_CANCELLED) {
-        // user cancelled the login flow
       } else if (error.code === statusCodes.IN_PROGRESS) {
-        // operation (e.g. sign in) is in progress already
       } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
-        // play services not available or outdated
       } else {
-        // some other error happened
       }
     }
   };
