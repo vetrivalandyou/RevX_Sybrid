@@ -76,11 +76,12 @@ const SocailLogin = ({
     console.log('payloadpayload', payload);
     PostRequest(endPoint.SIGNUP, payload)
       .then(res => {
-        LoginUser(userInfo, isLoginId);
-        console.log('Response of SIGNUP ', res?.data);
-        // if (res?.data?.code == 200) {
-        // } else {
-        // }
+        if (res?.data?.code == 200) {
+          LoginUser(userInfo, isLoginId);
+          console.log('Response of SIGNUP ', res?.data);
+        } else {
+          SimpleSnackBar(res?.data?.message, appColors.Red);
+        }
       })
       .catch(err => {
         console.log('Error Register User', err);
