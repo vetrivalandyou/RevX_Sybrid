@@ -19,9 +19,9 @@ import {SimpleSnackBar} from '../../components/atom/Snakbar/Snakbar';
 import {setAsyncItem} from '../../utils/SettingAsyncStorage';
 import {screenSize} from '../../components/atom/ScreenSize';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
-import { GoogleSignin } from '@react-native-google-signin/google-signin';
+import {GoogleSignin} from '@react-native-google-signin/google-signin';
 import appleAuth from '@invertase/react-native-apple-authentication';
-import auth from '@react-native-firebase/auth';
+// import auth from '@react-native-firebase/auth';
 
 const Login = () => {
   const navigation = useNavigation();
@@ -113,7 +113,7 @@ const Login = () => {
               UserEmail: '',
               UserPassword: '',
               loginWith: 1,
-              AuthenticationCode: ''
+              AuthenticationCode: '',
             }}
             validationSchema={validationSchema}
             onSubmit={(values, {setSubmitting}) => {

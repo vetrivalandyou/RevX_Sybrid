@@ -95,19 +95,19 @@ const CreateAccountBarber = ({navigation}) => {
   };
 
   return (
-    <Screen
-      authStyle={{
-        flex: 1,
-        backgroundColor: appColors.Goldcolor,
-        minHeight: screenSize.height,
-        maxHeight: 'auto',
-      }}
-      viewStyle={{flex: 1, backgroundColor: appColors.Black}}
-      statusBarColor={appColors.Goldcolor}
-      translucent={false}
-      barStyle="light-content">
-      <KeyboardAwareScrollView
-        contentContainerStyle={{flex: 1, justifyContent: 'center'}}>
+    <KeyboardAwareScrollView
+      contentContainerStyle={{flex: 1, justifyContent: 'center'}}>
+      <Screen
+        authStyle={{
+          flex: 1,
+          backgroundColor: appColors.Goldcolor,
+          minHeight: screenSize.height,
+          maxHeight: 'auto',
+        }}
+        viewStyle={{flex: 1, backgroundColor: appColors.Black}}
+        statusBarColor={appColors.Goldcolor}
+        translucent={false}
+        barStyle="light-content">
         <View style={{flex: 0.2}}>
           <AuthHeader
             logIn={'Log In'}
@@ -308,8 +308,8 @@ const CreateAccountBarber = ({navigation}) => {
             </TouchableOpacity>
           </View>
         </View>
-      </KeyboardAwareScrollView>
-    </Screen>
+      </Screen>
+    </KeyboardAwareScrollView>
   );
 };
 export default CreateAccountBarber;
