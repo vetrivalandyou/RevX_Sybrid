@@ -282,7 +282,7 @@ const AdminApproveBarber = ({navigation}) => {
                     color: 'white',
                     fontSize: 12,
                   }}>
-                  {item?.Applyon == 0 ? 'New' : 'Reapply'}
+                  {item?.Applyon == 0 ? 'New' : 'Re-Apply'}
                 </Text>
               </View>
             </View>

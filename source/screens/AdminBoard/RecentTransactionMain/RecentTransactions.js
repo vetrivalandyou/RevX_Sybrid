@@ -29,7 +29,7 @@ const RecentTransactions = ({route}) => {
   const isFocused = useIsFocused();
   const navigation = useNavigation();
 
-  const [isLoadng, setIsLoading] = useState(true)
+  const [isLoadng, setIsLoading] = useState(true);
   const [transactions, setTransactions] = useState([]);
   const [pageNo, setPageNo] = useState(1);
   const [hasMore, setHasMore] = useState(true);
@@ -217,7 +217,7 @@ const Transactioninfo = ({item}) => {
           alignItems: 'center',
           justifyContent: 'space-evenly',
         }}>
-        <View style={{paddingVertical: 5}}>
+        <View style={{paddingVertical: 10}}>
           <Image
             source={{uri: `${imageUrl}${item?.ProfileImage}`}}
             // source={item.Imagesource}
