@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   Text,
   View,
@@ -9,7 +9,7 @@ import {
   Platform,
   StyleSheet,
 } from 'react-native';
-import CustomIcon, { Icons } from '../CustomIcon/CustomIcon';
+import CustomIcon, {Icons} from '../CustomIcon/CustomIcon';
 import AppColors from '../../../AppConstants/appColors';
 import appColors from '../../../AppConstants/appColors';
 import styles from './styles';
@@ -40,8 +40,9 @@ const SocailLogin = ({
   if (Platform.OS == 'android') {
     GoogleSignin.configure({
       scopes: ['https://www.googleapis.com/auth/drive.readonly'],
-      webClientId: '379767599880-3t7pvflfu8u28ck99mshtva23sfr16ik.apps.googleusercontent.com',
-        // '379767599880-3t7pvflfu8u28ck99mshtva23sfr16ik.apps.googleusercontent.com',
+      webClientId:
+        '379767599880-3t7pvflfu8u28ck99mshtva23sfr16ik.apps.googleusercontent.com',
+      // '379767599880-3t7pvflfu8u28ck99mshtva23sfr16ik.apps.googleusercontent.com',
       scopes: ['profile', 'email'],
     });
   } else {
@@ -158,21 +159,21 @@ const SocailLogin = ({
         requestedOperation: appleAuth.Operation.LOGIN,
         requestedScopes: [appleAuth.Scope.FULL_NAME, appleAuth.Scope.EMAIL],
       });
-  
+
       console.log('appleAuthRequestResponse ------>', appleAuthRequestResponse);
-  
+
       // Ensure Apple returned a user identityToken
       if (!appleAuthRequestResponse.identityToken) {
         throw new Error('Apple Sign-In failed - no identify token returned');
       }
-  
+
       // Create a Firebase credential from the response
-      const { identityToken, nonce } = appleAuthRequestResponse;
+      const {identityToken, nonce} = appleAuthRequestResponse;
       const appleCredential = auth.AppleAuthProvider.credential(
         identityToken,
         nonce,
       );
-  
+
       console.log('appleCredential appleCredential', appleCredential);
       return auth().signInWithCredential(appleCredential);
     } catch (error) {
@@ -196,7 +197,7 @@ const SocailLogin = ({
       }}>
       <View style={styles.textStyle}>
         <View style={styles.lineStyle}></View>
-        <Text style={{ color: appColors.White }}>{SocailLogin}</Text>
+        <Text style={{color: appColors.White}}>{SocailLogin}</Text>
         <View style={styles.lineStyle}></View>
       </View>
 
@@ -211,7 +212,7 @@ const SocailLogin = ({
           />
         </TouchableOpacity>
 
-        <TouchableOpacity >
+        <TouchableOpacity>
           <CustomIcon
             onPress={loginWithGoogle}
             type={Icons.AntDesign}
