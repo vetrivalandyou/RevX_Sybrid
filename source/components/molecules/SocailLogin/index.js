@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Text,
   View,
@@ -9,7 +9,7 @@ import {
   Platform,
   StyleSheet,
 } from 'react-native';
-import CustomIcon, {Icons} from '../CustomIcon/CustomIcon';
+import CustomIcon, { Icons } from '../CustomIcon/CustomIcon';
 import AppColors from '../../../AppConstants/appColors';
 import appColors from '../../../AppConstants/appColors';
 import styles from './styles';
@@ -34,7 +34,7 @@ async function onAppleButtonPress(setShowModal) {
     }
 
     // Create a Firebase credential from the response
-    const {identityToken, nonce} = appleAuthRequestResponse;
+    const { identityToken, nonce } = appleAuthRequestResponse;
     const appleCredential = auth.AppleAuthProvider.credential(
       identityToken,
       nonce,
@@ -53,6 +53,8 @@ const SocailLogin = ({
   iconSize,
   iconType,
   onPressIcon,
+  onPressGoogleLogin,
+  onPressFacebookLogin
 }) => {
   const [showModal, setShowModal] = useState(false);
 
@@ -80,7 +82,7 @@ const SocailLogin = ({
       }}>
       <View style={styles.textStyle}>
         <View style={styles.lineStyle}></View>
-        <Text style={{color: appColors.White}}>{SocailLogin}</Text>
+        <Text style={{ color: appColors.White }}>{SocailLogin}</Text>
         <View style={styles.lineStyle}></View>
       </View>
 
@@ -95,8 +97,9 @@ const SocailLogin = ({
           />
         </TouchableOpacity>
 
-        <TouchableOpacity onPress={onPressIcon}>
+        <TouchableOpacity >
           <CustomIcon
+            onPress={onPressGoogleLogin}
             type={Icons.AntDesign}
             name={'google'}
             color={AppColors.White}
@@ -104,8 +107,9 @@ const SocailLogin = ({
             size={30}
           />
         </TouchableOpacity>
-        <TouchableOpacity onPress={onPressIcon}>
+        <TouchableOpacity onPress={onPressFacebookLogin}>
           <CustomIcon
+            onPress={onPressFacebookLogin}
             type={Icons.FontAwesome}
             name={'facebook'}
             color={AppColors.White}

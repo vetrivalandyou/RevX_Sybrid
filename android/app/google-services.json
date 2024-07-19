@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "379767599880",
+    "project_id": "revxllc",
+    "storage_bucket": "revxllc.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:379767599880:android:5454ea3859d58dcd7372bd",
+        "android_client_info": {
+          "package_name": "com.revxmobileapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "379767599880-3t7pvflfu8u28ck99mshtva23sfr16ik.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC_sVl78ADsrZebX604OeP3N7llMcwob-I"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "379767599880-3t7pvflfu8u28ck99mshtva23sfr16ik.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "379767599880-b33kgjlumovqpstj2v234slgnqp3lsnv.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.proceed.RevXMobileApp"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

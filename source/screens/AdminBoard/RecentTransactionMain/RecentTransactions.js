@@ -22,6 +22,7 @@ import appColors from '../../../AppConstants/appColors';
 import {PostRequest} from '../../../services/apiCall';
 import {endPoint, imageUrl} from '../../../AppConstants/urlConstants';
 import {debounce} from '../../../functions/AppFunctions';
+import moment from 'moment';
 
 const RecentTransactions = ({route}) => {
   const {RecentTransaction} = route?.params || false;
@@ -240,8 +241,7 @@ const Transactioninfo = ({item}) => {
                 color: 'white',
                 fontSize: 11.5,
               }}>
-              28th April 2023
-              {/* {item.title} */}
+              {moment(item.CreatedDate).format('MMMM-DD-YYYY')}
             </Text>
           </View>
         </View>

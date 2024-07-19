@@ -1,5 +1,5 @@
-import React, {useState} from 'react';
-import {Text, View, TouchableOpacity} from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {Text, View, TouchableOpacity, Platform} from 'react-native';
 import * as Yup from 'yup';
 import {Formik} from 'formik';
 
@@ -19,11 +19,141 @@ import {SimpleSnackBar} from '../../components/atom/Snakbar/Snakbar';
 import {setAsyncItem} from '../../utils/SettingAsyncStorage';
 import {screenSize} from '../../components/atom/ScreenSize';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
+import {
+  GoogleSignin,
+  statusCodes,
+} from '@react-native-google-signin/google-signin';
+import {
+  LoginManager,
+  AccessToken,
+  GraphRequest,
+  GraphRequestManager,
+} from 'react-native-fbsdk-next';
 
 const Login = () => {
   const navigation = useNavigation();
   const [isPasswordVisible, setIsPasswordVisible] = React.useState(false);
   const [isEye, setIsEye] = useState(false);
+
+  const [initializing, setInitializing] = useState(true);
+  const [googleLogin, setGoogleLogin] = useState(false);
+  const [user, setUser] = useState();
+
+  if (Platform.OS == 'android') {
+    GoogleSignin.configure({
+      scopes: ['https://www.googleapis.com/auth/drive.readonly'],
+      webClientId: '379767599880-3t7pvflfu8u28ck99mshtva23sfr16ik.apps.googleusercontent.com',
+        // '379767599880-3t7pvflfu8u28ck99mshtva23sfr16ik.apps.googleusercontent.com',
+      scopes: ['profile', 'email'],
+    });
+  } else {
+    GoogleSignin.configure({
+      scopes: ['https://www.googleapis.com/auth/drive.readonly'],
+      webClientId:
+        '379767599880-b33kgjlumovqpstj2v234slgnqp3lsnv.apps.googleusercontent.com',
+      scopes: ['profile', 'email'],
+    });
+  }
+
+  const loginWithGoogle = async () => {
+    try {
+      await GoogleSignin.hasPlayServices();
+      const userInfo = await GoogleSignin.signIn();
+      console.log(userInfo);
+      // console.log(JSON.stringify(userInfo, null, 2));
+      setUser({userInfo});
+    } catch (error) {
+      console.log('err', error);
+      if (error.code === statusCodes.SIGN_IN_CANCELLED) {
+        // user cancelled the login flow
+      } else if (error.code === statusCodes.IN_PROGRESS) {
+        // operation (e.g. sign in) is in progress already
+      } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
+        // play services not available or outdated
+      } else {
+        // some other error happened
+      }
+    }
+  };
+
+  getInfoFromToken = token => {
+    const PROFILE_REQUEST_PARAMS = {
+      fields: {
+        string: 'id,name,first_name,last_name',
+      },
+    };
+    const profileRequest = new GraphRequest(
+      '/me',
+      {token, parameters: PROFILE_REQUEST_PARAMS},
+      (error, user) => {
+        if (error) {
+          console.log('login info has error: ' + error);
+        } else {
+          // setState({userInfo: user});
+          console.log('result:', user);
+        }
+      },
+    );
+    new GraphRequestManager().addRequest(profileRequest).start();
+  };
+
+  const handleFacebookLogin = async () => {
+    try {
+      const result = await LoginManager.logInWithPermissions([
+        'public_profile',
+        'email',
+        'user_hometown',
+        'user_birthday',
+      ]);
+
+      if (result.isCancelled) {
+        console.log('Login cancelled');
+      } else {
+        const accessTokenData = await AccessToken.getCurrentAccessToken();
+        if (accessTokenData) {
+          console.log(accessTokenData.accessToken.toString());
+          // You can use the accessTokenData.accessToken.toString() as needed
+        }
+
+        // Extract access token from the data
+        const {accessToken} = accessTokenData;
+
+        // Now you can use the accessToken to make requests to the Facebook Graph API to get user data
+
+        // Fetch user's email
+        const emailResponse = await fetch(
+          `https://graph.facebook.com/me?fields=email&access_token=${accessToken}`,
+        );
+        const emailData = await emailResponse.json();
+
+        // Fetch user's name and phone number
+        const profileResponse = await fetch(
+          `https://graph.facebook.com/me?fields=name,phone&access_token=${accessToken}`,
+        );
+        const profileData = await profileResponse.json();
+
+        // Combine all data
+        const userData = {
+          email: emailData.email,
+          name: profileData.name,
+          phone: profileData.phone,
+          // Add more fields as needed
+        };
+
+        AccessToken.getCurrentAccessToken().then(data => {
+          const accessToken = data.accessToken.toString();
+
+          this.getInfoFromToken(accessToken);
+        });
+
+        // Do something with the user data
+        console.log('userInfo', userData);
+        console.log('profile', profileData);
+      }
+    } catch (error) {
+      console.log('Error with Facebook login:', error);
+    }
+  };
 
   const validationSchema = Yup.object().shape({
     UserEmail: Yup.string()
@@ -60,6 +190,15 @@ const Login = () => {
         setSubmitting(false);
         console.log('fail');
       });
+  };
+
+  const signOut = async () => {
+    try {
+      await GoogleSignin.signOut();
+      setUser({user: null}); // Remember to remove the user from your app's state as well
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (
@@ -168,6 +307,7 @@ const Login = () => {
                     title={'Sign In'}
                     disabled={isSubmitting}
                     onPress={handleSubmit}
+                    // onPress={signOut}
                     isLoading={isSubmitting}
                   />
                 </View>
@@ -214,6 +354,8 @@ const Login = () => {
             iconName={'facebook'}
             iconType={Icons.FontAwesome}
             color={appColors.White}
+            onPressGoogleLogin={loginWithGoogle}
+            onPressFacebookLogin={handleFacebookLogin}
           />
         </View>
       </KeyboardAwareScrollView>

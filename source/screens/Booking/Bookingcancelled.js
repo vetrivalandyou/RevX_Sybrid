@@ -1,14 +1,27 @@
-import {View, Text, StyleSheet, Image, FlatList} from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  Image,
+  FlatList,
+  ActivityIndicator,
+} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {PostRequest} from '../../services/apiCall';
 import {useIsFocused} from '@react-navigation/native';
-import {endPoint} from '../../AppConstants/urlConstants';
+import {endPoint, imageUrl} from '../../AppConstants/urlConstants';
 import {ScreenSize, screenSize} from '../../components/atom/ScreenSize';
 import Completedbutton from '../../components/atom/BookingButtons/Completedbutton';
 import moment from 'moment';
+import appColors from '../../AppConstants/appColors';
+import BoxLottie from '../../components/atom/BoxLottie/BoxLottie';
+import { debounce } from '../../functions/AppFunctions';
 
 const Bookingcancelled = ({data, userDetails}) => {
   const isFocused = useIsFocused();
+  const [hasMore, setHasMore] = useState(true);
+  const [isLoading, setIsLoading] = useState(true);
+  const [pageNumber, setPageNumber] = useState(1);
   const [userCancelledBooking, setUserCancelledBooking] = useState([]);
   useEffect(() => {
     if (isFocused) getBookingCancelled();
@@ -21,15 +34,26 @@ const Bookingcancelled = ({data, userDetails}) => {
       customerID: userDetails?.userId,
       userID: 0,
       userIP: 'string',
+      _PageNumber: pageNumber,
+      _RowsOfPage: 10,
     };
     console.log('payload', payload);
     PostRequest(endPoint.BB_BOOKEDSLOTS, payload)
       .then(res => {
-        console.log('getBookingCancelled Response', res?.data);
-        setUserCancelledBooking(res?.data?.Table);
+        if (res?.data?.Table?.length > 0) {
+          setUserCancelledBooking(userCancelledBooking => [
+            ...userCancelledBooking,
+            ...res?.data?.Table,
+          ]);
+          setPageNumber(pageNumber + 1); // Increment the page number
+          setIsLoading(false);
+        } else {
+          setHasMore(false);
+        }
       })
       .catch(err => {
         console.log(err);
+        setIsLoading(false);
       });
   };
 
@@ -48,7 +72,7 @@ const Bookingcancelled = ({data, userDetails}) => {
             }}>
             <View style={{flex: 0.6}}>
               <Text style={{color: 'white', fontSize: 14}}>
-                {moment(item?.BookingDate).format('DD-MM-YYYY')} -{' '}
+                {moment(item?.BookingDate).format('MMMM-DD-YYYY')} -{' '}
                 {item?.SlotName}
               </Text>
             </View>
@@ -85,7 +109,7 @@ const Bookingcancelled = ({data, userDetails}) => {
             }}>
             <View style={{flex: 0.35, alignItems: 'center'}}>
               <Image
-                source={item.BarberProfileImage}
+                source={{ uri: `${imageUrl}${item.BarberProfileImage}`}}
                 style={{
                   height: '80%',
                   width: '82%',
@@ -94,7 +118,12 @@ const Bookingcancelled = ({data, userDetails}) => {
                 }}
               />
             </View>
-            <View style={{flexDirection: 'column', flex: 0.63, paddingHorizontal: 15}}>
+            <View
+              style={{
+                flexDirection: 'column',
+                flex: 0.63,
+                paddingHorizontal: 15,
+              }}>
               <Text style={{fontSize: 18, fontWeight: '600', color: 'white'}}>
                 {item?.BarberName}
               </Text>
@@ -106,7 +135,7 @@ const Bookingcancelled = ({data, userDetails}) => {
                     color: 'white',
                     marginVertical: 9,
                   }}>
-                  {item.CustomerName}
+                  {item.LocationName}
                 </Text>
               </View>
               <View>
@@ -122,14 +151,52 @@ const Bookingcancelled = ({data, userDetails}) => {
     );
   };
 
+  const renderFooter = () => {
+    if (hasMore == false) return null;
+    return (
+      <View style={{margin: 10}}>
+        <ActivityIndicator size="small" color={appColors.Goldcolor} />
+      </View>
+    );
+  };
+
+  const handleLoadMore = debounce(() => {
+    if (hasMore == true) {
+      getBookingCancelled();
+    }
+  }, 300);
+
   return (
-    <FlatList
-      data={userCancelledBooking}
-      showsVerticalScrollIndicator={false}
-      renderItem={({item, index}) => <ListBookingCanceled item={item} />}
-      // renderItem={({item}) => <listBookingCompleted item={item} />}
-      keyExtractor={item => item.BarbarBookedSlotID}
-    />
+    <>
+      {isLoading ? (
+        <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+          <ActivityIndicator size="small" color={appColors.Goldcolor} />
+        </View>
+      ) : (
+        <>
+          {userCancelledBooking?.length > 0 ? (
+            <FlatList
+              onEndReachedThreshold={0.5}
+              data={userCancelledBooking}
+              onEndReached={handleLoadMore}
+              ListFooterComponent={renderFooter}
+              showsVerticalScrollIndicator={false}
+              keyExtractor={(item, index) => index?.toString()}
+              renderItem={({item, index}) => (
+                <ListBookingCanceled item={item} />
+              )}
+            />
+          ) : (
+            <View
+              style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+              <BoxLottie
+                animationPath={require('../../LottieAnimation/NoPostFoundAnimation.json')}
+              />
+            </View>
+          )}
+        </>
+      )}
+    </>
   );
 };
 

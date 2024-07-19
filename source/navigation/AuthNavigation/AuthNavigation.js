@@ -1,6 +1,6 @@
 import React, {useEffect} from 'react';
 import {useSelector} from 'react-redux';
-import {NavigationContainer} from '@react-navigation/native';
+import {NavigationContainer, useNavigation} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import constants from '../../AppConstants/Constants.json';
 import {
@@ -20,6 +20,7 @@ import AdminStack from '../../../source/navigation/AdminBoardNavigation/index';
 import CreateAccountBarber from '../../screens/Auth/CreateAccountBarber';
 import OTP_Verification from '../../screens/Auth/ForgotPassword/OTP_Verification';
 import GetLocation from '../../utils/GetLocation';
+import DynamicLinks from '@react-native-firebase/dynamic-links';
 
 const AuthIndex = () => {
   const Stack = createNativeStackNavigator();
