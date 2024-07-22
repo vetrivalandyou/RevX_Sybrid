@@ -7,56 +7,31 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import {ScreenSize} from '../../components/atom/ScreenSize';
 
-// import Bookinglist from './PreBooking';
 import Bookingcompleted from './Bookingcompleted';
 import Bookingcancelled from './Bookingcancelled';
-import {useEffect, useRef, useState} from 'react';
+import { useEffect, useRef, useState } from 'react';
 import PreBooking from './PreBooking';
 import Header from '../../../components/molecules/Header';
-import {Icons} from '../../../components/molecules/CustomIcon/CustomIcon';
+import { Icons } from '../../../components/molecules/CustomIcon/CustomIcon';
 import constants from '../../../AppConstants/Constants.json';
 import Screen from '../../../components/atom/ScreenContainer/Screen';
 import styles from './styles';
-import {useIsFocused} from '@react-navigation/native';
-import {endPoint} from '../../../AppConstants/urlConstants';
-import {PostRequest} from '../../../services/apiCall';
-import {getAsyncItem} from '../../../utils/SettingAsyncStorage';
+import { useIsFocused } from '@react-navigation/native';
+import { endPoint } from '../../../AppConstants/urlConstants';
+import { PostRequest } from '../../../services/apiCall';
+import { getAsyncItem } from '../../../utils/SettingAsyncStorage';
 
-const MyBooking = ({navigation}) => {
+const MyBooking = ({ navigation }) => {
   const isFocused = useIsFocused();
   const activeButton = useRef('1');
   const [tabState, setTabState] = useState(false);
   const [userDetails, setUserDetails] = useState({});
   const [preBookingList, setPreBookingList] = useState({});
 
-  const initialBookingFields = {
-    operationID: 1,
-    parameterID: 0,
-    barbarID: 0,
-    parentServiceStatusID: 0,
-    childServiceStatusID: 0,
-    isActive: true,
-    userID: 0,
-    bookingDate: '2024-06-20T11:40:48.693Z',
-    userIP: 'string',
-    barbarBookedSlotID: 0,
-    remarks: 'string',
-    tbL_Approve_BB_ParentServices_: [
-      {
-        parentService_PK_ID: 0,
-        parentServiceStatusID: 0,
-      },
-    ],
-    tbL_Approve_BB_ChildServices_: [
-      {
-        childService_PK_ID: 0,
-        childServiceStatusID: 0,
-      },
-    ],
-  };
+  const [isLoading, setIsLoading] = useState(true);
+  const [hasMore, setHasMore] = useState(true);
+  const [pageNumber, setPageNumber] = useState(1);
 
   useEffect(() => {
     if (isFocused) {
@@ -69,17 +44,35 @@ const MyBooking = ({navigation}) => {
       constants.AsyncStorageKeys.userDetails,
     );
     setUserDetails(asyncUserDetails);
-    getPreBookings();
+    getPreBookings(asyncUserDetails);
   };
 
-  const getPreBookings = () => {
-    PostRequest(endPoint.ADMIN_APPOINTMENT_UAR, initialBookingFields)
+  const getPreBookings = asyncUserDetails => {
+    const payload = {
+      operationID: 4,
+      roleID: asyncUserDetails?._RoleId,
+      customerID: 0,
+      userID: asyncUserDetails?.userId,
+      userIP: 'string',
+      _PageNumber: pageNumber,
+      _RowsOfPage: 10,
+    };
+    console.log('payload', payload);
+    PostRequest(endPoint.BB_BOOKEDSLOTS, payload)
       .then(res => {
-        console.log('getPreBookings Response', res?.data);
-        setPreBookingList(res?.data);
+        console.log('getPreBookings My Booking Response', res?.data);
+        if (res?.data?.Table?.length > 0) {
+          setPreBookingList(res?.data?.Table);
+          setPageNumber(pageNumber + 1);
+          setIsLoading(false);
+        } else {
+          setIsLoading(false);
+          setHasMore(false);
+        }
       })
       .catch(err => {
         console.log(err);
+        setIsLoading(false);
       });
   };
 
@@ -148,7 +141,12 @@ const MyBooking = ({navigation}) => {
             userDetails={userDetails}
             preBookingList={preBookingList}
             setPreBookingList={setPreBookingList}
-            initialBookingFields={initialBookingFields}
+            isLoading={isLoading}
+            setIsLoading={setIsLoading}
+            hasMore={hasMore}
+            setHasMore={setHasMore}
+            pageNumber={pageNumber}
+            setPageNumber={setPageNumber}
           />
         );
 
@@ -157,7 +155,6 @@ const MyBooking = ({navigation}) => {
           <Bookingcompleted
             data={data}
             userDetails={userDetails}
-            initialBookingFields={initialBookingFields}
           />
         );
 
@@ -166,7 +163,7 @@ const MyBooking = ({navigation}) => {
           <Bookingcancelled
             data={data}
             userDetails={userDetails}
-            initialBookingFields={initialBookingFields}
+          // initialBookingFields={initialBookingFields}
           />
         );
 
@@ -175,11 +172,11 @@ const MyBooking = ({navigation}) => {
     }
   };
 
-  useEffect(() => {}, [activeButton]);
+  useEffect(() => { }, [activeButton]);
 
   return (
-    <Screen viewStyle={{padding: 15}} statusBarColor={appColors.Black}>
-      <View style={{flex: 0.1}}>
+    <Screen viewStyle={{ padding: 15 }} statusBarColor={appColors.Black}>
+      <View style={{ flex: 0.1 }}>
         <Header
           lefttIcoType={Icons.Ionicons}
           onPressLeftIcon={() => navigation.goBack()}
@@ -207,36 +204,36 @@ const MyBooking = ({navigation}) => {
         <TouchableOpacity
           style={[
             styles.Buttonview,
-            activeButton.current === '1' && {backgroundColor: '#c79647'}, // Change color based on active button
+            activeButton.current === '1' && { backgroundColor: '#c79647' }, // Change color based on active button
           ]}
           onPress={() => handleButtonPress('1')}>
-          <Text style={{fontWeight: '500', fontSize: 13, color: 'white'}}>
+          <Text style={{ fontWeight: '500', fontSize: 13, color: 'white' }}>
             Pre Booking
           </Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={[
             styles.Buttonview,
-            activeButton.current === '2' && {backgroundColor: '#c79647'},
+            activeButton.current === '2' && { backgroundColor: '#c79647' },
           ]}
           onPress={() => handleButtonPress('2')}>
-          <Text style={{fontWeight: '500', fontSize: 13, color: 'white'}}>
+          <Text style={{ fontWeight: '500', fontSize: 13, color: 'white' }}>
             Completed
           </Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={[
             styles.Buttonview,
-            activeButton.current === '3' && {backgroundColor: '#c79647'},
+            activeButton.current === '3' && { backgroundColor: '#c79647' },
           ]}
           onPress={() => handleButtonPress('3')}>
-          <Text style={{fontWeight: '500', fontSize: 13, color: 'white'}}>
+          <Text style={{ fontWeight: '500', fontSize: 13, color: 'white' }}>
             Cancelled
           </Text>
         </TouchableOpacity>
       </View>
 
-      <View style={{flex: 0.7}}>{renderComponent(activeButton)}</View>
+      <View style={{ flex: 0.7 }}>{renderComponent(activeButton)}</View>
     </Screen>
   );
 };

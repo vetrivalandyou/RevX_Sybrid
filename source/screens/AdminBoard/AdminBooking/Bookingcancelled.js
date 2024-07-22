@@ -1,50 +1,54 @@
-import {View, Text, StyleSheet, Image, FlatList} from 'react-native';
-import {ScreenSize, screenSize} from '../../../components/atom/ScreenSize';
-import React, {useEffect, useRef, useState} from 'react';
+import { View, Text, StyleSheet, Image, FlatList, ActivityIndicator } from 'react-native';
+import { ScreenSize, screenSize } from '../../../components/atom/ScreenSize';
+import React, { useEffect, useRef, useState } from 'react';
 import Completedbutton from '../../../components/atom/BookingButtons/Completedbutton';
 import styles from './styles';
 import Styles from '../../../components/atom/BookingButtons/Styles';
-import {useIsFocused} from '@react-navigation/native';
-import {endPoint} from '../../../AppConstants/urlConstants';
-import {PostRequest} from '../../../services/apiCall';
+import { useIsFocused } from '@react-navigation/native';
+import { endPoint } from '../../../AppConstants/urlConstants';
+import { PostRequest } from '../../../services/apiCall';
 import moment from 'moment';
 import appColors from '../../../AppConstants/appColors';
 import ButtonComponent from '../../../components/atom/CustomButtons/ButtonComponent';
 import CustomModal from '../../../components/molecules/CustomModal/CustomModal';
-import {SimpleSnackBar} from '../../../components/atom/Snakbar/Snakbar';
+import { SimpleSnackBar } from '../../../components/atom/Snakbar/Snakbar';
+import BoxLottie from '../../../components/atom/BoxLottie/BoxLottie';
 
-const Bookingcancelled = ({data, userDetails, initialBookingFields}) => {
+const Bookingcancelled = ({ data, userDetails, initialBookingFields }) => {
   const isFocused = useIsFocused();
 
-  const timeoutRef = useRef(null);
-  const [visible, setVisible] = useState(false);
-  const [userCancelledBooking, setUserCancelledBooking] = useState([]);
-  const [cancelledItem, setCancelledItem] = useState({});
+  const [isLoading, setIsLoading] = useState(true);
+  const [cancelledBooking, setCancelledBooking] = useState();
 
   useEffect(() => {
-    if (isFocused) getBookingCancelled();
-    return () => clearTimeout(timeoutRef.current);
+    if (isFocused) getCancelledBooking();
   }, [isFocused]);
 
-  const getBookingCancelled = () => {
+  const getCancelledBooking = () => {
     const payload = {
-      ...initialBookingFields,
-      operationID: 3,
+      operationID: 6,
+      roleID: userDetails?._RoleId,
+      customerID: 0,
+      userID: userDetails?.userId,
+      userIP: 'string',
     };
-    PostRequest(endPoint.ADMIN_APPOINTMENT_UAR, payload)
+    console.log('payload', payload);
+    PostRequest(endPoint.BB_BOOKEDSLOTS, payload)
       .then(res => {
-        console.log('UserCancelledBooking Response', res?.data);
-        setUserCancelledBooking(res?.data);
+        console.log('getPreBookings Response', res?.data);
+        setCancelledBooking(res?.data?.Table);
+        setIsLoading(false);
       })
       .catch(err => {
         console.log(err);
+        setIsLoading(false);
       });
   };
 
-  const ListBookingCanceled = ({item}) => {
+  const ListBookingCanceled = ({ item }) => {
     return (
       <View style={styles.Containerstyle}>
-        <View style={{flex: 1}}>
+        <View style={{ flex: 1 }}>
           <View style={styles.ContainerInnerview}>
             <View style={styles.Dateview}>
               <Text style={styles.DateTextstyle}>
@@ -54,13 +58,13 @@ const Bookingcancelled = ({data, userDetails, initialBookingFields}) => {
               </Text>
             </View>
 
-            <View style={{flex: item?.StatusID == 12 ? 0.25 : 0.4}}>
+            <View style={{ flex: item?.StatusID == 12 ? 0.25 : 0.4 }}>
               <Completedbutton
                 title={
                   item?.StatusID == 12 ? 'Cancel' : 'Request for Cancellation'
                 }
-                style={{backgroundColor: '#e81f1c'}}
-                textstyle={{color: 'white'}}
+                style={{ backgroundColor: '#e81f1c' }}
+                textstyle={{ color: 'white' }}
                 onPress={() => {
                   if (item?.StatusID == 13) {
                     setCancelledItem(item);
@@ -133,137 +137,28 @@ const Bookingcancelled = ({data, userDetails, initialBookingFields}) => {
     );
   };
 
-  const onPressReject = () => {
-    console.log('Rejected');
-    getAcceptRejectAppointment(5);
-  };
-
-  const onPressAccept = () => {
-    console.log('Accept');
-    getAcceptRejectAppointment(4);
-  };
-
-  console.log('cancelledItem', cancelledItem);
-
-  const getAcceptRejectAppointment = operation => {
-    const payload = {
-      ...initialBookingFields,
-      operationID: operation,
-      bookingDate: cancelledItem?.BookingDate,
-      barbarBookedSlotID: cancelledItem?.BarbarBookedSlotID,
-    };
-    console.log('payload', payload);
-
-    PostRequest(endPoint.ADMIN_APPOINTMENT_UAR, payload)
-      .then(res => {
-        console.log('Booking Accept Or Reject', res?.data);
-        if (res?.data?.[0]?.Haserror == 0) {
-          SimpleSnackBar(res?.data?.[0]?.Message);
-          timeoutRef.current = setTimeout(() => setVisible(false), 3000);
-        } else {
-          SimpleSnackBar(res?.data?.[0]?.Message);
-        }
-      })
-      .catch(err => {
-        console.log(err);
-        SimpleSnackBar(res?.data?.[0]?.Message, appColors.Red);
-      });
-  };
-
-  const CustomModalView = () => {
-    return (
-      <View style={{flex: 1}}>
-        <View
-          style={{
-            flex: 0.55,
-            borderTopRightRadius: 25,
-            borderTopLeftRadius: 25,
-            backgroundColor: appColors.Goldcolor,
-          }}>
-          <View
-            style={{flex: 0.5, justifyContent: 'center', alignItems: 'center'}}>
-            <Text
-              style={{
-                color: appColors.White,
-                fontWeight: 'bold',
-                fontSize: 18,
-              }}>
-              Are you sure?
-            </Text>
-          </View>
-          <View
-            style={{
-              flex: 0.55,
-              justifyContent: 'flex-start',
-              alignItems: 'center',
-            }}>
-            <Text
-              style={{
-                color: appColors.White,
-                fontWeight: '400',
-                fontSize: 15,
-                textAlign: 'center',
-              }}>
-              You want to Accept Barber Cancellation request?
-            </Text>
-          </View>
-        </View>
-        <View
-          style={{
-            flex: 0.4,
-            flexDirection: 'row',
-          }}>
-          <View
-            style={{
-              flex: 0.5,
-              justifyContent: 'center',
-              alignItems: 'center',
-            }}>
-            <ButtonComponent
-              btnColor={appColors.White}
-              btnTextColor={{color: appColors.Goldcolor}}
-              style={{
-                width: '75%',
-                borderWidth: 1,
-                borderColor: appColors.Goldcolor,
-              }}
-              title={'Reject'}
-              onPress={onPressReject}
-            />
-          </View>
-          <View
-            style={{
-              flex: 0.5,
-              justifyContent: 'center',
-              alignItems: 'center',
-            }}>
-            <ButtonComponent
-              style={{
-                backgroundColor: appColors.Goldcolor,
-                width: '75%',
-              }}
-              title={'Accept'}
-              onPress={onPressAccept}
-            />
-          </View>
-        </View>
-      </View>
-    );
-  };
-
   return (
     <>
-      <CustomModal
-        visible={visible}
-        modalHeight={{height: screenSize.height / 4}}
-        CustomModalView={CustomModalView}
-      />
-      <FlatList
-        data={userCancelledBooking}
-        showsVerticalScrollIndicator={false}
-        keyExtractor={item => item.BarbarBookedSlotID}
-        renderItem={({item, index}) => <ListBookingCanceled item={item} />}
-      />
+      <>
+        {isLoading ? (
+          <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+            <ActivityIndicator size="small" color={appColors.Goldcolor} />
+          </View>
+        ) : cancelledBooking?.length > 0 ? (
+          <FlatList
+            data={cancelledBooking}
+            keyExtractor={item => item.BarbarBookedSlotID}
+            showsVerticalScrollIndicator={false}
+            renderItem={({ item, index }) => <ListBookingCanceled item={item} />}
+          />
+        ) : (
+          <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+            <BoxLottie
+              animationPath={require('../../../LottieAnimation/NoPostFoundAnimation.json')}
+            />
+          </View>
+        )}
+      </>
     </>
   );
 };

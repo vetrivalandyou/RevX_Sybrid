@@ -1,16 +1,21 @@
-import {View, Text, StyleSheet, Image, FlatList} from 'react-native';
+import { View, Text, StyleSheet, Image, FlatList, ActivityIndicator } from 'react-native';
 import Bookingbutton from '../../components/atom/BookingButtons/Bookingbutton';
-import {ScreenSize, screenSize} from '../../components/atom/ScreenSize';
-import React, {useEffect, useState} from 'react';
+import { ScreenSize, screenSize } from '../../components/atom/ScreenSize';
+import React, { useEffect, useState } from 'react';
 import Completedbutton from '../../components/atom/BookingButtons/Completedbutton';
 import AntDesign from 'react-native-vector-icons/AntDesign';
-import {useIsFocused} from '@react-navigation/native';
-import {PostRequest} from '../../services/apiCall';
-import {endPoint} from '../../AppConstants/urlConstants';
+import { useIsFocused } from '@react-navigation/native';
+import { PostRequest } from '../../services/apiCall';
+import { endPoint } from '../../AppConstants/urlConstants';
 import moment from 'moment';
-const Bookingcompleted = ({data, userDetails}) => {
+import BoxLottie from '../../components/atom/BoxLottie/BoxLottie';
+const Bookingcompleted = ({ data, userDetails }) => {
   const isFocused = useIsFocused();
   const [userCompletedBooking, setUserCompletedBooking] = useState([]);
+
+  const [isLoading, setIsLoading] = useState(true);
+  const [hasMore, setHasMore] = useState(true);
+  const [pageNumber, setPageNumber] = useState(1);
 
   useEffect(() => {
     if (isFocused) getCompletedBooking();
@@ -23,22 +28,26 @@ const Bookingcompleted = ({data, userDetails}) => {
       customerID: userDetails?.userId,
       userID: 0,
       userIP: 'string',
+      _PageNumber: pageNumber,
+      _RowsOfPage: 10,
     };
     console.log('payload', payload);
     PostRequest(endPoint.BB_BOOKEDSLOTS, payload)
       .then(res => {
         console.log('Bookingcompleted Response', res?.data);
         setUserCompletedBooking(res?.data?.Table);
+        setIsLoading(false);
       })
       .catch(err => {
         console.log(err);
+        setIsLoading(false);
       });
   };
 
-  const ListBookingCompleted = ({item}) => {
+  const ListBookingCompleted = ({ item }) => {
     return (
       <View style={styles.Containerstyle}>
-        <View style={{flex: 1, borderRadius: 20}}>
+        <View style={{ flex: 1, borderRadius: 20 }}>
           <View
             style={{
               flexDirection: 'row',
@@ -47,9 +56,9 @@ const Bookingcompleted = ({data, userDetails}) => {
               marginHorizontal: 15,
               marginTop: 5,
             }}>
-            <View style={{flex: 0.6, justifyContent: 'center'}}>
-              <Text style={{color: 'white', fontSize: 14}}>
-                {moment(item?.BookingDate).format('DD-MM-YYYY')} -{' '}
+            <View style={{ flex: 0.6, justifyContent: 'center' }}>
+              <Text style={{ color: 'white', fontSize: 14 }}>
+                {moment(item?.BookingDate).format('MMMM DD, YYYY')} -{' '}
                 {item?.SlotName}
               </Text>
             </View>
@@ -67,19 +76,19 @@ const Bookingcompleted = ({data, userDetails}) => {
                     alignItems: 'center',
                   }}>
                   <AntDesign name={'staro'} size={12} color={'#c79647'} />
-                  <Text style={{color: '#c79647', fontSize: 11}}>
+                  <Text style={{ color: '#c79647', fontSize: 11 }}>
                     {/* {item.item.rating} */}
                     4.5
                   </Text>
                 </View>
               </View>
             </View>
-            <View style={{flex: 0.2, justifyContent: 'center'}}>
+            <View style={{ flex: 0.2, justifyContent: 'center' }}>
               <Completedbutton title={'Completed'} />
             </View>
           </View>
 
-          <View style={{position: 'relative', marginHorizontal: 15}}>
+          <View style={{ position: 'relative', marginHorizontal: 15 }}>
             <View
               style={{
                 position: 'absolute',
@@ -101,7 +110,7 @@ const Bookingcompleted = ({data, userDetails}) => {
               justifyContent: 'center',
               alignItems: 'center',
             }}>
-            <View style={{flex: 0.35, alignItems: 'center'}}>
+            <View style={{ flex: 0.35, alignItems: 'center' }}>
               <Image
                 source={item.BarberProfileImage}
                 style={{
@@ -112,8 +121,8 @@ const Bookingcompleted = ({data, userDetails}) => {
                 }}
               />
             </View>
-            <View style={{flexDirection: 'column', flex: 0.63, paddingHorizontal: 15}}>
-              <Text style={{fontSize: 18, fontWeight: '600', color: 'white'}}>
+            <View style={{ flexDirection: 'column', flex: 0.63, paddingHorizontal: 15 }}>
+              <Text style={{ fontSize: 18, fontWeight: '600', color: 'white' }}>
                 {item?.BarberName}
               </Text>
               <View>
@@ -129,7 +138,7 @@ const Bookingcompleted = ({data, userDetails}) => {
               </View>
               <View>
                 <Text
-                  style={{fontSize: 10, fontWeight: '400', color: '#c79647'}}>
+                  style={{ fontSize: 10, fontWeight: '400', color: '#c79647' }}>
                   {item.serviceNames}
                 </Text>
               </View>
@@ -143,7 +152,7 @@ const Bookingcompleted = ({data, userDetails}) => {
               justifyContent: 'space-evenly',
             }}>
             <Bookingbutton
-              style={{width: '90%', height: '55%'}}
+              style={{ width: '90%', height: '55%' }}
               title={'View E-Receipt'}
             />
           </View>
@@ -153,13 +162,26 @@ const Bookingcompleted = ({data, userDetails}) => {
   };
 
   return (
-    <FlatList
-      data={userCompletedBooking}
-      showsVerticalScrollIndicator={false}
-      renderItem={({item, index}) => <ListBookingCompleted item={item} />}
-      // renderItem={({item}) => <listBookingCompleted item={item} />}
-      keyExtractor={item => item.BarbarBookedSlotID}
-    />
+    <>
+      {isLoading ? (
+        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+          <ActivityIndicator size="small" color={appColors.Goldcolor} />
+        </View>
+      ) : userCompletedBooking?.length > 0 ? (
+        <FlatList
+          data={userCompletedBooking}
+          showsVerticalScrollIndicator={false}
+          renderItem={({ item, index }) => <ListBookingCompleted item={item} />}
+          keyExtractor={item => item.BarbarBookedSlotID}
+        />
+      ) : (
+        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+          <BoxLottie
+            animationPath={require('../../LottieAnimation/NoPostFoundAnimation.json')}
+          />
+        </View>
+      )}
+    </>
   );
 };
 

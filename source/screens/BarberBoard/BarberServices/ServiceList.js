@@ -1,26 +1,26 @@
-import React, {useState, useEffect, useRef} from 'react';
-import {FlatList, Text, TouchableOpacity, View, Image} from 'react-native';
+import React, { useState, useEffect, useRef } from 'react';
+import { FlatList, Text, TouchableOpacity, View, Image } from 'react-native';
 import styles from './styles';
-import {useIsFocused} from '@react-navigation/native';
+import { useIsFocused } from '@react-navigation/native';
 import DeleteSubServices from './DeleteSubServices';
-import {PostRequest} from '../../../services/apiCall';
+import { PostRequest } from '../../../services/apiCall';
 import appColors from '../../../AppConstants/appColors';
 import Header from '../../../components/molecules/Header';
-import {AppImages} from '../../../AppConstants/AppImages';
+import { AppImages } from '../../../AppConstants/AppImages';
 import constants from '../../../AppConstants/Constants.json';
-import {getAsyncItem} from '../../../utils/SettingAsyncStorage';
-import {LATEST_SELECT, approve} from '../../../AppConstants/appConstants';
+import { getAsyncItem } from '../../../utils/SettingAsyncStorage';
+import { LATEST_SELECT, approve } from '../../../AppConstants/appConstants';
 import Screen from '../../../components/atom/ScreenContainer/Screen';
-import {SimpleSnackBar} from '../../../components/atom/Snakbar/Snakbar';
+import { SimpleSnackBar } from '../../../components/atom/Snakbar/Snakbar';
 import CustomIcon, {
   Icons,
 } from '../../../components/molecules/CustomIcon/CustomIcon';
-import {endPoint, imageUrl, messages} from '../../../AppConstants/urlConstants';
+import { endPoint, imageUrl, messages } from '../../../AppConstants/urlConstants';
 import ButtonComponent from '../../../components/atom/CustomButtons/ButtonComponent';
 import BottomSheet from '../../../components/molecules/BottomSheetContent/BottomSheet';
 
-const ServiceList = ({navigation, route}) => {
-  const {item} = route.params;
+const ServiceList = ({ navigation, route }) => {
+  const { item } = route.params;
   console.log('itemitemitemitem', item);
   const isFocused = useIsFocused();
   const [subServices, setSubServices] = useState([]);
@@ -64,22 +64,22 @@ const ServiceList = ({navigation, route}) => {
 
   return (
     <Screen
-      viewStyle={{flex: 1, padding: 15, backgroundColor: appColors.Black}}
+      viewStyle={{ flex: 1, padding: 15, backgroundColor: appColors.Black }}
       statusBarColor={appColors.Black}>
-      <View style={{flex: 0.1, backgroundColor: appColors.Black}}>
+      <View style={{ flex: 0.1, backgroundColor: appColors.Black }}>
         <Header
-          headerSubView={{marginHorizontal: 5}}
+          headerSubView={{ marginHorizontal: 5 }}
           lefttIcoType={Icons.Ionicons}
           onPressLeftIcon={() => navigation.goBack()}
           leftIcoName={'chevron-back'}
           headerText={'Sub Services'}
         />
       </View>
-      <View style={{flex: 0.8}}>
+      <View style={{ flex: 0.8 }}>
         <FlatList
           data={subServices}
           keyExtractor={item => item?.servicesId?.toString()}
-          renderItem={({item}) => <Servicedetails item={item} />}
+          renderItem={({ item }) => <Servicedetails item={item} />}
         />
       </View>
       <View style={styles.buttonView}>
@@ -90,7 +90,7 @@ const ServiceList = ({navigation, route}) => {
             bottom: 1,
             position: 'absolute',
           }}
-          btnTextColor={{color: 'white'}}
+          btnTextColor={{ color: 'white' }}
           title={'Request Sub Service'}
           onPress={() =>
             navigation.navigate(constants.BarberScreen.AddSubservices, {
@@ -104,7 +104,7 @@ const ServiceList = ({navigation, route}) => {
   );
 };
 
-const Servicedetails = ({item, onPress}) => {
+const Servicedetails = ({ item, onPress }) => {
   const refRBSheet = useRef();
   return (
     <TouchableOpacity key={item.servicesId} onPress={onPress}>
@@ -119,12 +119,12 @@ const Servicedetails = ({item, onPress}) => {
             }}>
             {item.serviceImage != '' && (
               <Image
-                style={{width: 45, height: 45, borderRadius: 100}}
-                source={{uri: `${imageUrl}/${item.serviceImage}`}}
+                style={{ width: 45, height: 45, borderRadius: 100 }}
+                source={{ uri: `${imageUrl}/${item.serviceImage}` }}
               />
             )}
           </View>
-          <View style={{flex: 0.35, marginLeft: 10, justifyContent: 'center'}}>
+          <View style={{ flex: 0.35, marginLeft: 10, justifyContent: 'center' }}>
             <Text
               style={{
                 color: 'white',
@@ -141,7 +141,7 @@ const Servicedetails = ({item, onPress}) => {
               alignItems: 'center',
               flex: 0.2,
             }}>
-            <Text style={{color: '#c79647', fontSize: 14, fontWeight: '600'}}>
+            <Text style={{ color: '#c79647', fontSize: 14, fontWeight: '600' }}>
               ${item.servicePrice}
             </Text>
           </View>
@@ -152,53 +152,59 @@ const Servicedetails = ({item, onPress}) => {
               alignItems: 'center',
               flex: 0.3,
             }}>
-            <Text
-              style={{
-                backgroundColor:
-                  item?.servicesStatusId == approve
-                    ? appColors.Sucess
-                    : item?.servicesStatusId == 9
+            <View style={{
+              justifyContent:'center',
+              alignItems:'center',
+              backgroundColor:
+                item?.servicesStatusId == approve
+                  ? appColors.Sucess
+                  : item?.servicesStatusId == 9
                     ? appColors.Goldcolor
                     : appColors.Reject,
-                color: appColors.White,
-                paddingHorizontal: 10,
-                paddingVertical: 4,
-                borderRadius: 20,
-                fontSize: 11,
-                fontWeight: '400',
-              }}>
-              {item?.servicesStatusId == 9 ? (
-                <>
-                  Pending{' '}
-                  <CustomIcon
-                    name="clock"
-                    type={Icons.Octicons}
-                    size={11}
-                    color={appColors.White}
-                  />
-                </>
-              ) : item?.servicesStatusId == 10 ? (
-                <>
-                  Approved{' '}
-                  <CustomIcon
-                    name="check-square-o"
-                    type={Icons.FontAwesome}
-                    size={11}
-                    color={appColors.White}
-                  />
-                </>
-              ) : (
-                <>
-                  Rejected{' '}
-                  <CustomIcon
-                    name="circle-with-cross"
-                    type={Icons.Entypo}
-                    size={11}
-                    color={appColors.White}
-                  />
-                </>
-              )}
-            </Text>
+              paddingHorizontal: 10,
+              paddingVertical: 7,
+              borderRadius: 20,
+            }}>
+              <Text
+                style={{
+                  fontSize: 11,
+                  fontWeight: '400',
+                  color: appColors.White,
+                }}>
+                {item?.servicesStatusId == 9 ? (
+                  <>
+                    Pending{' '}
+                    <CustomIcon
+                      name="clock"
+                      type={Icons.Octicons}
+                      size={11}
+                      color={appColors.White}
+                    />
+                  </>
+                ) : item?.servicesStatusId == 10 ? (
+                  <>
+                    Approved{' '}
+                    <CustomIcon
+                      name="check-square-o"
+                      type={Icons.FontAwesome}
+                      size={11}
+                      color={appColors.White}
+                    />
+                  </>
+                ) : (
+                  <>
+                    Rejected{' '}
+                    <CustomIcon
+                      name="circle-with-cross"
+                      type={Icons.Entypo}
+                      size={11}
+                      color={appColors.White}
+                    />
+                  </>
+                )}
+              </Text>
+            </View>
+
           </View>
           {/* <TouchableOpacity
             onPress={() => refRBSheet.current.open()}
