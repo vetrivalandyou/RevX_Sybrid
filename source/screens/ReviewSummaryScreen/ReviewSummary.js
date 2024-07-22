@@ -51,6 +51,12 @@ const ReviewSummary = ({route}) => {
   const [userLongLat, setUserLongLat] = useState();
   const [address, setAddress] = useState();
 
+  console.log("selectedSlotIdselectedSlotIdselectedSlotId",selectedSlotId)
+  console.log("barberDetails",barberDetails)
+  console.log("specialistDetails",specialistDetails)
+  console.log("userLongLat",userLongLat)
+  console.log("SelectedChildServices",SelectedChildServices)
+
   useEffect(() => {
     if (isFocused) {
       getUserDetail();
@@ -73,35 +79,61 @@ const ReviewSummary = ({route}) => {
     setIsLoading(false);
   };
 
+  const returnTotalDuration = () => {
+    if (SelectedChildServices?.length == 0) {
+      return 0;
+    } else {
+      const totalDuration = SelectedChildServices?.reduce(
+        (accumulator, currentValue) =>
+          accumulator + currentValue.ServiceDuration,
+        0,
+      );
+      return totalDuration;
+    }
+  };
+
+  const markPayment = () => {
+    const makingServicesData = SelectedChildServices?.map(x => ({
+      serviceId: x.ChildServiceID,
+      serviceName: x.ChildService,
+    }));
+    const payload = {
+      operationID: 7,
+      durationMinutes: returnTotalDuration(),
+      barberID: specialistDetails?.userId,
+      barberName: specialistDetails?.userName,
+      slotID: selectedSlotId?.SlotID,
+      slotName: selectedSlotId?.Slot,
+      customerID: userDetails?.userId,
+      customerName: userDetails?.userName,
+      bookingDate: seelectedDate,
+      transactionID: '',
+      isPaid: 0,
+      services: JSON.stringify(makingServicesData),
+      isActive: true,
+      userID: 0,
+      userIP: 'string',
+      longitude: userLongLat?.coords?.longitude,
+      latitude: userLongLat?.coords?.latitude,
+      locationName: address,
+      remarks: 'string',
+      barbarBookedSlotID: 0,
+    };
+    console.log('fetchSelectedTimeSlot Payload', payload);
+    PostRequest(endPoint?.BARBER_AVAILABLESLOTS, payload)
+      .then(res => {
+        console.log('res?.data fetchSelectedTimeSlot', res?.data);
+        if(res?.data?.Table?.[0]?.HasError == 0){
+          handleConfirmPayment()
+        }
+      })
+      .catch(err => {
+        console.log('err', err);
+      });
+  };
+
   const handleConfirmPayment = () => {
     setPaymentLoading(true);
-    // const makingServicesData = SelectedChildServices?.map(x => ({
-    //   serviceId: x.ChildServiceID,
-    //   serviceName: x.ChildService,
-    // }));
-
-    // const payload = {
-    //   operationID: APPOINTMENT_ID,
-    //   durationMinutes: returnTotalDuration(),
-    //   bookingDate: seelectedDate,
-    //   barberID: barberDetails?.UserId,
-    //   barberName: specialistDetails?.userName,
-    //   slotID: selectedSlotId?.SlotID,
-    //   slotName: selectedSlotId?.Slot,
-    //   customerID: userDetails?.userId,
-    //   customerName: userDetails?.userName,
-    //   transactionID: 'ABC-123',
-    //   longitude: userLongLat?.coords?.longitude,
-    //   latitude: userLongLat?.coords?.latitude,
-    //   locationName: address,
-    //   isPaid: 1,
-    //   services: JSON.stringify(makingServicesData),
-    //   isActive: true,
-    //   userID: 0,
-    //   userIP: 'string',
-    //   remarks: 'string',
-    //   barbarBookedSlotID: 0,
-    // };
     const payload = {
       ...initialBuyServiceFields,
       amount: returnTotal(SelectedChildServices),
@@ -239,7 +271,7 @@ const ReviewSummary = ({route}) => {
           </View>
         </View>
       </View>
-      <TouchableOpacity onPress={handleConfirmPayment} style={styles.Button}>
+      <TouchableOpacity onPress={markPayment} style={styles.Button}>
         <Text style={{fontWeight: '700', fontSize: 13, color: 'white'}}>
           {' '}
           Confirm Payment
