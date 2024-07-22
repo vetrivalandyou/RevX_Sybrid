@@ -121,6 +121,7 @@ const MyBooking = ({navigation}) => {
           setIsLoading(false);
         } else {
           setHasMore(false);
+          setIsLoading(false);
         }
       })
       .catch(err => {

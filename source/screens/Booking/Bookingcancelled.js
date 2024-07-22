@@ -49,6 +49,7 @@ const Bookingcancelled = ({data, userDetails}) => {
           setIsLoading(false);
         } else {
           setHasMore(false);
+          setIsLoading(false);
         }
       })
       .catch(err => {

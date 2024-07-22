@@ -49,7 +49,7 @@ const MyBooking = ({ navigation }) => {
 
   const getPreBookings = asyncUserDetails => {
     const payload = {
-      operationID: 1,
+      operationID: 4,
       roleID: asyncUserDetails?._RoleId,
       customerID: 0,
       userID: asyncUserDetails?.userId,

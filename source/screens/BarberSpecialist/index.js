@@ -19,6 +19,7 @@ import {endPoint} from '../../AppConstants/urlConstants';
 import {AppImages} from '../../AppConstants/AppImages';
 import {SimpleSnackBar} from '../../components/atom/Snakbar/Snakbar';
 import {approve} from '../../AppConstants/appConstants';
+import { screenSize } from '../../components/atom/ScreenSize';
 
 const BarberSpecialist = ({navigation}) => {
   const [barberList, setBarberList] = useState([]);
@@ -49,25 +50,25 @@ const BarberSpecialist = ({navigation}) => {
     return (
       <View
         style={{
+          height: screenSize.height / 11.5,
           backgroundColor: appColors.darkgrey,
           paddingVertical: 7,
           paddingHorizontal: 12,
           borderRadius: 70,
           flexDirection: 'row',
-          marginVertical: 5,
         }}>
         <TouchableOpacity
+        style={{ flex: 0.2, justifyContent:'center', alignItems:'center'}}
           onPress={() => navigation.navigate(constants.screen.BarberProfile)}>
-          <Image source={AppImages.bb1} style={{marginRight: 10}} />
-          {/* <Image source={{uri: item?.ProfileImage}} style={{}} /> */}
+          <Image source={AppImages.bb1} />
         </TouchableOpacity>
-        <View style={{flex: 1, flexDirection: 'row'}}>
-          <View style={{flex: 0.8, justifyContent: 'center'}}>
+        <View style={{flex: 0.8, flexDirection: 'row'}}>
+          <View style={{flex: 0.6, paddingHorizontal: 5, justifyContent: 'center'}}>
             <Text style={{color: appColors.White, fontSize: 18, marginLeft: 5}}>
               {item?.userName}
             </Text>
           </View>
-          <View style={{flex: 0.5, justifyContent: 'center'}}>
+          <View style={{flex: 0.4, justifyContent: 'center'}}>
             {console.log('itemitemitemitem', item)}
 
             <ButtonComponent

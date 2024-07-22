@@ -5,7 +5,7 @@ import appColors from '../../../AppConstants/appColors';
 export default StyleSheet.create({
   container: {
     width: screenSize.width / 1.1,
-    height: screenSize.height / 10,
+    height: screenSize.height / 11.5,
     borderWidth: 1,
     borderRadius: 10,
     backgroundColor: '#252525',

@@ -26,7 +26,7 @@ const Bookingcancelled = ({ data, userDetails, initialBookingFields }) => {
 
   const getCancelledBooking = () => {
     const payload = {
-      operationID: 3,
+      operationID: 6,
       roleID: userDetails?._RoleId,
       customerID: 0,
       userID: userDetails?.userId,
