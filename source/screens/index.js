@@ -62,6 +62,7 @@ import AdminUserDetails from './AdminBoard/AdminUserDetails';
 import AdminProfile from './AdminBoard/AdminProfile/AdminProfile';
 import AdminViewUsers from './AdminBoard/AdminViewUsers';
 import AdminBooking from './AdminBoard/AdminBooking/MyBooking';
+import PaymentStatus from './PaymentStatus';
 
 export {
   SplashScreen,
@@ -128,4 +129,5 @@ export {
   AdminProfile,
   AdminViewUsers,
   AdminBooking,
+  PaymentStatus,
 };

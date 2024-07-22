@@ -1,21 +1,21 @@
-import React, {useEffect} from 'react';
+import React, { useEffect } from 'react';
 import Header from '../../components/molecules/Header';
-import {Calendar, LocaleConfig} from 'react-native-calendars';
-import {StyleSheet, FlatList, Text, View, TouchableOpacity} from 'react-native';
+import { Calendar, LocaleConfig } from 'react-native-calendars';
+import { StyleSheet, FlatList, Text, View, TouchableOpacity, Platform } from 'react-native';
 import Screen from '../../components/atom/ScreenContainer/Screen';
-import {Icons} from '../../components/molecules/CustomIcon/CustomIcon';
+import { Icons } from '../../components/molecules/CustomIcon/CustomIcon';
 import appColors from '../../AppConstants/appColors';
 import ButtonComponent from '../../components/atom/CustomButtons/ButtonComponent';
 import constants from '../../AppConstants/Constants.json';
-import {PostRequest} from '../../services/apiCall';
-import {endPoint} from '../../AppConstants/urlConstants';
-import {useSelector} from 'react-redux';
-import {screenSize} from '../../components/atom/ScreenSize';
-import {LATEST_SELECT} from '../../AppConstants/appConstants';
+import { PostRequest } from '../../services/apiCall';
+import { endPoint } from '../../AppConstants/urlConstants';
+import { useSelector } from 'react-redux';
+import { screenSize } from '../../components/atom/ScreenSize';
+import { LATEST_SELECT } from '../../AppConstants/appConstants';
 
-const AppointmentDate = ({route, navigation}) => {
-  const {barberDetails, specialistDetails} = route.params;
-  const {SelectedChildServices} = useSelector(
+const AppointmentDate = ({ route, navigation }) => {
+  const { barberDetails, specialistDetails } = route.params;
+  const { SelectedChildServices } = useSelector(
     state => state.AppointmentReducer,
   );
 
@@ -75,7 +75,7 @@ const AppointmentDate = ({route, navigation}) => {
       });
   };
 
-  const SelectedHourse = ({item}) => {
+  const SelectedHourse = ({ item }) => {
     return (
       <TouchableOpacity
         onPress={() => setSelectedSlotId(item)}
@@ -109,8 +109,8 @@ const AppointmentDate = ({route, navigation}) => {
     <Screen
       statusBarColor={appColors.Black}
       barStyle="light-content"
-      viewStyle={{backgroundColor: appColors.Black, padding: 5}}>
-      <View style={{flex: 0.1}}>
+      viewStyle={{ backgroundColor: appColors.Black, padding: 5 }}>
+      <View style={{ flex: 0.1 }}>
         <Header
           lefttIcoType={Icons.Ionicons}
           onPressLeftIcon={() => navigation.goBack()}
@@ -134,7 +134,7 @@ const AppointmentDate = ({route, navigation}) => {
         />
       </View>
 
-      <View style={{flex: 0.42}}>
+      <View style={{ flex: Platform.OS == 'ios' ? 0.35 : 0.5, justifyContent: "center" }}>
         <Calendar
           style={{
             borderRadius: 20,
@@ -194,19 +194,19 @@ const AppointmentDate = ({route, navigation}) => {
 
       <View
         style={{
-          flexDirection: 'row',
           flex: 0.08,
+          flexDirection: 'row',
           alignItems: 'flex-end',
           marginHorizontal: 10,
         }}>
-        <Text style={{color: appColors.White, fontSize: 20}}>
+        <Text style={{ color: appColors.White, fontSize: 20 }}>
           Selected Hours
         </Text>
       </View>
 
       <View
         style={{
-          flex: 0.3,
+          flex: 0.35,
           padding: 5,
           justifyContent: 'center',
         }}>
@@ -240,11 +240,12 @@ const AppointmentDate = ({route, navigation}) => {
           </View>
         ) : (
           <FlatList
-            data={availableSlots}
             numColumns={2}
+            showsVerticalScrollIndicator={false}
+            data={availableSlots}
             keyExtractor={(item, index) => index.toString()}
             // ListEmptyComponent={renderEmptyComponent}
-            renderItem={({item, index}) => (
+            renderItem={({ item, index }) => (
               <SelectedHourse key={item.SlotID} item={item} />
             )}
           />

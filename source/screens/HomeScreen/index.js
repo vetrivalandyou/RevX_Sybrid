@@ -557,6 +557,7 @@ const HomeScreen = ({navigation}) => {
                   alignItems: 'center',
                 }}>
                 <CustomIcon
+                onPress={() => navigation.navigate(constants.screen.PaymentStatus)}
                   type={Icons.Feather}
                   name={'filter'}
                   color={appColors.White}

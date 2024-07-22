@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
   BarberSpecialist,
   Booking,
@@ -12,20 +12,45 @@ import CustomIcon, {Icons} from '../components/molecules/CustomIcon/CustomIcon';
 import constants from '../AppConstants/Constants.json';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {Platform, StyleSheet, View} from 'react-native';
-import {useTheme} from '@react-navigation/native';
+import {useNavigation, useTheme} from '@react-navigation/native';
 import LocationScreen from '../screens/Location';
 import MyBooking from '../screens/Booking/MyBooking';
+import DynamicLinks from '@react-native-firebase/dynamic-links';
 
 const Tab = createBottomTabNavigator();
 
-// const screenOptions = {
-//   tabBarShowLabel: false,
-//   headerShown: false,
-//   tabBarHideOnKeyboard: true,
-//   tabBarStyle: { styles.BottomBarContainer, backgroundColor: colors.BottomTab },
-// };
+
 const BottomTabNavigation = () => {
+  const navigation = useNavigation();
   const {colors} = useTheme();
+
+  useEffect(() => {
+    const handleDynamicLink = link => {
+      if (link) {
+        const {url} = link;
+        console.log('URI', url);
+        let paymentStatus = url.split('=').pop();
+        console.log('paymentStatus', paymentStatus);
+        if(paymentStatus) {
+          console.log("Inside")
+          navigation.navigate(constants.screen.PaymentStatus, {paymentStatus: paymentStatus})
+        }
+        // Navigate to specific screen based on the URL
+      }
+    };
+    DynamicLinks()
+      .getInitialLink()
+      .then(link => {
+        handleDynamicLink(link);
+      });
+  
+    const unsubscribe = DynamicLinks().onLink(handleDynamicLink);
+  
+    return () => {
+      unsubscribe();
+    };
+  }, []);
+
   return (
     <Tab.Navigator
       screenOptions={{

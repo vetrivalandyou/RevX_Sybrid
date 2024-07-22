@@ -50,7 +50,8 @@
     "ReferFriendsSheet": "ReferFriendsSheet",
     "ServiceSpecialist": "ServiceSpecialist",
     "UserChat": "UserChat",
-    "UserEReceipt": "UserEReceipt"
+    "UserEReceipt": "UserEReceipt",
+    "PaymentStatus": "PaymentStatus"
   },
   "BarberScreen": {
     "BarberBottomTabNavigation": "BarberBottomTabNavigation",

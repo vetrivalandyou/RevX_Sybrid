@@ -28,6 +28,7 @@ import {
   ServiceSpecialist,
   UserChat,
   UserEReceipt,
+  PaymentStatus
 } from '../screens';
 import BottomTabNavigation from './BottomTabNavigation';
 import PrivacyPolicy from '../screens/ProfileScreen/Aboutus/PrivacyPolicy';
@@ -36,33 +37,12 @@ import BarberProfile from '../screens/BarberProfie';
 import MyLocation from '../screens/ProfileScreen/MyLocation';
 import EditProfile from '../screens/ProfileScreen/EditProfile';
 import DeepLinking from '../utils/DeepLinking';
-import DynamicLinks from '@react-native-firebase/dynamic-links';
+
 
 const Main = () => {
   const Stack = createNativeStackNavigator();
 
-  useEffect(() => {
-    const handleDynamicLink = link => {
-      if (link) {
-        const {url} = link;
-        console.log('URI', url);
-        let productId = url.split('=').pop();
-        console.log('productIdproductId', productId);
-        // Navigate to specific screen based on the URL
-      }
-    };
-    DynamicLinks()
-      .getInitialLink()
-      .then(link => {
-        handleDynamicLink(link);
-      });
 
-    const unsubscribe = DynamicLinks().onLink(handleDynamicLink);
-
-    return () => {
-      unsubscribe();
-    };
-  }, []);
 
   return (
     <NavigationContainer>
@@ -180,6 +160,11 @@ const Main = () => {
         <Stack.Screen
           name={constants.screen.UserEReceipt}
           component={UserEReceipt}
+          options={{headerShown: false}}
+        />
+          <Stack.Screen
+          name={constants.screen.PaymentStatus}
+          component={PaymentStatus}
           options={{headerShown: false}}
         />
       </Stack.Navigator>

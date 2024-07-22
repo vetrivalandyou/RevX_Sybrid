@@ -156,7 +156,7 @@ const ProfileScreen = ({navigation}) => {
     try {
       const link = await DynamicLinks().buildShortLink(
         {
-          link: 'https://revx.page.link/g576?productId=1',
+          link: 'https://revx.page.link/g576?paymentStatus=false',
           domainUriPrefix: 'https://revx.page.link',
           android: {
             packageName: 'com.revxmobileapp',

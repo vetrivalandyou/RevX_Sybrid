@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   StyleSheet,
   Text,
@@ -10,7 +10,7 @@ import {
   ActivityIndicatorComponent,
   ActivityIndicator,
 } from 'react-native';
-import {useIsFocused, useNavigation} from '@react-navigation/native';
+import { useIsFocused, useNavigation } from '@react-navigation/native';
 import appColors from '../../AppConstants/appColors';
 import constants from '../../AppConstants/Constants.json';
 import Header from '../../components/molecules/Header';
@@ -18,23 +18,23 @@ import Screen from '../../components/atom/ScreenContainer/Screen';
 import CustomIcon, {
   Icons,
 } from '../../components/molecules/CustomIcon/CustomIcon';
-import {screenSize} from '../../components/atom/ScreenSize';
+import { screenSize } from '../../components/atom/ScreenSize';
 import Entypo from 'react-native-vector-icons/Entypo';
-import {GetRequest, PostRequest} from '../../services/apiCall';
-import {endPoint} from '../../AppConstants/urlConstants';
-import {SimpleSnackBar} from '../../components/atom/Snakbar/Snakbar';
-import {LATEST_SELECT, approve} from '../../AppConstants/appConstants';
-import {useDispatch, useSelector} from 'react-redux';
-import {RESET_CHILDSERVICES_DATA} from '../../redux/Action/AppointmentActionType';
+import { GetRequest, PostRequest } from '../../services/apiCall';
+import { endPoint } from '../../AppConstants/urlConstants';
+import { SimpleSnackBar } from '../../components/atom/Snakbar/Snakbar';
+import { LATEST_SELECT, approve } from '../../AppConstants/appConstants';
+import { useDispatch, useSelector } from 'react-redux';
+import { RESET_CHILDSERVICES_DATA } from '../../redux/Action/AppointmentActionType';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {getAsyncItem} from '../../utils/SettingAsyncStorage';
+import { getAsyncItem } from '../../utils/SettingAsyncStorage';
 
-const Services = ({route}) => {
-  const {barberDetails, specialistDetails} = route.params || 0;
+const Services = ({ route }) => {
+  const { barberDetails, specialistDetails } = route.params || 0;
   const navigation = useNavigation();
   const dispatch = useDispatch();
   const isFocused = useIsFocused();
-  const {SelectedChildServices} = useSelector(
+  const { SelectedChildServices } = useSelector(
     state => state.AppointmentReducer,
   );
 
@@ -42,15 +42,16 @@ const Services = ({route}) => {
   console.log('specialistDetails Serbices', specialistDetails);
 
   const [loading, setLoading] = useState(true);
+  const [userAddress, setUserAddress] = useState({})
+  const [userLongLat, setUserLongLat] = useState([]);
   const [selectedItem, setSelectedItem] = useState(null);
   const [barberServices, setBarberServices] = useState([]);
-  const [userLongLat, setUserLongLat] = useState([]);
 
   useEffect(() => {
     getAsyncData();
     getBarberServices();
     return () => {
-      dispatch({type: RESET_CHILDSERVICES_DATA, payload: new Array(0)});
+      dispatch({ type: RESET_CHILDSERVICES_DATA, payload: new Array(0) });
     };
   }, []);
 
@@ -58,6 +59,11 @@ const Services = ({route}) => {
     const userAsyncLongLat = await getAsyncItem(
       constants.AsyncStorageKeys.longLat,
     );
+    const userAddress = await getAsyncItem(
+      constants.AsyncStorageKeys.address,
+    );
+    console.log("userAddress", userAddress)
+    setUserAddress(userAddress)
     setUserLongLat(userAsyncLongLat);
   };
 
@@ -107,9 +113,22 @@ const Services = ({route}) => {
 
   console.log('userLongLat', userLongLat);
 
+  const handleBookNowButton = () => {
+    if (userAddress == null) {
+      SimpleSnackBar("Please Select Address")
+      return false
+    } else {
+      if (SelectedChildServices?.length > 0) {
+        return true
+      } else {
+        return false
+      }
+    }
+  }
+
   return (
-    <Screen viewStyle={{flex: 1}} statusBarColor={appColors.Black}>
-      <View style={{flex: 0.1}}>
+    <Screen viewStyle={{ flex: 1 }} statusBarColor={appColors.Black}>
+      <View style={{ flex: 0.1 }}>
         <Header
           lefttIcoType={Icons.Ionicons}
           onPressLeftIcon={() => navigation.goBack()}
@@ -136,15 +155,15 @@ const Services = ({route}) => {
         <ActivityIndicator
           size={'small'}
           color={appColors.Goldcolor}
-          style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}
+          style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}
         />
       ) : (
-        <View style={{flex: 0.8}}>
+        <View style={{ flex: 0.8 }}>
           {barberServices?.length > 0 ? (
             <FlatList
               data={barberServices}
               keyExtractor={item => item?.ParentServiceID}
-              renderItem={({item}) => <Barberinfo item={item} />}
+              renderItem={({ item }) => <Barberinfo item={item} />}
             />
           ) : (
             <View
@@ -166,7 +185,7 @@ const Services = ({route}) => {
         </View>
       )}
 
-      <View style={{flex: 0.1, justifyContent: 'center'}}>
+      <View style={{ flex: 0.1, justifyContent: 'center' }}>
         <TouchableOpacity
           onPress={() => {
             if (userLongLat != null) {
@@ -174,16 +193,16 @@ const Services = ({route}) => {
                 barberDetails: barberDetails,
                 specialistDetails: specialistDetails,
               });
-            }else{
+            } else {
               SimpleSnackBar("Please select Location")
             }
           }}
           disabled={SelectedChildServices?.length > 0 ? false : true}
           style={[
             styles.ApplyNOWButton,
-            {opacity: SelectedChildServices?.length > 0 ? 1 : 0.3},
+            { opacity: SelectedChildServices?.length > 0 ? 1 : 0.3 },
           ]}>
-          <Text style={{fontWeight: '600', fontSize: 13, color: 'white'}}>
+          <Text style={{ fontWeight: '600', fontSize: 13, color: 'white' }}>
             Book Now{' '}
             {returnTotal() != 0 && (
               <Text
@@ -199,7 +218,7 @@ const Services = ({route}) => {
   );
 };
 
-const Barberinfo = ({item}) => {
+const Barberinfo = ({ item }) => {
   const navigation = useNavigation();
 
   return (
@@ -217,9 +236,9 @@ const Barberinfo = ({item}) => {
             justifyContent: 'space-between',
             paddingHorizontal: 20,
           }}>
-          <View style={{width: screenSize.width / 2}}>
+          <View style={{ width: screenSize.width / 2 }}>
             <Text
-              style={{fontWeight: '400', fontSize: 15, color: appColors.White}}>
+              style={{ fontWeight: '400', fontSize: 15, color: appColors.White }}>
               {item?.ParentServices}
             </Text>
           </View>
@@ -272,8 +291,7 @@ export default Services;
 
 const styles = StyleSheet.create({
   container: {
-    width: screenSize.width / 1.07,
-    height: screenSize.height / 10,
+    height: screenSize.height / 11.5,
     justifyContent: 'center',
     paddingVertical: Platform.OS == 'ios' ? 25 : 16,
     borderWidth: 1,
