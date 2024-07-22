@@ -93,6 +93,10 @@ const ReviewSummary = ({route}) => {
   };
 
   const markPayment = () => {
+    const makingServicesData = SelectedChildServices?.map(x => ({
+      serviceId: x.ChildServiceID,
+      serviceName: x.ChildService,
+    }));
     const payload = {
       operationID: 7,
       durationMinutes: returnTotalDuration(),
@@ -105,7 +109,7 @@ const ReviewSummary = ({route}) => {
       bookingDate: seelectedDate,
       transactionID: '',
       isPaid: 0,
-      services: JSON.stringify(SelectedChildServices),
+      services: JSON.stringify(makingServicesData),
       isActive: true,
       userID: 0,
       userIP: 'string',
