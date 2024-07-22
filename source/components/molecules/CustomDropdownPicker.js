@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import {
   View,
   Text,
@@ -7,11 +7,11 @@ import {
   Platform,
   ScrollView,
 } from 'react-native';
-import {screenSize} from '../atom/ScreenSize';
+import { screenSize } from '../atom/ScreenSize';
 import appColors from '../../AppConstants/appColors';
-import CustomIcon, {Icons} from './CustomIcon/CustomIcon';
+import CustomIcon, { Icons } from './CustomIcon/CustomIcon';
 
-const CustomDropdownPicker = ({items, values, setValues, onChange}) => {
+const CustomDropdownPicker = ({ items, values, setValues, onChange }) => {
   const [showDropdown, setShowDropdown] = useState(false);
 
   const toggleDropdown = () => {
@@ -34,7 +34,7 @@ const CustomDropdownPicker = ({items, values, setValues, onChange}) => {
     }
   };
 
-  const DropdownList = ({item, index}) => {
+  const DropdownList = ({ item, index }) => {
     return (
       <TouchableOpacity
         key={index}
@@ -53,8 +53,8 @@ const CustomDropdownPicker = ({items, values, setValues, onChange}) => {
     <View style={styles.container}>
       <TouchableOpacity
         onPress={toggleDropdown}
-        style={[styles.header, {flex: 0.6, flexDirection: 'row'}]}>
-        <View style={{flex: 0.8}}>
+        style={[styles.header, { flex: 1, alignItems: 'center', flexDirection: 'row' }]}>
+        <View style={{ flex: 0.8 }}>
           <Text
             style={{
               color:
@@ -66,13 +66,15 @@ const CustomDropdownPicker = ({items, values, setValues, onChange}) => {
               : 'Select Items'}
           </Text>
         </View>
-        <View style={{flex: 0.2}}></View>
-        <CustomIcon
-          type={Icons.AntDesign}
-          name={showDropdown ? 'up' : 'down'}
-          size={15}
-          color={appColors.White}
-        />
+        <View style={{ flex: 0.2, justifyContent: 'center', alignItems: 'flex-end' }}>
+          <CustomIcon
+            type={Icons.AntDesign}
+            name={showDropdown ? 'up' : 'down'}
+            size={15}
+            color={appColors.White}
+          />
+        </View>
+
       </TouchableOpacity>
       {showDropdown && (
         <ScrollView style={styles.dropdown}>
@@ -100,19 +102,18 @@ const CustomDropdownPicker = ({items, values, setValues, onChange}) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
   },
   header: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    paddingVertical: Platform.OS == 'ios' ? 20 : 17,
-    paddingHorizontal: Platform.OS == 'ios' ? 20 : 17,
-    borderColor: 'grey',
     borderWidth: 1.5,
     borderRadius: 25,
+    borderColor: 'grey',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    paddingHorizontal: Platform.OS == 'ios' ? 12 : 17,
+    paddingVertical: Platform.OS == 'ios' ? 0 : 0,
   },
   dropdown: {
-    paddingBottom: 10,
+    // paddingBottom: 10,
     borderWidth: 1,
     borderColor: '#CCCCCC',
     borderRadius: 5,
