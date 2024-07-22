@@ -96,6 +96,9 @@ const ProfileScreen = ({navigation}) => {
       case 0:
         navigation.navigate(constants.screen.AboutUs);
         break;
+      case 1:
+        navigation.navigate(constants.screen.MyBooking);
+        break;
       case 2:
         navigation.navigate(constants.screen.LocationScreen);
         break;
