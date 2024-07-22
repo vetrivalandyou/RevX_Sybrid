@@ -48,5 +48,6 @@ export const AppImages = {
   dummyImage: require(`${path}dummyImage.png`),
   BestOffer: require(`${path}BestOffer.png`),
   PaymentSuccess: require(`${path}PaymentSuccess.png`),
-  PaymentReject: require(`${path}PaymentReject.png`)
+  PaymentReject: require(`${path}PaymentReject.png`),
+  Star: require(`${path}star.png`),
 };
