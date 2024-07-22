@@ -1,22 +1,29 @@
-import {View, Text, StyleSheet, Image, FlatList} from 'react-native';
+import { View, Text, StyleSheet, Image, FlatList, ActivityIndicator } from 'react-native';
 import Bookingbutton from '../../../components/atom/BookingButtons/Bookingbutton';
-import {ScreenSize, screenSize} from '../../../components/atom/ScreenSize';
-import React, {useEffect} from 'react';
+import { ScreenSize, screenSize } from '../../../components/atom/ScreenSize';
+import React, { useEffect } from 'react';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import styles from './styles';
-import {endPoint, imageUrl} from '../../../AppConstants/urlConstants';
-import {PostRequest} from '../../../services/apiCall';
+import { endPoint, imageUrl } from '../../../AppConstants/urlConstants';
+import { PostRequest } from '../../../services/apiCall';
 import moment from 'moment';
-import {useIsFocused, useNavigation} from '@react-navigation/native';
+import { useIsFocused, useNavigation } from '@react-navigation/native';
 import Completedbutton from '../../../components/atom/BookingButtons/Completedbutton';
 import constants from '../../../AppConstants/Constants.json';
+import { debounce } from '../../../functions/AppFunctions';
+import BoxLottie from '../../../components/atom/BoxLottie/BoxLottie';
 
 const PreBooking = ({
   data,
   userDetails,
   preBookingList,
   setPreBookingList,
-  initialBookingFields,
+  isLoading,
+  setIsLoading,
+  hasMore,
+  setHasMore,
+  pageNumber,
+  setPageNumber,
 }) => {
   const isFocused = useIsFocused();
   const navigation = useNavigation();
@@ -27,33 +34,51 @@ const PreBooking = ({
   }, [isFocused]);
 
   const getPreBookings = () => {
+    if (hasMore == false) return;
+
     const payload = {
-      ...initialBookingFields,
       operationID: 1,
+      roleID: userDetails?._RoleId,
+      customerID: 0,
+      userID: userDetails?.userId,
+      userIP: 'string',
+      _PageNumber: pageNumber,
+      _RowsOfPage: 10,
     };
+
     console.log('payload', payload);
-    PostRequest(endPoint.ADMIN_APPOINTMENT_UAR, payload)
+    PostRequest(endPoint.BB_BOOKEDSLOTS, payload)
       .then(res => {
-        console.log('getPreBookings Response', res?.data);
-        setPreBookingList(res?.data);
+        console.log('getPreBookings Pre Booking Response', res?.data);
+        if (res?.data?.Table?.length > 0) {
+          setPreBookingList(preBookingList => [
+            ...preBookingList,
+            ...res?.data?.Table,
+          ]);
+          setPageNumber(pageNumber + 1); // Increment the page number
+          setIsLoading(false);
+        } else {
+          setHasMore(false);
+        }
       })
       .catch(err => {
         console.log(err);
+        setIsLoading(false);
       });
   };
 
-  const ListPrebooking = ({item}) => {
+  const ListPrebooking = ({ item }) => {
     return (
       <View style={styles.bookingContainerstyle}>
-        <View style={{flex: 1}}>
+        <View style={{ flex: 1 }}>
           <View style={styles.bookingInnercontainerView}>
             <View style={styles.bookingDateview}>
               <Text style={styles.dateTextstyle}>
-                {moment(item?.BookingDate).format('DD-MM-YYYY')} -{' '}
+                {moment(item?.BookingDate).format('MMMM DD, YYYY')} -{' '}
                 {item?.SlotName}
               </Text>
             </View>
-            <View style={{flex: 0.25, alignItems: 'center'}}>
+            <View style={{ flex: 0.25, alignItems: 'center' }}>
               <View style={styles.Ratingstyle}>
                 <View
                   style={{
@@ -63,20 +88,19 @@ const PreBooking = ({
                     alignItems: 'center',
                   }}>
                   <AntDesign name={'staro'} size={12} color={'#c79647'} />
-                  <Text style={{color: '#c79647', fontSize: 11}}>
-                    {/* {item.item.rating} */}
+                  <Text style={{ color: '#c79647', fontSize: 11 }}>
                     4.5
                   </Text>
                 </View>
               </View>
             </View>
-            <View style={{flex: 0.25, justifyContent: 'center'}}>
+            <View style={{ flex: 0.25, justifyContent: 'center' }}>
               <Completedbutton
                 style={{
                   backgroundColor:
                     item?.StatusID == 9 ? appColors.Gray : '#6be521',
                 }}
-                textstyle={{color: appColors.White}}
+                textstyle={{ color: appColors.White }}
                 title={item?.StatusID == 9 ? 'Pending' : 'Accepted'}
               />
             </View>
@@ -100,7 +124,7 @@ const PreBooking = ({
           <View style={styles.containerSecondview}>
             <View style={styles.bookingImageview}>
               <Image
-                source={{uri: `${imageUrl}/${item?.BarberProfileImage}`}}
+                source={{ uri: `${imageUrl}/${item?.BarberProfileImage}` }}
                 style={styles.bookingImagestyle}
               />
             </View>
@@ -122,7 +146,7 @@ const PreBooking = ({
               //     bookingSlot: item,
               //   })
               // }
-              style={{backgroundColor: '#c79647'}}
+              style={{ backgroundColor: '#c79647' }}
               title={'View E-Receipt'}
             />
           </View>
@@ -131,13 +155,45 @@ const PreBooking = ({
     );
   };
 
+  const renderFooter = () => {
+    if (hasMore == false) return null;
+    return (
+      <View style={{ margin: 10 }}>
+        <ActivityIndicator size="small" color={appColors.Goldcolor} />
+      </View>
+    );
+  };
+
+  const handleLoadMore = debounce(() => {
+    if (hasMore == true) {
+      getPreBookings();
+    }
+  }, 300);
+
   return (
-    <FlatList
-      data={preBookingList}
-      showsVerticalScrollIndicator={false}
-      renderItem={({item, index}) => <ListPrebooking item={item} />}
-      keyExtractor={item => item.BarbarBookedSlotID}
-    />
+    <>
+      {isLoading ? (
+        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+          <ActivityIndicator size="small" color={appColors.Goldcolor} />
+        </View>
+      ) : preBookingList?.length > 0 ? (
+        <FlatList
+          data={preBookingList}
+          onEndReachedThreshold={0.5}
+          onEndReached={handleLoadMore}
+          ListFooterComponent={renderFooter}
+          showsVerticalScrollIndicator={false}
+          keyExtractor={(item, index) => index?.toString()}
+          renderItem={({ item, index }) => <ListPrebooking item={item} />}
+        />
+      ) : (
+        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+          <BoxLottie
+            animationPath={require('../../../LottieAnimation/NoPostFoundAnimation.json')}
+          />
+        </View>
+      )}</>
+
   );
 };
 
