@@ -89,7 +89,10 @@ const RatingScreen = () => {
                 style={{width: 16, height: 16, marginHorizontal: 8}}
                 source={item?.Imagesource}
               />
-              <Text style={{fontSize: 16, fontWeight: 500}}>{item?.title}</Text>
+              <Text
+                style={{fontSize: 16, fontWeight: 500, color: appColors.White}}>
+                {item?.title}
+              </Text>
             </View>
           </View>
         </View>
@@ -141,7 +144,10 @@ const RatingScreen = () => {
                 alignItems: 'center',
                 flexDirection: 'row',
               }}>
-              <Text style={{fontSize: 16, fontWeight: 500}}>{item?.title}</Text>
+              <Text
+                style={{fontSize: 16, fontWeight: 500, color: appColors.White}}>
+                {item?.title}
+              </Text>
             </View>
           </View>
         </View>
@@ -201,7 +207,9 @@ const RatingScreen = () => {
         </View>
         <View style={{flex: 0.04}}>
           <View style={{color: appColors.White}}>
-            <Text style={{fontSize: 17}}>Comment Rating</Text>
+            <Text style={{fontSize: 17, color: appColors.White}}>
+              Comment Rating
+            </Text>
           </View>
         </View>
         <View style={{flex: 0.04}}>
