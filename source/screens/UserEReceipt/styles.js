@@ -246,8 +246,7 @@ export default StyleSheet.create({
   },
 
   barberDetailsContainer: {
-    height: screenSize.height / 2.95,
-    width: screenSize.width / 1.1,
+    height: 'auto',
     paddingVertical: 17,
     marginTop: 5,
     backgroundColor: '#252525',
@@ -258,8 +257,8 @@ export default StyleSheet.create({
   },
 
   barberSevicesContainer: {
-    height: screenSize.height / 4.1,
-    width: screenSize.width / 1.1,
+    height:'auto',
+    paddingVertical: 17,
     justifyContent: 'center',
     marginTop: 10,
     backgroundColor: '#252525',
