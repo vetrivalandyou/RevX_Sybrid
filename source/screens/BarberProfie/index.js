@@ -223,7 +223,7 @@ const BarberProfile = ({ navigation, route }) => {
         <View style={{ flex: 0.1, marginHorizontal: 12 }}>
           <View style={{ flex: 0.6, flexDirection: 'row' }}>
             <View style={{ flex: 0.7, justifyContent: 'center' }}>
-              <Text style={{ fontSize: 25, color: appColors.White }}>
+              <Text style={{ fontSize: 25, color: appColors.White, textTransform: 'uppercase', }}>
                 {barberProfile?.userName}
               </Text>
             </View>
