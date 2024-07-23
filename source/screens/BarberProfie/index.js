@@ -26,7 +26,7 @@ import constants from '../../AppConstants/Constants.json';
 import { GetRequest, PostRequest } from '../../services/apiCall';
 import { endPoint } from '../../AppConstants/urlConstants';
 import { SimpleSnackBar } from '../../components/atom/Snakbar/Snakbar';
-import { TabRouter } from '@react-navigation/native';
+import DynamicLinks from '@react-native-firebase/dynamic-links';
 import Share from 'react-native-share';
 import { LATEST_SELECT, approve } from '../../AppConstants/appConstants';
 
@@ -96,27 +96,6 @@ const BarberProfile = ({ navigation, route }) => {
       });
   }
 
-  const shareProfile = async () => {
-    return new Promise(async (resolve, reject) => {
-      try {
-        const constructedUrl = await constructProfileUrl();
-        const options = {
-          message: 'Check out Barber Profile!',
-          url: constructedUrl,
-        };
-        await Share.open(options);
-      } catch (error) {
-        console.log('Error sharing:', error.message);
-      }
-    });
-  };
-
-  const constructProfileUrl = () => {
-    return Promise.resolve(
-      `revx://revx.com/barberprofile/profileId=${barberId}`,
-    );
-  };
-
   const renderItem = ({ item, index }, parallaxProps) => {
     return (
       <View style={styles.slide}>
@@ -148,6 +127,44 @@ const BarberProfile = ({ navigation, route }) => {
         console.log('Error', err);
         SimpleSnackBar(messages.WentWrong, appColors.Red);
       });
+  };
+
+  const generateLink = async () => {
+    try {
+      const link = await DynamicLinks().buildShortLink(
+        {
+          link: `https://revx.page.link/g576?barberProfileId=${barberId}`,
+          domainUriPrefix: 'https://revx.page.link',
+          android: {
+            packageName: 'com.revxmobileapp',
+          },
+          ios: {
+            appStoreId: '123456789',
+            bundleId: 'com.proceed.RevXMobileApp',
+          },
+        },
+        DynamicLinks.ShortLinkType.DEFAULT,
+      );
+      console.log('Link', link);
+      return Promise.resolve(link);
+    } catch (err) {
+      console.log('err', err);
+    }
+  };
+
+  const shareUserProfileLink = async () => {
+    console.log("----------")
+      try {
+        const constructedUrl = await generateLink();
+        const options = {
+          message: 'Checkout Barber Profile!',
+          url: constructedUrl,
+        };
+        console.log("option", options)
+        await Share.open(options);
+      } catch (error) {
+        console.log('Error sharing:', error.message);
+      }
   };
 
   return (
@@ -376,7 +393,7 @@ const BarberProfile = ({ navigation, route }) => {
               <Text style={{ color: appColors.White, fontSize: 13 }}>Chat</Text>
             </View>
           </View>
-          <View style={{ flex: 0.2 }}>
+          <TouchableOpacity onPress={shareUserProfileLink} style={{ flex: 0.2 }}>
             <View
               style={{
                 flex: 0.73,
@@ -384,7 +401,6 @@ const BarberProfile = ({ navigation, route }) => {
                 justifyContent: 'center',
               }}>
               <TouchableOpacity
-                onPress={shareProfile}
                 style={{
                   borderRadius: 50,
                   height: 50,
@@ -412,7 +428,7 @@ const BarberProfile = ({ navigation, route }) => {
                 Share
               </Text>
             </View>
-          </View>
+          </TouchableOpacity>
         </View>
         <View
           style={{ flex: 0.02, marginHorizontal: 10, margin: 10, justifyContent: 'center' }}>

@@ -98,7 +98,7 @@ const BarberSpecialist = ({navigation}) => {
     <Screen
       statusBarColor={appColors.Black}
       barStyle="light-content"
-      viewStyle={{padding: 15}}>
+      viewStyle={{padding: 5}}>
       <View style={{flex: 0.1}}>
         <Header
           lefttIcoType={Icons.Ionicons}
