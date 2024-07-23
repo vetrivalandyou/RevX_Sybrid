@@ -57,7 +57,7 @@ const MyBooking = ({ navigation }) => {
       _PageNumber: pageNumber,
       _RowsOfPage: 10,
     };
-    console.log('payload', payload);
+    console.log('payload My Booking', payload);
     PostRequest(endPoint.BB_BOOKEDSLOTS, payload)
       .then(res => {
         console.log('getPreBookings My Booking Response', res?.data);

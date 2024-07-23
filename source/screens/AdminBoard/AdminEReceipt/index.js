@@ -2,15 +2,15 @@ import { StyleSheet, Text, View, TouchableOpacity, ActivityIndicator } from 'rea
 import React, { useEffect, useState } from 'react';
 import styles from './styles';
 import moment from 'moment';
-import { PostRequest } from '../../services/apiCall';
-import Header from '../../components/molecules/Header';
-import { endPoint } from '../../AppConstants/urlConstants';
-import constants from '../../AppConstants/Constants.json';
-import Screen from '../../components/atom/ScreenContainer/Screen';
-import { Icons } from '../../components/molecules/CustomIcon/CustomIcon';
-import appColors from '../../AppConstants/appColors';
+import { PostRequest } from '../../../services/apiCall';
+import Header from '../../../components/molecules/Header';
+import { endPoint } from '../../../AppConstants/urlConstants';
+import constants from '../../../AppConstants/Constants.json';
+import Screen from '../../../components/atom/ScreenContainer/Screen';
+import { Icons } from '../../../components/molecules/CustomIcon/CustomIcon';
+import appColors from '../../../AppConstants/appColors';
 
-const UserEReceipt = ({ route, navigation }) => {
+const AdminEReceipt = ({ route, navigation }) => {
   const { bookingSlot } = route.params || 0;
   console.log('itemitemitem', bookingSlot);
 
@@ -219,4 +219,4 @@ const Pricedetails = ({ item }) => {
   );
 };
 
-export default UserEReceipt;
+export default AdminEReceipt;

@@ -64,11 +64,11 @@ const HomeScreen = ({navigation}) => {
     setUserDetails(userDetails);
     setSelectedLongLat(selectedLongLat);
     setSelectedLocation(asyncNearestLandmark);
-    getBarberList(asyncLongLat);
+    getBarberList(asyncLongLat, userDetails);
     if (SignalRService?.isConnected()) {
       console.log('SignalR is in Connected State');
     } else {
-      connectToSignalR(userDetails);
+      // connectToSignalR(userDetails);
     }
   };
 
@@ -88,7 +88,7 @@ const HomeScreen = ({navigation}) => {
     });
   };
 
-  function getBarberList(asyncLongLat) {
+  function getBarberList(asyncLongLat, userDetails) {
     const payload = {
       userId: userDetails?.userId,
       latitude:

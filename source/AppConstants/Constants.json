@@ -123,7 +123,8 @@
     "BarberListApprove": "BarberListApprove",
     "AdminSetupSlots": "AdminSetupSlots",
     "CreateSlot": "CreateSlot",
-    "ApproveSubServices": "ApproveSubServices"
+    "ApproveSubServices": "ApproveSubServices",
+    "AdminEReceipt": "AdminEReceipt"
   },
   "AsyncStorageKeys": {
     "token": "token",
