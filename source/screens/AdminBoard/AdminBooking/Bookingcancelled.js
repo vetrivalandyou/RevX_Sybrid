@@ -1,19 +1,26 @@
-import { View, Text, StyleSheet, Image, FlatList, ActivityIndicator } from 'react-native';
-import { ScreenSize, screenSize } from '../../../components/atom/ScreenSize';
-import React, { useEffect, useRef, useState } from 'react';
+import {
+  View,
+  Text,
+  StyleSheet,
+  Image,
+  FlatList,
+  ActivityIndicator,
+} from 'react-native';
+import {ScreenSize, screenSize} from '../../../components/atom/ScreenSize';
+import React, {useEffect, useRef, useState} from 'react';
 import Completedbutton from '../../../components/atom/BookingButtons/Completedbutton';
 import styles from './styles';
 import Styles from '../../../components/atom/BookingButtons/Styles';
-import { useIsFocused } from '@react-navigation/native';
-import { endPoint } from '../../../AppConstants/urlConstants';
-import { PostRequest } from '../../../services/apiCall';
+import {useIsFocused} from '@react-navigation/native';
+import {endPoint} from '../../../AppConstants/urlConstants';
+import {PostRequest} from '../../../services/apiCall';
 import moment from 'moment';
 import appColors from '../../../AppConstants/appColors';
 import ButtonComponent from '../../../components/atom/CustomButtons/ButtonComponent';
 import CustomModal from '../../../components/molecules/CustomModal/CustomModal';
-import { SimpleSnackBar } from '../../../components/atom/Snakbar/Snakbar';
+import {SimpleSnackBar} from '../../../components/atom/Snakbar/Snakbar';
 import BoxLottie from '../../../components/atom/BoxLottie/BoxLottie';
-import { debounce } from '../../../functions/AppFunctions';
+import {debounce} from '../../../functions/AppFunctions';
 
 const initialAdminBookingCancelFieds = {
   operationID: 6,
@@ -23,9 +30,9 @@ const initialAdminBookingCancelFieds = {
   userIP: 'string',
   _PageNumber: 0,
   _RowsOfPage: 10,
-}
+};
 
-const Bookingcancelled = ({userDetails }) => {
+const Bookingcancelled = ({userDetails}) => {
   const isFocused = useIsFocused();
 
   const timeoutRef = useRef(null);
@@ -36,12 +43,10 @@ const Bookingcancelled = ({userDetails }) => {
   const [cancelledItem, setCancelledItem] = useState({});
   const [visible, setVisible] = useState(false);
 
-
   useEffect(() => {
     if (isFocused) getCancelledBooking();
     return () => clearTimeout(timeoutRef.current);
   }, [isFocused]);
-
 
   const getCancelledBooking = () => {
     if (hasMore == false) return;
@@ -71,27 +76,27 @@ const Bookingcancelled = ({userDetails }) => {
       });
   };
 
-  const ListBookingCanceled = ({ item }) => {
+  const ListBookingCanceled = ({item}) => {
     return (
       <View style={styles.Containerstyle}>
-        <View style={{ flex: 1 }}>
+        <View style={{flex: 1}}>
           <View style={styles.ContainerInnerview}>
             <View style={styles.Dateview}>
               <Text style={styles.DateTextstyle}>
-              {moment(item?.BookingDate).format('DD-MM-YYYY')} -{' '}
-              {item?.SlotName}
+                {moment(item?.BookingDate).format('DD-MM-YYYY')} -{' '}
+                {item?.SlotName}
               </Text>
             </View>
 
-            <View style={{ flex: item?.StatusID == 12 ? 0.25 : 0.4 }}>
+            <View style={{flex: item?.StatusID == 12 ? 0.25 : 0.4}}>
               <Completedbutton
                 title={
                   item?.StatusID == 12 ? 'Cancel' : 'Request for Cancellation'
                 }
-                style={{ backgroundColor: '#e81f1c' }}
-                textstyle={{ color: 'white' }}
+                style={{backgroundColor: '#e81f1c'}}
+                textstyle={{color: 'white'}}
                 onPress={() => {
-                  console.log("item", item)
+                  console.log('item', item);
                   if (item?.StatusID == 13) {
                     setCancelledItem(item);
                     setVisible(true);
@@ -166,7 +171,7 @@ const Bookingcancelled = ({userDetails }) => {
   const renderFooter = () => {
     if (hasMore == false) return null;
     return (
-      <View style={{ margin: 10 }}>
+      <View style={{margin: 10}}>
         <ActivityIndicator size="small" color={appColors.Goldcolor} />
       </View>
     );
@@ -295,19 +300,19 @@ const Bookingcancelled = ({userDetails }) => {
   };
 
   const onRequestClose = () => {
-    setVisible(false)
-  }
+    setVisible(false);
+  };
 
   return (
     <>
       <CustomModal
         visible={visible}
         onRequestClose={onRequestClose}
-        modalHeight={{ height: screenSize.height / 4 }}
+        modalHeight={{height: screenSize.height / 4}}
         CustomModalView={CustomModalView}
       />
       {isLoading ? (
-        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+        <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
           <ActivityIndicator size="small" color={appColors.Goldcolor} />
         </View>
       ) : cancelledBooking?.length > 0 ? (
@@ -318,16 +323,15 @@ const Bookingcancelled = ({userDetails }) => {
           ListFooterComponent={renderFooter}
           showsVerticalScrollIndicator={false}
           keyExtractor={(item, index) => index?.toString()}
-          renderItem={({ item, index }) => <ListBookingCanceled item={item} />}
+          renderItem={({item, index}) => <ListBookingCanceled item={item} />}
         />
       ) : (
-        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+        <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
           <BoxLottie
             animationPath={require('../../../LottieAnimation/NoPostFoundAnimation.json')}
           />
         </View>
       )}
-
     </>
   );
 };

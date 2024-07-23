@@ -95,21 +95,15 @@ const EditSubServices = ({route}) => {
   };
 
   return (
-    <Screen
-      viewStyle={{
-        flex: 1,
-        padding: 15,
-        backgroundColor: appColors.Black,
-        minHeight: screenSize.height,
-        maxHeight: 'auto',
-      }}
-      statusBarColor={appColors.Black}>
-      <KeyboardAwareScrollView
-        // contentContainerStyle={{flexGrow: 1}}
-        // enableOnAndroid={true}
-        // extraScrollHeight={10}
-        // keyboardShouldPersistTaps="handled"
-        contentContainerStyle={{flex: 1, justifyContent: 'center'}}>
+    <KeyboardAwareScrollView style={{flex: 1}}>
+      <Screen
+        viewStyle={{
+          flex: 1,
+          padding: 15,
+          backgroundColor: appColors.Black,
+          minHeight: screenSize.height,
+        }}
+        statusBarColor={appColors.Black}>
         <View style={{flex: 0.1}}>
           <Header
             lefttIcoType={Icons.Ionicons}
@@ -119,8 +113,8 @@ const EditSubServices = ({route}) => {
             logIn={'success'}
           />
         </View>
-        <View style={{flex: 0.8}}>
-          <View style={{flex: 0.2}}>
+        <View style={{flex: 0.9}}>
+          <View style={{flex: 0.4}}>
             <View
               style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
               <TouchableOpacity
@@ -129,7 +123,7 @@ const EditSubServices = ({route}) => {
                   width: '28%',
                   justifyContent: 'center',
                   alignItems: 'center',
-                  height: '82%',
+                  height: '85%',
                   backgroundColor: appColors.Black,
                 }}>
                 {changedImage != '' ? (
@@ -171,7 +165,7 @@ const EditSubServices = ({route}) => {
               </TouchableOpacity>
             </View>
           </View>
-          <View style={{flex: 0.18}}>
+          <View style={{flex: 0.06}}>
             <View
               style={{flex: 0.3, justifyContent: 'flex-end', marginLeft: 10}}>
               <Text
@@ -194,7 +188,7 @@ const EditSubServices = ({route}) => {
               />
             </View>
           </View>
-          <View style={{flex: 0.18}}>
+          <View style={{flex: 0.06}}>
             <View
               style={{flex: 0.3, justifyContent: 'flex-end', marginLeft: 10}}>
               <Text
@@ -217,7 +211,7 @@ const EditSubServices = ({route}) => {
               />
             </View>
           </View>
-          <View style={{flex: 0.18}}>
+          <View style={{flex: 0.06}}>
             <View
               style={{flex: 0.3, justifyContent: 'flex-end', marginLeft: 10}}>
               <Text
@@ -240,7 +234,7 @@ const EditSubServices = ({route}) => {
               />
             </View>
           </View>
-          <View style={{flex: 0.18}}>
+          <View style={{flex: 0.06}}>
             <View
               style={{flex: 0.3, justifyContent: 'flex-end', marginLeft: 10}}>
               <Text
@@ -279,14 +273,15 @@ const EditSubServices = ({route}) => {
             onPress={handleSaveSubService}
           />
         </View>
+
         <BottomSheet ref={refRBSheet} Height={120}>
           <ChooseImage
             refRBSheet={refRBSheet}
             setProfileImage={handleImageCaptured}
           />
         </BottomSheet>
-      </KeyboardAwareScrollView>
-    </Screen>
+      </Screen>
+    </KeyboardAwareScrollView>
   );
 };
 

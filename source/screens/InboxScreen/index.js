@@ -131,6 +131,7 @@ const InboxScreen = () => {
         <View style={{flex: 0.09, minHeight: 60, maxHeight: 60}}>
           <Search />
         </View>
+
         <View style={{flex: 0.71}}>
           <FlatList
             data={InboxList}

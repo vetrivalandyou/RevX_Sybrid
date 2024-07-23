@@ -74,7 +74,7 @@ export default StyleSheet.create({
     alignItems: 'center',
   },
   imageStyle: {
-    width: '100%',
+    width: '95%',
     height: '100%',
     borderRadius: 80,
     borderWidth: 3,
@@ -83,8 +83,8 @@ export default StyleSheet.create({
   },
   Iconstyle: {
     position: 'absolute',
-    left: screenSize.width / 4.4,
-    top: screenSize.height / 8.2,
+    left: screenSize.width / 4.6,
+    top: screenSize.height / 8.6,
   },
   textFieldView: {
     flex: 0.24,
