@@ -8,11 +8,11 @@ import {
   Successfull,
 } from '../screens';
 import appColors from '../AppConstants/appColors';
-import CustomIcon, {Icons} from '../components/molecules/CustomIcon/CustomIcon';
+import CustomIcon, { Icons } from '../components/molecules/CustomIcon/CustomIcon';
 import constants from '../AppConstants/Constants.json';
-import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import {Platform, StyleSheet, View} from 'react-native';
-import {useNavigation, useTheme} from '@react-navigation/native';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { Linking, Platform, StyleSheet, View } from 'react-native';
+import { useNavigation, useTheme } from '@react-navigation/native';
 import LocationScreen from '../screens/Location';
 import MyBooking from '../screens/Booking/MyBooking';
 import DynamicLinks from '@react-native-firebase/dynamic-links';
@@ -22,20 +22,31 @@ const Tab = createBottomTabNavigator();
 
 const BottomTabNavigation = () => {
   const navigation = useNavigation();
-  const {colors} = useTheme();
 
   useEffect(() => {
-    const handleDynamicLink = link => {
+    const handleDynamicLink = async (link) => {
       if (link) {
-        const {url} = link;
+        const { url } = link;
         console.log('URI', url);
-        let paymentStatus = url.split('=').pop();
-        console.log('paymentStatus', paymentStatus);
-        if(paymentStatus) {
-          console.log("Inside")
-          navigation.navigate(constants.screen.PaymentStatus, {paymentStatus: paymentStatus})
+
+        const parts = url.split('?');
+        if (parts.length > 1) {
+          const queryString = parts[1];
+          console.log(queryString);
+          const index = queryString.indexOf('=');
+          const key = queryString.substring(0, index);
+          if(key == 'barberProfileId'){
+            let barbeProfileID = queryString.split('=').pop();
+            console.log("barbeProfileID", barbeProfileID)
+            navigation.navigate(constants.screen.BarberProfile, {barberId: barbeProfileID})
+          } else if(key == 'paymentStatus'){
+            let paymentStatus = queryString.split('=').pop();
+            console.log("paymentStatus", paymentStatus)
+            navigation.navigate(constants.screen.PaymentStatus, {paymentStatus: paymentStatus})
+          }
+        } else {
+          console.log('No query string found');
         }
-        // Navigate to specific screen based on the URL
       }
     };
     DynamicLinks()
@@ -43,9 +54,9 @@ const BottomTabNavigation = () => {
       .then(link => {
         handleDynamicLink(link);
       });
-  
+
     const unsubscribe = DynamicLinks().onLink(handleDynamicLink);
-  
+
     return () => {
       unsubscribe();
     };
@@ -54,9 +65,9 @@ const BottomTabNavigation = () => {
   return (
     <Tab.Navigator
       screenOptions={{
-        lazy:true,
+        lazy: true,
         tabBarShowLabel: false,
-        tabBarStyle: {...styles.BottomBarContainer},
+        tabBarStyle: { ...styles.BottomBarContainer },
         tabBarHideOnKeyboard: true,
         headerShown: false,
       }}>
@@ -65,20 +76,20 @@ const BottomTabNavigation = () => {
         component={HomeScreen}
         options={{
           // tabBarStyle: {position:},
-          tabBarIcon: ({focused}) => (
-            <View style={{ padding: 14, borderRadius: 20, backgroundColor: focused ? 'white' : 'transparent'}}>
+          tabBarIcon: ({ focused }) => (
+            <View style={{ padding: 14, borderRadius: 20, backgroundColor: focused ? 'white' : 'transparent' }}>
               <CustomIcon
-              type={Icons.Feather}
-              name="home"
-              color={focused ? appColors.Black : appColors.White}
-              
-              style={{
-                // padding: 14,
-                // borderRadius: 20,
-              }}
+                type={Icons.Feather}
+                name="home"
+                color={focused ? appColors.Black : appColors.White}
+
+                style={{
+                  // padding: 14,
+                  // borderRadius: 20,
+                }}
               />
             </View>
-            
+
           ),
         }}
       />
@@ -87,14 +98,14 @@ const BottomTabNavigation = () => {
         name={constants.screen.MyBooking}
         component={MyBooking}
         options={{
-          tabBarIcon: ({focused}) => (
-            <View style={{ padding: 14, borderRadius: 20, backgroundColor: focused ? 'white' : 'transparent'}}>
-            <CustomIcon
-              //style={{backgroundColor:'red'}}
-              type={Icons.SimpleLineIcons}
-              name="notebook"
-              color={focused ? appColors.Black : appColors.White}
-            />
+          tabBarIcon: ({ focused }) => (
+            <View style={{ padding: 14, borderRadius: 20, backgroundColor: focused ? 'white' : 'transparent' }}>
+              <CustomIcon
+                //style={{backgroundColor:'red'}}
+                type={Icons.SimpleLineIcons}
+                name="notebook"
+                color={focused ? appColors.Black : appColors.White}
+              />
             </View>
           ),
         }}
@@ -104,13 +115,13 @@ const BottomTabNavigation = () => {
         component={LocationScreen}
         options={{
           // tabBarLabel: 'Home',
-          tabBarIcon: ({focused}) => (
-            <View style={{ padding: 14, borderRadius: 20, backgroundColor: focused ? 'white' : 'transparent'}}>
-            <CustomIcon
-              name={'map-marker-circle'}
-              type={Icons.MaterialCommunityIcons}
-              color={focused ? appColors.Black : appColors.White}
-            />
+          tabBarIcon: ({ focused }) => (
+            <View style={{ padding: 14, borderRadius: 20, backgroundColor: focused ? 'white' : 'transparent' }}>
+              <CustomIcon
+                name={'map-marker-circle'}
+                type={Icons.MaterialCommunityIcons}
+                color={focused ? appColors.Black : appColors.White}
+              />
             </View>
           ),
         }}
@@ -121,13 +132,13 @@ const BottomTabNavigation = () => {
         component={InboxScreen}
         options={{
           // tabBarLabel: 'Home',
-          tabBarIcon: ({focused}) => (
-            <View style={{ padding: 14, borderRadius: 20, backgroundColor: focused ? 'white' : 'transparent'}}>
-            <CustomIcon
-              name={'message1'}
-              type={Icons.AntDesign}
-              color={focused ? appColors.Black : appColors.White}
-            />
+          tabBarIcon: ({ focused }) => (
+            <View style={{ padding: 14, borderRadius: 20, backgroundColor: focused ? 'white' : 'transparent' }}>
+              <CustomIcon
+                name={'message1'}
+                type={Icons.AntDesign}
+                color={focused ? appColors.Black : appColors.White}
+              />
             </View>
           ),
         }}
@@ -137,13 +148,13 @@ const BottomTabNavigation = () => {
         component={ProfileScreen}
         options={{
           // tabBarLabel: 'Home',
-          tabBarIcon: ({focused}) => (
-            <View style={{ padding: 14, borderRadius: 20, backgroundColor: focused ? 'white' : 'transparent'}}>
-            <CustomIcon
-              name={'person-outline'}
-              type={Icons.Ionicons}
-              color={focused ? appColors.Black : appColors.White}
-            />
+          tabBarIcon: ({ focused }) => (
+            <View style={{ padding: 14, borderRadius: 20, backgroundColor: focused ? 'white' : 'transparent' }}>
+              <CustomIcon
+                name={'person-outline'}
+                type={Icons.Ionicons}
+                color={focused ? appColors.Black : appColors.White}
+              />
             </View>
           ),
         }}
@@ -163,7 +174,7 @@ const styles = StyleSheet.create({
     bottom: Platform.OS == 'ios' ? 30 : 2,
     height: 70,
     margin: 10,
-    paddingBottom:0,
+    paddingBottom: 0,
 
     // shadowColor: appColors.AppBlue,
     // botton: 0,

@@ -117,6 +117,7 @@ const AdminApproveBarber = ({navigation}) => {
         barbarID: item?.UserId,
         tbL_Approve_BB_ParentServices_: makingParentService,
       };
+      console.log("Payload for approve,", payload)
     } else {
       makingParentService = selectedItems?.map(x => ({
         parentService_PK_ID: x,

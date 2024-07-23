@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 
 import {
   Text,
@@ -14,7 +14,7 @@ import {
 } from 'react-native';
 import Screen from '../../../components/atom/ScreenContainer/Screen';
 import styles from './styles';
-import {screenSize} from '../../../components/atom/ScreenSize';
+import { screenSize } from '../../../components/atom/ScreenSize';
 import CustomIcon, {
   Icons,
 } from '../../../components/molecules/CustomIcon/CustomIcon';
@@ -25,29 +25,29 @@ import Header from '../../../components/molecules/Header';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 
 import Search from '../../../components/atom/Search/Search';
-import {AppImages} from '../../../AppConstants/AppImages';
+import { AppImages } from '../../../AppConstants/AppImages';
 import Bookingbutton from '../../../components/atom/BookingButtons/Bookingbutton';
 import {
   getAsyncItem,
   getLogLatAsync,
   setLogLatAsync,
 } from '../../../utils/SettingAsyncStorage';
-import {endPoint, imageUrl} from '../../../AppConstants/urlConstants';
-import {useDispatch, useSelector} from 'react-redux';
-import {useIsFocused} from '@react-navigation/native';
-import {UpdateLocation} from '../../../redux/Action/LocationAction/UpdateLocationAction';
-import {PostRequest} from '../../../services/apiCall';
-import {LATEST_UPDATE} from '../../../AppConstants/appConstants';
+import { endPoint, imageUrl } from '../../../AppConstants/urlConstants';
+import { useDispatch, useSelector } from 'react-redux';
+import { useIsFocused } from '@react-navigation/native';
+import { UpdateLocation } from '../../../redux/Action/LocationAction/UpdateLocationAction';
+import { PostRequest } from '../../../services/apiCall';
+import { LATEST_UPDATE } from '../../../AppConstants/appConstants';
 import useLocationWatcher from '../../../services/useLocationWatcher';
-import {requestLocationPermissionAndGetLocation} from '../../../utils/GetLocation';
+import { requestLocationPermissionAndGetLocation } from '../../../utils/GetLocation';
 import CustomModal from '../../../components/molecules/CustomModal/CustomModal';
 import ButtonComponent from '../../../components/atom/CustomButtons/ButtonComponent';
 import SimpleTextField from '../../../components/molecules/TextFeilds/SimpleTextField';
 import SignalRService from '../../../services/SignalRService';
-import {SET_INITIAL_DROPDOWN_FORM_STATE} from '../../../redux/ActionType/CrudActionTypes';
+import { SET_INITIAL_DROPDOWN_FORM_STATE } from '../../../redux/ActionType/CrudActionTypes';
 
-const HomeBarber = ({navigation}) => {
-  const {coords} = useSelector(state => state.LocationReducer);
+const HomeBarber = ({ navigation }) => {
+  const { coords } = useSelector(state => state.LocationReducer);
   const dispatch = useDispatch();
   const isFocused = useIsFocused();
   const [userDetails, setUserDetails] = useState();
@@ -85,7 +85,7 @@ const HomeBarber = ({navigation}) => {
         name: 'BarberInboxList',
         value: parsedData,
       };
-      dispatch({type: SET_INITIAL_DROPDOWN_FORM_STATE, payload: data});
+      dispatch({ type: SET_INITIAL_DROPDOWN_FORM_STATE, payload: data });
     });
   };
 
@@ -127,7 +127,7 @@ const HomeBarber = ({navigation}) => {
 
   const CustomModalView = () => {
     return (
-      <View style={{flex: 1}}>
+      <View style={{ flex: 1 }}>
         <View
           style={{
             flex: 0.2,
@@ -146,7 +146,7 @@ const HomeBarber = ({navigation}) => {
             Enter Reason your Reason
           </Text>
         </View>
-        <View style={{flex: 0.5, backgroundColor: appColors.White}}>
+        <View style={{ flex: 0.5, backgroundColor: appColors.White }}>
           <TextInput
             style={{
               flex: 1,
@@ -175,7 +175,7 @@ const HomeBarber = ({navigation}) => {
             }}>
             <ButtonComponent
               btnColor={appColors.White}
-              btnTextColor={{color: appColors.Goldcolor}}
+              btnTextColor={{ color: appColors.Goldcolor }}
               style={{
                 width: '75%',
                 borderWidth: 1,
@@ -222,27 +222,26 @@ const HomeBarber = ({navigation}) => {
     },
   ];
 
-  const HomeHeader = ({heading, sunHeading, source}) => {
+  const HomeHeader = ({ heading, sunHeading, source }) => {
     return (
-      <View style={{flex: 1, justifyContent: 'center'}}>
+      <View style={{ flex: 1, justifyContent: 'center' }}>
         <View
           style={{
             flex: 1,
             flexDirection: 'row',
             justifyContent: 'space-between',
           }}>
-          {console.log('sourcesourcesource', source)}
           <View
-            style={{flex: 0.2, alignItems: 'center', justifyContent: 'center'}}>
+            style={{ flex: 0.2, alignItems: 'center', justifyContent: 'center' }}>
             {source == null ? (
               <Image
                 source={AppImages?.slider1}
-                style={{width: 55, height: 55, borderRadius: 100}}
+                style={{ width: 55, height: 55, borderRadius: 100 }}
               />
             ) : (
               <Image
-                source={{uri: `${imageUrl}${source}`}}
-                style={{width: 55, height: 55, borderRadius: 100}}
+                source={{ uri: `${imageUrl}${source}` }}
+                style={{ width: 55, height: 55, borderRadius: 100 }}
               />
             )}
           </View>
@@ -253,25 +252,12 @@ const HomeBarber = ({navigation}) => {
               justifyContent: 'space-between',
               flexDirection: 'row',
             }}>
-            <View style={{flex: 0.6}}>
-              <View style={{flex: 1, justifyContent: 'center', marginLeft: 5}}>
-                <Text style={{fontSize: 20, color: appColors.White}}>
+            <View style={{ flex: 0.6 }}>
+              <View style={{ flex: 1, justifyContent: 'center', marginLeft: 5 }}>
+                <Text style={{ fontSize: 20, color: appColors.White }}>
                   {heading}
                 </Text>
               </View>
-              {/* <View style={{flex: 0.4, flexDirection: 'row'}}>
-                <CustomIcon
-                  type={Icons.Feather}
-                  name={'map-pin'}
-                  color={appColors.White}
-                  size={16}
-                />
-
-                <Text
-                  style={{marginLeft: 5, color: appColors.White, fontSize: 14}}>
-                  {sunHeading}
-                </Text>
-              </View> */}
             </View>
 
             <View
@@ -304,6 +290,9 @@ const HomeBarber = ({navigation}) => {
                 />
               </TouchableOpacity>
               <TouchableOpacity
+                onPress={() => {
+                  SignalRService.sendNotification(2)
+                }}
                 style={{
                   backgroundColor: appColors.darkgrey,
                   borderRadius: 50,
@@ -339,7 +328,7 @@ const HomeBarber = ({navigation}) => {
           borderColor: 'black',
           marginHorizontal: 3,
         }}>
-        <View style={{flex: 1, borderRadius: 20}}>
+        <View style={{ flex: 1, borderRadius: 20 }}>
           <View
             style={{
               flexDirection: 'row',
@@ -349,7 +338,7 @@ const HomeBarber = ({navigation}) => {
               marginHorizontal: 15,
               marginTop: 5,
             }}>
-            <View style={{flex: 0.6}}>
+            <View style={{ flex: 0.6 }}>
               <Text
                 style={{
                   color: 'white',
@@ -377,7 +366,7 @@ const HomeBarber = ({navigation}) => {
                     height: 27,
                     flex: 0.8,
                   }}
-                  stylebtn={{color: 'white', fontSize: 13}}
+                  stylebtn={{ color: 'white', fontSize: 13 }}
                   onPress={() =>
                     navigation.navigate(constants.BarberScreen.EReceipt)
                   }
@@ -387,7 +376,7 @@ const HomeBarber = ({navigation}) => {
             </View>
           </View>
 
-          <View style={{height: 1, position: 'relative', marginHorizontal: 15}}>
+          <View style={{ height: 1, position: 'relative', marginHorizontal: 15 }}>
             <View
               style={{
                 position: 'absolute',
@@ -418,7 +407,7 @@ const HomeBarber = ({navigation}) => {
               justifyContent: 'center',
               alignItems: 'center',
             }}>
-            <View style={{flex: 0.35, alignItems: 'center'}}>
+            <View style={{ flex: 0.35, alignItems: 'center' }}>
               <Image
                 source={item.item.Imagesource}
                 style={{
@@ -429,8 +418,8 @@ const HomeBarber = ({navigation}) => {
                 }}
               />
             </View>
-            <View style={{flexDirection: 'column', flex: 0.63}}>
-              <Text style={{fontSize: 22, fontWeight: '600', color: 'white'}}>
+            <View style={{ flexDirection: 'column', flex: 0.63 }}>
+              <Text style={{ fontSize: 22, fontWeight: '600', color: 'white' }}>
                 {item.item.name}
               </Text>
               <View>
@@ -446,7 +435,7 @@ const HomeBarber = ({navigation}) => {
               </View>
               <View>
                 <Text
-                  style={{fontSize: 12, fontWeight: '400', color: '#c79647'}}>
+                  style={{ fontSize: 12, fontWeight: '400', color: '#c79647' }}>
                   {item.item.label}
                 </Text>
               </View>
@@ -460,14 +449,14 @@ const HomeBarber = ({navigation}) => {
               justifyContent: 'space-evenly',
             }}>
             <Bookingbutton
-              style={{backgroundColor: '#c79647'}}
-              stylebtn={{color: 'white'}}
+              style={{ backgroundColor: '#c79647' }}
+              stylebtn={{ color: 'white' }}
               title={'Accept'}
             />
             <Bookingbutton
               onPress={handleClickReject}
-              style={{backgroundColor: '#E81F1C', borderColor: 'red'}}
-              stylebtn={{color: 'white'}}
+              style={{ backgroundColor: '#E81F1C', borderColor: 'red' }}
+              stylebtn={{ color: 'white' }}
               title={'Reject'}
             />
           </View>
@@ -476,18 +465,24 @@ const HomeBarber = ({navigation}) => {
     );
   };
 
+  useEffect(() => {
+    SignalRService.onGetNotification((json) => {
+      console.log("json", json)
+    });
+  }, [])
+
   return (
     <Screen statusBarColor={appColors.Black} viewStyle={styles.MianContainer}>
       <KeyboardAvoidingView
-        style={{flex: 1}}
+        style={{ flex: 1 }}
         behavior={Platform.OS === 'ios' ? 'padding' : null}
         keyboardVerticalOffset={Platform.OS === 'android' ? 75 : 55}>
         <CustomModal
           visible={visible}
-          modalHeight={{height: screenSize.height / 3}}
+          modalHeight={{ height: screenSize.height / 3 }}
           CustomModalView={CustomModalView}
         />
-        <View style={{flex: 0.1}}>
+        <View style={{ flex: 0.1 }}>
           <HomeHeader
             heading={userDetails?.userName}
             // sunHeading={'Washington DC'}
@@ -507,20 +502,20 @@ const HomeBarber = ({navigation}) => {
             alignItems: 'center',
             paddingHorizontal: 10,
           }}>
-          <Text style={{fontSize: 22, color: appColors.White}}>
+          <Text style={{ fontSize: 22, color: appColors.White }}>
             Appointment
           </Text>
           <TouchableOpacity>
-            <Text style={{color: appColors.Goldcolor, fontSize: 16}}>
+            <Text style={{ color: appColors.Goldcolor, fontSize: 16 }}>
               See all
             </Text>
           </TouchableOpacity>
         </View>
 
-        <View style={{flex: 0.7}}>
+        <View style={{ flex: 0.7 }}>
           <FlatList
             data={data}
-            renderItem={({item, index}) => <ListPrebooking item={item} />}
+            renderItem={({ item, index }) => <ListPrebooking item={item} />}
             // renderItem={({item}) => <listBookingCompleted item={item} />}
             keyExtractor={item => item.id}
           />

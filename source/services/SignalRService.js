@@ -1,5 +1,5 @@
-import {HubConnectionBuilder, LogLevel} from '@microsoft/signalr';
-import {generateRandomNumber} from '../functions/AppFunctions';
+import { HubConnectionBuilder, LogLevel } from '@microsoft/signalr';
+import { generateRandomNumber } from '../functions/AppFunctions';
 
 class SignalRService {
   constructor() {
@@ -86,6 +86,19 @@ class SignalRService {
 
   onReceiveMessage = callback => {
     this.connection.on('ReceiveMessage', callback);
+  };
+
+  onGetNotification = callback => {
+    this.connection.on('GetNotification', callback);
+  };
+
+  sendNotification = async (NotificationID) => {
+    try {
+      console.log("NotificationID", NotificationID)
+      await this.connection.invoke('SendNotification', NotificationID);
+    } catch (error) {
+      console.error('Error while Sending Comments:', error);
+    }
   };
 
   sendMessage = async (message, R_ID, S_ID, MeetingID) => {

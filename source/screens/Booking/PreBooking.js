@@ -40,6 +40,38 @@ const PreBooking = ({
   const [selectedBooking, setSelectedBooking] = useState({});
 
   const getPreBookings = () => {
+    if(hasMore == false) return
+    const payload = {
+      operationID: 1,
+      roleID: userDetails?._RoleId,
+      customerID: userDetails?.userId,
+      userID: 0,
+      userIP: 'string',
+      _PageNumber: pageNumber,
+      _RowsOfPage: 10,
+    };
+    console.log('payload', payload);
+    PostRequest(endPoint.BB_BOOKEDSLOTS, payload)
+      .then(res => {
+        if (res?.data?.Table?.length > 0) {
+          setPreBookingList(preBookingList => [
+            ...preBookingList,
+            ...res?.data?.Table,
+          ]);
+          setPageNumber(pageNumber + 1); // Increment the page number
+          setIsLoading(false);
+        } else {
+          setHasMore(false);
+          setIsLoading(false);
+        }
+      })
+      .catch(err => {
+        console.log(err);
+        setIsLoading(false);
+      });
+  };
+
+  const reCallPreBookings = () => {
     const payload = {
       operationID: 1,
       roleID: userDetails?._RoleId,
@@ -109,10 +141,10 @@ const PreBooking = ({
               <Completedbutton
                 style={{
                   backgroundColor:
-                    item?.StatusID == 9 ? appColors.Gray : '#2E8B57',
+                    item?.StatusID == 8 ? appColors.Gray : appColors.Accepted ,
                 }}
                 textstyle={{color: appColors.White}}
-                title={item?.StatusID == 9 ? 'Pending' : 'Accepted'}
+                title={item?.StatusID == 8 ? 'Pending' : 'Accepted'}
               />
             </View>
           </View>
@@ -234,7 +266,7 @@ const PreBooking = ({
         <CancelBooking
           refRBSheet={refRBSheet}
           selectedBooking={selectedBooking}
-          getPreBookings={getPreBookings}
+          getPreBookings={reCallPreBookings}
         />
       </BottomSheet>
       {isLoading ? (

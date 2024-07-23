@@ -32,7 +32,7 @@ const initialAdminBookingCancelFieds = {
   _RowsOfPage: 10,
 };
 
-const Bookingcancelled = ({userDetails}) => {
+const Bookingcancelled = ({userDetails, initialBookingFields}) => {
   const isFocused = useIsFocused();
 
   const timeoutRef = useRef(null);
@@ -44,9 +44,12 @@ const Bookingcancelled = ({userDetails}) => {
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
-    if (isFocused) getCancelledBooking();
+    if (isFocused) {
+      setPageNumber(1);
+      getCancelledBooking();
+    }
     return () => clearTimeout(timeoutRef.current);
-  }, [isFocused]);
+  }, [isFocused, pageNumber]);
 
   const getCancelledBooking = () => {
     if (hasMore == false) return;
@@ -68,6 +71,32 @@ const Bookingcancelled = ({userDetails}) => {
           setIsLoading(false);
         } else {
           setHasMore(false);
+          setIsLoading(false);
+        }
+      })
+      .catch(err => {
+        console.log(err);
+        setIsLoading(false);
+      });
+  };
+
+  const reCallGetCancelledBooking = () => {
+    const payload = {
+      ...initialAdminBookingCancelFieds,
+      operationID: 6,
+      roleID: userDetails?._RoleId,
+      userID: userDetails?.userId,
+      _PageNumber: pageNumber,
+      _RowsOfPage: 10,
+    };
+    console.log('payload', payload);
+    PostRequest(endPoint.BB_BOOKEDSLOTS, payload)
+      .then(res => {
+        console.log('reCallGetCancelledBooking Response', res?.data);
+        if (res?.data?.Table?.length > 0) {
+          setCancelledBooking(res?.data?.Table);
+        } else {
+          setHasMore(false);
         }
       })
       .catch(err => {
@@ -83,16 +112,14 @@ const Bookingcancelled = ({userDetails}) => {
           <View style={styles.ContainerInnerview}>
             <View style={styles.Dateview}>
               <Text style={styles.DateTextstyle}>
-                {moment(item?.BookingDate).format('DD-MM-YYYY')} -{' '}
+                {moment(item?.BookingDate).format('MMMM DD, YYYY')} -{' '}
                 {item?.SlotName}
               </Text>
             </View>
 
-            <View style={{flex: item?.StatusID == 12 ? 0.25 : 0.4}}>
+            <View style={{flex: item?.StatusID == 12 ? 0.25 : 0.5}}>
               <Completedbutton
-                title={
-                  item?.StatusID == 12 ? 'Cancel' : 'Request for Cancellation'
-                }
+                title={item?.Status}
                 style={{backgroundColor: '#e81f1c'}}
                 textstyle={{color: 'white'}}
                 onPress={() => {
@@ -154,9 +181,7 @@ const Bookingcancelled = ({userDetails}) => {
                   Reason:
                 </Text>
                 <Text style={styles.labelStyle}>
-                  {item.IsBarberRejectRequestRemarks == null
-                    ? 'No Reason'
-                    : item.IsBarberRejectRequestRemarks}
+                  {item.Description == null ? 'No Reason' : item.Description}
                   {/* Hello My name is anas and i am not feeling well thats why i
                   dont want to complete */}
                 </Text>
@@ -195,17 +220,18 @@ const Bookingcancelled = ({userDetails}) => {
 
   const getAcceptRejectAppointment = operation => {
     const payload = {
-      ...initialAdminBookingCancelFieds,
+      ...initialBookingFields,
       operationID: operation,
       bookingDate: cancelledItem?.BookingDate,
       barbarBookedSlotID: cancelledItem?.BarbarBookedSlotID,
     };
-    console.log('payload', payload);
+    console.log('getAcceptRejectAppointment ', payload);
 
     PostRequest(endPoint.ADMIN_APPOINTMENT_UAR, payload)
       .then(res => {
         console.log('Booking Accept Or Reject', res?.data);
         if (res?.data?.[0]?.Haserror == 0) {
+          reCallGetCancelledBooking();
           SimpleSnackBar(res?.data?.[0]?.Message);
           timeoutRef.current = setTimeout(() => setVisible(false), 3000);
         } else {

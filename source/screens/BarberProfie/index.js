@@ -1,4 +1,4 @@
-import React, {Fragment, useEffect, useState} from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import {
   ActivityIndicator,
   FlatList,
@@ -17,21 +17,21 @@ import Header from '../../components/molecules/Header';
 import CustomIcon, {
   Icons,
 } from '../../components/molecules/CustomIcon/CustomIcon';
-import Carousel, {Pagination, ParallaxImage} from 'react-native-snap-carousel';
+import Carousel, { Pagination, ParallaxImage } from 'react-native-snap-carousel';
 import appColors from '../../AppConstants/appColors';
-import {AppImages} from '../../AppConstants/AppImages';
-import {screenSize} from '../../components/atom/ScreenSize';
+import { AppImages } from '../../AppConstants/AppImages';
+import { screenSize } from '../../components/atom/ScreenSize';
 import ButtonComponent from '../../components/atom/CustomButtons/ButtonComponent';
 import constants from '../../AppConstants/Constants.json';
-import {GetRequest, PostRequest} from '../../services/apiCall';
-import {endPoint} from '../../AppConstants/urlConstants';
-import {SimpleSnackBar} from '../../components/atom/Snakbar/Snakbar';
-import {TabRouter} from '@react-navigation/native';
+import { GetRequest, PostRequest } from '../../services/apiCall';
+import { endPoint } from '../../AppConstants/urlConstants';
+import { SimpleSnackBar } from '../../components/atom/Snakbar/Snakbar';
+import { TabRouter } from '@react-navigation/native';
 import Share from 'react-native-share';
-import {LATEST_SELECT, approve} from '../../AppConstants/appConstants';
+import { LATEST_SELECT, approve } from '../../AppConstants/appConstants';
 
-const BarberProfile = ({navigation, route}) => {
-  const {barberId} = route.params || {};
+const BarberProfile = ({ navigation, route }) => {
+  const { barberId } = route.params || {};
 
   console.log('barberIdbarberId222111', barberId);
 
@@ -117,11 +117,10 @@ const BarberProfile = ({navigation, route}) => {
     );
   };
 
-  const renderItem = ({item, index}, parallaxProps) => {
+  const renderItem = ({ item, index }, parallaxProps) => {
     return (
       <View style={styles.slide}>
         <Image source={item.illustration} style={styles.image} />
-        {/* <Text style={styles.title}>{item.title}</Text> */}
       </View>
     );
   };
@@ -153,13 +152,13 @@ const BarberProfile = ({navigation, route}) => {
 
   return (
     <Screen>
-      <View style={{flex: 1, backgroundColor: appColors.Black}}>
+      <View style={{ flex: 1, backgroundColor: appColors.Black }}>
         <StatusBar
           translucent={true}
           backgroundColor="transparent"
           barStyle="light-content"
         />
-        <View style={{flex: 0.4}}>
+        <View style={{ flex: 0.35 }}>
           <Carousel
             //  ref={carouselRef}
             data={Profiles}
@@ -179,8 +178,8 @@ const BarberProfile = ({navigation, route}) => {
             inactiveDotScale={0.8}
           />
           <View
-            style={{flex: 1, position: 'absolute', top: 40, left: 0, right: 0}}>
-            <View style={{flex: 0.1}}>
+            style={{ flex: 1, position: 'absolute', top: 40, left: 0, right: 0 }}>
+            <View style={{ flex: 0.1 }}>
               <Header
                 lefttIcoType={Icons.Ionicons}
                 onPressLeftIcon={() =>
@@ -220,39 +219,66 @@ const BarberProfile = ({navigation, route}) => {
             </View>
           </View>
         </View>
-        <View style={{flex: 0.1, flexDirection: 'row', paddingHorizontal: 10}}>
-          <View style={{flex: 0.79}}>
-            <View style={{flex: 0.5, justifyContent: 'flex-end'}}>
-              <Text style={{fontSize: 27, color: appColors.White}}>
+
+
+        <View style={{ flex: 0.1, marginHorizontal: 12 }}>
+          <View style={{ flex: 0.6, flexDirection: 'row' }}>
+            <View style={{ flex: 0.7, justifyContent: 'center' }}>
+              <Text style={{ fontSize: 25, color: appColors.White }}>
                 {barberProfile?.userName}
               </Text>
             </View>
-            <View style={{flex: 0.35, flexDirection: 'row'}}>
-              <View style={{flex: 0.33, flexDirection: 'row'}}>
-                <View style={{flex: 0.23, justifyContent: 'center'}}>
+            <View style={{ flex: 0.3, justifyContent: 'flex-end', marginBottom: 4, alignItems: 'flex-end' }}>
+              <View
+                style={{
+                  flex: 0.5,
+                  justifyContent: 'flex-end',
+                  alignItems: 'center',
+                }}>
+                <View style={styles.Ratingbox}>
+                  <View
+                    style={{
+                      color: 'white',
+                      flexDirection: 'row',
+                      justifyContent: 'space-evenly',
+                      alignItems: 'center',
+                    }}>
+                    <CustomIcon
+                      type={Icons.AntDesign}
+                      name={'staro'}
+                      color={appColors.Goldcolor}
+                      size={17}
+                    />
+                    <Text style={{ color: '#c79647', fontSize: 12 }}>4.1</Text>
+                  </View>
+                </View>
+              </View>
+            </View>
+          </View>
+          <View style={{ flex: 0.4, flexDirection: 'row' }}>
+            <View style={{ flex: 0.7, flexDirection: 'row', }}>
+              <View style={{ flex: 0.4, flexDirection: 'row' }}>
+                <View style={{ flex: 0.2, justifyContent: 'flex-start' }}>
                   <CustomIcon
                     type={Icons.Ionicons}
                     name={'location-outline'}
                     color={appColors.White}
-                    size={20}
+                    size={18}
                   />
                 </View>
-                <View style={{flex: 0.77, justifyContent: 'center'}}>
-                  <View>
-                    <Text
-                      style={{
-                        color: appColors.White,
-                        fontSize: 15,
-                        fontWeight: '500',
-                      }}>
-                      {/* {barberDetails.type} */}
-                      1.6 km
-                    </Text>
-                  </View>
+                <View style={{ flex: 0.8, jjustifyContent: 'flex-start', marginTop: 2, alignItems: 'flex-start' }}>
+                  <Text
+                    style={{
+                      color: appColors.White,
+                      fontSize: 12,
+                      fontWeight: '500',
+                    }}>
+                    1.6 km
+                  </Text>
                 </View>
               </View>
-              <View style={{flex: 0.77, flexDirection: 'row'}}>
-                <View style={{flex: 0.11, justifyContent: 'center'}}>
+              <View style={{ flex: 0.4, flexDirection: 'row', }}>
+                <View style={{ flex: 0.2, justifyContent: 'flex-start' }}>
                   <CustomIcon
                     type={Icons.AntDesign}
                     name={'staro'}
@@ -260,61 +286,47 @@ const BarberProfile = ({navigation, route}) => {
                     size={18}
                   />
                 </View>
-                <View style={{flex: 0.89, justifyContent: 'center'}}>
+                <View style={{ flex: 0.8, justifyContent: 'flex-start', marginTop: 2, alignItems: 'flex-start' }}>
                   <Text
                     style={{
                       color: appColors.White,
-                      fontSize: 15,
+                      fontSize: 12,
                       fontWeight: '500',
                     }}>
-                    4.1rating
+                    4.1 rating
                   </Text>
                 </View>
-              </View>
-            </View>
-          </View>
-          <View style={{flex: 0.21}}>
-            <View
-              style={{
-                flex: 0.5,
-                justifyContent: 'flex-end',
-                alignItems: 'center',
-              }}>
-              <View style={styles.Ratingbox}>
-                <View
-                  style={{
-                    color: 'white',
-                    flexDirection: 'row',
-                    justifyContent: 'space-evenly',
-                    alignItems: 'center',
-                  }}>
-                  <CustomIcon
-                    type={Icons.AntDesign}
-                    name={'staro'}
-                    color={appColors.Goldcolor}
-                    size={17}
-                  />
-                  <Text style={{color: '#c79647', fontSize: 12}}>4.1</Text>
-                </View>
-              </View>
-            </View>
-            <View style={{flex: 0.35, justifyContent: 'center'}}>
-              <View>
+                {/* <CustomIcon
+                  type={Icons.AntDesign}
+                  name={'staro'}
+                  color={appColors.Goldcolor}
+                  size={18}
+                />
                 <Text
                   style={{
-                    color: appColors.Goldcolor,
-                    fontSize: 16,
+                    color: appColors.White,
+                    fontSize: 12,
                     fontWeight: '500',
                   }}>
-                  5k+ ratings
-                </Text>
+                  4.1 rating
+                </Text> */}
               </View>
             </View>
+            <View style={{ flex: 0.3, justifyContent: 'flex-start', alignItems: 'flex-end', }}>
+              <Text
+                style={{
+                  color: appColors.Goldcolor,
+                  fontSize: 12,
+                  fontWeight: '400',
+                }}>
+                5k+ ratings
+              </Text>
+            </View>
           </View>
-          <View></View>
         </View>
-        <View style={{flex: 0.11, flexDirection: 'row', paddingHorizontal: 5}}>
-          <View style={{flex: 0.2}}>
+
+        <View style={{ flex: 0.1, flexDirection: 'row', paddingHorizontal: 5 }}>
+          <View style={{ flex: 0.2 }}>
             <View
               style={{
                 flex: 0.73,
@@ -340,8 +352,8 @@ const BarberProfile = ({navigation, route}) => {
                 />
               </TouchableOpacity>
             </View>
-            <View style={{flex: 0.27, justifyContent: 'center'}}>
-              <View style={{alignItems: 'center'}}>
+            <View style={{ flex: 0.27, justifyContent: 'center' }}>
+              <View style={{ alignItems: 'center' }}>
                 <Text
                   style={{
                     color: appColors.White,
@@ -353,7 +365,7 @@ const BarberProfile = ({navigation, route}) => {
               </View>
             </View>
           </View>
-          <View style={{flex: 0.2}}>
+          <View style={{ flex: 0.2 }}>
             <View
               style={{
                 flex: 0.73,
@@ -379,13 +391,13 @@ const BarberProfile = ({navigation, route}) => {
                 />
               </TouchableOpacity>
             </View>
-            <View style={{flex: 0.27, justifyContent: 'center'}}>
-              <View style={{alignItems: 'center'}}>
-                <Text style={{color: appColors.White, fontSize: 17}}>Chat</Text>
+            <View style={{ flex: 0.27, justifyContent: 'center' }}>
+              <View style={{ alignItems: 'center' }}>
+                <Text style={{ color: appColors.White, fontSize: 17 }}>Chat</Text>
               </View>
             </View>
           </View>
-          <View style={{flex: 0.2}}>
+          <View style={{ flex: 0.2 }}>
             <View
               style={{
                 flex: 0.73,
@@ -413,8 +425,8 @@ const BarberProfile = ({navigation, route}) => {
               </TouchableOpacity>
             </View>
 
-            <View style={{flex: 0.27}}>
-              <View style={{alignItems: 'center'}}>
+            <View style={{ flex: 0.27 }}>
+              <View style={{ alignItems: 'center' }}>
                 <Text
                   style={{
                     color: appColors.White,
@@ -428,7 +440,7 @@ const BarberProfile = ({navigation, route}) => {
           </View>
         </View>
         <View
-          style={{flex: 0.04, marginHorizontal: 10, justifyContent: 'center'}}>
+          style={{ flex: 0.02, marginHorizontal: 10, margin: 10, justifyContent: 'center' }}>
           <View
             style={{
               borderWidth: 1,
@@ -438,38 +450,38 @@ const BarberProfile = ({navigation, route}) => {
             }}></View>
         </View>
         <View
-          style={{flex: 0.05, justifyContent: 'center', marginHorizontal: 12}}>
-          <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-            <Text style={{fontSize: 18, color: appColors.White}}>
+          style={{ flex: 0.04, flexDirection: 'row', marginHorizontal: 15 }}>
+          <View style={{ flex: 0.5, justifyContent: 'flex-start' }}>
+            <Text style={{ fontSize: 17, color: appColors.White, fontWeight: '500' }}>
               Barber Specialist
             </Text>
-            <TouchableOpacity
-              onPress={() =>
-                navigation.navigate(constants.screen.BarberSpecialist)
-              }>
-              <Text style={{color: appColors.Goldcolor, fontSize: 15}}>
-                See all
-              </Text>
-            </TouchableOpacity>
           </View>
+          <TouchableOpacity
+            style={{ flex: 0.5, justifyContent: 'flex-start', alignItems: 'flex-end' }}
+            onPress={() =>
+              navigation.navigate(constants.screen.BarberSpecialist)
+            }>
+            <Text style={{ color: appColors.Goldcolor, fontSize: 15 }}>
+              See all
+            </Text>
+          </TouchableOpacity>
         </View>
-        <View style={{flex: 0.3, justifyContent: 'center'}}>
+        <View style={{ flex: 0.3, justifyContent: 'center' }}>
           {barberList?.length > 0 ? (
-            <View style={{flex: 1}}>
+            <View style={{ flex: 1 }}>
               {barberList
                 ?.filter(y => y.statusId == approve)
                 ?.slice(0, 3)
                 ?.map((x, i) => (
-                  <View key={i} style={{flex: 0.33, justifyContent: 'center'}}>
+                  <View key={i} style={{ flex: 0.33, justifyContent: 'center' }}>
                     <View
                       style={{
-                        backgroundColor: appColors.darkgrey,
-                        paddingVertical: 5,
-                        paddingHorizontal: 12,
                         borderRadius: 70,
+                        paddingVertical: Platform.OS == 'ios' ? 8 : 6,
                         flexDirection: 'row',
-                        marginVertical: 5,
-                        marginHorizontal: 6,
+                        paddingHorizontal: Platform.OS == 'ios' ? 20 : 10,
+                        margin: 5,
+                        backgroundColor: appColors.darkgrey,
                       }}>
                       <View
                         style={{
@@ -493,7 +505,7 @@ const BarberProfile = ({navigation, route}) => {
                           {x.userName}
                         </Text>
                       </View>
-                      <View style={{flex: 0.3, justifyContent: 'center'}}>
+                      <View style={{ flex: 0.3, justifyContent: 'center' }}>
                         <ButtonComponent
                           title={'View'}
                           onPress={() => {
@@ -580,7 +592,7 @@ const styles = StyleSheet.create({
   },
   imageContainer: {
     flex: 1,
-    marginBottom: Platform.select({ios: 0, android: 1}), // Prevent a random Android rendering issue
+    marginBottom: Platform.select({ ios: 0, android: 1 }), // Prevent a random Android rendering issue
     backgroundColor: 'white',
   },
   image: {

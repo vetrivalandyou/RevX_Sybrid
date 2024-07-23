@@ -111,7 +111,7 @@ const MyBooking = () => {
       customerID: 0,
       userID: asyncUserDetails?.userId,
       userIP: 'string',
-      _PageNumber: pageNumber,
+      _PageNumber: 1,
       _RowsOfPage: 10,
     };
     console.log('payload', payload);
@@ -124,6 +124,7 @@ const MyBooking = () => {
           setIsLoading(false);
         } else {
           setHasMore(false);
+          setIsLoading(false);
         }
       })
       .catch(err => {

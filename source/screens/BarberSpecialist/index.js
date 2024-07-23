@@ -46,6 +46,7 @@ const BarberSpecialist = ({navigation}) => {
   }
 
   const BarberSpecialistContainer = ({item}) => {
+    console.log('item', item);
     return (
       <View
         style={{
@@ -56,10 +57,15 @@ const BarberSpecialist = ({navigation}) => {
           marginBottom: 10,
           borderRadius: 70,
           flexDirection: 'row',
+          margin: 5,
         }}>
         <TouchableOpacity
           style={{flex: 0.2, justifyContent: 'center', alignItems: 'center'}}
-          onPress={() => navigation.navigate(constants.screen.BarberProfile)}>
+          onPress={() =>
+            navigation.navigate(constants.screen.BarberProfile, {
+              barberId: item?.userId,
+            })
+          }>
           <Image source={AppImages.bb1} />
         </TouchableOpacity>
         <View style={{flex: 0.8, flexDirection: 'row'}}>
