@@ -1,10 +1,8 @@
-import React, {useEffect} from 'react';
+import React, {useState} from 'react';
 import {
-  ImageBackground,
+  Image,
   Text,
   View,
-  Image,
-  Touchable,
   TouchableOpacity,
   FlatList,
   KeyboardAvoidingView,
@@ -16,66 +14,43 @@ import {Icons} from '../../components/molecules/CustomIcon/CustomIcon';
 import Screen from '../../components/atom/ScreenContainer/Screen';
 import appColors from '../../AppConstants/appColors';
 import constants from '../../AppConstants/Constants.json';
-
 import {AppImages} from '../../AppConstants/AppImages';
 import {useNavigation} from '@react-navigation/native';
-import SignalRService from '../../services/SignalRService';
-import {useSelector} from 'react-redux';
-import {imageUrl} from '../../AppConstants/urlConstants';
 import {screenSize} from '../../components/atom/ScreenSize';
 import ButtonComponent from '../../components/atom/CustomButtons/ButtonComponent';
 
 const RatingScreen = () => {
   const navigation = useNavigation();
+  const [selectedStar, setSelectedStar] = useState(null);
+  const [selectedComment, setSelectedComment] = useState(null);
+
   const starMark = [
-    {
-      id: 1,
-      title: 'All',
-      Imagesource: AppImages.Star,
-    },
-    {
-      id: 2,
-      title: '5',
-      Imagesource: AppImages.Star,
-    },
-    {
-      id: 3,
-      title: '4',
-      Imagesource: AppImages.Star,
-    },
-    {
-      id: 4,
-      title: '3',
-      Imagesource: AppImages.Star,
-    },
-    {
-      id: 5,
-      title: '2',
-      Imagesource: AppImages.Star,
-    },
-    {
-      id: 6,
-      title: '1',
-      Imagesource: AppImages.Star,
-    },
+    {id: 1, title: 'All', Imagesource: AppImages.Star},
+    {id: 2, title: '5', Imagesource: AppImages.Star},
+    {id: 3, title: '4', Imagesource: AppImages.Star},
+    {id: 4, title: '3', Imagesource: AppImages.Star},
+    {id: 5, title: '2', Imagesource: AppImages.Star},
+    {id: 6, title: '1', Imagesource: AppImages.Star},
   ];
 
   const StarData = ({item}) => {
+    const isSelected = item.id === selectedStar;
     return (
-      <TouchableOpacity>
+      <TouchableOpacity onPress={() => setSelectedStar(item.id)}>
         <View
-          key={item?.categoryId}
+          key={item.id}
           style={{
             marginHorizontal: 3,
             height: screenSize.height / 18,
             width: screenSize.width / 5,
-            // backgroundColor: 'red',
             justifyContent: 'center',
           }}>
           <View
             style={{
               flex: 1,
-              backgroundColor: appColors.darkgrey,
+              backgroundColor: isSelected
+                ? appColors.Goldcolor
+                : appColors.darkgrey,
               borderRadius: 100,
             }}>
             <View
@@ -87,11 +62,15 @@ const RatingScreen = () => {
               }}>
               <Image
                 style={{width: 16, height: 16, marginHorizontal: 8}}
-                source={item?.Imagesource}
+                source={item.Imagesource}
               />
               <Text
-                style={{fontSize: 16, fontWeight: 500, color: appColors.White}}>
-                {item?.title}
+                style={{
+                  fontSize: 16,
+                  fontWeight: '500',
+                  color: appColors.White,
+                }}>
+                {item.title}
               </Text>
             </View>
           </View>
@@ -101,29 +80,18 @@ const RatingScreen = () => {
   };
 
   const commentRating = [
-    {
-      id: 1,
-      title: 'Beautiful',
-    },
-    {
-      id: 2,
-      title: 'Love it !!!',
-    },
-    {
-      id: 3,
-      title: '😍😍😍',
-    },
-    {
-      id: 4,
-      title: 'Fast Delivery',
-    },
+    {id: 1, title: 'Beautiful'},
+    {id: 2, title: 'Love it !!!'},
+    {id: 3, title: '😍😍😍'},
+    {id: 4, title: 'Fast Delivery'},
   ];
 
   const CommentRatingData = ({item}) => {
+    const isSelected = item.id === selectedComment;
     return (
-      <TouchableOpacity>
+      <TouchableOpacity onPress={() => setSelectedComment(item.id)}>
         <View
-          key={item}
+          key={item.id}
           style={{
             marginHorizontal: 3,
             height: screenSize.height / 16,
@@ -132,7 +100,9 @@ const RatingScreen = () => {
           <View
             style={{
               flex: 1,
-              backgroundColor: appColors.Black,
+              backgroundColor: isSelected
+                ? appColors.Goldcolor
+                : appColors.Black,
               borderRadius: 100,
               borderColor: appColors.White,
               borderWidth: 1,
@@ -145,8 +115,12 @@ const RatingScreen = () => {
                 flexDirection: 'row',
               }}>
               <Text
-                style={{fontSize: 16, fontWeight: 500, color: appColors.White}}>
-                {item?.title}
+                style={{
+                  fontSize: 16,
+                  fontWeight: '500',
+                  color: appColors.White,
+                }}>
+                {item.title}
               </Text>
             </View>
           </View>
@@ -193,10 +167,7 @@ const RatingScreen = () => {
             }}
           />
         </View>
-        <View
-          style={{
-            flex: 0.1,
-          }}>
+        <View style={{flex: 0.1}}>
           <FlatList
             data={starMark}
             horizontal={true}

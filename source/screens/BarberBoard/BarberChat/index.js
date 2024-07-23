@@ -31,7 +31,7 @@ const BarberChat = ({route, navigation}) => {
   const [message, setMessage] = useState('');
   const [userDetails, setuserDetails] = useState({});
 
-  console.log("profileData ---------------", profileData)
+  console.log('profileData ---------------', profileData);
 
   useEffect(() => {
     // if(isFocused){
@@ -86,13 +86,13 @@ const BarberChat = ({route, navigation}) => {
       message,
       profileData?.CustomerID.toString(),
       userDetails?.userId.toString(),
-      profileData?.MeetingID.toString()
+      profileData?.MeetingID.toString(),
     );
     await SignalRService.sendMessage(
       message,
       profileData?.CustomerID.toString(),
       userDetails?.userId.toString(),
-      profileData?.MeetingID.toString()
+      profileData?.MeetingID.toString(),
     );
     setMessage('');
   };

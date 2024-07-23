@@ -557,7 +557,9 @@ const HomeScreen = ({navigation}) => {
                   alignItems: 'center',
                 }}>
                 <CustomIcon
-                onPress={() => navigation.navigate(constants.screen.PaymentStatus)}
+                  onPress={() =>
+                    navigation.navigate(constants.screen.PaymentStatus)
+                  }
                   type={Icons.Feather}
                   name={'filter'}
                   color={appColors.White}
@@ -575,155 +577,171 @@ const HomeScreen = ({navigation}) => {
     <Screen
       statusBarColor={appColors.Black}
       viewStyle={{padding: 15, flex: 0.9}}>
-      <BottomSheet ref={locationBottomSheetRef} Height={screenSize.height / 2}>
-        <LocationBottomSheet refRBSheet={locationBottomSheetRef} />
-      </BottomSheet>
-      <View style={{flex: 0.1}}>
-        <HomeHeader
-          heading={userDetails?.userName}
-          sunHeading={
-            selectedLocation == '' ? 'No Location Selected' : selectedLocation
-          }
-          source={`${imageUrl}${userDetails?.profileImage}`}
-          refRBSheet={locationBottomSheetRef}
-        />
-      </View>
       <View
         style={{
-          flex: 0.1,
-          justifyContent: 'center',
-          marginTop: 10,
+          minHeight: screenSize.height / 1.2,
+          maxHeight: 'auto',
         }}>
-        <Search leaftIconType={Icons.Ionicons} leftIconName={'filter'} />
-      </View>
-      <ScrollView showsVerticalScrollIndicator={false} style={{flex: 0.8}}>
-        <View
-          style={{
-            height: screenSize.height / 16,
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-          }}>
-          <Text
-            style={{
-              fontSize: 18,
-              color: appColors.White,
-              marginLeft: 8,
-              fontWeight: 'bold',
-            }}>
-            Our Services
-          </Text>
-        </View>
-        <View style={{height: screenSize.height / 6}}>
-          {isLoading == false ? (
-            <FlatList
-              data={ourServices}
-              horizontal={true}
-              showsHorizontalScrollIndicator={false}
-              keyExtractor={(item, index) => index.toString()}
-              renderItem={({item}) => <OurServices item={item} />}
-            />
-          ) : (
-            <View
-              style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-              <ActivityIndicator size="small" color={appColors.Goldcolor} />
-            </View>
-          )}
-        </View>
-        <View
-          style={{
-            height: screenSize.height / 16,
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-          }}>
-          <Text
-            style={{
-              fontSize: 18,
-              color: appColors.White,
-              marginLeft: 10,
-              fontWeight: 'bold',
-            }}>
-            Nearby Barbers
-          </Text>
-          <TouchableOpacity
-            onPress={() =>
-              navigation.navigate(constants.screen.BarberSpecialist)
+        <BottomSheet
+          ref={locationBottomSheetRef}
+          Height={screenSize.height / 2}>
+          <LocationBottomSheet refRBSheet={locationBottomSheetRef} />
+        </BottomSheet>
+        <View style={{flex: 0.1}}>
+          <HomeHeader
+            heading={userDetails?.userName}
+            sunHeading={
+              selectedLocation == '' ? 'No Location Selected' : selectedLocation
             }
-            style={{}}>
-            <Text style={{color: appColors.Goldcolor, fontSize: 16}}>
-              See All Barbers
-            </Text>
-          </TouchableOpacity>
-        </View>
-        <View
-          style={{height: screenSize.height / 2.9, justifyContent: 'center'}}>
-          {isLoading == false ? (
-            <>
-              {barberList?.length > 0 ? (
-                <FlatList
-                  data={barberList}
-                  horizontal={true}
-                  showsHorizontalScrollIndicator={false}
-                  keyExtractor={(item, index) => index.toString()}
-                  renderItem={({item, index}) => (
-                    <NearbyBarbers item={item} key={index} />
-                  )}
-                />
-              ) : (
-                <View
-                  style={{
-                    flex: 1,
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                  }}>
-                  <Text
-                    style={{
-                      color: appColors.Goldcolor,
-                      fontSize: 15,
-                      fontWeight: 'bold',
-                    }}>
-                    No Barber Available at your Location!!
-                  </Text>
-                </View>
-              )}
-            </>
-          ) : (
-            <View
-              style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-              <ActivityIndicator size="small" color={appColors.Goldcolor} />
-            </View>
-          )}
-        </View>
-        <View
-          style={{
-            height: screenSize.height / 16,
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            paddingHorizontal: 10,
-          }}>
-          <Text
-            style={{
-              fontSize: 18,
-              color: appColors.White,
-              marginLeft: 8,
-              fontWeight: 'bold',
-            }}>
-            Best Offers
-          </Text>
-        </View>
-        <View style={{height: screenSize.height / 2.35}}>
-          <FlatList
-            data={BarbersData}
-            renderItem={({item, index}) => (
-              <Bestoffer item={item} index={index} />
-            )}
-            keyExtractor={item => item.id}
-            horizontal={true}
+            source={`${imageUrl}${userDetails?.profileImage}`}
+            refRBSheet={locationBottomSheetRef}
           />
         </View>
-      </ScrollView>
+        <View
+          style={{
+            flex: 0.1,
+            justifyContent: 'center',
+            marginTop: 10,
+          }}>
+          <Search leaftIconType={Icons.Ionicons} leftIconName={'filter'} />
+        </View>
+        <ScrollView showsVerticalScrollIndicator={false} style={{flex: 0.8}}>
+          <View
+            style={{
+              height: screenSize.height / 16,
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+            }}>
+            <Text
+              style={{
+                fontSize: 18,
+                color: appColors.White,
+                marginLeft: 8,
+                fontWeight: 'bold',
+              }}>
+              Our Services
+            </Text>
+          </View>
+          <View style={{height: screenSize.height / 6}}>
+            {isLoading == false ? (
+              <FlatList
+                data={ourServices}
+                horizontal={true}
+                showsHorizontalScrollIndicator={false}
+                keyExtractor={(item, index) => index.toString()}
+                renderItem={({item}) => <OurServices item={item} />}
+              />
+            ) : (
+              <View
+                style={{
+                  flex: 1,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }}>
+                <ActivityIndicator size="small" color={appColors.Goldcolor} />
+              </View>
+            )}
+          </View>
+          <View
+            style={{
+              height: screenSize.height / 16,
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+            }}>
+            <Text
+              style={{
+                fontSize: 18,
+                color: appColors.White,
+                marginLeft: 10,
+                fontWeight: 'bold',
+              }}>
+              Nearby Barbers
+            </Text>
+            <TouchableOpacity
+              onPress={() =>
+                navigation.navigate(constants.screen.BarberSpecialist)
+              }
+              style={{}}>
+              <Text style={{color: appColors.Goldcolor, fontSize: 16}}>
+                See All Barbers
+              </Text>
+            </TouchableOpacity>
+          </View>
+          <View
+            style={{height: screenSize.height / 2.9, justifyContent: 'center'}}>
+            {isLoading == false ? (
+              <>
+                {barberList?.length > 0 ? (
+                  <FlatList
+                    data={barberList}
+                    horizontal={true}
+                    showsHorizontalScrollIndicator={false}
+                    keyExtractor={(item, index) => index.toString()}
+                    renderItem={({item, index}) => (
+                      <NearbyBarbers item={item} key={index} />
+                    )}
+                  />
+                ) : (
+                  <View
+                    style={{
+                      flex: 1,
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                    }}>
+                    <Text
+                      style={{
+                        color: appColors.Goldcolor,
+                        fontSize: 15,
+                        fontWeight: 'bold',
+                      }}>
+                      No Barber Available at your Location!!
+                    </Text>
+                  </View>
+                )}
+              </>
+            ) : (
+              <View
+                style={{
+                  flex: 1,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }}>
+                <ActivityIndicator size="small" color={appColors.Goldcolor} />
+              </View>
+            )}
+          </View>
+          <View
+            style={{
+              height: screenSize.height / 16,
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              paddingHorizontal: 10,
+            }}>
+            <Text
+              style={{
+                fontSize: 18,
+                color: appColors.White,
+                marginLeft: 8,
+                fontWeight: 'bold',
+              }}>
+              Best Offers
+            </Text>
+          </View>
+          <View style={{height: screenSize.height / 2.35}}>
+            <FlatList
+              data={BarbersData}
+              renderItem={({item, index}) => (
+                <Bestoffer item={item} index={index} />
+              )}
+              keyExtractor={item => item.id}
+              horizontal={true}
+            />
+          </View>
+        </ScrollView>
+      </View>
     </Screen>
   );
 };

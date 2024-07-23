@@ -241,6 +241,7 @@ const AddVanservices = ({navigation, route}) => {
                   </View>
                 </View>
               </View>
+
               <View style={styles.buttonView}>
                 <ButtonComponent
                   style={styles.buttonStyle}

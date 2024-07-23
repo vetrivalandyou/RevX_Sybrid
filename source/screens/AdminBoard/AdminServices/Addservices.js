@@ -25,6 +25,7 @@ import ChooseImage from '../../../components/molecules/ChooseImage';
 import {AppImages} from '../../../AppConstants/AppImages';
 import {generateRandomNumber} from '../../../functions/AppFunctions';
 import {screenSize} from '../../../components/atom/ScreenSize';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 
 const Addservices = ({route}) => {
   const navigation = useNavigation();
@@ -50,9 +51,9 @@ const Addservices = ({route}) => {
       type: profileImage?.mime,
     });
 
-    console.log("handleAddService --- FormData",formData)
-    console.log(" profileImage?.path",  profileImage?.path)
-    console.log("profileImage?.mime",  profileImage?.mime)
+    console.log('handleAddService --- FormData', formData);
+    console.log(' profileImage?.path', profileImage?.path);
+    console.log('profileImage?.mime', profileImage?.mime);
     PostRequest(endPoint.SETUP_CATEGORIES_CU, formData)
       .then(res => {
         if (res?.data?.code === SUCCESS_CODE) {
@@ -73,139 +74,146 @@ const Addservices = ({route}) => {
   };
 
   return (
-    <Screen
-      viewStyle={{flex: 1, padding: 15, backgroundColor: appColors.Black}}
-      statusBarColor={appColors.Black}>
-      <View style={{flex: 0.1}}>
-        <Header
-          headerSubView={{marginHorizontal: 5}}
-          lefttIcoType={Icons.Ionicons}
-          onPressLeftIcon={() => navigation.goBack()}
-          leftIcoName={'chevron-back'}
-          headerText={'Add Service'}
-          logIn={'success'}
-        />
-      </View>
-      <View style={{flex: 0.8}}>
-        <View style={{flex: 0.2}}>
-          <View
-            style={{
-              flex: 1,
-              justifyContent: 'center',
-              alignItems: 'center',
-            }}>
-            <TouchableOpacity
-              onPress={() => refRBSheet.current.open()}
+    <KeyboardAwareScrollView style={{flex: 1}}>
+      <Screen
+        viewStyle={{
+          flex: 1,
+          padding: 15,
+          backgroundColor: appColors.Black,
+          minHeight: screenSize.height,
+        }}
+        statusBarColor={appColors.Black}>
+        <View style={{flex: 0.1}}>
+          <Header
+            headerSubView={{marginHorizontal: 5}}
+            lefttIcoType={Icons.Ionicons}
+            onPressLeftIcon={() => navigation.goBack()}
+            leftIcoName={'chevron-back'}
+            headerText={'Add Service'}
+            logIn={'success'}
+          />
+        </View>
+        <View style={{flex: 0.8}}>
+          <View style={{flex: 0.2}}>
+            <View
               style={{
-                width: '28%',
-                height: '82%',
+                flex: 1,
                 justifyContent: 'center',
                 alignItems: 'center',
               }}>
-              {profileImage?.path ? (
-                <Image
-                  source={{uri: profileImage?.path}}
-                  style={{
-                    width: '100%',
-                    height: '100%',
-                    borderRadius: 80,
-                    borderWidth: 2,
-                    borderColor: appColors.Goldcolor,
-                    backgroundColor: 'grey',
-                  }}
-                />
-              ) : (
-                <Image
-                  source={AppImages.dummyVan}
-                  style={{
-                    width: '100%',
-                    height: '100%',
-                    borderRadius: 80,
-                    borderWidth: 3,
-                    borderColor: appColors.Goldcolor,
-                    backgroundColor: 'grey',
-                  }}
-                />
-              )}
-
-              <CustomIcon
-                type={Icons.AntDesign}
-                size={20}
-                name={'pluscircle'}
-                color={'white'}
+              <TouchableOpacity
+                onPress={() => refRBSheet.current.open()}
                 style={{
-                  position: 'absolute',
-                  left: screenSize.width / 5,
-                  top: screenSize.height / 10,
-                }}
-              />
-            </TouchableOpacity>
-          </View>
-        </View>
+                  width: '29%',
+                  height: '100%',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }}>
+                {profileImage?.path ? (
+                  <Image
+                    source={{uri: profileImage?.path}}
+                    style={{
+                      width: '100%',
+                      height: '100%',
+                      borderRadius: 80,
+                      borderWidth: 2,
+                      borderColor: appColors.Goldcolor,
+                      backgroundColor: 'grey',
+                    }}
+                  />
+                ) : (
+                  <Image
+                    source={AppImages.dummyVan}
+                    style={{
+                      width: '100%',
+                      height: '100%',
+                      borderRadius: 80,
+                      borderWidth: 3,
+                      borderColor: appColors.Goldcolor,
+                      backgroundColor: 'grey',
+                    }}
+                  />
+                )}
 
-        <View style={{flex: 0.18}}>
-          <View
-            style={{
-              flex: 0.4,
-              justifyContent: 'flex-end',
-              marginLeft: 10,
-            }}>
-            <Text
-              style={{
-                color: appColors.White,
-                fontSize: 14,
-                fontWeight: 'bold',
-              }}>
-              Service Name :
-            </Text>
+                <CustomIcon
+                  type={Icons.AntDesign}
+                  size={20}
+                  name={'pluscircle'}
+                  color={'white'}
+                  style={{
+                    position: 'absolute',
+                    left: screenSize.width / 4.6,
+                    top: screenSize.height / 10,
+                  }}
+                />
+              </TouchableOpacity>
+            </View>
           </View>
-          <View
-            style={{
-              flex: 0.6,
-              justifyContent: 'center',
-              borderWidth: 1,
-              borderRadius: 10,
-              backgroundColor: '#252525',
-              marginVertical: 5,
-              paddingHorizontal: 5,
-              justifyContent: 'center',
-            }}>
-            <TextInput
+
+          <View style={{flex: 0.18}}>
+            <View
               style={{
-                paddingLeft: 10,
-                fontSize: 15,
-                color: 'white',
-              }}
-              placeholder="Enter your Services"
-              placeholderTextColor={'grey'}
-              value={newService}
-              onChangeText={text => setNewService(text)}
-            />
+                flex: 0.4,
+                justifyContent: 'flex-end',
+                marginLeft: 10,
+              }}>
+              <Text
+                style={{
+                  color: appColors.White,
+                  fontSize: 14,
+                  fontWeight: 'bold',
+                }}>
+                Service Name :
+              </Text>
+            </View>
+            <View
+              style={{
+                flex: 0.1,
+                justifyContent: 'center',
+                borderWidth: 1,
+                borderRadius: 10,
+                backgroundColor: '#252525',
+                marginVertical: 5,
+                paddingHorizontal: 5,
+                justifyContent: 'center',
+              }}>
+              <TextInput
+                style={{
+                  paddingLeft: 10,
+                  fontSize: 15,
+                  color: 'white',
+                }}
+                placeholder="Enter your Services"
+                placeholderTextColor={'grey'}
+                value={newService}
+                onChangeText={text => setNewService(text)}
+              />
+            </View>
           </View>
         </View>
-      </View>
-      <View style={styles.buttonView}>
-        <ButtonComponent
-          style={{
-            backgroundColor: 'red',
-            paddingVertical: Platform.OS == 'ios' ? 17 : 13,
-            bottom: 1,
-            position: 'absolute',
-            opacity: newService.trim() !== '' ? 1 : 0.3,
-          }}
-          btnTextColor={{color: 'white'}}
-          title={'Save Service'}
-          disable={newService.trim() !== '' ? false : true}
-          onPress={handleAddService}
-        />
-      </View>
-      <BottomSheet ref={refRBSheet} Height={120}>
-        <ChooseImage
-          refRBSheet={refRBSheet}
-          setProfileImage={handleImageCaptured}
-        />
-      </BottomSheet>
-    </Screen>
+        <View style={styles.buttonView}>
+          <ButtonComponent
+            style={{
+              backgroundColor: 'red',
+              paddingVertical: Platform.OS == 'ios' ? 17 : 13,
+              bottom: 1,
+              position: 'absolute',
+              opacity: newService.trim() !== '' ? 1 : 0.3,
+            }}
+            btnTextColor={{color: 'white'}}
+            title={'Save Service'}
+            disable={newService.trim() !== '' ? false : true}
+            onPress={handleAddService}
+          />
+        </View>
+        <BottomSheet ref={refRBSheet} Height={120}>
+          <ChooseImage
+            refRBSheet={refRBSheet}
+            setProfileImage={handleImageCaptured}
+          />
+        </BottomSheet>
+      </Screen>
+    </KeyboardAwareScrollView>
   );
 };
 

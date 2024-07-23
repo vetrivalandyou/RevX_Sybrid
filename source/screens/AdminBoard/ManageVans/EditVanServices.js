@@ -84,21 +84,19 @@ const EditVanservices = ({route, navigation}) => {
   };
 
   return (
-    <Screen
-      viewStyle={{
-        // flex: 1,
-        padding: 15,
-        backgroundColor: appColors.Black,
-        minHeight: screenSize.height,
-        maxHeight: 'auto',
-      }}
-      statusBarColor={appColors.Black}>
-      <KeyboardAvoidingView
-        style={{flex: 1}}
-        behavior={Platform.OS === 'ios' ? 'padding' : null}
-        keyboardVerticalOffset={Platform.OS === 'android' ? 75 : 55}>
+    <KeyboardAwareScrollView style={{flex: 1}}>
+      <Screen
+        viewStyle={{
+          flex: 1,
+          padding: 15,
+          backgroundColor: appColors.Black,
+          minHeight: screenSize.height,
+          // maxHeight: 'auto',
+        }}
+        statusBarColor={appColors.Black}>
         <View style={{flex: 0.1}}>
           <Header
+            headerSubView={{marginHorizontal: 5}}
             lefttIcoType={Icons.Ionicons}
             onPressLeftIcon={() => navigation.goBack()}
             leftIcoName={'chevron-back'}
@@ -127,8 +125,8 @@ const EditVanservices = ({route, navigation}) => {
             isSubmitting,
           }) => (
             <>
-              <View style={{flex: 0.8}}>
-                <View style={styles.ProfileMainView}>
+              <View style={{flex: 1}}>
+                <View style={{flex: 0.6}}>
                   <View style={styles.ProfileouterView}>
                     <TouchableOpacity
                       onPress={() => refRBSheet.current.open()}
@@ -155,8 +153,8 @@ const EditVanservices = ({route, navigation}) => {
                   </View>
                 </View>
 
-                <View style={{flex: 0.66}}>
-                  <View style={styles.textFieldView}>
+                <View style={{flex: 0.6}}>
+                  <View style={{flex: 0.1}}>
                     <Text
                       style={{
                         fontSize: 14,
@@ -185,7 +183,7 @@ const EditVanservices = ({route, navigation}) => {
                       )}
                     </View>
                   </View>
-                  <View style={styles.textFieldView}>
+                  <View style={{flex: 0.1}}>
                     <Text
                       style={{
                         fontSize: 14,
@@ -216,7 +214,7 @@ const EditVanservices = ({route, navigation}) => {
                     </View>
                   </View>
 
-                  <View style={styles.textFieldView}>
+                  <View style={{flex: 0.1}}>
                     <Text
                       style={{
                         fontSize: 14,
@@ -266,8 +264,8 @@ const EditVanservices = ({route, navigation}) => {
             setProfileImage={handleImageCaptured}
           />
         </BottomSheet>
-      </KeyboardAvoidingView>
-    </Screen>
+      </Screen>
+    </KeyboardAwareScrollView>
   );
 };
 

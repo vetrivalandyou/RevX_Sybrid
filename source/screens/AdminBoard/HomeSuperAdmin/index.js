@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   Text,
   View,
@@ -6,6 +6,7 @@ import {
   ScrollView,
   StyleSheet,
   TouchableOpacity,
+  ActivityIndicator,
 } from 'react-native';
 import Screen from '../../../components/atom/ScreenContainer/Screen';
 import styles from './styles';
@@ -19,9 +20,16 @@ import Search from '../../../components/atom/Search/Search';
 import {AppImages} from '../../../AppConstants/AppImages';
 import constants from '../../../AppConstants/Constants.json';
 import {useNavigation} from '@react-navigation/native';
+import {PostRequest} from '../../../services/apiCall';
+import {endPoint, imageUrl} from '../../../AppConstants/urlConstants';
 
-const HomeSuperAdmin = () => {
+const HomeSuperAdmin = ({route}) => {
   const navigation = useNavigation();
+  const [isLoadng, setIsLoading] = useState(true);
+  const [transactions, setTransactions] = useState([]);
+
+  // const {RecentTransaction} = route?.params || false;
+
   const BarberEarnings = [
     {
       id: 1,
@@ -39,22 +47,57 @@ const HomeSuperAdmin = () => {
     },
   ];
 
+  useEffect(() => {
+    getTransactionReport();
+  }, []);
+
+  const getTransactionReport = () => {
+    const payload = {
+      operationID: 4,
+      parameterID: 0,
+      barberID: 0,
+      _PageNumber: 0,
+      _RowsOfPage: 5,
+    };
+    PostRequest(endPoint.ADMIN_REPORTS, payload)
+      .then(res => {
+        console.log('res res res', res?.data);
+        if (res?.data?.Table?.length > 0) {
+          setTransactions(transactions => [
+            ...transactions,
+            ...res?.data?.Table,
+          ]);
+          setPageNo(pageNo + 1);
+          setIsLoading(false);
+        } else {
+          setHasMore(false);
+        }
+      })
+      .catch(err => {
+        console.log('error', err);
+        setIsLoading(false);
+      });
+  };
+
   const BarberEarningsContainer = ({item}) => {
     return (
-      <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+      <View
+        style={{
+          width: '50%',
+          minHeight: screenSize.height / 10,
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}>
         <View style={styless.container}>
-          <Image source={item.Imagesource} style={styless.image} />
+          <Image
+            source={{
+              uri: `${imageUrl}${item?.ProfileImage}`,
+            }}
+            style={styless.image}
+          />
           <View style={styless.textContainer}>
-            <Text style={styless.name}>{item.price1}</Text>
-            <Text style={styless.earnings}>{item.name}</Text>
-          </View>
-        </View>
-
-        <View style={styless.container}>
-          <Image source={item.Imagesource} style={styless.image} />
-          <View style={styless.textContainer}>
-            <Text style={styless.name}>{item.price2}</Text>
-            <Text style={styless.earnings}>{item.name}</Text>
+            <Text style={styless.name}>$ {item.Amount}</Text>
+            <Text style={styless.earnings}>{item.UserName}</Text>
           </View>
         </View>
       </View>
@@ -281,10 +324,23 @@ const HomeSuperAdmin = () => {
             </TouchableOpacity>
           </View>
 
-          <View style={{flex: 0.25, justifyContent: 'center'}}>
-            {BarberEarnings.map(item => (
-              <BarberEarningsContainer key={item.id} item={item} />
-            ))}
+          <View style={{flex: 0.22, flexDirection: 'row', flexWrap: 'wrap'}}>
+            {isLoadng ? (
+              <View
+                style={{
+                  flex: 1,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }}>
+                <ActivityIndicator size="small" color={appColors.Goldcolor} />
+              </View>
+            ) : (
+              <>
+                {transactions.slice(0, 4).map((item, index) => (
+                  <BarberEarningsContainer key={item.id || index} item={item} />
+                ))}
+              </>
+            )}
           </View>
         </View>
       </View>
@@ -295,16 +351,18 @@ export default HomeSuperAdmin;
 
 const styless = StyleSheet.create({
   container: {
-    width: '49%',
+    flex: 1,
     flexDirection: 'row',
+    justifyContent: 'center',
     alignItems: 'center',
     padding: 10,
     borderRadius: 10,
     backgroundColor: appColors.darkgrey,
     borderColor: '#ccc',
-    marginBottom: 10,
+    marginHorizontal: 4,
+    marginVertical: 4,
     overflow: 'hidden', // Ensures that the border radius is applied correctly
-    justifyContent: 'space-between',
+    // justifyContent: 'space-between',
   },
   image: {
     width: 50,
@@ -318,14 +376,14 @@ const styless = StyleSheet.create({
     //  backgroundColor:'red'
   },
   name: {
-    fontSize: 16,
+    fontSize: 24,
     fontWeight: 'bold',
-    marginBottom: 5, // Add margin for spacing between name and earnings
+    marginBottom: 2, // Add margin for spacing between name and earnings
     color: appColors.White,
   },
   earnings: {
     color: appColors.White,
-    fontSize: 12,
+    fontSize: 15,
     flexWrap: 'wrap',
   },
 });

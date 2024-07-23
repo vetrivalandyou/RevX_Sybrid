@@ -1,5 +1,12 @@
 import React, {useEffect, useState} from 'react';
-import {View, Text, Image, FlatList, AppRegistry, ActivityIndicator} from 'react-native';
+import {
+  View,
+  Text,
+  Image,
+  FlatList,
+  AppRegistry,
+  ActivityIndicator,
+} from 'react-native';
 import Screen from '../../../components/atom/ScreenContainer/Screen';
 import appColors from '../../../AppConstants/appColors';
 import Header from '../../../components/molecules/Header';
@@ -35,6 +42,7 @@ const AdminBarberEarnings = ({navigation}) => {
     PostRequest(endPoint.ADMIN_REPORTS, payload)
       .then(res => {
         if (res?.data?.Table?.length > 0) {
+          console.log('res?.data?.Tableres?.data?.Table', res?.data?.Table);
           setBarberList(res?.data?.Table);
           setIsLoading(false);
         }
@@ -46,6 +54,7 @@ const AdminBarberEarnings = ({navigation}) => {
   };
 
   const BarberSpecialistContainer = ({item}) => {
+    console.log('item QQQQQQQQQQQQQQQQQQQQQ', item);
     return (
       <View
         style={{

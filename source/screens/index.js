@@ -7,7 +7,7 @@ import HomeScreen from './HomeScreen';
 import ProfileScreen from './ProfileScreen';
 import InboxScreen from './InboxScreen';
 import Booking from './Booking/MyBooking';
-import UserEReceipt from './UserEReceipt'
+import UserEReceipt from './UserEReceipt';
 import AppointmentDate from './AppointmentDate';
 import BarberEarnings from './BarberEarnings';
 import ForgotCheckEmail from './Auth/ForgotPassword/ForgotCheckEmail';
@@ -63,7 +63,8 @@ import AdminProfile from './AdminBoard/AdminProfile/AdminProfile';
 import AdminViewUsers from './AdminBoard/AdminViewUsers';
 import AdminBooking from './AdminBoard/AdminBooking/MyBooking';
 import PaymentStatus from './PaymentStatus';
-import AdminEReceipt from './AdminBoard/AdminEReceipt'
+import RatingScreen from './RatingScreen';
+import AdminEReceipt from './AdminBoard/AdminEReceipt';
 
 export {
   SplashScreen,
@@ -131,5 +132,6 @@ export {
   AdminViewUsers,
   AdminBooking,
   PaymentStatus,
-  AdminEReceipt
+  RatingScreen,
+  AdminEReceipt,
 };

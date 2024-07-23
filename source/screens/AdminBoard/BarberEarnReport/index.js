@@ -49,7 +49,7 @@ const BarberEarnReport = ({route, navigation}) => {
     };
     PostRequest(endPoint.ADMIN_REPORTS, payload)
       .then(res => {
-        console.log('response ', res?.data);
+        console.log('response sadasdsadsads', res?.data);
         setparticularBarberReport(res?.data);
         barberRevenueReportGraph(res?.data?.Table);
       })

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   View,
   Text,
@@ -11,17 +11,17 @@ import {
 import Screen from '../../components/atom/ScreenContainer/Screen';
 import appColors from '../../AppConstants/appColors';
 import Header from '../../components/molecules/Header';
-import { Icons } from '../../components/molecules/CustomIcon/CustomIcon';
+import {Icons} from '../../components/molecules/CustomIcon/CustomIcon';
 import ButtonComponent from '../../components/atom/CustomButtons/ButtonComponent';
 import constants from '../../AppConstants/Constants.json';
-import { GetRequest, PostRequest } from '../../services/apiCall';
-import { endPoint } from '../../AppConstants/urlConstants';
-import { AppImages } from '../../AppConstants/AppImages';
-import { SimpleSnackBar } from '../../components/atom/Snakbar/Snakbar';
-import { approve } from '../../AppConstants/appConstants';
-import { screenSize } from '../../components/atom/ScreenSize';
+import {GetRequest, PostRequest} from '../../services/apiCall';
+import {endPoint} from '../../AppConstants/urlConstants';
+import {AppImages} from '../../AppConstants/AppImages';
+import {SimpleSnackBar} from '../../components/atom/Snakbar/Snakbar';
+import {approve} from '../../AppConstants/appConstants';
+import {screenSize} from '../../components/atom/ScreenSize';
 
-const BarberSpecialist = ({ navigation }) => {
+const BarberSpecialist = ({navigation}) => {
   const [barberList, setBarberList] = useState([]);
   const [Loading, setLoading] = useState(true);
 
@@ -45,7 +45,7 @@ const BarberSpecialist = ({ navigation }) => {
       });
   }
 
-  const BarberSpecialistContainer = ({ item }) => {
+  const BarberSpecialistContainer = ({item}) => {
     console.log('item', item);
     return (
       <View
@@ -54,32 +54,38 @@ const BarberSpecialist = ({ navigation }) => {
           backgroundColor: appColors.darkgrey,
           paddingVertical: 7,
           paddingHorizontal: 12,
+          marginBottom: 10,
           borderRadius: 70,
           flexDirection: 'row',
-          margin: 5
+          margin: 5,
         }}>
         <TouchableOpacity
-          style={{ flex: 0.2, justifyContent: 'center', alignItems: 'center' }}
-          onPress={() => navigation.navigate(constants.screen.BarberProfile, { barberId: item?.userId })}>
+          style={{flex: 0.2, justifyContent: 'center', alignItems: 'center'}}
+          onPress={() =>
+            navigation.navigate(constants.screen.BarberProfile, {
+              barberId: item?.userId,
+            })
+          }>
           <Image source={AppImages.bb1} />
         </TouchableOpacity>
-        <View style={{ flex: 0.8, flexDirection: 'row' }}>
-          <View style={{ flex: 0.6, paddingHorizontal: 5, justifyContent: 'center' }}>
-            <Text style={{ color: appColors.White, fontSize: 18, marginLeft: 5 }}>
+        <View style={{flex: 0.8, flexDirection: 'row'}}>
+          <View
+            style={{flex: 0.6, paddingHorizontal: 5, justifyContent: 'center'}}>
+            <Text style={{color: appColors.White, fontSize: 18, marginLeft: 5}}>
               {item?.userName}
             </Text>
           </View>
-          <View style={{ flex: 0.4, justifyContent: 'center' }}>
+          <View style={{flex: 0.4, justifyContent: 'center'}}>
             {console.log('itemitemitemitem', item)}
 
             <ButtonComponent
               onPress={() =>
                 navigation.navigate(constants.screen.Services, {
-                  barberDetails: { UserId: item?.userId },
+                  barberDetails: {UserId: item?.userId},
                   specialistDetails: item,
                 })
               }
-              style={{ width: '98%' }}
+              style={{width: '98%'}}
               title={'View'}
             />
           </View>
@@ -92,8 +98,8 @@ const BarberSpecialist = ({ navigation }) => {
     <Screen
       statusBarColor={appColors.Black}
       barStyle="light-content"
-      viewStyle={{ padding: 15 }}>
-      <View style={{ flex: 0.1 }}>
+      viewStyle={{padding: 15}}>
+      <View style={{flex: 0.1}}>
         <Header
           lefttIcoType={Icons.Ionicons}
           onPressLeftIcon={() => navigation.goBack()}
@@ -120,14 +126,14 @@ const BarberSpecialist = ({ navigation }) => {
         <ActivityIndicator
           size="small"
           color="#C79646"
-          style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}
+          style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}
         />
       ) : (
-        <View style={{ flex: 0.9 }}>
+        <View style={{flex: 0.9}}>
           <FlatList
             data={barberList}
             showsVerticalScrollIndicator={false}
-            renderItem={({ item }) => <BarberSpecialistContainer item={item} />}
+            renderItem={({item}) => <BarberSpecialistContainer item={item} />}
             keyExtractor={item => item?.userId}
           />
         </View>

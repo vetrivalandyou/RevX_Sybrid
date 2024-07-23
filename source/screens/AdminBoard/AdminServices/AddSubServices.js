@@ -85,17 +85,15 @@ const AddSubServices = ({route, navigation}) => {
   };
 
   return (
-    <Screen
-      viewStyle={{
-        flex: 1,
-        padding: 15,
-        backgroundColor: appColors.Black,
-        minHeight: screenSize.height,
-        maxHeight: 'auto',
-      }}
-      statusBarColor={appColors.Black}>
-      <KeyboardAwareScrollView
-        contentContainerStyle={{flex: 1, justifyContent: 'center'}}>
+    <KeyboardAwareScrollView style={{flex: 1}}>
+      <Screen
+        viewStyle={{
+          flex: 1,
+          padding: 15,
+          backgroundColor: appColors.Black,
+          minHeight: screenSize.height,
+        }}
+        statusBarColor={appColors.Black}>
         <View style={{flex: 0.1}}>
           <Header
             lefttIcoType={Icons.Ionicons}
@@ -105,8 +103,8 @@ const AddSubServices = ({route, navigation}) => {
             logIn={'success'}
           />
         </View>
-        <View style={{flex: 0.8}}>
-          <View style={{flex: 0.2}}>
+        <View style={{flex: 0.9}}>
+          <View style={{flex: 0.4}}>
             <View
               style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
               <TouchableOpacity
@@ -115,7 +113,7 @@ const AddSubServices = ({route, navigation}) => {
                   width: '28%',
                   justifyContent: 'center',
                   alignItems: 'center',
-                  height: '82%',
+                  height: '85%',
                   backgroundColor: appColors.Black,
                 }}>
                 {changedImage?.path ? (
@@ -157,7 +155,7 @@ const AddSubServices = ({route, navigation}) => {
               </TouchableOpacity>
             </View>
           </View>
-          <View style={{flex: 0.18}}>
+          <View style={{flex: 0.06}}>
             <View
               style={{flex: 0.3, justifyContent: 'flex-end', marginLeft: 10}}>
               <Text
@@ -169,7 +167,7 @@ const AddSubServices = ({route, navigation}) => {
                 Service Name
               </Text>
             </View>
-            <View style={{flex: 0.7}}>
+            <View style={{flex: 0.4}}>
               <TextInput
                 style={[
                   styles.container,
@@ -182,7 +180,7 @@ const AddSubServices = ({route, navigation}) => {
               />
             </View>
           </View>
-          <View style={{flex: 0.18}}>
+          <View style={{flex: 0.06}}>
             <View
               style={{flex: 0.3, justifyContent: 'flex-end', marginLeft: 10}}>
               <Text
@@ -194,7 +192,7 @@ const AddSubServices = ({route, navigation}) => {
                 Service Price
               </Text>
             </View>
-            <View style={{flex: 0.7}}>
+            <View style={{flex: 0.4}}>
               <TextInput
                 style={[
                   styles.container,
@@ -210,7 +208,7 @@ const AddSubServices = ({route, navigation}) => {
               />
             </View>
           </View>
-          <View style={{flex: 0.18}}>
+          <View style={{flex: 0.06}}>
             <View
               style={{flex: 0.3, justifyContent: 'flex-end', marginLeft: 10}}>
               <Text
@@ -222,7 +220,7 @@ const AddSubServices = ({route, navigation}) => {
                 Service Duration (in minutes)
               </Text>
             </View>
-            <View style={{flex: 0.7}}>
+            <View style={{flex: 0.4}}>
               <TextInput
                 style={[
                   styles.container,
@@ -238,7 +236,7 @@ const AddSubServices = ({route, navigation}) => {
               />
             </View>
           </View>
-          <View style={{flex: 0.18}}>
+          <View style={{flex: 0.06}}>
             <View
               style={{flex: 0.3, justifyContent: 'flex-end', marginLeft: 10}}>
               <Text
@@ -250,7 +248,7 @@ const AddSubServices = ({route, navigation}) => {
                 Service Description
               </Text>
             </View>
-            <View style={{flex: 0.7}}>
+            <View style={{flex: 0.4}}>
               <TextInput
                 style={[
                   styles.container,
@@ -264,6 +262,7 @@ const AddSubServices = ({route, navigation}) => {
             </View>
           </View>
         </View>
+
         <View style={styles.buttonView}>
           <ButtonComponent
             style={{
@@ -285,8 +284,8 @@ const AddSubServices = ({route, navigation}) => {
             setProfileImage={handleImageCaptured}
           />
         </BottomSheet>
-      </KeyboardAwareScrollView>
-    </Screen>
+      </Screen>
+    </KeyboardAwareScrollView>
   );
 };
 
