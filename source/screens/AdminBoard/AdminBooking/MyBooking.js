@@ -22,6 +22,32 @@ import { endPoint } from '../../../AppConstants/urlConstants';
 import { PostRequest } from '../../../services/apiCall';
 import { getAsyncItem } from '../../../utils/SettingAsyncStorage';
 
+const initialBookingFields = {
+  operationID: 1,
+  parameterID: 0,
+  barbarID: 0,
+  parentServiceStatusID: 0,
+  childServiceStatusID: 0,
+  isActive: true,
+  userID: 0,
+  bookingDate: '2024-06-20T11:40:48.693Z',
+  userIP: 'string',
+  barbarBookedSlotID: 0,
+  remarks: 'string',
+  tbL_Approve_BB_ParentServices_: [
+    {
+      parentService_PK_ID: 0,
+      parentServiceStatusID: 0,
+    },
+  ],
+  tbL_Approve_BB_ChildServices_: [
+    {
+      childService_PK_ID: 0,
+      childServiceStatusID: 0,
+    },
+  ],
+};
+
 const MyBooking = ({ navigation }) => {
   const isFocused = useIsFocused();
   const activeButton = useRef('1');
@@ -54,7 +80,7 @@ const MyBooking = ({ navigation }) => {
       customerID: 0,
       userID: asyncUserDetails?.userId,
       userIP: 'string',
-      _PageNumber: pageNumber,
+      _PageNumber: 1,
       _RowsOfPage: 10,
     };
     console.log('payload My Booking', payload);
@@ -163,7 +189,7 @@ const MyBooking = ({ navigation }) => {
           <Bookingcancelled
             data={data}
             userDetails={userDetails}
-          // initialBookingFields={initialBookingFields}
+            initialBookingFields={initialBookingFields}
           />
         );
 

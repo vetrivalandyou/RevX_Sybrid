@@ -12,6 +12,7 @@ import Completedbutton from '../../../components/atom/BookingButtons/Completedbu
 import constants from '../../../AppConstants/Constants.json';
 import { debounce } from '../../../functions/AppFunctions';
 import BoxLottie from '../../../components/atom/BoxLottie/BoxLottie';
+import appColors from '../../../AppConstants/appColors';
 
 const PreBooking = ({
   data,
@@ -93,10 +94,10 @@ const PreBooking = ({
               <Completedbutton
                 style={{
                   backgroundColor:
-                    item?.StatusID == 9 ? appColors.Gray : '#6be521',
+                    item?.StatusID == 13  ? appColors.Gray : appColors.Accepted,
                 }}
                 textstyle={{ color: appColors.White }}
-                title={item?.StatusID == 9 ? 'Pending' : 'Accepted'}
+                title={item?.StatusID == 13  ? 'Pending' : 'Accepted'}
               />
             </View>
           </View>

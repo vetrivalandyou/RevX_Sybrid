@@ -56,6 +56,7 @@ const BarberSpecialist = ({navigation}) => {
           paddingHorizontal: 12,
           borderRadius: 70,
           flexDirection: 'row',
+          margin: 5
         }}>
         <TouchableOpacity
         style={{ flex: 0.2, justifyContent:'center', alignItems:'center'}}

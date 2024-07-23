@@ -20,6 +20,7 @@ import {PostRequest} from '../../../services/apiCall';
 import appColors from '../../../AppConstants/appColors';
 import moment from 'moment';
 import BoxLottie from '../../../components/atom/BoxLottie/BoxLottie';
+import { debounce } from '../../../functions/AppFunctions';
 
 const Bookingcompleted = ({data, userDetails}) => {
   const navigation = useNavigation();
@@ -28,6 +29,8 @@ const Bookingcompleted = ({data, userDetails}) => {
   const timeoutRef = useRef();
   const [isLoading, setIsLoading] = useState(true);
   const [completedBooking, setCompletedBooking] = useState();
+  const [pageNumber, setPageNumber] = useState(1);
+  const [hasMore, setHasMore] = useState(true);
 
   useEffect(() => {
     if (isFocused) {
@@ -37,19 +40,28 @@ const Bookingcompleted = ({data, userDetails}) => {
   }, [isFocused]);
 
   const getCompletedBooking = () => {
+    if (hasMore == false) return;
     const payload = {
       operationID: 2,
       roleID: userDetails?._RoleId,
       customerID: 0,
       userID: userDetails?.userId,
       userIP: 'string',
+      _PageNumber: pageNumber,
+      _RowsOfPage: 10,
     };
     console.log('payload', payload);
     PostRequest(endPoint.BB_BOOKEDSLOTS, payload)
       .then(res => {
         console.log('getPreBookings Response', res?.data);
+        if (res?.data?.Table?.length > 0) {
         setCompletedBooking(res?.data?.Table);
+        setPageNumber(pageNumber + 1); // Increment the page number
         setIsLoading(false);
+      } else {
+        setHasMore(false);
+        setIsLoading(false)
+      }
       })
       .catch(err => {
         console.log(err);
@@ -133,6 +145,21 @@ const Bookingcompleted = ({data, userDetails}) => {
     );
   };
 
+  const renderFooter = () => {
+    if (hasMore == false) return null;
+    return (
+      <View style={{ margin: 10 }}>
+        <ActivityIndicator size="small" color={appColors.Goldcolor} />
+      </View>
+    );
+  };
+
+  const handleLoadMore = debounce(() => {
+    if (hasMore == true) {
+      getCompletedBooking();
+    }
+  }, 300);
+
   return (
     <>
       {isLoading ? (
@@ -142,8 +169,11 @@ const Bookingcompleted = ({data, userDetails}) => {
       ) : completedBooking?.length > 0 ? (
         <FlatList
           data={completedBooking}
+          onEndReachedThreshold={0.5}
+          onEndReached={handleLoadMore}
+          ListFooterComponent={renderFooter}
           showsVerticalScrollIndicator={false}
-          keyExtractor={item => item.BarbarBookedSlotID}
+          keyExtractor={(item, index) => index?.toString()}
           renderItem={({item, index}) => <ListBookingCompleted item={item} />}
         />
       ) : (
