@@ -28,7 +28,7 @@ import {
   ServiceSpecialist,
   UserChat,
   UserEReceipt,
-  PaymentStatus
+  PaymentStatus,
 } from '../screens';
 import BottomTabNavigation from './BottomTabNavigation';
 import PrivacyPolicy from '../screens/ProfileScreen/Aboutus/PrivacyPolicy';
@@ -37,12 +37,10 @@ import BarberProfile from '../screens/BarberProfie';
 import MyLocation from '../screens/ProfileScreen/MyLocation';
 import EditProfile from '../screens/ProfileScreen/EditProfile';
 import DeepLinking from '../utils/DeepLinking';
-
+import RatingScreen from '../screens/RatingScreen';
 
 const Main = () => {
   const Stack = createNativeStackNavigator();
-
-
 
   return (
     <NavigationContainer>
@@ -162,9 +160,14 @@ const Main = () => {
           component={UserEReceipt}
           options={{headerShown: false}}
         />
-          <Stack.Screen
+        <Stack.Screen
           name={constants.screen.PaymentStatus}
           component={PaymentStatus}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name={constants.screen.RatingScreen}
+          component={RatingScreen}
           options={{headerShown: false}}
         />
       </Stack.Navigator>

@@ -51,7 +51,8 @@
     "ServiceSpecialist": "ServiceSpecialist",
     "UserChat": "UserChat",
     "UserEReceipt": "UserEReceipt",
-    "PaymentStatus": "PaymentStatus"
+    "PaymentStatus": "PaymentStatus",
+    "RatingScreen": "RatingScreen"
   },
   "BarberScreen": {
     "BarberBottomTabNavigation": "BarberBottomTabNavigation",
