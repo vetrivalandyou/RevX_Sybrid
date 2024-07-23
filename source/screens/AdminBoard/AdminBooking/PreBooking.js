@@ -27,11 +27,6 @@ const PreBooking = ({
 }) => {
   const isFocused = useIsFocused();
   const navigation = useNavigation();
-  useEffect(() => {
-    if (isFocused) {
-      getPreBookings();
-    }
-  }, [isFocused]);
 
   const getPreBookings = () => {
     if (hasMore == false) return;
@@ -46,7 +41,7 @@ const PreBooking = ({
       _RowsOfPage: 10,
     };
 
-    console.log('payload', payload);
+    console.log('payload Pre Boking', payload);
     PostRequest(endPoint.BB_BOOKEDSLOTS, payload)
       .then(res => {
         console.log('getPreBookings Pre Booking Response', res?.data);
@@ -139,14 +134,13 @@ const PreBooking = ({
             </View>
           </View>
           <View style={styles.Buttosview}>
-            <Bookingbutton title={'Cancel Booking'} />
             <Bookingbutton
-              // onPress={() =>
-              //   navigation.navigate(constants.AdminScreens.BarberEReceipt, {
-              //     bookingSlot: item,
-              //   })
-              // }
-              style={{ backgroundColor: '#c79647' }}
+              onPress={() =>
+                navigation.navigate(constants.AdminScreens.AdminEReceipt, {
+                  bookingSlot: item,
+                })
+              }
+              style={{ backgroundColor: '#c79647', width: "80%" }}
               title={'View E-Receipt'}
             />
           </View>

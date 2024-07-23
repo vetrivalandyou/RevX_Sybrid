@@ -20,6 +20,7 @@ import {
   RecentTransactions,
   RecentTransactionsMain,
   Report,
+  AdminEReceipt,
 } from '../../screens';
 import {NavigationContainer, useNavigation} from '@react-navigation/native';
 import constants from '../../AppConstants/Constants.json';
@@ -308,6 +309,11 @@ const AdminStack = () => {
         <Stack.Screen
           name={constants.AdminScreens.ApproveSubServices}
           component={ApproveBarberSubService}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name={constants.AdminScreens.AdminEReceipt}
+          component={AdminEReceipt}
           options={{headerShown: false}}
         />
       </Stack.Navigator>

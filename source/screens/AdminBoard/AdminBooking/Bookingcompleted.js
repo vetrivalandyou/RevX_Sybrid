@@ -20,6 +20,7 @@ const Bookingcompleted = ({
 
   const [isLoading, setIsLoading] = useState(true);
   const [completedBooking, setCompletedBooking] = useState();
+  const [pageNumber, setPageNumber] = useState(1);
 
   useEffect(() => {
     if (isFocused) getCompletedBooking();
@@ -32,12 +33,15 @@ const Bookingcompleted = ({
       customerID: 0,
       userID: userDetails?.userId,
       userIP: 'string',
+      _PageNumber: pageNumber,
+      _RowsOfPage: 10,
     };
     console.log('payload', payload);
     PostRequest(endPoint.BB_BOOKEDSLOTS, payload)
       .then(res => {
         console.log('getPreBookings Response', res?.data);
         setCompletedBooking(res?.data?.Table);
+        setPageNumber(pageNumber + 1); // Increment the page number
         setIsLoading(false);
       })
       .catch(err => {
