@@ -14,6 +14,7 @@ import {GetRequest} from '../../../services/apiCall';
 import Entypo from 'react-native-vector-icons/Entypo';
 import {getAsyncItem} from '../../../utils/SettingAsyncStorage';
 import {imageUrl} from '../../../AppConstants/urlConstants';
+import DynamicLinks from '@react-native-firebase/dynamic-links';
 
 const BaberProfileScreen = () => {
   const navigation = useNavigation();
@@ -33,32 +34,6 @@ const BaberProfileScreen = () => {
       constants.AsyncStorageKeys.userDetails,
     );
     setUserDetails(userDetails);
-  };
-
-  const getbarberProfile = () => {
-    GetRequest(`Admin/Barber_Detail?id=${21}`)
-      .then(res => {
-        console.log('res', res?.data);
-        shareProfile(res?.data?.data);
-      })
-      .catch(err => {
-        console.log('Hello', err);
-      });
-  };
-
-  const shareProfile = async barberDetails => {
-    return new Promise(async (resolve, reject) => {
-      try {
-        const constructedUrl = await constructProfileUrl(barberDetails);
-        const options = {
-          message: 'Check out My Profile!',
-          url: constructedUrl,
-        };
-        await Share.open(options);
-      } catch (error) {
-        console.log('Error sharing:', error.message);
-      }
-    });
   };
 
   const constructProfileUrl = barberDetails => {
@@ -103,7 +78,7 @@ const BaberProfileScreen = () => {
         navigation.navigate(constants.BarberScreen.Profile);
         break;
       case 1:
-        getbarberProfile();
+        shareUserProfileLink();
         break;
       case 3:
         navigation.navigate(constants.BarberScreen.Servicesboard);
@@ -114,6 +89,46 @@ const BaberProfileScreen = () => {
       default:
         break;
     }
+  };
+
+  console.log("UserDetails", userDetails)
+
+  const generateLink = async () => {
+    try {
+      const link = await DynamicLinks().buildShortLink(
+        {
+          link: `https://revx.page.link/g576?barberProfileId=${userDetails?.userId}`,
+          domainUriPrefix: 'https://revx.page.link',
+          android: {
+            packageName: 'com.revxmobileapp',
+          },
+          ios: {
+            appStoreId: '123456789',
+            bundleId: 'com.proceed.RevXMobileApp',
+          },
+        },
+        DynamicLinks.ShortLinkType.DEFAULT,
+      );
+      console.log('Link', link);
+      return Promise.resolve(link);
+    } catch (err) {
+      console.log('err', err);
+    }
+  };
+
+  const shareUserProfileLink = async () => {
+    console.log("----------")
+      try {
+        const constructedUrl = await generateLink();
+        const options = {
+          message: 'Check out RevX App!',
+          url: constructedUrl,
+        };
+        console.log("option", options)
+        await Share.open(options);
+      } catch (error) {
+        console.log('Error sharing:', error.message);
+      }
   };
 
   const ProfileContainer = ({item, onPress}) => {
@@ -155,9 +170,6 @@ const BaberProfileScreen = () => {
       statusBarColor={appColors.Black}
       barStyle="light-content"
       viewStyle={{backgroundColor: 'appColors.Black'}}>
-      {/* <BottomSheet ref={refRBSheet} Height={screenSize.height - 452}>
-        <LocationBottom refRBSheet={refRBSheet} />
-      </BottomSheet> */}
       <BottomSheet ref={refRBSheet} Height={screenSize.height / 5}>
         <LogoutBottom refRBSheet={refRBSheet} />
       </BottomSheet>
