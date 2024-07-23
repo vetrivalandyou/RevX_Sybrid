@@ -178,7 +178,7 @@ const BarberProfile = ({ navigation, route }) => {
             inactiveDotScale={0.8}
           />
           <View
-            style={{ flex: 1, position: 'absolute', top: 40, left: 0, right: 0 }}>
+            style={{ flex: 1, position: 'absolute', top: Platform.OS == 'ios' ? 20 : 40, left: 0, right: 0 }}>
             <View style={{ flex: 0.1 }}>
               <Header
                 lefttIcoType={Icons.Ionicons}
@@ -219,7 +219,6 @@ const BarberProfile = ({ navigation, route }) => {
             </View>
           </View>
         </View>
-
 
         <View style={{ flex: 0.1, marginHorizontal: 12 }}>
           <View style={{ flex: 0.6, flexDirection: 'row' }}>
@@ -296,23 +295,9 @@ const BarberProfile = ({ navigation, route }) => {
                     4.1 rating
                   </Text>
                 </View>
-                {/* <CustomIcon
-                  type={Icons.AntDesign}
-                  name={'staro'}
-                  color={appColors.Goldcolor}
-                  size={18}
-                />
-                <Text
-                  style={{
-                    color: appColors.White,
-                    fontSize: 12,
-                    fontWeight: '500',
-                  }}>
-                  4.1 rating
-                </Text> */}
               </View>
             </View>
-            <View style={{ flex: 0.3, justifyContent: 'flex-start', alignItems: 'flex-end', }}>
+            <View style={{ flex: 0.3, marginTop: 5, justifyContent: 'flex-start', alignItems: 'flex-end', }}>
               <Text
                 style={{
                   color: appColors.Goldcolor,
@@ -336,9 +321,8 @@ const BarberProfile = ({ navigation, route }) => {
               <TouchableOpacity
                 style={{
                   borderRadius: 50,
-                  height: 55,
-                  width: 55,
-                  marginRight: 10,
+                  height: 50,
+                  width: 50,
                   justifyContent: 'center',
                   alignItems: 'center',
                   borderColor: appColors.White,
@@ -352,17 +336,15 @@ const BarberProfile = ({ navigation, route }) => {
                 />
               </TouchableOpacity>
             </View>
-            <View style={{ flex: 0.27, justifyContent: 'center' }}>
-              <View style={{ alignItems: 'center' }}>
-                <Text
-                  style={{
-                    color: appColors.White,
-                    fontSize: 17,
-                    fontWeight: '500',
-                  }}>
-                  Location
-                </Text>
-              </View>
+            <View style={{ flex: 0.27, justifyContent: 'center', alignItems: 'center' }}>
+              <Text
+                style={{
+                  color: appColors.White,
+                  fontSize: 13,
+                  fontWeight: '500',
+                }}>
+                Location
+              </Text>
             </View>
           </View>
           <View style={{ flex: 0.2 }}>
@@ -375,9 +357,8 @@ const BarberProfile = ({ navigation, route }) => {
               <TouchableOpacity
                 style={{
                   borderRadius: 50,
-                  height: 55,
-                  width: 55,
-                  marginRight: 10,
+                  height: 50,
+                  width: 50,
                   justifyContent: 'center',
                   alignItems: 'center',
                   borderColor: appColors.White,
@@ -391,10 +372,8 @@ const BarberProfile = ({ navigation, route }) => {
                 />
               </TouchableOpacity>
             </View>
-            <View style={{ flex: 0.27, justifyContent: 'center' }}>
-              <View style={{ alignItems: 'center' }}>
-                <Text style={{ color: appColors.White, fontSize: 17 }}>Chat</Text>
-              </View>
+            <View style={{ flex: 0.27, justifyContent: 'center', alignItems: 'center' }}>
+              <Text style={{ color: appColors.White, fontSize: 13 }}>Chat</Text>
             </View>
           </View>
           <View style={{ flex: 0.2 }}>
@@ -408,9 +387,8 @@ const BarberProfile = ({ navigation, route }) => {
                 onPress={shareProfile}
                 style={{
                   borderRadius: 50,
-                  height: 55,
-                  width: 55,
-                  marginRight: 10,
+                  height: 50,
+                  width: 50,
                   justifyContent: 'center',
                   alignItems: 'center',
                   borderColor: appColors.White,
@@ -424,18 +402,15 @@ const BarberProfile = ({ navigation, route }) => {
                 />
               </TouchableOpacity>
             </View>
-
-            <View style={{ flex: 0.27 }}>
-              <View style={{ alignItems: 'center' }}>
-                <Text
-                  style={{
-                    color: appColors.White,
-                    fontSize: 17,
-                    fontWeight: '500',
-                  }}>
-                  Share
-                </Text>
-              </View>
+            <View style={{ flex: 0.27, justifyContent: 'center', alignItems: 'center' }}>
+              <Text
+                style={{
+                  color: appColors.White,
+                  fontSize: 13,
+                  fontWeight: '500',
+                }}>
+                Share
+              </Text>
             </View>
           </View>
         </View>
@@ -507,6 +482,7 @@ const BarberProfile = ({ navigation, route }) => {
                       </View>
                       <View style={{ flex: 0.3, justifyContent: 'center' }}>
                         <ButtonComponent
+                        style={{ height: "80%", paddingVertical: 10, justifyContent:'center' }}
                           title={'View'}
                           onPress={() => {
                             navigation.push(constants.screen.BarberProfile, {
