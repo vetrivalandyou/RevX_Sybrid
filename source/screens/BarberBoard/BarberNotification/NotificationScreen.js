@@ -64,7 +64,7 @@ const BarberNotification = ({ navigation }) => {
       customerid: 0,
       barberid: asyncUserDetails?.userId,
       _PageNumber: pageNumber,
-      _RowsOfPage: 5
+      _RowsOfPage: 10
     }
     console.log("payload", payload)
     PostRequest(endPoint.ALL_NOTIFICATIONS, payload)
@@ -193,7 +193,7 @@ const BarberNotification = ({ navigation }) => {
       customerid: 0,
       barberid: userDetails?.userId,
       _PageNumber: pageNumber,
-      _RowsOfPage: 5
+      _RowsOfPage: 10
     }
     console.log("payload", payload)
     PostRequest(endPoint.ALL_NOTIFICATIONS, payload)

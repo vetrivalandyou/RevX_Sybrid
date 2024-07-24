@@ -48,7 +48,6 @@ const UserNotification = ({ navigation }) => {
     const asyncUserDetails = await getAsyncItem(
       constants.AsyncStorageKeys.userDetails,
     );
-    console.log('asyncUserDetails', asyncUserDetails);
     setUserDetails(asyncUserDetails);
     getAllNotifications(asyncUserDetails);
   };
@@ -56,11 +55,11 @@ const UserNotification = ({ navigation }) => {
   const getAllNotifications = (asyncUserDetails) => {
     if (hasMore == false) return;
     const payload = {
-      operationID: 2,
+      operationID: 3,
       customerid: 0,
       barberid: asyncUserDetails?.userId,
       _PageNumber: pageNumber,
-      _RowsOfPage: 5
+      _RowsOfPage: 10
     }
     console.log("payload", payload)
     PostRequest(endPoint.ALL_NOTIFICATIONS, payload)
@@ -185,11 +184,11 @@ const UserNotification = ({ navigation }) => {
 
   const recallAllNotifications = () => {
     const payload = {
-      operationID: 2,
+      operationID: 3,
       customerid: 0,
       barberid: userDetails?.userId,
       _PageNumber: pageNumber,
-      _RowsOfPage: 5
+      _RowsOfPage: 10
     }
     console.log("payload", payload)
     PostRequest(endPoint.ALL_NOTIFICATIONS, payload)
