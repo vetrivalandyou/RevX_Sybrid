@@ -47,9 +47,11 @@ import SimpleTextField from '../../../components/molecules/TextFeilds/SimpleText
 import SignalRService from '../../../services/SignalRService';
 import { SET_INITIAL_DROPDOWN_FORM_STATE } from '../../../redux/ActionType/CrudActionTypes';
 import BoxLottie from '../../../components/atom/BoxLottie/BoxLottie';
+import { INCREMENT_NOTIFICATION_COUNT, RESET_NOTIFICATION_COUNT } from '../../../redux/ActionType/NotificationActionTypes';
 
 const HomeBarber = ({ navigation }) => {
   const { coords } = useSelector(state => state.LocationReducer);
+  const { Notification } = useSelector(state => state.NotificationReducer);
   const dispatch = useDispatch();
   const isFocused = useIsFocused();
   const [userDetails, setUserDetails] = useState();
@@ -57,11 +59,13 @@ const HomeBarber = ({ navigation }) => {
   const [todaysBooking, setTodaysBookingList] = useState([])
   const [isLoading, setIsLoading] = useState(true)
 
+  console.log("NotificationCount", Notification)
+
   useEffect(() => {
     if (isFocused) {
       getAsyncData();
     }
-  }, [isFocused]);
+  }, [isFocused, dispatch]);
 
   const getAsyncData = async () => {
     const userAsyncDetails = await getAsyncItem(
@@ -78,10 +82,9 @@ const HomeBarber = ({ navigation }) => {
 
   const connectToSignalR = async userDetails => {
     SignalRService.startConnection(
-      // parseInt(userDetails?.userId),
-      // 0,
       parseInt(userDetails?._RoleId),
       userDetails?.userId.toString(),
+      dispatch
     );
     SignalRService.onGetChatList_BB(json => {
       let parsedData = JSON.parse(json);
@@ -94,30 +97,31 @@ const HomeBarber = ({ navigation }) => {
     });
   };
 
-  const handleLocationChange = newCoords => {
-    console.log('newCoordsnewCoordsnewCoordsnewCoordsnewCoords', newCoords);
-    handleSaveBarberLocation(userDetails, newCoords?.coords);
-    setLogLatAsync(constants.AsyncStorageKeys.longLat, newCoords);
-  };
+  // const handleLocationChange = newCoords => {
+  //   console.log('newCoordsnewCoordsnewCoordsnewCoordsnewCoords', newCoords);
+  //   handleSaveBarberLocation(userDetails, newCoords?.coords);
+  //   setLogLatAsync(constants.AsyncStorageKeys.longLat, newCoords);
+  // };
 
-  const handleSaveBarberLocation = (userAsyncDetails, newCoords) => {
-    const payload = {
-      barberId: userAsyncDetails?.userId,
-      userLocationLatitude: newCoords?.latitude,
-      userLocationLongitude: newCoords?.longitude,
-      operations: LATEST_UPDATE,
-      createdBy: userAsyncDetails?.userId,
-    };
-    PostRequest(endPoint.BARBER_LOCATION_UPDATE, payload)
-      .then(res => {
-        console.log('RESPONSE BARBER LOCATION UPDATE', res?.data);
-      })
-      .catch(err => {
-        console.log('Err'.err);
-      });
-  };
+  // const handleSaveBarberLocation = (userAsyncDetails, newCoords) => {
+  //   const payload = {
+  //     barberId: userAsyncDetails?.userId,
+  //     userLocationLatitude: newCoords?.latitude,
+  //     userLocationLongitude: newCoords?.longitude,
+  //     operations: LATEST_UPDATE,
+  //     createdBy: userAsyncDetails?.userId,
+  //   };
+  //   console.log("Payload", payload)
+  //   PostRequest(endPoint.BARBER_LOCATION_UPDATE, payload)
+  //     .then(res => {
+  //       console.log('RESPONSE BARBER LOCATION UPDATE', res?.data);
+  //     })
+  //     .catch(err => {
+  //       console.log('Err'.err);
+  //     });
+  // };
 
-  useLocationWatcher(handleLocationChange);
+  // useLocationWatcher(handleLocationChange);
 
   const handleClickReject = () => {
     console.log('Reject Clicked');
@@ -341,13 +345,18 @@ const HomeBarber = ({ navigation }) => {
                   color={appColors.White}
                   size={20}
                 />
-                <View style={{ position: 'absolute', top: -10, left: 30, width: 25, height: 25, borderRadius: 50, backgroundColor: appColors.Goldcolor, justifyContent: 'center', alignItems: 'center' }}>
-                  <Text style={{ color: appColors.White, fontSize: 12 }}>10</Text>
-                </View>
+                {
+                  Notification?.length > 0 && (
+                    <View style={{ position: 'absolute', top: -10, left: 30, width: 25, height: 25, borderRadius: 50, backgroundColor: appColors.Goldcolor, justifyContent: 'center', alignItems: 'center' }}>
+                      <Text style={{ color: appColors.White, fontSize: 12 }}>{Notification?.length}</Text>
+                    </View>
+                  )
+                }
+
               </TouchableOpacity>
               <TouchableOpacity
                 onPress={() => {
-                  SignalRService.sendNotification(2)
+                  SignalRService.sendNotification(50)
                 }}
                 style={{
                   backgroundColor: appColors.darkgrey,
@@ -521,12 +530,6 @@ const HomeBarber = ({ navigation }) => {
     );
   };
 
-  useEffect(() => {
-    SignalRService.onGetNotification((json) => {
-      console.log("json", json)
-    });
-  }, [])
-
   const getTodaysBooking = () => {
     const payload = {
       operationID: 7,
@@ -550,7 +553,6 @@ const HomeBarber = ({ navigation }) => {
         setIsLoading(false);
       });
   };
-
 
   return (
     <Screen statusBarColor={appColors.Black} viewStyle={styles.MianContainer}>

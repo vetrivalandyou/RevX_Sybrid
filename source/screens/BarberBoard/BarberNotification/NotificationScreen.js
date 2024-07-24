@@ -6,7 +6,7 @@ import {
   Image,
   FlatList,
 } from 'react-native';
-import React from 'react';
+import React, { useEffect } from 'react';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import {AppImages} from '../../../AppConstants/AppImages';
@@ -19,8 +19,20 @@ import Screen from '../../../components/atom/ScreenContainer/Screen';
 import Bookingbutton from '../../../components/atom/BookingButtons/Bookingbutton';
 import constants from '../../../AppConstants/Constants.json';
 import appColors from '../../../AppConstants/appColors';
+import { useDispatch } from 'react-redux';
+import { useIsFocused } from '@react-navigation/native';
+import { RESET_NOTIFICATION_COUNT } from '../../../redux/ActionType/NotificationActionTypes';
 
 const Notification = ({navigation}) => {
+
+  const dispatch = useDispatch()
+  const isFocused = useIsFocused()
+
+  useEffect(() => {
+    if(isFocused){
+      dispatch({ type: RESET_NOTIFICATION_COUNT });
+    }
+  },[isFocused])
   const data = [
     {
       id: 1,
