@@ -274,69 +274,6 @@ const HomeBarber = ({ navigation }) => {
     );
   };
 
-  const data = [
-    {
-      id: 1,
-      date: 'Dec 24,2024 - 10.00am',
-      name: 'Barberella Inova',
-      title: '38947 Madeshow valley terrace services',
-      label: 'Gulf Haircut, Thin Shampoo, Alovevera Shampo, Hair wash',
-      Imagesource: require('../../../assets/rectangle2.png'),
-      Booking: 'Cancel Booking',
-      Receipt: 'View E-Receipt',
-      ratingicon: <AntDesign name={'staro'} size={12} color={'#c79647'} />,
-      rating: '4.1',
-    },
-    {
-      id: 1,
-      date: 'Dec 24,2024 - 10.00am',
-      name: 'Barberella Inova',
-      title: '38947 Madeshow valley terrace services',
-      label: 'Gulf Haircut, Thin Shampoo, Alovevera Shampo, Hair wash',
-      Imagesource: require('../../../assets/rectangle2.png'),
-      Booking: 'Cancel Booking',
-      Receipt: 'View E-Receipt',
-      ratingicon: <AntDesign name={'staro'} size={12} color={'#c79647'} />,
-      rating: '4.1',
-    },
-    {
-      id: 1,
-      date: 'Dec 24,2024 - 10.00am',
-      name: 'Barberella Inova',
-      title: '38947 Madeshow valley terrace services',
-      label: 'Gulf Haircut, Thin Shampoo, Alovevera Shampo, Hair wash',
-      Imagesource: require('../../../assets/rectangle2.png'),
-      Booking: 'Cancel Booking',
-      Receipt: 'View E-Receipt',
-      ratingicon: <AntDesign name={'staro'} size={12} color={'#c79647'} />,
-      rating: '4.1',
-    },
-    {
-      id: 1,
-      date: 'Dec 24,2024 - 10.00am',
-      name: 'Barberella Inova',
-      title: '38947 Madeshow valley terrace services',
-      label: 'Gulf Haircut, Thin Shampoo, Alovevera Shampo, Hair wash',
-      Imagesource: require('../../../assets/rectangle2.png'),
-      Booking: 'Cancel Booking',
-      Receipt: 'View E-Receipt',
-      ratingicon: <AntDesign name={'staro'} size={12} color={'#c79647'} />,
-      rating: '4.1',
-    },
-    {
-      id: 1,
-      date: 'Dec 24,2024 - 10.00am',
-      name: 'Barberella Inova',
-      title: '38947 Madeshow valley terrace services',
-      label: 'Gulf Haircut, Thin Shampoo, Alovevera Shampo, Hair wash',
-      Imagesource: require('../../../assets/rectangle2.png'),
-      Booking: 'Cancel Booking',
-      Receipt: 'View E-Receipt',
-      ratingicon: <AntDesign name={'staro'} size={12} color={'#c79647'} />,
-      rating: '4.1',
-    },
-  ];
-
   const HomeHeader = ({ heading, sunHeading, source }) => {
     return (
       <View style={{ flex: 1, justifyContent: 'center' }}>
@@ -453,11 +390,14 @@ const HomeBarber = ({ navigation }) => {
     PostRequest(endPoint?.BARBER_AVAILABLESLOTS, payload)
       .then(res => {
         console.log('res?.data', res?.data);
-        if (res?.data?.Table?.[0]?.HassError == 0) {
-          todaysBooking();
-          SimpleSnackBar(res?.data?.Table?.[0]?.Message);
+        const { Table } = res?.data
+        if (Table?.[0]?.HassError == 0) {
+          getTodaysBooking();
+          SimpleSnackBar(Table?.[0]?.Message);
+          console.log("Table?.[0]?.NotificationID.toString()",Table?.[0]?.NotificationID.toString())
+          SignalRService.sendNotification(parseInt(Table?.[0]?.NotificationID))
         } else {
-          SimpleSnackBar(res?.data?.Table?.[0]?.Message, appColors.Red);
+          SimpleSnackBar(Table?.[0]?.Message, appColors.Red);
         }
       })
       .catch(err => {
@@ -479,11 +419,13 @@ const HomeBarber = ({ navigation }) => {
     PostRequest(endPoint?.BARBER_AVAILABLESLOTS, payload)
       .then(res => {
         console.log('res?.data', res?.data);
-        if (res?.data?.Table?.[0]?.HassError == 0) {
-          SimpleSnackBar(res?.data?.Table?.[0]?.Message);
+        const { Table } = res?.data;
+        if (Table?.[0]?.HassError == 0) {
+          SimpleSnackBar(Table?.[0]?.Message);
+          SignalRService.sendNotification(parseInt(Table?.[0]?.NotificationID))
           getTodaysBooking();
         } else {
-          SimpleSnackBar(res?.data?.Table?.[0]?.Message, appColors.Red);
+          SimpleSnackBar(Table?.[0]?.Message, appColors.Red);
         }
       })
       .catch(err => {
