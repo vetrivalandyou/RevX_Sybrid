@@ -341,6 +341,9 @@ const HomeBarber = ({ navigation }) => {
                   color={appColors.White}
                   size={20}
                 />
+                <View style={{ position: 'absolute', top: -10, left: 30, width: 25, height: 25, borderRadius: 50, backgroundColor: appColors.Goldcolor, justifyContent: 'center', alignItems: 'center' }}>
+                  <Text style={{ color: appColors.White, fontSize: 12 }}>10</Text>
+                </View>
               </TouchableOpacity>
               <TouchableOpacity
                 onPress={() => {
@@ -571,7 +574,7 @@ const HomeBarber = ({ navigation }) => {
           <View style={styles.searchBarContainer}>
             <Search />
           </View>
-          
+
           <View
             style={{
               flex: 0.1,
