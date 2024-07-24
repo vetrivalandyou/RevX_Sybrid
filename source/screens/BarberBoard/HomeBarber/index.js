@@ -48,6 +48,31 @@ import SignalRService from '../../../services/SignalRService';
 import { SET_INITIAL_DROPDOWN_FORM_STATE } from '../../../redux/ActionType/CrudActionTypes';
 import BoxLottie from '../../../components/atom/BoxLottie/BoxLottie';
 import { INCREMENT_NOTIFICATION_COUNT, RESET_NOTIFICATION_COUNT } from '../../../redux/ActionType/NotificationActionTypes';
+import moment from 'moment';
+import { SimpleSnackBar } from '../../../components/atom/Snakbar/Snakbar';
+
+const initialOperationFields = {
+  operationID: 0,
+  durationMinutes: 0,
+  barberID: 0,
+  barberName: '',
+  slotID: 0,
+  slotName: '',
+  customerID: 0,
+  customerName: '',
+  bookingDate: '2024-06-20T11:40:48.693Z',
+  transactionID: '',
+  isPaid: 0,
+  services: '',
+  isActive: true,
+  userID: 0,
+  userIP: '',
+  longitude: 0,
+  latitude: 0,
+  locationName: '',
+  remarks: '',
+  barbarBookedSlotID: 0,
+}
 
 const HomeBarber = ({ navigation }) => {
   const { coords } = useSelector(state => state.LocationReducer);
@@ -380,155 +405,139 @@ const HomeBarber = ({ navigation }) => {
     );
   };
 
-  const ListPrebooking = item => {
-    return (
-      <View
-        style={{
-          height: screenSize.height / 2.8,
-          width: screenSize.width / 1.1,
-          marginBottom: 10,
-          backgroundColor: '#252525',
-          borderWidth: 1,
-          borderRadius: 20,
-          borderColor: 'black',
-          marginHorizontal: 3,
-        }}>
-        <View style={{ flex: 1, borderRadius: 20 }}>
-          <View
-            style={{
-              flexDirection: 'row',
-              flex: 0.2,
-              justifyContent: 'space-between',
-              alignItems: 'center',
-              marginHorizontal: 15,
-              marginTop: 5,
-            }}>
-            <View style={{ flex: 0.6 }}>
-              <Text
-                style={{
-                  color: 'white',
-                  fontSize: 14,
-                }}>
-                {item.item.date}
-              </Text>
-            </View>
-            <View
-              style={{
-                flex: 0.4,
-                alignItems: 'flex-end',
-              }}>
-              <View
-                style={{
-                  color: 'white',
-                  flexDirection: 'row',
-                  justifyContent: 'space-evenly',
-                  alignItems: 'center',
-                }}>
-                <Bookingbutton
-                  style={{
-                    borderColor: 'white',
-                    color: 'white',
-                    height: 27,
-                    flex: 0.8,
-                  }}
-                  stylebtn={{ color: 'white', fontSize: 13 }}
-                  onPress={() =>
-                    navigation.navigate(constants.BarberScreen.EReceipt)
-                  }
-                  title={'View E-Recipt'}
-                />
-              </View>
-            </View>
+  const handleClickAccept = item => {
+    const payload = {
+      ...initialOperationFields,
+      operationID: 8,
+      remarks: 'Accepted',
+      barberID: item?.BarbarID,
+      customerID: item?.CustomerID,
+      bookingDate: item?.BookingDate,
+      barbarBookedSlotID: item?.BarbarBookedSlotID,
+    };
+    console.log('reCallPreBooking payload', payload);
+    PostRequest(endPoint?.BARBER_AVAILABLESLOTS, payload)
+      .then(res => {
+        console.log('res?.data', res?.data);
+        if (res?.data?.Table?.[0]?.HassError == 0) {
+          todaysBooking();
+          SimpleSnackBar(res?.data?.Table?.[0]?.Message);
+        } else {
+          SimpleSnackBar(res?.data?.Table?.[0]?.Message, appColors.Red);
+        }
+      })
+      .catch(err => {
+        console.log('err', err);
+      });
+  };
+
+  const handleMarkAsCompleted = (item) => {
+    const payload = {
+      ...initialOperationFields,
+      operationID: 12,
+      remarks: '',
+      barberID: item?.BarbarID,
+      customerID: item?.CustomerID,
+      bookingDate: item?.BookingDate,
+      barbarBookedSlotID: item?.BarbarBookedSlotID,
+    };
+    console.log('payload', payload);
+    PostRequest(endPoint?.BARBER_AVAILABLESLOTS, payload)
+      .then(res => {
+        console.log('res?.data', res?.data);
+        if (res?.data?.Table?.[0]?.HassError == 0) {
+          SimpleSnackBar(res?.data?.Table?.[0]?.Message);
+          getTodaysBooking();
+        } else {
+          SimpleSnackBar(res?.data?.Table?.[0]?.Message, appColors.Red);
+        }
+      })
+      .catch(err => {
+        console.log('err', err);
+      });
+  }
+
+  const ListPrebooking = ({ item, index, }) => (
+    <View key={index} style={styles.bookingContainerstyle}>
+      <View style={{ flex: 1, borderRadius: 20 }}>
+        <View style={styles.bookingInnercontainerView}>
+          <View style={styles.bookingTextview}>
+            <Text style={styles.dateTextstyle}>
+              {moment(item?.BookingDate).format('MMMM DD, YYYY')} -{' '}
+              {item?.SlotName}
+            </Text>
           </View>
-
-          <View style={{ height: 1, position: 'relative', marginHorizontal: 15 }}>
-            <View
-              style={{
-                position: 'absolute',
-                top: 0,
-                bottom: 0,
-                left: 0,
-                right: 0,
-                borderWidth: 1,
-                borderColor: appColors.Goldcolor,
-                borderStyle: 'dashed',
-                backgroundColor: 'transparent',
-              }}></View>
-          </View>
-
-          {/* <View
-            style={{
-              fontSize: 25,
-              marginHorizontal: 14,
-              borderBottomWidth: 2,
-              borderStyle: 'dashed',
-              borderBottomColor: '#c79647',
-            }}></View> */}
-
-          <View
-            style={{
-              flexDirection: 'row',
-              flex: 0.58,
-              justifyContent: 'center',
-              alignItems: 'center',
-            }}>
-            <View style={{ flex: 0.35, alignItems: 'center' }}>
-              <Image
-                source={item.item.Imagesource}
-                style={{
-                  height: '80%',
-                  width: '82%',
-                  borderRadius: 7,
-                  marginTop: 5,
-                }}
+          <View style={styles.EreciptButtonView}>
+            <View style={styles.EreciptInnerView}>
+              <Bookingbutton
+                style={styles.EreciptButtonstyle}
+                stylebtn={{ color: appColors.White, fontSize: 11 }}
+                onPress={() =>
+                  navigation.navigate(constants.BarberScreen.BarberEReceipt, {
+                    bookingSlot: item,
+                  })
+                }
+                title={'View E-Recipt'}
               />
             </View>
-            <View style={{ flexDirection: 'column', flex: 0.63 }}>
-              <Text style={{ fontSize: 22, fontWeight: '600', color: 'white' }}>
-                {item.item.name}
-              </Text>
-              <View>
-                <Text
-                  style={{
-                    fontSize: 14,
-                    fontWeight: '400',
-                    color: '#9E9E9E',
-                    marginVertical: 9,
-                  }}>
-                  {item.item.title}
-                </Text>
-              </View>
-              <View>
-                <Text
-                  style={{ fontSize: 12, fontWeight: '400', color: '#c79647' }}>
-                  {item.item.label}
-                </Text>
-              </View>
-            </View>
-          </View>
-          <View
-            style={{
-              flex: 0.25,
-              justifyContent: 'center',
-              flexDirection: 'row',
-              justifyContent: 'space-evenly',
-            }}>
-            <Bookingbutton
-              style={{ backgroundColor: '#c79647' }}
-              stylebtn={{ color: 'white' }}
-              title={'Accept'}
-            />
-            <Bookingbutton
-              onPress={handleClickReject}
-              style={{ backgroundColor: '#E81F1C', borderColor: 'red' }}
-              stylebtn={{ color: 'white' }}
-              title={'Reject'}
-            />
           </View>
         </View>
+
+        <View style={styles.DashLineView}>
+          <View style={styles.DashLinestyle}></View>
+        </View>
+
+        <View
+          style={[styles.imagetextContainerView, { paddingHorizontal: 15 }]}>
+          <View style={styles.bookingImageview}>
+            <Image
+              source={{ uri: `${imageUrl}${item.CustomerProfileImage}` }}
+              style={styles.bookingImagestyle}
+            />
+          </View>
+          <View style={styles.bookingTextview}>
+            <Text style={styles.Nametext}>{item.CustomerName}</Text>
+            <View>
+              <Text style={styles.Titletext}>{item.LocationName}</Text>
+            </View>
+            <View>
+              <Text style={styles.Labeltext}>{item?.serviceNames}</Text>
+            </View>
+          </View>
+        </View>
+        <View style={styles.ButtonsView}>
+          {
+            item?.StatusID == 9 || item?.StatusID == 13 ?
+              (
+                <Bookingbutton
+                  onPress={() => {
+                    if (item?.IsPaid == true) handleMarkAsCompleted(item)
+                  }}
+                  style={{ width: "80%", backgroundColor: item?.StatusID == 13 ? appColors.Red : appColors.Accepted, borderColor: item?.StatusID == 13 ? appColors.Red : appColors.Accepted }}
+                  stylebtn={{ color: 'white' }}
+                  title={item?.StatusID == 13 ? "Request for Rejection" : 'Mark as Completed'}
+                />
+              ) :
+              (
+                <>
+                  <Bookingbutton
+                    onPress={() => handleClickAccept(item)}
+                    style={{ backgroundColor: '#c79647' }}
+                    stylebtn={{ color: 'white' }}
+                    title={'Accept'}
+                  />
+                  <Bookingbutton
+                    onPress={() => handleClickReject(item)}
+                    style={{ backgroundColor: '#E81F1C', borderColor: 'red' }}
+                    stylebtn={{ color: 'white' }}
+                    title={'Reject'}
+                  /></>
+              )
+          }
+        </View>
       </View>
-    );
-  };
+    </View>
+  )
 
   const getTodaysBooking = () => {
     const payload = {
@@ -545,7 +554,7 @@ const HomeBarber = ({ navigation }) => {
     PostRequest(endPoint.BB_BOOKEDSLOTS, payload)
       .then(res => {
         console.log('Todays Pre Booking Response', res?.data);
-        setTodaysBookingList(...res?.data?.Table);
+        setTodaysBookingList(res?.data?.Table);
         setIsLoading(false);
       })
       .catch(err => {
@@ -604,30 +613,23 @@ const HomeBarber = ({ navigation }) => {
                   </View>
                 ) :
                 (
-                  <FlatList
-                    data={data}
-                    showsVerticalScrollIndicator={false}
-                    keyExtractor={(item, index) => index?.toString()}
-                    renderItem={({ item, index }) => <ListPrebooking item={item} />}
-                  />
-
-                  // todaysBooking?.length > 0 ?
-                  //   (
-                  //     <FlatList
-                  //       data={data}
-                  //       showsVerticalScrollIndicator={false}
-                  //       keyExtractor={(item, index) => index?.toString()}
-                  //       renderItem={({ item, index }) => <ListPrebooking item={item} />}
-                  //     />
-                  //   ) :
-                  //   (
-                  //     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-                  //       <BoxLottie
-                  //         animationPath={require('../../../LottieAnimation/NoPostFoundAnimation.json')}
-                  //       />
-                  //       <Text style={{ color: appColors.White, fontSize: 15, marginTop: 5 }}>No Current Appointment</Text>
-                  //     </View>
-                  //   )
+                  todaysBooking?.length > 0 ?
+                    (
+                      <FlatList
+                        data={todaysBooking}
+                        showsVerticalScrollIndicator={false}
+                        keyExtractor={(item, index) => index?.toString()}
+                        renderItem={({ item, index }) => <ListPrebooking item={item} />}
+                      />
+                    ) :
+                    (
+                      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+                        <BoxLottie
+                          animationPath={require('../../../LottieAnimation/NoPostFoundAnimation.json')}
+                        />
+                        <Text style={{ color: appColors.White, fontSize: 15, marginTop: 5 }}>No Current Appointment</Text>
+                      </View>
+                    )
                 )
             }
           </View>
