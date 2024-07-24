@@ -383,6 +383,12 @@ const HomeBarber = ({ navigation }) => {
                 alignItems: 'center',
               }}>
               <TouchableOpacity
+                onPress={() => {
+                  console.log("onPress")
+                  navigation.navigate(
+                    constants.BarberScreen.NotificationScreen,
+                  )
+                }}
                 style={{
                   backgroundColor: appColors.darkgrey,
                   borderRadius: 50,
@@ -393,11 +399,6 @@ const HomeBarber = ({ navigation }) => {
                   marginRight: 10,
                 }}>
                 <CustomIcon
-                  onPress={() =>
-                    navigation.navigate(
-                      constants.BarberScreen.NotificationScreen,
-                    )
-                  }
                   type={Icons.FontAwesome5}
                   name={'bell'}
                   color={appColors.White}
