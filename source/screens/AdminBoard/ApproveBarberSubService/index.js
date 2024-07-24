@@ -105,7 +105,7 @@ const ApproveBarberSubService = ({navigation}) => {
     if (operation == 'Accept') {
       makingParentService = selectedItems?.map(x => ({
         childService_PK_ID: x,
-        childServiceStatusID: 2,
+        childServiceStatusID: 10,
       }));
       payload = {
         ...initialBarberApproveFields,

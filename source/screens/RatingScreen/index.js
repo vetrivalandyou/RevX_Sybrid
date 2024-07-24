@@ -7,6 +7,7 @@ import {
   FlatList,
   KeyboardAvoidingView,
   Platform,
+  TextInput,
 } from 'react-native';
 import Search from '../../components/atom/Search/Search';
 import Header from '../../components/molecules/Header';
@@ -18,19 +19,30 @@ import {AppImages} from '../../AppConstants/AppImages';
 import {useNavigation} from '@react-navigation/native';
 import {screenSize} from '../../components/atom/ScreenSize';
 import ButtonComponent from '../../components/atom/CustomButtons/ButtonComponent';
+import {PostRequest} from '../../services/apiCall';
+import {endPoint} from '../../AppConstants/urlConstants';
 
-const RatingScreen = () => {
-  const navigation = useNavigation();
+const RatingScreen = ({route, navigation}) => {
+  const {userDetails, userCompletedBooking} = route.params || 0;
+  console.log('bookingSlotbookingSlot', userDetails);
+  console.log('userCompletedBookinguserCompletedBooking', userCompletedBooking);
   const [selectedStar, setSelectedStar] = useState(null);
   const [selectedComment, setSelectedComment] = useState(null);
+  const [feedback, setFeedback] = useState('');
 
   const starMark = [
-    {id: 1, title: 'All', Imagesource: AppImages.Star},
-    {id: 2, title: '5', Imagesource: AppImages.Star},
-    {id: 3, title: '4', Imagesource: AppImages.Star},
-    {id: 4, title: '3', Imagesource: AppImages.Star},
-    {id: 5, title: '2', Imagesource: AppImages.Star},
-    {id: 6, title: '1', Imagesource: AppImages.Star},
+    {id: 1, title: '5', Imagesource: AppImages.Star},
+    {id: 2, title: '4', Imagesource: AppImages.Star},
+    {id: 3, title: '3', Imagesource: AppImages.Star},
+    {id: 4, title: '2', Imagesource: AppImages.Star},
+    {id: 5, title: '1', Imagesource: AppImages.Star},
+  ];
+
+  const commentRating = [
+    {id: 1, title: 'Beautiful'},
+    {id: 2, title: 'Love it !!!'},
+    {id: 3, title: 'Awesome'},
+    {id: 4, title: 'Fast Delivery'},
   ];
 
   const StarData = ({item}) => {
@@ -79,13 +91,6 @@ const RatingScreen = () => {
     );
   };
 
-  const commentRating = [
-    {id: 1, title: 'Beautiful'},
-    {id: 2, title: 'Love it !!!'},
-    {id: 3, title: '😍😍😍'},
-    {id: 4, title: 'Fast Delivery'},
-  ];
-
   const CommentRatingData = ({item}) => {
     const isSelected = item.id === selectedComment;
     return (
@@ -127,6 +132,47 @@ const RatingScreen = () => {
         </View>
       </TouchableOpacity>
     );
+  };
+
+  const SendRatingByUser = (ratingValue, comments, feedback) => {
+    const payload = {
+      operationID: 1,
+      ratingID: 0,
+      userID: userDetails?.userId,
+      barberId: userCompletedBooking?.[0]?.BarbarID,
+      rateBy: userDetails?.userId,
+      ratingValue: ratingValue,
+      isActive: 0,
+      feedback: feedback,
+      comments: comments,
+    };
+    console.log('payload payload payload', payload);
+    // PostRequest(endPoint?.USER_RATING_FOR_BARBER, payload)
+    //   .then(res => {
+    //     console.log('res?.data', res?.data);
+    //   })
+    //   .catch(err => {
+    //     console.log('err', err);
+    //   });
+  };
+
+  const onPressSubmit = () => {
+    const selectedStarItem = starMark.find(star => star.id === selectedStar);
+    const selectedCommentItem = commentRating.find(
+      comment => comment.id === selectedComment,
+    );
+
+    const selectedStarTitle = selectedStarItem ? selectedStarItem.title : null;
+    const selectedCommentTitle = selectedCommentItem
+      ? selectedCommentItem.title
+      : null;
+
+    console.log('Selected Star Title:', selectedStarTitle);
+    console.log('Selected Comment Title:', selectedCommentTitle);
+    console.log('Feedback:', feedback);
+
+    // Call the API function with the selected data
+    SendRatingByUser(selectedStarTitle, selectedCommentTitle, feedback);
   };
 
   return (
@@ -178,18 +224,27 @@ const RatingScreen = () => {
         </View>
         <View style={{flex: 0.04}}>
           <View style={{color: appColors.White}}>
-            <Text style={{fontSize: 17, color: appColors.White}}>
+            <Text style={{fontSize: 15, color: appColors.White}}>
               Comment Rating
             </Text>
           </View>
         </View>
-        <View style={{flex: 0.04}}>
-          <View
+        <View style={{flex: 0.1}}>
+          <TextInput
             style={{
-              color: appColors.White,
+              color: 'white',
+              paddingHorizontal: 25,
+              fontSize: 14,
               borderBottomWidth: 1,
-              borderBlockColor: appColors.White,
-            }}></View>
+              borderColor: appColors.White,
+              paddingHorizontal: 5,
+            }}
+            placeholder="Enter your feedback"
+            placeholderTextColor={appColors.LightGray}
+            maxLength={50}
+            value={feedback}
+            onChangeText={text => setFeedback(text)}
+          />
         </View>
         <View style={{flex: 0.1}}>
           <FlatList
@@ -211,7 +266,7 @@ const RatingScreen = () => {
               backgroundColor: appColors.Goldcolor,
             }}
             title={'Submit'}
-            // onPress={onPressSubmit}
+            onPress={onPressSubmit}
           />
         </View>
       </KeyboardAvoidingView>

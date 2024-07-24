@@ -150,7 +150,15 @@ const BarberEReceipt = ({route, navigation}) => {
           />
           <Barberdetails
             name={'Address'}
-            value={eReceiptData?.Table?.[0]?.LocationName}
+            // value={eReceiptData?.Table?.[0]?.LocationName}
+            value={
+              eReceiptData?.Table?.[0]?.LocationName
+                ? eReceiptData?.Table?.[0]?.LocationName.length > 45
+                  ? eReceiptData?.Table?.[0]?.LocationName.substring(0, 45) +
+                    '...'
+                  : eReceiptData?.Table[0]?.LocationName
+                : ''
+            }
           />
           <Barberdetails
             name={'Name'}

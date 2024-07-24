@@ -28,8 +28,8 @@ const PreBooking = ({
   userDetails,
   preBookingList,
   setPreBookingList,
-  isLoading,
-  setIsLoading,
+  // isLoading,
+  // setIsLoading,
   hasMore,
   setHasMore,
   pageNumber,
@@ -38,9 +38,10 @@ const PreBooking = ({
   const navigation = useNavigation();
   const refRBSheet = useRef();
   const [selectedBooking, setSelectedBooking] = useState({});
+  const [isLoading, setIsLoading] = useState();
 
   const getPreBookings = () => {
-    if(hasMore == false) return
+    if (hasMore == false) return;
     const payload = {
       operationID: 1,
       roleID: userDetails?._RoleId,
@@ -131,20 +132,23 @@ const PreBooking = ({
                   }}>
                   <AntDesign name={'staro'} size={12} color={'#c79647'} />
                   <Text style={{color: '#c79647', fontSize: 11}}>
-                    {/* {item.item.rating} */}
-                    4.5
+                    {item?.Rating}
                   </Text>
                 </View>
               </View>
             </View>
-            <View style={{flex: 0.2, justifyContent: 'center'}}>
+            <View style={{flex: 0.35, justifyContent: 'center'}}>
               <Completedbutton
                 style={{
                   backgroundColor:
-                    item?.StatusID == 8 ? appColors.Gray : appColors.Accepted ,
+                    item?.StatusID == 8 ? appColors.Gray : appColors.Accepted,
                 }}
                 textstyle={{color: appColors.White}}
-                title={item?.StatusID == 8 ? 'Pending' : 'Accepted'}
+                title={
+                  item?.StatusID == 8
+                    ? 'Pending by barber'
+                    : 'Accepted by barber'
+                }
               />
             </View>
           </View>

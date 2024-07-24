@@ -97,7 +97,7 @@ export default StyleSheet.create({
     fontSize: 14,
   },
   completedButtonview: {
-    flex: 0.25,
+    flex: 0.32,
     justifyContent: 'center',
   },
   EreciptView: {
@@ -246,8 +246,7 @@ export default StyleSheet.create({
   },
 
   barberDetailsContainer: {
-
-    height:'auto',
+    height: 'auto',
     paddingVertical: 17,
     marginTop: 5,
     backgroundColor: '#252525',
@@ -258,7 +257,7 @@ export default StyleSheet.create({
   },
 
   barberSevicesContainer: {
-    height:'auto',
+    height: 'auto',
     justifyContent: 'center',
     marginTop: 10,
     backgroundColor: '#252525',

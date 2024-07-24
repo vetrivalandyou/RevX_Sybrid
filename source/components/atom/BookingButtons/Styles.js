@@ -1,4 +1,5 @@
 import {StyleSheet} from 'react-native';
+import appColors from '../../../AppConstants/appColors';
 
 export default StyleSheet.create({
   bookingcontainer: {
@@ -25,7 +26,7 @@ export default StyleSheet.create({
     width: '100%',
     justifyContent: 'center',
     borderRadius: 25,
-    backgroundColor: '#6be521',
+    backgroundColor: appColors.Accepted,
     // marginTop:5,
   },
   completedcontainerText: {

@@ -15,7 +15,7 @@ import Completedbutton from '../../components/atom/BookingButtons/Completedbutto
 import moment from 'moment';
 import appColors from '../../AppConstants/appColors';
 import BoxLottie from '../../components/atom/BoxLottie/BoxLottie';
-import { debounce } from '../../functions/AppFunctions';
+import {debounce} from '../../functions/AppFunctions';
 
 const Bookingcancelled = ({data, userDetails}) => {
   const isFocused = useIsFocused();
@@ -41,10 +41,11 @@ const Bookingcancelled = ({data, userDetails}) => {
     PostRequest(endPoint.BB_BOOKEDSLOTS, payload)
       .then(res => {
         if (res?.data?.Table?.length > 0) {
-          setUserCancelledBooking(userCancelledBooking => [
-            ...userCancelledBooking,
-            ...res?.data?.Table,
-          ]);
+          console.log('res?.data?.Tableres?.data?.Table', res?.data?.Table),
+            setUserCancelledBooking(userCancelledBooking => [
+              ...userCancelledBooking,
+              ...res?.data?.Table,
+            ]);
           setPageNumber(pageNumber + 1); // Increment the page number
           setIsLoading(false);
         } else {
@@ -110,7 +111,7 @@ const Bookingcancelled = ({data, userDetails}) => {
             }}>
             <View style={{flex: 0.35, alignItems: 'center'}}>
               <Image
-                source={{ uri: `${imageUrl}${item.BarberProfileImage}`}}
+                source={{uri: `${imageUrl}${item.BarberProfileImage}`}}
                 style={{
                   height: '80%',
                   width: '82%',

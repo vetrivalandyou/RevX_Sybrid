@@ -102,9 +102,7 @@ const ProfileScreen = ({navigation}) => {
       case 2:
         navigation.navigate(constants.screen.LocationScreen);
         break;
-      case 3:
-        navigation.navigate(constants.screen.RatingScreen);
-        break;
+
       case 4:
         navigation.navigate(constants.screen.Notification);
         break;

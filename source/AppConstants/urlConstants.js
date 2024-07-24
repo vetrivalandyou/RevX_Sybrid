@@ -15,7 +15,8 @@ export const endPoint = {
   //User End Points
   EDIT_PROFILE_USER: 'Auth/User_CU',
   BB_BOOKEDSLOTS: 'Barber/BB_BookedSlots',
-  PaymentSuccess: "Payment/Success",
+  PaymentSuccess: 'Payment/Success',
+  USER_RATING_FOR_BARBER: 'Barber/usp_BarberRatings_CRUD',
 
   //Barbers End Points
   BARBER_SERVICES: 'Admin/Barber_Detail?id=94',
@@ -50,13 +51,13 @@ export const endPoint = {
   ADMIN_USERDETAILS: 'Admin/Admin_UserDetails',
   BARBER_PC_SERVICES_APPROVAL: 'Admin/Admin_BarberPCServicesApproval',
   ADMIN_APPOINTMENT_UAR: 'Admin/Admin_appointment_uar',
-  ADMIN_REPORTS: "Admin/AdmiReports",
+  ADMIN_REPORTS: 'Admin/AdmiReports',
 
   // Customer End Points
   SERVICE_CATEGORIES: 'Customer/Service_Categories',
   MASTER_DETAIL: 'Common/SetupMasterDetail',
   GET_ABOUT_US: 'Common/Get_AboutUs',
-  BUY_SERVICES: "Payment/BuyServices",
+  BUY_SERVICES: 'Payment/BuyServices',
 
   // `Common/Get_AboutUsType?aboutUsTypeId=${BARBERID}`
   SAVE_ABOUTUS_TYPE: 'Common/SaveAboutUsTypeTitleDetail',

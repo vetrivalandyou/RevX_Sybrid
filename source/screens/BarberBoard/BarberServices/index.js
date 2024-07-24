@@ -6,27 +6,27 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import React, { useEffect, useRef, useState } from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import styles from './styles';
-import { useIsFocused, useNavigation } from '@react-navigation/native';
+import {useIsFocused, useNavigation} from '@react-navigation/native';
 import DeleteServices from './DeleteServices';
-import { PostRequest } from '../../../services/apiCall';
+import {PostRequest} from '../../../services/apiCall';
 import appColors from '../../../AppConstants/appColors';
 import Header from '../../../components/molecules/Header';
-import { AppImages } from '../../../AppConstants/AppImages';
+import {AppImages} from '../../../AppConstants/AppImages';
 import constants from '../../../AppConstants/Constants.json';
-import { getAsyncItem } from '../../../utils/SettingAsyncStorage';
+import {getAsyncItem} from '../../../utils/SettingAsyncStorage';
 import Screen from '../../../components/atom/ScreenContainer/Screen';
-import { endPoint, messages } from '../../../AppConstants/urlConstants';
-import { SimpleSnackBar } from '../../../components/atom/Snakbar/Snakbar';
+import {endPoint, messages} from '../../../AppConstants/urlConstants';
+import {SimpleSnackBar} from '../../../components/atom/Snakbar/Snakbar';
 import CustomIcon, {
   Icons,
 } from '../../../components/molecules/CustomIcon/CustomIcon';
 import BottomSheet from '../../../components/molecules/BottomSheetContent/BottomSheet';
 import ButtonComponent from '../../../components/atom/CustomButtons/ButtonComponent';
-import { SUCCESS_CODE, approve } from '../../../AppConstants/appConstants';
+import {SUCCESS_CODE, approve} from '../../../AppConstants/appConstants';
 
-const Servicesboard = ({ navigation }) => {
+const Servicesboard = ({navigation}) => {
   const isFocused = useIsFocused();
   const [barberServices, setBarberServices] = useState([]);
   const [userDetails, setUserDetails] = useState([]);
@@ -83,11 +83,11 @@ const Servicesboard = ({ navigation }) => {
 
   return (
     <Screen
-      viewStyle={{ flex: 1, padding: 15, backgroundColor: appColors.Black }}
+      viewStyle={{flex: 1, padding: 15, backgroundColor: appColors.Black}}
       statusBarColor={appColors.Black}>
-      <View style={{ flex: 0.1, backgroundColor: appColors.Black }}>
+      <View style={{flex: 0.1, backgroundColor: appColors.Black}}>
         <Header
-          headerSubView={{ marginHorizontal: 5 }}
+          headerSubView={{marginHorizontal: 5}}
           lefttIcoType={Icons.Ionicons}
           onPressLeftIcon={() => navigation.goBack()}
           leftIcoName={'chevron-back'}
@@ -96,7 +96,7 @@ const Servicesboard = ({ navigation }) => {
         />
       </View>
 
-      <ScrollView style={{ flex: 0.8 }}>
+      <ScrollView style={{flex: 0.8}}>
         {barberServices?.[0]?.categories?.map((item, index) => (
           <Servicelist
             key={item.barberServiceCategryId}
@@ -115,7 +115,7 @@ const Servicesboard = ({ navigation }) => {
             bottom: 1,
             position: 'absolute',
           }}
-          btnTextColor={{ color: 'white' }}
+          btnTextColor={{color: 'white'}}
           title={'Request Service'}
           onPress={() =>
             navigation.navigate(constants.BarberScreen.Addservices, {
@@ -168,7 +168,7 @@ const handleApproveRejectRemarks = item => {
   }
 };
 
-const Servicelist = ({ index, item, onPress }) => {
+const Servicelist = ({index, item, onPress}) => {
   const refRBSheet = useRef();
   const navigation = useNavigation();
   return (
@@ -176,7 +176,7 @@ const Servicelist = ({ index, item, onPress }) => {
       <View style={[styles.container]}>
         <View style={[styles.Subcontainer]}>
           <View style={[styles.textView]}>
-            <View style={{ flex: 0.8, justifyContent: 'center' }}>
+            <View style={{flex: 0.8, justifyContent: 'center'}}>
               <Text style={styles.textStyle}>{item.barberServiceCategry}</Text>
             </View>
             <View
@@ -185,20 +185,21 @@ const Servicelist = ({ index, item, onPress }) => {
                 justifyContent: 'center',
                 alignItems: 'flex-end',
               }}>
-              <View style={{
-                justifyContent:'center',
-                alignItems:'center',
-                backgroundColor:
-                  item?.categoryStatusId == 10
-                    ? appColors.Sucess
-                    : item?.categoryStatusId == 9
+              <View
+                style={{
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  backgroundColor:
+                    item?.categoryStatusId == 10
+                      ? appColors.Sucess
+                      : item?.categoryStatusId == 9
                       ? appColors.Goldcolor
                       : appColors.Reject,
-                width: "100%",
-                paddingHorizontal: 10,
-                paddingVertical: 7,
-                borderRadius: 20,
-              }}>
+                  width: '100%',
+                  paddingHorizontal: 10,
+                  paddingVertical: 7,
+                  borderRadius: 20,
+                }}>
                 <Text
                   style={[
                     styles.textStyle,
@@ -211,7 +212,6 @@ const Servicelist = ({ index, item, onPress }) => {
                   {handleApproveRejectRemarks(item)}
                 </Text>
               </View>
-
             </View>
           </View>
           <BottomSheet ref={refRBSheet} Height={200}>

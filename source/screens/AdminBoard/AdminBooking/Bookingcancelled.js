@@ -12,7 +12,7 @@ import Completedbutton from '../../../components/atom/BookingButtons/Completedbu
 import styles from './styles';
 import Styles from '../../../components/atom/BookingButtons/Styles';
 import {useIsFocused} from '@react-navigation/native';
-import {endPoint} from '../../../AppConstants/urlConstants';
+import {endPoint, imageUrl} from '../../../AppConstants/urlConstants';
 import {PostRequest} from '../../../services/apiCall';
 import moment from 'moment';
 import appColors from '../../../AppConstants/appColors';
@@ -119,8 +119,15 @@ const Bookingcancelled = ({userDetails, initialBookingFields}) => {
 
             <View style={{flex: item?.StatusID == 12 ? 0.25 : 0.5}}>
               <Completedbutton
-                title={item?.Status}
-                style={{backgroundColor: '#e81f1c'}}
+                title={
+                  item?.StatusID == 10
+                    ? item?.Status
+                    : 'Cancel Request by Barber'
+                }
+                style={{
+                  backgroundColor:
+                    item?.StatusID == 10 ? appColors.Red : appColors.Goldcolor,
+                }}
                 textstyle={{color: 'white'}}
                 onPress={() => {
                   console.log('item', item);
@@ -151,7 +158,7 @@ const Bookingcancelled = ({userDetails, initialBookingFields}) => {
           <View style={[styles.ContainerSecondview]}>
             <View style={styles.imageView}>
               <Image
-                source={item.BarberProfileImage}
+                source={{uri: `${imageUrl}${item?.BarberProfileImage}`}}
                 style={styles.imageStyle}
               />
             </View>
@@ -181,7 +188,7 @@ const Bookingcancelled = ({userDetails, initialBookingFields}) => {
                   Reason:
                 </Text>
                 <Text style={styles.labelStyle}>
-                  {item.Description == null ? 'No Reason' : item.Description}
+                  {item?.Description == null ? 'No Reason' : item?.Description}
                   {/* Hello My name is anas and i am not feeling well thats why i
                   dont want to complete */}
                 </Text>

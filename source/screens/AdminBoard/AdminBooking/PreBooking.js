@@ -1,16 +1,23 @@
-import { View, Text, StyleSheet, Image, FlatList, ActivityIndicator } from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  Image,
+  FlatList,
+  ActivityIndicator,
+} from 'react-native';
 import Bookingbutton from '../../../components/atom/BookingButtons/Bookingbutton';
-import { ScreenSize, screenSize } from '../../../components/atom/ScreenSize';
-import React, { useEffect } from 'react';
+import {ScreenSize, screenSize} from '../../../components/atom/ScreenSize';
+import React, {useEffect} from 'react';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import styles from './styles';
-import { endPoint, imageUrl } from '../../../AppConstants/urlConstants';
-import { PostRequest } from '../../../services/apiCall';
+import {endPoint, imageUrl} from '../../../AppConstants/urlConstants';
+import {PostRequest} from '../../../services/apiCall';
 import moment from 'moment';
-import { useIsFocused, useNavigation } from '@react-navigation/native';
+import {useIsFocused, useNavigation} from '@react-navigation/native';
 import Completedbutton from '../../../components/atom/BookingButtons/Completedbutton';
 import constants from '../../../AppConstants/Constants.json';
-import { debounce } from '../../../functions/AppFunctions';
+import {debounce} from '../../../functions/AppFunctions';
 import BoxLottie from '../../../components/atom/BoxLottie/BoxLottie';
 import appColors from '../../../AppConstants/appColors';
 
@@ -63,10 +70,10 @@ const PreBooking = ({
       });
   };
 
-  const ListPrebooking = ({ item }) => {
+  const ListPrebooking = ({item}) => {
     return (
       <View style={styles.bookingContainerstyle}>
-        <View style={{ flex: 1 }}>
+        <View style={{flex: 1}}>
           <View style={styles.bookingInnercontainerView}>
             <View style={styles.bookingDateview}>
               <Text style={styles.dateTextstyle}>
@@ -74,7 +81,7 @@ const PreBooking = ({
                 {item?.SlotName}
               </Text>
             </View>
-            <View style={{ flex: 0.25, alignItems: 'center' }}>
+            <View style={{flex: 0.25, alignItems: 'center'}}>
               <View style={styles.Ratingstyle}>
                 <View
                   style={{
@@ -84,20 +91,22 @@ const PreBooking = ({
                     alignItems: 'center',
                   }}>
                   <AntDesign name={'staro'} size={12} color={'#c79647'} />
-                  <Text style={{ color: '#c79647', fontSize: 11 }}>
-                    4.5
-                  </Text>
+                  <Text style={{color: '#c79647', fontSize: 11}}>4.5</Text>
                 </View>
               </View>
             </View>
-            <View style={{ flex: 0.25, justifyContent: 'center' }}>
+            <View style={{flex: 0.35, justifyContent: 'center'}}>
               <Completedbutton
                 style={{
                   backgroundColor:
-                    item?.StatusID == 13  ? appColors.Gray : appColors.Accepted,
+                    item?.StatusID == 8 ? appColors.Gray : appColors.Accepted,
                 }}
-                textstyle={{ color: appColors.White }}
-                title={item?.StatusID == 13  ? 'Pending' : 'Accepted'}
+                textstyle={{color: appColors.White}}
+                title={
+                  item?.StatusID == 8
+                    ? 'Pending by barber'
+                    : 'Accepted by barber'
+                }
               />
             </View>
           </View>
@@ -120,7 +129,7 @@ const PreBooking = ({
           <View style={styles.containerSecondview}>
             <View style={styles.bookingImageview}>
               <Image
-                source={{ uri: `${imageUrl}/${item?.BarberProfileImage}` }}
+                source={{uri: `${imageUrl}/${item?.BarberProfileImage}`}}
                 style={styles.bookingImagestyle}
               />
             </View>
@@ -141,7 +150,7 @@ const PreBooking = ({
                   bookingSlot: item,
                 })
               }
-              style={{ backgroundColor: '#c79647', width: "80%" }}
+              style={{backgroundColor: '#c79647', width: '80%'}}
               title={'View E-Receipt'}
             />
           </View>
@@ -153,7 +162,7 @@ const PreBooking = ({
   const renderFooter = () => {
     if (hasMore == false) return null;
     return (
-      <View style={{ margin: 10 }}>
+      <View style={{margin: 10}}>
         <ActivityIndicator size="small" color={appColors.Goldcolor} />
       </View>
     );
@@ -168,7 +177,7 @@ const PreBooking = ({
   return (
     <>
       {isLoading ? (
-        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+        <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
           <ActivityIndicator size="small" color={appColors.Goldcolor} />
         </View>
       ) : preBookingList?.length > 0 ? (
@@ -179,16 +188,16 @@ const PreBooking = ({
           ListFooterComponent={renderFooter}
           showsVerticalScrollIndicator={false}
           keyExtractor={(item, index) => index?.toString()}
-          renderItem={({ item, index }) => <ListPrebooking item={item} />}
+          renderItem={({item, index}) => <ListPrebooking item={item} />}
         />
       ) : (
-        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+        <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
           <BoxLottie
             animationPath={require('../../../LottieAnimation/NoPostFoundAnimation.json')}
           />
         </View>
-      )}</>
-
+      )}
+    </>
   );
 };
 

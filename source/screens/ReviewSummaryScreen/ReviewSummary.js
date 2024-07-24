@@ -51,11 +51,11 @@ const ReviewSummary = ({route}) => {
   const [userLongLat, setUserLongLat] = useState();
   const [address, setAddress] = useState();
 
-  console.log("selectedSlotIdselectedSlotIdselectedSlotId",selectedSlotId)
-  console.log("barberDetails",barberDetails)
-  console.log("specialistDetails",specialistDetails)
-  console.log("userLongLat",userLongLat)
-  console.log("SelectedChildServices",SelectedChildServices)
+  console.log('selectedSlotIdselectedSlotIdselectedSlotId', selectedSlotId);
+  console.log('barberDetails', barberDetails);
+  console.log('specialistDetails', specialistDetails);
+  console.log('userLongLat', userLongLat);
+  console.log('SelectedChildServices', SelectedChildServices);
 
   useEffect(() => {
     if (isFocused) {
@@ -123,8 +123,8 @@ const ReviewSummary = ({route}) => {
     PostRequest(endPoint?.BARBER_AVAILABLESLOTS, payload)
       .then(res => {
         console.log('res?.data fetchSelectedTimeSlot', res?.data);
-        if(res?.data?.Table?.[0]?.HasError == 0){
-          handleConfirmPayment()
+        if (res?.data?.Table?.[0]?.HasError == 0) {
+          handleConfirmPayment();
         }
       })
       .catch(err => {

@@ -1,22 +1,28 @@
-import { View, Text, StyleSheet, Image, FlatList, ActivityIndicator } from 'react-native';
-import { ScreenSize, screenSize } from '../../../components/atom/ScreenSize';
-import React, { useEffect, useState } from 'react';
+import {
+  View,
+  Text,
+  StyleSheet,
+  Image,
+  FlatList,
+  ActivityIndicator,
+} from 'react-native';
+import {ScreenSize, screenSize} from '../../../components/atom/ScreenSize';
+import React, {useEffect, useState} from 'react';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Bookingbutton from '../../../components/atom/BookingButtons/Bookingbutton';
 import Completedbutton from '../../../components/atom/BookingButtons/Completedbutton';
 import styles from './styles';
 import Styles from '../../../components/atom/BookingButtons/Styles';
-import { useIsFocused } from '@react-navigation/native';
-import { endPoint } from '../../../AppConstants/urlConstants';
-import { PostRequest } from '../../../services/apiCall';
+import {useIsFocused, useNavigation} from '@react-navigation/native';
+import {endPoint, imageUrl} from '../../../AppConstants/urlConstants';
+import {PostRequest} from '../../../services/apiCall';
 import moment from 'moment';
 import BoxLottie from '../../../components/atom/BoxLottie/BoxLottie';
-const Bookingcompleted = ({
-  data,
-  userDetails,
-  initialBookingFields,
-}) => {
+import constants from '../../../AppConstants/Constants.json';
+
+const Bookingcompleted = ({data, userDetails, initialBookingFields}) => {
   const isFocused = useIsFocused();
+  const navigation = useNavigation();
 
   const [isLoading, setIsLoading] = useState(true);
   const [completedBooking, setCompletedBooking] = useState();
@@ -50,10 +56,10 @@ const Bookingcompleted = ({
       });
   };
 
-  const ListBookingCompleted = ({ item }) => {
+  const ListBookingCompleted = ({item}) => {
     return (
       <View style={styles.completedContaierstyle}>
-        <View style={{ flex: 1 }}>
+        <View style={{flex: 1}}>
           <View style={styles.ContainerInnerView}>
             <View style={styles.CompletedDateview}>
               <Text style={styles.completedDatestyle}>
@@ -70,7 +76,7 @@ const Bookingcompleted = ({
               </View>
             </View>
             <View style={styles.CompletedbuttonView}>
-              <Completedbutton title={'Completed'} />
+              <Completedbutton title={'Booking Completed'} />
             </View>
           </View>
 
@@ -91,7 +97,8 @@ const Bookingcompleted = ({
           <View style={styles.containerSecondview}>
             <View style={styles.completedImageview}>
               <Image
-                source={item.BarberProfileImage}
+                // source={item.BarberProfileImage}
+                source={{uri: `${imageUrl}${item?.BarberProfileImage}`}}
                 style={styles.completedImagestyle}
               />
             </View>
@@ -107,7 +114,12 @@ const Bookingcompleted = ({
           </View>
           <View style={styles.ReceiptbuttonView}>
             <Bookingbutton
-              style={{ width: '90%', height: '55%' }}
+              style={{width: '90%', height: '55%'}}
+              onPress={() =>
+                navigation.navigate(constants.AdminScreens.AdminEReceipt, {
+                  bookingSlot: item,
+                })
+              }
               title={'View E-Receipt'}
             />
           </View>
@@ -119,23 +131,25 @@ const Bookingcompleted = ({
   return (
     <>
       {isLoading ? (
-        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+        <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
           <ActivityIndicator size="small" color={appColors.Goldcolor} />
         </View>
       ) : completedBooking?.length > 0 ? (
         <FlatList
           data={completedBooking}
+          onEndReachedThreshold={0.5}
           showsVerticalScrollIndicator={false}
-          renderItem={({ item, index }) => <ListBookingCompleted item={item} />}
+          renderItem={({item, index}) => <ListBookingCompleted item={item} />}
           keyExtractor={item => item.BarbarBookedSlotID}
         />
       ) : (
-        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+        <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
           <BoxLottie
             animationPath={require('../../../LottieAnimation/NoPostFoundAnimation.json')}
           />
         </View>
-      )}</>
+      )}
+    </>
     // <FlatList
     //   data={userCompletedBooking}
     //   showsVerticalScrollIndicator={false}

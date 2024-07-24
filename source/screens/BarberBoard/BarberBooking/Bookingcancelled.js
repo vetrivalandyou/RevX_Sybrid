@@ -16,7 +16,7 @@ import {endPoint, imageUrl} from '../../../AppConstants/urlConstants';
 import {PostRequest} from '../../../services/apiCall';
 import moment from 'moment';
 import BoxLottie from '../../../components/atom/BoxLottie/BoxLottie';
-import { debounce } from '../../../functions/AppFunctions';
+import {debounce} from '../../../functions/AppFunctions';
 
 const Bookingcancelled = ({data, userDetails}) => {
   const isFocused = useIsFocused();
@@ -52,13 +52,13 @@ const Bookingcancelled = ({data, userDetails}) => {
       .then(res => {
         console.log('getPreBookings Response', res?.data);
         if (res?.data?.Table?.length > 0) {
-        setCancelledBooking(res?.data?.Table);
-        setPageNumber(pageNumber + 1); // Increment the page number
-        setIsLoading(false);
-      } else {
-        setHasMore(false);
-        setIsLoading(false)
-      }
+          setCancelledBooking(res?.data?.Table);
+          setPageNumber(pageNumber + 1); // Increment the page number
+          setIsLoading(false);
+        } else {
+          setHasMore(false);
+          setIsLoading(false);
+        }
       })
       .catch(err => {
         console.log(err);
@@ -82,7 +82,7 @@ const Bookingcancelled = ({data, userDetails}) => {
             <View style={styles.CancelbuttonView}>
               <Completedbutton
                 // onPress={() => refRBSheet.current.open()}
-                title={'Canceled'}
+                title={item?.StatusID == 10 ? item?.Status : ''}
                 style={{backgroundColor: '#e81f1c'}}
                 textstyle={{color: 'white'}}
               />
@@ -117,7 +117,7 @@ const Bookingcancelled = ({data, userDetails}) => {
   const renderFooter = () => {
     if (hasMore == false) return null;
     return (
-      <View style={{ margin: 10 }}>
+      <View style={{margin: 10}}>
         <ActivityIndicator size="small" color={appColors.Goldcolor} />
       </View>
     );

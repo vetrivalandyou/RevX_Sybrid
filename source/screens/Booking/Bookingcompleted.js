@@ -1,17 +1,33 @@
-import { View, Text, StyleSheet, Image, FlatList, ActivityIndicator } from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  Image,
+  FlatList,
+  ActivityIndicator,
+  TouchableOpacity,
+} from 'react-native';
 import Bookingbutton from '../../components/atom/BookingButtons/Bookingbutton';
-import { ScreenSize, screenSize } from '../../components/atom/ScreenSize';
-import React, { useEffect, useState } from 'react';
+import {ScreenSize, screenSize} from '../../components/atom/ScreenSize';
+import React, {useEffect, useState} from 'react';
 import Completedbutton from '../../components/atom/BookingButtons/Completedbutton';
 import AntDesign from 'react-native-vector-icons/AntDesign';
-import { useIsFocused } from '@react-navigation/native';
-import { PostRequest } from '../../services/apiCall';
-import { endPoint } from '../../AppConstants/urlConstants';
+import {useIsFocused, useNavigation} from '@react-navigation/native';
+import {PostRequest} from '../../services/apiCall';
+import {endPoint, imageUrl} from '../../AppConstants/urlConstants';
 import moment from 'moment';
 import BoxLottie from '../../components/atom/BoxLottie/BoxLottie';
-const Bookingcompleted = ({ data, userDetails }) => {
+import constants from '../../AppConstants/Constants.json';
+
+const Bookingcompleted = ({data, userDetails}) => {
   const isFocused = useIsFocused();
   const [userCompletedBooking, setUserCompletedBooking] = useState([]);
+  const navigation = useNavigation();
+
+  console.log(
+    'setUserCompletedBookingsetUserCompletedBooking?',
+    userCompletedBooking,
+  );
 
   const [isLoading, setIsLoading] = useState(true);
   const [hasMore, setHasMore] = useState(true);
@@ -44,10 +60,10 @@ const Bookingcompleted = ({ data, userDetails }) => {
       });
   };
 
-  const ListBookingCompleted = ({ item }) => {
+  const ListBookingCompleted = ({item}) => {
     return (
       <View style={styles.Containerstyle}>
-        <View style={{ flex: 1, borderRadius: 20 }}>
+        <View style={{flex: 1, borderRadius: 20}}>
           <View
             style={{
               flexDirection: 'row',
@@ -56,39 +72,40 @@ const Bookingcompleted = ({ data, userDetails }) => {
               marginHorizontal: 15,
               marginTop: 5,
             }}>
-            <View style={{ flex: 0.6, justifyContent: 'center' }}>
-              <Text style={{ color: 'white', fontSize: 14 }}>
+            <View style={{flex: 0.6, justifyContent: 'center'}}>
+              <Text style={{color: 'white', fontSize: 14}}>
                 {moment(item?.BookingDate).format('MMMM DD, YYYY')} -{' '}
                 {item?.SlotName}
               </Text>
             </View>
-            <View
-              style={{
-                flex: 0.2,
-                justifyContent: 'center',
-              }}>
-              <View style={styles.Ratingbox}>
-                <View
-                  style={{
-                    color: 'white',
-                    flexDirection: 'row',
-                    justifyContent: 'space-evenly',
-                    alignItems: 'center',
-                  }}>
-                  <AntDesign name={'staro'} size={12} color={'#c79647'} />
-                  <Text style={{ color: '#c79647', fontSize: 11 }}>
-                    {/* {item.item.rating} */}
-                    4.5
-                  </Text>
+            <View style={{flex: 0.25, justifyContent: 'center'}}>
+              <TouchableOpacity
+                onPress={() =>
+                  navigation.navigate(constants.screen.RatingScreen, {
+                    userDetails: userDetails,
+                    userCompletedBooking: userCompletedBooking,
+                  })
+                }>
+                <View style={styles.Ratingbox}>
+                  <View
+                    style={{
+                      color: 'white',
+                      flexDirection: 'row',
+                      justifyContent: 'space-evenly',
+                      alignItems: 'center',
+                    }}>
+                    <AntDesign name={'staro'} size={12} color={'#c79647'} />
+                    <Text style={{color: '#c79647', fontSize: 11}}>Rate</Text>
+                  </View>
                 </View>
-              </View>
+              </TouchableOpacity>
             </View>
-            <View style={{ flex: 0.2, justifyContent: 'center' }}>
+            <View style={{flex: 0.25, justifyContent: 'center'}}>
               <Completedbutton title={'Completed'} />
             </View>
           </View>
 
-          <View style={{ position: 'relative', marginHorizontal: 15 }}>
+          <View style={{position: 'relative', marginHorizontal: 15}}>
             <View
               style={{
                 position: 'absolute',
@@ -110,9 +127,9 @@ const Bookingcompleted = ({ data, userDetails }) => {
               justifyContent: 'center',
               alignItems: 'center',
             }}>
-            <View style={{ flex: 0.35, alignItems: 'center' }}>
+            <View style={{flex: 0.35, alignItems: 'center'}}>
               <Image
-                source={item.BarberProfileImage}
+                source={{uri: `${imageUrl}${item?.BarberProfileImage}`}}
                 style={{
                   height: '80%',
                   width: '82%',
@@ -121,8 +138,13 @@ const Bookingcompleted = ({ data, userDetails }) => {
                 }}
               />
             </View>
-            <View style={{ flexDirection: 'column', flex: 0.63, paddingHorizontal: 15 }}>
-              <Text style={{ fontSize: 18, fontWeight: '600', color: 'white' }}>
+            <View
+              style={{
+                flexDirection: 'column',
+                flex: 0.63,
+                paddingHorizontal: 15,
+              }}>
+              <Text style={{fontSize: 18, fontWeight: '600', color: 'white'}}>
                 {item?.BarberName}
               </Text>
               <View>
@@ -138,8 +160,8 @@ const Bookingcompleted = ({ data, userDetails }) => {
               </View>
               <View>
                 <Text
-                  style={{ fontSize: 10, fontWeight: '400', color: '#c79647' }}>
-                  {item.serviceNames}
+                  style={{fontSize: 10, fontWeight: '400', color: '#c79647'}}>
+                  {item?.serviceNames}
                 </Text>
               </View>
             </View>
@@ -152,7 +174,12 @@ const Bookingcompleted = ({ data, userDetails }) => {
               justifyContent: 'space-evenly',
             }}>
             <Bookingbutton
-              style={{ width: '90%', height: '55%' }}
+              onPress={() =>
+                navigation.navigate(constants.screen.UserEReceipt, {
+                  bookingSlot: item,
+                })
+              }
+              style={{width: '90%', height: '55%'}}
               title={'View E-Receipt'}
             />
           </View>
@@ -164,18 +191,18 @@ const Bookingcompleted = ({ data, userDetails }) => {
   return (
     <>
       {isLoading ? (
-        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+        <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
           <ActivityIndicator size="small" color={appColors.Goldcolor} />
         </View>
       ) : userCompletedBooking?.length > 0 ? (
         <FlatList
           data={userCompletedBooking}
           showsVerticalScrollIndicator={false}
-          renderItem={({ item, index }) => <ListBookingCompleted item={item} />}
+          renderItem={({item, index}) => <ListBookingCompleted item={item} />}
           keyExtractor={item => item.BarbarBookedSlotID}
         />
       ) : (
-        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+        <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
           <BoxLottie
             animationPath={require('../../LottieAnimation/NoPostFoundAnimation.json')}
           />
@@ -198,7 +225,7 @@ const styles = StyleSheet.create({
   },
   Ratingbox: {
     height: screenSize.height / 28,
-    width: screenSize.width / 7.1,
+    width: screenSize.width / 6,
     justifyContent: 'center',
     borderWidth: 0.75,
     borderRadius: 7,

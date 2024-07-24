@@ -1,17 +1,23 @@
-import { StyleSheet, Text, View, TouchableOpacity, ActivityIndicator } from 'react-native';
-import React, { useEffect, useState } from 'react';
+import {
+  StyleSheet,
+  Text,
+  View,
+  TouchableOpacity,
+  ActivityIndicator,
+} from 'react-native';
+import React, {useEffect, useState} from 'react';
 import styles from './styles';
 import moment from 'moment';
-import { PostRequest } from '../../services/apiCall';
+import {PostRequest} from '../../services/apiCall';
 import Header from '../../components/molecules/Header';
-import { endPoint } from '../../AppConstants/urlConstants';
+import {endPoint} from '../../AppConstants/urlConstants';
 import constants from '../../AppConstants/Constants.json';
 import Screen from '../../components/atom/ScreenContainer/Screen';
-import { Icons } from '../../components/molecules/CustomIcon/CustomIcon';
+import {Icons} from '../../components/molecules/CustomIcon/CustomIcon';
 import appColors from '../../AppConstants/appColors';
 
-const UserEReceipt = ({ route, navigation }) => {
-  const { bookingSlot } = route.params || 0;
+const UserEReceipt = ({route, navigation}) => {
+  const {bookingSlot} = route.params || 0;
   console.log('itemitemitem', bookingSlot);
 
   const [eReceiptData, setEReceiptData] = useState();
@@ -49,7 +55,7 @@ const UserEReceipt = ({ route, navigation }) => {
       .then(res => {
         console.log('res?.data', res?.data);
         setEReceiptData(res?.data);
-        setIsLoading(false)
+        setIsLoading(false);
       })
       .catch(err => {
         console.log('err', err);
@@ -58,7 +64,7 @@ const UserEReceipt = ({ route, navigation }) => {
 
   return (
     <Screen statusBarColor={appColors.Black} viewStyle={styles.MianContainer}>
-      <View style={{ flex: 0.1 }}>
+      <View style={{flex: 0.1}}>
         <Header
           lefttIcoType={Icons.Ionicons}
           onPressLeftIcon={() => navigation.goBack()}
@@ -82,97 +88,100 @@ const UserEReceipt = ({ route, navigation }) => {
         />
       </View>
 
-      {
-        isLoading ?
-          (
-            <View style={{ flex: 0.9, justifyContent: 'center', alignItems: 'center' }}>
-              <ActivityIndicator size='small' color={appColors.Goldcolor} />
+      {isLoading ? (
+        <View
+          style={{flex: 0.9, justifyContent: 'center', alignItems: 'center'}}>
+          <ActivityIndicator size="small" color={appColors.Goldcolor} />
+        </View>
+      ) : (
+        <View style={{flex: 0.9}}>
+          <View style={styles.barberDetailsContainer}>
+            {/* {data.map(item => ( */}
+            <Barberdetails
+              name={'Barber Saloon'}
+              value={eReceiptData?.Table?.[0]?.SalonName}
+            />
+            <Barberdetails
+              name={'Address'}
+              // value={eReceiptData?.Table?.[0]?.LocationName}
+              value={
+                eReceiptData?.Table?.[0]?.LocationName
+                  ? eReceiptData?.Table?.[0]?.LocationName.length > 45
+                    ? eReceiptData?.Table?.[0]?.LocationName.substring(0, 45) +
+                      '...'
+                    : eReceiptData?.Table[0]?.LocationName
+                  : ''
+              }
+            />
+            <Barberdetails
+              name={'Name'}
+              value={eReceiptData?.Table?.[0]?.CustomerName}
+            />
+            <Barberdetails
+              name={'Phone'}
+              value={eReceiptData?.Table?.[0]?.PhoneNo}
+            />
+            <Barberdetails
+              name={'Booking Date'}
+              value={eReceiptData?.Table?.[0]?.BookingDate}
+            />
+            <Barberdetails
+              name={'Booking Hours'}
+              value={eReceiptData?.Table?.[0]?.Slot}
+            />
+            <Barberdetails
+              name={'Specialist'}
+              value={eReceiptData?.Table?.[0]?.BarberName}
+            />
+            {/* ))} */}
+          </View>
+
+          <View style={styles.barberSevicesContainer}>
+            {eReceiptData?.Table1?.map(item => (
+              <Pricedetails key={item.serviceId} item={item} />
+            ))}
+
+            <View
+              style={{
+                height: 1,
+                position: 'relative',
+                marginHorizontal: 15,
+                margin: 10,
+              }}>
+              <View style={styles.DashLinestyle}></View>
             </View>
-          ) :
-          (
-            <View style={{ flex: 0.9 }}>
-              <View style={styles.barberDetailsContainer}>
-                {/* {data.map(item => ( */}
-                <Barberdetails
-                  name={'Barber Saloon'}
-                  value={eReceiptData?.Table?.[0]?.SalonName}
-                />
-                <Barberdetails
-                  name={'Address'}
-                  value={eReceiptData?.Table?.[0]?.LocationName}
-                />
-                <Barberdetails
-                  name={'Name'}
-                  value={eReceiptData?.Table?.[0]?.CustomerName}
-                />
-                <Barberdetails
-                  name={'Phone'}
-                  value={eReceiptData?.Table?.[0]?.PhoneNo}
-                />
-                <Barberdetails
-                  name={'Booking Date'}
-                  value={eReceiptData?.Table?.[0]?.BookingDate}
-                />
-                <Barberdetails
-                  name={'Booking Hours'}
-                  value={eReceiptData?.Table?.[0]?.Slot}
-                />
-                <Barberdetails
-                  name={'Specialist'}
-                  value={eReceiptData?.Table?.[0]?.BarberName}
-                />
-                {/* ))} */}
-              </View>
 
-              <View style={styles.barberSevicesContainer}>
-                {eReceiptData?.Table1?.map(item => (
-                  <Pricedetails key={item.serviceId} item={item} />
-                ))}
-
-                <View
-                  style={{
-                    height: 1,
-                    position: 'relative',
-                    marginHorizontal: 15,
-                    margin: 10,
-                  }}>
-                  <View style={styles.DashLinestyle}></View>
-                </View>
-
-                <View
-                  style={{
-                    flexDirection: 'row',
-                    justifyContent: 'space-between',
-                    alignItems: 'center',
-                    marginHorizontal: 20,
-                    marginTop: 5,
-                  }}>
-                  <Text style={{ color: 'white', fontWeight: '700' }}>Total</Text>
-                  <Text style={{ color: '#c79647', fontWeight: '700' }}>
-                    ${eReceiptData?.Table2?.[0]?.Column1}.00
-                  </Text>
-                </View>
-              </View>
-
-              <TouchableOpacity style={styles.Button}>
-                <Text style={{ fontWeight: '700', fontSize: 13, color: 'white' }}>
-                  {' '}
-                  Download E-Receipt
-                </Text>
-              </TouchableOpacity>
+            <View
+              style={{
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                marginHorizontal: 20,
+                marginTop: 5,
+              }}>
+              <Text style={{color: 'white', fontWeight: '700'}}>Total</Text>
+              <Text style={{color: '#c79647', fontWeight: '700'}}>
+                ${eReceiptData?.Table2?.[0]?.Column1}.00
+              </Text>
             </View>
-          )
-      }
+          </View>
 
-
+          <TouchableOpacity style={styles.Button}>
+            <Text style={{fontWeight: '700', fontSize: 13, color: 'white'}}>
+              {' '}
+              Download E-Receipt
+            </Text>
+          </TouchableOpacity>
+        </View>
+      )}
     </Screen>
   );
 };
 
-const Barberdetails = ({ name, value }) => {
+const Barberdetails = ({name, value}) => {
   return (
     <View>
-      <View style={{ flexDirection: 'column', justifyContent: 'space-between' }}>
+      <View style={{flexDirection: 'column', justifyContent: 'space-between'}}>
         <View
           style={{
             flexDirection: 'row',
@@ -181,10 +190,10 @@ const Barberdetails = ({ name, value }) => {
             marginHorizontal: 20,
             marginVertical: 5,
           }}>
-          <Text style={{ color: 'white', fontSize: 13, fontWeight: '400' }}>
+          <Text style={{color: 'white', fontSize: 13, fontWeight: '400'}}>
             {name}
           </Text>
-          <Text style={{ color: 'white', fontSize: 13, fontWeight: '400' }}>
+          <Text style={{color: 'white', fontSize: 13, fontWeight: '400'}}>
             {name == 'Booking Date'
               ? moment(value).format('MMMM DD, YYYY')
               : value}
@@ -195,10 +204,10 @@ const Barberdetails = ({ name, value }) => {
   );
 };
 
-const Pricedetails = ({ item }) => {
+const Pricedetails = ({item}) => {
   return (
     <View>
-      <View style={{ flexDirection: 'column', justifyContent: 'space-between' }}>
+      <View style={{flexDirection: 'column', justifyContent: 'space-between'}}>
         <View
           style={{
             flexDirection: 'row',
@@ -207,10 +216,10 @@ const Pricedetails = ({ item }) => {
             marginHorizontal: 20,
             marginVertical: 5,
           }}>
-          <Text style={{ color: 'white', fontSize: 13.5, fontWeight: '400' }}>
+          <Text style={{color: 'white', fontSize: 13.5, fontWeight: '400'}}>
             {item.serviceName}
           </Text>
-          <Text style={{ color: 'white', fontSize: 13.5, fontWeight: 'bold' }}>
+          <Text style={{color: 'white', fontSize: 13.5, fontWeight: 'bold'}}>
             ${item.ServicePrice}
           </Text>
         </View>

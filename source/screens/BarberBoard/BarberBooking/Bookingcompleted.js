@@ -20,7 +20,7 @@ import {PostRequest} from '../../../services/apiCall';
 import appColors from '../../../AppConstants/appColors';
 import moment from 'moment';
 import BoxLottie from '../../../components/atom/BoxLottie/BoxLottie';
-import { debounce } from '../../../functions/AppFunctions';
+import {debounce} from '../../../functions/AppFunctions';
 
 const Bookingcompleted = ({data, userDetails}) => {
   const navigation = useNavigation();
@@ -55,13 +55,13 @@ const Bookingcompleted = ({data, userDetails}) => {
       .then(res => {
         console.log('getPreBookings Response', res?.data);
         if (res?.data?.Table?.length > 0) {
-        setCompletedBooking(res?.data?.Table);
-        setPageNumber(pageNumber + 1); // Increment the page number
-        setIsLoading(false);
-      } else {
-        setHasMore(false);
-        setIsLoading(false)
-      }
+          setCompletedBooking(res?.data?.Table);
+          setPageNumber(pageNumber + 1); // Increment the page number
+          setIsLoading(false);
+        } else {
+          setHasMore(false);
+          setIsLoading(false);
+        }
       })
       .catch(err => {
         console.log(err);
@@ -82,7 +82,10 @@ const Bookingcompleted = ({data, userDetails}) => {
               </Text>
             </View>
             <View style={styles.completedButtonview}>
-              <Completedbutton title={'Completed'} />
+              <Completedbutton
+                textstyle={{color: appColors.White}}
+                title={'Booking Completed'}
+              />
             </View>
           </View>
 
@@ -100,7 +103,7 @@ const Bookingcompleted = ({data, userDetails}) => {
             <View style={styles.completedTextview}>
               <Text style={styles.Nametext}>{item.CustomerName}</Text>
               <View>
-              <Text style={styles.Titletext}>{item.LocationName}</Text>
+                <Text style={styles.Titletext}>{item.LocationName}</Text>
               </View>
               <View>
                 <Text style={styles.Labeltext}>{item.serviceNames}</Text>
@@ -148,7 +151,7 @@ const Bookingcompleted = ({data, userDetails}) => {
   const renderFooter = () => {
     if (hasMore == false) return null;
     return (
-      <View style={{ margin: 10 }}>
+      <View style={{margin: 10}}>
         <ActivityIndicator size="small" color={appColors.Goldcolor} />
       </View>
     );
