@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import appColors from '../../AppConstants/appColors';
 import constants from '../../AppConstants/Constants.json';
-import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import {Platform, StyleSheet, View} from 'react-native';
-import {useTheme} from '@react-navigation/native';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { Platform, StyleSheet, View } from 'react-native';
+import { useTheme } from '@react-navigation/native';
 
 import {
   AdminBarberEarnings,
@@ -17,23 +17,20 @@ import {
 import CustomIcon, {
   Icons,
 } from '../../components/molecules/CustomIcon/CustomIcon';
+import SignalRService from '../../services/SignalRService';
+import { useDispatch, useSelector } from 'react-redux';
+import { INCREMENT_NOTIFICATION_COUNT, RESET_NOTIFICATION_COUNT } from '../../redux/ActionType/NotificationActionTypes';
 
 const Tab = createBottomTabNavigator();
 
-// const screenOptions = {
-//   tabBarShowLabel: false,
-//   headerShown: false,
-//   tabBarHideOnKeyboard: true,
-//   tabBarStyle: { styles.BottomBarContainer, backgroundColor: colors.BottomTab },
-// };
 const BarberBottomTabNavigation = () => {
-  const {colors} = useTheme();
+
   return (
     <Tab.Navigator
       screenOptions={{
         lazy: true,
         tabBarShowLabel: false,
-        tabBarStyle: {...styles.BottomBarContainer},
+        tabBarStyle: { ...styles.BottomBarContainer },
         tabBarHideOnKeyboard: true,
         headerShown: false,
       }}>
@@ -41,14 +38,14 @@ const BarberBottomTabNavigation = () => {
         name={constants.BarberScreen.HomeBarber}
         component={HomeBarber}
         options={{
-          tabBarIcon: ({focused}) => (
-            <View style={{ padding: 14, borderRadius: 20, backgroundColor: focused ? 'white' : 'transparent'}}>
-            <CustomIcon
-              //style={{backgroundColor:'red'}}
-              type={Icons.Feather}
-              name="home"
-              color={focused ? appColors.Black : appColors.White}
-            />
+          tabBarIcon: ({ focused }) => (
+            <View style={{ padding: 14, borderRadius: 20, backgroundColor: focused ? 'white' : 'transparent' }}>
+              <CustomIcon
+                //style={{backgroundColor:'red'}}
+                type={Icons.Feather}
+                name="home"
+                color={focused ? appColors.Black : appColors.White}
+              />
             </View>
           ),
         }}
@@ -58,14 +55,14 @@ const BarberBottomTabNavigation = () => {
         name={constants.BarberScreen.MyBooking}
         component={MyBooking}
         options={{
-          tabBarIcon: ({focused}) => (
-            <View style={{ padding: 14, borderRadius: 20, backgroundColor: focused ? 'white' : 'transparent'}}>
-            <CustomIcon
-              //style={{backgroundColor:'red'}}
-              type={Icons.AntDesign}
-              name="calendar"
-              color={focused ? appColors.Black : appColors.White}
-            />
+          tabBarIcon: ({ focused }) => (
+            <View style={{ padding: 14, borderRadius: 20, backgroundColor: focused ? 'white' : 'transparent' }}>
+              <CustomIcon
+                //style={{backgroundColor:'red'}}
+                type={Icons.AntDesign}
+                name="calendar"
+                color={focused ? appColors.Black : appColors.White}
+              />
             </View>
           ),
         }}
@@ -76,13 +73,13 @@ const BarberBottomTabNavigation = () => {
         component={BarberChatScreen}
         options={{
           // tabBarLabel: 'Home',
-          tabBarIcon: ({focused}) => (
-            <View style={{ padding: 14, borderRadius: 20, backgroundColor: focused ? 'white' : 'transparent'}}>
-            <CustomIcon
-              name={'message1'}
-              type={Icons.AntDesign}
-              color={focused ? appColors.Black : appColors.White}
-            />
+          tabBarIcon: ({ focused }) => (
+            <View style={{ padding: 14, borderRadius: 20, backgroundColor: focused ? 'white' : 'transparent' }}>
+              <CustomIcon
+                name={'message1'}
+                type={Icons.AntDesign}
+                color={focused ? appColors.Black : appColors.White}
+              />
             </View>
           ),
         }}
@@ -93,13 +90,13 @@ const BarberBottomTabNavigation = () => {
         component={BaberProfileScreen}
         options={{
           // tabBarLabel: 'Home',
-          tabBarIcon: ({focused}) => (
-            <View style={{ padding: 14, borderRadius: 20, backgroundColor: focused ? 'white' : 'transparent'}}>
-            <CustomIcon
-              name={'person-outline'}
-              type={Icons.Ionicons}
-              color={focused ? appColors.Black : appColors.White}
-            />
+          tabBarIcon: ({ focused }) => (
+            <View style={{ padding: 14, borderRadius: 20, backgroundColor: focused ? 'white' : 'transparent' }}>
+              <CustomIcon
+                name={'person-outline'}
+                type={Icons.Ionicons}
+                color={focused ? appColors.Black : appColors.White}
+              />
             </View>
           ),
         }}
@@ -218,7 +215,7 @@ const styles = StyleSheet.create({
     bottom: Platform.OS == 'ios' ? 30 : 2,
     height: 70,
     margin: 10,
-    paddingBottom:0,
+    paddingBottom: 0,
 
     // shadowColor: appColors.AppBlue,
     // botton: 0,

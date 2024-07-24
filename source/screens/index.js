@@ -49,6 +49,7 @@ import Servicesboard from './BarberBoard/BarberServices';
 import Addservices from './BarberBoard/BarberServices/Addservices';
 import DeleteServices from './BarberBoard/BarberServices/DeleteServices';
 import Editservices from './BarberBoard/BarberServices/Editservices';
+import AllBookings from './BarberBoard/AllBookings'
 import AdminNotification from '../screens/AdminBoard/AdminNotification/index';
 import PaymentCheckOut from '../screens/AdminBoard/PaymentCheckOut/index';
 import RecentTransactions from '../screens/AdminBoard/RecentTransactionMain/RecentTransactions';
@@ -118,6 +119,7 @@ export {
   Addservices,
   DeleteServices,
   Editservices,
+  AllBookings,
   AdminNotification,
   PaymentCheckOut,
   RecentTransactions,

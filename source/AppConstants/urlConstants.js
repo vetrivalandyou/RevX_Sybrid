@@ -70,6 +70,7 @@ export const endPoint = {
 
   //admin create slots for barber
   CREATE_SETUP_SLOTS: 'Admin/Admin_SetupSlots',
+  ALL_NOTIFICATIONS: "Auth/AllNotifications",
 };
 
 export const messages = {

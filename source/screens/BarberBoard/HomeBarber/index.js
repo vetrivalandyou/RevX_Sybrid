@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 import {
   Text,
@@ -11,6 +11,7 @@ import {
   TextInput,
   KeyboardAvoidingView,
   Platform,
+  ActivityIndicator,
 } from 'react-native';
 import Screen from '../../../components/atom/ScreenContainer/Screen';
 import styles from './styles';
@@ -45,25 +46,60 @@ import ButtonComponent from '../../../components/atom/CustomButtons/ButtonCompon
 import SimpleTextField from '../../../components/molecules/TextFeilds/SimpleTextField';
 import SignalRService from '../../../services/SignalRService';
 import { SET_INITIAL_DROPDOWN_FORM_STATE } from '../../../redux/ActionType/CrudActionTypes';
+import BoxLottie from '../../../components/atom/BoxLottie/BoxLottie';
+import { INCREMENT_NOTIFICATION_COUNT, RESET_NOTIFICATION_COUNT } from '../../../redux/ActionType/NotificationActionTypes';
+import moment from 'moment';
+import { SimpleSnackBar } from '../../../components/atom/Snakbar/Snakbar';
+
+const initialOperationFields = {
+  operationID: 0,
+  durationMinutes: 0,
+  barberID: 0,
+  barberName: '',
+  slotID: 0,
+  slotName: '',
+  customerID: 0,
+  customerName: '',
+  bookingDate: '2024-06-20T11:40:48.693Z',
+  transactionID: '',
+  isPaid: 0,
+  services: '',
+  isActive: true,
+  userID: 0,
+  userIP: '',
+  longitude: 0,
+  latitude: 0,
+  locationName: '',
+  remarks: '',
+  barbarBookedSlotID: 0,
+}
 
 const HomeBarber = ({ navigation }) => {
   const { coords } = useSelector(state => state.LocationReducer);
+  const { Notification } = useSelector(state => state.NotificationReducer);
   const dispatch = useDispatch();
   const isFocused = useIsFocused();
+  const barberRemarksRef = useRef(null);
   const [userDetails, setUserDetails] = useState();
   const [visible, setVisible] = useState(false);
+  const [todaysBooking, setTodaysBookingList] = useState([])
+  const [isLoading, setIsLoading] = useState(true)
+  const [rejectedBookingData, setRejectedBookingData] = useState({});
+
+  console.log("NotificationCount", Notification)
 
   useEffect(() => {
     if (isFocused) {
       getAsyncData();
     }
-  }, [isFocused]);
+  }, [isFocused, dispatch]);
 
   const getAsyncData = async () => {
     const userAsyncDetails = await getAsyncItem(
       constants.AsyncStorageKeys.userDetails,
     );
     setUserDetails(userAsyncDetails);
+    getTodaysBooking(userAsyncDetails)
     if (SignalRService?.isConnected()) {
       console.log('SignalR is in Connected State');
     } else {
@@ -73,10 +109,9 @@ const HomeBarber = ({ navigation }) => {
 
   const connectToSignalR = async userDetails => {
     SignalRService.startConnection(
-      // parseInt(userDetails?.userId),
-      // 0,
       parseInt(userDetails?._RoleId),
       userDetails?.userId.toString(),
+      dispatch
     );
     SignalRService.onGetChatList_BB(json => {
       let parsedData = JSON.parse(json);
@@ -89,31 +124,35 @@ const HomeBarber = ({ navigation }) => {
     });
   };
 
-  const handleLocationChange = newCoords => {
-    console.log('newCoordsnewCoordsnewCoordsnewCoordsnewCoords', newCoords);
-    handleSaveBarberLocation(userDetails, newCoords?.coords);
-    setLogLatAsync(constants.AsyncStorageKeys.longLat, newCoords);
-  };
+  // const handleLocationChange = newCoords => {
+  //   console.log('newCoordsnewCoordsnewCoordsnewCoordsnewCoords', newCoords);
+  //   handleSaveBarberLocation(userDetails, newCoords?.coords);
+  //   setLogLatAsync(constants.AsyncStorageKeys.longLat, newCoords);
+  // };
 
-  const handleSaveBarberLocation = (userAsyncDetails, newCoords) => {
-    const payload = {
-      barberId: userAsyncDetails?.userId,
-      userLocationLatitude: newCoords?.latitude,
-      userLocationLongitude: newCoords?.longitude,
-      operations: LATEST_UPDATE,
-      createdBy: userAsyncDetails?.userId,
-    };
-    PostRequest(endPoint.BARBER_LOCATION_UPDATE, payload)
-      .then(res => {
-        console.log('RESPONSE BARBER LOCATION UPDATE', res?.data);
-      })
-      .catch(err => {
-        console.log('Err'.err);
-      });
-  };
+  // const handleSaveBarberLocation = (userAsyncDetails, newCoords) => {
+  //   const payload = {
+  //     barberId: userAsyncDetails?.userId,
+  //     userLocationLatitude: newCoords?.latitude,
+  //     userLocationLongitude: newCoords?.longitude,
+  //     operations: LATEST_UPDATE,
+  //     createdBy: userAsyncDetails?.userId,
+  //   };
+  //   console.log("Payload", payload)
+  //   PostRequest(endPoint.BARBER_LOCATION_UPDATE, payload)
+  //     .then(res => {
+  //       console.log('RESPONSE BARBER LOCATION UPDATE', res?.data);
+  //     })
+  //     .catch(err => {
+  //       console.log('Err'.err);
+  //     });
+  // };
 
-  const handleClickReject = () => {
+  // useLocationWatcher(handleLocationChange);
+
+  const handleClickReject = (item) => {
     console.log('Reject Clicked');
+    setRejectedBookingData(item);
     setVisible(true);
   };
 
@@ -122,7 +161,35 @@ const HomeBarber = ({ navigation }) => {
   };
 
   const onPressSubmit = () => {
-    console.log('Submited');
+    console.log('Submited', barberRemarksRef.current);
+    handleReject();
+  };
+
+  const handleReject = () => {
+    const payload = {
+      ...initialOperationFields,
+      operationID: 9,
+      remarks: barberRemarksRef.current,
+      barberID: rejectedBookingData?.BarbarID,
+      customerID: rejectedBookingData?.CustomerID,
+      bookingDate: rejectedBookingData?.BookingDate,
+      barbarBookedSlotID: rejectedBookingData?.BarbarBookedSlotID,
+    };
+    console.log('payload', payload);
+    PostRequest(endPoint?.BARBER_AVAILABLESLOTS, payload)
+      .then(res => {
+        console.log('res?.data', res?.data);
+        if (res?.data?.Table?.[0]?.HassError == 0) {
+          SimpleSnackBar(res?.data?.Table?.[0]?.Message);
+          timeoutRef.current = setTimeout(() => setVisible(false), 3000);
+          reCallPreBooking();
+        } else {
+          SimpleSnackBar(res?.data?.Table?.[0]?.Message, appColors.Red);
+        }
+      })
+      .catch(err => {
+        console.log('err', err);
+      });
   };
 
   const CustomModalView = () => {
@@ -160,6 +227,8 @@ const HomeBarber = ({ navigation }) => {
             }}
             multiline={true}
             textAlignVertical="top"
+            onChangeText={newText => (barberRemarksRef.current = newText)}
+            value={barberRemarksRef}
           />
         </View>
         <View
@@ -205,9 +274,55 @@ const HomeBarber = ({ navigation }) => {
     );
   };
 
-  useLocationWatcher(handleLocationChange);
-
   const data = [
+    {
+      id: 1,
+      date: 'Dec 24,2024 - 10.00am',
+      name: 'Barberella Inova',
+      title: '38947 Madeshow valley terrace services',
+      label: 'Gulf Haircut, Thin Shampoo, Alovevera Shampo, Hair wash',
+      Imagesource: require('../../../assets/rectangle2.png'),
+      Booking: 'Cancel Booking',
+      Receipt: 'View E-Receipt',
+      ratingicon: <AntDesign name={'staro'} size={12} color={'#c79647'} />,
+      rating: '4.1',
+    },
+    {
+      id: 1,
+      date: 'Dec 24,2024 - 10.00am',
+      name: 'Barberella Inova',
+      title: '38947 Madeshow valley terrace services',
+      label: 'Gulf Haircut, Thin Shampoo, Alovevera Shampo, Hair wash',
+      Imagesource: require('../../../assets/rectangle2.png'),
+      Booking: 'Cancel Booking',
+      Receipt: 'View E-Receipt',
+      ratingicon: <AntDesign name={'staro'} size={12} color={'#c79647'} />,
+      rating: '4.1',
+    },
+    {
+      id: 1,
+      date: 'Dec 24,2024 - 10.00am',
+      name: 'Barberella Inova',
+      title: '38947 Madeshow valley terrace services',
+      label: 'Gulf Haircut, Thin Shampoo, Alovevera Shampo, Hair wash',
+      Imagesource: require('../../../assets/rectangle2.png'),
+      Booking: 'Cancel Booking',
+      Receipt: 'View E-Receipt',
+      ratingicon: <AntDesign name={'staro'} size={12} color={'#c79647'} />,
+      rating: '4.1',
+    },
+    {
+      id: 1,
+      date: 'Dec 24,2024 - 10.00am',
+      name: 'Barberella Inova',
+      title: '38947 Madeshow valley terrace services',
+      label: 'Gulf Haircut, Thin Shampoo, Alovevera Shampo, Hair wash',
+      Imagesource: require('../../../assets/rectangle2.png'),
+      Booking: 'Cancel Booking',
+      Receipt: 'View E-Receipt',
+      ratingicon: <AntDesign name={'staro'} size={12} color={'#c79647'} />,
+      rating: '4.1',
+    },
     {
       id: 1,
       date: 'Dec 24,2024 - 10.00am',
@@ -268,6 +383,12 @@ const HomeBarber = ({ navigation }) => {
                 alignItems: 'center',
               }}>
               <TouchableOpacity
+                onPress={() => {
+                  console.log("onPress")
+                  navigation.navigate(
+                    constants.BarberScreen.NotificationScreen,
+                  )
+                }}
                 style={{
                   backgroundColor: appColors.darkgrey,
                   borderRadius: 50,
@@ -278,20 +399,23 @@ const HomeBarber = ({ navigation }) => {
                   marginRight: 10,
                 }}>
                 <CustomIcon
-                  onPress={() =>
-                    navigation.navigate(
-                      constants.BarberScreen.NotificationScreen,
-                    )
-                  }
                   type={Icons.FontAwesome5}
                   name={'bell'}
                   color={appColors.White}
                   size={20}
                 />
+                {
+                  Notification?.length > 0 && (
+                    <View style={{ position: 'absolute', top: -10, left: 30, width: 25, height: 25, borderRadius: 50, backgroundColor: appColors.Goldcolor, justifyContent: 'center', alignItems: 'center' }}>
+                      <Text style={{ color: appColors.White, fontSize: 12 }}>{Notification?.length}</Text>
+                    </View>
+                  )
+                }
+
               </TouchableOpacity>
               <TouchableOpacity
                 onPress={() => {
-                  SignalRService.sendNotification(2)
+                  SignalRService.sendNotification(50)
                 }}
                 style={{
                   backgroundColor: appColors.darkgrey,
@@ -315,212 +439,236 @@ const HomeBarber = ({ navigation }) => {
     );
   };
 
-  const ListPrebooking = item => {
-    return (
-      <View
-        style={{
-          height: screenSize.height / 2.8,
-          width: screenSize.width / 1.1,
-          marginBottom: 10,
-          backgroundColor: '#252525',
-          borderWidth: 1,
-          borderRadius: 20,
-          borderColor: 'black',
-          marginHorizontal: 3,
-        }}>
-        <View style={{ flex: 1, borderRadius: 20 }}>
-          <View
-            style={{
-              flexDirection: 'row',
-              flex: 0.2,
-              justifyContent: 'space-between',
-              alignItems: 'center',
-              marginHorizontal: 15,
-              marginTop: 5,
-            }}>
-            <View style={{ flex: 0.6 }}>
-              <Text
-                style={{
-                  color: 'white',
-                  fontSize: 14,
-                }}>
-                {item.item.date}
-              </Text>
-            </View>
-            <View
-              style={{
-                flex: 0.4,
-                alignItems: 'flex-end',
-              }}>
-              <View
-                style={{
-                  color: 'white',
-                  flexDirection: 'row',
-                  justifyContent: 'space-evenly',
-                  alignItems: 'center',
-                }}>
-                <Bookingbutton
-                  style={{
-                    borderColor: 'white',
-                    color: 'white',
-                    height: 27,
-                    flex: 0.8,
-                  }}
-                  stylebtn={{ color: 'white', fontSize: 13 }}
-                  onPress={() =>
-                    navigation.navigate(constants.BarberScreen.EReceipt)
-                  }
-                  title={'View E-Recipt'}
-                />
-              </View>
-            </View>
-          </View>
-
-          <View style={{ height: 1, position: 'relative', marginHorizontal: 15 }}>
-            <View
-              style={{
-                position: 'absolute',
-                top: 0,
-                bottom: 0,
-                left: 0,
-                right: 0,
-                borderWidth: 1,
-                borderColor: appColors.Goldcolor,
-                borderStyle: 'dashed',
-                backgroundColor: 'transparent',
-              }}></View>
-          </View>
-
-          {/* <View
-            style={{
-              fontSize: 25,
-              marginHorizontal: 14,
-              borderBottomWidth: 2,
-              borderStyle: 'dashed',
-              borderBottomColor: '#c79647',
-            }}></View> */}
-
-          <View
-            style={{
-              flexDirection: 'row',
-              flex: 0.58,
-              justifyContent: 'center',
-              alignItems: 'center',
-            }}>
-            <View style={{ flex: 0.35, alignItems: 'center' }}>
-              <Image
-                source={item.item.Imagesource}
-                style={{
-                  height: '80%',
-                  width: '82%',
-                  borderRadius: 7,
-                  marginTop: 5,
-                }}
-              />
-            </View>
-            <View style={{ flexDirection: 'column', flex: 0.63 }}>
-              <Text style={{ fontSize: 22, fontWeight: '600', color: 'white' }}>
-                {item.item.name}
-              </Text>
-              <View>
-                <Text
-                  style={{
-                    fontSize: 14,
-                    fontWeight: '400',
-                    color: '#9E9E9E',
-                    marginVertical: 9,
-                  }}>
-                  {item.item.title}
-                </Text>
-              </View>
-              <View>
-                <Text
-                  style={{ fontSize: 12, fontWeight: '400', color: '#c79647' }}>
-                  {item.item.label}
-                </Text>
-              </View>
-            </View>
-          </View>
-          <View
-            style={{
-              flex: 0.25,
-              justifyContent: 'center',
-              flexDirection: 'row',
-              justifyContent: 'space-evenly',
-            }}>
-            <Bookingbutton
-              style={{ backgroundColor: '#c79647' }}
-              stylebtn={{ color: 'white' }}
-              title={'Accept'}
-            />
-            <Bookingbutton
-              onPress={handleClickReject}
-              style={{ backgroundColor: '#E81F1C', borderColor: 'red' }}
-              stylebtn={{ color: 'white' }}
-              title={'Reject'}
-            />
-          </View>
-        </View>
-      </View>
-    );
+  const handleClickAccept = item => {
+    const payload = {
+      ...initialOperationFields,
+      operationID: 8,
+      remarks: 'Accepted',
+      barberID: item?.BarbarID,
+      customerID: item?.CustomerID,
+      bookingDate: item?.BookingDate,
+      barbarBookedSlotID: item?.BarbarBookedSlotID,
+    };
+    console.log('reCallPreBooking payload', payload);
+    PostRequest(endPoint?.BARBER_AVAILABLESLOTS, payload)
+      .then(res => {
+        console.log('res?.data', res?.data);
+        if (res?.data?.Table?.[0]?.HassError == 0) {
+          todaysBooking();
+          SimpleSnackBar(res?.data?.Table?.[0]?.Message);
+        } else {
+          SimpleSnackBar(res?.data?.Table?.[0]?.Message, appColors.Red);
+        }
+      })
+      .catch(err => {
+        console.log('err', err);
+      });
   };
 
-  useEffect(() => {
-    SignalRService.onGetNotification((json) => {
-      console.log("json", json)
-    });
-  }, [])
+  const handleMarkAsCompleted = (item) => {
+    const payload = {
+      ...initialOperationFields,
+      operationID: 12,
+      remarks: '',
+      barberID: item?.BarbarID,
+      customerID: item?.CustomerID,
+      bookingDate: item?.BookingDate,
+      barbarBookedSlotID: item?.BarbarBookedSlotID,
+    };
+    console.log('payload', payload);
+    PostRequest(endPoint?.BARBER_AVAILABLESLOTS, payload)
+      .then(res => {
+        console.log('res?.data', res?.data);
+        if (res?.data?.Table?.[0]?.HassError == 0) {
+          SimpleSnackBar(res?.data?.Table?.[0]?.Message);
+          getTodaysBooking();
+        } else {
+          SimpleSnackBar(res?.data?.Table?.[0]?.Message, appColors.Red);
+        }
+      })
+      .catch(err => {
+        console.log('err', err);
+      });
+  }
 
-  return (
-    <Screen statusBarColor={appColors.Black} viewStyle={styles.MianContainer}>
-      <KeyboardAvoidingView
-        style={{ flex: 1 }}
-        behavior={Platform.OS === 'ios' ? 'padding' : null}
-        keyboardVerticalOffset={Platform.OS === 'android' ? 75 : 55}>
-        <CustomModal
-          visible={visible}
-          modalHeight={{ height: screenSize.height / 3 }}
-          CustomModalView={CustomModalView}
-        />
-        <View style={{ flex: 0.1 }}>
-          <HomeHeader
-            heading={userDetails?.userName}
-            // sunHeading={'Washington DC'}
-            source={userDetails?.profileImage}
-          />
+  const ListPrebooking = ({ item, index, }) => (
+    <View key={index} style={styles.bookingContainerstyle}>
+      <View style={{ flex: 1, borderRadius: 20 }}>
+        <View style={styles.bookingInnercontainerView}>
+          <View style={styles.bookingTextview}>
+            <Text style={styles.dateTextstyle}>
+              {moment(item?.BookingDate).format('MMMM DD, YYYY')} -{' '}
+              {item?.SlotName}
+            </Text>
+          </View>
+          <View style={styles.EreciptButtonView}>
+            <View style={styles.EreciptInnerView}>
+              <Bookingbutton
+                style={styles.EreciptButtonstyle}
+                stylebtn={{ color: appColors.White, fontSize: 11 }}
+                onPress={() =>
+                  navigation.navigate(constants.BarberScreen.BarberEReceipt, {
+                    bookingSlot: item,
+                  })
+                }
+                title={'View E-Recipt'}
+              />
+            </View>
+          </View>
         </View>
 
-        <View style={styles.searchBarContainer}>
-          <Search />
+        <View style={styles.DashLineView}>
+          <View style={styles.DashLinestyle}></View>
         </View>
 
         <View
-          style={{
-            flex: 0.1,
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            paddingHorizontal: 10,
-          }}>
-          <Text style={{ fontSize: 22, color: appColors.White }}>
-            Appointment
-          </Text>
-          <TouchableOpacity>
-            <Text style={{ color: appColors.Goldcolor, fontSize: 16 }}>
-              See all
-            </Text>
-          </TouchableOpacity>
+          style={[styles.imagetextContainerView, { paddingHorizontal: 15 }]}>
+          <View style={styles.bookingImageview}>
+            <Image
+              source={{ uri: `${imageUrl}${item.CustomerProfileImage}` }}
+              style={styles.bookingImagestyle}
+            />
+          </View>
+          <View style={styles.bookingTextview}>
+            <Text style={styles.Nametext}>{item.CustomerName}</Text>
+            <View>
+              <Text style={styles.Titletext}>{item.LocationName}</Text>
+            </View>
+            <View>
+              <Text style={styles.Labeltext}>{item?.serviceNames}</Text>
+            </View>
+          </View>
         </View>
+        <View style={styles.ButtonsView}>
+          {
+            item?.StatusID == 9 || item?.StatusID == 13 ?
+              (
+                <Bookingbutton
+                  onPress={() => {
+                    if (item?.IsPaid == true) handleMarkAsCompleted(item)
+                  }}
+                  style={{ width: "80%", backgroundColor: item?.StatusID == 13 ? appColors.Red : appColors.Accepted, borderColor: item?.StatusID == 13 ? appColors.Red : appColors.Accepted }}
+                  stylebtn={{ color: 'white' }}
+                  title={item?.StatusID == 13 ? "Request for Rejection" : 'Mark as Completed'}
+                />
+              ) :
+              (
+                <>
+                  <Bookingbutton
+                    onPress={() => handleClickAccept(item)}
+                    style={{ backgroundColor: '#c79647' }}
+                    stylebtn={{ color: 'white' }}
+                    title={'Accept'}
+                  />
+                  <Bookingbutton
+                    onPress={() => handleClickReject(item)}
+                    style={{ backgroundColor: '#E81F1C', borderColor: 'red' }}
+                    stylebtn={{ color: 'white' }}
+                    title={'Reject'}
+                  /></>
+              )
+          }
+        </View>
+      </View>
+    </View>
+  )
 
-        <View style={{ flex: 0.7 }}>
-          <FlatList
-            data={data}
-            renderItem={({ item, index }) => <ListPrebooking item={item} />}
-            // renderItem={({item}) => <listBookingCompleted item={item} />}
-            keyExtractor={item => item.id}
+  const getTodaysBooking = () => {
+    const payload = {
+      operationID: 7,
+      roleID: userDetails?._RoleId,
+      customerID: 0,
+      userID: userDetails?.userId,
+      userIP: 'string',
+      _PageNumber: 1,
+      _RowsOfPage: 20,
+    };
+
+    console.log('payload', payload);
+    PostRequest(endPoint.BB_BOOKEDSLOTS, payload)
+      .then(res => {
+        console.log('Todays Pre Booking Response', res?.data);
+        setTodaysBookingList(res?.data?.Table);
+        setIsLoading(false);
+      })
+      .catch(err => {
+        console.log(err);
+        setIsLoading(false);
+      });
+  };
+
+  return (
+    <Screen statusBarColor={appColors.Black} viewStyle={styles.MianContainer}>
+      <View style={{
+        minHeight: screenSize.height / 1.2,
+        maxHeight: 'auto',
+      }}>
+        <View style={{ flex: 1 }}>
+          <CustomModal
+            visible={visible}
+            modalHeight={{ height: screenSize.height / 3 }}
+            CustomModalView={CustomModalView}
           />
+          <View style={{ flex: 0.1 }}>
+            <HomeHeader
+              heading={userDetails?.userName}
+              source={userDetails?.profileImage}
+            />
+          </View>
+
+          <View style={styles.searchBarContainer}>
+            <Search />
+          </View>
+
+          <View
+            style={{
+              flex: 0.1,
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              paddingHorizontal: 10,
+            }}>
+            <Text style={{ fontSize: 22, color: appColors.White }}>
+              Appointment
+            </Text>
+            <TouchableOpacity onPress={() => navigation.navigate(constants.BarberScreen.AllBookings)}>
+              <Text style={{ color: appColors.Goldcolor, fontSize: 16 }}>
+                See all
+              </Text>
+            </TouchableOpacity>
+          </View>
+
+          <View style={{ flex: 0.7 }}>
+            {
+              isLoading ?
+                (
+                  <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+                    <ActivityIndicator size='small' color={appColors.Goldcolor} />
+                  </View>
+                ) :
+                (
+                  todaysBooking?.length > 0 ?
+                    (
+                      <FlatList
+                        data={todaysBooking}
+                        showsVerticalScrollIndicator={false}
+                        keyExtractor={(item, index) => index?.toString()}
+                        renderItem={({ item, index }) => <ListPrebooking item={item} />}
+                      />
+                    ) :
+                    (
+                      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+                        <BoxLottie
+                          animationPath={require('../../../LottieAnimation/NoPostFoundAnimation.json')}
+                        />
+                        <Text style={{ color: appColors.White, fontSize: 15, marginTop: 5 }}>No Current Appointment</Text>
+                      </View>
+                    )
+                )
+            }
+          </View>
         </View>
-      </KeyboardAvoidingView>
+      </View>
     </Screen>
   );
 };

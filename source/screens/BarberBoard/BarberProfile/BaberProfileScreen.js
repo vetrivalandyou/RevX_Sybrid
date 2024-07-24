@@ -91,8 +91,6 @@ const BaberProfileScreen = () => {
     }
   };
 
-  console.log("UserDetails", userDetails)
-
   const generateLink = async () => {
     try {
       const link = await DynamicLinks().buildShortLink(
@@ -121,7 +119,7 @@ const BaberProfileScreen = () => {
       try {
         const constructedUrl = await generateLink();
         const options = {
-          message: 'Check out RevX App!',
+          message: 'Checkout Barber Profile!',
           url: constructedUrl,
         };
         console.log("option", options)

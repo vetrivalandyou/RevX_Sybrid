@@ -1,15 +1,18 @@
 import { HubConnectionBuilder, LogLevel } from '@microsoft/signalr';
 import { generateRandomNumber } from '../functions/AppFunctions';
+import { INCREMENT_NOTIFICATION_COUNT } from '../redux/ActionType/NotificationActionTypes';
 
 class SignalRService {
-  constructor() {
+  constructor(props) {
     this.connection = new HubConnectionBuilder()
       .withUrl(`http://124.29.235.8:8789/chat`) // Replace with your SignalR hub URL
       .configureLogging(LogLevel.Information)
       .build();
+
+    this.dispatch = props ? props.dispatch : null;
   }
 
-  startConnection = async (RoleID, UserID) => {
+  startConnection = async (RoleID, UserID, dispatch) => {
     try {
       console.log('Inside');
       await this.connection.start();
@@ -17,27 +20,21 @@ class SignalRService {
       let MeetingID = generateRandomNumber().toString();
       console.log('ABCDEFG', RoleID, UserID, MeetingID);
       await this.connection.invoke('JoinRoom', {
-        // BarberID,
-        // CustomerID,
         RoleID,
         UserID,
         MeetingID,
       });
-      // if (RoleID == 4) {
-      //   await this.connection.invoke('GetChatListForCustomer', {
-      //     BarberID,
-      //     CustomerID,
-      //     RoleID,
-      //     UserID,
-      //   });
-      // } else {
-      //   await this.connection.invoke('GetChatListForBarber', {
-      //     BarberID,
-      //     CustomerID,
-      //     RoleID,
-      //     UserID,
-      //   });
-      // }
+      await this.connection.on('GetNotification', (json) => {
+        console.log("json inside", json)
+        if (dispatch) {
+          console.log("inside dispatch")
+          let data = JSON.parse(json)
+          console.log("data", data?.[0])
+          dispatch({ type: INCREMENT_NOTIFICATION_COUNT, payload: data?.[0] });
+        } else {
+          console.error('Dispatch function is not available.');
+        }
+      });
     } catch (error) {
       console.error('Error while starting SignalR connection:', error);
     }

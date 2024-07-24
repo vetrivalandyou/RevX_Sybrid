@@ -75,7 +75,8 @@
     "EditProfile": "EditProfile",
     "Profile": "Profile",
     "AddSubservices": "AddSubservices",
-    "BarberChat": "BarberChat"
+    "BarberChat": "BarberChat",
+    "AllBookings": "AllBookings"
   },
   "AdminScreens": {
     "AdminBottomTabNavigation": "AdminBottomTabNavigation",
