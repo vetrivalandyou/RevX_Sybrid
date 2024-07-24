@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 import {
   Text,
@@ -79,10 +79,12 @@ const HomeBarber = ({ navigation }) => {
   const { Notification } = useSelector(state => state.NotificationReducer);
   const dispatch = useDispatch();
   const isFocused = useIsFocused();
+  const barberRemarksRef = useRef(null);
   const [userDetails, setUserDetails] = useState();
   const [visible, setVisible] = useState(false);
   const [todaysBooking, setTodaysBookingList] = useState([])
   const [isLoading, setIsLoading] = useState(true)
+  const [rejectedBookingData, setRejectedBookingData] = useState({});
 
   console.log("NotificationCount", Notification)
 
@@ -148,8 +150,9 @@ const HomeBarber = ({ navigation }) => {
 
   // useLocationWatcher(handleLocationChange);
 
-  const handleClickReject = () => {
+  const handleClickReject = (item) => {
     console.log('Reject Clicked');
+    setRejectedBookingData(item);
     setVisible(true);
   };
 
@@ -158,7 +161,35 @@ const HomeBarber = ({ navigation }) => {
   };
 
   const onPressSubmit = () => {
-    console.log('Submited');
+    console.log('Submited', barberRemarksRef.current);
+    handleReject();
+  };
+
+  const handleReject = () => {
+    const payload = {
+      ...initialOperationFields,
+      operationID: 9,
+      remarks: barberRemarksRef.current,
+      barberID: rejectedBookingData?.BarbarID,
+      customerID: rejectedBookingData?.CustomerID,
+      bookingDate: rejectedBookingData?.BookingDate,
+      barbarBookedSlotID: rejectedBookingData?.BarbarBookedSlotID,
+    };
+    console.log('payload', payload);
+    PostRequest(endPoint?.BARBER_AVAILABLESLOTS, payload)
+      .then(res => {
+        console.log('res?.data', res?.data);
+        if (res?.data?.Table?.[0]?.HassError == 0) {
+          SimpleSnackBar(res?.data?.Table?.[0]?.Message);
+          timeoutRef.current = setTimeout(() => setVisible(false), 3000);
+          reCallPreBooking();
+        } else {
+          SimpleSnackBar(res?.data?.Table?.[0]?.Message, appColors.Red);
+        }
+      })
+      .catch(err => {
+        console.log('err', err);
+      });
   };
 
   const CustomModalView = () => {
@@ -196,6 +227,8 @@ const HomeBarber = ({ navigation }) => {
             }}
             multiline={true}
             textAlignVertical="top"
+            onChangeText={newText => (barberRemarksRef.current = newText)}
+            value={barberRemarksRef}
           />
         </View>
         <View
