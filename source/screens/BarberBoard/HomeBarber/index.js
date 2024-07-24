@@ -11,6 +11,7 @@ import {
   TextInput,
   KeyboardAvoidingView,
   Platform,
+  ActivityIndicator,
 } from 'react-native';
 import Screen from '../../../components/atom/ScreenContainer/Screen';
 import styles from './styles';
@@ -45,6 +46,7 @@ import ButtonComponent from '../../../components/atom/CustomButtons/ButtonCompon
 import SimpleTextField from '../../../components/molecules/TextFeilds/SimpleTextField';
 import SignalRService from '../../../services/SignalRService';
 import { SET_INITIAL_DROPDOWN_FORM_STATE } from '../../../redux/ActionType/CrudActionTypes';
+import BoxLottie from '../../../components/atom/BoxLottie/BoxLottie';
 
 const HomeBarber = ({ navigation }) => {
   const { coords } = useSelector(state => state.LocationReducer);
@@ -52,6 +54,8 @@ const HomeBarber = ({ navigation }) => {
   const isFocused = useIsFocused();
   const [userDetails, setUserDetails] = useState();
   const [visible, setVisible] = useState(false);
+  const [todaysBooking, setTodaysBookingList] = useState([])
+  const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
     if (isFocused) {
@@ -64,6 +68,7 @@ const HomeBarber = ({ navigation }) => {
       constants.AsyncStorageKeys.userDetails,
     );
     setUserDetails(userAsyncDetails);
+    getTodaysBooking(userAsyncDetails)
     if (SignalRService?.isConnected()) {
       console.log('SignalR is in Connected State');
     } else {
@@ -111,6 +116,8 @@ const HomeBarber = ({ navigation }) => {
         console.log('Err'.err);
       });
   };
+
+  useLocationWatcher(handleLocationChange);
 
   const handleClickReject = () => {
     console.log('Reject Clicked');
@@ -205,9 +212,55 @@ const HomeBarber = ({ navigation }) => {
     );
   };
 
-  useLocationWatcher(handleLocationChange);
-
   const data = [
+    {
+      id: 1,
+      date: 'Dec 24,2024 - 10.00am',
+      name: 'Barberella Inova',
+      title: '38947 Madeshow valley terrace services',
+      label: 'Gulf Haircut, Thin Shampoo, Alovevera Shampo, Hair wash',
+      Imagesource: require('../../../assets/rectangle2.png'),
+      Booking: 'Cancel Booking',
+      Receipt: 'View E-Receipt',
+      ratingicon: <AntDesign name={'staro'} size={12} color={'#c79647'} />,
+      rating: '4.1',
+    },
+    {
+      id: 1,
+      date: 'Dec 24,2024 - 10.00am',
+      name: 'Barberella Inova',
+      title: '38947 Madeshow valley terrace services',
+      label: 'Gulf Haircut, Thin Shampoo, Alovevera Shampo, Hair wash',
+      Imagesource: require('../../../assets/rectangle2.png'),
+      Booking: 'Cancel Booking',
+      Receipt: 'View E-Receipt',
+      ratingicon: <AntDesign name={'staro'} size={12} color={'#c79647'} />,
+      rating: '4.1',
+    },
+    {
+      id: 1,
+      date: 'Dec 24,2024 - 10.00am',
+      name: 'Barberella Inova',
+      title: '38947 Madeshow valley terrace services',
+      label: 'Gulf Haircut, Thin Shampoo, Alovevera Shampo, Hair wash',
+      Imagesource: require('../../../assets/rectangle2.png'),
+      Booking: 'Cancel Booking',
+      Receipt: 'View E-Receipt',
+      ratingicon: <AntDesign name={'staro'} size={12} color={'#c79647'} />,
+      rating: '4.1',
+    },
+    {
+      id: 1,
+      date: 'Dec 24,2024 - 10.00am',
+      name: 'Barberella Inova',
+      title: '38947 Madeshow valley terrace services',
+      label: 'Gulf Haircut, Thin Shampoo, Alovevera Shampo, Hair wash',
+      Imagesource: require('../../../assets/rectangle2.png'),
+      Booking: 'Cancel Booking',
+      Receipt: 'View E-Receipt',
+      ratingicon: <AntDesign name={'staro'} size={12} color={'#c79647'} />,
+      rating: '4.1',
+    },
     {
       id: 1,
       date: 'Dec 24,2024 - 10.00am',
@@ -471,56 +524,110 @@ const HomeBarber = ({ navigation }) => {
     });
   }, [])
 
+  const getTodaysBooking = () => {
+    const payload = {
+      operationID: 7,
+      roleID: userDetails?._RoleId,
+      customerID: 0,
+      userID: userDetails?.userId,
+      userIP: 'string',
+      _PageNumber: 1,
+      _RowsOfPage: 20,
+    };
+
+    console.log('payload', payload);
+    PostRequest(endPoint.BB_BOOKEDSLOTS, payload)
+      .then(res => {
+        console.log('Todays Pre Booking Response', res?.data);
+        setTodaysBookingList(...res?.data?.Table);
+        setIsLoading(false);
+      })
+      .catch(err => {
+        console.log(err);
+        setIsLoading(false);
+      });
+  };
+
+
   return (
     <Screen statusBarColor={appColors.Black} viewStyle={styles.MianContainer}>
-      <KeyboardAvoidingView
-        style={{ flex: 1 }}
-        behavior={Platform.OS === 'ios' ? 'padding' : null}
-        keyboardVerticalOffset={Platform.OS === 'android' ? 75 : 55}>
-        <CustomModal
-          visible={visible}
-          modalHeight={{ height: screenSize.height / 3 }}
-          CustomModalView={CustomModalView}
-        />
-        <View style={{ flex: 0.1 }}>
-          <HomeHeader
-            heading={userDetails?.userName}
-            // sunHeading={'Washington DC'}
-            source={userDetails?.profileImage}
+      <View style={{
+        minHeight: screenSize.height / 1.2,
+        maxHeight: 'auto',
+      }}>
+        <View style={{ flex: 1 }}>
+          <CustomModal
+            visible={visible}
+            modalHeight={{ height: screenSize.height / 3 }}
+            CustomModalView={CustomModalView}
           />
-        </View>
+          <View style={{ flex: 0.1 }}>
+            <HomeHeader
+              heading={userDetails?.userName}
+              source={userDetails?.profileImage}
+            />
+          </View>
 
-        <View style={styles.searchBarContainer}>
-          <Search />
-        </View>
-
-        <View
-          style={{
-            flex: 0.1,
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            paddingHorizontal: 10,
-          }}>
-          <Text style={{ fontSize: 22, color: appColors.White }}>
-            Appointment
-          </Text>
-          <TouchableOpacity>
-            <Text style={{ color: appColors.Goldcolor, fontSize: 16 }}>
-              See all
+          <View style={styles.searchBarContainer}>
+            <Search />
+          </View>
+          
+          <View
+            style={{
+              flex: 0.1,
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              paddingHorizontal: 10,
+            }}>
+            <Text style={{ fontSize: 22, color: appColors.White }}>
+              Appointment
             </Text>
-          </TouchableOpacity>
-        </View>
+            <TouchableOpacity onPress={() => navigation.navigate(constants.BarberScreen.AllBookings)}>
+              <Text style={{ color: appColors.Goldcolor, fontSize: 16 }}>
+                See all
+              </Text>
+            </TouchableOpacity>
+          </View>
 
-        <View style={{ flex: 0.7 }}>
-          <FlatList
-            data={data}
-            renderItem={({ item, index }) => <ListPrebooking item={item} />}
-            // renderItem={({item}) => <listBookingCompleted item={item} />}
-            keyExtractor={item => item.id}
-          />
+          <View style={{ flex: 0.7 }}>
+            {
+              isLoading ?
+                (
+                  <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+                    <ActivityIndicator size='small' color={appColors.Goldcolor} />
+                  </View>
+                ) :
+                (
+                  <FlatList
+                    data={data}
+                    showsVerticalScrollIndicator={false}
+                    keyExtractor={(item, index) => index?.toString()}
+                    renderItem={({ item, index }) => <ListPrebooking item={item} />}
+                  />
+
+                  // todaysBooking?.length > 0 ?
+                  //   (
+                  //     <FlatList
+                  //       data={data}
+                  //       showsVerticalScrollIndicator={false}
+                  //       keyExtractor={(item, index) => index?.toString()}
+                  //       renderItem={({ item, index }) => <ListPrebooking item={item} />}
+                  //     />
+                  //   ) :
+                  //   (
+                  //     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+                  //       <BoxLottie
+                  //         animationPath={require('../../../LottieAnimation/NoPostFoundAnimation.json')}
+                  //       />
+                  //       <Text style={{ color: appColors.White, fontSize: 15, marginTop: 5 }}>No Current Appointment</Text>
+                  //     </View>
+                  //   )
+                )
+            }
+          </View>
         </View>
-      </KeyboardAvoidingView>
+      </View>
     </Screen>
   );
 };

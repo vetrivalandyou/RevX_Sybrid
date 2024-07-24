@@ -12,6 +12,7 @@ import {
   Servicesboard,
   Addservices,
   Editservices,
+  AllBookings,
 } from '../../screens';
 
 import BarberBottomTabNavigation from './BarberBottomTabNavigation';
@@ -177,6 +178,11 @@ const BarberStack = () => {
         <Stack.Screen
           name={constants.BarberScreen.AddSubservices}
           component={AddSubservices}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name={constants.BarberScreen.AllBookings}
+          component={AllBookings}
           options={{headerShown: false}}
         />
       </Stack.Navigator>
