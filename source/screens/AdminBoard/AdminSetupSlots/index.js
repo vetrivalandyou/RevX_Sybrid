@@ -104,6 +104,7 @@ const AdminSetupSlots = ({navigation}) => {
           leftIcoName={'chevron-back'}
           headerText={'Setup Slots'}
           logIn={'success'}
+          isShown={false}
         />
       </View>
       {slots?.Table?.length > 0 ? (

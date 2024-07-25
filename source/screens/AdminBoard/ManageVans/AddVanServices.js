@@ -97,6 +97,7 @@ const AddVanservices = ({navigation, route}) => {
             leftIcoName={'chevron-back'}
             headerText={'Add Vans'}
             logIn={'success'}
+            isShown={false}
           />
         </View>
         <Formik

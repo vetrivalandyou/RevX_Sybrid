@@ -30,6 +30,7 @@ const Editservices = ({route, navigation}) => {
           leftIcoName={'chevron-back'}
           headerText={'Edit Services'}
           logIn={'success'}
+          isShown={false}
         />
       </View>
       <ScrollView style={{height: screenSize.height / 10}}>

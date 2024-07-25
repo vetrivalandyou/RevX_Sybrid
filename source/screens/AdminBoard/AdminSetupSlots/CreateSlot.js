@@ -83,6 +83,7 @@ const CreateSlot = ({navigation}) => {
           leftIcoName={'chevron-back'}
           headerText={'Create Slots'}
           logIn={'success'}
+          isShown={false}
         />
       </View>
 

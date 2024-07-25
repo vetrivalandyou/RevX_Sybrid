@@ -214,6 +214,7 @@ const UserNotification = ({ navigation }) => {
             leftIcoName={'chevron-back'}
             headerText={'Notification'}
             logIn={'success'}
+            isShown={false}
           />
         </View>
 

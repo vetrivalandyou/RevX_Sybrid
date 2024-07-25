@@ -102,6 +102,7 @@ const OurServices = ({navigation}) => {
           leftIcoName={'chevron-back'}
           headerText={'Our Services'}
           logIn={'success'}
+          isShown={false}
         />
       </View>
 

@@ -96,6 +96,7 @@ const Editservices = ({route}) => {
           leftIcoName={'chevron-back'}
           headerText={'Edit Service'}
           logIn={'success'}
+          isShown={false}
         />
       </View>
       <View style={{flex: 0.8}}>

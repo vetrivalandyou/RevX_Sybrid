@@ -101,6 +101,7 @@ const AddSubServices = ({route, navigation}) => {
             leftIcoName={'chevron-back'}
             headerText={'Add Sub Service'}
             logIn={'success'}
+            isShown={false}
           />
         </View>
         <View style={{flex: 0.9}}>

@@ -227,6 +227,7 @@ const BarberNotification = ({ navigation }) => {
             leftIcoName={'chevron-back'}
             headerText={'Notification'}
             logIn={'success'}
+            isShown={false}
           />
         </View>
 

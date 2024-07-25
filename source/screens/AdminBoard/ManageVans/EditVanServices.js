@@ -102,6 +102,7 @@ const EditVanservices = ({route, navigation}) => {
             leftIcoName={'chevron-back'}
             headerText={'Edit Van'}
             logIn={'success'}
+            isShown={false}
           />
         </View>
 

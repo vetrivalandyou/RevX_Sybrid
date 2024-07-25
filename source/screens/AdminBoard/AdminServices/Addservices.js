@@ -91,6 +91,7 @@ const Addservices = ({route}) => {
             leftIcoName={'chevron-back'}
             headerText={'Add Service'}
             logIn={'success'}
+            isShown={false}
           />
         </View>
         <View style={{flex: 0.8}}>

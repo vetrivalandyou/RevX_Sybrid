@@ -133,6 +133,7 @@ const ManageVans = ({navigation}) => {
           leftIcoName={'chevron-back'}
           headerText={'All Vans'}
           logIn={'success'}
+          isShown={false}
         />
       </View>
 
