@@ -149,6 +149,7 @@ const EditProfile = ({navigation}) => {
               leftIcoName={'chevron-back'}
               headerText={'Edit Profile'}
               logIn={'success'}
+              isShown={false}
             />
           </View>
 
