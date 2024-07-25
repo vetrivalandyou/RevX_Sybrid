@@ -50,7 +50,7 @@ const Bookingcompleted = ({data, userDetails}) => {
       _PageNumber: pageNumber,
       _RowsOfPage: 10,
     };
-    console.log('payload', payload);
+    console.log('payload payload payload payload', payload);
     PostRequest(endPoint.BB_BOOKEDSLOTS, payload)
       .then(res => {
         console.log('getPreBookings Response', res?.data);

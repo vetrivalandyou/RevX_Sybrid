@@ -38,9 +38,9 @@ const LogoutBottom = ({refRBSheet}) => {
 
   const signOut = async () => {
     try {
-      if (userDetails?._RoleId == 4) {
-        await GoogleSignin.signOut();
-      }
+      // if (userDetails?._RoleId == 4) {
+      //   await GoogleSignin.signOut();
+      // }
       onLogOut();
     } catch (error) {
       console.error(error);

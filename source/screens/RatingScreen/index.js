@@ -21,11 +21,12 @@ import {screenSize} from '../../components/atom/ScreenSize';
 import ButtonComponent from '../../components/atom/CustomButtons/ButtonComponent';
 import {PostRequest} from '../../services/apiCall';
 import {endPoint} from '../../AppConstants/urlConstants';
+import {SimpleSnackBar} from '../../components/atom/Snakbar/Snakbar';
+import Bookingbutton from '../../components/atom/BookingButtons/Bookingbutton';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 
 const RatingScreen = ({route, navigation}) => {
   const {userDetails, userCompletedBooking} = route.params || 0;
-  console.log('bookingSlotbookingSlot', userDetails);
-  console.log('userCompletedBookinguserCompletedBooking', userCompletedBooking);
   const [selectedStar, setSelectedStar] = useState(null);
   const [selectedComment, setSelectedComment] = useState(null);
   const [feedback, setFeedback] = useState('');
@@ -139,7 +140,7 @@ const RatingScreen = ({route, navigation}) => {
       operationID: 1,
       ratingID: 0,
       userID: userDetails?.userId,
-      barberId: userCompletedBooking?.[0]?.BarbarID,
+      barberId: userCompletedBooking?.BarbarID,
       rateBy: userDetails?.userId,
       ratingValue: ratingValue,
       isActive: 0,
@@ -147,13 +148,23 @@ const RatingScreen = ({route, navigation}) => {
       comments: comments,
     };
     console.log('payload payload payload', payload);
-    // PostRequest(endPoint?.USER_RATING_FOR_BARBER, payload)
-    //   .then(res => {
-    //     console.log('res?.data', res?.data);
-    //   })
-    //   .catch(err => {
-    //     console.log('err', err);
-    //   });
+    PostRequest(endPoint?.USER_RATING_FOR_BARBER, payload)
+      .then(res => {
+        console.log('res?.data', res?.data);
+        if (res?.data?.Table?.[0]?.Haserror == 0) {
+          console.log(
+            'res?.data?.[0]?.Message',
+            res?.data?.Table?.[0]?.Message,
+          );
+          SimpleSnackBar(res?.data?.Table?.[0]?.Message);
+          navigation.goBack();
+        } else {
+          SimpleSnackBar(res?.data?.Message, appColors.Red);
+        }
+      })
+      .catch(err => {
+        console.log('err', err);
+      });
   };
 
   const onPressSubmit = () => {
@@ -161,34 +172,25 @@ const RatingScreen = ({route, navigation}) => {
     const selectedCommentItem = commentRating.find(
       comment => comment.id === selectedComment,
     );
-
     const selectedStarTitle = selectedStarItem ? selectedStarItem.title : null;
     const selectedCommentTitle = selectedCommentItem
       ? selectedCommentItem.title
       : null;
-
-    console.log('Selected Star Title:', selectedStarTitle);
-    console.log('Selected Comment Title:', selectedCommentTitle);
-    console.log('Feedback:', feedback);
-
-    // Call the API function with the selected data
     SendRatingByUser(selectedStarTitle, selectedCommentTitle, feedback);
   };
 
   return (
-    <Screen
-      statusBarColor={appColors.Black}
-      barStyle="light-content"
-      viewStyle={{
-        flex: 0.9,
-        padding: 15,
-        minHeight: screenSize.height,
-        maxHeight: 'auto',
-      }}>
-      <KeyboardAvoidingView
-        style={{flex: 1}}
-        behavior={Platform.OS === 'ios' ? 'padding' : null}
-        keyboardVerticalOffset={Platform.OS === 'android' ? 75 : 55}>
+    <KeyboardAwareScrollView
+      showsVerticalScrollIndicator={false}
+      contentContainerStyle={{flex: 1, justifyContent: 'center'}}>
+      <Screen
+        statusBarColor={appColors.Black}
+        barStyle="light-content"
+        viewStyle={{
+          flex: 0.9,
+          padding: 15,
+          minHeight: screenSize.height,
+        }}>
         <View style={{flex: 0.08}}>
           <Header
             headerSubView={{marginHorizontal: 5}}
@@ -261,16 +263,24 @@ const RatingScreen = ({route, navigation}) => {
             justifyContent: 'flex-end',
             alignItems: 'center',
           }}>
-          <ButtonComponent
+          <Bookingbutton
             style={{
               backgroundColor: appColors.Goldcolor,
+              flex: 0.1,
+              justifyContent: 'center',
+              flexDirection: 'row',
+              width: '100%',
+
+              opacity:
+                !selectedStar == '' && !selectedComment == '' ? 0.9 : 0.3,
             }}
+            disabled={selectedStar === null || selectedComment === null}
             title={'Submit'}
             onPress={onPressSubmit}
           />
         </View>
-      </KeyboardAvoidingView>
-    </Screen>
+      </Screen>
+    </KeyboardAwareScrollView>
   );
 };
 

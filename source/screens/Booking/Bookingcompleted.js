@@ -61,6 +61,7 @@ const Bookingcompleted = ({data, userDetails}) => {
   };
 
   const ListBookingCompleted = ({item}) => {
+    console.log('check barber id', item?.BarbarID);
     return (
       <View style={styles.Containerstyle}>
         <View style={{flex: 1, borderRadius: 20}}>
@@ -83,7 +84,7 @@ const Bookingcompleted = ({data, userDetails}) => {
                 onPress={() =>
                   navigation.navigate(constants.screen.RatingScreen, {
                     userDetails: userDetails,
-                    userCompletedBooking: userCompletedBooking,
+                    userCompletedBooking: item,
                   })
                 }>
                 <View style={styles.Ratingbox}>

@@ -114,7 +114,7 @@ const PreBooking = ({
       _RowsOfPage: 10,
     };
 
-    console.log('payload', payload);
+    console.log('payload payload payload', payload);
     PostRequest(endPoint.BB_BOOKEDSLOTS, payload)
       .then(res => {
         console.log('reCallPreBooking', res?.data);
@@ -286,7 +286,7 @@ const PreBooking = ({
       bookingDate: item?.BookingDate,
       barbarBookedSlotID: item?.BarbarBookedSlotID,
     };
-    console.log('payload', payload);
+    console.log('payload payload', payload);
     PostRequest(endPoint?.BARBER_AVAILABLESLOTS, payload)
       .then(res => {
         console.log('res?.data', res?.data);

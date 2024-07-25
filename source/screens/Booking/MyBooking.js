@@ -112,7 +112,7 @@ const MyBooking = ({navigation}) => {
       _PageNumber: 1,
       _RowsOfPage: 10,
     };
-    console.log('payload', payload);
+    console.log('payload payload payload payload', payload);
     PostRequest(endPoint.BB_BOOKEDSLOTS, payload)
       .then(res => {
         if (res?.data?.Table?.length > 0) {

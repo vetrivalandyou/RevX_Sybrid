@@ -51,7 +51,7 @@ const PreBooking = ({
       _PageNumber: pageNumber,
       _RowsOfPage: 10,
     };
-    console.log('payload', payload);
+    console.log('payload payload payload rol id', payload);
     PostRequest(endPoint.BB_BOOKEDSLOTS, payload)
       .then(res => {
         if (res?.data?.Table?.length > 0) {
