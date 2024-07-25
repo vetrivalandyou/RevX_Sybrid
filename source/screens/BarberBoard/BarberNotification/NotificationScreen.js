@@ -30,7 +30,7 @@ import { getAsyncItem } from '../../../utils/SettingAsyncStorage';
 import { debounce } from '../../../functions/AppFunctions';
 import moment from 'moment';
 
-const Notification = ({ navigation }) => {
+const BarberNotification = ({ navigation }) => {
 
   const dispatch = useDispatch()
   const isFocused = useIsFocused()
@@ -58,22 +58,33 @@ const Notification = ({ navigation }) => {
   };
 
   const getAllNotifications = (asyncUserDetails) => {
+    if (hasMore == false) return;
     const payload = {
       operationID: 2,
       customerid: 0,
-      // barberid: asyncUserDetails?.userId,
-      barberid: 352,
-      _PageNumber: 1,
+      barberid: asyncUserDetails?.userId,
+      _PageNumber: pageNumber,
       _RowsOfPage: 10
     }
     console.log("payload", payload)
     PostRequest(endPoint.ALL_NOTIFICATIONS, payload)
       .then((res) => {
         console.log("res?.data", res?.data)
-        setNotifications(res?.data)
+        if (res?.data?.length > 0) {
+          setNotifications(notifications => [
+            ...notifications,
+            ...res?.data
+          ]);
+          setPageNumber(pageNumber + 1); // Increment the page number
+          setIsLoading(false);
+        } else {
+          setHasMore(false);
+          setIsLoading(false);
+        }
       })
       .catch((err) => {
         console.log("err", err)
+        setIsLoading(false);
       })
   }
 
@@ -88,7 +99,7 @@ const Notification = ({ navigation }) => {
 
   const handleLoadMore = debounce(() => {
     if (hasMore == true) {
-      getAllNotifications();
+      recallAllNotifications();
     }
   }, 300);
 
@@ -117,15 +128,35 @@ const Notification = ({ navigation }) => {
           </View>
           <View style={{ flex: 0.75, }}>
             <View style={{ flex: 0.7, paddingHorizontal: 14 }}>
-              <View style={{ flex: 0.7, justifyContent: 'flex-end' }}>
-                <Text
+              <View style={{ flex: 0.7, flexDirection: 'row' }}>
+                <View style={{ flex: 0.7, justifyContent: 'flex-end' }}>
+                  <Text
+                    style={{
+                      color: appColors.Goldcolor,
+                      fontWeight: 'bold',
+                      fontSize: 15,
+                    }}>
+                    {item?.UserName}
+                  </Text>
+                </View>
+                <View style={{ flex: 0.3, justifyContent: 'center', alignItems: 'center' }}>
+                  <Text
+                    style={{
+                      color: appColors.White,
+                      fontWeight: 'bold',
+                      fontSize: 7,
+                    }}>
+                    {moment(item?.CreatedDate).format('hh:mm A')}
+                  </Text>
+                </View>
+                {/* <Text
                   style={{
                     color: appColors.Goldcolor,
                     fontWeight: 'bold',
                     fontSize: 15,
                   }}>
                   {item?.UserName}
-                </Text>
+                </Text> */}
               </View>
               <View style={{ flex: 0.3, justifyContent: 'flex-end' }}>
                 <Text
@@ -156,35 +187,63 @@ const Notification = ({ navigation }) => {
     )
   }
 
+  const recallAllNotifications = () => {
+    const payload = {
+      operationID: 2,
+      customerid: 0,
+      barberid: userDetails?.userId,
+      _PageNumber: pageNumber,
+      _RowsOfPage: 10
+    }
+    console.log("payload", payload)
+    PostRequest(endPoint.ALL_NOTIFICATIONS, payload)
+      .then((res) => {
+        console.log("res?.data", res?.data)
+        if (res?.data?.length > 0) {
+          setNotifications(notifications => [
+            ...notifications,
+            ...res?.data
+          ]);
+          setPageNumber(pageNumber + 1); // Increment the page number
+          setIsLoading(false);
+        } else {
+          setHasMore(false);
+          setIsLoading(false);
+        }
+      })
+      .catch((err) => {
+        console.log("err", err)
+        setIsLoading(false);
+      })
+  }
+
   return (
     <Screen statusBarColor={appColors.Black}>
-      <View style={{ height: screenSize.height, backgroundColor: appColors.Black }}>
-        <View style={{ flex: 1, }}>
-          <View style={{ flex: 0.07, }}>
-            <Header
-              lefttIcoType={Icons.Ionicons}
-              onPressLeftIcon={() => navigation.goBack()}
-              leftIcoName={'chevron-back'}
-              headerText={'Notification'}
-              logIn={'success'}
-            />
-          </View>
+      <View style={{ flex: 1, }}>
+        <View style={{ flex: 0.07, }}>
+          <Header
+            lefttIcoType={Icons.Ionicons}
+            onPressLeftIcon={() => navigation.goBack()}
+            leftIcoName={'chevron-back'}
+            headerText={'Notification'}
+            logIn={'success'}
+          />
+        </View>
 
-          <View style={{ flex: 0.93, }}>
-            <FlatList data={notifications} showsVerticalScrollIndicator={false} keyExtractor={(item, index) => index?.toString()}
-              ListFooterComponent={renderFooter}
-              onEndReached={handleLoadMore}
-              onEndReachedThreshold={0.5}
-              renderItem={({ item, index }) => (
-                <NotificationContainer item={item} index={index} />
-              )} />
-          </View>
+        <View style={{ flex: 0.93, }}>
+          <FlatList data={notifications} showsVerticalScrollIndicator={false} keyExtractor={(item, index) => index?.toString()}
+            ListFooterComponent={renderFooter}
+            onEndReached={handleLoadMore}
+            onEndReachedThreshold={0.5}
+            renderItem={({ item, index }) => (
+              <NotificationContainer item={item} index={index} />
+            )} />
         </View>
       </View>
     </Screen>
   );
 };
-export default Notification;
+export default BarberNotification;
 
 const styles = StyleSheet.create({
   NoticationContainer: {
