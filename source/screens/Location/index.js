@@ -63,6 +63,7 @@ const LocationScreen = () => {
   };
 
   const getNearByBarber = asyncUserLongLat => {
+    mapAnimation(asyncUserLongLat);
     const payload = {
       latitude: asyncUserLongLat?.coords?.latitude,
       longitude: asyncUserLongLat?.coords?.longitude,
@@ -80,7 +81,6 @@ const LocationScreen = () => {
           );
         } else {
           setSelectedLocation(res?.data);
-          mapAnimation(asyncUserLongLat);
         }
       })
       .catch(err => {
