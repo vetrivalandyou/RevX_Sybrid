@@ -51,14 +51,13 @@ const RatingScreen = ({route, navigation}) => {
     return (
       <TouchableOpacity
         onPress={() => setSelectedStar(item.id)}
-        style={{justifyContent: 'center'}}>
+        style={{marginTop: 5}}>
         <View
           key={item.id}
           style={{
             marginHorizontal: 5,
             height: screenSize.height / 22,
             width: screenSize.width / 5,
-            // justifyContent: 'center',
           }}>
           <View
             style={{
@@ -97,13 +96,16 @@ const RatingScreen = ({route, navigation}) => {
   const CommentRatingData = ({item}) => {
     const isSelected = item.id === selectedComment;
     return (
-      <TouchableOpacity onPress={() => setSelectedComment(item.id)}>
+      <TouchableOpacity
+        onPress={() => setSelectedComment(item.id)}
+        style={{justifyContent: 'center'}}>
         <View
           key={item.id}
           style={{
             marginHorizontal: 5,
             height: screenSize.height / 22,
             width: screenSize.width / 4,
+            justifyContent: 'center',
           }}>
           <View
             style={{
@@ -114,6 +116,7 @@ const RatingScreen = ({route, navigation}) => {
               borderRadius: 100,
               borderColor: appColors.White,
               borderWidth: 1,
+              justifyContent: 'center',
             }}>
             <View
               style={{
@@ -189,6 +192,7 @@ const RatingScreen = ({route, navigation}) => {
         statusBarColor={appColors.Black}
         barStyle="light-content"
         viewStyle={{
+          flex: 1,
           padding: 15,
           minHeight: screenSize.height,
         }}>
@@ -216,51 +220,47 @@ const RatingScreen = ({route, navigation}) => {
             }}
           />
         </View>
-        <View style={{flex: 0.1}}>
-          <FlatList
-            data={starMark}
-            horizontal={true}
-            showsHorizontalScrollIndicator={false}
-            keyExtractor={(item, index) => index.toString()}
-            renderItem={({item}) => <StarData item={item} />}
-          />
-        </View>
-        {/* <View style={{flex: 0.1}}>
-          <View style={{color: appColors.White}}>
-            <Text style={{fontSize: 15, color: appColors.White}}>
-              Comment Rating
-            </Text>
+        <View style={{flex: 0.8}}>
+          <View style={{flex: 0.1}}>
+            <FlatList
+              data={starMark}
+              horizontal={true}
+              showsHorizontalScrollIndicator={false}
+              keyExtractor={(item, index) => index.toString()}
+              renderItem={({item}) => <StarData item={item} />}
+            />
           </View>
-        </View> */}
-        <View style={{flex: 0.1}}>
-          <TextInput
-            style={{
-              color: 'white',
-              paddingHorizontal: 25,
-              fontSize: 14,
-              borderBottomWidth: 1,
-              borderColor: appColors.White,
-              paddingHorizontal: 5,
-            }}
-            placeholder="Comment Rating"
-            placeholderTextColor={appColors.LightGray}
-            maxLength={50}
-            value={feedback}
-            onChangeText={text => setFeedback(text)}
-          />
-        </View>
-        <View style={{flex: 0.1}}>
-          <FlatList
-            data={commentRating}
-            horizontal={true}
-            showsHorizontalScrollIndicator={false}
-            keyExtractor={(item, index) => index.toString()}
-            renderItem={({item}) => <CommentRatingData item={item} />}
-          />
+
+          <View style={{flex: 0.1}}>
+            <TextInput
+              style={{
+                color: 'white',
+                paddingHorizontal: 25,
+                fontSize: 14,
+                borderBottomWidth: 1,
+                borderColor: appColors.White,
+                paddingHorizontal: 5,
+              }}
+              placeholder="Comment Rating"
+              placeholderTextColor={appColors.LightGray}
+              maxLength={50}
+              value={feedback}
+              onChangeText={text => setFeedback(text)}
+            />
+          </View>
+          <View style={{flex: 0.1}}>
+            <FlatList
+              data={commentRating}
+              horizontal={true}
+              showsHorizontalScrollIndicator={false}
+              keyExtractor={(item, index) => index.toString()}
+              renderItem={({item}) => <CommentRatingData item={item} />}
+            />
+          </View>
         </View>
         <View
           style={{
-            flex: 0.6,
+            flex: 0.1,
             justifyContent: 'flex-end',
             alignItems: 'center',
           }}>
@@ -271,7 +271,9 @@ const RatingScreen = ({route, navigation}) => {
               justifyContent: 'center',
               flexDirection: 'row',
               width: '100%',
-
+              paddingVertical: Platform.OS == 'ios' ? 17 : 13,
+              bottom: 1,
+              position: 'absolute',
               opacity:
                 !selectedStar == '' && !selectedComment == '' ? 0.9 : 0.3,
             }}
