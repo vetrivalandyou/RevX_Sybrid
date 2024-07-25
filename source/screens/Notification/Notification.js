@@ -56,8 +56,8 @@ const UserNotification = ({ navigation }) => {
     if (hasMore == false) return;
     const payload = {
       operationID: 3,
-      customerid: 0,
-      barberid: asyncUserDetails?.userId,
+      customerid: asyncUserDetails?.userId,
+      barberid: 0,
       _PageNumber: pageNumber,
       _RowsOfPage: 10
     }
@@ -144,14 +144,6 @@ const UserNotification = ({ navigation }) => {
                     {moment(item?.CreatedDate).format('hh:mm A')}
                   </Text>
                 </View>
-                {/* <Text
-                  style={{
-                    color: appColors.Goldcolor,
-                    fontWeight: 'bold',
-                    fontSize: 15,
-                  }}>
-                  {item?.UserName}
-                </Text> */}
               </View>
               <View style={{ flex: 0.3, justifyContent: 'flex-end' }}>
                 <Text
@@ -160,12 +152,12 @@ const UserNotification = ({ navigation }) => {
                     fontWeight: '400',
                     fontSize: 12,
                   }}>
-                  {item?.Description}
+                  {item?.DescriptionByUser}
                 </Text>
               </View>
             </View>
             <View style={{ flex: 0.3, flexDirection: 'row-reverse' }}>
-              <View style={{ flex: 0.3, justifyContent: 'center' }}>
+            <View style={{ flex: 0.3, justifyContent: 'center' }}>
                 <Text
                   style={{
                     color: appColors.White,
