@@ -19,6 +19,7 @@ import {PostRequest} from '../../../services/apiCall';
 import moment from 'moment';
 import BoxLottie from '../../../components/atom/BoxLottie/BoxLottie';
 import constants from '../../../AppConstants/Constants.json';
+import appColors from '../../../AppConstants/appColors';
 
 const Bookingcompleted = ({data, userDetails, initialBookingFields}) => {
   const isFocused = useIsFocused();
@@ -76,7 +77,10 @@ const Bookingcompleted = ({data, userDetails, initialBookingFields}) => {
               </View>
             </View>
             <View style={styles.CompletedbuttonView}>
-              <Completedbutton title={'Booking Completed'} />
+              <Completedbutton
+                textstyle={{color: '#fff'}}
+                title={'Booking Completed'}
+              />
             </View>
           </View>
 

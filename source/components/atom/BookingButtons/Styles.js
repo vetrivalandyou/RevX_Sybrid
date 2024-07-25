@@ -21,6 +21,7 @@ export default StyleSheet.create({
   },
 
   completedcontainer: {
+    textAlign: 'center',
     height: '50%',
     alignItems: 'center',
     width: '100%',
