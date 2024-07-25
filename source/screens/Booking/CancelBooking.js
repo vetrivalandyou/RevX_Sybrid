@@ -5,6 +5,7 @@ import appColors from '../../AppConstants/appColors';
 import {SimpleSnackBar} from '../../components/atom/Snakbar/Snakbar';
 import {PostRequest} from '../../services/apiCall';
 import {endPoint} from '../../AppConstants/urlConstants';
+import SignalRService from '../../services/SignalRService';
 
 const CancelBooking = ({refRBSheet, selectedBooking, getPreBookings}) => {
   const timeoutRef = useRef();
@@ -42,6 +43,7 @@ const CancelBooking = ({refRBSheet, selectedBooking, getPreBookings}) => {
         console.log('res?.data', res?.data);
         if (res?.data?.Table?.[0]?.HassError == 0) {
           getPreBookings();
+          SignalRService.sendNotification(parseInt(res?.data?.Table?.[0]?.NotificationID))
           SimpleSnackBar(res?.data?.Table?.[0]?.Message);
           timeoutRef.current = setTimeout(
             () => refRBSheet.current.close(),
