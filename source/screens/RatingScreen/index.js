@@ -49,14 +49,16 @@ const RatingScreen = ({route, navigation}) => {
   const StarData = ({item}) => {
     const isSelected = item.id === selectedStar;
     return (
-      <TouchableOpacity onPress={() => setSelectedStar(item.id)}>
+      <TouchableOpacity
+        onPress={() => setSelectedStar(item.id)}
+        style={{justifyContent: 'center'}}>
         <View
           key={item.id}
           style={{
-            marginHorizontal: 3,
-            height: screenSize.height / 18,
+            marginHorizontal: 5,
+            height: screenSize.height / 22,
             width: screenSize.width / 5,
-            justifyContent: 'center',
+            // justifyContent: 'center',
           }}>
           <View
             style={{
@@ -99,8 +101,8 @@ const RatingScreen = ({route, navigation}) => {
         <View
           key={item.id}
           style={{
-            marginHorizontal: 3,
-            height: screenSize.height / 16,
+            marginHorizontal: 5,
+            height: screenSize.height / 22,
             width: screenSize.width / 4,
           }}>
           <View
@@ -187,11 +189,10 @@ const RatingScreen = ({route, navigation}) => {
         statusBarColor={appColors.Black}
         barStyle="light-content"
         viewStyle={{
-          flex: 0.9,
           padding: 15,
           minHeight: screenSize.height,
         }}>
-        <View style={{flex: 0.08}}>
+        <View style={{flex: 0.1}}>
           <Header
             headerSubView={{marginHorizontal: 5}}
             lefttIcoType={Icons.Ionicons}
@@ -224,13 +225,13 @@ const RatingScreen = ({route, navigation}) => {
             renderItem={({item}) => <StarData item={item} />}
           />
         </View>
-        <View style={{flex: 0.04}}>
+        {/* <View style={{flex: 0.1}}>
           <View style={{color: appColors.White}}>
             <Text style={{fontSize: 15, color: appColors.White}}>
               Comment Rating
             </Text>
           </View>
-        </View>
+        </View> */}
         <View style={{flex: 0.1}}>
           <TextInput
             style={{
@@ -241,7 +242,7 @@ const RatingScreen = ({route, navigation}) => {
               borderColor: appColors.White,
               paddingHorizontal: 5,
             }}
-            placeholder="Enter your feedback"
+            placeholder="Comment Rating"
             placeholderTextColor={appColors.LightGray}
             maxLength={50}
             value={feedback}
@@ -259,7 +260,7 @@ const RatingScreen = ({route, navigation}) => {
         </View>
         <View
           style={{
-            flex: 0.62,
+            flex: 0.6,
             justifyContent: 'flex-end',
             alignItems: 'center',
           }}>
