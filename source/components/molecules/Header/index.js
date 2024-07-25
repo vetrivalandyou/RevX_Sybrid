@@ -113,7 +113,7 @@ const Header = ({
                   isShown != false &&
                   (
                     <>
-                      {Notification?.length == 0 && (
+                      {Notification?.length > 0 && (
                         <View style={{ position: 'absolute', top: -10, left: 30, width: 25, height: 25, borderRadius: 50, backgroundColor: appColors.Goldcolor, justifyContent: 'center', alignItems: 'center' }}>
                           <Text style={{ color: appColors.White, fontSize: 12 }}>{Notification?.length}</Text>
                         </View>
