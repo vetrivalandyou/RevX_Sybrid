@@ -23,6 +23,7 @@ import ButtonComponent from '../../../components/atom/CustomButtons/ButtonCompon
 import CustomModal from '../../../components/molecules/CustomModal/CustomModal';
 import BoxLottie from '../../../components/atom/BoxLottie/BoxLottie';
 import {debounce} from '../../../functions/AppFunctions';
+import SignalRService from '../../../services/SignalRService';
 
 const initialOperationFields = {
   operationID: 0,
@@ -114,7 +115,7 @@ const PreBooking = ({
       _RowsOfPage: 10,
     };
 
-    console.log('payload payload payload', payload);
+    console.log('payload', payload);
     PostRequest(endPoint.BB_BOOKEDSLOTS, payload)
       .then(res => {
         console.log('reCallPreBooking', res?.data);
@@ -141,6 +142,7 @@ const PreBooking = ({
       .then(res => {
         console.log('res?.data', res?.data);
         if (res?.data?.Table?.[0]?.HassError == 0) {
+          SignalRService.sendNotification(parseInt(res?.data?.Table?.[0]?.NotificationID))
           reCallPreBooking();
           SimpleSnackBar(res?.data?.Table?.[0]?.Message);
         } else {
@@ -183,6 +185,7 @@ const PreBooking = ({
         console.log('res?.data', res?.data);
         if (res?.data?.Table?.[0]?.HassError == 0) {
           SimpleSnackBar(res?.data?.Table?.[0]?.Message);
+          SignalRService.sendNotification(parseInt(res?.data?.Table?.[0]?.NotificationID))
           timeoutRef.current = setTimeout(() => setVisible(false), 3000);
           reCallPreBooking();
         } else {
@@ -230,7 +233,7 @@ const PreBooking = ({
             multiline={true}
             textAlignVertical="top"
             onChangeText={newText => (barberRemarksRef.current = newText)}
-            value={barberRemarksRef}
+            value={barberRemarksRef.current}
           />
         </View>
         <View
@@ -286,11 +289,12 @@ const PreBooking = ({
       bookingDate: item?.BookingDate,
       barbarBookedSlotID: item?.BarbarBookedSlotID,
     };
-    console.log('payload payload', payload);
+    console.log('payload', payload);
     PostRequest(endPoint?.BARBER_AVAILABLESLOTS, payload)
       .then(res => {
         console.log('res?.data', res?.data);
         if (res?.data?.Table?.[0]?.HassError == 0) {
+          SignalRService.sendNotification(parseInt(res?.data?.Table?.[0]?.NotificationID))
           SimpleSnackBar(res?.data?.Table?.[0]?.Message);
           reCallPreBooking();
         } else {

@@ -92,7 +92,7 @@ const HomeBarber = ({ navigation }) => {
     if (isFocused) {
       getAsyncData();
     }
-  }, [isFocused, dispatch]);
+  }, [isFocused]);
 
   const getAsyncData = async () => {
     const userAsyncDetails = await getAsyncItem(
@@ -181,6 +181,7 @@ const HomeBarber = ({ navigation }) => {
         console.log('res?.data', res?.data);
         if (res?.data?.Table?.[0]?.HassError == 0) {
           SimpleSnackBar(res?.data?.Table?.[0]?.Message);
+          SignalRService.sendNotification(parseInt(res?.data?.Table?.[0]?.NotificationID))
           timeoutRef.current = setTimeout(() => setVisible(false), 3000);
           reCallPreBooking();
         } else {
@@ -228,7 +229,7 @@ const HomeBarber = ({ navigation }) => {
             multiline={true}
             textAlignVertical="top"
             onChangeText={newText => (barberRemarksRef.current = newText)}
-            value={barberRemarksRef}
+            value={barberRemarksRef.current}
           />
         </View>
         <View
@@ -267,6 +268,7 @@ const HomeBarber = ({ navigation }) => {
               }}
               title={'Submit'}
               onPress={onPressSubmit}
+              disable={barberRemarksRef?.current == '' ? true : false}
             />
           </View>
         </View>
@@ -351,9 +353,9 @@ const HomeBarber = ({ navigation }) => {
 
               </TouchableOpacity>
               <TouchableOpacity
-                onPress={() => {
-                  SignalRService.sendNotification(50)
-                }}
+                // onPress={() => {
+                //   SignalRService.sendNotification(50)
+                // }}
                 style={{
                   backgroundColor: appColors.darkgrey,
                   borderRadius: 50,
