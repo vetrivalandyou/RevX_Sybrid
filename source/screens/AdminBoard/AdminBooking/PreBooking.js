@@ -91,7 +91,9 @@ const PreBooking = ({
                     alignItems: 'center',
                   }}>
                   <AntDesign name={'staro'} size={12} color={'#c79647'} />
-                  <Text style={{color: '#c79647', fontSize: 11}}>4.5</Text>
+                  <Text style={{color: '#c79647', fontSize: 11}}>
+                    {item?.Rating}
+                  </Text>
                 </View>
               </View>
             </View>

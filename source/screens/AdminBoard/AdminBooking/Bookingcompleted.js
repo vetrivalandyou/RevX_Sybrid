@@ -72,7 +72,7 @@ const Bookingcompleted = ({data, userDetails, initialBookingFields}) => {
               <View style={styles.Ratingstyle}>
                 <View style={styles.RatinginnerView}>
                   <AntDesign name={'staro'} size={12} color={'#c79647'} />
-                  <Text style={styles.ratingTextstyle}>4.5</Text>
+                  <Text style={styles.ratingTextstyle}>{item?.Rating}</Text>
                 </View>
               </View>
             </View>

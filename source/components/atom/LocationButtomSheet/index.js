@@ -270,7 +270,7 @@ const LocationBottomSheet = ({refRBSheet}) => {
               {item.locationName}
             </Text>
           </View>
-          {selectedLocation?.id === item.id && (
+          {/* {selectedLocation?.id === item.id && (
             <View style={[lbStyle.clTextView, {flex: 0.1}]}>
               <CustomIcon
                 type={Icons.MaterialIcons}
@@ -280,7 +280,7 @@ const LocationBottomSheet = ({refRBSheet}) => {
                 onPress={() => handleClickEdit(item)}
               />
             </View>
-          )}
+          )} */}
         </TouchableOpacity>
       </View>
     );
