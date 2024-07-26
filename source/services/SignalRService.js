@@ -106,6 +106,14 @@ class SignalRService {
     }
   };
 
+  onRemoveUserFromGroup = async (R_ID, S_ID) => {
+    try {
+      await this.connection.invoke('RemoveUserFromGroup', R_ID, S_ID);
+    } catch (error) {
+      console.error('Error while Sending Comments:', error);
+    }
+  };
+
   isConnected = () => {
     return this.connection.state === 'Connected';
   };

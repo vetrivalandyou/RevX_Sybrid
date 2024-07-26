@@ -103,6 +103,7 @@ const HomeBarber = ({ navigation }) => {
     if (SignalRService?.isConnected()) {
       console.log('SignalR is in Connected State');
     } else {
+      console.log("Inside Else")
       connectToSignalR(userAsyncDetails);
     }
   };
@@ -121,6 +122,11 @@ const HomeBarber = ({ navigation }) => {
         value: parsedData,
       };
       dispatch({ type: SET_INITIAL_DROPDOWN_FORM_STATE, payload: data });
+    });
+
+    SignalRService.onGetChatList_CC(json => {
+      let parsedData = JSON.parse(json);
+      console.log('onGetChatList_CC', parsedData);
     });
   };
 
@@ -396,7 +402,7 @@ const HomeBarber = ({ navigation }) => {
         if (Table?.[0]?.HassError == 0) {
           getTodaysBooking();
           SimpleSnackBar(Table?.[0]?.Message);
-          console.log("Table?.[0]?.NotificationID.toString()",Table?.[0]?.NotificationID.toString())
+          console.log("Table?.[0]?.NotificationID.toString()", Table?.[0]?.NotificationID.toString())
           SignalRService.sendNotification(parseInt(Table?.[0]?.NotificationID))
         } else {
           SimpleSnackBar(Table?.[0]?.Message, appColors.Red);
