@@ -84,7 +84,7 @@ const BarberProfile = ({navigation, route}) => {
   function getBarber_Detail() {
     GetRequest(`${endPoint.BARBER_DETAIL}?id=${barberId}`)
       .then(res => {
-        console.log('res', res?.data);
+        console.log('res res res res', res?.data);
         if (res?.data?.code == 200) {
           setBarberProfile(res?.data?.data);
         } else {
@@ -255,6 +255,7 @@ const BarberProfile = ({navigation, route}) => {
                   textTransform: 'uppercase',
                 }}>
                 {barberProfile?.userName}
+                {console.log("RatingRating",barberProfile?.Rating)}
               </Text>
             </View>
             <View
@@ -340,7 +341,7 @@ const BarberProfile = ({navigation, route}) => {
                       fontSize: 12,
                       fontWeight: '500',
                     }}>
-                    4.1 rating
+                     rating
                   </Text>
                 </View>
               </View>
