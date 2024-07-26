@@ -41,7 +41,7 @@ const Login = () => {
     PostRequest(endPoint.LOGIN, payload)
       .then(res => {
         console.log('res res res ????', res?.data?.data?.user?.islogin);
-        if (res?.data?.data?.user?.islogin == true) {
+        if (res?.data?.data?.user?.islogin == 'True') {
           SimpleSnackBar('Already Login on another device');
         } else {
           if (res?.data?.code == 200) {
@@ -61,7 +61,6 @@ const Login = () => {
             SimpleSnackBar(res?.data?.message);
           }
         }
-
         setSubmitting(false);
       })
       .catch(err => {
