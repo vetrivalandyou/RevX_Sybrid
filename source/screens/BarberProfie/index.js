@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useState } from 'react';
+import React, {Fragment, useEffect, useState} from 'react';
 import {
   ActivityIndicator,
   FlatList,
@@ -17,21 +17,21 @@ import Header from '../../components/molecules/Header';
 import CustomIcon, {
   Icons,
 } from '../../components/molecules/CustomIcon/CustomIcon';
-import Carousel, { Pagination, ParallaxImage } from 'react-native-snap-carousel';
+import Carousel, {Pagination, ParallaxImage} from 'react-native-snap-carousel';
 import appColors from '../../AppConstants/appColors';
-import { AppImages } from '../../AppConstants/AppImages';
-import { screenSize } from '../../components/atom/ScreenSize';
+import {AppImages} from '../../AppConstants/AppImages';
+import {screenSize} from '../../components/atom/ScreenSize';
 import ButtonComponent from '../../components/atom/CustomButtons/ButtonComponent';
 import constants from '../../AppConstants/Constants.json';
-import { GetRequest, PostRequest } from '../../services/apiCall';
-import { endPoint } from '../../AppConstants/urlConstants';
-import { SimpleSnackBar } from '../../components/atom/Snakbar/Snakbar';
+import {GetRequest, PostRequest} from '../../services/apiCall';
+import {endPoint} from '../../AppConstants/urlConstants';
+import {SimpleSnackBar} from '../../components/atom/Snakbar/Snakbar';
 import DynamicLinks from '@react-native-firebase/dynamic-links';
 import Share from 'react-native-share';
-import { LATEST_SELECT, approve } from '../../AppConstants/appConstants';
+import {LATEST_SELECT, approve} from '../../AppConstants/appConstants';
 
-const BarberProfile = ({ navigation, route }) => {
-  const { barberId } = route.params || {};
+const BarberProfile = ({navigation, route}) => {
+  const {barberId} = route.params || {};
 
   console.log('barberIdbarberId222111', barberId);
 
@@ -55,6 +55,8 @@ const BarberProfile = ({ navigation, route }) => {
       illustration: AppImages.slider3,
     },
   ];
+
+  console.log('barberProfile', barberProfile);
 
   useEffect(() => {
     getBarber_Detail();
@@ -96,7 +98,7 @@ const BarberProfile = ({ navigation, route }) => {
       });
   }
 
-  const renderItem = ({ item, index }, parallaxProps) => {
+  const renderItem = ({item, index}, parallaxProps) => {
     return (
       <View style={styles.slide}>
         <Image source={item.illustration} style={styles.image} />
@@ -153,29 +155,29 @@ const BarberProfile = ({ navigation, route }) => {
   };
 
   const shareUserProfileLink = async () => {
-    console.log("----------")
-      try {
-        const constructedUrl = await generateLink();
-        const options = {
-          message: 'Checkout Barber Profile!',
-          url: constructedUrl,
-        };
-        console.log("option", options)
-        await Share.open(options);
-      } catch (error) {
-        console.log('Error sharing:', error.message);
-      }
+    console.log('----------');
+    try {
+      const constructedUrl = await generateLink();
+      const options = {
+        message: 'Checkout Barber Profile!',
+        url: constructedUrl,
+      };
+      console.log('option', options);
+      await Share.open(options);
+    } catch (error) {
+      console.log('Error sharing:', error.message);
+    }
   };
 
   return (
     <Screen>
-      <View style={{ flex: 1, backgroundColor: appColors.Black }}>
+      <View style={{flex: 1, backgroundColor: appColors.Black}}>
         <StatusBar
           translucent={true}
           backgroundColor="transparent"
           barStyle="light-content"
         />
-        <View style={{ flex: 0.35 }}>
+        <View style={{flex: 0.35}}>
           <Carousel
             //  ref={carouselRef}
             data={Profiles}
@@ -195,8 +197,14 @@ const BarberProfile = ({ navigation, route }) => {
             inactiveDotScale={0.8}
           />
           <View
-            style={{ flex: 1, position: 'absolute', top: Platform.OS == 'ios' ? 20 : 40, left: 0, right: 0 }}>
-            <View style={{ flex: 0.1 }}>
+            style={{
+              flex: 1,
+              position: 'absolute',
+              top: Platform.OS == 'ios' ? 20 : 40,
+              left: 0,
+              right: 0,
+            }}>
+            <View style={{flex: 0.1}}>
               <Header
                 lefttIcoType={Icons.Ionicons}
                 onPressLeftIcon={() =>
@@ -237,14 +245,25 @@ const BarberProfile = ({ navigation, route }) => {
           </View>
         </View>
 
-        <View style={{ flex: 0.1, marginHorizontal: 12 }}>
-          <View style={{ flex: 0.6, flexDirection: 'row' }}>
-            <View style={{ flex: 0.7, justifyContent: 'center' }}>
-              <Text style={{ fontSize: 25, color: appColors.White, textTransform: 'uppercase', }}>
+        <View style={{flex: 0.1, marginHorizontal: 12}}>
+          <View style={{flex: 0.6, flexDirection: 'row'}}>
+            <View style={{flex: 0.7, justifyContent: 'center'}}>
+              <Text
+                style={{
+                  fontSize: 25,
+                  color: appColors.White,
+                  textTransform: 'uppercase',
+                }}>
                 {barberProfile?.userName}
               </Text>
             </View>
-            <View style={{ flex: 0.3, justifyContent: 'flex-end', marginBottom: 4, alignItems: 'flex-end' }}>
+            <View
+              style={{
+                flex: 0.3,
+                justifyContent: 'flex-end',
+                marginBottom: 4,
+                alignItems: 'flex-end',
+              }}>
               <View
                 style={{
                   flex: 0.5,
@@ -265,16 +284,16 @@ const BarberProfile = ({ navigation, route }) => {
                       color={appColors.Goldcolor}
                       size={17}
                     />
-                    <Text style={{ color: '#c79647', fontSize: 12 }}>4.1</Text>
+                    <Text style={{color: '#c79647', fontSize: 12}}>4.1</Text>
                   </View>
                 </View>
               </View>
             </View>
           </View>
-          <View style={{ flex: 0.4, flexDirection: 'row' }}>
-            <View style={{ flex: 0.7, flexDirection: 'row', }}>
-              <View style={{ flex: 0.4, flexDirection: 'row' }}>
-                <View style={{ flex: 0.2, justifyContent: 'flex-start' }}>
+          <View style={{flex: 0.4, flexDirection: 'row'}}>
+            <View style={{flex: 0.7, flexDirection: 'row'}}>
+              <View style={{flex: 0.4, flexDirection: 'row'}}>
+                <View style={{flex: 0.2, justifyContent: 'flex-start'}}>
                   <CustomIcon
                     type={Icons.Ionicons}
                     name={'location-outline'}
@@ -282,7 +301,13 @@ const BarberProfile = ({ navigation, route }) => {
                     size={18}
                   />
                 </View>
-                <View style={{ flex: 0.8, jjustifyContent: 'flex-start', marginTop: 2, alignItems: 'flex-start' }}>
+                <View
+                  style={{
+                    flex: 0.8,
+                    jjustifyContent: 'flex-start',
+                    marginTop: 2,
+                    alignItems: 'flex-start',
+                  }}>
                   <Text
                     style={{
                       color: appColors.White,
@@ -293,8 +318,8 @@ const BarberProfile = ({ navigation, route }) => {
                   </Text>
                 </View>
               </View>
-              <View style={{ flex: 0.4, flexDirection: 'row', }}>
-                <View style={{ flex: 0.2, justifyContent: 'flex-start' }}>
+              <View style={{flex: 0.4, flexDirection: 'row'}}>
+                <View style={{flex: 0.2, justifyContent: 'flex-start'}}>
                   <CustomIcon
                     type={Icons.AntDesign}
                     name={'staro'}
@@ -302,7 +327,13 @@ const BarberProfile = ({ navigation, route }) => {
                     size={18}
                   />
                 </View>
-                <View style={{ flex: 0.8, justifyContent: 'flex-start', marginTop: 2, alignItems: 'flex-start' }}>
+                <View
+                  style={{
+                    flex: 0.8,
+                    justifyContent: 'flex-start',
+                    marginTop: 2,
+                    alignItems: 'flex-start',
+                  }}>
                   <Text
                     style={{
                       color: appColors.White,
@@ -314,7 +345,13 @@ const BarberProfile = ({ navigation, route }) => {
                 </View>
               </View>
             </View>
-            <View style={{ flex: 0.3, marginTop: 5, justifyContent: 'flex-start', alignItems: 'flex-end', }}>
+            <View
+              style={{
+                flex: 0.3,
+                marginTop: 5,
+                justifyContent: 'flex-start',
+                alignItems: 'flex-end',
+              }}>
               <Text
                 style={{
                   color: appColors.Goldcolor,
@@ -327,8 +364,8 @@ const BarberProfile = ({ navigation, route }) => {
           </View>
         </View>
 
-        <View style={{ flex: 0.1, flexDirection: 'row', paddingHorizontal: 5 }}>
-          <View style={{ flex: 0.2 }}>
+        <View style={{flex: 0.1, flexDirection: 'row', paddingHorizontal: 5}}>
+          <View style={{flex: 0.2}}>
             <View
               style={{
                 flex: 0.73,
@@ -353,7 +390,12 @@ const BarberProfile = ({ navigation, route }) => {
                 />
               </TouchableOpacity>
             </View>
-            <View style={{ flex: 0.27, justifyContent: 'center', alignItems: 'center' }}>
+            <View
+              style={{
+                flex: 0.27,
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}>
               <Text
                 style={{
                   color: appColors.White,
@@ -364,7 +406,7 @@ const BarberProfile = ({ navigation, route }) => {
               </Text>
             </View>
           </View>
-          <View style={{ flex: 0.2 }}>
+          <View style={{flex: 0.2}}>
             <View
               style={{
                 flex: 0.73,
@@ -389,11 +431,16 @@ const BarberProfile = ({ navigation, route }) => {
                 />
               </TouchableOpacity>
             </View>
-            <View style={{ flex: 0.27, justifyContent: 'center', alignItems: 'center' }}>
-              <Text style={{ color: appColors.White, fontSize: 13 }}>Chat</Text>
+            <View
+              style={{
+                flex: 0.27,
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}>
+              <Text style={{color: appColors.White, fontSize: 13}}>Chat</Text>
             </View>
           </View>
-          <TouchableOpacity onPress={shareUserProfileLink} style={{ flex: 0.2 }}>
+          <TouchableOpacity onPress={shareUserProfileLink} style={{flex: 0.2}}>
             <View
               style={{
                 flex: 0.73,
@@ -418,7 +465,12 @@ const BarberProfile = ({ navigation, route }) => {
                 />
               </TouchableOpacity>
             </View>
-            <View style={{ flex: 0.27, justifyContent: 'center', alignItems: 'center' }}>
+            <View
+              style={{
+                flex: 0.27,
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}>
               <Text
                 style={{
                   color: appColors.White,
@@ -431,7 +483,12 @@ const BarberProfile = ({ navigation, route }) => {
           </TouchableOpacity>
         </View>
         <View
-          style={{ flex: 0.02, marginHorizontal: 10, margin: 10, justifyContent: 'center' }}>
+          style={{
+            flex: 0.02,
+            marginHorizontal: 10,
+            margin: 10,
+            justifyContent: 'center',
+          }}>
           <View
             style={{
               borderWidth: 1,
@@ -440,31 +497,35 @@ const BarberProfile = ({ navigation, route }) => {
               backgroundColor: 'transparent',
             }}></View>
         </View>
-        <View
-          style={{ flex: 0.04, flexDirection: 'row', marginHorizontal: 15 }}>
-          <View style={{ flex: 0.5, justifyContent: 'flex-start' }}>
-            <Text style={{ fontSize: 17, color: appColors.White, fontWeight: '500' }}>
+        <View style={{flex: 0.04, flexDirection: 'row', marginHorizontal: 15}}>
+          <View style={{flex: 0.5, justifyContent: 'flex-start'}}>
+            <Text
+              style={{fontSize: 17, color: appColors.White, fontWeight: '500'}}>
               Barber Specialist
             </Text>
           </View>
           <TouchableOpacity
-            style={{ flex: 0.5, justifyContent: 'flex-start', alignItems: 'flex-end' }}
+            style={{
+              flex: 0.5,
+              justifyContent: 'flex-start',
+              alignItems: 'flex-end',
+            }}
             onPress={() =>
               navigation.navigate(constants.screen.BarberSpecialist)
             }>
-            <Text style={{ color: appColors.Goldcolor, fontSize: 15 }}>
+            <Text style={{color: appColors.Goldcolor, fontSize: 15}}>
               See all
             </Text>
           </TouchableOpacity>
         </View>
-        <View style={{ flex: 0.3, justifyContent: 'center' }}>
+        <View style={{flex: 0.3, justifyContent: 'center'}}>
           {barberList?.length > 0 ? (
-            <View style={{ flex: 1 }}>
+            <View style={{flex: 1}}>
               {barberList
                 ?.filter(y => y.statusId == approve)
                 ?.slice(0, 3)
                 ?.map((x, i) => (
-                  <View key={i} style={{ flex: 0.33, justifyContent: 'center' }}>
+                  <View key={i} style={{flex: 0.33, justifyContent: 'center'}}>
                     <View
                       style={{
                         borderRadius: 70,
@@ -496,9 +557,13 @@ const BarberProfile = ({ navigation, route }) => {
                           {x.userName}
                         </Text>
                       </View>
-                      <View style={{ flex: 0.3, justifyContent: 'center' }}>
+                      <View style={{flex: 0.3, justifyContent: 'center'}}>
                         <ButtonComponent
-                        style={{ height: "80%", paddingVertical: 10, justifyContent:'center' }}
+                          style={{
+                            height: '80%',
+                            paddingVertical: 10,
+                            justifyContent: 'center',
+                          }}
                           title={'View'}
                           onPress={() => {
                             navigation.push(constants.screen.BarberProfile, {
@@ -547,7 +612,8 @@ const BarberProfile = ({ navigation, route }) => {
             title={'View Services'}
             onPress={() =>
               navigation.navigate(constants.screen.Services, {
-                barberDetails: barberDetail,
+                barberDetails: {UserId: barberProfile?.userId},
+                specialistDetails: barberProfile,
               })
             }
           />
@@ -584,7 +650,7 @@ const styles = StyleSheet.create({
   },
   imageContainer: {
     flex: 1,
-    marginBottom: Platform.select({ ios: 0, android: 1 }), // Prevent a random Android rendering issue
+    marginBottom: Platform.select({ios: 0, android: 1}), // Prevent a random Android rendering issue
     backgroundColor: 'white',
   },
   image: {
