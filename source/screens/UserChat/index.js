@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Text,
   View,
@@ -9,6 +9,7 @@ import {
   Platform,
   StyleSheet,
   Image,
+  ActivityIndicator,
 } from 'react-native';
 import Screen from '../../components/atom/ScreenContainer/Screen';
 import styles from './styles';
@@ -19,24 +20,26 @@ import CustomIcon, {
 import appColors from '../../AppConstants/appColors';
 import SignalRService from '../../services/SignalRService';
 import Sizes from '../../AppConstants/Sizes';
-import {screenSize} from '../../components/atom/ScreenSize';
+import { screenSize } from '../../components/atom/ScreenSize';
 import BackIcon from 'react-native-vector-icons/MaterialIcons';
-import {imageUrl} from '../../AppConstants/urlConstants';
-import {getAsyncItem} from '../../utils/SettingAsyncStorage';
+import { endPoint, imageUrl } from '../../AppConstants/urlConstants';
+import { getAsyncItem } from '../../utils/SettingAsyncStorage';
 import constants from '../../AppConstants/Constants.json';
+import { PostRequest } from '../../services/apiCall';
+import { debounce } from '../../functions/AppFunctions';
 
-const UserChat = ({route, navigation}) => {
-  const {profileData} = route?.params || 0;
+const UserChat = ({ route, navigation }) => {
+  const { profileData } = route?.params || 0;
   const [isFocused, setFocused] = React.useState(false);
   const [allMessages, setAllMessages] = useState([]);
   const [message, setMessage] = useState('');
   const [userDetails, setuserDetails] = useState({});
+  const [isLoading, setIsLoading] = useState(true);
+  const [pageNumber, setPageNumber] = useState(1)
+  const [hasMore, setHasMore] = useState(true);
 
   useEffect(() => {
-    // if(isFocused){
-    console.log('BarberID, CustomerIDBarberID, CustomerID');
     getAsyncData();
-    // }
   }, []);
 
   const getAsyncData = async () => {
@@ -45,16 +48,38 @@ const UserChat = ({route, navigation}) => {
     );
     console.log('userDetailsuserDetails', userDetails);
     setuserDetails(userDetails);
+    getPreviousMessages()
     connectToSignalR(userDetails);
   };
 
+  const getPreviousMessages = () => {
+    if (hasMore == false) return null
+    const payload = {
+      operationID: 8,
+      parameterID: profileData?.MessageID,
+      barberID: 0,
+      _PageNumber: pageNumber,
+      _RowsOfPage: 10,
+    }
+    PostRequest(endPoint.ADMIN_REPORTS, payload)
+      .then((res) => {
+        console.log("res", res?.data);
+        if (res?.data?.Table?.length > 0) {
+          setAllMessages(allMessages => [...allMessages, ...res?.data?.Table,]);
+          setIsLoading(false)
+          setPageNumber(pageNumber + 1)
+        } else {
+          setHasMore(false)
+          setIsLoading(false)
+        }
+      })
+      .catch((err) => {
+        console.log("err", err)
+        setIsLoading(false)
+      })
+  }
+
   const connectToSignalR = async userDetails => {
-    // SignalRService.joinChat(
-    //   0,
-    //   profileData?.BarbarID,
-    //   userDetails?.userId,
-    //   profileData?.MeetingID,
-    // );
 
     SignalRService.onGetmeetingid(
       (UserID, message, S_ID, R_ID, S_ProfilePicture, R_ProfilePicture) => {
@@ -74,7 +99,7 @@ const UserChat = ({route, navigation}) => {
     SignalRService.onReceiveMessage(
       (UserID, message, S_ID, R_ID, S_ProfilePicture, R_ProfilePicture) => {
         console.log(
-          'onReceiveMessage',
+          'onReceiveMessage user',
           UserID,
           message,
           S_ID,
@@ -83,7 +108,7 @@ const UserChat = ({route, navigation}) => {
           R_ProfilePicture,
         );
         console.log('parsedDataparsedDataparsedData-----------', message);
-        // setAllMessages(allMessages => [{message: message}, ...allMessages]);
+        setAllMessages(allMessages => [{ Message: message, PSenderID: S_ID, PReceiverID: R_ID}, ...allMessages]);
       },
     );
   };
@@ -115,24 +140,21 @@ const UserChat = ({route, navigation}) => {
     setMessage('');
   };
 
-  const ChatDataContainer = ({item, index, onPress}) => {
+  const ChatDataContainer = ({ item, index, onPress }) => {
     return (
       <View
         style={[
           styles.chatContainer,
           {
             alignSelf:
-              item?.S_ID == userDetails?.userId ? 'flex-end' : 'flex-start',
+              item?.PSenderID == userDetails?.userId ? 'flex-end' : 'flex-start',
           },
         ]}>
         <TouchableOpacity
-          style={{flex: 1}}
-          onPress={() => {
-            // Handle onPress if needed
-          }}>
-          <View key={index} style={{flexDirection: 'row'}}>
-            <View style={{flex: 0.85}}>
-              <Text style={{color: appColors.White}}>{item.message}</Text>
+          style={{ flex: 1 }}>
+          <View key={index} style={{ flexDirection: 'row' }}>
+            <View style={{ flex: 0.85 }}>
+              <Text style={{ color: appColors.White }}>{item.Message}</Text>
             </View>
             <View
               style={{
@@ -140,7 +162,7 @@ const UserChat = ({route, navigation}) => {
                 justifyContent: 'flex-end',
                 alignItems: 'flex-end',
               }}>
-              <Text style={{color: appColors.White, fontSize: 9}}>
+              <Text style={{ color: appColors.White, fontSize: 9 }}>
                 {item.Time_}
               </Text>
             </View>
@@ -150,15 +172,39 @@ const UserChat = ({route, navigation}) => {
     );
   };
 
+  const onClickBack = async () => {
+    await SignalRService.onRemoveUserFromGroup(
+      profileData?.BarbarID.toString(),
+      userDetails?.userId.toString(),
+    );
+    navigation.goBack()
+  }
+
+  const renderFooter = () => {
+    if (hasMore == false) return null;
+    return (
+      <View style={{ margin: 10 }}>
+        <ActivityIndicator size="small" color={appColors.Goldcolor} />
+      </View>
+    );
+  };
+
+  const handleLoadMore = debounce(() => {
+    console.log("LoadMore")
+    if (hasMore == true) {
+      getPreviousMessages();
+    }
+  }, 300);
+
   return (
     <Screen viewStyle={styles.mainContainer} statusBarColor={appColors.Black}>
       <KeyboardAvoidingView
-        style={{flex: 1}}
+        style={{ flex: 1 }}
         behavior={Platform.OS === 'ios' ? 'padding' : null}
         keyboardVerticalOffset={Platform.OS === 'android' ? 75 : 55}>
         <View style={[ticketStyle.headerMainView]}>
           <TouchableOpacity
-            onPress={() => navigation.goBack()}
+            onPress={() => onClickBack()}
             style={[ticketStyle?.headerLeft]}>
             <BackIcon name="arrow-back-ios" color={appColors.White} size={20} />
           </TouchableOpacity>
@@ -166,10 +212,10 @@ const UserChat = ({route, navigation}) => {
             <View style={ticketStyle.headerImageView}>
               <Image
                 style={ticketStyle.imageStyle}
-                source={{uri: `${imageUrl}${profileData?.ProfileImage}`}}
+                source={{ uri: `${imageUrl}${profileData?.ProfileImage}` }}
               />
             </View>
-            <TouchableOpacity style={{flex: 0.8}}>
+            <TouchableOpacity style={{ flex: 0.8 }}>
               <View
                 style={{
                   flex: 1,
@@ -184,15 +230,18 @@ const UserChat = ({route, navigation}) => {
           </View>
         </View>
 
-        <View style={{flex: 1}}>
-          <View style={{flex: 0.9}}>
+        <View style={{ flex: 1 }}>
+          <View style={{ flex: 0.9 }}>
             <FlatList
               data={allMessages}
               showsVerticalScrollIndicator={false}
-              renderItem={({item, index}) => (
+              renderItem={({ item, index }) => (
                 <ChatDataContainer item={item} index={index} />
               )}
-              keyExtractor={(item, index) => index.toString()}
+              keyExtractor={(item, index) => index?.toString()}
+              onEndReachedThreshold={0.5}
+              onEndReached={handleLoadMore}
+              ListFooterComponent={renderFooter}
               inverted={true}
             />
           </View>
@@ -216,10 +265,10 @@ const UserChat = ({route, navigation}) => {
                 borderWidth: 1,
                 color: appColors.White,
               }}>
-              <View style={{flex: 0.85, justifyContent: 'center'}}>
+              <View style={{ flex: 0.85, justifyContent: 'center' }}>
                 <TextInput
                   placeholder="Type Message..."
-                  style={{height: '70%'}}
+                  style={{ height: '70%', color: appColors.White }}
                   placeholderTextColor={appColors.White}
                   onChangeText={setMessage}
                   value={message}
@@ -292,7 +341,7 @@ const ticketStyle = StyleSheet.create({
     fontWeight: 'bold',
     color: appColors.White,
   },
-  currentStatusText: {fontSize: Sizes.small, color: appColors.White},
+  currentStatusText: { fontSize: Sizes.small, color: appColors.White },
   chatBubbleMainView: {
     width: screenSize.width / 1.4,
     height: 'auto',
