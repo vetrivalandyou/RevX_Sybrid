@@ -23,7 +23,7 @@ const LogoutBottom = ({ refRBSheet }) => {
 
   const getAsyncData = async () => {
     const userDetailsData = await getAsyncItem(
-      constants.AsyncStorageKeys.userDetails,ß
+      constants.AsyncStorageKeys.userDetails,
     );
     setUserDetails(userDetailsData);
   };
