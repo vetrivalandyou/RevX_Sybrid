@@ -248,6 +248,7 @@ const HomeScreen = ({navigation}) => {
   };
 
   const NearbyBarbers = ({item}) => (
+    console.log('itemitemitem ???????????///', item?.ProfileImage),
     (
       <View
         key={item?.userId}
@@ -263,32 +264,19 @@ const HomeScreen = ({navigation}) => {
         }}>
         <View style={{flex: 1, width: '100%'}}>
           <View style={{flex: 0.8, borderRadius: 30}}>
-            {/* <Image
-              style={{width: 80, height: 80, borderRadius: 100}}
-              source={AppImages.ourservices}
-            /> */}
-            {item?.ProfileImage == null ? (
-              <ImageBackground
-                style={{flex: 1}}
-                source={{
-                  uri: `${imageUrl}${item?.serviceImage}`,
-                }}
-                resizeMode="contain"></ImageBackground>
-            ) : (
-              <ImageBackground
-                style={{
-                  flex: 1,
-                  width: '100%',
-                  height: '100%',
-                  borderTopLeftRadius: 30,
-                  borderTopRightRadius: 30,
-                  overflow: 'hidden',
-                }}
-                source={{
-                  uri: `${imageUrl}${item?.ProfileImage}`,
-                }}
-                resizeMode="cover"></ImageBackground>
-            )}
+            <ImageBackground
+              style={{
+                flex: 1,
+                width: '100%',
+                height: '100%',
+                borderTopLeftRadius: 30,
+                borderTopRightRadius: 30,
+                overflow: 'hidden',
+              }}
+              source={{
+                uri: `${imageUrl}${item?.ProfileImage}`,
+              }}
+              resizeMode="cover"></ImageBackground>
           </View>
           <View style={{flex: 0.2, justifyContent: 'center'}}>
             <Text
@@ -325,7 +313,9 @@ const HomeScreen = ({navigation}) => {
                 color={appColors.Goldcolor}
                 size={16}
               />
-              <Text style={{color: appColors.White, marginLeft: 5}}>{item?.Rating}</Text>
+              <Text style={{color: appColors.White, marginLeft: 5}}>
+                {item?.Rating}
+              </Text>
             </View>
           </View>
           <View style={{flex: 0.1, justifyContent: 'center'}}>

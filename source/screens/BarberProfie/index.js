@@ -255,7 +255,6 @@ const BarberProfile = ({navigation, route}) => {
                   textTransform: 'uppercase',
                 }}>
                 {barberProfile?.userName}
-                {console.log("RatingRating",barberProfile?.Rating)}
               </Text>
             </View>
             <View
@@ -285,7 +284,10 @@ const BarberProfile = ({navigation, route}) => {
                       color={appColors.Goldcolor}
                       size={17}
                     />
-                    <Text style={{color: '#c79647', fontSize: 12}}>4.1</Text>
+                    <Text style={{color: '#c79647', fontSize: 12}}>
+                      {' '}
+                      {barberDetail?.Rating}
+                    </Text>
                   </View>
                 </View>
               </View>
@@ -341,7 +343,7 @@ const BarberProfile = ({navigation, route}) => {
                       fontSize: 12,
                       fontWeight: '500',
                     }}>
-                     rating
+                    {barberDetail?.Rating} Rating
                   </Text>
                 </View>
               </View>
@@ -359,7 +361,7 @@ const BarberProfile = ({navigation, route}) => {
                   fontSize: 12,
                   fontWeight: '400',
                 }}>
-                5k+ ratings
+                {barberDetail?.Rating}k+ ratings
               </Text>
             </View>
           </View>

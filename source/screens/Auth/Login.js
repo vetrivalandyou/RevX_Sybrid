@@ -37,7 +37,6 @@ const Login = () => {
     PostRequest(endPoint.LOGIN, values)
       .then(res => {
         console.log('res', res?.data);
-
         if (res?.data?.code == 200) {
           setAsyncItem(
             constants.AsyncStorageKeys.token,
@@ -76,8 +75,9 @@ const Login = () => {
       style={{}}
       barStyle="light-content">
       <KeyboardAwareScrollView
-        contentContainerStyle={{flex: 1, justifyContent: 'center'}}  style={{
-          backgroundColor: appColors.Goldcolor
+        contentContainerStyle={{flex: 1, justifyContent: 'center'}}
+        style={{
+          backgroundColor: appColors.Goldcolor,
         }}>
         <View style={{flex: 0.3, minHeight: 200, maxHeight: 200}}>
           <AuthHeader
@@ -104,7 +104,7 @@ const Login = () => {
               UserEmail: '',
               UserPassword: '',
               loginWith: 0 /* Login With RevX */,
-              AuthId:  '',
+              AuthId: '',
             }}
             validationSchema={validationSchema}
             onSubmit={(values, {setSubmitting}) => {

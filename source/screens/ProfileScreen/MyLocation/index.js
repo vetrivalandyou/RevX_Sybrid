@@ -342,7 +342,7 @@ const MyLocation = ({route, navigation}) => {
                       clearButtonMode={'always'}
                       value={locationAddress}
                       textInputProps={{
-                        value: locationAddress,
+                        // value: locationAddress,
                         returnKeyType: 'search',
                         placeholderTextColor: '#808080',
                         borderRadius: 20,
