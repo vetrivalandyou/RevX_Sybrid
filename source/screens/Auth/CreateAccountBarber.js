@@ -15,6 +15,7 @@ import { SimpleSnackBar } from '../../components/atom/Snakbar/Snakbar';
 import { screenSize } from '../../components/atom/ScreenSize';
 import CustomDropdownPicker from '../../components/molecules/CustomDropdownPicker';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import appColors from '../../AppConstants/appColors';
 
 const CreateAccountBarber = ({ navigation }) => {
   const [isEye, setIsEye] = useState(false);
@@ -99,7 +100,8 @@ const CreateAccountBarber = ({ navigation }) => {
   return (
     <KeyboardAwareScrollView
       showsVerticalScrollIndicator={false}
-      contentContainerStyle={{ flex: 1, justifyContent: 'center' }}>
+      contentContainerStyle={{ flex: 1, justifyContent: 'center' }}
+      style={{backgroundColor:appColors.Goldcolor}}>
       <Screen
         authStyle={{
           flex: 1,

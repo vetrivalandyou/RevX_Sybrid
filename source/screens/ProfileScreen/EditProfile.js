@@ -131,7 +131,7 @@ const EditProfile = ({navigation}) => {
   };
 
   return (
-    <KeyboardAwareScrollView contentContainerStyle={{flex: 1}}>
+    <KeyboardAwareScrollView contentContainerStyle={{flex: 1}} style={{backgroundColor:appColors.Black}}>
       <Screen
         viewStyle={{flex: 1, padding: 15, backgroundColor: appColors.Black}}
         statusBarColor={appColors.Black}
@@ -383,6 +383,7 @@ const EditProfile = ({navigation}) => {
                         )}
                       </View>
                     </View>
+
                     <View
                       style={{
                         flex: 0.3,
