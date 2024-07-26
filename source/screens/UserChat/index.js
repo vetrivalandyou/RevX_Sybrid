@@ -83,7 +83,7 @@ const UserChat = ({route, navigation}) => {
           R_ProfilePicture,
         );
         console.log('parsedDataparsedDataparsedData-----------', message);
-        setAllMessages(allMessages => [{message: message}, ...allMessages]);
+        // setAllMessages(allMessages => [{message: message}, ...allMessages]);
       },
     );
   };
@@ -102,13 +102,15 @@ const UserChat = ({route, navigation}) => {
       message,
       profileData?.BarbarID.toString(),
       userDetails?.userId.toString(),
-      profileData?.MeetingID.toString()
+      profileData?.MeetingID.toString(),
+      profileData?.BarbarID.toString(),
     );
     await SignalRService.sendMessage(
       message,
       profileData?.BarbarID.toString(),
       userDetails?.userId.toString(),
-      profileData?.MeetingID.toString()
+      profileData?.MeetingID.toString(),
+      profileData?.BarbarID.toString(),
     );
     setMessage('');
   };
