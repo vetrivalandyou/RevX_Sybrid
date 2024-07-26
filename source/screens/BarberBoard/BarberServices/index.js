@@ -93,6 +93,7 @@ const Servicesboard = ({navigation}) => {
           leftIcoName={'chevron-back'}
           headerText={'My Services'}
           logIn={'success'}
+          isShown={false}
         />
       </View>
 

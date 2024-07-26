@@ -1,4 +1,4 @@
-import React, {useRef, useState} from 'react';
+import React, { useRef, useState } from 'react';
 import {
   View,
   TextInput,
@@ -8,29 +8,29 @@ import {
   Text,
 } from 'react-native';
 import styles from './styles';
-import {useNavigation} from '@react-navigation/native';
-import {PostRequest} from '../../../services/apiCall';
+import { useNavigation } from '@react-navigation/native';
+import { PostRequest } from '../../../services/apiCall';
 import appColors from '../../../AppConstants/appColors';
 import Header from '../../../components/molecules/Header';
 import Screen from '../../../components/atom/ScreenContainer/Screen';
-import {endPoint, messages} from '../../../AppConstants/urlConstants';
-import {SimpleSnackBar} from '../../../components/atom/Snakbar/Snakbar';
+import { endPoint, messages } from '../../../AppConstants/urlConstants';
+import { SimpleSnackBar } from '../../../components/atom/Snakbar/Snakbar';
 import CustomIcon, {
   Icons,
 } from '../../../components/molecules/CustomIcon/CustomIcon';
-import {LATEST_INSERT, SUCCESS_CODE} from '../../../AppConstants/appConstants';
+import { LATEST_INSERT, SUCCESS_CODE } from '../../../AppConstants/appConstants';
 import ButtonComponent from '../../../components/atom/CustomButtons/ButtonComponent';
 import BottomSheet from '../../../components/molecules/BottomSheetContent/BottomSheet';
 import ChooseImage from '../../../components/molecules/ChooseImage';
-import {AppImages} from '../../../AppConstants/AppImages';
-import {generateRandomNumber} from '../../../functions/AppFunctions';
-import {screenSize} from '../../../components/atom/ScreenSize';
-import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
+import { AppImages } from '../../../AppConstants/AppImages';
+import { generateRandomNumber } from '../../../functions/AppFunctions';
+import { screenSize } from '../../../components/atom/ScreenSize';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
-const Addservices = ({route}) => {
+const Addservices = ({ route }) => {
   const navigation = useNavigation();
   const refRBSheet = useRef();
-  const {userDetails} = route?.params || {};
+  const { userDetails } = route?.params || {};
   const [newService, setNewService] = useState('');
   const [profileImage, setProfileImage] = useState(null);
 
@@ -74,27 +74,39 @@ const Addservices = ({route}) => {
   };
 
   return (
-    <KeyboardAwareScrollView style={{flex: 1}}>
+    <KeyboardAwareScrollView
+      resetScrollToCoords={{ x: 0, y: 0 }}
+      contentContainerStyle={{
+        minHeight: screenSize.height,
+        maxHeight: 'auto',
+        justifyContent: 'center',
+      }}
+      scrollEnabled={true}
+      enableAutomaticScroll={(Platform.OS === 'ios')}
+      enableOnAndroid={true}
+      style={{
+        backgroundColor: appColors.Black
+      }}>
       <Screen
         viewStyle={{
           flex: 1,
           padding: 15,
           backgroundColor: appColors.Black,
-          minHeight: screenSize.height,
         }}
         statusBarColor={appColors.Black}>
-        <View style={{flex: 0.1}}>
+        <View style={{ flex: 0.1 }}>
           <Header
-            headerSubView={{marginHorizontal: 5}}
+            headerSubView={{ marginHorizontal: 5 }}
             lefttIcoType={Icons.Ionicons}
             onPressLeftIcon={() => navigation.goBack()}
             leftIcoName={'chevron-back'}
             headerText={'Add Service'}
             logIn={'success'}
+            isShown={false}
           />
         </View>
-        <View style={{flex: 0.8}}>
-          <View style={{flex: 0.2}}>
+        <View style={{ flex: 0.7 }}>
+          <View style={{ flex: 0.2 }}>
             <View
               style={{
                 flex: 1,
@@ -104,19 +116,19 @@ const Addservices = ({route}) => {
               <TouchableOpacity
                 onPress={() => refRBSheet.current.open()}
                 style={{
-                  width: '29%',
-                  height: '100%',
+                  width: 100,
+                  height: 100,
                   justifyContent: 'center',
                   alignItems: 'center',
                 }}>
                 {profileImage?.path ? (
                   <Image
-                    source={{uri: profileImage?.path}}
+                    source={{ uri: profileImage?.path }}
                     style={{
-                      width: '100%',
-                      height: '100%',
+                      width: 120,
+                      height: 120,
                       borderRadius: 80,
-                      borderWidth: 2,
+                      borderWidth: 3,
                       borderColor: appColors.Goldcolor,
                       backgroundColor: 'grey',
                     }}
@@ -125,8 +137,8 @@ const Addservices = ({route}) => {
                   <Image
                     source={AppImages.dummyVan}
                     style={{
-                      width: '100%',
-                      height: '100%',
+                      width: 120,
+                      height: 120,
                       borderRadius: 80,
                       borderWidth: 3,
                       borderColor: appColors.Goldcolor,
@@ -142,20 +154,27 @@ const Addservices = ({route}) => {
                   color={'white'}
                   style={{
                     position: 'absolute',
-                    left: screenSize.width / 4.6,
-                    top: screenSize.height / 10,
+                    left:
+                      Platform?.OS == 'android'
+                        ? screenSize.width / 4.5
+                        : screenSize.width / 5,
+                    top:
+                      Platform?.OS == 'android'
+                        ? screenSize.height / 10
+                        : screenSize.height / 12,
                   }}
                 />
               </TouchableOpacity>
             </View>
           </View>
 
-          <View style={{flex: 0.18}}>
+          <View style={{ flex: 0.3,}}>
             <View
               style={{
-                flex: 0.4,
+                flex: 0.1,
                 justifyContent: 'flex-end',
                 marginLeft: 10,
+                color: appColors.White,
               }}>
               <Text
                 style={{
@@ -166,7 +185,8 @@ const Addservices = ({route}) => {
                 Service Name :
               </Text>
             </View>
-            <View
+            {Platform.OS === 'android' ? <View
+
               style={{
                 flex: 0.1,
                 justifyContent: 'center',
@@ -177,6 +197,7 @@ const Addservices = ({route}) => {
                 paddingHorizontal: 5,
                 justifyContent: 'center',
               }}>
+
               <TextInput
                 style={{
                   paddingLeft: 10,
@@ -188,9 +209,36 @@ const Addservices = ({route}) => {
                 value={newService}
                 onChangeText={text => setNewService(text)}
               />
-            </View>
+            </View> : <View
+
+              style={{
+                flex: 0.3,
+                justifyContent: 'center',
+                borderWidth: 1,
+                borderRadius: 10,
+                backgroundColor: '#252525',
+                marginVertical: 5,
+                paddingHorizontal: 5,
+                justifyContent: 'center',
+              }}>
+
+              <TextInput
+                style={{
+                  paddingLeft: 10,
+                  fontSize: 15,
+                  color: 'white',
+                }}
+                placeholder="Enter your Services"
+                placeholderTextColor={'grey'}
+                value={newService}
+                onChangeText={text => setNewService(text)}
+              />
+            </View>}
+
           </View>
+
         </View>
+
         <View style={styles.buttonView}>
           <ButtonComponent
             style={{
@@ -200,7 +248,7 @@ const Addservices = ({route}) => {
               position: 'absolute',
               opacity: newService.trim() !== '' ? 1 : 0.3,
             }}
-            btnTextColor={{color: 'white'}}
+            btnTextColor={{ color: 'white' }}
             title={'Save Service'}
             disable={newService.trim() !== '' ? false : true}
             onPress={handleAddService}

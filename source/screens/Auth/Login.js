@@ -76,7 +76,9 @@ const Login = () => {
       style={{}}
       barStyle="light-content">
       <KeyboardAwareScrollView
-        contentContainerStyle={{flex: 1, justifyContent: 'center'}}>
+        contentContainerStyle={{flex: 1, justifyContent: 'center'}}  style={{
+          backgroundColor: appColors.Goldcolor
+        }}>
         <View style={{flex: 0.3, minHeight: 200, maxHeight: 200}}>
           <AuthHeader
             logIn={'Log In'}

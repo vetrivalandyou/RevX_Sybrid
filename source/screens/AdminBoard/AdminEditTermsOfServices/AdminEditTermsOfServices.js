@@ -76,7 +76,7 @@ const AdminEditTermsOfServices = ({ route, navigation }) => {
   console.log('editedDescription???????????????????', editedDescription);
   return (
     <KeyboardAwareScrollView
-      contentContainerStyle={{ height: screenSize.height}}
+     style={{backgroundColor:appColors.Black}} contentContainerStyle={{ height: screenSize.height}}
     >
       <Screen
         viewStyle={{
@@ -117,7 +117,7 @@ const AdminEditTermsOfServices = ({ route, navigation }) => {
         </View>
 
         <TouchableWithoutFeedback style={{ flex: 0.9 }} onPress={() => Keyboard.dismiss()}>
-          <View style={{ flex: 1, paddingVertical: 5 }}>
+          <View style={{ flex: 0.78,paddingVertical: 5 }}>
             {loading ? (
               <ActivityIndicator
                 style={styles.loader}

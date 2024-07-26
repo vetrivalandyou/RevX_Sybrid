@@ -73,6 +73,7 @@ const ServiceList = ({navigation, route}) => {
           onPressLeftIcon={() => navigation.goBack()}
           leftIcoName={'chevron-back'}
           headerText={'Sub Services'}
+          isShown={false}
         />
       </View>
       <View style={{flex: 0.8}}>

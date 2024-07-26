@@ -85,13 +85,25 @@ const AddSubServices = ({route, navigation}) => {
   };
 
   return (
-    <KeyboardAwareScrollView style={{flex: 1}}>
+    <KeyboardAwareScrollView
+    resetScrollToCoords={{ x: 0, y: 0 }}
+    contentContainerStyle={{
+      minHeight: screenSize.height,
+      maxHeight: 'auto',
+      justifyContent: 'center',
+    }}
+    scrollEnabled={true}
+    enableAutomaticScroll={(Platform.OS === 'ios')}
+    enableOnAndroid={true}
+    style={{
+      backgroundColor: appColors.Black
+    }}>
       <Screen
         viewStyle={{
           flex: 1,
           padding: 15,
           backgroundColor: appColors.Black,
-          minHeight: screenSize.height,
+        
         }}
         statusBarColor={appColors.Black}>
         <View style={{flex: 0.1}}>
@@ -101,29 +113,30 @@ const AddSubServices = ({route, navigation}) => {
             leftIcoName={'chevron-back'}
             headerText={'Add Sub Service'}
             logIn={'success'}
+            isShown={false}
           />
         </View>
-        <View style={{flex: 0.9}}>
-          <View style={{flex: 0.4}}>
+        <View style={{flex: 0.7}}>
+          <View style={{flex: 0.3}}>
             <View
               style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
               <TouchableOpacity
                 onPress={() => refRBSheet.current.open()}
                 style={{
-                  width: '28%',
+                  width: 100,
+                  height: 100,
                   justifyContent: 'center',
                   alignItems: 'center',
-                  height: '85%',
                   backgroundColor: appColors.Black,
                 }}>
                 {changedImage?.path ? (
                   <Image
                     source={{uri: changedImage?.path}}
                     style={{
-                      width: '100%',
-                      height: '100%',
+                      width: 120,
+                      height: 120,
                       borderRadius: 80,
-                      borderWidth: 2,
+                      borderWidth: 3,
                       borderColor: appColors.Goldcolor,
                       backgroundColor: 'grey',
                     }}
@@ -132,8 +145,8 @@ const AddSubServices = ({route, navigation}) => {
                   <Image
                     source={AppImages.dummyVan}
                     style={{
-                      width: '100%',
-                      height: '100%',
+                      width: 120,
+                      height: 120,
                       borderRadius: 80,
                       borderWidth: 3,
                       borderColor: appColors.Goldcolor,
@@ -148,8 +161,14 @@ const AddSubServices = ({route, navigation}) => {
                   color={'white'}
                   style={{
                     position: 'absolute',
-                    left: screenSize.width / 5,
-                    top: screenSize.height / 10,
+                    left:
+                      Platform?.OS == 'android'
+                        ? screenSize.width / 4.5
+                        : screenSize.width / 5,
+                    top:
+                      Platform?.OS == 'android'
+                        ? screenSize.height / 10
+                        : screenSize.height / 12,
                   }}
                 />
               </TouchableOpacity>

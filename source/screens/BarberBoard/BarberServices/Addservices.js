@@ -16,6 +16,7 @@ import {
 } from '../../../AppConstants/appConstants';
 import ButtonComponent from '../../../components/atom/CustomButtons/ButtonComponent';
 import {Picker} from '@react-native-picker/picker';
+import SignalRService from '../../../services/SignalRService';
 
 const Addservices = ({navigation, route}) => {
   const {userId} = route.params;
@@ -65,20 +66,21 @@ const Addservices = ({navigation, route}) => {
           },
         ],
       };
-      console.log('payload', payload);
+      console.log('payload123', payload);
       PostRequest(endPoint.REAPPLY_APPROVE_BARBER_SERVICE_CATEGORY, payload)
         .then(res => {
-          console.log('res?.data', res?.data);
-          if (res?.data?.code === SUCCESS_CODE) {
-            SimpleSnackBar(res?.data?.message);
+          console.log('RESPONSE -------------', res?.data);
+          if (res?.data?.Table?.[0]?.HasError == 0) {
+            SimpleSnackBar(res?.data?.Table?.[0]?.Message);
+            SignalRService.sendNotification(res?.data?.Table?.[0]?.NotificationID)
             navigation.goBack();
           } else {
-            console.error('Error:', res?.data?.message);
-            SimpleSnackBar(res?.data?.message, appColors.Red);
+            console.log('Error:', res?.data?.Table);
+            SimpleSnackBar(res?.data?.Table?.[0]?.Message,  appColors.Red);
           }
         })
         .catch(err => {
-          console.error('Error:', err);
+          console.log('Error:123', err);
           SimpleSnackBar(messages.WentWrong, appColors.Red);
         });
     }
@@ -96,6 +98,7 @@ const Addservices = ({navigation, route}) => {
           leftIcoName={'chevron-back'}
           headerText={'Add Services'}
           logIn={'success'}
+          isShown={false}
         />
       </View>
       <View style={{flex: 0.8}}>

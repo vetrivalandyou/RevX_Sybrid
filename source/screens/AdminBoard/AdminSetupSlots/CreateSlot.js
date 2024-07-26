@@ -8,31 +8,31 @@ import {
   FlatList,
   Platform,
 } from 'react-native';
-import React, {Fragment, useEffect, useRef, useState} from 'react';
+import React, { Fragment, useEffect, useRef, useState } from 'react';
 import Screen from '../../../components/atom/ScreenContainer/Screen';
 // import {screenSize} from '../../Utills/AppConstants';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Entypo from 'react-native-vector-icons/Entypo';
 import ButtonComponent from '../../../components/atom/CustomButtons/ButtonComponent';
 import styles from './styles';
-import {useIsFocused, useNavigation} from '@react-navigation/native';
+import { useIsFocused, useNavigation } from '@react-navigation/native';
 import Header from '../../../components/molecules/Header';
-import {Icons} from '../../../components/molecules/CustomIcon/CustomIcon';
+import { Icons } from '../../../components/molecules/CustomIcon/CustomIcon';
 import constants from '../../../AppConstants/Constants.json';
-import {PostRequest} from '../../../services/apiCall';
-import {endPoint, messages} from '../../../AppConstants/urlConstants';
-import {AppImages} from '../../../AppConstants/AppImages';
-import {SimpleSnackBar} from '../../../components/atom/Snakbar/Snakbar';
-import {LATEST_INSERT, LATEST_SELECT} from '../../../AppConstants/appConstants';
-import {getAsyncItem} from '../../../utils/SettingAsyncStorage';
+import { PostRequest } from '../../../services/apiCall';
+import { endPoint, messages } from '../../../AppConstants/urlConstants';
+import { AppImages } from '../../../AppConstants/AppImages';
+import { SimpleSnackBar } from '../../../components/atom/Snakbar/Snakbar';
+import { LATEST_INSERT, LATEST_SELECT } from '../../../AppConstants/appConstants';
+import { getAsyncItem } from '../../../utils/SettingAsyncStorage';
 import DeleteSlot from './DeleteSlot';
 import BottomSheet from '../../../components/molecules/BottomSheetContent/BottomSheet';
-import {Formik} from 'formik';
+import { Formik } from 'formik';
 import * as Yup from 'yup';
 import SimpleTextField from '../../../components/molecules/TextFeilds/SimpleTextField';
-import {screenSize} from '../../../components/atom/ScreenSize';
+import { screenSize } from '../../../components/atom/ScreenSize';
 
-const CreateSlot = ({navigation}) => {
+const CreateSlot = ({ navigation }) => {
   const createSlots = (values, setSubmitting) => {
     const payload = {
       ...values,
@@ -75,18 +75,19 @@ const CreateSlot = ({navigation}) => {
         maxHeight: 'auto',
       }}
       statusBarColor={appColors.Black}>
-      <View style={{flex: 0.1}}>
+      <View style={{ flex: 0.1 }}>
         <Header
-          headerSubView={{marginHorizontal: 5}}
+          headerSubView={{ marginHorizontal: 5 }}
           lefttIcoType={Icons.Ionicons}
           onPressLeftIcon={() => navigation.goBack()}
           leftIcoName={'chevron-back'}
           headerText={'Create Slots'}
           logIn={'success'}
+          isShown={false}
         />
       </View>
 
-      <View style={{flex: 0.9}}>
+      <View style={{ flex: 0.9 }}>
         <Formik
           initialValues={{
             OperationID: LATEST_INSERT,
@@ -97,7 +98,7 @@ const CreateSlot = ({navigation}) => {
             UserIP: '::1',
           }}
           validationSchema={validationSchema}
-          onSubmit={(values, {setSubmitting}) => {
+          onSubmit={(values, { setSubmitting }) => {
             createSlots(values, setSubmitting);
           }}>
           {({
@@ -111,8 +112,8 @@ const CreateSlot = ({navigation}) => {
             isSubmitting,
           }) => (
             <Fragment>
-              <View style={{flex: 0.9}}>
-                <View style={{flex: 0.19, justifyContent: 'center'}}>
+              <View style={{ flex: 0.8 }}>
+                <View style={{ flex: 0.20, justifyContent: 'center' }}>
                   <Text
                     style={{
                       fontSize: 14,
@@ -140,13 +141,13 @@ const CreateSlot = ({navigation}) => {
                         marginTop: 2,
                         marginBottom: 15,
                       }}>
-                      <Text style={{color: appColors.Goldcolor, fontSize: 10}}>
+                      <Text style={{ color: appColors.Goldcolor, fontSize: 10 }}>
                         {errors.NoofBussinessHours}
                       </Text>
                     </View>
                   )}
                 </View>
-                <View style={{flex: 0.16, justifyContent: 'center'}}>
+                <View style={{ flex: 0.20, justifyContent: 'center' }}>
                   <Text
                     style={{
                       fontSize: 14,
@@ -164,6 +165,8 @@ const CreateSlot = ({navigation}) => {
                     onBlur={handleBlur('DurationInMins')}
                     value={values?.DurationInMins?.toString()}
                     keyboardType={'numeric'}
+                    returnKeyType="done"
+
                     maxLength={3}
                   />
                   {touched.DurationInMins && errors.DurationInMins && (
@@ -173,7 +176,7 @@ const CreateSlot = ({navigation}) => {
                         marginTop: 2,
                         marginBottom: 15,
                       }}>
-                      <Text style={{color: appColors.Goldcolor, fontSize: 10}}>
+                      <Text style={{ color: appColors.Goldcolor, fontSize: 10 }}>
                         {errors.DurationInMins}
                       </Text>
                     </View>
@@ -188,7 +191,7 @@ const CreateSlot = ({navigation}) => {
                     bottom: 1,
                     position: 'absolute',
                   }}
-                  btnTextColor={{color: 'white'}}
+                  btnTextColor={{ color: 'white' }}
                   title={'Create'}
                   disabled={isSubmitting}
                   onPress={handleSubmit}
@@ -203,7 +206,7 @@ const CreateSlot = ({navigation}) => {
   );
 };
 
-const Servicelist = ({item, userId, onPress, selected}) => {
+const Servicelist = ({ item, userId, onPress, selected }) => {
   const navigation = useNavigation();
   const refRBSheet = useRef();
   const handleEditPress = item => {
@@ -218,7 +221,7 @@ const Servicelist = ({item, userId, onPress, selected}) => {
       <View
         style={[
           styles.container,
-          selected && {borderColor: '#c79647', borderWidth: 1.25},
+          selected && { borderColor: '#c79647', borderWidth: 1.25 },
         ]}>
         <View style={styles.Subcontainer}>
           <View style={styles.textView}>

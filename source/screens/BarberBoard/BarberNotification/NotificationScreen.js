@@ -107,7 +107,7 @@ const BarberNotification = ({ navigation }) => {
     return (
       <View style={styles.container}>
         <View style={{ flex: 1, borderRadius: 40, flexDirection: 'row' }}>
-          <View style={{ flex: 0.25, justifyContent: 'center', alignItems: 'flex-end' }}>
+          <View style={{ flex: 0.25, justifyContent: 'center', alignItems: 'center' }}>
             {
               item?.ProfileImage == undefined ?
                 (
@@ -117,8 +117,8 @@ const BarberNotification = ({ navigation }) => {
                   <Image
                     source={{ uri: `${imageUrl}${item?.ProfileImage}` }}
                     style={{
-                      height: screenSize.height / 12,
-                      width: screenSize.width / 6,
+                      height: 70,
+                      width: 70,
                       borderRadius: 40,
                     }}
                   />
@@ -127,7 +127,7 @@ const BarberNotification = ({ navigation }) => {
 
           </View>
           <View style={{ flex: 0.75, }}>
-            <View style={{ flex: 0.7, paddingHorizontal: 14 }}>
+            <View style={{ flex: 0.7,}}>
               <View style={{ flex: 0.7, flexDirection: 'row' }}>
                 <View style={{ flex: 0.7, justifyContent: 'flex-end' }}>
                   <Text
@@ -227,6 +227,7 @@ const BarberNotification = ({ navigation }) => {
             leftIcoName={'chevron-back'}
             headerText={'Notification'}
             logIn={'success'}
+            isShown={false}
           />
         </View>
 
@@ -259,7 +260,7 @@ const styles = StyleSheet.create({
     width: screenSize.width / 1.07,
     height: Platform.OS == 'ios' ? screenSize.height / 9.5 : screenSize.height / 9,
     borderWidth: 1,
-    borderRadius: 40,
+    borderRadius: 20,
     backgroundColor: '#252525',
     marginHorizontal: 10,
     marginVertical: 5,

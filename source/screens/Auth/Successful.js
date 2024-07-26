@@ -30,6 +30,7 @@ const Successfull = ({route}) => {
           onPressLeftIcon={() => navigation.goBack()}
           leftIcoName={'chevron-back'}
           headerText={'Successful'}
+          isShown={false}
         />
       </View>
       <View

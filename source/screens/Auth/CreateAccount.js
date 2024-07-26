@@ -1,23 +1,23 @@
-import React, {useState} from 'react';
-import {Text, View, TouchableOpacity} from 'react-native';
-import {Formik} from 'formik';
+import React, { useState } from 'react';
+import { Text, View, TouchableOpacity } from 'react-native';
+import { Formik } from 'formik';
 import * as Yup from 'yup';
 import AuthHeader from '../../components/molecules/AuthHeader';
 import Screen from '../../components/atom/ScreenContainer/Screen';
 import constants from '../../AppConstants/Constants.json';
 import SimpleTextField from '../../components/molecules/TextFeilds/SimpleTextField';
 import appColors from '../../AppConstants/appColors';
-import {Icons} from '../../components/molecules/CustomIcon/CustomIcon';
+import { Icons } from '../../components/molecules/CustomIcon/CustomIcon';
 import ButtonComponent from '../../components/atom/CustomButtons/ButtonComponent';
 import RememberMe from '../../components/molecules/RememberMe';
 import SocailLogin from '../../components/molecules/SocailLogin';
-import {endPoint, messages} from '../../AppConstants/urlConstants';
-import {PostRequest} from '../../services/apiCall';
-import {SimpleSnackBar} from '../../components/atom/Snakbar/Snakbar';
-import {screenSize} from '../../components/atom/ScreenSize';
-import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
+import { endPoint, messages } from '../../AppConstants/urlConstants';
+import { PostRequest } from '../../services/apiCall';
+import { SimpleSnackBar } from '../../components/atom/Snakbar/Snakbar';
+import { screenSize } from '../../components/atom/ScreenSize';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
-const CreateAccount = ({navigation}) => {
+const CreateAccount = ({ navigation }) => {
   const [isEye, setIsEye] = useState(false);
 
   const validationSchema = Yup.object().shape({
@@ -61,12 +61,15 @@ const CreateAccount = ({navigation}) => {
         minHeight: screenSize.height,
         maxHeight: 'auto',
       }}
-      viewStyle={{flex: 1, backgroundColor: appColors.Black}}
+      viewStyle={{ flex: 1, backgroundColor: appColors.Black }}
       statusBarColor={appColors.Goldcolor}
       translucent={false}
       barStyle="light-content">
-      <KeyboardAwareScrollView contentContainerStyle={{flex: 1}}>
-        <View style={{flex: 0.25}}>
+      <KeyboardAwareScrollView contentContainerStyle={{ flex: 1 }} 
+      style={{
+        backgroundColor: appColors.Goldcolor
+      }}>
+        <View style={{ flex: 0.25 }}>
           <AuthHeader
             logIn={'Sign Up'}
             heading={'Create Account'}
@@ -87,7 +90,7 @@ const CreateAccount = ({navigation}) => {
               UserPassword: '',
               UserPhone: '',
               loginWith: 0 /* Login With RevX */,
-              AuthId:  '',
+              AuthId: '',
             }}
             validationSchema={validationSchema}
             onSubmit={values => {
@@ -103,8 +106,8 @@ const CreateAccount = ({navigation}) => {
               touched,
             }) => (
               <>
-                <View style={{flex: 0.5, justifyContent: 'space-evenly'}}>
-                  <View style={{flex: 0.25, justifyContent: 'center'}}>
+                <View style={{ flex: 0.5, justifyContent: 'space-evenly' }}>
+                  <View style={{ flex: 0.25, justifyContent: 'center' }}>
                     <SimpleTextField
                       placeholder={'Enter Full Name'}
                       placeholderTextColor={appColors.LightGray}
@@ -113,15 +116,15 @@ const CreateAccount = ({navigation}) => {
                       value={values.FullName}
                     />
                     {touched.FullName && errors.FullName && (
-                      <View style={{marginLeft: 10, margin: 5}}>
+                      <View style={{ marginLeft: 10, margin: 5 }}>
                         <Text
-                          style={{color: appColors.Goldcolor, fontSize: 10}}>
+                          style={{ color: appColors.Goldcolor, fontSize: 10 }}>
                           {errors.FullName}
                         </Text>
                       </View>
                     )}
                   </View>
-                  <View style={{flex: 0.25, justifyContent: 'center'}}>
+                  <View style={{ flex: 0.25, justifyContent: 'center' }}>
                     <SimpleTextField
                       placeholder={'Enter Email Address'}
                       placeholderTextColor={appColors.LightGray}
@@ -130,9 +133,9 @@ const CreateAccount = ({navigation}) => {
                       value={values.UserEmail}
                     />
                     {touched.UserEmail && errors.UserEmail && (
-                      <View style={{marginLeft: 10, margin: 5}}>
+                      <View style={{ marginLeft: 10, margin: 5 }}>
                         <Text
-                          style={{color: appColors.Goldcolor, fontSize: 10}}>
+                          style={{ color: appColors.Goldcolor, fontSize: 10 }}>
                           {errors.UserEmail}
                         </Text>
                       </View>
@@ -156,15 +159,15 @@ const CreateAccount = ({navigation}) => {
                       value={values.UserPassword}
                     />
                     {touched.UserPassword && errors.UserPassword && (
-                      <View style={{marginLeft: 10, margin: 5}}>
+                      <View style={{ marginLeft: 10, margin: 5 }}>
                         <Text
-                          style={{color: appColors.Goldcolor, fontSize: 10}}>
+                          style={{ color: appColors.Goldcolor, fontSize: 10 }}>
                           {errors.UserPassword}
                         </Text>
                       </View>
                     )}
                   </View>
-                  <View style={{flex: 0.25, justifyContent: 'center'}}>
+                  <View style={{ flex: 0.25, justifyContent: 'center' }}>
                     <SimpleTextField
                       placeholder={'Contact Number'}
                       placeholderTextColor={appColors.LightGray}
@@ -173,9 +176,9 @@ const CreateAccount = ({navigation}) => {
                       value={values.UserPhone}
                     />
                     {touched.UserPhone && errors.UserPhone && (
-                      <View style={{marginLeft: 10, margin: 5}}>
+                      <View style={{ marginLeft: 10, margin: 5 }}>
                         <Text
-                          style={{color: appColors.Goldcolor, fontSize: 10}}>
+                          style={{ color: appColors.Goldcolor, fontSize: 10 }}>
                           {errors.UserPhone}
                         </Text>
                       </View>
@@ -183,7 +186,7 @@ const CreateAccount = ({navigation}) => {
                   </View>
                 </View>
 
-                <View style={{flex: 0.15, justifyContent: 'center'}}>
+                <View style={{ flex: 0.15, justifyContent: 'center' }}>
                   <ButtonComponent
                     title={'Create Account'}
                     onPress={handleSubmit}
@@ -193,16 +196,16 @@ const CreateAccount = ({navigation}) => {
             )}
           </Formik>
           <View
-            style={{flex: 0.1, flexDirection: 'row', justifyContent: 'center'}}>
+            style={{ flex: 0.1, flexDirection: 'row', justifyContent: 'center' }}>
             <TouchableOpacity>
-              <Text style={{color: appColors.GrayColor}}>
+              <Text style={{ color: appColors.GrayColor }}>
                 Already have an Account?{` `}
               </Text>
             </TouchableOpacity>
 
             <TouchableOpacity
               onPress={() => navigation.navigate(constants.AuthScreen.Login)}>
-              <Text style={{color: appColors.Goldcolor}}> Login</Text>
+              <Text style={{ color: appColors.Goldcolor }}> Login</Text>
             </TouchableOpacity>
           </View>
           <View></View>

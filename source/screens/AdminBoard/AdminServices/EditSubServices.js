@@ -6,33 +6,33 @@ import {
   TextInput,
   Platform,
 } from 'react-native';
-import React, {useRef, useState} from 'react';
+import React, { useRef, useState } from 'react';
 import Screen from '../../../components/atom/ScreenContainer/Screen';
 import styles from './styles';
 import ButtonComponent from '../../../components/atom/CustomButtons/ButtonComponent';
-import {useNavigation} from '@react-navigation/native';
-import {screenSize} from '../../../components/atom/ScreenSize';
+import { useNavigation } from '@react-navigation/native';
+import { screenSize } from '../../../components/atom/ScreenSize';
 // import Header from '../../../components/molecules/Header';
 import CustomIcon, {
   Icons,
 } from '../../../components/molecules/CustomIcon/CustomIcon';
 import Header from '../../../components/molecules/Header';
 import appColors from '../../../AppConstants/appColors';
-import {LATEST_UPDATE, SUCCESS_CODE} from '../../../AppConstants/appConstants';
-import {endPoint, imageUrl, messages} from '../../../AppConstants/urlConstants';
-import {SimpleSnackBar} from '../../../components/atom/Snakbar/Snakbar';
-import {PostRequest} from '../../../services/apiCall';
-import {AppImages} from '../../../AppConstants/AppImages';
+import { LATEST_UPDATE, SUCCESS_CODE } from '../../../AppConstants/appConstants';
+import { endPoint, imageUrl, messages } from '../../../AppConstants/urlConstants';
+import { SimpleSnackBar } from '../../../components/atom/Snakbar/Snakbar';
+import { PostRequest } from '../../../services/apiCall';
+import { AppImages } from '../../../AppConstants/AppImages';
 import BottomSheet from '../../../components/molecules/BottomSheetContent/BottomSheet';
 import ChooseImage from '../../../components/molecules/ChooseImage';
-import {generateRandomNumber} from '../../../functions/AppFunctions';
-import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
+import { generateRandomNumber } from '../../../functions/AppFunctions';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
-const EditSubServices = ({route}) => {
+const EditSubServices = ({ route }) => {
   const refRBSheet = useRef();
   const navigation = useNavigation();
 
-  const {item, userId} = route.params || {};
+  const { item, userId } = route.params || {};
   const [changedImage, setChangedImage] = useState('');
   const [beforeChangeImage, setBeforeChangeImage] = useState(
     `${item?.serviceImage}`,
@@ -95,55 +95,68 @@ const EditSubServices = ({route}) => {
   };
 
   return (
-    <KeyboardAwareScrollView style={{flex: 1}}>
+    <KeyboardAwareScrollView
+      resetScrollToCoords={{ x: 0, y: 0 }}
+      contentContainerStyle={{
+        minHeight: screenSize.height,
+        maxHeight: 'auto',
+        justifyContent: 'center',
+      }}
+      scrollEnabled={true}
+      enableAutomaticScroll={(Platform.OS === 'ios')}
+      enableOnAndroid={true}
+      style={{
+        backgroundColor: appColors.Black
+      }}>
       <Screen
         viewStyle={{
           flex: 1,
           padding: 15,
           backgroundColor: appColors.Black,
-          minHeight: screenSize.height,
+
         }}
         statusBarColor={appColors.Black}>
-        <View style={{flex: 0.1}}>
+        <View style={{ flex: 0.1 }}>
           <Header
             lefttIcoType={Icons.Ionicons}
             onPressLeftIcon={() => navigation.goBack()}
             leftIcoName={'chevron-back'}
             headerText={'Edit Sub Service'}
             logIn={'success'}
+            isShown={false}
           />
         </View>
-        <View style={{flex: 0.9}}>
-          <View style={{flex: 0.4}}>
+        <View style={{ flex: 0.7 }}>
+          <View style={{ flex: 0.4 }}>
             <View
-              style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+              style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
               <TouchableOpacity
                 onPress={() => refRBSheet.current.open()}
                 style={{
-                  width: '28%',
+                  width: 100,
+                  height: 100,
                   justifyContent: 'center',
                   alignItems: 'center',
-                  height: '85%',
                   backgroundColor: appColors.Black,
                 }}>
                 {changedImage != '' ? (
                   <Image
-                    source={{uri: changedImage?.path}}
+                    source={{ uri: changedImage?.path }}
                     style={{
-                      width: '100%',
-                      height: '100%',
+                      width: 120,
+                      height: 120,
                       borderRadius: 80,
-                      borderWidth: 2,
+                      borderWidth: 3,
                       borderColor: appColors.Goldcolor,
                       backgroundColor: 'grey',
                     }}
                   />
                 ) : (
                   <Image
-                    source={{uri: `${imageUrl}${beforeChangeImage}`}}
+                    source={{ uri: `${imageUrl}${beforeChangeImage}` }}
                     style={{
-                      width: '100%',
-                      height: '100%',
+                      width: 120,
+                      height: 120,
                       borderRadius: 80,
                       borderWidth: 3,
                       borderColor: appColors.Goldcolor,
@@ -158,16 +171,22 @@ const EditSubServices = ({route}) => {
                   color={'white'}
                   style={{
                     position: 'absolute',
-                    left: screenSize.width / 5,
-                    top: screenSize.height / 10,
+                    left:
+                      Platform?.OS == 'android'
+                        ? screenSize.width / 4.5
+                        : screenSize.width / 5,
+                    top:
+                      Platform?.OS == 'android'
+                        ? screenSize.height / 10
+                        : screenSize.height / 12,
                   }}
                 />
               </TouchableOpacity>
             </View>
           </View>
-          <View style={{flex: 0.06}}>
+          <View style={{ flex: 0.06 }}>
             <View
-              style={{flex: 0.3, justifyContent: 'flex-end', marginLeft: 10}}>
+              style={{ flex: 0.3, justifyContent: 'flex-end', marginLeft: 10 }}>
               <Text
                 style={{
                   color: appColors.White,
@@ -177,20 +196,20 @@ const EditSubServices = ({route}) => {
                 Service Name
               </Text>
             </View>
-            <View style={{flex: 0.7}}>
+            <View style={{ flex: 0.7 }}>
               <TextInput
                 style={[
                   styles.container,
-                  {color: 'white', paddingHorizontal: 25, fontSize: 15},
+                  { color: 'white', paddingHorizontal: 25, fontSize: 15 },
                 ]}
                 value={subServiceName}
                 onChangeText={text => setSubServiceName(text)}
               />
             </View>
           </View>
-          <View style={{flex: 0.06}}>
+          <View style={{ flex: 0.06 }}>
             <View
-              style={{flex: 0.3, justifyContent: 'flex-end', marginLeft: 10}}>
+              style={{ flex: 0.3, justifyContent: 'flex-end', marginLeft: 10 }}>
               <Text
                 style={{
                   color: appColors.White,
@@ -200,20 +219,20 @@ const EditSubServices = ({route}) => {
                 Service Price
               </Text>
             </View>
-            <View style={{flex: 0.7}}>
+            <View style={{ flex: 0.7 }}>
               <TextInput
                 style={[
                   styles.container,
-                  {color: 'white', paddingHorizontal: 25, fontSize: 15},
+                  { color: 'white', paddingHorizontal: 25, fontSize: 15 },
                 ]}
                 value={subServicePrice}
                 onChangeText={text => setSubServicePrice(text)}
               />
             </View>
           </View>
-          <View style={{flex: 0.06}}>
+          <View style={{ flex: 0.06 }}>
             <View
-              style={{flex: 0.3, justifyContent: 'flex-end', marginLeft: 10}}>
+              style={{ flex: 0.3, justifyContent: 'flex-end', marginLeft: 10 }}>
               <Text
                 style={{
                   color: appColors.White,
@@ -223,20 +242,20 @@ const EditSubServices = ({route}) => {
                 Service Duration (in minutes)
               </Text>
             </View>
-            <View style={{flex: 0.7}}>
+            <View style={{ flex: 0.7 }}>
               <TextInput
                 style={[
                   styles.container,
-                  {color: 'white', paddingHorizontal: 25, fontSize: 15},
+                  { color: 'white', paddingHorizontal: 25, fontSize: 15 },
                 ]}
                 value={subServiceDuration}
                 onChangeText={text => setSubServiceDuration(text)}
               />
             </View>
           </View>
-          <View style={{flex: 0.06}}>
+          <View style={{ flex: 0.06 }}>
             <View
-              style={{flex: 0.3, justifyContent: 'flex-end', marginLeft: 10}}>
+              style={{ flex: 0.3, justifyContent: 'flex-end', marginLeft: 10 }}>
               <Text
                 style={{
                   color: appColors.White,
@@ -246,11 +265,11 @@ const EditSubServices = ({route}) => {
                 Service Description
               </Text>
             </View>
-            <View style={{flex: 0.7}}>
+            <View style={{ flex: 0.7 }}>
               <TextInput
                 style={[
                   styles.container,
-                  {color: 'white', paddingHorizontal: 25, fontSize: 15},
+                  { color: 'white', paddingHorizontal: 25, fontSize: 15 },
                 ]}
                 placeholder="Enter Service Description"
                 placeholderTextColor={appColors.LightGray}
@@ -268,7 +287,7 @@ const EditSubServices = ({route}) => {
               bottom: 1,
               position: 'absolute',
             }}
-            btnTextColor={{color: 'white'}}
+            btnTextColor={{ color: 'white' }}
             title={'Update Sub Service'}
             onPress={handleSaveSubService}
           />
