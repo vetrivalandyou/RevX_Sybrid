@@ -1,5 +1,5 @@
-import React, {useEffect} from 'react';
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import React, { useEffect } from 'react';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import {
   AdminBarberEarnings,
   AdminChat,
@@ -22,7 +22,7 @@ import {
   Report,
   AdminEReceipt,
 } from '../../screens';
-import {NavigationContainer, useNavigation} from '@react-navigation/native';
+import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import constants from '../../AppConstants/Constants.json';
 import AdminBottomTabNavigation from './AdminBottomTabNavigation';
 import AdminEditTermsOfServices from '../../screens/AdminBoard/AdminEditTermsOfServices/AdminEditTermsOfServices';
@@ -53,6 +53,7 @@ import CreateSlot from '../../screens/AdminBoard/AdminSetupSlots/CreateSlot';
 import AdminViewBarber from '../../screens/AdminBoard/AdminViewBarber';
 import ApproveBarberSubService from '../../screens/AdminBoard/ApproveBarberSubService';
 import DynamicLinks from '@react-native-firebase/dynamic-links';
+import AdminChatView from '../../screens/AdminBoard/AdminChatView';
 
 const AdminStack = () => {
   const Stack = createNativeStackNavigator();
@@ -60,7 +61,7 @@ const AdminStack = () => {
   useEffect(() => {
     const handleDynamicLink = link => {
       if (link) {
-        const {url} = link;
+        const { url } = link;
         console.log('URI', url);
         let productId = url.split('=').pop();
         console.log('productIdproductId', productId);
@@ -82,199 +83,199 @@ const AdminStack = () => {
 
   return (
     <NavigationContainer>
-      <Stack.Navigator screenOptions={{animation: 'slide_from_right'}}>
+      <Stack.Navigator screenOptions={{ animation: 'slide_from_right' }}>
         <Stack.Screen
           name={constants.AdminScreens.AdminBottomTabNavigation}
           component={AdminBottomTabNavigation}
-          options={{headerShown: false}}
+          options={{ headerShown: false }}
         />
         <Stack.Screen
           name={constants.AdminScreens.Report}
           component={Report}
-          options={{headerShown: false}}
+          options={{ headerShown: false }}
         />
         <Stack.Screen
           name={constants.AdminScreens.AdminPaymentMethod}
           component={AdminPaymentMethod}
-          options={{headerShown: false}}
+          options={{ headerShown: false }}
         />
         <Stack.Screen
           name={constants.AdminScreens.AdminInbox}
           component={AdminInbox}
-          options={{headerShown: false}}
+          options={{ headerShown: false }}
         />
         <Stack.Screen
           name={constants.AdminScreens.AdminChat}
           component={AdminChat}
-          options={{headerShown: false}}
+          options={{ headerShown: false }}
         />
         <Stack.Screen
           name={constants.AdminScreens.RecentTransactionsMain}
           component={RecentTransactionsMain}
-          options={{headerShown: false}}
+          options={{ headerShown: false }}
         />
         <Stack.Screen
           name={constants.AdminScreens.RecentTransactions}
           component={RecentTransactions}
-          options={{headerShown: false}}
+          options={{ headerShown: false }}
         />
         <Stack.Screen
           name={constants.AdminScreens.AdminBarberEarnings}
           component={AdminBarberEarnings}
-          options={{headerShown: false}}
+          options={{ headerShown: false }}
         />
         <Stack.Screen
           name={constants.AdminScreens.BarberEarnReport}
           component={BarberEarnReport}
-          options={{headerShown: false}}
+          options={{ headerShown: false }}
         />
 
         <Stack.Screen
           name={constants.AdminScreens.AdminNotification}
           component={AdminNotification}
-          options={{headerShown: false}}
+          options={{ headerShown: false }}
         />
         <Stack.Screen
           name={constants.AdminScreens.PaymentCheckOut}
           component={PaymentCheckOut}
-          options={{headerShown: false}}
+          options={{ headerShown: false }}
         />
         <Stack.Screen
           name={constants.AdminScreens.AdminManageContent}
           component={AdminManageContent}
-          options={{headerShown: false}}
+          options={{ headerShown: false }}
         />
 
         <Stack.Screen
           name={constants.AdminScreens.AdminTermsofServices}
           component={AdminTermsofServices}
-          options={{headerShown: false}}
+          options={{ headerShown: false }}
         />
         <Stack.Screen
           name={constants.AdminScreens.AdminEditTermsOfServices}
           component={AdminEditTermsOfServices}
-          options={{headerShown: false}}
+          options={{ headerShown: false }}
         />
         <Stack.Screen
           name={constants.AdminScreens.AdminPrivacypolicy}
           component={AdminPrivacypolicy}
-          options={{headerShown: false}}
+          options={{ headerShown: false }}
         />
         <Stack.Screen
           name={constants.AdminScreens.AdminEditPrivacypolicy}
           component={AdminEditPrivacypolicy}
-          options={{headerShown: false}}
+          options={{ headerShown: false }}
         />
         <Stack.Screen
           name={constants.AdminScreens.AdminLicensee}
           component={AdminLicensee}
-          options={{headerShown: false}}
+          options={{ headerShown: false }}
         />
         <Stack.Screen
           name={constants.AdminScreens.AdminEditLicense}
           component={AdminEditLicense}
-          options={{headerShown: false}}
+          options={{ headerShown: false }}
         />
         <Stack.Screen
           name={constants.AdminScreens.AdminUserDetails}
           component={AdminUserDetails}
-          options={{headerShown: false}}
+          options={{ headerShown: false }}
         />
         <Stack.Screen
           name={constants.AdminScreens.AdminBarberDetails}
           component={AdminBarberDetails}
-          options={{headerShown: false}}
+          options={{ headerShown: false }}
         />
         <Stack.Screen
           name={constants.AdminScreens.AdminViewUsers}
           component={AdminViewUsers}
-          options={{headerShown: false}}
+          options={{ headerShown: false }}
         />
         <Stack.Screen
           name={constants.AdminScreens.AdminViewBarber}
           component={AdminViewBarber}
-          options={{headerShown: false}}
+          options={{ headerShown: false }}
         />
         <Stack.Screen
           name={constants.AdminScreens.AdminBlockUsers}
           component={AdminBlockUsers}
-          options={{headerShown: false}}
+          options={{ headerShown: false }}
         />
         <Stack.Screen
           name={constants.AdminScreens.ManageVans}
           component={ManageVans}
-          options={{headerShown: false}}
+          options={{ headerShown: false }}
         />
 
         <Stack.Screen
           name={constants.AdminScreens.AddVanservices}
           component={AddVanservices}
-          options={{headerShown: false}}
+          options={{ headerShown: false }}
         />
         <Stack.Screen
           name={constants.AdminScreens.DeleteVanServices}
           component={DeleteVanServices}
-          options={{headerShown: false}}
+          options={{ headerShown: false }}
         />
 
         <Stack.Screen
           name={constants.AdminScreens.EditVanservices}
           component={EditVanservices}
-          options={{headerShown: false}}
+          options={{ headerShown: false }}
         />
         <Stack.Screen
           name={constants.AdminScreens.AdminApproveBarber}
           component={AdminApproveBarber}
-          options={{headerShown: false}}
+          options={{ headerShown: false }}
         />
 
         <Stack.Screen
           name={constants.AdminScreens.Assignments}
           component={Assignments}
-          options={{headerShown: false}}
+          options={{ headerShown: false }}
         />
 
         <Stack.Screen
           name={constants.AdminScreens.EditAssignment}
           component={EditAssignment}
-          options={{headerShown: false}}
+          options={{ headerShown: false }}
         />
         <Stack.Screen
           name={constants.AdminScreens.DeleteAssignment}
           component={DeleteAssignment}
-          options={{headerShown: false}}
+          options={{ headerShown: false }}
         />
 
         <Stack.Screen
           name={constants.AdminScreens.OurServices}
           component={OurServices}
-          options={{headerShown: false}}
+          options={{ headerShown: false }}
         />
         <Stack.Screen
           name={constants.AdminScreens.Addservices}
           component={Addservices}
-          options={{headerShown: false}}
+          options={{ headerShown: false }}
         />
         <Stack.Screen
           name={constants.AdminScreens.DeleteServices}
           component={DeleteServices}
-          options={{headerShown: false}}
+          options={{ headerShown: false }}
         />
 
         <Stack.Screen
           name={constants.AdminScreens.Editservices}
           component={Editservices}
-          options={{headerShown: false}}
+          options={{ headerShown: false }}
         />
         <Stack.Screen
           name={constants.AdminScreens.ServiceList}
           component={ServiceList}
-          options={{headerShown: false}}
+          options={{ headerShown: false }}
         />
         <Stack.Screen
           name={constants.AdminScreens.SubService}
           component={SubService}
-          options={{headerShown: false}}
+          options={{ headerShown: false }}
         />
         {/* <Stack.Screen
           name={constants.AdminScreens.SubServiceList}
@@ -284,37 +285,42 @@ const AdminStack = () => {
         <Stack.Screen
           name={constants.AdminScreens.AddSubServices}
           component={AddSubServices}
-          options={{headerShown: false}}
+          options={{ headerShown: false }}
         />
         <Stack.Screen
           name={constants.AdminScreens.EditSubServices}
           component={EditSubServices}
-          options={{headerShown: false}}
+          options={{ headerShown: false }}
         />
         <Stack.Screen
           name={constants.AdminScreens.BarberListApprove}
           component={BarberListApprove}
-          options={{headerShown: false}}
+          options={{ headerShown: false }}
         />
         <Stack.Screen
           name={constants.AdminScreens.AdminSetupSlots}
           component={AdminSetupSlots}
-          options={{headerShown: false}}
+          options={{ headerShown: false }}
         />
         <Stack.Screen
           name={constants.AdminScreens.CreateSlot}
           component={CreateSlot}
-          options={{headerShown: false}}
+          options={{ headerShown: false }}
         />
         <Stack.Screen
           name={constants.AdminScreens.ApproveSubServices}
           component={ApproveBarberSubService}
-          options={{headerShown: false}}
+          options={{ headerShown: false }}
         />
         <Stack.Screen
           name={constants.AdminScreens.AdminEReceipt}
           component={AdminEReceipt}
-          options={{headerShown: false}}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name={constants.AdminScreens.AdminChatView}
+          component={AdminChatView}
+          options={{ headerShown: false }}
         />
       </Stack.Navigator>
       <DeepLinking />

@@ -105,8 +105,7 @@ const HomeScreen = ({navigation}) => {
       userName: '',
       profileImage: '',
     };
-
-    console.log('payload', payload);
+    console.log('payload payload payload', payload);
 
     PostRequest(endPoint.GET_VANS_NEAR_CUSTOMER, payload)
       .then(res => {
@@ -249,7 +248,6 @@ const HomeScreen = ({navigation}) => {
   };
 
   const NearbyBarbers = ({item}) => (
-    console.log('serviceImage', item),
     (
       <View
         key={item?.userId}
@@ -327,7 +325,7 @@ const HomeScreen = ({navigation}) => {
                 color={appColors.Goldcolor}
                 size={16}
               />
-              <Text style={{color: appColors.White, marginLeft: 5}}>4.5</Text>
+              <Text style={{color: appColors.White, marginLeft: 5}}>{item?.Rating}</Text>
             </View>
           </View>
           <View style={{flex: 0.1, justifyContent: 'center'}}>

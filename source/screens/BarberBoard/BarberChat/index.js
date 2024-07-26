@@ -34,10 +34,8 @@ const BarberChat = ({route, navigation}) => {
   console.log('profileData ---------------', profileData);
 
   useEffect(() => {
-    // if(isFocused){
     console.log('BarberID, CustomerIDBarberID, CustomerID');
     getAsyncData();
-    // }
   }, []);
 
   const getAsyncData = async () => {
