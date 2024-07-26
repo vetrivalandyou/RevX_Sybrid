@@ -33,25 +33,35 @@ const Login = () => {
   });
 
   const LoginUser = (values, setSubmitting) => {
-    console.log('values', values);
-    PostRequest(endPoint.LOGIN, values)
+    const payload = {
+      ...values,
+      isLogin: true,
+    };
+    console.log('values', payload);
+    PostRequest(endPoint.LOGIN, payload)
       .then(res => {
-        console.log('res', res?.data);
-        if (res?.data?.code == 200) {
-          setAsyncItem(
-            constants.AsyncStorageKeys.token,
-            res?.data?.data?.token,
-          );
-          setAsyncItem(
-            constants.AsyncStorageKeys.userDetails,
-            res?.data?.data?.user,
-          );
-          navigation?.navigate(constants.AuthScreen.Successfull, {
-            userDetails: res?.data?.data,
-          });
+        console.log('res res res ????', res?.data?.data?.user?.islogin);
+        if (res?.data?.data?.user?.islogin == true) {
+          SimpleSnackBar('Already Login on another device');
         } else {
-          SimpleSnackBar(res?.data?.message);
+          if (res?.data?.code == 200) {
+            console.log('res >>>>', res?.data);
+            setAsyncItem(
+              constants.AsyncStorageKeys.token,
+              res?.data?.data?.token,
+            );
+            setAsyncItem(
+              constants.AsyncStorageKeys.userDetails,
+              res?.data?.data?.user,
+            );
+            navigation?.navigate(constants.AuthScreen.Successfull, {
+              userDetails: res?.data?.data,
+            });
+          } else {
+            SimpleSnackBar(res?.data?.message);
+          }
         }
+
         setSubmitting(false);
       })
       .catch(err => {
