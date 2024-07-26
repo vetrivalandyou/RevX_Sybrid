@@ -110,7 +110,7 @@ export default StyleSheet.create({
   },
   Ratingstyle: {
     height: screenSize.height / 28,
-    width: screenSize.width / 7.1,
+    width: screenSize.width / 7.6,
     justifyContent: 'center',
     borderWidth: 0.75,
     borderRadius: 7,
