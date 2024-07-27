@@ -9,6 +9,8 @@ import ButtonComponent from '../../../components/atom/CustomButtons/ButtonCompon
 import {PostRequest} from '../../../services/apiCall';
 import {endPoint} from '../../../AppConstants/urlConstants';
 import {SimpleSnackBar} from '../../../components/atom/Snakbar/Snakbar';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
+import {screenSize} from '../../../components/atom/ScreenSize';
 // import axios from 'axios';
 
 const OTP_Verification = ({navigation, route}) => {
@@ -105,78 +107,92 @@ const OTP_Verification = ({navigation, route}) => {
   };
 
   return (
-    <Screen
-      authStyle={{flex: 1, backgroundColor: appColors.Goldcolor}}
-      viewStyle={{flex: 1, backgroundColor: appColors.Black}}
-      statusBarColor={appColors.Goldcolor}>
-      <View style={{flex: 0.2}}>
-        <AuthHeader
-          logIn={'Verification'}
-          heading={'OTP Verification'}
-          onPress={() => navigation.goBack()}
-        />
-      </View>
-      <View style={OTP_Verification_Style.subContainer}>
+    <KeyboardAwareScrollView
+      resetScrollToCoords={{x: 0, y: 0}}
+      contentContainerStyle={{
+        minHeight: screenSize.height,
+        maxHeight: 'auto',
+        justifyContent: 'center',
+      }}
+      scrollEnabled={true}
+      enableAutomaticScroll={Platform.OS === 'ios'}
+      enableOnAndroid={true}
+      style={{
+        backgroundColor: appColors.Black,
+      }}>
+      <Screen
+        authStyle={{flex: 1, backgroundColor: appColors.Goldcolor}}
+        viewStyle={{flex: 1, backgroundColor: appColors.Black}}
+        statusBarColor={appColors.Goldcolor}>
         <View style={{flex: 0.1}}>
-          <Text style={OTP_Verification_Style.headingStyle}>
-            Verification Code
-          </Text>
-        </View>
-        <View style={{flex: 0.1}}>
-          <Text style={OTP_Verification_Style.headingDescription}>
-            Enter 6 digit verification code sent to your mobile number
-          </Text>
-        </View>
-        <View style={OTP_Verification_Style.textBoxView}>
-          {Array.from({length: 6}).map((digit, index) => (
-            <TextInput
-              key={index}
-              style={[
-                OTP_Verification_Style.textInputStyle,
-                {
-                  borderColor:
-                    wrongOTP == true
-                      ? appColors.Red
-                      : focusedIndex === index
-                      ? appColors.White
-                      : appColors.GrayColor,
-                },
-              ]}
-              placeholder={''}
-              placeholderTextColor={appColors.LightGray}
-              keyboardType="numeric"
-              maxLength={1}
-              onFocus={() => handleInputFocus(index)}
-              onChangeText={text => handleOTPInputChange(index, text)}
-              ref={otpInputRefs[index]}
-            />
-          ))}
-        </View>
-        <View style={OTP_Verification_Style.resendTimerView}>
-          <Text style={{color: 'white', fontSize: 16}}>
-            Resend Code in {formatTime(timer)} seconds
-          </Text>
-        </View>
-        <View style={OTP_Verification_Style.dontReceiveCodeView}>
-          <Text style={OTP_Verification_Style.dontReceiveCodeText}>
-            If you don't recieve OTP with in 60 seconds please resend again.
-          </Text>
-        </View>
-
-        <View style={OTP_Verification_Style.buttonView}>
-          <ButtonComponent
-            title={'Resend OTP'}
-            disable={formatTime(timer) == '00:00' ? false : true}
-            btnColor={
-              formatTime(timer) == '00:00'
-                ? appColors.Goldcolor
-                : appColors.disableGrayColor
-            }
-            onPress={handlePressResendOTP}
+          <AuthHeader
+            logIn={'Verification'}
+            heading={'OTP Verification'}
+            onPress={() => navigation.goBack()}
           />
         </View>
-      </View>
-    </Screen>
+        <View style={OTP_Verification_Style.subContainer}>
+          <View style={{flex: 0.1}}>
+            <Text style={OTP_Verification_Style.headingStyle}>
+              Verification Code
+            </Text>
+          </View>
+          <View style={{flex: 0.1}}>
+            <Text style={OTP_Verification_Style.headingDescription}>
+              Enter 6 digit verification code sent to your mobile number
+            </Text>
+          </View>
+          <View style={OTP_Verification_Style.textBoxView}>
+            {Array.from({length: 6}).map((digit, index) => (
+              <TextInput
+                key={index}
+                style={[
+                  OTP_Verification_Style.textInputStyle,
+                  {
+                    borderColor:
+                      wrongOTP == true
+                        ? appColors.Red
+                        : focusedIndex === index
+                        ? appColors.White
+                        : appColors.GrayColor,
+                  },
+                ]}
+                placeholder={''}
+                placeholderTextColor={appColors.LightGray}
+                keyboardType="numeric"
+                maxLength={1}
+                onFocus={() => handleInputFocus(index)}
+                onChangeText={text => handleOTPInputChange(index, text)}
+                ref={otpInputRefs[index]}
+              />
+            ))}
+          </View>
+          <View style={OTP_Verification_Style.resendTimerView}>
+            <Text style={{color: 'white', fontSize: 16}}>
+              Resend Code in {formatTime(timer)} seconds
+            </Text>
+          </View>
+          <View style={OTP_Verification_Style.dontReceiveCodeView}>
+            <Text style={OTP_Verification_Style.dontReceiveCodeText}>
+              If you don't recieve OTP with in 60 seconds please resend again.
+            </Text>
+          </View>
+
+          <View style={OTP_Verification_Style.buttonView}>
+            <ButtonComponent
+              title={'Resend OTP'}
+              disable={formatTime(timer) == '00:00' ? false : true}
+              btnColor={
+                formatTime(timer) == '00:00'
+                  ? appColors.Goldcolor
+                  : appColors.disableGrayColor
+              }
+              onPress={handlePressResendOTP}
+            />
+          </View>
+        </View>
+      </Screen>
+    </KeyboardAwareScrollView>
   );
 };
 
@@ -204,7 +220,7 @@ const OTP_Verification_Style = StyleSheet.create({
     flex: 0.1,
     flexDirection: 'row',
     justifyContent: 'space-evenly',
-    marginTop: 50,
+    // marginTop: 50,
   },
   textInputStyle: {
     borderLeftWidth: 1,
@@ -214,6 +230,7 @@ const OTP_Verification_Style = StyleSheet.create({
     color: appColors.White,
     fontSize: 22,
     width: 50,
+    height: 50,
     borderRadius: 12,
     textAlign: 'center',
   },

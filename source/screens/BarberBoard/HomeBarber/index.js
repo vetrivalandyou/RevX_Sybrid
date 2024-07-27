@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 
 import {
   Text,
@@ -15,7 +15,7 @@ import {
 } from 'react-native';
 import Screen from '../../../components/atom/ScreenContainer/Screen';
 import styles from './styles';
-import { screenSize } from '../../../components/atom/ScreenSize';
+import {screenSize} from '../../../components/atom/ScreenSize';
 import CustomIcon, {
   Icons,
 } from '../../../components/molecules/CustomIcon/CustomIcon';
@@ -26,30 +26,33 @@ import Header from '../../../components/molecules/Header';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 
 import Search from '../../../components/atom/Search/Search';
-import { AppImages } from '../../../AppConstants/AppImages';
+import {AppImages} from '../../../AppConstants/AppImages';
 import Bookingbutton from '../../../components/atom/BookingButtons/Bookingbutton';
 import {
   getAsyncItem,
   getLogLatAsync,
   setLogLatAsync,
 } from '../../../utils/SettingAsyncStorage';
-import { endPoint, imageUrl } from '../../../AppConstants/urlConstants';
-import { useDispatch, useSelector } from 'react-redux';
-import { useIsFocused } from '@react-navigation/native';
-import { UpdateLocation } from '../../../redux/Action/LocationAction/UpdateLocationAction';
-import { PostRequest } from '../../../services/apiCall';
-import { LATEST_UPDATE } from '../../../AppConstants/appConstants';
+import {endPoint, imageUrl} from '../../../AppConstants/urlConstants';
+import {useDispatch, useSelector} from 'react-redux';
+import {useIsFocused} from '@react-navigation/native';
+import {UpdateLocation} from '../../../redux/Action/LocationAction/UpdateLocationAction';
+import {PostRequest} from '../../../services/apiCall';
+import {LATEST_UPDATE} from '../../../AppConstants/appConstants';
 import useLocationWatcher from '../../../services/useLocationWatcher';
-import { requestLocationPermissionAndGetLocation } from '../../../utils/GetLocation';
+import {requestLocationPermissionAndGetLocation} from '../../../utils/GetLocation';
 import CustomModal from '../../../components/molecules/CustomModal/CustomModal';
 import ButtonComponent from '../../../components/atom/CustomButtons/ButtonComponent';
 import SimpleTextField from '../../../components/molecules/TextFeilds/SimpleTextField';
 import SignalRService from '../../../services/SignalRService';
-import { SET_INITIAL_DROPDOWN_FORM_STATE } from '../../../redux/ActionType/CrudActionTypes';
+import {SET_INITIAL_DROPDOWN_FORM_STATE} from '../../../redux/ActionType/CrudActionTypes';
 import BoxLottie from '../../../components/atom/BoxLottie/BoxLottie';
-import { INCREMENT_NOTIFICATION_COUNT, RESET_NOTIFICATION_COUNT } from '../../../redux/ActionType/NotificationActionTypes';
+import {
+  INCREMENT_NOTIFICATION_COUNT,
+  RESET_NOTIFICATION_COUNT,
+} from '../../../redux/ActionType/NotificationActionTypes';
 import moment from 'moment';
-import { SimpleSnackBar } from '../../../components/atom/Snakbar/Snakbar';
+import {SimpleSnackBar} from '../../../components/atom/Snakbar/Snakbar';
 
 const initialOperationFields = {
   operationID: 0,
@@ -72,21 +75,21 @@ const initialOperationFields = {
   locationName: '',
   remarks: '',
   barbarBookedSlotID: 0,
-}
+};
 
-const HomeBarber = ({ navigation }) => {
-  const { coords } = useSelector(state => state.LocationReducer);
-  const { Notification } = useSelector(state => state.NotificationReducer);
+const HomeBarber = ({navigation}) => {
+  const {coords} = useSelector(state => state.LocationReducer);
+  const {Notification} = useSelector(state => state.NotificationReducer);
   const dispatch = useDispatch();
   const isFocused = useIsFocused();
   const barberRemarksRef = useRef(null);
   const [userDetails, setUserDetails] = useState();
   const [visible, setVisible] = useState(false);
-  const [todaysBooking, setTodaysBookingList] = useState([])
-  const [isLoading, setIsLoading] = useState(true)
+  const [todaysBooking, setTodaysBookingList] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
   const [rejectedBookingData, setRejectedBookingData] = useState({});
 
-  console.log("NotificationCount", Notification)
+  console.log('NotificationCount', Notification);
 
   useEffect(() => {
     if (isFocused) {
@@ -98,13 +101,15 @@ const HomeBarber = ({ navigation }) => {
     const userAsyncDetails = await getAsyncItem(
       constants.AsyncStorageKeys.userDetails,
     );
+    console.log('userAsyncDetails', userAsyncDetails);
     setUserDetails(userAsyncDetails);
-    getTodaysBooking(userAsyncDetails)
     if (SignalRService?.isConnected()) {
       console.log('SignalR is in Connected State');
+      getTodaysBooking(userAsyncDetails);
     } else {
-      console.log("Inside Else")
+      console.log('Inside Else');
       connectToSignalR(userAsyncDetails);
+      getTodaysBooking(userAsyncDetails);
     }
   };
 
@@ -112,7 +117,7 @@ const HomeBarber = ({ navigation }) => {
     SignalRService.startConnection(
       parseInt(userDetails?._RoleId),
       userDetails?.userId.toString(),
-      dispatch
+      dispatch,
     );
     SignalRService.onGetChatList_BB(json => {
       let parsedData = JSON.parse(json);
@@ -121,7 +126,7 @@ const HomeBarber = ({ navigation }) => {
         name: 'BarberInboxList',
         value: parsedData,
       };
-      dispatch({ type: SET_INITIAL_DROPDOWN_FORM_STATE, payload: data });
+      dispatch({type: SET_INITIAL_DROPDOWN_FORM_STATE, payload: data});
     });
 
     SignalRService.onGetChatList_CC(json => {
@@ -156,7 +161,7 @@ const HomeBarber = ({ navigation }) => {
 
   // useLocationWatcher(handleLocationChange);
 
-  const handleClickReject = (item) => {
+  const handleClickReject = item => {
     console.log('Reject Clicked');
     setRejectedBookingData(item);
     setVisible(true);
@@ -187,7 +192,9 @@ const HomeBarber = ({ navigation }) => {
         console.log('res?.data', res?.data);
         if (res?.data?.Table?.[0]?.HassError == 0) {
           SimpleSnackBar(res?.data?.Table?.[0]?.Message);
-          SignalRService.sendNotification(parseInt(res?.data?.Table?.[0]?.NotificationID))
+          SignalRService.sendNotification(
+            parseInt(res?.data?.Table?.[0]?.NotificationID),
+          );
           timeoutRef.current = setTimeout(() => setVisible(false), 3000);
           reCallPreBooking();
         } else {
@@ -201,7 +208,7 @@ const HomeBarber = ({ navigation }) => {
 
   const CustomModalView = () => {
     return (
-      <View style={{ flex: 1 }}>
+      <View style={{flex: 1}}>
         <View
           style={{
             flex: 0.2,
@@ -220,7 +227,7 @@ const HomeBarber = ({ navigation }) => {
             Enter Reason your Reason
           </Text>
         </View>
-        <View style={{ flex: 0.5, backgroundColor: appColors.White }}>
+        <View style={{flex: 0.5, backgroundColor: appColors.White}}>
           <TextInput
             style={{
               flex: 1,
@@ -251,7 +258,7 @@ const HomeBarber = ({ navigation }) => {
             }}>
             <ButtonComponent
               btnColor={appColors.White}
-              btnTextColor={{ color: appColors.Goldcolor }}
+              btnTextColor={{color: appColors.Goldcolor}}
               style={{
                 width: '75%',
                 borderWidth: 1,
@@ -282,9 +289,9 @@ const HomeBarber = ({ navigation }) => {
     );
   };
 
-  const HomeHeader = ({ heading, sunHeading, source }) => {
+  const HomeHeader = ({heading, sunHeading, source}) => {
     return (
-      <View style={{ flex: 1, justifyContent: 'center' }}>
+      <View style={{flex: 1, justifyContent: 'center'}}>
         <View
           style={{
             flex: 1,
@@ -292,16 +299,16 @@ const HomeBarber = ({ navigation }) => {
             justifyContent: 'space-between',
           }}>
           <View
-            style={{ flex: 0.2, alignItems: 'center', justifyContent: 'center' }}>
+            style={{flex: 0.2, alignItems: 'center', justifyContent: 'center'}}>
             {source == null ? (
               <Image
                 source={AppImages?.slider1}
-                style={{ width: 55, height: 55, borderRadius: 100 }}
+                style={{width: 55, height: 55, borderRadius: 100}}
               />
             ) : (
               <Image
-                source={{ uri: `${imageUrl}${source}` }}
-                style={{ width: 55, height: 55, borderRadius: 100 }}
+                source={{uri: `${imageUrl}${source}`}}
+                style={{width: 55, height: 55, borderRadius: 100}}
               />
             )}
           </View>
@@ -312,9 +319,9 @@ const HomeBarber = ({ navigation }) => {
               justifyContent: 'space-between',
               flexDirection: 'row',
             }}>
-            <View style={{ flex: 0.6 }}>
-              <View style={{ flex: 1, justifyContent: 'center', marginLeft: 5 }}>
-                <Text style={{ fontSize: 20, color: appColors.White }}>
+            <View style={{flex: 0.6}}>
+              <View style={{flex: 1, justifyContent: 'center', marginLeft: 5}}>
+                <Text style={{fontSize: 20, color: appColors.White}}>
                   {heading}
                 </Text>
               </View>
@@ -329,10 +336,10 @@ const HomeBarber = ({ navigation }) => {
               }}>
               <TouchableOpacity
                 onPress={() => {
-                  console.log("onPress")
+                  console.log('onPress');
                   navigation.navigate(
                     constants.BarberScreen.NotificationScreen,
-                  )
+                  );
                 }}
                 style={{
                   backgroundColor: appColors.darkgrey,
@@ -349,14 +356,24 @@ const HomeBarber = ({ navigation }) => {
                   color={appColors.White}
                   size={20}
                 />
-                {
-                  Notification?.length > 0 && (
-                    <View style={{ position: 'absolute', top: -10, left: 30, width: 25, height: 25, borderRadius: 50, backgroundColor: appColors.Goldcolor, justifyContent: 'center', alignItems: 'center' }}>
-                      <Text style={{ color: appColors.White, fontSize: 12 }}>{Notification?.length}</Text>
-                    </View>
-                  )
-                }
-
+                {Notification?.length > 0 && (
+                  <View
+                    style={{
+                      position: 'absolute',
+                      top: -10,
+                      left: 30,
+                      width: 25,
+                      height: 25,
+                      borderRadius: 50,
+                      backgroundColor: appColors.Goldcolor,
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                    }}>
+                    <Text style={{color: appColors.White, fontSize: 12}}>
+                      {Notification?.length}
+                    </Text>
+                  </View>
+                )}
               </TouchableOpacity>
               <TouchableOpacity
                 // onPress={() => {
@@ -398,12 +415,15 @@ const HomeBarber = ({ navigation }) => {
     PostRequest(endPoint?.BARBER_AVAILABLESLOTS, payload)
       .then(res => {
         console.log('res?.data', res?.data);
-        const { Table } = res?.data
+        const {Table} = res?.data;
         if (Table?.[0]?.HassError == 0) {
           getTodaysBooking();
           SimpleSnackBar(Table?.[0]?.Message);
-          console.log("Table?.[0]?.NotificationID.toString()", Table?.[0]?.NotificationID.toString())
-          SignalRService.sendNotification(parseInt(Table?.[0]?.NotificationID))
+          console.log(
+            'Table?.[0]?.NotificationID.toString()',
+            Table?.[0]?.NotificationID.toString(),
+          );
+          SignalRService.sendNotification(parseInt(Table?.[0]?.NotificationID));
         } else {
           SimpleSnackBar(Table?.[0]?.Message, appColors.Red);
         }
@@ -413,7 +433,7 @@ const HomeBarber = ({ navigation }) => {
       });
   };
 
-  const handleMarkAsCompleted = (item) => {
+  const handleMarkAsCompleted = item => {
     const payload = {
       ...initialOperationFields,
       operationID: 12,
@@ -427,10 +447,10 @@ const HomeBarber = ({ navigation }) => {
     PostRequest(endPoint?.BARBER_AVAILABLESLOTS, payload)
       .then(res => {
         console.log('res?.data', res?.data);
-        const { Table } = res?.data;
+        const {Table} = res?.data;
         if (Table?.[0]?.HassError == 0) {
           SimpleSnackBar(Table?.[0]?.Message);
-          SignalRService.sendNotification(parseInt(Table?.[0]?.NotificationID))
+          SignalRService.sendNotification(parseInt(Table?.[0]?.NotificationID));
           getTodaysBooking();
         } else {
           SimpleSnackBar(Table?.[0]?.Message, appColors.Red);
@@ -439,11 +459,11 @@ const HomeBarber = ({ navigation }) => {
       .catch(err => {
         console.log('err', err);
       });
-  }
+  };
 
-  const ListPrebooking = ({ item, index, }) => (
+  const ListPrebooking = ({item, index}) => (
     <View key={index} style={styles.bookingContainerstyle}>
-      <View style={{ flex: 1, borderRadius: 20 }}>
+      <View style={{flex: 1, borderRadius: 20}}>
         <View style={styles.bookingInnercontainerView}>
           <View style={styles.bookingTextview}>
             <Text style={styles.dateTextstyle}>
@@ -455,7 +475,7 @@ const HomeBarber = ({ navigation }) => {
             <View style={styles.EreciptInnerView}>
               <Bookingbutton
                 style={styles.EreciptButtonstyle}
-                stylebtn={{ color: appColors.White, fontSize: 11 }}
+                stylebtn={{color: appColors.White, fontSize: 11}}
                 onPress={() =>
                   navigation.navigate(constants.BarberScreen.BarberEReceipt, {
                     bookingSlot: item,
@@ -471,11 +491,10 @@ const HomeBarber = ({ navigation }) => {
           <View style={styles.DashLinestyle}></View>
         </View>
 
-        <View
-          style={[styles.imagetextContainerView, { paddingHorizontal: 15 }]}>
+        <View style={[styles.imagetextContainerView, {paddingHorizontal: 15}]}>
           <View style={styles.bookingImageview}>
             <Image
-              source={{ uri: `${imageUrl}${item.CustomerProfileImage}` }}
+              source={{uri: `${imageUrl}${item.CustomerProfileImage}`}}
               style={styles.bookingImagestyle}
             />
           </View>
@@ -490,38 +509,45 @@ const HomeBarber = ({ navigation }) => {
           </View>
         </View>
         <View style={styles.ButtonsView}>
-          {
-            item?.StatusID == 9 || item?.StatusID == 13 ?
-              (
-                <Bookingbutton
-                  onPress={() => {
-                    if (item?.IsPaid == true) handleMarkAsCompleted(item)
-                  }}
-                  style={{ width: "80%", backgroundColor: item?.StatusID == 13 ? appColors.Red : appColors.Accepted, borderColor: item?.StatusID == 13 ? appColors.Red : appColors.Accepted }}
-                  stylebtn={{ color: 'white' }}
-                  title={item?.StatusID == 13 ? "Request for Rejection" : 'Mark as Completed'}
-                />
-              ) :
-              (
-                <>
-                  <Bookingbutton
-                    onPress={() => handleClickAccept(item)}
-                    style={{ backgroundColor: '#c79647' }}
-                    stylebtn={{ color: 'white' }}
-                    title={'Accept'}
-                  />
-                  <Bookingbutton
-                    onPress={() => handleClickReject(item)}
-                    style={{ backgroundColor: '#E81F1C', borderColor: 'red' }}
-                    stylebtn={{ color: 'white' }}
-                    title={'Reject'}
-                  /></>
-              )
-          }
+          {item?.StatusID == 9 || item?.StatusID == 13 ? (
+            <Bookingbutton
+              onPress={() => {
+                if (item?.IsPaid == true) handleMarkAsCompleted(item);
+              }}
+              style={{
+                width: '80%',
+                backgroundColor:
+                  item?.StatusID == 13 ? appColors.Red : appColors.Accepted,
+                borderColor:
+                  item?.StatusID == 13 ? appColors.Red : appColors.Accepted,
+              }}
+              stylebtn={{color: 'white'}}
+              title={
+                item?.StatusID == 13
+                  ? 'Request for Rejection'
+                  : 'Mark as Completed'
+              }
+            />
+          ) : (
+            <>
+              <Bookingbutton
+                onPress={() => handleClickAccept(item)}
+                style={{backgroundColor: '#c79647'}}
+                stylebtn={{color: 'white'}}
+                title={'Accept'}
+              />
+              <Bookingbutton
+                onPress={() => handleClickReject(item)}
+                style={{backgroundColor: '#E81F1C', borderColor: 'red'}}
+                stylebtn={{color: 'white'}}
+                title={'Reject'}
+              />
+            </>
+          )}
         </View>
       </View>
     </View>
-  )
+  );
 
   const getTodaysBooking = () => {
     const payload = {
@@ -549,17 +575,18 @@ const HomeBarber = ({ navigation }) => {
 
   return (
     <Screen statusBarColor={appColors.Black} viewStyle={styles.MianContainer}>
-      <View style={{
-        minHeight: screenSize.height / 1.2,
-        maxHeight: 'auto',
-      }}>
-        <View style={{ flex: 1 }}>
+      <View
+        style={{
+          minHeight: screenSize.height / 1.2,
+          maxHeight: 'auto',
+        }}>
+        <View style={{flex: 1}}>
           <CustomModal
             visible={visible}
-            modalHeight={{ height: screenSize.height / 3 }}
+            modalHeight={{height: screenSize.height / 3}}
             CustomModalView={CustomModalView}
           />
-          <View style={{ flex: 0.1 }}>
+          <View style={{flex: 0.1}}>
             <HomeHeader
               heading={userDetails?.userName}
               source={userDetails?.profileImage}
@@ -578,44 +605,49 @@ const HomeBarber = ({ navigation }) => {
               alignItems: 'center',
               paddingHorizontal: 10,
             }}>
-            <Text style={{ fontSize: 22, color: appColors.White }}>
+            <Text style={{fontSize: 22, color: appColors.White}}>
               Appointment
             </Text>
-            <TouchableOpacity onPress={() => navigation.navigate(constants.BarberScreen.AllBookings)}>
-              <Text style={{ color: appColors.Goldcolor, fontSize: 16 }}>
+            <TouchableOpacity>
+              {/* <Text style={{color: appColors.Goldcolor, fontSize: 16}}>
                 See all
-              </Text>
+              </Text> */}
             </TouchableOpacity>
           </View>
 
-          <View style={{ flex: 0.7 }}>
-            {
-              isLoading ?
-                (
-                  <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-                    <ActivityIndicator size='small' color={appColors.Goldcolor} />
-                  </View>
-                ) :
-                (
-                  todaysBooking?.length > 0 ?
-                    (
-                      <FlatList
-                        data={todaysBooking}
-                        showsVerticalScrollIndicator={false}
-                        keyExtractor={(item, index) => index?.toString()}
-                        renderItem={({ item, index }) => <ListPrebooking item={item} />}
-                      />
-                    ) :
-                    (
-                      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-                        <BoxLottie
-                          animationPath={require('../../../LottieAnimation/NoPostFoundAnimation.json')}
-                        />
-                        <Text style={{ color: appColors.White, fontSize: 15, marginTop: 5 }}>No Current Appointment</Text>
-                      </View>
-                    )
-                )
-            }
+          <View style={{flex: 0.7}}>
+            {isLoading ? (
+              <View
+                style={{
+                  flex: 1,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }}>
+                <ActivityIndicator size="small" color={appColors.Goldcolor} />
+              </View>
+            ) : todaysBooking?.length > 0 ? (
+              <FlatList
+                data={todaysBooking}
+                showsVerticalScrollIndicator={false}
+                keyExtractor={(item, index) => index?.toString()}
+                renderItem={({item, index}) => <ListPrebooking item={item} />}
+              />
+            ) : (
+              <View
+                style={{
+                  flex: 1,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }}>
+                <BoxLottie
+                  animationPath={require('../../../LottieAnimation/NoPostFoundAnimation.json')}
+                />
+                <Text
+                  style={{color: appColors.White, fontSize: 15, marginTop: 5}}>
+                  No Current Appointment
+                </Text>
+              </View>
+            )}
           </View>
         </View>
       </View>

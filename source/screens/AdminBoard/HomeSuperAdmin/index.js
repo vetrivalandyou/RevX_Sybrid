@@ -164,9 +164,10 @@ const HomeSuperAdmin = ({route}) => {
             style={{flex: 0.2, flexDirection: 'row', justifyContent: 'center'}}>
             <TouchableOpacity
               style={{flex: 0.2, alignItems: 'center'}}
-              onPress={() =>
-                navigation.navigate(constants.AdminScreens.AdminPaymentMethod)
-              }>
+              // onPress={() =>
+              //   navigation.navigate(constants.AdminScreens.AdminPaymentMethod)
+              // }
+            >
               <View
                 style={{
                   flex: 0.7,
