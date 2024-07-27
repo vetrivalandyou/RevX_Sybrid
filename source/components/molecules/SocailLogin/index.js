@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   Text,
   View,
@@ -9,12 +9,12 @@ import {
   Platform,
   StyleSheet,
 } from 'react-native';
-import CustomIcon, { Icons } from '../CustomIcon/CustomIcon';
+import CustomIcon, {Icons} from '../CustomIcon/CustomIcon';
 import AppColors from '../../../AppConstants/appColors';
 import appColors from '../../../AppConstants/appColors';
-import constants from '../../../AppConstants/Constants.json'
+import constants from '../../../AppConstants/Constants.json';
 import styles from './styles';
-import { jwt_decode } from 'jwt-decode';
+import {jwt_decode} from 'jwt-decode';
 import auth from '@react-native-firebase/auth';
 import appleAuth, {
   AppleButton,
@@ -29,13 +29,13 @@ import {
   GraphRequest,
   GraphRequestManager,
 } from 'react-native-fbsdk-next';
-import { PostRequest } from '../../../services/apiCall';
-import { endPoint, messages } from '../../../AppConstants/urlConstants';
-import { SimpleSnackBar } from '../../atom/Snakbar/Snakbar';
-import { useNavigation } from '@react-navigation/native';
-import { setAsyncItem } from '../../../utils/SettingAsyncStorage';
-import { SET_INITIAL_DROPDOWN_FORM_STATE } from '../../../redux/ActionType/CrudActionTypes';
-import { useDispatch } from 'react-redux';
+import {PostRequest} from '../../../services/apiCall';
+import {endPoint, messages} from '../../../AppConstants/urlConstants';
+import {SimpleSnackBar} from '../../atom/Snakbar/Snakbar';
+import {useNavigation} from '@react-navigation/native';
+import {setAsyncItem} from '../../../utils/SettingAsyncStorage';
+import {SET_INITIAL_DROPDOWN_FORM_STATE} from '../../../redux/ActionType/CrudActionTypes';
+import {useDispatch} from 'react-redux';
 
 const SocailLogin = ({
   SocailLogin,
@@ -44,7 +44,7 @@ const SocailLogin = ({
   iconType,
   onPressIcon,
 }) => {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   const navigation = useNavigation();
   const [showModal, setShowModal] = useState(false);
 
@@ -66,7 +66,7 @@ const SocailLogin = ({
   }
 
   const registerUser = (userInfo, isLoginId) => {
-    const { email, name, id } = userInfo?.user;
+    const {email, name, id} = userInfo?.user;
     const payload = {
       FullName: name,
       UserEmail: email,
@@ -98,6 +98,7 @@ const SocailLogin = ({
       UserPassword: '123456789',
       loginWith: isLoginId,
       AuthId: userInfo?.user?.id,
+      isLogin: true,
     };
     console.log('login user payload', payload);
     PostRequest(endPoint.LOGIN, payload)
@@ -130,8 +131,8 @@ const SocailLogin = ({
       await GoogleSignin.hasPlayServices();
       const userInfo = await GoogleSignin.signIn();
       console.log('Login With Google', userInfo);
-      let loginWith = { name: "loginWith", value: 2 }
-      dispatch({ type: SET_INITIAL_DROPDOWN_FORM_STATE, payload: loginWith })
+      let loginWith = {name: 'loginWith', value: 2};
+      dispatch({type: SET_INITIAL_DROPDOWN_FORM_STATE, payload: loginWith});
       registerUser(userInfo, 2); /* Login With Google 2 */
     } catch (error) {
       console.log('err', error);
@@ -151,7 +152,7 @@ const SocailLogin = ({
     };
     const profileRequest = new GraphRequest(
       '/me',
-      { token, parameters: PROFILE_REQUEST_PARAMS },
+      {token, parameters: PROFILE_REQUEST_PARAMS},
       (error, user) => {
         if (error) {
           console.log('login info has error: ' + error);
@@ -183,7 +184,7 @@ const SocailLogin = ({
         }
 
         // Extract access token from the data
-        const { accessToken } = accessTokenData;
+        const {accessToken} = accessTokenData;
 
         // Now you can use the accessToken to make requests to the Facebook Graph API to get user data
 
@@ -240,7 +241,7 @@ const SocailLogin = ({
       );
       console.log('credentialState', credentialState);
 
-      const { identityToken, nonce } = appleAuthRequestResponse;
+      const {identityToken, nonce} = appleAuthRequestResponse;
       const appleCredential = auth.AppleAuthProvider.credential(
         identityToken,
         nonce,
@@ -248,7 +249,7 @@ const SocailLogin = ({
 
       console.log('appleCredential appleCredential', appleCredential);
       const userDetails = await auth().signInWithCredential(appleCredential);
-      const { email, displayName } = { jwt_decode }(identityToken);
+      const {email, displayName} = {jwt_decode}(identityToken);
       console.log(
         '{jwt_decode}{jwt_decode}{jwt_decode}{jwt_decode}{jwt_decode}',
         email,
@@ -279,7 +280,7 @@ const SocailLogin = ({
       }}>
       <View style={styles.textStyle}>
         <View style={styles.lineStyle}></View>
-        <Text style={{ color: appColors.White }}>{SocailLogin}</Text>
+        <Text style={{color: appColors.White}}>{SocailLogin}</Text>
         <View style={styles.lineStyle}></View>
       </View>
 
