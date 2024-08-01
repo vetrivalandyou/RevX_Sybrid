@@ -241,7 +241,7 @@ const UserNotification = ({ navigation }) => {
                       <BoxLottie
                         animationPath={require('../../LottieAnimation/NoPostFoundAnimation.json')}
                       />
-                      <Text style={{ color: appColors.White, fontSize: 15, marginTop: 5 }}>No Current Appointment</Text>
+                      <Text style={{ color: appColors.White, fontSize: 15, marginTop: 5 }}>No Notification Found</Text>
                     </View>
                   )
 

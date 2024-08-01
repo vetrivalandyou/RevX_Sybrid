@@ -116,7 +116,7 @@ const PreBooking = ({
               marginTop: 5,
             }}>
             <View style={{flex: 0.6}}>
-              <Text style={{color: 'white', fontSize: 14}}>
+              <Text style={{color: 'white', fontSize: 11}}>
                 {moment(item?.BookingDate).format('MMMM DD, YYYY')} -{' '}
                 {item?.SlotName}
               </Text>

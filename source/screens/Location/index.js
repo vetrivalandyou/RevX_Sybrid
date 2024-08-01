@@ -150,12 +150,12 @@ const LocationScreen = () => {
       });
   };
 
-  useEffect(() => {
-    const intervalId = setInterval(() => {
-      reCallBarber()
-    }, 20000);
-    return () => clearInterval(intervalId);
-  }, []);
+  // useEffect(() => {
+  //   const intervalId = setInterval(() => {
+  //     reCallBarber()
+  //   }, 20000);
+  //   return () => clearInterval(intervalId);
+  // }, []);
 
   return (
     <Screen

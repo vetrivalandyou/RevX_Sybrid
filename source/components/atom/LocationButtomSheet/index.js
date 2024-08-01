@@ -22,7 +22,7 @@ import {SimpleSnackBar} from '../Snakbar/Snakbar';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Geolocation from '@react-native-community/geolocation';
 
-const LocationBottomSheet = ({refRBSheet}) => {
+const LocationBottomSheet = ({refRBSheet, setHomeScreenLocation}) => {
   const navigation = useNavigation();
   const [locationList, setLocationList] = useState([]);
   const [userDetails, setUserDetails] = useState({});
@@ -142,7 +142,7 @@ const LocationBottomSheet = ({refRBSheet}) => {
             res?.data?.results?.[0]?.address_components?.[3]?.long_name,
           ),
         );
-
+        setHomeScreenLocation(res?.data?.results?.[0]?.address_components?.[3]?.long_name)
         locatioDetails(userCurrentLocation, res?.data?.results?.[0]);
       })
       .catch(err => {
@@ -151,6 +151,7 @@ const LocationBottomSheet = ({refRBSheet}) => {
   };
 
   const handleClickLocation = item => {
+    console.log("Item", item)
     const makingData = {
       coords: {
         latitude: item?.locationLatitude,
@@ -224,6 +225,7 @@ const LocationBottomSheet = ({refRBSheet}) => {
           constants?.AsyncStorageKeys?.nearest_landmark,
           JSON.stringify(selectedLocation?.nearstLandmark),
         );
+        setHomeScreenLocation(selectedLocation?.nearstLandmark)
         refRBSheet.current.close();
       } else {
         console.log('No location selected');

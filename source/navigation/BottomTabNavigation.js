@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, {useEffect} from 'react';
 import {
   BarberSpecialist,
   Booking,
@@ -8,25 +8,24 @@ import {
   Successfull,
 } from '../screens';
 import appColors from '../AppConstants/appColors';
-import CustomIcon, { Icons } from '../components/molecules/CustomIcon/CustomIcon';
+import CustomIcon, {Icons} from '../components/molecules/CustomIcon/CustomIcon';
 import constants from '../AppConstants/Constants.json';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { Linking, Platform, StyleSheet, View } from 'react-native';
-import { useNavigation, useTheme } from '@react-navigation/native';
+import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import {Linking, Platform, StyleSheet, View} from 'react-native';
+import {useNavigation, useTheme} from '@react-navigation/native';
 import LocationScreen from '../screens/Location';
 import MyBooking from '../screens/Booking/MyBooking';
 import DynamicLinks from '@react-native-firebase/dynamic-links';
 
 const Tab = createBottomTabNavigator();
 
-
 const BottomTabNavigation = () => {
   const navigation = useNavigation();
 
   useEffect(() => {
-    const handleDynamicLink = async (link) => {
+    const handleDynamicLink = async link => {
       if (link) {
-        const { url } = link;
+        const {url} = link;
         console.log('URI', url);
 
         const parts = url.split('?');
@@ -35,14 +34,22 @@ const BottomTabNavigation = () => {
           console.log(queryString);
           const index = queryString.indexOf('=');
           const key = queryString.substring(0, index);
-          if(key == 'barberProfileId'){
+          if (key == 'barberProfileId') {
             let barbeProfileID = queryString.split('=').pop();
-            console.log("barbeProfileID", barbeProfileID)
-            navigation.navigate(constants.screen.BarberProfile, {barberId: barbeProfileID})
-          } else if(key == 'paymentStatus'){
+            console.log('barbeProfileID', barbeProfileID);
+            navigation.navigate(constants.screen.BarberProfile, {
+              barberId: barbeProfileID,
+            });
+          } else if (key == 'paymentStatus') {
             let paymentStatus = queryString.split('=').pop();
-            console.log("paymentStatus", paymentStatus)
-            navigation.navigate(constants.screen.PaymentStatus, {paymentStatus: paymentStatus})
+            console.log('paymentStatus', paymentStatus);
+            navigation.navigate(constants.screen.PaymentStatus, {
+              paymentStatus: paymentStatus,
+            });
+          } else if (key == 'referFriend') {
+            let referFriend = queryString.split('=').pop();
+            console.log('referFriend', referFriend);
+            navigation.navigate(constants.screen.HomeScreen);
           }
         } else {
           console.log('No query string found');
@@ -67,7 +74,7 @@ const BottomTabNavigation = () => {
       screenOptions={{
         lazy: true,
         tabBarShowLabel: false,
-        tabBarStyle: { ...styles.BottomBarContainer },
+        tabBarStyle: {...styles.BottomBarContainer},
         tabBarHideOnKeyboard: true,
         headerShown: false,
       }}>
@@ -76,20 +83,25 @@ const BottomTabNavigation = () => {
         component={HomeScreen}
         options={{
           // tabBarStyle: {position:},
-          tabBarIcon: ({ focused }) => (
-            <View style={{ padding: 14, borderRadius: 20, backgroundColor: focused ? 'white' : 'transparent' }}>
+          tabBarIcon: ({focused}) => (
+            <View
+              style={{
+                padding: 14,
+                borderRadius: 20,
+                backgroundColor: focused ? 'white' : 'transparent',
+              }}>
               <CustomIcon
                 type={Icons.Feather}
                 name="home"
                 color={focused ? appColors.Black : appColors.White}
-
-                style={{
-                  // padding: 14,
-                  // borderRadius: 20,
-                }}
+                style={
+                  {
+                    // padding: 14,
+                    // borderRadius: 20,
+                  }
+                }
               />
             </View>
-
           ),
         }}
       />
@@ -98,8 +110,13 @@ const BottomTabNavigation = () => {
         name={constants.screen.MyBooking}
         component={MyBooking}
         options={{
-          tabBarIcon: ({ focused }) => (
-            <View style={{ padding: 14, borderRadius: 20, backgroundColor: focused ? 'white' : 'transparent' }}>
+          tabBarIcon: ({focused}) => (
+            <View
+              style={{
+                padding: 14,
+                borderRadius: 20,
+                backgroundColor: focused ? 'white' : 'transparent',
+              }}>
               <CustomIcon
                 //style={{backgroundColor:'red'}}
                 type={Icons.SimpleLineIcons}
@@ -115,8 +132,13 @@ const BottomTabNavigation = () => {
         component={LocationScreen}
         options={{
           // tabBarLabel: 'Home',
-          tabBarIcon: ({ focused }) => (
-            <View style={{ padding: 14, borderRadius: 20, backgroundColor: focused ? 'white' : 'transparent' }}>
+          tabBarIcon: ({focused}) => (
+            <View
+              style={{
+                padding: 14,
+                borderRadius: 20,
+                backgroundColor: focused ? 'white' : 'transparent',
+              }}>
               <CustomIcon
                 name={'map-marker-circle'}
                 type={Icons.MaterialCommunityIcons}
@@ -132,8 +154,13 @@ const BottomTabNavigation = () => {
         component={InboxScreen}
         options={{
           // tabBarLabel: 'Home',
-          tabBarIcon: ({ focused }) => (
-            <View style={{ padding: 14, borderRadius: 20, backgroundColor: focused ? 'white' : 'transparent' }}>
+          tabBarIcon: ({focused}) => (
+            <View
+              style={{
+                padding: 14,
+                borderRadius: 20,
+                backgroundColor: focused ? 'white' : 'transparent',
+              }}>
               <CustomIcon
                 name={'message1'}
                 type={Icons.AntDesign}
@@ -148,8 +175,13 @@ const BottomTabNavigation = () => {
         component={ProfileScreen}
         options={{
           // tabBarLabel: 'Home',
-          tabBarIcon: ({ focused }) => (
-            <View style={{ padding: 14, borderRadius: 20, backgroundColor: focused ? 'white' : 'transparent' }}>
+          tabBarIcon: ({focused}) => (
+            <View
+              style={{
+                padding: 14,
+                borderRadius: 20,
+                backgroundColor: focused ? 'white' : 'transparent',
+              }}>
               <CustomIcon
                 name={'person-outline'}
                 type={Icons.Ionicons}

@@ -15,6 +15,7 @@ import Entypo from 'react-native-vector-icons/Entypo';
 import {getAsyncItem} from '../../../utils/SettingAsyncStorage';
 import {imageUrl} from '../../../AppConstants/urlConstants';
 import DynamicLinks from '@react-native-firebase/dynamic-links';
+import LoadingModal from '../../../components/molecules/LoadingModal';
 
 const BaberProfileScreen = () => {
   const navigation = useNavigation();
@@ -22,6 +23,7 @@ const BaberProfileScreen = () => {
   const isFocused = useIsFocused();
 
   const [userDetails, setUserDetails] = useState();
+  const [sharingProfile, setSharingProfile] = useState(false);
 
   useEffect(() => {
     if (isFocused) {
@@ -80,6 +82,9 @@ const BaberProfileScreen = () => {
       case 1:
         shareUserProfileLink();
         break;
+      case 2:
+        navigation.navigate(constants.BarberScreen.NotificationScreen);
+        break;
       case 3:
         navigation.navigate(constants.BarberScreen.Servicesboard);
         break;
@@ -115,18 +120,20 @@ const BaberProfileScreen = () => {
   };
 
   const shareUserProfileLink = async () => {
-    console.log("----------")
-      try {
-        const constructedUrl = await generateLink();
-        const options = {
-          message: 'Checkout Barber Profile!',
-          url: constructedUrl,
-        };
-        console.log("option", options)
-        await Share.open(options);
-      } catch (error) {
-        console.log('Error sharing:', error.message);
-      }
+    setSharingProfile(true);
+    console.log('----------');
+    try {
+      const constructedUrl = await generateLink();
+      const options = {
+        message: 'Checkout Barber Profile!',
+        url: constructedUrl,
+      };
+      console.log('option', options);
+      setSharingProfile(false);
+      await Share.open(options);
+    } catch (error) {
+      console.log('Error sharing:', error.message);
+    }
   };
 
   const ProfileContainer = ({item, onPress}) => {
@@ -171,6 +178,8 @@ const BaberProfileScreen = () => {
       <BottomSheet ref={refRBSheet} Height={screenSize.height / 5}>
         <LogoutBottom refRBSheet={refRBSheet} />
       </BottomSheet>
+
+      <LoadingModal visible={sharingProfile} />
 
       <View
         style={{

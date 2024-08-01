@@ -23,6 +23,7 @@ import SignalRService from '../../services/SignalRService';
 import {useSelector} from 'react-redux';
 import {imageUrl} from '../../AppConstants/urlConstants';
 import {screenSize} from '../../components/atom/ScreenSize';
+import BoxLottie from '../../components/atom/BoxLottie/BoxLottie';
 
 const InboxScreen = () => {
   const {SupportingTables} = useSelector(state => state.CrudFormReducer);
@@ -133,12 +134,22 @@ const InboxScreen = () => {
         </View>
 
         <View style={{flex: 0.71}}>
-          <FlatList
-            data={InboxList}
-            renderItem={({item}) => (
-              <Messages item={item} navigation={navigation} />
-            )}
-          />
+          {InboxList?.length > 0 ? (
+            <FlatList
+              data={InboxList}
+              renderItem={({item}) => (
+                <Messages item={item} navigation={navigation} />
+              )}
+            />
+          ) : (
+            <View
+              style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+              <BoxLottie
+                animationPath={require('../../LottieAnimation/NoPostFoundAnimation.json')}
+              />
+            </View>
+          )}
+          {/*  */}
         </View>
       </KeyboardAvoidingView>
     </Screen>

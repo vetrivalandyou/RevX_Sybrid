@@ -609,7 +609,7 @@ const HomeScreen = ({navigation}) => {
         <BottomSheet
           ref={locationBottomSheetRef}
           Height={screenSize.height / 2}>
-          <LocationBottomSheet refRBSheet={locationBottomSheetRef} />
+          <LocationBottomSheet refRBSheet={locationBottomSheetRef} setHomeScreenLocation={setSelectedLocation} />
         </BottomSheet>
         <View style={{flex: 0.1}}>
           <HomeHeader

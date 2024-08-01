@@ -28,12 +28,14 @@ import {imageUrl} from '../../AppConstants/urlConstants';
 import {getAsyncItem} from '../../utils/SettingAsyncStorage';
 import DynamicLinks from '@react-native-firebase/dynamic-links';
 import Share from 'react-native-share';
+import LoadingModal from '../../components/molecules/LoadingModal';
 
 const ProfileScreen = ({navigation}) => {
   const refRBSheet = useRef();
   const isFocused = useIsFocused();
   const [userDetails, setUserDetails] = useState();
   const [isSignOutModalVisible, setIsSignOutModalVisible] = useState(false);
+  const [referingFriend, setReferingFriend] = useState(false);
 
   useEffect(() => {
     if (isFocused) {
@@ -120,6 +122,7 @@ const ProfileScreen = ({navigation}) => {
         onPress={() => {
           console.log('index', index);
           if (index == 5) {
+            setReferingFriend(true);
             onPressReferFriend();
           } else {
             onPress();
@@ -160,7 +163,7 @@ const ProfileScreen = ({navigation}) => {
     try {
       const link = await DynamicLinks().buildShortLink(
         {
-          link: 'https://revx.page.link/g576?paymentStatus=false',
+          link: 'https://revx.page.link/g576?referFriend=true',
           domainUriPrefix: 'https://revx.page.link',
           android: {
             packageName: 'com.revxmobileapp',
@@ -187,6 +190,7 @@ const ProfileScreen = ({navigation}) => {
           message: 'Check out RevX App!',
           url: constructedUrl,
         };
+        setReferingFriend(false);
         await Share.open(options);
       } catch (error) {
         console.log('Error sharing:', error.message);
@@ -209,9 +213,6 @@ const ProfileScreen = ({navigation}) => {
       statusBarColor={appColors.Black}
       barStyle="light-content"
       viewStyle={{backgroundColor: 'appColors.Black'}}>
-      {/* <BottomSheet ref={refRBSheet} Height={screenSize.height - 452}>
-        <LocationBottom refRBSheet={refRBSheet} />
-      </BottomSheet> */}
       <BottomSheet ref={refRBSheet} Height={screenSize.height / 4}>
         <LogoutBottom refRBSheet={refRBSheet} />
       </BottomSheet>
@@ -283,6 +284,9 @@ const ProfileScreen = ({navigation}) => {
           </View>
         </View>
       </Modal>
+
+      <LoadingModal visible={referingFriend} />
+
       <View
         style={{
           flex: 0.09,
