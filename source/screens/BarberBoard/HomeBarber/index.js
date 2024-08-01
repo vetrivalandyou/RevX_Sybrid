@@ -605,8 +605,8 @@ const HomeBarber = ({navigation}) => {
               alignItems: 'center',
               paddingHorizontal: 10,
             }}>
-            <Text style={{fontSize: 22, color: appColors.White}}>
-              Appointment
+            <Text style={{fontSize: 17, fontWeight: 'bold', color: appColors.White}}>
+              Today's Appointment
             </Text>
             <TouchableOpacity>
               {/* <Text style={{color: appColors.Goldcolor, fontSize: 16}}>
@@ -643,8 +643,8 @@ const HomeBarber = ({navigation}) => {
                   animationPath={require('../../../LottieAnimation/NoPostFoundAnimation.json')}
                 />
                 <Text
-                  style={{color: appColors.White, fontSize: 15, marginTop: 5}}>
-                  No Current Appointment
+                  style={{color: appColors.White, fontSize: 15, fontWeight: 'bold', marginTop: 5}}>
+                    No Appointment Found
                 </Text>
               </View>
             )}
