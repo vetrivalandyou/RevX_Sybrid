@@ -19,8 +19,7 @@ import BarberStack from '../../../source/navigation/BarberBoardNavigation/index'
 import AdminStack from '../../../source/navigation/AdminBoardNavigation/index';
 import CreateAccountBarber from '../../screens/Auth/CreateAccountBarber';
 import OTP_Verification from '../../screens/Auth/ForgotPassword/OTP_Verification';
-import GetLocation from '../../utils/GetLocation';
-import DynamicLinks from '@react-native-firebase/dynamic-links';
+
 
 const AuthIndex = () => {
   const Stack = createNativeStackNavigator();
@@ -51,7 +50,6 @@ const AuthIndex = () => {
             component={Login}
             options={{headerShown: false}}
           />
-
           <Stack.Screen
             name={constants.AuthScreen.CreateAccount}
             component={CreateAccount}

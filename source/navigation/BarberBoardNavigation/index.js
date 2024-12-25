@@ -52,7 +52,7 @@ const BarberStack = () => {
         await requestLocationPermissionAndGetLocation();
       handleLocationChange(userAsyncDetails, userCurrentLocation);
     } catch (error) {
-      console.log("getCurrentLocation",error);
+      console.log('getCurrentLocation', error);
     }
   };
 
@@ -61,7 +61,7 @@ const BarberStack = () => {
       handleSaveBarberLocation(userAsyncDetails, newCoords?.coords);
       setLogLatAsync(constants.AsyncStorageKeys.longLat, newCoords);
     } catch (error) {
-      console.log("handleLocationChange",error);
+      console.log('handleLocationChange', error);
     }
   };
 
@@ -133,7 +133,7 @@ const BarberStack = () => {
           component={BarberChatScreen}
           options={{headerShown: false}}
         />
-           <Stack.Screen
+        <Stack.Screen
           name={constants.BarberScreen.BarberChat}
           component={BarberChat}
           options={{headerShown: false}}

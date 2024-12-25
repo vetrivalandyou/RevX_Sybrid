@@ -1,36 +1,28 @@
-import React, { useEffect } from 'react';
+import React, {useEffect} from 'react';
 import appColors from '../../AppConstants/appColors';
 import constants from '../../AppConstants/Constants.json';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { Platform, StyleSheet, View } from 'react-native';
-import { useTheme } from '@react-navigation/native';
+import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import {Platform, StyleSheet, View} from 'react-native';
 
 import {
-  AdminBarberEarnings,
-  BarberEarnReport,
   HomeBarber,
   MyBooking,
-  HomeSuperAdmin,
   BaberProfileScreen,
   BarberChatScreen,
 } from '../../screens';
 import CustomIcon, {
   Icons,
 } from '../../components/molecules/CustomIcon/CustomIcon';
-import SignalRService from '../../services/SignalRService';
-import { useDispatch, useSelector } from 'react-redux';
-import { INCREMENT_NOTIFICATION_COUNT, RESET_NOTIFICATION_COUNT } from '../../redux/ActionType/NotificationActionTypes';
 
 const Tab = createBottomTabNavigator();
 
 const BarberBottomTabNavigation = () => {
-
   return (
     <Tab.Navigator
       screenOptions={{
         lazy: true,
         tabBarShowLabel: false,
-        tabBarStyle: { ...styles.BottomBarContainer },
+        tabBarStyle: {...styles.BottomBarContainer},
         tabBarHideOnKeyboard: true,
         headerShown: false,
       }}>
@@ -38,10 +30,14 @@ const BarberBottomTabNavigation = () => {
         name={constants.BarberScreen.HomeBarber}
         component={HomeBarber}
         options={{
-          tabBarIcon: ({ focused }) => (
-            <View style={{ padding: 14, borderRadius: 20, backgroundColor: focused ? 'white' : 'transparent' }}>
+          tabBarIcon: ({focused}) => (
+            <View
+              style={{
+                padding: 14,
+                borderRadius: 20,
+                backgroundColor: focused ? 'white' : 'transparent',
+              }}>
               <CustomIcon
-                //style={{backgroundColor:'red'}}
                 type={Icons.Feather}
                 name="home"
                 color={focused ? appColors.Black : appColors.White}
@@ -55,10 +51,14 @@ const BarberBottomTabNavigation = () => {
         name={constants.BarberScreen.MyBooking}
         component={MyBooking}
         options={{
-          tabBarIcon: ({ focused }) => (
-            <View style={{ padding: 14, borderRadius: 20, backgroundColor: focused ? 'white' : 'transparent' }}>
+          tabBarIcon: ({focused}) => (
+            <View
+              style={{
+                padding: 14,
+                borderRadius: 20,
+                backgroundColor: focused ? 'white' : 'transparent',
+              }}>
               <CustomIcon
-                //style={{backgroundColor:'red'}}
                 type={Icons.AntDesign}
                 name="calendar"
                 color={focused ? appColors.Black : appColors.White}
@@ -72,9 +72,13 @@ const BarberBottomTabNavigation = () => {
         name={constants.BarberScreen.BarberChatScreen}
         component={BarberChatScreen}
         options={{
-          // tabBarLabel: 'Home',
-          tabBarIcon: ({ focused }) => (
-            <View style={{ padding: 14, borderRadius: 20, backgroundColor: focused ? 'white' : 'transparent' }}>
+          tabBarIcon: ({focused}) => (
+            <View
+              style={{
+                padding: 14,
+                borderRadius: 20,
+                backgroundColor: focused ? 'white' : 'transparent',
+              }}>
               <CustomIcon
                 name={'message1'}
                 type={Icons.AntDesign}
@@ -89,9 +93,13 @@ const BarberBottomTabNavigation = () => {
         name={constants.BarberScreen.BaberProfileScreen}
         component={BaberProfileScreen}
         options={{
-          // tabBarLabel: 'Home',
-          tabBarIcon: ({ focused }) => (
-            <View style={{ padding: 14, borderRadius: 20, backgroundColor: focused ? 'white' : 'transparent' }}>
+          tabBarIcon: ({focused}) => (
+            <View
+              style={{
+                padding: 14,
+                borderRadius: 20,
+                backgroundColor: focused ? 'white' : 'transparent',
+              }}>
               <CustomIcon
                 name={'person-outline'}
                 type={Icons.Ionicons}
@@ -101,105 +109,6 @@ const BarberBottomTabNavigation = () => {
           ),
         }}
       />
-      {/* <Tab.Screen
-        name={constants.screen.HomeBarber}
-        component={HomeBarber}
-        options={{
-          tabBarIcon: ({focused}) => (
-            <CustomIcon
-              //style={{backgroundColor:'red'}}
-              type={Icons.Feather}
-              name="home"
-              color={focused ? appColors.Black : appColors.White}
-              backgroundColor={focused ? 'white' : 'transparent'}
-              style={{
-                padding: 14,
-                borderRadius: 20,
-              }}
-            />
-          ),
-        }}
-      /> */}
-      {/* <Tab.Screen
-        name={constants.screen.MyBooking}
-        component={MyBooking}
-        options={{
-          tabBarIcon: ({focused}) => (
-            <CustomIcon
-              //style={{backgroundColor:'red'}}
-              type={Icons.SimpleLineIcons}
-              name="notebook"
-              color={focused ? appColors.Black : appColors.White}
-              backgroundColor={focused ? 'white' : 'transparent'}
-              style={{
-                padding: 14,
-                borderRadius: 20,
-              }}
-            />
-          ),
-        }}
-      /> */}
-      {/* <Tab.Screen
-        name={constants.screen.LocationScreen}
-        component={LocationScreen}
-        options={{
-          // tabBarLabel: 'Home',
-          tabBarIcon: ({focused}) => (
-            //   <MaterialCommunityIcons name="home" color={color} size={size} />
-            <CustomIcon
-              name={'map-marker-circle'}
-              type={Icons.MaterialCommunityIcons}
-              color={focused ? appColors.Black : appColors.White}
-              backgroundColor={focused ? 'white' : 'transparent'}
-              style={{
-                padding: 14,
-                borderRadius: 20,
-              }}
-            />
-          ),
-        }}
-      /> */}
-      {/* 
-      <Tab.Screen
-        name={constants.screen.InboxScreen}
-        component={InboxScreen}
-        options={{
-          // tabBarLabel: 'Home',
-          tabBarIcon: ({focused}) => (
-            //   <MaterialCommunityIcons name="home" color={color} size={size} />
-            <CustomIcon
-              name={'message1'}
-              type={Icons.AntDesign}
-              color={focused ? appColors.Black : appColors.White}
-              backgroundColor={focused ? 'white' : 'transparent'}
-              style={{
-                padding: 14,
-                borderRadius: 20,
-              }}
-            />
-          ),
-        }}
-      /> */}
-      {/* <Tab.Screen
-        name={constants.screen.ProfileScreen}
-        component={ProfileScreen}
-        options={{
-          // tabBarLabel: 'Home',
-          tabBarIcon: ({focused}) => (
-            //   <MaterialCommunityIcons name="home" color={color} size={size} />
-            <CustomIcon
-              name={'person-outline'}
-              type={Icons.Ionicons}
-              color={focused ? appColors.Black : appColors.White}
-              backgroundColor={focused ? 'white' : 'transparent'}
-              style={{
-                padding: 14,
-                borderRadius: 20,
-              }}
-            />
-          ),
-        }}
-      /> */}
     </Tab.Navigator>
   );
 };
@@ -216,13 +125,5 @@ const styles = StyleSheet.create({
     height: 70,
     margin: 10,
     paddingBottom: 0,
-
-    // shadowColor: appColors.AppBlue,
-    // botton: 0,
-    // elevation: 0,
-    // right: 0,
-    //left: 0,
-    //elevation: 0,
-    // height: 70,
   },
 });

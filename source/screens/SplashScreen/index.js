@@ -6,8 +6,6 @@ import appColors from '../../AppConstants/appColors';
 import {SafeAreaView} from 'react-native-safe-area-context';
 
 const SplashScreen = ({navigation}) => {
-  // const navigation =useNavigation();
-
   useEffect(() => {
     setTimeout(() => {
       navigation.navigate(constants.AuthScreen.ScreenSlider);

@@ -1,14 +1,14 @@
-import React, { useState } from 'react';
-import { View, Text, StyleSheet ,Image,StatusBar} from 'react-native';
-import Carousel, { Pagination ,ParallaxImage} from 'react-native-snap-carousel';
-import { AppImages } from '../../AppConstants/AppImages';
-import { screenSize } from '../../components/atom/ScreenSize';
+import React, {useState} from 'react';
+import {View, Text, StyleSheet, Image, StatusBar} from 'react-native';
+import Carousel, {Pagination, ParallaxImage} from 'react-native-snap-carousel';
+import {AppImages} from '../../AppConstants/AppImages';
+import {screenSize} from '../../components/atom/ScreenSize';
 import appColors from '../../AppConstants/appColors';
 import ButtonComponent from '../../components/atom/CustomButtons/ButtonComponent';
-import constants from "../../AppConstants/Constants.json"
-import { useNavigation } from '@react-navigation/native';
+import constants from '../../AppConstants/Constants.json';
+import {useNavigation} from '@react-navigation/native';
 
-const ScreenSlider  = () => {
+const ScreenSlider = () => {
   const navigation = useNavigation();
   const [activeSlide, setActiveSlide] = useState(0);
 
@@ -29,23 +29,19 @@ const ScreenSlider  = () => {
   const ENTRIES1 = [
     {
       title: 'Find Barber & Salons Easily in Your Hands',
-      illustration: AppImages.slider1
+      illustration: AppImages.slider1,
     },
     {
       title: 'Book Your Favorite Barber & Salon Quickly',
-      illustration: AppImages.slider2
+      illustration: AppImages.slider2,
     },
     {
       title: 'Schedule the Appointment in the best Salon',
-      illustration: AppImages.slider3
+      illustration: AppImages.slider3,
     },
-   
-   
   ];
-  
 
-
-  const renderItem = ({ item, index }, parallaxProps) => {
+  const renderItem = ({item, index}, parallaxProps) => {
     return (
       <View style={styles.slide}>
         <Image source={item.illustration} style={styles.image} />
@@ -56,16 +52,16 @@ const ScreenSlider  = () => {
 
   return (
     <View style={styles.container}>
-        <StatusBar
+      <StatusBar
         translucent={true}
         backgroundColor="transparent"
         barStyle="light-content"
       />
       <Carousel
-    //  ref={carouselRef}
+        //  ref={carouselRef}
         data={ENTRIES1}
         renderItem={renderItem}
-        onSnapToItem={(index) => setActiveSlide(index)}
+        onSnapToItem={index => setActiveSlide(index)}
         sliderWidth={screenSize.width}
         itemWidth={screenSize.width}
         autoplay={true}
@@ -78,11 +74,10 @@ const ScreenSlider  = () => {
         inactiveDotStyle={styles.inactiveDotStyle}
         inactiveDotOpacity={0.6}
         inactiveDotScale={0.8}
-       
       />
-       <View style={{alignItems: 'center'}}>
+      <View style={{alignItems: 'center'}}>
         <ButtonComponent
-          style={{width: '90%', position: 'absolute', bottom:20}}
+          style={{width: '90%', position: 'absolute', bottom: 20}}
           title={'Get Start'}
           onPress={() => navigation.navigate(constants.AuthScreen.Login)}
         />
@@ -94,7 +89,7 @@ const ScreenSlider  = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-   backgroundColor: appColors.Black
+    backgroundColor: appColors.Black,
   },
   slide: {
     flex: 1,
@@ -112,27 +107,27 @@ const styles = StyleSheet.create({
     marginLeft: 12,
   },
   paginationContainer: {
-   // marginTop: -20,
-   position:'absolute',
-   bottom:60,
-  // backgroundColor:'red',
-   alignSelf:'center'
+    // marginTop: -20,
+    position: 'absolute',
+    bottom: 60,
+    // backgroundColor:'red',
+    alignSelf: 'center',
   },
   dotStyle: {
     width: 10,
     height: 10,
     borderRadius: 5,
-    backgroundColor: appColors.Goldcolor
+    backgroundColor: appColors.Goldcolor,
   },
   inactiveDotStyle: {
     width: 10,
     height: 10,
     borderRadius: 5,
-    backgroundColor:appColors.darkgrey
+    backgroundColor: appColors.darkgrey,
   },
   imageContainer: {
     flex: 1,
-    marginBottom: Platform.select({ ios: 0, android: 1 }), // Prevent a random Android rendering issue
+    marginBottom: Platform.select({ios: 0, android: 1}), // Prevent a random Android rendering issue
     backgroundColor: 'white',
     borderRadius: 8,
   },
@@ -142,4 +137,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ScreenSlider ;
+export default ScreenSlider;

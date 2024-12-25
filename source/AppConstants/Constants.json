@@ -87,7 +87,7 @@
     "AdminPaymentMethod": "AdminPaymentMethod",
     "AdminChat": "AdminChat",
     "AdminInbox": "AdminInbox",
-    "AdminChatView" :"AdminChatView",
+    "AdminChatView": "AdminChatView",
     "RecentTransactionsMain": "RecentTransactionsMain",
     "RecentTransactions": "RecentTransactions",
     "AdminNotification": "AdminNotification",

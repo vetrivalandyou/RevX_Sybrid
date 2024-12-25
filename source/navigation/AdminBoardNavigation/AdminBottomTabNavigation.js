@@ -6,8 +6,6 @@ import {Platform, StyleSheet, View} from 'react-native';
 import {useTheme} from '@react-navigation/native';
 
 import {
-  AdminBarberEarnings,
-  BarberEarnReport,
   HomeSuperAdmin,
   AdminInbox,
   AdminBooking,
@@ -18,20 +16,12 @@ import CustomIcon, {
 } from '../../components/molecules/CustomIcon/CustomIcon';
 
 const Tab = createBottomTabNavigator();
-
-// const screenOptions = {
-//   tabBarShowLabel: false,
-//   headerShown: false,
-//   tabBarHideOnKeyboard: true,
-//   tabBarStyle: { styles.BottomBarContainer, backgroundColor: colors.BottomTab },
-// };
 const AdminBottomTabNavigation = () => {
   const {colors} = useTheme();
   return (
     <Tab.Navigator
       screenOptions={{
         lazy: true,
-        // unmountOnBlur: true,
         tabBarShowLabel: false,
         tabBarStyle: {...styles.BottomBarContainer},
         tabBarHideOnKeyboard: true,
@@ -79,11 +69,6 @@ const AdminBottomTabNavigation = () => {
           ),
         }}
       />
-
-      {/* <Tab.Screen
-        name={constants.AdminScreens.AdminInbox}
-        component={AdminInbox}
-      /> */}
       <Tab.Screen
         name={constants.AdminScreens.AdminInbox}
         component={AdminInbox}
@@ -126,87 +111,6 @@ const AdminBottomTabNavigation = () => {
           ),
         }}
       />
-      {/* <Tab.Screen
-        name={constants.screen.MyBooking}
-        component={MyBooking}
-        options={{
-          tabBarIcon: ({focused}) => (
-            <CustomIcon
-              //style={{backgroundColor:'red'}}
-              type={Icons.SimpleLineIcons}
-              name="notebook"
-              color={focused ? appColors.Black : appColors.White}
-              backgroundColor={focused ? 'white' : 'transparent'}
-              style={{
-                padding: 14,
-                borderRadius: 20,
-              }}
-            />
-          ),
-        }}
-      /> */}
-
-      {/* <Tab.Screen
-        name={constants.screen.LocationScreen}
-        component={LocationScreen}
-        options={{
-          // tabBarLabel: 'Home',
-          tabBarIcon: ({focused}) => (
-            //   <MaterialCommunityIcons name="home" color={color} size={size} />
-            <CustomIcon
-              name={'map-marker-circle'}
-              type={Icons.MaterialCommunityIcons}
-              color={focused ? appColors.Black : appColors.White}
-              backgroundColor={focused ? 'white' : 'transparent'}
-              style={{
-                padding: 14,
-                borderRadius: 20,
-              }}
-            />
-          ),
-        }}
-      /> */}
-      {/* 
-      <Tab.Screen
-        name={constants.screen.InboxScreen}
-        component={InboxScreen}
-        options={{
-          // tabBarLabel: 'Home',
-          tabBarIcon: ({focused}) => (
-            //   <MaterialCommunityIcons name="home" color={color} size={size} />
-            <CustomIcon
-              name={'message1'}
-              type={Icons.AntDesign}
-              color={focused ? appColors.Black : appColors.White}
-              backgroundColor={focused ? 'white' : 'transparent'}
-              style={{
-                padding: 14,
-                borderRadius: 20,
-              }}
-            />
-          ),
-        }}
-      /> */}
-      {/* <Tab.Screen
-        name={constants.screen.ProfileScreen}
-        component={ProfileScreen}
-        options={{
-          // tabBarLabel: 'Home',
-          tabBarIcon: ({focused}) => (
-            //   <MaterialCommunityIcons name="home" color={color} size={size} />
-            <CustomIcon
-              name={'person-outline'}
-              type={Icons.Ionicons}
-              color={focused ? appColors.Black : appColors.White}
-              backgroundColor={focused ? 'white' : 'transparent'}
-              style={{
-                padding: 14,
-                borderRadius: 20,
-              }}
-            />
-          ),
-        }}
-      /> */}
     </Tab.Navigator>
   );
 };
